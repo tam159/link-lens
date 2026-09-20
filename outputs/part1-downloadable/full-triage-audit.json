@@ -1,0 +1,624 @@
+{
+  "id": "de07af4c61937995ea79b2f6072239bdbd5cfdf93203a7c635c16de9d1fee749",
+  "kind": "triage",
+  "batch_id": "discovery-jev-luna-v1-downloadable-v3",
+  "sampling": "Census of frozen 50 download-gated ranks; bounded fresh resource evidence and companion documents; no reranking after judgments",
+  "seed": null,
+  "threshold": null,
+  "review_type": "ai_assisted",
+  "items": [
+    {
+      "item_id": "fa0b0d71-b8b8-4af8-bc59-0b000ce0d5e4",
+      "rank": 1,
+      "title": "ASIC – Credit Licensee Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 2: RELI CAPITAL LTD, identifier 80005443292, licence 219612. Holder records; licence status is distinct from company status.",
+      "artifact_id": "cf53c56e5559957d76b70415ed28a789bc26889f1294b9c53762719216a093ee",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/fa0b0d71-b8b8-4af8-bc59-0b000ce0d5e4/resource/35953a01-a9a8-4609-8566-c9fa7de465d3/download/credit_lic_202609.csv"
+      ]
+    },
+    {
+      "item_id": "ab7eddce-84df-4098-bc8f-500d0d9776d1",
+      "rank": 2,
+      "title": "ASIC - Australian Financial Services Licensee Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 2: IPIB PTY LTD / 85007186003. Explicit licensee name and mixed ABN/ACN field; classification and checksums are needed before linking.",
+      "artifact_id": "5db4ff587da50486e263007730feff291bf4e9f88e32ef183ec01bd042e8b681",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv"
+      ]
+    },
+    {
+      "item_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+      "rank": 3,
+      "title": "ASIC - Company Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "TSV rows 2–3: LOVINI HOLDINGS / MONAKA PTY LTD share ACN 000000019 and ABN 89000000019. Current and historical names must not become separate companies.",
+      "artifact_id": "636dc86ff07b48e9f2babd149bad0647a236a32aa02c81232fdb100b0be4b26d",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv"
+      ]
+    },
+    {
+      "item_id": "a7bbbf64-e2ef-4d96-9fb4-0aea73ada2af",
+      "rank": 4,
+      "title": "ASIC – Australian Financial Services Authorised Representative Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 5: NETWEALTH PTY LTD / ACN 119484043. Mixed individual and company representatives; appointing licensee is a different role.",
+      "artifact_id": "599b87f3dde1725203ee852ad2388cc0d9c820edb6b036cad2ae039c9bef6ec1",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/a7bbbf64-e2ef-4d96-9fb4-0aea73ada2af/resource/5515dfcc-5266-44df-950d-7e359a83d514/download/afs_rep_202609.csv"
+      ]
+    },
+    {
+      "item_id": "a3b6d445-3a00-409a-8b49-53dc62b823bf",
+      "rank": 5,
+      "title": "ASIC – Credit Representative Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 23: BOQ SPECIALIST PTY LTD / 94110704464. Company representative is identifiable; not automatically identical to appointing holder.",
+      "artifact_id": "fc29ff700287185b5743a4b7a489acd5fea6c2916e1fc969a7d58756d8d08152",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/a3b6d445-3a00-409a-8b49-53dc62b823bf/resource/999d9e92-df2c-4d6d-b580-321dcd205292/download/credit_rep_202609.csv"
+      ]
+    },
+    {
+      "item_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+      "rank": 6,
+      "title": "ASIC - Business Names Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 2: Plumbing Gas and Solar / BN_ABN 30947976159. Business name is relevant, but identifier ownership still needs semantic review.",
+      "artifact_id": "9f969be211c18f315442238bb4ee83f73c0ec9a557cc9ae8e66c651df7e5b667",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/bc515135-4bb6-4d50-957a-3713709a76d3/resource/55ad4b1c-5eeb-44ea-8b29-d410da431be3/download/business_names_202609.csv"
+      ]
+    },
+    {
+      "item_id": "37390371-9da4-42d8-9304-649c50090611",
+      "rank": 7,
+      "title": "ASIC – Self-Managed Super Fund Auditor Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 9: SMSF_CAPACITY_FIRM_NAME is GPP Audit Pty Limited. Firm is a secondary organisation, distinct from the individual auditor and auditor ABN.",
+      "artifact_id": "c13c93abbd8dcfba02858e6cc872bc1198cae71685ac6b6f2a6f15532b9c6c8e",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/37390371-9da4-42d8-9304-649c50090611/resource/13b12e77-8fda-42ca-aa43-23715036836b/download/smsf_auditor_202604.csv"
+      ]
+    },
+    {
+      "item_id": "7c356598-b048-4c1e-862f-c936041e3d81",
+      "rank": 8,
+      "title": "Research and Development tax incentive",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "2022-23 Report sheet row 2: (UI!) THE URBAN INSTITUTE PTY LTD / 95608464535. Company-level expenditure; information sheet is not the data header.",
+      "artifact_id": "a2a05ddfacba084003daa098dcbfeb8c2c825f1d1eae10026676dbd6744d38cc",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/7c356598-b048-4c1e-862f-c936041e3d81/resource/e9c059c8-a801-4068-844e-9d4ee84a1d81/download/report-of-information-about-research-and-development-tax-incentive-entities.xlsx"
+      ]
+    },
+    {
+      "item_id": "c2524c87-cea4-4636-acac-599a82048a26",
+      "rank": 9,
+      "title": "Corporate Tax Transparency",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Income tax details row 2: 1 MENDS STREET PTY LTD / 94600082111. Named tax entities; reporting periods and tax-group scope require care.",
+      "artifact_id": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx"
+      ]
+    },
+    {
+      "item_id": "a5fde808-ba32-4cee-bfcb-fbb3afa56a28",
+      "rank": 10,
+      "title": "ASIC - Banned and Disqualified Organisations Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 2: AUSTRALIAN BUSINESS INSURANCE ADVISERS (ABIA) PTY LTD / ACN 081402379. Banning status is not general entity status.",
+      "artifact_id": "67fc279cf56783c09fa997ff5f278de861775958a4ca680bb4a06613ebadd92f",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/a5fde808-ba32-4cee-bfcb-fbb3afa56a28/resource/ced03961-e6f7-4263-895a-0fd1d7996043/download/bd_org_202609.csv"
+      ]
+    },
+    {
+      "item_id": "b050b242-4487-4306-abf5-07ca073e5594",
+      "rank": 11,
+      "title": "ACNC Registered Charities",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 2: U3A Inner North Incorporated / 51214424410, with address and website. Charity organisations qualify, even when not companies.",
+      "artifact_id": "e420143233ead0f7b499694cf9ca5e99a05b9f1e89938b7790a7bcbad041550a",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv"
+      ]
+    },
+    {
+      "item_id": "1ca29b03-220d-4c19-b34e-c7932cd4508d",
+      "rank": 12,
+      "title": "Victorian Government Schools ABNs",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Sheet1 row 2: Alberton Primary School / 35954747085. ABN-bearing public organisation qualifies under the declared broad criterion; historical 2015 data.",
+      "artifact_id": "f83596b0bf39d89740e20cb949826463bcca6f1d05da205bd2318f1bc3094736",
+      "resource_urls": [
+        "http://www.education.vic.gov.au/Documents/about/research/datavic/dv183-schoolABNdetails.xlsx"
+      ]
+    },
+    {
+      "item_id": "297dfb0e-3b94-433b-be64-3bb0905e28a4",
+      "rank": 13,
+      "title": "Liquor licence premises list",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 2 identifies CHARLESTOWN GOLF CLUB LTD as licensee, with separate venue name and licence number. Distinguish holder from premises.",
+      "artifact_id": "669d4ffd7600a4d7dacd97a416dcc6b8ee6093a19ab4c1badb221188f02e1cac",
+      "resource_urls": [
+        "https://data.nsw.gov.au/data/dataset/297dfb0e-3b94-433b-be64-3bb0905e28a4/resource/bda22b68-8e4f-4028-b725-52dc0912a626/download/ebethanypremises-list-as-at-june-2020.csv"
+      ]
+    },
+    {
+      "item_id": "cfc1a18e-f4e0-4ed8-9a19-36b59b7a3d5b",
+      "rank": 14,
+      "title": "ACNC 2018 Annual Information Statement Data",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Account Advanced Find View row 2: Purpose Real Estate Ltd / 11616332444, alongside Coast2Bay Housing_ACNC Group. Member and group identities are distinct. Passed resource is the companion member workbook.",
+      "artifact_id": "b2a3e36fc759e845e64a292f300a5e50bb9730645bfb7ef8d70179f36b6191c3",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/cfc1a18e-f4e0-4ed8-9a19-36b59b7a3d5b/resource/dbba5286-8a92-4ec9-8733-04375275d93a/download/2018-ais_list-of-group-members.xlsx"
+      ]
+    },
+    {
+      "item_id": "28a94374-d516-4200-a6f8-c09e76f58cc5",
+      "rank": 15,
+      "title": "ACNC 2020 Annual Information Statement (AIS) Data",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 2: Sydney Missionary & Bible College / 11000047950, reporting dates and website. Organisation-year record, not a new entity each year.",
+      "artifact_id": "a51b2a35e3a897ac861b8b265a659e8f07d07cfafd1f4b13a76f3a89e9d9aed6",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/28a94374-d516-4200-a6f8-c09e76f58cc5/resource/62c7b3d3-4358-4d57-b810-a36732d36e2d/download/datadotgov_ais20.csv"
+      ]
+    },
+    {
+      "item_id": "311c24f3-fc09-42e7-8362-f15a76334a75",
+      "rank": 16,
+      "title": "ACNC 2022 Annual Information Statement (AIS) Data",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 2: Sydney Missionary & Bible College / 11000047950, 2022 reporting period. Overlap with other years is not independent evidence.",
+      "artifact_id": "eab5c863b1af718d039d758251d37be9b9062e9aafa1f165c58aa4bc60d76d83",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/311c24f3-fc09-42e7-8362-f15a76334a75/resource/cfbcf6f1-7ce5-472f-bfd3-a478e67e0366/download/datadotgov_ais22.csv"
+      ]
+    },
+    {
+      "item_id": "34b35c52-8af0-4cc1-aa0b-2278f6416d09",
+      "rank": 17,
+      "title": "ACNC 2019 Annual Information Statement Data",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 2: Sydney Missionary & Bible College / 11000047950 with address and annual financial fields. Historical charity return.",
+      "artifact_id": "bf6f3d13639344aeadda65a9eff81f8250e3de0614f69542244382810a8f0975",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/34b35c52-8af0-4cc1-aa0b-2278f6416d09/resource/76006467-18f2-4094-a1cb-50544fd9b7b2/download/datadotgov_ais19.csv"
+      ]
+    },
+    {
+      "item_id": "42bad3df-f2e0-4c9c-bef0-0a4328927718",
+      "rank": 18,
+      "title": "Suitable Operator Register (SOR) for Environmentally Relevant Activities (ERAs)",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Registered Suitable Operators row 2: OVER THE TOP ROOF RESTORATIONS PTY. LTD / ACN 090444714, explicitly Corporation (Company). External publisher-linked Azure file downloaded successfully.",
+      "artifact_id": "929fd5cc5ed8f6cd8a537ed582354e118730cbef7a4afdb8385d61bcb474fd18",
+      "resource_urls": [
+        "https://storagesolutiondocsprod.blob.core.windows.net/register-documents-rso/rso-register.xlsx?timestamp=2026-09-18T10:20:01+10:00"
+      ]
+    },
+    {
+      "item_id": "86cad799-2601-4f23-b02c-c4c0fc3b6aff",
+      "rank": 19,
+      "title": "ACNC 2015 Annual Information Statement Data",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Sheet1 row 2: Sydney Missionary & Bible College / 11000047950. Main 2015 workbook was downloaded and parsed, improving on the earlier documentation-only audit.",
+      "artifact_id": "ba677d3e31bafb58b89c45fd129fd71332837bafc7103b9086a6ea494804a306",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/86cad799-2601-4f23-b02c-c4c0fc3b6aff/resource/569b8e48-a0ad-4008-9d95-7f91b6cfa2aa/download/datadotgov_ais15.xlsx"
+      ]
+    },
+    {
+      "item_id": "a1f8626c-fefb-4c4d-86ea-deaa04fb1f6e",
+      "rank": 20,
+      "title": "ACNC 2017 Annual Information Statement Data",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Sheet1 row 2: Sydney Missionary & Bible College / 11000047950. Main 2017 workbook now inspected; organisation-year grain and reporting-group caveats remain.",
+      "artifact_id": "9f4233b054ba1f841dafd4b32861358d658eacee20e71039be8d4879aec14730",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/a1f8626c-fefb-4c4d-86ea-deaa04fb1f6e/resource/8d020b50-700f-4bc4-8c78-79f83d99be7a/download/datadotgov_ais17.xlsx"
+      ]
+    },
+    {
+      "item_id": "d7992845-5d3b-4868-b012-71f672085412",
+      "rank": 21,
+      "title": "ACNC 2014 Annual Information Statement data",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Sheet1 row 2: Sydney Missionary & Bible College / 11000047950. Main 2014 workbook now inspected; identifier stored alongside charity name and address.",
+      "artifact_id": "3f8892c3e5b6f718d813c8c137c7864cfbf9ff428f19ba0802a6ea14d3d8f0ec",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/d7992845-5d3b-4868-b012-71f672085412/resource/4d65259d-1ccf-4c78-a223-e2bd49dc5fb1/download/datadotgov_ais14.xlsx"
+      ]
+    },
+    {
+      "item_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+      "rank": 22,
+      "title": "Employment Services Provider Locations and Contacts",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV rows 2–3 identify Vision Australia and Job Centre Australia with site addresses. Identifiable service providers but no strong ABN/ACN in these rows.",
+      "artifact_id": "3dafaa5324caa2725c50dae13ab4d3235246f01a4ad936cb3b6e77efe9e33502",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/638f89d7-1c12-4db9-8342-abfcd7b49e95/resource/d9c69f98-f0af-4db8-b598-513e1da748ce/download/providerdetailsmay2016.csv"
+      ]
+    },
+    {
+      "item_id": "ccb9f9d1-5e77-49f7-a78d-7475c3da5362",
+      "rank": 23,
+      "title": "Junior Minerals Exploration Incentive credit allocations",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "2017-18 sheet row 2: Alchemy Resources Limited / 17124444122; later sheets contain other entity-year allocations. Not anonymous totals.",
+      "artifact_id": "62ae9333abd03ba13d03ba85b427f9294c2ae7b6debf897f71c8ad1191f7a0f0",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/ccb9f9d1-5e77-49f7-a78d-7475c3da5362/resource/ddf75a39-d948-4faa-8622-a330cf36219b/download/jmei_allocation-2017-25.xlsx"
+      ]
+    },
+    {
+      "item_id": "d61374dd-1a62-4132-913d-35d90cfdac81",
+      "rank": 24,
+      "title": "Intellectual Property Longitudinal Research Data (IPLORD)",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 2: bacoz developments pty ltd with country au and party/year IP counts. Synthetic party ID is not an ABN.",
+      "artifact_id": "ac1900c989ec35254e41398d090d357ec9e18a41214760c564e9830072603649",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/d61374dd-1a62-4132-913d-35d90cfdac81/resource/8ff87fe0-d50e-450f-9b51-21366072d449/download/iplord_1901_2020_full_data_set.csv"
+      ]
+    },
+    {
+      "item_id": "6f1cc305-a8b2-4748-bd40-c00754ad6504",
+      "rank": 25,
+      "title": "Victorian liquor licences by location",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 3 names OAKLAND HUNT CLUB as licensee and trading name. Mixed individuals, venue names and organisations require distinct roles.",
+      "artifact_id": "31717850f47ac3178d1ccc84800adfe00ec7010933781e8499eac1d0420bdb1f",
+      "resource_urls": [
+        "https://content.vic.gov.au/sites/default/files/2023-04/Geo-coded-location-as-at-31-March-2022.csv"
+      ]
+    },
+    {
+      "item_id": "8a1ad782-3d60-4c34-8cd8-f11c031947b7",
+      "rank": 26,
+      "title": "Fair Jobs Code Registers",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 2: Zauner Construction Pty Limited / 21087732607. Salesforce-hosted certificate export is accessible; certification status is source-specific.",
+      "artifact_id": "157fc31c77f293af128e029a6bf2d70f2887618302bb5d54924d62a70159a446",
+      "resource_urls": [
+        "https://fjc-vic-gov.my.salesforce-sites.com/downloadCertExport"
+      ]
+    },
+    {
+      "item_id": "4d35cd80-2538-4705-82f3-d0d18e823d98",
+      "rank": 27,
+      "title": "WGEA Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Passed CSV row 2: Morris; Mcmahon & Co Pty Ltd / 11000143082, reporting year 2020-21. Repeated metric rows do not represent distinct businesses. Latest resources may be ZIP; the verified resource is older.",
+      "artifact_id": "c0ede842388a146e104f98ab00fd4adf208510aa6ecfbafeaa897f05c626cb28",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/4d35cd80-2538-4705-82f3-d0d18e823d98/resource/1e92638c-ec9b-45f4-88ec-7e40a35baa22/download/2021_publicdatafile.csv"
+      ]
+    },
+    {
+      "item_id": "5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841",
+      "rank": 28,
+      "title": "IPGOD2020",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Application CSV alone lacks parties. Fresh companion design party-activity row 3 names mccormicks law / 51158618261, country au, organisation and opposition-agent role. Agent is not necessarily IP owner.",
+      "artifact_id": "2691072ca342e0981b6db73074cfb4d0ab94fa19207ad3074c273a64961446bf",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841/resource/fcc9d5c7-7585-48ac-8e14-f33042ba7eb3/download/design-application.csv",
+        "https://data.gov.au/data/dataset/5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841/resource/51f6686d-de02-4e3c-a08e-014cda00c3cf/download/design-party-activity.csv",
+        "https://data.gov.au/data/dataset/5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841/resource/42cc31ac-abd5-45ae-a03e-bc1c077cb000/download/patent-party-activity.csv",
+        "https://data.gov.au/data/dataset/5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841/resource/b904a327-ae30-42dd-b97d-90be81987883/download/pbr-party-activity.csv"
+      ]
+    },
+    {
+      "item_id": "6fd9d178-066f-4044-9578-6cf8772c5259",
+      "rank": 29,
+      "title": "Netbay Free Wifi Pty Ltd -Declaration - 3 October 2025 -St Kilda",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Sheet1 row 2: Name_of_SIP Netbay Free WiFi Pty Ltd with St Kilda service area. Provider is explicit; project address is not registered office.",
+      "artifact_id": "b690fe2296f50e916d3481724169a9d475b5d57a6cb1735e2442f47b0691a02e",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/6fd9d178-066f-4044-9578-6cf8772c5259/resource/6dbe73c3-026f-4d87-85ba-6b89780453cc/download/netbay_free_wifi_pty_ltd_007_declaration.xlsx"
+      ]
+    },
+    {
+      "item_id": "f71709a8-2eeb-4592-ad1f-443f7f520186",
+      "rank": 30,
+      "title": "Voluntary Tax Transparency Code",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "List of VTTC reports row 4: ACCIONA AGUA AUSTRALIA PTY LTD / 84128531742. Repeated reporting years and ultimate-parent origin do not establish parent identity.",
+      "artifact_id": "fa865360500c1355647d679934ddb5c1a24ed213d7aacc9bd8be22e7e3f0d622",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/f71709a8-2eeb-4592-ad1f-443f7f520186/resource/e44e9729-30f5-4764-848e-f060f5099277/download/20260831_ttc_notifications.xlsx"
+      ]
+    },
+    {
+      "item_id": "09e3797c-7409-4420-bfb1-e38a4e215b88",
+      "rank": 31,
+      "title": "Lynham Networks Pty Ltd - Declaration - Multiple _ 20 December 2024",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Workbook provides service areas. Fresh companion signed PDF page 1 explicitly identifies Lynham Networks Pty Ltd trading as Lightning Wholesale / ABN 17 602 258 337 and references the spreadsheet. Mapping needs document-level context.",
+      "artifact_id": "97fc22d2248796200601dd228a95b65df615386f567e7f1365c2e30836555cbd",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/09e3797c-7409-4420-bfb1-e38a4e215b88/resource/3796cbcb-d667-4dc8-819f-fcd42cc77929/download/lhn_sip_nominated-service-area-declaration-20-dec-2024.xlsx",
+        "https://data.gov.au/data/dataset/09e3797c-7409-4420-bfb1-e38a4e215b88/resource/2da1db92-ed49-4452-8d76-460e64bbbf80/download/sip_service_area_declaration-nominated_20dec24-signed.pdf"
+      ]
+    },
+    {
+      "item_id": "49017fd0-e7be-4fc0-88c8-046fc366d980",
+      "rank": 32,
+      "title": "IPGOD2022",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Application CSV requires companion parties. Fresh design party-activity row 2 identifies cotters patent & trade mark attorneys, country au, ABN 34291651910.0; patent row 3 identifies madderns pty ltd. Roles must remain distinct.",
+      "artifact_id": "1cd599ab9cf4503494406e9ebaa0aa24ba6b5b5fc1c6ddd750359b44144d60fb",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/49017fd0-e7be-4fc0-88c8-046fc366d980/resource/952d7cf9-8412-4205-80de-405a725a2017/download/pbr-application.csv",
+        "https://data.gov.au/data/dataset/49017fd0-e7be-4fc0-88c8-046fc366d980/resource/385d1ca3-fb91-4c58-acd6-f076744a9122/download/pbr-party-activity.csv",
+        "https://data.gov.au/data/dataset/49017fd0-e7be-4fc0-88c8-046fc366d980/resource/89dacae9-4649-4612-aeb8-489af3aec379/download/design-party-activity.csv",
+        "https://data.gov.au/data/dataset/49017fd0-e7be-4fc0-88c8-046fc366d980/resource/7d8c5138-60d9-4993-b7c9-ecbec25bd57f/download/patent-party-activity.csv"
+      ]
+    },
+    {
+      "item_id": "5715b850-a989-4343-a1e8-e779ec729de4",
+      "rank": 33,
+      "title": "IPGOD2021 [SUPERSEDED]",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Fresh companion design party-activity row 2: watson chiarella pty ltd, organisation, country au, opposition respondent. Historical/superseded source; blank ABN limits linking.",
+      "artifact_id": "682fd621c63df39b4cca5bbd011ff05845900f7faf4ca1142c7884fcb2131123",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/5715b850-a989-4343-a1e8-e779ec729de4/resource/0e89d79e-908f-4b7b-b3d7-3b614dee4b38/download/design-application.csv",
+        "https://data.gov.au/data/dataset/5715b850-a989-4343-a1e8-e779ec729de4/resource/8303e332-3bda-4a34-ae9f-c63b47a5e561/download/design-party-activity.csv",
+        "https://data.gov.au/data/dataset/5715b850-a989-4343-a1e8-e779ec729de4/resource/486dc9ba-291c-4a77-b9df-14cfa10434be/download/pbr-party-activity.csv",
+        "https://data.gov.au/data/dataset/5715b850-a989-4343-a1e8-e779ec729de4/resource/7fa44796-f410-401a-a862-b9ad13b49f47/download/patent-party-activity.csv"
+      ]
+    },
+    {
+      "item_id": "5b70b4e7-4171-4c60-b2e9-6461bc213ac0",
+      "rank": 34,
+      "title": "Energy Rating Data for household appliances – Non Labelled products",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Downloaded product rows show Brand Daikin and representative URL daikin.co.nz, but no verified legal organisation or supplier ownership. Brand-only evidence remains unresolved; availability does not resolve entity semantics.",
+      "artifact_id": "825fab8d2830605889e37a12098614da73de073d6c1ee215af7920c7322debb1",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/5b70b4e7-4171-4c60-b2e9-6461bc213ac0/resource/d4e17a35-9002-4a0c-ac1c-003ece0de135/download/ac_2026_09_18.csv"
+      ]
+    },
+    {
+      "item_id": "1def6e08-bed2-4904-b16b-a2a0c533045f",
+      "rank": 35,
+      "title": "Temporary emissions licences (TEL)",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "TEL Register row 2: SYNTECH RESOURCES PTY LTD as licence holder; row 3 TA Australia Security Agent Pty Ltd. Activities and licence state are distinct from company identity/status.",
+      "artifact_id": "b7963062c961c8bd6b1c46130b9c30fcd11b85f8da9d47503caae2b184f73295",
+      "resource_urls": [
+        "https://storagesolutiondocsprod.blob.core.windows.net/register-documents-tel/tel-register.xlsx?timestamp=2026-09-18T10:20:01+10:00"
+      ]
+    },
+    {
+      "item_id": "559708e5-480e-4f94-8429-c49571e82761",
+      "rank": 36,
+      "title": "Energy Rating Data for household appliances – Labelled Products",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Downloaded labelled-product resource also shows Daikin brand and website without verified legal organisation ownership in inspected fields. Retain unresolved rather than infer identity from brand.",
+      "artifact_id": "825fab8d2830605889e37a12098614da73de073d6c1ee215af7920c7322debb1",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/559708e5-480e-4f94-8429-c49571e82761/resource/0973a476-eb0c-45e6-9a18-054f74307843/download/ac_2026_09_18.csv"
+      ]
+    },
+    {
+      "item_id": "4baffe31-81f0-48cf-a968-8bf48ce0a4ff",
+      "rank": 37,
+      "title": "Lynham Networks Pty Ltd - Declaration - Maroochydore - 6 March 2025",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Workbook describes Maroochydore project area; fresh signed PDF page 1 identifies Lynham Networks Pty Ltd / 17 602 258 337 and references the attached spreadsheet. Subject is declarant, not incidental publisher.",
+      "artifact_id": "9407dc142d294334ae32318486a468d661139db354c3e72e74093522f3116073",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/4baffe31-81f0-48cf-a968-8bf48ce0a4ff/resource/cb0534f9-4283-4672-aff4-fba869cabc13/download/lhn_sip_nominated-service-area-declaration-06-mar-2025.xlsx",
+        "https://data.gov.au/data/dataset/4baffe31-81f0-48cf-a968-8bf48ce0a4ff/resource/17e8919a-6068-4a74-aa52-3aee2df7507a/download/sip_service_area_declaration-nominated_06mar25-signed.pdf"
+      ]
+    },
+    {
+      "item_id": "24c4e49d-b284-46ca-9ad4-17b5a0880ee6",
+      "rank": 38,
+      "title": "DGTek Pty Ltd - Declaration- 8 October 2025-Cremorne",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Anticipatory notice sheet row 2 explicitly names DGtek Pty Ltd in Name_of_SIP for Cremorne. Project location must not become registered address.",
+      "artifact_id": "0ddce0da831326050e2fce9f9702ed86b974b5f3cfe4c3263a02f37acd449101",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/24c4e49d-b284-46ca-9ad4-17b5a0880ee6/resource/e833892d-492d-4435-a187-62d576479f27/download/dgtek_pty_ltd_mxc43200_declaration.xlsx"
+      ]
+    },
+    {
+      "item_id": "8bffe010-63be-4245-941c-c93ca01fa106",
+      "rank": 39,
+      "title": "Netbay Free WiFi Pty Ltd - Declaration - Clayton - February 2025",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Sheet1 row 2 explicitly names Netbay Free WiFi Pty Ltd and Clayton service area. Organisation subject supported without ABN-based linking.",
+      "artifact_id": "06f738192d6738d20c1c41d4240d11e7130aae6d0191b69add561a8c6bc3d623",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/8bffe010-63be-4245-941c-c93ca01fa106/resource/dc79e24c-5b56-4aab-bdb3-083b366a847a/download/netbay_free_wifi_pty_ltd_006_declaration.xlsx"
+      ]
+    },
+    {
+      "item_id": "1a733d81-3e24-41d8-a2cb-2b4afb15f3e5",
+      "rank": 40,
+      "title": "Disability Employment Services Outcome Rates by Disability Type",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Outcome Rates Data row 2: ORG_NAME AIMBIG EMPLOYMENT PTY LTD with organisation code VVFE. Provider-level outcome aggregates retain explicit organisation identity; codes are not national identifiers.",
+      "artifact_id": "881e77fc7593845a5d17ec05d580b9731ad1604c50fbf212c09babe64c6b19a3",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/1a733d81-3e24-41d8-a2cb-2b4afb15f3e5/resource/f0fe5053-8ab3-4055-808e-d05138eb0803/download/dss-des-outcome-rates-by-disability-type-june-2025.xlsx"
+      ]
+    },
+    {
+      "item_id": "5d6e9a38-7861-43c2-b565-db9c90d024ad",
+      "rank": 41,
+      "title": "Asbestos Register",
+      "verdict": "no",
+      "reviewer": "assistant evidence audit",
+      "evidence": "All 32 sampled data rows concern asbestos locations/materials, with fixed owner abbreviation GCCC. No business subject/contractor identity; government asset ownership alone is incidental under the declared criterion. Unsupported in inspected resource, not a proof about every possible future version.",
+      "artifact_id": "e32a5fcf2b9521ce07a0ba9dd3aa8410daf0f7471ca2b0df4a1706e57c210960",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/5d6e9a38-7861-43c2-b565-db9c90d024ad/resource/645a3c29-13ec-4622-9375-287ddf361c97/download/asbestos-management-nerang-admin-building.csv"
+      ]
+    },
+    {
+      "item_id": "553b3049-2b8b-46a2-95e6-640d7986a8c1",
+      "rank": 42,
+      "title": "National Public Toilet Map",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV row 60 names Thargo Roadhouse, FacilityType Service station. Named commercial venues qualify under the declared broad criterion; most sampled rows are public facilities, and venue name does not establish legal owner.",
+      "artifact_id": "7922d58926100d985e32aa7d3722a3b5cd86f9f230673d4c4881eeb0530a4455",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/553b3049-2b8b-46a2-95e6-640d7986a8c1/resource/34076296-6692-4e30-b627-67b7c4eb1027/download/toiletmapexport_260901_074429.csv"
+      ]
+    },
+    {
+      "item_id": "3c82afe5-9fd6-457d-acaf-da790715a637",
+      "rank": 43,
+      "title": "Agency-level GIPA Data 2018-2019",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "CSV rows 3–5 name Goulburn Mulwaree Council, Upper Lachlan Shire Council and Cessnock City Council as agencies with agency-level access-application outcomes. Supports identifiable public organisations under broad organisation scope, not named private-sector applicants; business-only interpretation would exclude it.",
+      "artifact_id": "2529b07607f2bc043cce6404a4bdb955dc41d769b9ad99e74cbdd909814d069b",
+      "resource_urls": [
+        "https://data.nsw.gov.au/data/dataset/3c82afe5-9fd6-457d-acaf-da790715a637/resource/4ad47a9d-bf04-4019-b41b-794821769c78/download/report_on_the_operation_of_gipa_for_all_agencies_2018_19.csv"
+      ]
+    },
+    {
+      "item_id": "248cd160-4308-4ede-8add-e495f69ccf5a",
+      "rank": 44,
+      "title": "Lynham Networks Pty Ltd - Anticipatory Notice - Multiple - 6 March 2025 (Partly Declared 2 July 2026)",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Workbook has project areas; fresh signed PDF page 1 names Lynham Networks Pty Ltd trading as Lightning Wholesale / ABN 17 602 258 337 as contracting infrastructure provider. Needs document-level identity context.",
+      "artifact_id": "0e29e18e842448b1ff0bc349d660290a9ef07328ff42db52327ce74a6e1b7550",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/248cd160-4308-4ede-8add-e495f69ccf5a/resource/ca690526-e1a0-4d1b-a098-2effce4a066c/download/lhn_sip_anticipatory-notice-06-mar-2025.xlsx",
+        "https://data.gov.au/data/dataset/248cd160-4308-4ede-8add-e495f69ccf5a/resource/b769f17c-208d-4425-b6c0-16bf668acf56/download/sip_-anticipatory_notice-_06mar25-signed.pdf"
+      ]
+    },
+    {
+      "item_id": "f87d61e4-c857-49ba-a98f-4e37db41cde4",
+      "rank": 45,
+      "title": "Lynham Networks Pty Ltd - Declaration - Multiple - January 2025",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Workbook has project areas; fresh signed PDF page 1 names Lynham Networks Pty Ltd / 17 602 258 337 and explicitly references the 31Jan2025 spreadsheet. Relevant declarant, with document-level mapping needed.",
+      "artifact_id": "b15d83b45add6e187e97b115202ce244b7016e8bc019dd9bae157b0caed17a36",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/f87d61e4-c857-49ba-a98f-4e37db41cde4/resource/eb56bd2f-62ba-4160-9bab-ebf105ea99df/download/lhn_sip_nominated-service-area-declaration-31-jan-2025.xlsx",
+        "https://data.gov.au/data/dataset/f87d61e4-c857-49ba-a98f-4e37db41cde4/resource/558ad803-4a37-4e8b-af00-d5943beb6240/download/sip_service_area_declaration-nominated_31jan25-signed.pdf"
+      ]
+    },
+    {
+      "item_id": "1b2b68ab-fe93-4020-8fca-73afb0ed59db",
+      "rank": 46,
+      "title": "Victorian Board and board member profile",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Board characteristics sheet row 4 names Children's Services Coordination Board with Public Entity status; row 5 Disciplinary Appeals Board. Named public bodies qualify under broad organisation scope, though totals in other sheets and board members are different grains.",
+      "artifact_id": "ea48a530045157b1575ced450820625ab29050e72a92bcd2f35348973a01192d",
+      "resource_urls": [
+        "https://www.vpsc.vic.gov.au/wp-content/uploads/2023/04/SOPS-Workforce-2022-Board-and-board-member-profile.xlsx"
+      ]
+    },
+    {
+      "item_id": "0a32fd99-cebc-453f-a7e8-b753a3f9d123",
+      "rank": 47,
+      "title": "DGTek Pty Ltd - Anticipatory notice - Cremorne- 17 December 2024 (Declared 8 October 2025)",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Anticipatory notice row 2 identifies DGtek Pty Ltd as Name_of_SIP and contracting party. Earlier notice for the same Cremorne area is not an independent company.",
+      "artifact_id": "da6a76f122803ed869cf72b792571f7beec77d59b22c19f084e2ddcd8aa68416",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/0a32fd99-cebc-453f-a7e8-b753a3f9d123/resource/f0dc3abc-8224-411c-a439-43d15e866081/download/anticipatory-notice.xlsx"
+      ]
+    },
+    {
+      "item_id": "8d0910dd-e38e-42c1-92e8-452d5db70d60",
+      "rank": 48,
+      "title": "VostroNet (Australia) Pty Ltd - Anticipatory notice - Adelaide SA - May 2022 (Declared 20 December 2024)",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Sheet1 row 2 names VostroNet (Australia) Pty Ltd as Name_of_SIP and contracting party for an Adelaide project. Historical estimated completion date is not company status.",
+      "artifact_id": "6a961a4f22588df38852130e005052f1a65562c0d61d5813a0be6da5831d1223",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/8d0910dd-e38e-42c1-92e8-452d5db70d60/resource/d6270a5e-a491-4158-bc5a-fbc2185e7e00/download/vostronet_australia_pty_ltd_180522_the_cullinan.xlsx"
+      ]
+    },
+    {
+      "item_id": "6917a3a8-a239-4e32-acc4-1d037025a0ff",
+      "rank": 49,
+      "title": "Netbay Free Wifi Pty Ltd - Declaration - Surrey Hills - August 2024",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Sheet1 row 2 names Netbay Free WiFi Pty Ltd for Surrey Hills service area. Repeated provider across notices is not multiple entities.",
+      "artifact_id": "0a97995a0c088983a7e095bb8224d956b542bb0a42f98e18df0e3b929234cc4c",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/6917a3a8-a239-4e32-acc4-1d037025a0ff/resource/867e586c-88bb-4750-8414-8315c7d92ad3/download/netbay_free_wifi_pty_ltd_002_declaration.xlsx"
+      ]
+    },
+    {
+      "item_id": "3c3442d6-4ec0-4b2a-a314-11f2b220c44e",
+      "rank": 50,
+      "title": "VostroNet (Australia) Pty Ltd - Anticipatory notice- 14 September 2022- Lidcombe NSW(partly declared, see PDF)",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit",
+      "evidence": "Sheet1 row 2 names VostroNet (Australia) Pty Ltd for Lidcombe and says it entered a development project contract. Provider identity is explicit; service-area polygons describe infrastructure.",
+      "artifact_id": "f7ab6a816e3b8f2f79571d38702eb58cae44b83ccc0f8cf70098ca2a2cf86f3f",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/3c3442d6-4ec0-4b2a-a314-11f2b220c44e/resource/db9e8f0e-ac8a-47f0-aed6-ba89a6062229/download/vostronet_australia_pty_ltd_130922_lidcombe_rise.xlsx"
+      ]
+    }
+  ]
+}

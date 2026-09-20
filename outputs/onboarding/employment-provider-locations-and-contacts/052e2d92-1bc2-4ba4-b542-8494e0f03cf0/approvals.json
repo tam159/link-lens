@@ -1,0 +1,13 @@
+[
+  {
+    "id": "eda24bbf15a6dc258284f4119620f603f0e51704eecc1cd79f76588af03d2280",
+    "run_id": "052e2d92-1bc2-4ba4-b542-8494e0f03cf0",
+    "config_hash": "8240429754c36bea3c297f13824eb12ead13cc3acd3f31c95de461d1ae472cf6",
+    "mapping_id": "052e2d92-1bc2-4ba4-b542-8494e0f03cf0:2",
+    "decision": "revision_requested",
+    "reviewer": "local-user",
+    "at": "2026-09-19T09:11:27.585474+00:00",
+    "feedback": "Please revise the mapping before approval. Restrict current legal-name claims to records supported as current by the publisher's current-name indicators, or explicitly use the supported current-name field without emitting historical names as current. Do not emit an ARBN as entity.acn: use the documented Type qualifier to exclude that case. Do not equate external administration with liquidation unless the publisher evidence establishes that exact meaning; otherwise map it to unknown or leave it unmapped. Encode these protections in the declarative config, not only in limitations. Keep the existing reader and partitions unchanged.",
+    "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+  }
+]

@@ -1,0 +1,51 @@
+{
+  "id": "discovery-jev-luna-v1-downloadable-v3",
+  "experiment_id": "jev-luna-v1",
+  "triage_method": "Jev on all supported-format catalogue candidates; 0.5 rule score + 0.5 Jev probability; publisher cap 8; no audit labels supplied; bounded GET + reader preflight gate",
+  "jev_candidates": 213,
+  "queries": [
+    {
+      "query": "business OR company OR charity OR licence OR contract",
+      "returned": 200,
+      "total_matches": 13443
+    },
+    {
+      "query": "abn",
+      "returned": 200,
+      "total_matches": 863
+    },
+    {
+      "query": "corporate transparency",
+      "returned": 200,
+      "total_matches": 999
+    },
+    {
+      "query": "employment provider locations",
+      "returned": 200,
+      "total_matches": 2575
+    },
+    {
+      "query": "supplier register",
+      "returned": 200,
+      "total_matches": 1192
+    }
+  ],
+  "unique_records": 945,
+  "publisher_cap": 8,
+  "retrieved_at": "2026-09-19T07:34:54.522492+00:00",
+  "catalogue_artifact": "0759164892794c83bb4e3c678251ee17dbb6bc1ab98a7ed862ade915c094ef7b",
+  "supersedes_discovery_id": "discovery-jev-luna-v1",
+  "download_checked_at": "2026-09-19T13:58:49.668523+00:00",
+  "download_policy": {
+    "version": "download-preflight-3",
+    "csv_sample_bytes": 1048576,
+    "full_resource_max_bytes": 100000000,
+    "resource_seconds": 60,
+    "max_resources_per_dataset": 12,
+    "publisher_cap": 8,
+    "scope": "At least one nonempty readable CSV/TSV sample or complete XLSX/JSON resource; not full-dataset validation or confirmed business relevance"
+  },
+  "download_checks_artifact": "63ba81fe2ab13f4cc031e40fc9553ee402bfb15e3573101f80cd349f749e3d5c",
+  "rerun_model_calls": 0,
+  "ranking_reuse": "Same catalogue and Jev scores; no evaluation labels used"
+}

@@ -1,0 +1,231 @@
+{
+  "dataset_id": "5c2e1542-c90e-4853-9d1c-d8635b986511",
+  "attempts": [
+    {
+      "resource_id": "8a7d5cc7-4c0e-49df-91f6-b2fce0221ec5",
+      "url": "https://data.gov.au/data/dataset/5c2e1542-c90e-4853-9d1c-d8635b986511/resource/8a7d5cc7-4c0e-49df-91f6-b2fce0221ec5/download/sip.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:48.926220+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/5c2e1542-c90e-4853-9d1c-d8635b986511/resource/8a7d5cc7-4c0e-49df-91f6-b2fce0221ec5/download/sip.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 12186,
+      "partial": false,
+      "artifact_id": "254075e8b426e567a233f25856827b8074bd433e2302cc812fb250a97126ae45",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Sheet1",
+            "rows": [
+              [
+                "WKT",
+                "Name_of_SIP",
+                "Service_Area",
+                "Service_Area_Identifier",
+                "Contract",
+                "Project_Area",
+                "Network_Infrastructure",
+                "Estimated_Completion_Date"
+              ],
+              [
+                "POLYGON((153.11567991971972 -27.562555612915283,153.11541706323626 -27.56356854884028,153.11655431985858 -27.56374688166219,153.1168305873871 -27.562741080755536,153.11567991971972 -27.562555612915283))",
+                "LightFast Networks Pty Ltd ",
+                "Nominated service area",
+                "IPT_24PREBBLE",
+                "Completed",
+                "24 Prebble St, Rochedale QLD 4123",
+                "FTTP",
+                "2025-12-01 00:00:00"
+              ],
+              [
+                "POLYGON((153.16652923822406 -27.652454078165974,153.16552609205246 -27.65231152739795,153.16528469324112 -27.65366575219152,153.1662878394127 -27.653801173748462,153.16652923822406 -27.652454078165974))",
+                "LightFast Networks Pty Ltd ",
+                "Nominated service area",
+                "IPT_7KNOBLE",
+                "Completed",
+                "7 Knobel Ct, Shailer Park QLD 4128",
+                "FTTP",
+                "2026-12-01 00:00:00"
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 1.658
+    }
+  ],
+  "status": "available",
+  "resource_id": "8a7d5cc7-4c0e-49df-91f6-b2fce0221ec5",
+  "policy_version": "download-preflight-3"
+}

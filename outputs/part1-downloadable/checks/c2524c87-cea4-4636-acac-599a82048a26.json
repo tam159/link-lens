@@ -1,0 +1,373 @@
+{
+  "dataset_id": "c2524c87-cea4-4636-acac-599a82048a26",
+  "attempts": [
+    {
+      "resource_id": "491b366b-aa6f-4b1c-b39d-cebaeeb6f874",
+      "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:55:53.793523+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 276536,
+      "partial": false,
+      "artifact_id": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Information",
+            "rows": [
+              [
+                "Corporate tax transparency: report of entity tax information"
+              ],
+              [
+                "To better inform public debate about tax policy, the Commissioner is required by legislation to produce an annual report of information about certain corporate tax entities. \n\nThis annual report lists Australian public, foreign-owned corporations (including foreign-owned private corporations) and Australian-owned resident private corporations with total income of $100 million or more, in tax returns for the 2023-24 income year. The cut-off date for the 2023-24 report was 18 August 2025. This report also includes late lodging corporations meeting these requirements whose information was not available by the cut-off date to produce the 2021-22 and 2022-23 Report of Entity Tax Information (first link below). \n\nChanges to the tax law lowered the threshold for Australian-owned resident private companies to $100 million from the 2022-23 income year and this is the second year these companies are being reported. For income years up to 2021-22, the $200 million threshold applies. Information on the law change can be accessed at the second link below.  \n\nDue to legislative limits on the information able to be included, this entity by entity level report does not reflect actual economic or accounting groupings. It is important to note the aggregate figures listed cannot and do not reflect the complexity of the tax system. \n\nThis report is intended to be read in conjunction with guidance material available on ato.gov.au which provides context around the demographics of entities included in this report and both taxable income and tax payable amounts (third link below).\n\nPlease note: As the legislation does not allow for the reporting of an amount of zero or less, these fields are left blank. \n\nA separate tab lists the details of entities that have petroleum resource rent tax (PRRT) payable. \n\nConfidentiality provisions prevent the ATO providing any additional information about particular taxpayers in the report. Some entities may provide further context and explanation on their own websites.\n\nVoluntary Tax Transparency Code\nAll corporations operating in Australia are encouraged and expected to report under the voluntary code (fourth link below). These reports generally include more detailed information on a corporations approach to tax and taxes paid. These reports can be accessed through the fifth link below."
+              ],
+              [
+                "Where can you find more information?"
+              ],
+              [
+                "1. Report of Entity Tax Information (2013-14 to 2023-24 datasets)"
+              ],
+              [
+                "2. Treasury Laws Amendment (2022 Measures No. 1) Act 2022"
+              ],
+              [
+                "3. Corporate tax transparency reports (guidance material)"
+              ],
+              [
+                "4. Voluntary Tax Transparency Code (guidance)"
+              ],
+              [
+                "5. Voluntary Tax Transparency Code (reports)"
+              ],
+              [
+                ""
+              ]
+            ]
+          },
+          {
+            "sheet": "Income tax details",
+            "rows": [
+              [
+                "Name",
+                "ABN",
+                "Total income $",
+                "Taxable income $",
+                "Tax payable $",
+                "Income year",
+                "",
+                "",
+                ""
+              ],
+              [
+                "1 MENDS STREET PTY LTD",
+                "94600082111",
+                "159074147",
+                "",
+                "",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "1884 PTY LIMITED",
+                "83114980880",
+                "337911962",
+                "6347804",
+                "1904341",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "1ST ENERGY PTY LTD",
+                "71604999706",
+                "144268804",
+                "6396883",
+                "1919065",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "20 CASHEWS PTY LTD",
+                "16634403124",
+                "242155153",
+                "9887530",
+                "2877116",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "21ST CENTURY RESORTS HOLDINGS PTY LIMITED",
+                "33104201014",
+                "332566480",
+                "43885213",
+                "13165564",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "29METALS LIMITED",
+                "95650096094",
+                "490015375",
+                "",
+                "",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "2CONSTRUCT PTY LTD",
+                "28109517188",
+                "168694987",
+                "7399488",
+                "2213799",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "3M AUSTRALIA PTY LTD",
+                "90000100096",
+                "737639598",
+                "42327422",
+                "12698227",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "4CYTE PATHOLOGY PTY LTD",
+                "12619244852",
+                "213934628",
+                "3834158",
+                "128871",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "4K AUTOMOTIVE GROUP PTY LTD",
+                "18062618964",
+                "634219672",
+                "20756788",
+                "6227036",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "509 DAVIES RD CLAREMONT PTY LTD",
+                "63608523020",
+                "258122907",
+                "22463161",
+                "6738948",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "5G NETWORKS LTD",
+                "21073716793",
+                "130296598",
+                "14328332",
+                "4289508",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "5POINT PROJECTS PTY LTD",
+                "61615602027",
+                "126767649",
+                "1950473",
+                "585142",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "5WAYS FOODSERVICE PTY LTD",
+                "55096671920",
+                "109702524",
+                "1692663",
+                "507692",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "5Z WHOLESALE PTY LTD",
+                "30618228809",
+                "126063147",
+                "334245",
+                "100274",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "7C HOLDINGS PTY LTD",
+                "63008210106",
+                "178908607",
+                "7563789",
+                "2168886",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "895 ANN STREET PROJECT PTY LTD",
+                "70628867103",
+                "213940957",
+                "69051",
+                "20715",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "9TE DEVELOPER PTY LTD",
+                "35666875850",
+                "114132933",
+                "",
+                "",
+                "2023-24",
+                "",
+                "",
+                ""
+              ],
+              [
+                "A & S WHOLESALE FRUIT & VEGETABLES PTY LTD",
+                "60006598796",
+                "105917939",
+                "2119207",
+                "470162",
+                "2023-24",
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "sheet": "PRRT details",
+            "rows": [
+              [
+                "Name",
+                "ABN",
+                "PRRT Payable $"
+              ],
+              [
+                "COOPER ENERGY (CH) PTY. LTD.",
+                "70615355023",
+                "3210449"
+              ],
+              [
+                "ESSO AUSTRALIA RESOURCES PTY LTD- BASS STRAIT",
+                "62091829819",
+                "351898218"
+              ],
+              [
+                "KANSAI ELECTRIC POWER AUSTRALIA PTY LTD",
+                "32126720732",
+                "7237704"
+              ],
+              [
+                "KUFPEC AUSTRALIA (JULIMAR) PTY LTD",
+                "38139500502",
+                "21404964"
+              ],
+              [
+                "MEPAU OTWAY BASIN PTY LTD",
+                "17009363820",
+                "3202743"
+              ],
+              [
+                "MIDOCEAN PLUTO PTY LTD",
+                "23126462744",
+                "7418023"
+              ],
+              [
+                "MITSUI E&P AUSTRALIA PTY LTD",
+                "45108437529",
+                "75846094"
+              ],
+              [
+                "SANTOS (BOL) PTY LTD",
+                "35000670575",
+                "418029"
+              ],
+              [
+                "SANTOS WA NORTHWEST PTY LTD",
+                "58009140854",
+                "69330991"
+              ],
+              [
+                "SANTOS WA PVG PTY LTD",
+                "51129604860",
+                "144019454"
+              ],
+              [
+                "VERMILION OIL & GAS AUSTRALIA PTY LTD",
+                "29113023591",
+                "3753096"
+              ],
+              [
+                "WOODSIDE BURRUP PTY. LTD.",
+                "20120237416",
+                "150896061"
+              ],
+              [
+                "WOODSIDE ENERGY (AUSTRALIA) PTY LTD",
+                "39006923879",
+                "113183482"
+              ],
+              [
+                "WOODSIDE ENERGY (BASS STRAIT) PTY LTD",
+                "29004228004",
+                "390477620"
+              ],
+              [
+                "WOODSIDE ENERGY JULIMAR PTY LTD",
+                "56130391365",
+                "38447922"
+              ],
+              [
+                "WOODSIDE ENERGY LTD.",
+                "63005482986",
+                "102506426"
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 1.568
+    }
+  ],
+  "status": "available",
+  "resource_id": "491b366b-aa6f-4b1c-b39d-cebaeeb6f874",
+  "policy_version": "download-preflight-3"
+}

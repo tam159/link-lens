@@ -1,0 +1,151 @@
+{
+  "dataset_id": "76fbeeb3-861c-4919-99ec-5a1d7334b443",
+  "attempts": [
+    {
+      "resource_id": "95bbba2b-39c2-4936-9b87-6379728280b0",
+      "url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/95bbba2b-39c2-4936-9b87-6379728280b0/download/bdhac-work-health-and-safety-and-return-to-work-performance-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:06.119675+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/95bbba2b-39c2-4936-9b87-6379728280b0/download/bdhac-work-health-and-safety-and-return-to-work-performance-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/95bbba2b-39c2-4936-9b87-6379728280b0/download/bdhac-work-health-and-safety-and-return-to-work-performance-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.876
+    },
+    {
+      "resource_id": "c42c3cb6-e7b5-4aee-8c6c-bbea663f2c48",
+      "url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/c42c3cb6-e7b5-4aee-8c6c-bbea663f2c48/download/bdhac-public-interest-disclosure-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:06.995787+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/c42c3cb6-e7b5-4aee-8c6c-bbea663f2c48/download/bdhac-public-interest-disclosure-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/c42c3cb6-e7b5-4aee-8c6c-bbea663f2c48/download/bdhac-public-interest-disclosure-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.908
+    },
+    {
+      "resource_id": "31b3b758-38c4-438b-9db4-0806bdbd4a75",
+      "url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/31b3b758-38c4-438b-9db4-0806bdbd4a75/download/bdhac-public-complaints-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:07.904200+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/31b3b758-38c4-438b-9db4-0806bdbd4a75/download/bdhac-public-complaints-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/31b3b758-38c4-438b-9db4-0806bdbd4a75/download/bdhac-public-complaints-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.834
+    },
+    {
+      "resource_id": "50056bbc-f03b-4d06-afaa-bb22e244aacb",
+      "url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/50056bbc-f03b-4d06-afaa-bb22e244aacb/download/bdhac-fraud-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:08.738531+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/50056bbc-f03b-4d06-afaa-bb22e244aacb/download/bdhac-fraud-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/50056bbc-f03b-4d06-afaa-bb22e244aacb/download/bdhac-fraud-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.807
+    },
+    {
+      "resource_id": "6d866339-0a4f-4188-8ed4-5714bfb1e2f8",
+      "url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/6d866339-0a4f-4188-8ed4-5714bfb1e2f8/download/bdhac-executive-employment-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:09.545907+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/6d866339-0a4f-4188-8ed4-5714bfb1e2f8/download/bdhac-executive-employment-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/6d866339-0a4f-4188-8ed4-5714bfb1e2f8/download/bdhac-executive-employment-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.804
+    },
+    {
+      "resource_id": "1b265874-a2c3-4703-bfb6-ce91b241944a",
+      "url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/1b265874-a2c3-4703-bfb6-ce91b241944a/download/bdhac-contractors-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:10.349513+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/1b265874-a2c3-4703-bfb6-ce91b241944a/download/bdhac-contractors-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/1b265874-a2c3-4703-bfb6-ce91b241944a/download/bdhac-contractors-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.785
+    },
+    {
+      "resource_id": "84b74395-0d67-497f-9b7e-60df0f8bc81f",
+      "url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/84b74395-0d67-497f-9b7e-60df0f8bc81f/download/bdhac-consultants-2019-20-.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:11.134148+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/84b74395-0d67-497f-9b7e-60df0f8bc81f/download/bdhac-consultants-2019-20-.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/84b74395-0d67-497f-9b7e-60df0f8bc81f/download/bdhac-consultants-2019-20-.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.806
+    },
+    {
+      "resource_id": "75e1c773-3d49-4863-b71b-7c96607dff21",
+      "url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/75e1c773-3d49-4863-b71b-7c96607dff21/download/ekhac-consultants-2019-20-.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:11.940696+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/75e1c773-3d49-4863-b71b-7c96607dff21/download/ekhac-consultants-2019-20-.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/75e1c773-3d49-4863-b71b-7c96607dff21/download/ekhac-consultants-2019-20-.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.924
+    },
+    {
+      "resource_id": "931ee2e6-e323-4e97-a71a-7ba200d3b307",
+      "url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/931ee2e6-e323-4e97-a71a-7ba200d3b307/download/ekhac-contractors-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:12.864478+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/931ee2e6-e323-4e97-a71a-7ba200d3b307/download/ekhac-contractors-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/931ee2e6-e323-4e97-a71a-7ba200d3b307/download/ekhac-contractors-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.792
+    },
+    {
+      "resource_id": "de3aaf95-7f40-48a4-920c-97443b274ad2",
+      "url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/de3aaf95-7f40-48a4-920c-97443b274ad2/download/ekhac-executive-employment-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:13.657053+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/de3aaf95-7f40-48a4-920c-97443b274ad2/download/ekhac-executive-employment-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/de3aaf95-7f40-48a4-920c-97443b274ad2/download/ekhac-executive-employment-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.81
+    },
+    {
+      "resource_id": "1e080516-2420-4d90-859e-010428947b23",
+      "url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/1e080516-2420-4d90-859e-010428947b23/download/ekhac-fraud-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:14.466772+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/1e080516-2420-4d90-859e-010428947b23/download/ekhac-fraud-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/1e080516-2420-4d90-859e-010428947b23/download/ekhac-fraud-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.801
+    },
+    {
+      "resource_id": "d4fa9031-16b8-4b9a-a5ca-423cce9d9718",
+      "url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/d4fa9031-16b8-4b9a-a5ca-423cce9d9718/download/ekhac-public-complaints-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:15.268202+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/d4fa9031-16b8-4b9a-a5ca-423cce9d9718/download/ekhac-public-complaints-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/76fbeeb3-861c-4919-99ec-5a1d7334b443/resource/d4fa9031-16b8-4b9a-a5ca-423cce9d9718/download/ekhac-public-complaints-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.79
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

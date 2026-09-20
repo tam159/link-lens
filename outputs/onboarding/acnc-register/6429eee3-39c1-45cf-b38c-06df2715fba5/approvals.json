@@ -1,0 +1,13 @@
+[
+  {
+    "id": "a53aaab1807d866b46813d4deb664904ac9f9036ab8e0698aadaeed40ef3a881",
+    "run_id": "6429eee3-39c1-45cf-b38c-06df2715fba5",
+    "config_hash": "6a92ce3e28985bd800d30112d85c9b53cf9ee7016aa2189fa0fdf123c9fbcebb",
+    "mapping_id": "6429eee3-39c1-45cf-b38c-06df2715fba5:2",
+    "decision": "revision_requested",
+    "reviewer": "local-user",
+    "at": "2026-09-19T10:28:08.498078+00:00",
+    "feedback": "charity legal name/ABN/address claims; charity registration is not company incorporation.",
+    "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+  }
+]

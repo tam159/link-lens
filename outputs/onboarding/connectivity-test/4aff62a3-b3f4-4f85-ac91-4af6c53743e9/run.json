@@ -1,0 +1,19 @@
+{
+  "id": "4aff62a3-b3f4-4f85-ac91-4af6c53743e9",
+  "experiment_id": "jev-luna-v1",
+  "model": "gpt-5.6-luna",
+  "source_id": "connectivity-test",
+  "source_slug": "connectivity-test",
+  "snapshot_id": "connectivity-test",
+  "status": "connectivity_passed",
+  "created_at": "2026-09-19T07:36:12.231935+00:00",
+  "model_calls": 1,
+  "python_calls": 0,
+  "version": 0,
+  "input_tokens": 258,
+  "output_tokens": 20,
+  "active_seconds": 2.939,
+  "calculated_cost_usd": 8.85e-05,
+  "pricing_basis": "unknown; no provider rates configured",
+  "usage_has_estimates": false
+}

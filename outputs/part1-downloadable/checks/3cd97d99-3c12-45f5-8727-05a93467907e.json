@@ -1,0 +1,31 @@
+{
+  "dataset_id": "3cd97d99-3c12-45f5-8727-05a93467907e",
+  "attempts": [
+    {
+      "resource_id": "dcf503d1-3b04-4e64-b2e4-702a85d33d13",
+      "url": "https://www.data.act.gov.au/api/v3/views/fdzw-rncp/export.csv?accessType=DOWNLOAD",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:52.414845+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://www.data.act.gov.au/api/v3/views/fdzw-rncp/export.csv?accessType=DOWNLOAD",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://www.data.act.gov.au/api/v3/views/fdzw-rncp/export.csv?accessType=DOWNLOAD'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 1.204
+    },
+    {
+      "resource_id": "dd877cd2-21ba-4767-9d7d-ffd3434634c0",
+      "url": "https://www.data.act.gov.au/api/v3/views/fdzw-rncp/query.json?accessType=DOWNLOAD",
+      "format": "json",
+      "checked_at": "2026-09-19T13:57:53.618552+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://www.data.act.gov.au/api/v3/views/fdzw-rncp/query.json?accessType=DOWNLOAD",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://www.data.act.gov.au/api/v3/views/fdzw-rncp/query.json?accessType=DOWNLOAD'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 1.077
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

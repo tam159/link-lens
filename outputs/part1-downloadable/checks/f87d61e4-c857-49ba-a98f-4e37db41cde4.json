@@ -1,0 +1,87 @@
+{
+  "dataset_id": "f87d61e4-c857-49ba-a98f-4e37db41cde4",
+  "attempts": [
+    {
+      "resource_id": "eb56bd2f-62ba-4160-9bab-ebf105ea99df",
+      "url": "https://data.gov.au/data/dataset/f87d61e4-c857-49ba-a98f-4e37db41cde4/resource/eb56bd2f-62ba-4160-9bab-ebf105ea99df/download/lhn_sip_nominated-service-area-declaration-31-jan-2025.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:25.585746+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/f87d61e4-c857-49ba-a98f-4e37db41cde4/resource/eb56bd2f-62ba-4160-9bab-ebf105ea99df/download/lhn_sip_nominated-service-area-declaration-31-jan-2025.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 18963,
+      "partial": false,
+      "artifact_id": "b15d83b45add6e187e97b115202ce244b7016e8bc019dd9bae157b0caed17a36",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "31 JAN 2025",
+            "rows": [
+              [
+                "LBB REFERENCE",
+                "Development Name or Address",
+                "State",
+                "Network Infrastructure",
+                "Declaration Date",
+                "Anticipatory Notices Submission Date "
+              ],
+              [
+                "LHN_210-228STANLEY",
+                "210-228 Stanley St, West Melbourne, VIC 3003",
+                "VIC",
+                "FTTP",
+                "2025-01-31 00:00:00",
+                "2022-04-11 00:00:00"
+              ],
+              [
+                "LHN_123WILLIAMS",
+                "123 Williams Rd,Prahran VIC 3181",
+                "VIC",
+                "SWITCHED ETHERNET",
+                "2025-01-31 00:00:00",
+                "2024-12-20 00:00:00"
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 0.739
+    }
+  ],
+  "status": "available",
+  "resource_id": "eb56bd2f-62ba-4160-9bab-ebf105ea99df",
+  "policy_version": "download-preflight-3"
+}

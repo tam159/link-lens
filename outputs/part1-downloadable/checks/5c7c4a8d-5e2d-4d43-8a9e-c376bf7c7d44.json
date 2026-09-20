@@ -1,0 +1,22 @@
+{
+  "dataset_id": "5c7c4a8d-5e2d-4d43-8a9e-c376bf7c7d44",
+  "attempts": [
+    {
+      "resource_id": "e3c6a180-848f-4f56-9cf0-69f2d67348a2",
+      "url": "https://data.gov.au/data/dataset/5c7c4a8d-5e2d-4d43-8a9e-c376bf7c7d44/resource/e3c6a180-848f-4f56-9cf0-69f2d67348a2/download/blanked-for-data.gov.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:56:48.623294+00:00",
+      "status": "unavailable",
+      "http_status": 206,
+      "final_url": "https://data.gov.au/data/dataset/5c7c4a8d-5e2d-4d43-8a9e-c376bf7c7d44/resource/e3c6a180-848f-4f56-9cf0-69f2d67348a2/download/blanked-for-data.gov.csv",
+      "content_type": "text/csv",
+      "bytes": 13,
+      "partial": true,
+      "artifact_id": "d1cbd44df959f5d5fc53c2e5c6c2a20c1906476bef56b714c81cee23a8f18662",
+      "error": "ValueError: No tabular delimiter in header",
+      "wall_seconds": 0.826
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

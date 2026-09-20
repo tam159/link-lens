@@ -1,0 +1,48 @@
+{
+  "checked_at": "2026-09-19T12:06:45.827520+00:00",
+  "baseline_batch": "fa5523f0-7d5a-41d2-af42-59e6362e3046",
+  "purpose": "Recheck current 52 profiles against previously downloaded immutable 2024 AIS prefix; feasibility only, not new links",
+  "candidate": {
+    "dataset_id": "276ec1bc-4971-461c-88bc-be9f3c99a0f8",
+    "slug": "acnc-2024-annual-information-statement-ais-data",
+    "title": "ACNC 2024 Annual Information Statement (AIS) Data",
+    "resource_id": "710630ea-1202-4bbb-95f7-3973a972ddf8",
+    "url": "https://data.gov.au/data/dataset/276ec1bc-4971-461c-88bc-be9f3c99a0f8/resource/710630ea-1202-4bbb-95f7-3973a972ddf8/download/datadotgov_ais24.csv",
+    "artifact_id": "5f4c8a8bab2750a240fe1f5e93491cb4a5ab5d2fc61ed16b8d86e39996295902",
+    "receipt": {
+      "partial": true,
+      "retrieved_at": "2026-09-19T04:48:38.417828+00:00",
+      "url": "https://data.gov.au/data/dataset/276ec1bc-4971-461c-88bc-be9f3c99a0f8/resource/710630ea-1202-4bbb-95f7-3973a972ddf8/download/datadotgov_ais24.csv",
+      "bytes": 8388608
+    },
+    "rows_scanned": 12025,
+    "hits": [
+      {
+        "row": 5,
+        "abn": "11001209490",
+        "name": "THE KILLARNEY SCHOOL LTD",
+        "existing_entity_id": "078b091b-0fae-51bc-89cf-765a0dfe2483"
+      },
+      {
+        "row": 600,
+        "abn": "12000964081",
+        "name": "Kinma Limited",
+        "existing_entity_id": "28ffcc9b-75b5-5c8d-b614-d0f0bc604143"
+      },
+      {
+        "row": 6705,
+        "abn": "22000638559",
+        "name": "Ukrainian Autocephalic Orthodox Church In Australia And New Zealand",
+        "existing_entity_id": "133f4f75-d4bf-54ec-a2b1-36935ea1ebe5"
+      }
+    ],
+    "docs": [
+      {
+        "id": "014d919b-aa79-4da4-8aab-438141391f99",
+        "url": "https://data.gov.au/data/dataset/276ec1bc-4971-461c-88bc-be9f3c99a0f8/resource/014d919b-aa79-4da4-8aab-438141391f99/download/explanatory-notes.pdf",
+        "format": "PDF"
+      }
+    ]
+  },
+  "new_download": false
+}

@@ -1,0 +1,151 @@
+{
+  "dataset_id": "8840a16c-7bf7-45fd-95b3-c596ddea8224",
+  "attempts": [
+    {
+      "resource_id": "49e3e53b-296d-4384-89e4-19974bf49bf8",
+      "url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/49e3e53b-296d-4384-89e4-19974bf49bf8/download/funlhn-data.sa-contractors-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:56.056004+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/49e3e53b-296d-4384-89e4-19974bf49bf8/download/funlhn-data.sa-contractors-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/49e3e53b-296d-4384-89e4-19974bf49bf8/download/funlhn-data.sa-contractors-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.896
+    },
+    {
+      "resource_id": "260ebfa5-1d79-4b64-b770-a2f69a8c6f57",
+      "url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/260ebfa5-1d79-4b64-b770-a2f69a8c6f57/download/funlhn-data.sa-consultants-2019-20-.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:56.951910+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/260ebfa5-1d79-4b64-b770-a2f69a8c6f57/download/funlhn-data.sa-consultants-2019-20-.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/260ebfa5-1d79-4b64-b770-a2f69a8c6f57/download/funlhn-data.sa-consultants-2019-20-.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.805
+    },
+    {
+      "resource_id": "4dee4dfc-abc0-4861-a5b6-8de83f99842d",
+      "url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/4dee4dfc-abc0-4861-a5b6-8de83f99842d/download/funlhn-data.sa-executive-employment-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:57.757300+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/4dee4dfc-abc0-4861-a5b6-8de83f99842d/download/funlhn-data.sa-executive-employment-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/4dee4dfc-abc0-4861-a5b6-8de83f99842d/download/funlhn-data.sa-executive-employment-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.788
+    },
+    {
+      "resource_id": "5c2021d0-83d4-49ce-9620-d3b23cc1bd50",
+      "url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/5c2021d0-83d4-49ce-9620-d3b23cc1bd50/download/funlhn-data.sa-fraud-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:58.545545+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/5c2021d0-83d4-49ce-9620-d3b23cc1bd50/download/funlhn-data.sa-fraud-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/5c2021d0-83d4-49ce-9620-d3b23cc1bd50/download/funlhn-data.sa-fraud-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.816
+    },
+    {
+      "resource_id": "8bbb4579-53ac-439a-888f-70ebce17966c",
+      "url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/8bbb4579-53ac-439a-888f-70ebce17966c/download/funlhn-data.sa-public-complaints-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:59.361635+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/8bbb4579-53ac-439a-888f-70ebce17966c/download/funlhn-data.sa-public-complaints-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/8bbb4579-53ac-439a-888f-70ebce17966c/download/funlhn-data.sa-public-complaints-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.821
+    },
+    {
+      "resource_id": "d174b8a0-4fa1-45fa-8584-045e30e3dccc",
+      "url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/d174b8a0-4fa1-45fa-8584-045e30e3dccc/download/funlhn-data.sa-public-interest-disclosure-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:00.183132+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/d174b8a0-4fa1-45fa-8584-045e30e3dccc/download/funlhn-data.sa-public-interest-disclosure-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/d174b8a0-4fa1-45fa-8584-045e30e3dccc/download/funlhn-data.sa-public-interest-disclosure-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.803
+    },
+    {
+      "resource_id": "12d49bc6-201c-4295-b756-b3a653caca92",
+      "url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/12d49bc6-201c-4295-b756-b3a653caca92/download/funlhn-data.sa-work-health-and-safety-and-return-to-work-performance-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:00.986327+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/12d49bc6-201c-4295-b756-b3a653caca92/download/funlhn-data.sa-work-health-and-safety-and-return-to-work-performance-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/12d49bc6-201c-4295-b756-b3a653caca92/download/funlhn-data.sa-work-health-and-safety-and-return-to-work-performance-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.813
+    },
+    {
+      "resource_id": "ced96ebc-a08b-4765-a6b3-28ecd7085538",
+      "url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/ced96ebc-a08b-4765-a6b3-28ecd7085538/download/funlhn-hawker-district-memorial-hac-consultants-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:01.799897+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/ced96ebc-a08b-4765-a6b3-28ecd7085538/download/funlhn-hawker-district-memorial-hac-consultants-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/ced96ebc-a08b-4765-a6b3-28ecd7085538/download/funlhn-hawker-district-memorial-hac-consultants-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.807
+    },
+    {
+      "resource_id": "a076f8b4-7f4d-4bbe-8924-0c99c7294429",
+      "url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/a076f8b4-7f4d-4bbe-8924-0c99c7294429/download/funlhn-hawker-district-memorial-hac-contractors-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:02.606711+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/a076f8b4-7f4d-4bbe-8924-0c99c7294429/download/funlhn-hawker-district-memorial-hac-contractors-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/a076f8b4-7f4d-4bbe-8924-0c99c7294429/download/funlhn-hawker-district-memorial-hac-contractors-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.883
+    },
+    {
+      "resource_id": "b786bbff-bdb6-48bd-98e1-0e2e3649bf3c",
+      "url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/b786bbff-bdb6-48bd-98e1-0e2e3649bf3c/download/funlhn-hawker-district-memorial-hac-executive-employment-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:03.489522+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/b786bbff-bdb6-48bd-98e1-0e2e3649bf3c/download/funlhn-hawker-district-memorial-hac-executive-employment-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/b786bbff-bdb6-48bd-98e1-0e2e3649bf3c/download/funlhn-hawker-district-memorial-hac-executive-employment-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.916
+    },
+    {
+      "resource_id": "84f65ce8-4991-459d-ab90-a5ca07783256",
+      "url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/84f65ce8-4991-459d-ab90-a5ca07783256/download/funlhn-hawker-district-memorial-hac-fraud-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:04.406031+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/84f65ce8-4991-459d-ab90-a5ca07783256/download/funlhn-hawker-district-memorial-hac-fraud-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/84f65ce8-4991-459d-ab90-a5ca07783256/download/funlhn-hawker-district-memorial-hac-fraud-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.814
+    },
+    {
+      "resource_id": "3d97d51a-7b0a-412b-9d63-eab8e6c638c3",
+      "url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/3d97d51a-7b0a-412b-9d63-eab8e6c638c3/download/funlhn-hawker-district-memorial-hac-public-complaints-2019-20.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:05.220556+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/3d97d51a-7b0a-412b-9d63-eab8e6c638c3/download/funlhn-hawker-district-memorial-hac-public-complaints-2019-20.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/8840a16c-7bf7-45fd-95b3-c596ddea8224/resource/3d97d51a-7b0a-412b-9d63-eab8e6c638c3/download/funlhn-hawker-district-memorial-hac-public-complaints-2019-20.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.843
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

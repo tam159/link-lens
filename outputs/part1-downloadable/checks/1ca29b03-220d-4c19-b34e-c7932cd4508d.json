@@ -1,0 +1,179 @@
+{
+  "dataset_id": "1ca29b03-220d-4c19-b34e-c7932cd4508d",
+  "attempts": [
+    {
+      "resource_id": "e70e6e0b-1a62-456b-a3d1-cd8f7508b54f",
+      "url": "http://www.education.vic.gov.au/Documents/about/research/datavic/dv183-schoolABNdetails.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:39.142415+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://www.education.vic.gov.au/Documents/about/research/datavic/dv183-schoolABNdetails.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 114348,
+      "partial": false,
+      "artifact_id": "f83596b0bf39d89740e20cb949826463bcca6f1d05da205bd2318f1bc3094736",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Sheet1",
+            "rows": [
+              [
+                "SchoolNumber",
+                "SchoolName",
+                "Fin_Period",
+                "LoadDate",
+                "ABN"
+              ],
+              [
+                "1",
+                "Alberton Primary School",
+                "201506",
+                "2015-07-14 06:30:43",
+                "35954747085"
+              ],
+              [
+                "3",
+                "Allansford and District Primary School",
+                "201506",
+                "2015-07-14 06:30:43.863000",
+                "37051817052"
+              ],
+              [
+                "4",
+                "Avoca Primary School",
+                "201506",
+                "2015-07-07 06:36:29.823000",
+                "39744336864"
+              ],
+              [
+                "8",
+                "Avenel Primary School",
+                "201506",
+                "2015-07-02 06:30:42.930000",
+                "88819505004"
+              ],
+              [
+                "12",
+                "Warrandyte Primary School",
+                "201506",
+                "2015-07-02 06:30:43.760000",
+                "89340494951"
+              ],
+              [
+                "26",
+                "Belmont Primary School",
+                "201506",
+                "2015-07-14 06:30:44.730000",
+                "62403505329"
+              ],
+              [
+                "28",
+                "Bacchus Marsh Primary School",
+                "201506",
+                "2015-07-14 06:30:45.510000",
+                "61829351598"
+              ],
+              [
+                "33",
+                "Ballarat Primary School (Dana Street)",
+                "201506",
+                "2015-07-14 06:30:46.543000",
+                "30126215434"
+              ],
+              [
+                "37",
+                "Wodonga Primary School",
+                "201506",
+                "2015-07-02 06:30:44.597000",
+                "30751949495"
+              ],
+              [
+                "40",
+                "Berwick Primary School",
+                "201506",
+                "2015-07-17 06:30:48.790000",
+                "61834093182"
+              ],
+              [
+                "60",
+                "Beaufort Primary School",
+                "201506",
+                "2015-07-07 06:36:30.583000",
+                "57463155273"
+              ],
+              [
+                "84",
+                "Cheltenham Primary School",
+                "201506",
+                "2015-07-02 06:30:45.607000",
+                "69873393662"
+              ],
+              [
+                "105",
+                "Cudgee Primary School",
+                "201506",
+                "2015-07-03 06:30:25.857000",
+                "42294705386"
+              ],
+              [
+                "113",
+                "Newport Lakes Primary School",
+                "201506",
+                "2015-07-13 06:30:15.243000",
+                "54651014105"
+              ],
+              [
+                "116",
+                "Cavendish Primary School",
+                "201506",
+                "2015-07-14 06:30:47.340000",
+                "11644956677"
+              ],
+              [
+                "117",
+                "Colac Primary School",
+                "201506",
+                "2015-07-03 06:30:26.567000",
+                "95108710378"
+              ],
+              [
+                "119",
+                "Castlemaine Primary School",
+                "201506",
+                "2015-07-02 06:30:46.583000",
+                "61907518640"
+              ],
+              [
+                "120",
+                "Campbells Creek Primary School",
+                "201506",
+                "2015-07-03 06:30:27.330000",
+                "91414528960"
+              ],
+              [
+                "122",
+                "Creswick Primary School",
+                "201506",
+                "2015-07-14 06:30:48.150000",
+                "99416293630"
+              ]
+            ]
+          },
+          {
+            "sheet": "Sheet2",
+            "rows": []
+          },
+          {
+            "sheet": "Sheet3",
+            "rows": []
+          }
+        ]
+      },
+      "wall_seconds": 2.686
+    }
+  ],
+  "status": "available",
+  "resource_id": "e70e6e0b-1a62-456b-a3d1-cd8f7508b54f",
+  "policy_version": "download-preflight-3"
+}

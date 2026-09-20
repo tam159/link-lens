@@ -1,0 +1,21 @@
+{
+  "dataset_id": "c9f55f38-21fa-44a8-80c1-1e938b5fa03b",
+  "attempts": [
+    {
+      "resource_id": "5e6389df-3b4c-4cf8-84d3-c25df95ccdcd",
+      "url": "https://www.data.qld.gov.au/dataset/c9f55f38-21fa-44a8-80c1-1e938b5fa03b/resource/5e6389df-3b4c-4cf8-84d3-c25df95ccdcd/download/hpsp_contract-disclosure-report_2019-20.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:56:48.625375+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/c9f55f38-21fa-44a8-80c1-1e938b5fa03b/resource/5e6389df-3b4c-4cf8-84d3-c25df95ccdcd/download/hpsp_contract-disclosure-report_2019-20.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.206
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

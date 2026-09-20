@@ -1,0 +1,51 @@
+{
+  "dataset_id": "0a32fd99-cebc-453f-a7e8-b753a3f9d123",
+  "attempts": [
+    {
+      "resource_id": "f0dc3abc-8224-411c-a439-43d15e866081",
+      "url": "https://data.gov.au/data/dataset/0a32fd99-cebc-453f-a7e8-b753a3f9d123/resource/f0dc3abc-8224-411c-a439-43d15e866081/download/anticipatory-notice.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:33.904972+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/0a32fd99-cebc-453f-a7e8-b753a3f9d123/resource/f0dc3abc-8224-411c-a439-43d15e866081/download/anticipatory-notice.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 9988,
+      "partial": false,
+      "artifact_id": "da6a76f122803ed869cf72b792571f7beec77d59b22c19f084e2ddcd8aa68416",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Anticipatory notice ",
+            "rows": [
+              [
+                "WKT",
+                "Name_of_SIP",
+                "Service_Area",
+                "Service_Area_Identifier",
+                "Contract",
+                "Project_Area",
+                "Network_Infrastructure",
+                "Estimated_Completion_Date"
+              ],
+              [
+                "POLYGON((144.99101400375363 -37.82615626967282,144.99162286520004 -37.82622406516789,144.99151423573494 -37.82684163688802,144.9909107387066 -37.826778079145114,144.99101400375363 -37.82615626967282))",
+                "DGtek Pty Ltd ",
+                "Anticipatory notice",
+                "DGtek_MXC43200",
+                "DGtek Pty Ltd has entered into a real estate development project contract ",
+                "33 Cremorne St\nCremorne\nVictoria\n3121",
+                "FTTP",
+                "2025-09-30 00:00:00"
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 1.12
+    }
+  ],
+  "status": "available",
+  "resource_id": "f0dc3abc-8224-411c-a439-43d15e866081",
+  "policy_version": "download-preflight-3"
+}

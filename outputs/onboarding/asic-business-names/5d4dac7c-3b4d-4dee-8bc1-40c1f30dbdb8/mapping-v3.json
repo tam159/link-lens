@@ -1,0 +1,111 @@
+{
+  "id": "5d4dac7c-3b4d-4dee-8bc1-40c1f30dbdb8:3",
+  "run_id": "5d4dac7c-3b4d-4dee-8bc1-40c1f30dbdb8",
+  "version": 3,
+  "config_hash": "5ea9cdb7e409dce8460223af77dc181ab1abcf282473b30aa82766462de02591",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": "\t",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One row per ASIC Business Names Register record, representing one business-name registration (currently registered or retained after deregistration), not necessarily one legal entity. The deterministic source_record_id is the supplied snapshot_sha plus the CSV row locator; entity.trading_name and entity.abn, when both emit, are co-observations from that exact same source row and must not be interpreted as a validated holder-ownership or legal-entity link.",
+    "subject_role": "business_name_holder",
+    "source_kind": "business_name_register",
+    "subject_label_field": "BN_NAME",
+    "address_role": "unknown",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "BN_NAME"
+        ],
+        "canonical_field": "entity.trading_name",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.88,
+        "evidence": "ASIC Business Names Dataset Help File PDF p.3 sample header BN_NAME and p.8 data dictionary: BN_NAME is a name used, or to be used, in relation to one or more businesses and the Business Name as it appears on ASIC's register. Discovery row samples contain leading spaces, supporting trim only. This is a business/trading-name claim, not a legal-name claim."
+      },
+      {
+        "source_fields": [
+          "BN_ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.91,
+        "evidence": "ASIC Business Names Dataset Help File PDF p.10: BN_ABN is the Australian Business Number, with suppressed ABNs shown as NULL and other stated conditions producing NULL. Discovery samples show 11-digit strings such as 30947976159. The abn operation validates the ABN; it does not infer an ACN or establish legal-holder ownership."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "REGISTER_NAME",
+        "reason": "ASIC Business Names Dataset Help File PDF p.8 defines this as the name of the register, illustrated as BUSINESS NAMES on p.3, not a legal name, trading name, identifier, status, address, or supported canonical field."
+      },
+      {
+        "source_field": "BN_STATUS",
+        "reason": "ASIC Business Names Dataset Help File PDF p.8 defines this as registration status for the Business Name. The ontology has entity.status but no business-name status field; mapping it would incorrectly assert legal-entity status. The source documentation also defines Registered and Cancelled, while supplied material indicates additional status variation, so no safe complete entity enum mapping is declared."
+      },
+      {
+        "source_field": "BN_REG_DT",
+        "reason": "ASIC Business Names Dataset Help File PDF p.9 defines BN_REG_DT as the date by which the Business Name started. It is not legal-entity registration and is deliberately not mapped to entity.date_registered."
+      },
+      {
+        "source_field": "BN_CANCEL_DT",
+        "reason": "ASIC Business Names Dataset Help File PDF p.9 defines BN_CANCEL_DT as the date by which the Business Name ceased, populated when the Business Name has been cancelled. The ontology has no business-name cancellation/valid-to field, and this does not prove legal-entity deregistration."
+      },
+      {
+        "source_field": "BN_STATE_NUM",
+        "reason": "ASIC Business Names Dataset Help File PDF p.9 defines BN_STATE_NUM as a former-state-regulator business-name identifying number allocated before 28 May 2012. No supported canonical field represents it; it must not be treated as an ABN or ACN."
+      },
+      {
+        "source_field": "BN_STATE_OF_REG",
+        "reason": "ASIC Business Names Dataset Help File PDF p.9 defines BN_STATE_OF_REG as the previous state of registration with the former business-names regulator, with abbreviated values documented there. It is not a current address or legal-entity location, and no supported canonical field is justified."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.95,
+    "limitations": [
+      "This ASIC Business Names Register snapshot is not a company/legal-entity register; ASIC Help File PDF pp.3-5 says it contains currently registered business names and deregistered business names for the prior 12 months, and does not contain all register information.",
+      "The source row is the only deterministic co-observation boundary available in this declarative schema: source_record_id must be generated from the supplied snapshot_sha and CSV row locator. Co-occurrence of BN_NAME and BN_ABN in a row is not proof that the ABN identifies the legal holder, and no link_confidence is emitted by this MappingSpec schema; human review must preserve that unresolved link separately.",
+      "BN_NAME is retained as the raw subject label and mapped cautiously to entity.trading_name. The source does not establish a legal name, holder type, or unique legal-entity identity.",
+      "BN_ABN is an ATO/ABR identifier rather than an ASIC-issued identifier. It may be suppressed, absent, associated with multiple business names, or fail to uniquely identify the holder; only operation-valid ABNs emit observations.",
+      "BN_STATUS, BN_REG_DT, and BN_CANCEL_DT describe business-name registration semantics and are not mapped to legal-entity status or dates. Cancellation/deregistration of a business name does not prove entity deregistration.",
+      "BN_STATE_NUM and BN_STATE_OF_REG describe historical business-name registration details and have no supported target fields.",
+      "No record-level statement timestamp is supplied. observed_at therefore uses the dataset publication timestamp 2026-09-15T20:36:19.202924 as an explicit publication proxy, not as proof that each row was stated at that instant.",
+      "The source envelope supplies the Creative Commons Attribution 3.0 Australia licence. Authority, source-reliability, field-confidence, and any downstream linkage scores are provisional and require human review.",
+      "The supplied exploration reported 300 discovery records while validation reported 250 records; this discrepancy is not resolved by the mapping and requires validator/human reconciliation."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-luna",
+  "created_at": "2026-09-19T07:39:03.474769+00:00",
+  "status": "proposed"
+}

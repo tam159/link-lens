@@ -1,0 +1,2050 @@
+[
+  {
+    "id": "c2a66952-3e72-4815-b2b3-16c08bc81496",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "model_usage",
+    "at": "2026-09-19T07:41:46.993474+00:00",
+    "stage": "inspect",
+    "prompt_sha256": "b7ebd3788255497f2335250c085ec99bd519f92a4d9f7d85b9311057efd0911f",
+    "prompt_version": "onboarding-2",
+    "model": "gpt-5.6-luna",
+    "experiment_id": "jev-luna-v1",
+    "attempt": 1,
+    "input_tokens": 1700,
+    "output_tokens": 332,
+    "calculated_cost_usd": 0.0008234,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b898-85e0-7040-bc68-e81379bc70f4/run/01a0b89d-28ac-7710-9445-950b55b43faf?start_time=2026-09-19T07%3A41%3A42.444217%2B00%3A00",
+    "trace_run_id": "01a0b89d-28ac-7710-9445-950b55b43faf",
+    "response_artifact": "24e9bb19f7d831cc0d5f4aa2d7f6f3c9474b025091009849a789c72d34483076",
+    "status": "success",
+    "wall_seconds": 4.514
+  },
+  {
+    "id": "9b4bd153-ed07-48a1-8d7f-6ac0b99a1436",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "inspect",
+    "at": "2026-09-19T07:41:47.109675+00:00",
+    "partition_counts": {
+      "discovery": 2533,
+      "validation": 822,
+      "final": 843
+    },
+    "reader": {
+      "format": "xlsx",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": "Income tax details",
+      "header_row": 1,
+      "json_records_path": []
+    }
+  },
+  {
+    "id": "a2146d83-0b5c-41d0-b688-96576ac7c490",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T07:41:47.112407+00:00",
+    "node": "inspect_node",
+    "wall_seconds": 4.667
+  },
+  {
+    "id": "b6237e25-e680-4bc9-b32f-e6e7eb1685da",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "exploration",
+    "at": "2026-09-19T07:41:47.691232+00:00",
+    "artifact_id": "b4fa6aed805276517b0e1ffbe266e25be8dffb5b4d5c037945b8e615d7e888b9",
+    "exit_code": 1
+  },
+  {
+    "id": "c85e3699-2c10-4c45-9a1a-fc2a948def0d",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T07:41:47.694173+00:00",
+    "node": "explore_node",
+    "wall_seconds": 0.5785
+  },
+  {
+    "id": "89068e05-f8b6-49a5-b6f2-fa5c33b5f554",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "model_usage",
+    "at": "2026-09-19T07:41:57.502338+00:00",
+    "stage": "propose_mapping",
+    "prompt_sha256": "289cae6695db72479bc3a32b6a655acb1c255b774fa2c402c9ae485f15480f28",
+    "prompt_version": "onboarding-2",
+    "model": "gpt-5.6-luna",
+    "experiment_id": "jev-luna-v1",
+    "attempt": 2,
+    "input_tokens": 4761,
+    "output_tokens": 899,
+    "calculated_cost_usd": 0.0022690500000000003,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b898-85e0-7040-bc68-e81379bc70f4/run/01a0b89d-3d30-7c23-a006-18cab55e298b?start_time=2026-09-19T07%3A41%3A47.696228%2B00%3A00",
+    "trace_run_id": "01a0b89d-3d30-7c23-a006-18cab55e298b",
+    "response_artifact": "df5f5e58e0eef212139de6316bf2a2b3b2211cbc6e18e16325049dd537af3740",
+    "status": "success",
+    "wall_seconds": 9.784
+  },
+  {
+    "id": "9f1a97ea-7aec-4d5d-86cf-e52ca9c5f376",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T07:41:57.508001+00:00",
+    "node": "propose_node",
+    "wall_seconds": 9.8101
+  },
+  {
+    "id": "a5e3726f-1694-4fec-b5ca-529c81d647e9",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "validation",
+    "at": "2026-09-19T07:41:57.529567+00:00",
+    "version": 1,
+    "report": {
+      "passed": true,
+      "blocking_issues": [],
+      "records": 250,
+      "observations": 249,
+      "quarantined_fields": 0,
+      "filtered_records": 0,
+      "error_examples": [],
+      "output_examples": [
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "78279d7ae09a7a64e6c33d412ed094cba7cef72e44dc13383477d5c7c87a5a4e",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "18062618964",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "18062618964"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 11
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "e703ce68f79d2e6008a92b942051b92987920100a623ca20db4c4139046a25d8"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "b51f599d1ff275fd29392dce7eb80a5ab5e1664e9717da14206984e39b7acc95",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "21073716793",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "21073716793"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 13
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "1a437203f1203d70839517633687998088de0dc828c2cce611e77d48d382bd74"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "e6ed998f4ebdcbb252dc018c3471d9ee18b8c162e1f63624d4781c31404e68fc",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "55096671920",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "55096671920"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 15
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "89d54c232d678bc23b08bd5f9df10e173aab44141732655c02fa02215e01b7a4"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "49fe4e5d20d81cd34d2df0381a9212d5a8ee09829401eebe8e549ca3c67f4aee",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "39085239998",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "39085239998"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 24
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "7507a6a00b79d1c869249815275ca5b806bd3a708af8c85a97557ec36d1e6076"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "9a9f91286686964a4e6d8f43682b96576940c70a38d4ae7a441ce9caa21daebd",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "54085537266",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "54085537266"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 25
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "51815dddfa2e01893e32d31a4f50064b50c9609a65749759213dc393144229ba"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "4ed030bd2fe82f4ca101bc12cab0992a9e117f0427e512d39e9ead5f1b7cebe0",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "67005711722",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "67005711722"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 30
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "fae53d0934cdc714e980f1943d560269ec164bb63e9e86a4e8656178fcd1e3f4"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "af5759166e2a1b20b5b6190c64cbf6ec22068a527ea5ad72683b95b9cee9faf9",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "63118584928",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "63118584928"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 32
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "8b178bbdaf3f340f905d6eb5debc20582066c68cc2c5a5853f5836dfdec9cf98"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "dceeecc7efabc03fb2f6fb2cac2df4dfa5c96b7f05616bc3783b1de44cb66fb7",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "62104265652",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "62104265652"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 35
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "ca1007fb542f92da1ecc7af1417daa7e9409c4b8b7e862410e5314152c60cca2"
+        }
+      ],
+      "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+    }
+  },
+  {
+    "id": "2d448cca-51e0-4cec-b993-86ccbd402385",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T07:41:57.532851+00:00",
+    "node": "validate_node",
+    "wall_seconds": 0.0208
+  },
+  {
+    "id": "f2e0ea22-89c9-4575-b14e-67a07d774116",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "model_usage",
+    "at": "2026-09-19T07:42:04.421305+00:00",
+    "stage": "semantic_critique",
+    "prompt_sha256": "7a01bdb7a173d4e7bdd9fd98555baca1594af70b99468cf5bdfd3dc75156c6b2",
+    "prompt_version": "onboarding-2",
+    "model": "gpt-5.6-luna",
+    "experiment_id": "jev-luna-v1",
+    "attempt": 3,
+    "input_tokens": 4807,
+    "output_tokens": 540,
+    "calculated_cost_usd": 0.00184975,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b898-85e0-7040-bc68-e81379bc70f4/run/01a0b89d-639e-7542-815f-f943694b6b37?start_time=2026-09-19T07%3A41%3A57.534841%2B00%3A00",
+    "trace_run_id": "01a0b89d-639e-7542-815f-f943694b6b37",
+    "response_artifact": "668230498503674c54e34393ac81502763c0c0e44fa01a353a27336b577c35fa",
+    "status": "success",
+    "wall_seconds": 6.864
+  },
+  {
+    "id": "5261b440-2c1a-4fcf-8fab-a5e6ecaf5889",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "semantic_critique",
+    "at": "2026-09-19T07:42:04.425614+00:00",
+    "version": 1,
+    "acceptable": true,
+    "blocking_issues": [],
+    "warnings": [
+      "The mapping is deliberately partial: it maps only ABN and leaves Name, financial measures, income year, status, entity type, registration dates, and reporting relationships unmapped, which is appropriate because the supplied ontology does not support most of those claims.",
+      "The source documents selected corporate tax entities and says the data does not represent actual economic or accounting groupings; the mapping correctly does not infer reporting groups or beneficial ownership.",
+      "The Name field is not mapped to entity.legal_name or entity.trading_name. This is conservative and avoids conflating an unspecified source label with a registered or trading name.",
+      "The row is treated as a legal-entity subject, consistent with the source describing corporate tax entities, but the source's exact legal-entity identity semantics remain limited to the reported ABN/name pair.",
+      "Income year is not used as observed_at or a registration date. The publication proxy is used for observation timing because no row-level statement timestamp is supplied; this is disclosed as a limitation.",
+      "Selection/publication eligibility is not a status claim. The mapping correctly does not emit active, deregistered, in_liquidation, or other status values.",
+      "The ABN operation is semantically appropriate under the authoritative engine semantics: it validates the identifier and does not derive an ACN. One preview ABN with no emitted observation is consistent with validation/quarantine behavior, but the exact rejected value is not shown.",
+      "The source metadata contains an explicit CC BY 3.0 Australia licence and a publication proxy, satisfying the disclosed envelope assumptions. The review cannot independently verify the engine's generated source_id, ingested_at, or extractor_version from the supplied mapping summary.",
+      "The exploration script failed due to treating record values as a list, so claims beyond the supplied raw discovery preview and analysis should be treated cautiously; this does not create a mapping defect by itself."
+    ],
+    "evidence_checked": [
+      "Dataset notes: reports contain Name and ABN for selected corporate tax entities, with different thresholds by income year and a separate PRRT dataset.",
+      "Reader targets the XLSX 'Income tax details' sheet with header row 1.",
+      "Raw discovery rows show Name, 11-digit ABN strings, financial columns, and Income year; Name is not labelled legal or trading name.",
+      "Ontology definitions distinguish legal_name, trading_name, ABN, status, entity_type, dates, observation timing, and confidence dimensions.",
+      "Trusted engine semantics for ABN validation, constants, conditionals, and identifier exclusivity.",
+      "Previous mapping's subject role, ABN field mapping, unmapped fields, timestamp policy, limitations, and validation results."
+    ]
+  },
+  {
+    "id": "ff7b91df-e6b0-413f-a463-37377c06a916",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T07:42:04.429288+00:00",
+    "node": "critique_node",
+    "wall_seconds": 6.89
+  },
+  {
+    "id": "e7c5349c-19ba-4948-b187-8fe61a85c77d",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "final_validation",
+    "at": "2026-09-19T07:42:04.447947+00:00",
+    "version": 1,
+    "report": {
+      "passed": true,
+      "blocking_issues": [],
+      "records": 100,
+      "observations": 99,
+      "quarantined_fields": 0,
+      "filtered_records": 0,
+      "error_examples": [],
+      "output_examples": [
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "49407ee265aecc04399e9206e9c1fae28006d5492893baefca35c772a4850c17",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "63608523020",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "63608523020"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 12
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "da32ac92557ca88c85db3e30658f047fc46f19f42ec2887d1205f4b5045c9e05"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "14da251df9e7a4d768a241727ca5fa06e9113bfc3943f5661de9c3ea2022ae73",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "61615602027",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "61615602027"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 14
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "beefa7faf3e786c8e893a67955fd7a27a40580b5f4fe16edf86e0831bd328536"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "8b2cbd4df0169f9f6d9ebe0f5142bf79b6cef12647e59d009738831f1933a316",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "60006598796",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "60006598796"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 20
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "683fc5c115b3f4e3983ef5a570fc662937468dbdd3bca93aee642197b9eb67cf"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "88c2fb80307234a14138769c5fdae1dce246cd633f76c84d38ba838aacbb4ea8",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "58003933300",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "58003933300"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 23
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "1e08f7c952206b2a7bae40eab64c02a1ecc83366d6d1bac56507b74a851d7797"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "544e203c2c00b80f3d01fca3550271f939de3de07af7b17af0e094084001868a",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "31166119133",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "31166119133"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 26
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "40a766b0bedc52ff547e7df0a94deecaac70185d7809fe7dfde9866eb4ee9ec2"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "834b8f41582c68097cfd304ebcf3a7647852a2d3c75e617592b188b4245ab64a",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "93126014275",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "93126014275"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 36
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "716dfdf46ec3a6df97ae2835c10f3b7e69f98d0d3adda4c8ece448927e23eab8"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "130668dce9d81b7457315084fa30160a946c5cee01069f6269b0a6109d1928df",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "63079437639",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "63079437639"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 42
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "fd9dfeeadc840f23a3ccf2103df4bd9537cdf17e3f73884603c14d3e0b76dafa"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "ef7c6ee221443b75a45df20b002d1602460a82b66dda889e3929ed3df4f6a9ed",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "field": "entity.abn",
+          "value": "24670588824",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "24670588824"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 45
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "a5d9dcceafb0090beda5be58b7bfa9583294a10058899c731b271144a0586091"
+        }
+      ],
+      "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+    },
+    "record_ids": [
+      "49407ee265aecc04399e9206e9c1fae28006d5492893baefca35c772a4850c17",
+      "14da251df9e7a4d768a241727ca5fa06e9113bfc3943f5661de9c3ea2022ae73",
+      "8b2cbd4df0169f9f6d9ebe0f5142bf79b6cef12647e59d009738831f1933a316",
+      "88c2fb80307234a14138769c5fdae1dce246cd633f76c84d38ba838aacbb4ea8",
+      "544e203c2c00b80f3d01fca3550271f939de3de07af7b17af0e094084001868a",
+      "834b8f41582c68097cfd304ebcf3a7647852a2d3c75e617592b188b4245ab64a",
+      "130668dce9d81b7457315084fa30160a946c5cee01069f6269b0a6109d1928df",
+      "ef7c6ee221443b75a45df20b002d1602460a82b66dda889e3929ed3df4f6a9ed",
+      "8cd1bc394d0e384963e62eae6661df7658de1472e8d4233ce64687658b42ea5c",
+      "3241ec21f711d2c3f1ab786e56e831b02e7e8a6ad267c44b26dbc82d0ea6f7a0",
+      "bee67cc834a7ed559f0ba661c1590eb6d287d0fef5b1aa6ad7035a5f40606206",
+      "094e8ff9da1962f24f98b88c525ed3e7067dd0d12c7044614af166efffb8dd5f",
+      "83aecc0af617444a55e98682f898a66c7bc250f41a4ac53d9f126d54a89613ab",
+      "6cd6b3b7a4d24f054b3a7c432a243ccf6c669fb6cef6f6b78aebd6d6a075602a",
+      "c9c79c9e95128c5edfe037f6136a3450a365264a63abf7ccf0641b9b8455aadb",
+      "519de3a9ae009da589d5f4fa980bcb4a6268ecea05cab166f71a5c8e540d043c",
+      "0ceac8a3ed00d8de9d4946d5803a7074a23fdc218e0650bd129a093f45fe9b33",
+      "1057b2803b0ce0507af8595e9b63e4fa07b414648e36756970a3e28a25a51b04",
+      "a10d9ea74a4b00677a95f38088ab3e08a148b234a423b41f85ee5af9cd9c3867",
+      "58c5faf4639ddd17082f93af6c6d55380d9720354cd451960cef858530b8ecc8",
+      "4c95b85f19721996b2664fb088ae942eafa7003b3e6532b2f7ed0d7de9d8fee6",
+      "e8ab1c996bb8491aca6c2dff61413509d0a096d73b802041ca105369c3c68355",
+      "6fc66d29efea1cd6f2d926c03da5c11c07d71cfbe428ad159fb27fcde32f21a5",
+      "fe18aef782e6a90811c3abfea2947715eff1d46198410164e5037786980c10c9",
+      "5caa362b8a830f5f915e102fbaaad7f7c08854a130c15dd3fdb9dd376e0352c8",
+      "75f64d137c1b62c0ede01b4b5366e584b625566986703ed084b3be374e814143",
+      "b814f019b3bb3a43f840f29d92f5f002d5b2007a71070c08a2069fefe347682c",
+      "4512816c1eb3dd21b66932b8f6016d966943cf74092bda47ebaf1411a6f3efdb",
+      "1735e1530a9583e5e8e7291413014531ed09fc1f3d301c13ec00b6d12c42ef2b",
+      "97f2b569d3986d1e3ae6ed3f366750f08f6ccb651774b15cbc2a85c22170970c",
+      "292defbdd46ca3155573a03e4b19ea94fb2d1e99145effb6129d2f077066a8bf",
+      "4f9913e9afbe64f8049ef088215619c58692cb03d808e3d949cbf1e47dc94a35",
+      "8b72172bbe6a080ab694a7da77431c83fcef4f53272b2ceabb57e8ed538db897",
+      "6ce6572c9fa16080e9be039973be0c7f22e7cc5601c7905adc8e976c4731d375",
+      "06d5b51831b4fb4ec8b02ffdb953f462b599b76a0132379b0b35b61d93abcab3",
+      "f473da20f194f1c0e16c0c06d6f948df89c73e60cc1b1a2ba5dbc5652114ea4c",
+      "f17b97aeef546863a79a13dc4a32b4be7cea45dc803d137330e328293d610cf8",
+      "9e9d5aa46fddcef6bc6d0a5c3112d0688afe10d7a0d30784f7de2b27a0173eb5",
+      "ddb07d898f97cccb1487984e4b31ff8904c939323c91d82e2997b22b8214f09b",
+      "fda5dc832d5484fc88499181de81734059b78905408dd9983184fed64cce4ad4",
+      "7948c419cd56de702d5a8a4c0196c46ca105cc7d6467aad6a5737044314ef9e6",
+      "a614252e2f1c2e63a3c7a1fd9e14ebd238d2d13b2259d9a88c1860e980467674",
+      "8401c5a9aca89826f9ca4236c0245d046ff5bcf6ba1a0b1aecc7c8421334e944",
+      "b541b7285137d3f9508d3c199fc9523bc8b0affdecd2f560ce3fa385da4fd011",
+      "62b9b6a4ab6b4e4129efdb16d622fd09bc40641ff1ad60b1dd3aa94167aea29d",
+      "458c2ab7225017a56039ab5d6e544b69046c2dc33978fd660cdfeeaacb895981",
+      "2ab6d6a68b49476ca7de024573d09cd08631c767555491b57bc8612f2f35e9ab",
+      "4a058d5946ed9488a57b4bbe8c5b02919fb1ff6b4ac9ebf7d103a90ecf85c849",
+      "0cb62d9110d872ee03f8cf185ea8cb44a2fa783d459e6e506daee02d7c751a75",
+      "cf468c6192fa0006f9a5ab442be6b617578ec20fe1b6a2df7836af5744edcd00",
+      "9a85e404c9144044f0804159c7fb5ec306006b51a0d8ff101ae66638db788524",
+      "5058973cd86117c17d5d61957a7de82c1ab76ab28f12f638e1a14113920e05d3",
+      "69f4e2a9175feb141e45816c5721b00ced79d140cc0b520ac61b643ad4da2b15",
+      "9c52b98de5932d4fced89def697fff56021fa818de300704e223f5cdd35ff2d3",
+      "f59cab5781613da35f67d68a1887d9734019017db6c17ad2c3cdbd445c988c57",
+      "8ced8ea5fcf0305ca7839c81ad0e21f60a2ce2e65eff9afe51d81690c0258fcb",
+      "d03c3ba7dcc505db335fb0698adc589fab9a5409caff81c2b541315382a919b9",
+      "d588ba18e8169c4b955dae630c076b1a3657b581c65ca81a41af1a1545fca04f",
+      "b7ed2d599b0d2d8aceaaecfc8ed83f7067ec98ca4c3fffb6cb9e74e258079185",
+      "dd6fcb453240286421b7a3254a08b35d34182e2f432cc77d08ecdbad3375e873",
+      "29bc70cb63b03e05fba401f58a43bc778e515c2656be7e629b5170c8e2edaddb",
+      "c6b1e26cd48030b650db48f7916119737d818b9e17ec8a6b74d4612db083bbac",
+      "adc481423057146ffa0c8d9f8c83fde07b5eb8ce1051be0e9d1e0a17877615e3",
+      "3959ea9a511601c347b5b8fdba215fd8f5263b0a9a6341c0fd129ecd7d0a0697",
+      "3277e21db4c992338cd7d9cabb20984b8c1dfbd548dae16428c9b7cb33fb1772",
+      "ac8ace672ef9a98ca3ee7707464dcbbc739527da7484370e9db397d9b5bc8813",
+      "1ac2402ddbd9cf0793ca62449162f1ab283abe20e0db9d06e542c89732f2be46",
+      "24da1711449d3dac9095dc232ccddc9cdfa04a30d53ef4451932aa4ae65096ab",
+      "45c1657e14dd8da2713b2871d5d8ac989f70bb57872872766f36411b78a5e26f",
+      "86ec3a83319361b61f8480607ca9335717914bd80b2134bbc8222bda92e75731",
+      "172223c087beb63f2d09691a4077b1520c6b57f00c0f1a3f345a3106eabd764e",
+      "c57da002ba204b5cd735d3a8296d46b3f3ab5aca5f3ad1886740bb8f4e8b1017",
+      "9e89d4d4bbd2b7294c973736d41fca06e8e3d22bb4bb0b7f3c5e0eaed960162f",
+      "1f14450940821504b1ca88ba9ad56f105951dfcf62c27aa64c25dbc3239da168",
+      "b19b2fc34866c28753acb5d3068fc9b55f2e4c96187f3f0e391d742657624f77",
+      "4f6f076b2e8dc5cec54b959b03c0d10d17f4e682bc6f60a0762c33a19a9de240",
+      "f97758b277d10bb1491b7ad31baa14fa9577f5f739b16094395604660e4f18f3",
+      "c205dccd6d44ca73c7ee0d7f26cddc56c6457568c1f8c20c78c570fbf13bd8cf",
+      "483752879ae8773dfa0343b726e8029a6596ec153703a10984a9e3367b103ffa",
+      "7a4d28dceaac5fb12cc0835fc0543f561a0cbd2012c1dd713fdde5d67b97f212",
+      "5d752d18efd04d4d820fa39cea4d7aafc756f98146ccc44ee2f5bb80187cca5b",
+      "357906ef99331be2f94244b5802fda231ab5a821dfd62d13821c3aa071d20e0e",
+      "d0d6c8d4005b8737454602e18635594054bd809ea8faa7ed3e270bdd3f828f90",
+      "c9fd5d93ef20df2180fef77aea6f5386129f659b22ed771d192f64711442c817",
+      "99a208e7aa8bc7dd402b24638a43fb5caf1098fe7712d8fa5cb4b9a136b0d4e7",
+      "ad25af13cc17f5a6a8ac58f7319a0d7de32e40e1eef0167185a008e7f6403c8c",
+      "a6a8471dd79858d5bf89107235e4e6eee22c13b467345dd74e51f22259fadc03",
+      "674aac8c4c7e8d746f55e0f8b7e8e0a2132dce44222cc7c8061592d84994a1e4",
+      "1e87590fc88e79955bd1212e84beba30b6515890cea0cefc93c1f723fc705524",
+      "fd925bbde231e72868dc2e033cb5035937ded433098c9a0ba67a445e48d72ef9",
+      "b9f62b6e907b5a9418d24ccc6a87464bb02d657836ea3acc4a891b603010a18e",
+      "a3b3bcfe47b05859aa062cced0a6d7e162f80d9b709015518ef9e8ab07e9896f",
+      "5fcbbb634f4df986f780cdc9549946cb5de32c8adbadd9efa743ad06684b48c0",
+      "5f4008cae9a335d9d4229847d06ae1a1adefce67809f4cef194566377cd33928",
+      "7ba4190cfe6355724139d30de3f9702ad38ee586227cb2ff6f96d09d6e972fe9",
+      "7e60bde96c3781e88768c6868072a56926036f9de7e8438892aa94b27d9523b7",
+      "01658d1f3f48e425de66bc57d472aff27835b7710993562e6938498a30cace3d",
+      "05d17fdafc221dc4544f1861e1e03323912495bdcfd60209ac10c9516c61e98a",
+      "f676f7f8787ec7b78d36020b8d5c63c115e97c5dec5c3454ec853bc612fe2070",
+      "be8497d8cd100a1424546862a55e75afa16fa4bce2ba91996bdf2f9efbe50b1b"
+    ]
+  },
+  {
+    "id": "1af2054a-d7a1-454d-9d5b-4ebd3f4c8ad2",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T07:42:04.465475+00:00",
+    "node": "final_node",
+    "wall_seconds": 0.0321
+  },
+  {
+    "id": "91841d4b-0ecf-4ffe-b830-a8dc2285a56b",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T07:42:04.471119+00:00",
+    "node": "review_node",
+    "wall_seconds": 0.0021
+  },
+  {
+    "id": "6e05ab83-e1f3-44c2-962c-3320d34f373f",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:09:54.276306+00:00",
+    "node": "review_node",
+    "wall_seconds": 0.0057
+  },
+  {
+    "id": "302ef602-fac0-4f8c-b54b-2743f872fac5",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "model_usage",
+    "at": "2026-09-19T09:10:04.307740+00:00",
+    "stage": "propose_mapping",
+    "prompt_sha256": "3b79da2938d8b901d3bbef55d8b3caa87be9d4582e36a85a27a2fb98ca0404c4",
+    "prompt_version": "onboarding-3-luna-feedback",
+    "model": "gpt-5.6-luna",
+    "experiment_id": "jev-luna-v1",
+    "attempt": 4,
+    "input_tokens": null,
+    "output_tokens": null,
+    "calculated_cost_usd": null,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b8ed-c2d2-7b32-a8bb-bba472483463/run/01a0b8ed-e7e6-7530-a9a8-99fcf5bdcc94?start_time=2026-09-19T09%3A09%3A54.278487%2B00%3A00",
+    "trace_run_id": "01a0b8ed-e7e6-7530-a9a8-99fcf5bdcc94",
+    "response_artifact": "34ed82a6379bb226c00d144a99eebc5092848b3d869f271db0a48dd35e6146c4",
+    "status": "success",
+    "wall_seconds": 10.0
+  },
+  {
+    "id": "e967f4f0-dc85-41d5-9799-dc58c9af7aa7",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:10:04.312973+00:00",
+    "node": "propose_node",
+    "wall_seconds": 10.0325
+  },
+  {
+    "id": "614ea189-230b-4fce-a2c2-3b974e2729c3",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "validation",
+    "at": "2026-09-19T09:10:04.329753+00:00",
+    "version": 2,
+    "report": {
+      "passed": true,
+      "blocking_issues": [],
+      "records": 250,
+      "observations": 249,
+      "quarantined_fields": 0,
+      "filtered_records": 0,
+      "error_examples": [],
+      "output_examples": [
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "78279d7ae09a7a64e6c33d412ed094cba7cef72e44dc13383477d5c7c87a5a4e",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "18062618964",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "18062618964"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 11
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "068e65de65cc27893d574b46b1c65e280881a805e12e836639c7d1faf8421c5a"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "b51f599d1ff275fd29392dce7eb80a5ab5e1664e9717da14206984e39b7acc95",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "21073716793",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "21073716793"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 13
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "b31ff56dfc0d2bef54ab71e3304fe551add8a87e35e5d4139e9e9178e75d3032"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "e6ed998f4ebdcbb252dc018c3471d9ee18b8c162e1f63624d4781c31404e68fc",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "55096671920",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "55096671920"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 15
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "49a191c19ef21d8d63ff55bb65052eed85d515b8b96c9c4dd777b902cb54b981"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "49fe4e5d20d81cd34d2df0381a9212d5a8ee09829401eebe8e549ca3c67f4aee",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "39085239998",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "39085239998"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 24
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "53f7b54de0ee74a842f7362b4403a5147deceecfe3e505ea013058f47fbbefa3"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "9a9f91286686964a4e6d8f43682b96576940c70a38d4ae7a441ce9caa21daebd",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "54085537266",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "54085537266"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 25
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "5e72116d4de34c2f279a64dc2b0baa5f533d2a0a93ef5726fb7d3b2548e8dcec"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "4ed030bd2fe82f4ca101bc12cab0992a9e117f0427e512d39e9ead5f1b7cebe0",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "67005711722",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "67005711722"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 30
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "8c2df7165802f7f13f5a31af0cd812995e72022de1c46472d1cc446617246b1e"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "af5759166e2a1b20b5b6190c64cbf6ec22068a527ea5ad72683b95b9cee9faf9",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "63118584928",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "63118584928"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 32
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "75a0140e3f40c9c142058f5df21967a9f853c160c1c6f26730874e74345f5349"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "dceeecc7efabc03fb2f6fb2cac2df4dfa5c96b7f05616bc3783b1de44cb66fb7",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "62104265652",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "62104265652"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 35
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "54205a4727f404a63c9679dac870a9353f9cf7d66cbc089d90844662a99d7994"
+        }
+      ],
+      "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+    }
+  },
+  {
+    "id": "a27c15ee-127d-4f15-b1c3-d58a579624ec",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:10:04.332533+00:00",
+    "node": "validate_node",
+    "wall_seconds": 0.016
+  },
+  {
+    "id": "8f7e06e5-26e5-466f-8b39-ebb66706efbe",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "model_usage",
+    "at": "2026-09-19T09:10:12.399038+00:00",
+    "stage": "semantic_critique",
+    "prompt_sha256": "8c0d65e01f386aa7cc9aadb0766078334d03d61bc80b7a766887d3b57074bef1",
+    "prompt_version": "onboarding-3-luna-feedback",
+    "model": "gpt-5.6-luna",
+    "experiment_id": "jev-luna-v1",
+    "attempt": 5,
+    "input_tokens": null,
+    "output_tokens": null,
+    "calculated_cost_usd": null,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b8ed-c2d2-7b32-a8bb-bba472483463/run/01a0b8ee-0f2e-7452-806a-ace1d8797184?start_time=2026-09-19T09%3A10%3A04.334150%2B00%3A00",
+    "trace_run_id": "01a0b8ee-0f2e-7452-806a-ace1d8797184",
+    "response_artifact": "44b84cdcc86a2a99e7db393777990861888e3f5d0aa067933777ca970f5f31e3",
+    "status": "success",
+    "wall_seconds": 8.046
+  },
+  {
+    "id": "c3a33b9c-85e2-4d63-93f8-2f2b2ebd7a44",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "semantic_critique",
+    "at": "2026-09-19T09:10:12.404103+00:00",
+    "version": 2,
+    "acceptable": true,
+    "blocking_issues": [],
+    "warnings": [
+      "The mapping is deliberately partial: it maps only ABN and preserves Name as a non-canonical subject label. This is semantically cautious because the source says only 'Name' and does not establish whether the value is a current registered legal name, trading name, or historical name.",
+      "The legal_entity subject_role is somewhat stronger than the supplied name evidence alone, but the dataset documentation explicitly describes corporate tax entities and the mapped claim is only the ABN; no unsupported name or legal-status field is emitted. The source also warns that data does not reflect economic/accounting groupings, and no reporting group is inferred.",
+      "No status, registration date, address, licence, or financial ontology fields are invented. Income year is correctly not used as observation time or registration date; publication_proxy is an allowed observed_at policy and is disclosed as such.",
+      "ABN validation relies on the authoritative declarative operation, including checksum behavior. No ACN is suffix-derived. The validation result supports parsing/envelope behavior but is not semantic ground truth, as disclosed.",
+      "The source documentation field is empty in the supplied source object, so conclusions rely on dataset_notes, raw headers/records, and supplied analysis rather than independently checking a linked documentation page."
+    ],
+    "evidence_checked": [
+      "Dataset notes describing names and ABNs for selected corporate tax entities and distinct PRRT data.",
+      "Raw discovery rows from the Income tax details sheet: Name, 11-digit ABN strings, measures, and Income year.",
+      "Ontology definitions for legal_name, trading_name, ABN, status, addresses, reporting claims, and observation envelope.",
+      "Trusted engine semantics for ABN validation, provenance, timestamps, subject roles, and non-inference of reporting groups.",
+      "Previous mapping: ABN-only field mapping; Name and all unsupported measures/period/unnamed columns explicitly unmapped; publication_proxy timestamp policy and limitations.",
+      "Validation feedback: passed parsing/type validation, 249 ABN observations across 250 validation records, no quarantined fields or filtered records."
+    ]
+  },
+  {
+    "id": "ac61d27a-88b2-4797-9015-34247a0a0090",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:10:12.406793+00:00",
+    "node": "critique_node",
+    "wall_seconds": 8.0704
+  },
+  {
+    "id": "faf6c537-a886-466d-869b-9ccd8d0ce96c",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "final_validation",
+    "at": "2026-09-19T09:10:12.422298+00:00",
+    "version": 2,
+    "report": {
+      "passed": true,
+      "blocking_issues": [],
+      "records": 100,
+      "observations": 100,
+      "quarantined_fields": 0,
+      "filtered_records": 0,
+      "error_examples": [],
+      "output_examples": [
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "ca36874e9ca0b55f092cea035cf696fd58da574a374c918f493a72a650dafdea",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "44008648333",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "44008648333"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 495
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "be870b52f385c89fb18b265f5eefd6f247e3fb79966fbf7e71307d0a213343b8"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "3a2a49339a2bf94c8aaae0ec9ef2ace27dde3027755f33cad42de3603a89d25d",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "98002682957",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "98002682957"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 522
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "c49aa31362137e679bb54144db1225ba80b6921e2a4ab1566299cfd08dea1660"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "eb03f5ce91f6f4823f3727e1fa9c8dadbe68c1c53e2af7b68abe7e04950ec7b3",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "84104671561",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "84104671561"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 530
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "9ca4cbb28620ff398d84b71364ccce76cbf8d339856e023bf7a36519a0815b23"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "fa8edf13fdf62fa1033e02fd2db18950d14b0938011270b0a47e1a6bb5ff66ef",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "92004784454",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "92004784454"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 534
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "6721ae0e0fb37a6de1d4f4a13b942c8c438ea6a8fa6499c4bdf47cb7b0606003"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "db7e4a8c42d21d231e4ae912e8f0aa29f6431a6589799e1a8b865b7ed4113e76",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "59638350080",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "59638350080"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 544
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "12527b53624fb4757a7db2fd0598677f1fa52ba9e6c9a8c93f162ba4b97bac46"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "3ebd1c69bdc0cd52ed73f24f872ad31e0d9053b23d11e9b90db5d57949dacf3b",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "77133657833",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "77133657833"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 546
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "aefe6b14015b7fc43dbb2f173ed460ddbc4d3d0bafe6bf5cf79789d2bd7eb6ca"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "157bd52fb99580f5ef42ec37067a780a2a29f32b995caf56b15247389a8fc910",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "20007617969",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "20007617969"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 547
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "731336b1d2928bc2216c78542b3964888735db5daec5da4d4d847824fbc6ea66"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "3ea4f8a5257809930abf556d7147b43424096ccf13909ca06fa4bd0221350be9",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "field": "entity.abn",
+          "value": "78092361165",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "78092361165"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 553
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "cb738db8e22f6608b1afdc1ba15b15a74a488d597d280496fce553c47a590b7f"
+        }
+      ],
+      "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+    },
+    "record_ids": [
+      "ca36874e9ca0b55f092cea035cf696fd58da574a374c918f493a72a650dafdea",
+      "3a2a49339a2bf94c8aaae0ec9ef2ace27dde3027755f33cad42de3603a89d25d",
+      "eb03f5ce91f6f4823f3727e1fa9c8dadbe68c1c53e2af7b68abe7e04950ec7b3",
+      "fa8edf13fdf62fa1033e02fd2db18950d14b0938011270b0a47e1a6bb5ff66ef",
+      "db7e4a8c42d21d231e4ae912e8f0aa29f6431a6589799e1a8b865b7ed4113e76",
+      "3ebd1c69bdc0cd52ed73f24f872ad31e0d9053b23d11e9b90db5d57949dacf3b",
+      "157bd52fb99580f5ef42ec37067a780a2a29f32b995caf56b15247389a8fc910",
+      "3ea4f8a5257809930abf556d7147b43424096ccf13909ca06fa4bd0221350be9",
+      "40220bbe7270f3a190ef63fd983baa10dc244b86efcb486dba053cb4cbc35610",
+      "96c8f914c9b3654e9d5093fd0de31c30be9abb8066d5538e2414b7e0127f57c1",
+      "80ed48e345de2ce13592e3abf862addc6adb38df2a6794525710cf83077df28e",
+      "3fb92b6c33346de465f4d4c5732ab05044472af50cfaff44100a5155d3e48dc6",
+      "f9ee254623241d0d5e65fc1e82aa5dff08cd94d0e52016bcb66be3619c17b92f",
+      "98f449057c2dd4d637fa28a744e85f1c3c40bb72cb3712afe301478cc2285559",
+      "b6443a838aaef0f8cdc323b0c6df7c59616dd46feb0cf4e7c6980ad7af83c95b",
+      "e3333341e502ed4cd8ffa975c7370b4ff1aa12edfda4ff69f8bb66e92643e2ad",
+      "a73178ad7a66ebe8bb6188d7b194e415bd3a10706f2ee4ca0af083a46c39d459",
+      "3af57b4eb38f90327fa9107d5b6f7f0fa5be8344295b418ce71c22a3732a8cdb",
+      "12d370bca4e7137fb6df7c1858edb850a4092255c3aaf47a2dbc288588485e7e",
+      "4c085613149886ee233142dfb3eea075722358fc4f6fd0b9c7c035830320947b",
+      "a717431632addef6d55e1bb36b6cfa31013df8247878dc1624b8dc9e08bbc41f",
+      "46f1fa80f9834ad43a1432e85ded66ef02f340755205d8824fa9c46eca61bb33",
+      "0196c9846e3fac339c3d11b64503a9610bbcf3a6f1ac0087a488b4e4d819bdc4",
+      "1f629713e59c4d6b8c4ef313a58f34662c3a2761fba72659554eb0a5d76cacb7",
+      "f1c0f673991c5a39e4f56d7d6b0eb66b96c389857fddd2e274ba599330a1a339",
+      "85cd3af8693db7a8e4ec2043db7c87267e8517af7bfe6b916939e8d95050060b",
+      "27f04254929ff3a6bab624e17ae93b2d596645b4ca2da774017b35d1ad2e87e8",
+      "7d04391ce41062ff3a2270d1076f0db7dc226845c9cac6971064cb5028c985af",
+      "0e78172589ca9cfd52d192654b931a2a1a387de4d98b9ac2f759e2e5b45d79a0",
+      "ec2620082ef7a1ffb4ca603999e5ddeb51e1a65f56225a86ffc30abcc6a88d33",
+      "caa43e3def9b7f8b1438584365c8f8f571edbea4a422bbc95b839bb299e489d4",
+      "86fb338f7e347a6c3cca1bb258a973eb09a779761c82627f1b1cf56b04845a4c",
+      "7e452106c460f2bab2c88f2a31e3b8b8b28ceaccf22ba1ef7c6b83ad946d3e03",
+      "456631a9fa34f8edfb625f06cc2deaec672116197ac53a9a11a507b25728f03d",
+      "dbbfee5b6c8b91b4df7826c3734fbc386a4af23deeca175295a54c2ab4cf59cd",
+      "d32c1c1f3e981bc1f57218afb9f54e81544db0c8e30d14d69242fc41fddbbfe5",
+      "febc9de60a6846194c51f7eeeeb293612a74a623195f5e8df13e581e97d506ae",
+      "0f85c2e3cc6d86a638a07c3017f93b3f99bf839a2a18e80f971ceb6bb9745071",
+      "b6e6ed55145e65dda4a50ed4b0a00d98bc326f26fbfac752bb7dcc16647139d3",
+      "63055c265ab55b702cc1f48501eafde7d252c8eda157d1b1828dcac276206f10",
+      "2095e2f2bb64c48982fb4d9d448b3c93bfb9052d8091aba18574cca79c30bd35",
+      "34fb8c477a75306cecee9379d0e0e2972b0d34531b41ee99101cac4c1aa21f54",
+      "0ebdfb4bd1205ffa6f749552ec7c132061cf0461694536244f2a1037abeb3107",
+      "6c0760173c235ff3ab57ced393ea21b4c99e016a13432762d26b889291b34c2a",
+      "a243f50a4bb0b1a81f751deac4f0c4c22781d11f78da2789eece185d6962da96",
+      "df29a8acd386a8c2b04f00d62a98c465d16a2257c78af5e89a1a16b37ef6e8f4",
+      "c28c446bad8ee5dd0164d32b334081e39e380808a24f0dd7e506ced37b5da8da",
+      "70fc4c13e1c29d524e7a79435bce23e4c09e57a36fa6efe658e37ae3326c28aa",
+      "a987e0f1492dd81acc3768dd723821791fd978fca1d3394c49e563001b03d184",
+      "50ab62919fe369cf53fd22357cb673f8d9684df48e32f2c2800516e019db65b7",
+      "01ab4a2b6eeb1aed642d51808e0b1a6c4a70ce6fe924f48eb3f18b1d60c84fcc",
+      "1d6f08479f770a9d2da8b70346ee4e4d63abc21559eb425cb72d9d20f6afcf84",
+      "9b804b924f4de2bf47bb0b7bfda2909aa27aec6b8895b3c4e8ef1660614bc6c4",
+      "fb75daf3bc3be21425456afb03c723dd3d05c46d66e16eb89e8141935e7b1053",
+      "897e41565c44745df5f809a93f34f29f2c6c661bde90f415894e98c5bedf173e",
+      "e92f6daf9bdd77acef8f81c53346e94a2f1c51242c6e4f58dfb3a62592e37be5",
+      "8e5273ff254a07e25885b33f7d213a1cf51e330a742403cfc10cb45a9a9cb6ea",
+      "6c6a401fcabbff71211856b24fab83675185467629627810691d26342b0976ef",
+      "5a9cc6550159f1b5ae4dd754847339a02977b4ad0c3edfee6e2066060852fcbf",
+      "813c33221b3be21d4d606b869a72a93a2ecae7918b39ae00a71d96549aa357c2",
+      "1f24de002364bcad79fa185f58cef810e943c7ed019d657b9c34caeb2f8b2b40",
+      "f4d633e113f10ce6fb5121f369c9804d749e52e74c3d5284904c93c51422223a",
+      "65fe0d74aee801ba3d80a843e7ab3f23d8a1786a3b212b7bbc2e078d458e9926",
+      "cc16892909feb864b105a27b4ca7ef453d4f968bba1fa0f189674944a196d7ba",
+      "8e0b7c6676e3f01e9c828a89688412f9a017dd49218f49b135aa0cbf4b859b3a",
+      "1887761133838fca30c9df4e4137aa0f34709048a22a1bfd4061a373a50f5baa",
+      "15bab452959857f818e5b89ca71f27961b58006c573068a6899d71c365443134",
+      "fc906b0b959b061a2280811e2f9f9bac68e8d37c7257db300c307d9cd841bf08",
+      "8dc6776fc630d292ee601b2227438e89fd922f10e6d5a36d667dd5cb41d44c24",
+      "4e90c93376bd88d1726d78d635021c19111fe038a02550f0c4011fe24fa3a5c1",
+      "7aa4ccd68a489e3cb0d625e9c944f4dec3ed3dcafef522130782a145c89aee9d",
+      "848d5a3da737d1fa2051aa3b3cef183a84060979c8f9a2944c581737214fe268",
+      "e7a395f1a426774dc81cb244e782e1781afe5e5504ca72bbcc57d86861cff2f3",
+      "52ec8dd789eb81c7bf6ee0a8be2a7e50b8e0e4393818e88a29a71f840bf1250b",
+      "0a62dff3aaa4b2f943e1c729613ffbceb145f703f726fd060c00a37f287ee616",
+      "a49517adf8e4233349de24903f2954aa7a1fbaf3a8b21438c35f854acdf794f6",
+      "e6d75423baba8828452b359154024ce243205c1f0f7835884cb352a3a20205f3",
+      "452babab37de183f8182e91ab885124919edae719a099a9922247f38db9966d5",
+      "017d582dc1cf64c7141a4988fdbb0a498538a10a09b1e5ef207a147279ad08d5",
+      "79e512bffc6e0b77f88314b4582f53493c3adbf5489a65cf652fcfc06f6251fd",
+      "902ec30411028e2806ec78760d01b2859c769e16287b7ca1852ae5088f137407",
+      "f3ebd3be917ddc281a70fc0a725df75e20e28af951ba6753fe7956ffbdf7dae7",
+      "1fe9f181716141b3db36d0a699a8b738ee7f3836ea4c534c68e77336376c54fb",
+      "6633090c7ee09fcf7ff07b0890ac482e0b115c3b7d27220ca7f2d57985fdf83f",
+      "21e92cd6d90de2a6737c811b76ce5543b4cc324dcdd33d1fad07f85af8749ef5",
+      "6f104a8a6f1256409d074aba36cdd640217b1c7b75b7e18f4958d35341421b31",
+      "37cfedff01b0971653d84431b3625f547926a33b17a6fd1935fc669a066e6b77",
+      "17d54991e5b9f94844088354786300c874ae36eb53f978a9afab2517c6c537ae",
+      "a477b3704a8493d963af71cdc414740554f5407c218dddc44b67237849b1a5ba",
+      "8bdeb03ee53fa4bf15bc7c5ec4d951019792db327dc3186ce28c996298588909",
+      "c35eaae64e71266765e2612fb6d5fa100bdeea53a08ca76f4e7216fbb0e4cde2",
+      "63fc45c2d700c0815e7da3df0502a170ae4a34946d99772546cefe00ee4122ae",
+      "683420ce85c25edf8aa967af4f10be7cba442fc9710342567df9e1a51bb63f95",
+      "294f09051f7686547be3b749a0745769a191628a9291269041313d6db511fcd1",
+      "80b7b8a97197aa0d7497aee53d45df34a50c4c592ffc32be21e868091db8530b",
+      "0c8a09b4828b83b3b671f640e1ab3d5cfd2bc02a806737c967b640ff5fca7b2e",
+      "d0ce5d34af1185be5db7832f817b9f8575652a1626b7baa22eed38ef7662e7a0",
+      "bcc45e7ea98a3d84cdd7a00d5d71795a1ea9d9d4e676587e54de7af4d3010cac",
+      "47b5b3df37372c0715a16e94861f21fbdabe7b6af2ebf62de3443bcd1abd14c6",
+      "9917b43ac1678b2395a7a187522a56c214c1e724d8ac8aa088d52efcf6aee16e"
+    ]
+  },
+  {
+    "id": "6be37195-6e6b-4029-8678-9d5f89fa4bee",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:10:12.437206+00:00",
+    "node": "final_node",
+    "wall_seconds": 0.0263
+  },
+  {
+    "id": "ad36937b-dac8-4042-9e23-95e4fc48530b",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:10:12.444631+00:00",
+    "node": "review_node",
+    "wall_seconds": 0.0031
+  },
+  {
+    "id": "06699680-7c26-4d23-a3d0-8ec949107e56",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:11:16.151436+00:00",
+    "node": "review_node",
+    "wall_seconds": 0.0046
+  },
+  {
+    "id": "9307f8e3-7357-4cc9-a988-802e4aed5d51",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "model_usage",
+    "at": "2026-09-19T09:11:27.454816+00:00",
+    "stage": "propose_mapping",
+    "prompt_sha256": "a563d493bf1ee19f9e4ff52f51d4fbdbdc56c9d09d406752fd152f2776ec0f03",
+    "prompt_version": "onboarding-3-luna-feedback",
+    "model": "gpt-5.6-luna",
+    "experiment_id": "jev-luna-v1",
+    "attempt": 6,
+    "input_tokens": null,
+    "output_tokens": null,
+    "calculated_cost_usd": null,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b8ee-805d-7dc3-bd54-694ac02d3fd4/run/01a0b8ef-27b9-7e83-bca5-2e9746c4758e?start_time=2026-09-19T09%3A11%3A16.153022%2B00%3A00",
+    "trace_run_id": "01a0b8ef-27b9-7e83-bca5-2e9746c4758e",
+    "response_artifact": "ad22e0dca02a167fad220708bfd4c7a0470d20535f77410a620dc34c98a65a55",
+    "status": "success",
+    "wall_seconds": 11.28
+  },
+  {
+    "id": "823af944-667a-435c-9fe4-2aca7b044b3d",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:11:27.459795+00:00",
+    "node": "propose_node",
+    "wall_seconds": 11.3048
+  },
+  {
+    "id": "20026f73-f037-48ee-a21e-c38d1bfbe4e1",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "validation",
+    "at": "2026-09-19T09:11:27.555256+00:00",
+    "version": 3,
+    "report": {
+      "passed": true,
+      "blocking_issues": [],
+      "records": 250,
+      "observations": 249,
+      "quarantined_fields": 0,
+      "filtered_records": 0,
+      "error_examples": [],
+      "output_examples": [
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "78279d7ae09a7a64e6c33d412ed094cba7cef72e44dc13383477d5c7c87a5a4e",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "field": "entity.abn",
+          "value": "18062618964",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "18062618964"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 11
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "a4fc0fab2a13f43f91e43ed08b54d11d164939ec5319313d5b17806324592800"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "b51f599d1ff275fd29392dce7eb80a5ab5e1664e9717da14206984e39b7acc95",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "field": "entity.abn",
+          "value": "21073716793",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "21073716793"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 13
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "ef71d9cb63e838d3206243d62e92c44579dab4f59c80f570144bd124af86df73"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "e6ed998f4ebdcbb252dc018c3471d9ee18b8c162e1f63624d4781c31404e68fc",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "field": "entity.abn",
+          "value": "55096671920",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "55096671920"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 15
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "cf6f446f00bcf0dc925b91a0aad14ab3b5b7db530117a6f2584bd3edcd42c21d"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "49fe4e5d20d81cd34d2df0381a9212d5a8ee09829401eebe8e549ca3c67f4aee",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "field": "entity.abn",
+          "value": "39085239998",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "39085239998"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 24
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "193b81b1c35eeb947fd4a89579c952f2f767acd1f02f8149f2c6154ff8bb1064"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "9a9f91286686964a4e6d8f43682b96576940c70a38d4ae7a441ce9caa21daebd",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "field": "entity.abn",
+          "value": "54085537266",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "54085537266"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 25
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "a8417fdcfaba6177224042aeaf68d391eb3a6c3a805c0d81d05b51a730fe5457"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "4ed030bd2fe82f4ca101bc12cab0992a9e117f0427e512d39e9ead5f1b7cebe0",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "field": "entity.abn",
+          "value": "67005711722",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "67005711722"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 30
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "e594e8903c7d072dfc75f74c38146e41280c210e450ceaa26f9c3a9a18dddd8a"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "af5759166e2a1b20b5b6190c64cbf6ec22068a527ea5ad72683b95b9cee9faf9",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "field": "entity.abn",
+          "value": "63118584928",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "63118584928"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 32
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "7f91d0ca6cf75b6e18fc818760e32966e455eaa85ab9968aba1dc05c2b5d1431"
+        },
+        {
+          "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+          "source_record_id": "dceeecc7efabc03fb2f6fb2cac2df4dfa5c96b7f05616bc3783b1de44cb66fb7",
+          "observed_at": "2025-10-01T21:08:09.091363+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:09.161572+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "field": "entity.abn",
+          "value": "62104265652",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "62104265652"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 35
+          },
+          "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+          "config_hash": "4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+          "subject_role": "legal_entity",
+          "source_kind": "tax_disclosure",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.9,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "10b0b3ddac74ccf29055941417c5652ebaf270de482b871df19e347e85694291"
+        }
+      ],
+      "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+    }
+  },
+  {
+    "id": "6bd8167a-a0be-4fac-aebe-20ba2e360370",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:11:27.559175+00:00",
+    "node": "validate_node",
+    "wall_seconds": 0.095
+  },
+  {
+    "id": "21835e51-50e9-4eb2-8992-f5a68f865296",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "failure",
+    "at": "2026-09-19T09:11:27.575882+00:00",
+    "node": "critique_node",
+    "error": "BudgetExceeded: Token budget exhausted (including reserved maximum completion)"
+  },
+  {
+    "id": "837510e1-f3f6-4412-8104-8900a1b6b555",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:11:27.578586+00:00",
+    "node": "critique_node",
+    "wall_seconds": 0.0152
+  }
+]

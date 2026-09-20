@@ -1,0 +1,2039 @@
+{
+  "kind": "links",
+  "batch_id": "fa5523f0-7d5a-41d2-af42-59e6362e3046",
+  "sampling": "Census of every proposed link in the overlap-selected batch (52 links); not a population sample",
+  "seed": null,
+  "threshold": 0.99,
+  "review_type": "ai_assisted",
+  "items": [
+    {
+      "item_id": "f5d2a54d934394fe2173420a0d99995a3352927f61e1e4262dce1d5a66f9fedb",
+      "number": 1,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 191: PERRON INVESTMENTS PTY LTD; corporate-transparency row 2867: PERRON INVESTMENTS PTY LTD. Explicit ABN 48000003976 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "70a42112d827c4967e4dded408fc6381ca0069e172c94518c9b3ff29c9b3a5ae",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 191
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "e489475b982dfbb85449ea467132fffb99e54839c766b517f05b9b8812a75215",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 2867
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "6184912159956e0e522c8c45efa38f7be31eca02eb2390d2a034f1b1b0d45fa4",
+      "number": 2,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 231: W.H. MCCARTHY PTY LTD; corporate-transparency row 3998: WH MCCARTHY PTY LTD. Explicit ABN 73000004893 agrees and passes a separately written checksum calculation. Dots/spaces in W.H. versus WH differ. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "f1e00036312d0eb0c5166c599746a0a6b70a3d3a1197d365e83bedc2b0b3fcf8",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 231
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "bd03274233fc49c614785f86acefcd80f87d7c4e65765c9e411057955332f01a",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 3998
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "bc80c60f585900a79662ce1af4ff53ab1d96d776ca893a6467326fea13f15f9f",
+      "number": 3,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 654: WOOLWORTHS GROUP LIMITED; corporate-transparency row 4045: WOOLWORTHS GROUP LIMITED. Explicit ABN 88000014675 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "076ca20f588d55e9d5fe026dc05b8dcb47fa2f7c1bf4b27f3949ce419a991bd3",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 654
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "1a0ab29beb6e4e14d8c71ead721441b5a3821b94722a8231bca59a4c5c5474b6",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 4045
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "2a6846b34305d20b335090231678ec05e1fce0ecba44c551d0705ebb4b65e3ea",
+      "number": 4,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 907: THE NORTHCOTT SOCIETY LIMITED; acnc-register row 24682: The Northcott Society. Explicit ABN 87302064152 agrees and passes a separately written checksum calculation. ACNC omits LIMITED; exact ABN supports the same Northcott organisation. Its ACN differs from the ABN suffix, so suffix derivation would be wrong. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "075fb4f54a1b4afcd500c9e83a8ccaba06fd2917e994c154f5264f42611aa876",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 907
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "02d6cfb853af7ddcbe286af61186872fd01b6675ea088ee2757a606503d6231c",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 24682
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "bd8123eb822f9ad360770781dcf68d8df52b3a0bc37828cbde86950478e1dde1",
+      "number": 5,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 1334: OROTONGROUP PTY LIMITED; corporate-transparency row 2757: OROTONGROUP PTY LIMITED. Explicit ABN 14000038675 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "784354586d46aed5ec5640656c6ef98789687d4efdc0365a76cc6ca05aada4a5",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 1334
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "61abc3de9d6c816f9fdd54dec387d088807cb3960af97074a6256c3d015d7159",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 2757
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "681b2c5f1c702f463c2e1fd9379101f661643caaea3dfc61f0d0c98712003218",
+      "number": 6,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 1366: THE LINCOLN ELECTRIC COMPANY (AUSTRALIA) PROPRIETARY LIMITED; corporate-transparency row 3675: THE LINCOLN ELECTRIC COMPANY (AUSTRALIA) PTY LTD. Explicit ABN 36000040308 agrees and passes a separately written checksum calculation. PROPRIETARY LIMITED is abbreviated PTY LTD. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "d630ef8a4831cd5d8399a785fc0155a48681e4ac35fa72bee6eaae1514ffcf74",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 1366
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "96d88242b0185d6a2c2bc89cde0e01bdf8538880ac90645eaf9cd4a719a4c133",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 3675
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "db48beead790516708b92390284371be409e52a88d6225d7d08ab8e7c4135444",
+      "number": 7,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 1545: CHURCH MISSIONARY SOCIETY TRUST LTD; acnc-register row 7669: Church Missionary Society Trust Ltd. Explicit ABN 26000048886 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "c980d72bca804fc1b8a02ab86ed867a4f48dd280e45c96e4e69ea4d81e1b81b5",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 1545
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "7a36aaf22c878fbca07f2e0d97ed4c77d14f8e73f2b5696afa3545b3a6d3afff",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 7669
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "afb5683acb5d6d35f832acb5fe50b9ecb537df50eb8dbe0bc93fb7c94c2b69a2",
+      "number": 8,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 1799: PET CARE HOLDINGS AUSTRALIA PTY LTD; corporate-transparency row 2872: PET CARE HOLDINGS AUSTRALIA PTY LTD. Explicit ABN 77000060364 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "534cbfe281da0d8c43d82f0622a824c0282010a414c5c429e67db4b76ad5fb84",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 1799
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "6af1b3d32a5e8d060f9cc3aad4869cc80e38b41e735cb70f69070fe29426060b",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 2872
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "2d68930aadc13b33d144454b8262b8e3d329dd1c4d1a3b21f9e2e0f5bffcfedb",
+      "number": 9,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 1812: PANDROL AUSTRALIA PTY LTD; corporate-transparency row 2803: PANDROL AUSTRALIA PTY LIMITED. Explicit ABN 90000061227 agrees and passes a separately written checksum calculation. LIMITED/LTD suffix difference. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "174b92268e6e9a968ba0e78d0412fd796a6ebd4be4c7fd278a83b4a9bf788b44",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 1812
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "b8073f6e5867e5f88a39d671518a46bdb8a76614659efef26331328b31fd5a35",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 2803
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "ddd4784c0b3d62094a6c6593e4c5b1bfa4f42cd692630b29a6b1fbb0e7fec996",
+      "number": 10,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 2005: RECKITT BENCKISER HEALTHCARE AUSTRALIA PTY LIMITED; corporate-transparency row 3088: RECKITT BENCKISER HEALTHCARE AUSTRALIA PTY LIMITED. Explicit ABN 64000071278 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "8e9ffef7d3e10541383e59edaec57ca93e09db59742735ee1e0df8906f570001",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 2005
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "8a00abd3ebea219d535763077064ceb9a6531015182961fbf27884d5b439b709",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 3088
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "faa4fac9bd01eda6abeb7c4081cec42789a7604d9bfbbc586000898e8a10efc9",
+      "number": 11,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 2076: DAVID JONES PTY LIMITED; corporate-transparency row 1109: DAVID JONES PTY LIMITED. Explicit ABN 75000074573 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "cf26382c35e37a9647bb3a4889706067aa6d9efde270c42785f806b7a6b8b7a1",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 2076
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "3389e9fec949341c1781130634aa9ecd88535bee7ae04a569ff3ee39c483e313",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 1109
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "b4879d178269b2420918688244c3f054ad7d09df96d02e94e5f7f759262bb8bc",
+      "number": 12,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 2325: ELECTUS DISTRIBUTION PTY. LIMITED; corporate-transparency row 1278: ELECTUS DISTRIBUTION PTY LIMITED. Explicit ABN 30000087347 agrees and passes a separately written checksum calculation. Punctuation in PTY. differs. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "46c5f0bdf6cc472658ccfd8ee318adeb78f1984a7f7c2e6767acc36de9059cb6",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 2325
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "9e67e50af88f853609190e2716ba2b98fdd65d81652dacbfbe57d662709cb44f",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 1278
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "296a7b6be241553486617c54c35c23ab2610f6aa48b4b7ca5c37a0476a1d5f33",
+      "number": 13,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 2555: SYDNEY INSTITUTE FOR PSYCHO-ANALYSIS; acnc-register row 4205: SYDNEY INSTITUTE FOR PSYCHO-ANALYSIS. Explicit ABN 63000096837 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "ea4ae4fe2815536c4f59d485e5ad98c93cba9ab09c4a21fc39a3219233f16131",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 2555
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "51757c89630b2a8a8e40e96d8eeda81cf01c374bba6e76656413abf0cab9ef2a",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 4205
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "3efea9e4661a149f8982334ae9cf667b39ceb892d560a07dad1e7b0c35bdef10",
+      "number": 14,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 2634: SELL & PARKER PTY LTD; corporate-transparency row 3302: SELL & PARKER PTY LIMITED. Explicit ABN 98000101315 agrees and passes a separately written checksum calculation. LIMITED/LTD suffix difference. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "7d2dc2c8bd941604406f65cf11051f1a108986c30b03cdfa5163b5178c7eeab4",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 2634
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "57dd4031e6480c99c0dbe8b0b899fabb8574bcd46871f3409cf1ef0e15ab72b8",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 3302
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "5bdc53955cee6519c6bbfce7a56202999106fb2932827da95c41941b1d85103e",
+      "number": 15,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 3034: REFORM MOVEMENT PTY LTD; acnc-register row 17067: Reform Movement Pty Ltd. Explicit ABN 79000124363 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "41880d921bdeeabe1b2525c0a5b3634f07afe13a03d014ff21ddf603a6bda484",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 3034
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "3a3c55b00628374ad46318236f6aea413b220da3a599492599ece85c2b2c36d0",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 17067
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "18a489a203c59c1509b56b2747b803606067b38ad65e31743d97e7b9626d4175",
+      "number": 16,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 3316: BAYER AUSTRALIA LTD; corporate-transparency row 538: BAYER AUSTRALIA LIMITED. Explicit ABN 22000138714 agrees and passes a separately written checksum calculation. LIMITED/LTD suffix difference. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "68d78c5858f7dca6f48a50fd32ce3624c85dd852a99bc94600ac080187778e71",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 3316
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "d5d991ed4f2df3bd6fa68a90ef20a05c0859b923fd8f213f13ffd771f657076b",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 538
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "debb4fbfa09ae57a198d868042e3fdff9c329cef3ec5d42dd9872843a4abaa87",
+      "number": 17,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 3417: RENTOKIL PTY LTD; corporate-transparency row 3126: RENTOKIL PTY LTD. Explicit ABN 61000143733 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "4c65ceb604728b5f500016904caf2b1ec18a001965a036a99f2102614306d7ee",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 3417
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "f92e03a914bf49fc7d30ddc08cd922751c6b2b50dfd834c4ab5e0e0c36282038",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 3126
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "56d7929081114757102c4ad64c6a4869bb7ebcad7a6943b3ec0fb41a2f14ea76",
+      "number": 18,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 3471: DANA AUSTRALIA (HOLDINGS) PTY LTD; corporate-transparency row 1093: DANA AUSTRALIA (HOLDINGS) PTY LTD. Explicit ABN 29000145657 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "81f662a30b0dec7e6cef2dd35d28f86e56b01d3779f2fa71c7f1e448a3799623",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 3471
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "b416762438c31c058deb5170b2a009a7a966b972dd6c3ce35216303c40aabe2c",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 1093
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "4d01aaf979741344b980aebbdca7fb3abcb927d9a033299ba59d748efb5391a9",
+      "number": 19,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 4011: DAIKIN AUSTRALIA PTY LTD; corporate-transparency row 1084: DAIKIN AUSTRALIA PTY LTD. Explicit ABN 62000172967 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "2cc0037cd4c1aa024373d7b1884544ff2a54d2838b6e38c38dfd26ae625d21cd",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 4011
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "e2b2e37f01150c30efdc27a990a36a68d14eb9fed388264baeb9a80190bc7cfa",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 1084
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "02885cf5ef0bc1e11bec04f413c51c04ee0e1c7374d2cf9d53d9b4e73f750ce2",
+      "number": 20,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 4185: STOCKLAND CORPORATION LTD; corporate-transparency row 3500: STOCKLAND CORPORATION LIMITED. Explicit ABN 43000181733 agrees and passes a separately written checksum calculation. LIMITED/LTD suffix difference. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "4269bc8a7ff1f20976b01a9e1d8c211846cd1bc7a9350549734fec00a1540cc3",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 4185
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "6fdab438e5ca964f2cc7b3b360c9c2d7cc1487921034eb53ca90a5832e86aba9",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 3500
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "4ca0a09c9406835641c94248927680ffdd06fdc0074da307246e19c59bdce1f0",
+      "number": 21,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 5067: THE ROYAL AUSTRALIAN COLLEGE OF GENERAL PRACTITIONERS LIMITED; acnc-register row 17255: The Royal Australian College Of General Practitioners Ltd. Explicit ABN 34000223807 agrees and passes a separately written checksum calculation. LIMITED/LTD suffix difference. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "bf9de46149f57b7217302a45f8bf88307bd9038b688e543ff7de9d042e4a854a",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 5067
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "1f40fc1465e881a932791569601cabef7b84eaeea6cb1dabc4094b0e1143366d",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 17255
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "a5075cef63f9cd9ba94497a960aafad8cbbe2048173a550ec2a7149b48e6684e",
+      "number": 22,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 7720: CHRISTIAN ENTERPRISES LTD; acnc-register row 10672: Christian Enterprises Ltd. Explicit ABN 80000374738 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "abae2ecfc883cf3ebb5f3b14ecab993909e9ffeefb337cf430dac474c36f643f",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 7720
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "2729f0a3ab600b47b8eee5f77fe5368583167e856e909afac33e4d01fb1cbf98",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 10672
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "b8c9166433c46d0ce3b436eb122190e8102adf3bbe19423d7a4fc76b56a830d2",
+      "number": 23,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 7796: B'NAI B'RITH CENTRE (N S W) LTD; acnc-register row 14246: B'nai B'rith Centre (N S W) Ltd. Explicit ABN 70000379500 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "74e98c1bcfaeae21b397647fbec60e5466155e594ebf8bd7b482ed93ec1db309",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 7796
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "2da0098c808de990820183b57e5dc1531824c8f0b438e41fc06f367b395348cb",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 14246
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "bc58e91f2fb1635dd54f71ddb081fc18c307d1011d9632ab655c2e0267254c91",
+      "number": 24,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 7893: HONEYWELL HOLDINGS PTY LTD; corporate-transparency row 1803: HONEYWELL HOLDINGS PTY LTD. Explicit ABN 18000383764 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "cc7226a84a89957a2ddde791f6f20a1beb05cbaa94d74233d2526242080da6e3",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 7893
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "2e61535f5cf901748874fbc27ca2b30afa5f1d27deded77d156066d02c2db27b",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 1803
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "f220d5b8a3cd2d450f71ff47e41cdd61b853bfdd8c5dc0ab351ca0a548549f5c",
+      "number": 25,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 8677: BAIADA PTY LTD; corporate-transparency row 498: BAIADA PTY LIMITED. Explicit ABN 47000426808 agrees and passes a separately written checksum calculation. LIMITED/LTD suffix difference. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "e75a2cb01c869aba4801f8c6d29fc7a5c16898951b14ad231d92a0a2717817c4",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 8677
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "a25f8cb952e53293cec029df3610ddb9f33c90baa8f948cff9fcdc77e199bb42",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 498
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "eaca09ed1f2f3950a7e6b2f6bc4c780c04ac8f8569f39ab33a2bdbcb58147732",
+      "number": 26,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 9546: S&P GLOBAL AUSTRALIA PTY LTD; corporate-transparency row 3221: S&P GLOBAL AUSTRALIA PTY LTD. Explicit ABN 18000473674 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "ca305b5600214e2d0f403477f6a7460d6141d079a32fba107f7bf178a634e2d0",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 9546
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "1a950f43608de6010bc66f27d2a90885e31679b65ab9125ecac0f6e9ba82827e",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 3221
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "cfa7ed34656237d21f7b74865b2ab6217b3ecd64c3b0d82dd6ce444bb10fdbc8",
+      "number": 27,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 9631: CATHAY PACIFIC AIRWAYS LIMITED; corporate-transparency row 814: CATHAY PACIFIC AIRWAYS LIMITED. Explicit ABN 57000479514 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "f8c4d4fbddc47cb947e81d4b5465a1e8a918301a02ba7052162ecc5226811967",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 9631
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "282eb211c3f8dedd34f724af7552f4f28aa741c5acfba814b35a62a0d73e1b2e",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 814
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "3a7a64c2ac1c67b5bf270df356b1ae9b9b9dc9cf50cc43fdcf3ae716f07d5bfd",
+      "number": 28,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 10171: FAR EAST BROADCASTING CO (AUSTRALIA); acnc-register row 20197: Far East Broadcasting Co (Australia). Explicit ABN 68000509517 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "8898bd0bca2be74b3e11ff2e4a36eae3df716324d79f29bdf538d46a57cde704",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 10171
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "bf9714611a89b51aafbcec98c15cb38868f156c00affbf0c5358bd3919100f5f",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 20197
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "affdd6516f244c7837755b037a02dcba35dd4d0cab5606901ae1df7eddb329e0",
+      "number": 29,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 10350: SYDNEY MARITIME MUSEUM LTD; acnc-register row 24751: Sydney Maritime Museum Ltd. Explicit ABN 70000519246 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "747c20e37546ced023e7ece3fe380ff76d8b925e7d0cda847bda554c6be0f743",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 10350
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "a0b9ed777fd17726fc6282e6e4beed4a18e34cbddf9aa0f06f813b4ae7eb03be",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 24751
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "d976ef3046d0172e95b766806698c190aea877ee7c0fc92160117b8b4c87325c",
+      "number": 30,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 10708: SCANIA AUSTRALIA PTY. LIMITED; corporate-transparency row 3260: SCANIA AUSTRALIA PTY LTD. Explicit ABN 44000537333 agrees and passes a separately written checksum calculation. PTY. LIMITED versus PTY LTD. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "8895f249ba2819224e32a79412a04f68d358e04ceff87c32d8a7a42f3266d3b6",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 10708
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "f683473162f08353dea0d3a4f1ac1af22b75730d9742119c0fe3142063dbb3ce",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 3260
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "32d75dcd4a106eb9f610b9508520b398bd39475903935d23d745b20e8bea741d",
+      "number": 31,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 11263: BRISTOW HELICOPTERS AUSTRALIA PTY LTD.; corporate-transparency row 703: BRISTOW HELICOPTERS AUSTRALIA PTY LTD. Explicit ABN 92000565579 agrees and passes a separately written checksum calculation. Trailing full stop differs. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "cf53638581cda9c7df86278867df6bb25b119432fa2766c0ce314590de663959",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11263
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "9e928ebaf27871de2d3eec5653e7c49df4cbe4d5b57450988bb166ff1a61e7b1",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 703
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "7eb9d7871439edc3e2b1f850c887177d0f714aec183c7b613fd615fbdc2537fa",
+      "number": 32,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 11275: LEGRAND GROUP PTY LTD; corporate-transparency row 2180: LEGRAND GROUP PTY LIMITED. Explicit ABN 41000565739 agrees and passes a separately written checksum calculation. LIMITED/LTD suffix difference. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "9e5dca216b305706477b5dcb39bd7ce7e669f9a8e558fadc79c043d1d0b42f43",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11275
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "64fc781bdedb2291bc08583b3210c30a31769e7e7dae05a0c26fae5afcb73b4e",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 2180
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "bc749a8bbf37840a429a6e67fff58e1657df6d02cb0039c22b9db2e75ad9b1de",
+      "number": 33,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 11531: ROYAL LIFE SAVING SOCIETY OF AUSTRALIA (NEW SOUTH WALES BRANCH); acnc-register row 15496: Royal Life Saving Society Of Australia (New South Wales Branch). Explicit ABN 73000580825 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "f4b97b6c03a1b20919d9a7e023d756d4e56b8a1f03a235c8efa19e801983a94a",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11531
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "3efb02b82e201f44840055d359f850791517fc0d1484cacff69275848e916838",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 15496
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "c16d81f191ce4fc71ca6135c3d44fed5e17420167627e32bc49f49bd97f0c54d",
+      "number": 34,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 11630: CAPE FLATTERY SILICA MINES PTY LTD; corporate-transparency row 777: CAPE FLATTERY SILICA MINES PTY LTD. Explicit ABN 66000586096 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "3028bbd41cbba54d006b6eb58aab2aa2bf0a021b97427c06975e8fda4929c02f",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11630
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "33035d41bd3a035abdf50c3e10f988ec1197df6d607f9ea0b9e35cfbcc9defe5",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 777
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "eb5c2fbc5d51ca813cc5708365df67b5ea6a17c84b41a5c9838bfd89188d1f2c",
+      "number": 35,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 12172: SCHOLASTIC AUSTRALIA PTY LIMITED; corporate-transparency row 3269: SCHOLASTIC AUSTRALIA PTY LIMITED. Explicit ABN 11000614577 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "87c5662dc5618c4f89e57fa6325b0fec29f336fff1ff99655c055372652672bd",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 12172
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "f9988507ef538e603fdf122ce5215699ecfae754ae0b0cee7f93003c31248a73",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 3269
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "da1ecb4b4937f98ab8e82f64dddc5001e25168ccf1de508f3ca1c378e9386a05",
+      "number": 36,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 12647: UKRAINIAN AUTOCEPHALIC ORTHODOX CHURCH IN AUSTRALIA AND NEW ZEALAND; acnc-register row 17136: Ukrainian Autocephalic Orthodox Church In Australia And New Zealand. Explicit ABN 22000638559 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "af0e1730829aa0ea015354cf58949413bffc67ca862a0266844889313cc80e8c",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 12647
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "3aa1cedb40600d4d9842cf552592e8ca1cc828b39d40e402c7d99c4af43bfeb7",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 17136
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "dcfa0ffa2f21d42c77f13a72616caebc16554afe123837b99ccadbe86202290b",
+      "number": 37,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 13030: THE PITTWATER HOUSE SCHOOLS LTD; acnc-register row 24409: The Pittwater House Schools Ltd. Explicit ABN 87000655845 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "2c56a0a3036adf37236d9c0292dde5a515eecf5ba33757211d53113e7d018710",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 13030
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "aa60e70bca6fb7bb347ebf60e2c663f502861e4b63349d8d40917b15d2b14eaf",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 24409
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "c8018f0ab56b2e1a5172edf52f96b30780f003ffef27c4beb2afb1fcd148002e",
+      "number": 38,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 13562: ALKANE RESOURCES LTD; corporate-transparency row 181: ALKANE RESOURCES LIMITED. Explicit ABN 35000689216 agrees and passes a separately written checksum calculation. LIMITED/LTD suffix difference. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "04f6be9393211ece11f891d055240440541279cb32aea6e5d57d21fc844a2392",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 13562
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "f473da20f194f1c0e16c0c06d6f948df89c73e60cc1b1a2ba5dbc5652114ea4c",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 181
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "6f28915d69354ba2b81ae2702d90a27054976fe6ef57e4cfd5bdb1f4003b5569",
+      "number": 39,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 13802: MERITON PROPERTIES PTY LTD; corporate-transparency row 2415: MERITON PROPERTIES PTY LIMITED. Explicit ABN 49000698626 agrees and passes a separately written checksum calculation. LIMITED/LTD suffix difference. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "ec2728e0f095193d3da8a2ae203a2eb27f9cf0b74b28a90df0f45c2d84c788e6",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 13802
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "8df915af43d219bf5098ae88979c0595b2b7ec8e8928010897c946c043bb04d9",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 2415
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "b293dbba4e3dc114b1ae5079f9cb9dbaabafb7dcf561e7371498498aa3e78104",
+      "number": 40,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 14748: NTI LIMITED; corporate-transparency row 2685: NTI LIMITED. Explicit ABN 84000746109 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "89c8b16e1015c5d724354690cdaf6722f2d23e605dad0a068fac9a44eeff7c57",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 14748
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "45cb5e7e3efbdc1c92750175342716232042a0219d8da620705e71ba15929e11",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 2685
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "cbc035422568654b7c59d739eedd476e5d16683e34e38f13a583481c574a67d4",
+      "number": 41,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 15946: J.J. RICHARDS & SONS PTY LTD; corporate-transparency row 1973: J.J. RICHARDS & SONS PTY LTD. Explicit ABN 40000805425 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "939547d24ba4fc5c735f11be06a7b9afe1799fa2432befa167989e47b6bb0151",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 15946
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "07ca3278bb431fd695a05c98af86004bba8c3b0776d812c05437246192a9c257",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 1973
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "34491983fd1753f0a0a5bfc3d67db76c0a1c897de8173f954da1f4038d26ba32",
+      "number": 42,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 17055: GREEK YOUNG MATRONS ASSOCIATION; acnc-register row 5280: GREEK YOUNG MATRONS' ASSOCIATION. Explicit ABN 64000862297 agrees and passes a separately written checksum calculation. ACNC adds an apostrophe after MATRONS. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "e706da4b9a523b85d59b2a8f8b7de1fc5c1f7a40091f7bcb750e2d84c6d5e90d",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 17055
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "fc585cc8d1c0a2d91933d66e12a2beffc4b6842cc6b198bdcb8ba797ffd0242c",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 5280
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "aaeabe80ca539b14acb0cedc228a1ab95c21badf3c0f712890bcebe585120e40",
+      "number": 43,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 17207: STOCKWELL INTERNATIONAL PTY LTD; corporate-transparency row 3501: STOCKWELL INTERNATIONAL PTY LTD. Explicit ABN 19000871330 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "cc0640eec764bac181929390ec011c622aca2f7af2ed155c259dcd464faada87",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 17207
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "863774e5c18f87ca107cd496c8539758789767bf4df393fc9569048c5a757ee2",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 3501
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "6a566f06d7ace0f2b13bc478f84981e1a1dc21c35d0e4fd48fa8f4d5f04794f1",
+      "number": 44,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 19110: KINMA LIMITED; acnc-register row 19507: Kinma Limited. Explicit ABN 12000964081 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "513fda7e2f04aa8c53d39cb8a1f2c57f1b8c67de58f37fe4c6bd29b7174aae8d",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 19110
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "b2728f46ff95ecf608abd2bf157fcc6e6838843878a2aed092ff6e5de98a200e",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 19507
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "f2b492d8b7e22d443b5d89a827819654017f31b6f2028560364b04e0bee95a07",
+      "number": 45,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 21909: SPIRITUAL ASSEMBLY OF THE BAHA'IS OF THE NORTHERN BEACHES LTD; acnc-register row 15469: Spiritual Assembly Of The Baha'Is Of Northern Beaches Limited. Explicit ABN 38001092593 agrees and passes a separately written checksum calculation. ACNC omits the second THE and spells LIMITED instead of LTD; the distinctive organisation and exact ABN agree. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "4d0a7f70182aabb3a0302f3994ef1f3e0be64389359835818e2776cbfc25ebc6",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 21909
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "a3aeb95090cf8c511f5b30387a9b63a9e63d206fbcfb4c23af8ff626f3fe34f9",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 15469
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "a12517fb89aa2fd236a32aad7225e7488f6f58f5d0136e72141af613067135f9",
+      "number": 46,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 23832: GEODIS HOLDING AUSTRALIA PTY LTD; corporate-transparency row 1546: GEODIS HOLDING AUSTRALIA PTY LTD. Explicit ABN 76001193193 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "2db3b8e0ecf3af9efb062bbc7a1e75a89828b79652bafb088b5782d012080063",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 23832
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "c034004aad36a820d4ad91226ea247a32579a1f79bce1c0ba77f163953dbf0b7",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 1546
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "50d3e6eecf6c287d180bde73571589db868cf158f669fc528c36a8b310069d17",
+      "number": 47,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 24151: THE KILLARNEY SCHOOL LTD; acnc-register row 1829: THE KILLARNEY SCHOOL LTD. Explicit ABN 11001209490 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "b188127bb68f225f7b40743411cebd960291ce049b2c9d6c6a38449f3404c6fd",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 24151
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "1f542fd334ac774dd8c7b4e89f7562a0bd4af6ee75b6642816a06058e8adaa32",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 1829
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "396a5854392080d992a70c6a7344fb4f07c34cd4071a720e9b00064dd66c3452",
+      "number": 48,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 24230: TRAKNEW HOLDINGS PTY LTD; corporate-transparency row 4184: TRAKNEW HOLDINGS PTY LIMITED. Explicit ABN 83001214268 agrees and passes a separately written checksum calculation. LIMITED/LTD suffix difference. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "74c0b3695304ebb4c15b26e2b5201f42b2c2515dd11285d8968c6966bc02505f",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 24230
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "d91f31d4a2209c3e157d1077bcf015c6578695595358b643b67605b7cd074bad",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 4184
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "e7edb39a550cbfd2bc9258e090f3d72527225b6203ccdd8aae043e262dfc041a",
+      "number": 49,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 24346: NEC AUSTRALIA PTY LTD; corporate-transparency row 2590: NEC AUSTRALIA PTY LTD. Explicit ABN 86001217527 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "81713ed62f78ff4a7bd243a31f1cdb96450ecc7523aa65872ad67e04ee2ab281",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 24346
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "29cb86d08f2d24e56f1212d55c16a285421d8f7169c6f2f4ad156578d0f2cd45",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 2590
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "a77fb74247e527e76abe14d10512c1ffbee134b8dedb3744ade52a2255ccbcbe",
+      "number": 50,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 24414: THE ORDER OF ST LUKE THE PHYSICIAN IN AUSTRALIA; acnc-register row 24830: The Order Of St Luke The Physician In Australia. Explicit ABN 70001220631 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ACNC charity legal-name/ABN record identifies the organisation itself, not another organisation mentioned in its activities. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "495079e6abf48bd1bac3e02d2ef06ab78d42261868548f180c6599f0d51cc6cd",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 24414
+          }
+        },
+        {
+          "source": {
+            "slug": "acnc-register",
+            "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+            "role": "legal_entity",
+            "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1"
+          },
+          "record_id": "4397c52aa70a906326d9ea83eb735268515549f9b53188ecd5d9258d166f5b5d",
+          "locator": {
+            "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+            "sheet": "csv",
+            "row": 24830
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "5f0fd1ba16d047414be842999cb145cad0700d40cfc68ae405e5f4a5b04ba44c",
+      "number": 51,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 1873: BROWN-FORMAN AUSTRALIA PTY LIMITED; corporate-transparency row 713: BROWN-FORMAN AUSTRALIA PTY LIMITED. Explicit ABN 87000064086 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "05a979f7639e2e710ee84168091b5806f1135874aa6961fd9e0b9cbd063e1af2",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 1873
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "34fb8c477a75306cecee9379d0e0e2972b0d34531b41ee99101cac4c1aa21f54",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 713
+          }
+        }
+      ]
+    },
+    {
+      "item_id": "18afd0e5d3660ddce17e861f7af057c3a32924fe592a95ee62c868ca2b11140e",
+      "number": 52,
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit; separate from Jev triage/Luna mapping",
+      "evidence": "asic-companies row 6971: ARKEMA PTY LTD; corporate-transparency row 303: ARKEMA PTY LTD. Explicit ABN 44000330772 agrees and passes a separately written checksum calculation. Names agree after case/outer-whitespace normalization. ATO corporate tax entity is linked only by its own reported ABN; no parent, subsidiary or consolidated group identity is inferred. Supported within these snapshots, not independent registry ground truth.",
+      "evidence_refs": [
+        {
+          "source": {
+            "slug": "asic-companies",
+            "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+            "role": "legal_entity",
+            "mapping_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3"
+          },
+          "record_id": "06be375d3f8bc04bc0a9bb2f432dc6ba41d564ec5578002eac0177845b13a6b7",
+          "locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 6971
+          }
+        },
+        {
+          "source": {
+            "slug": "corporate-transparency",
+            "snapshot": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "url": "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx",
+            "role": "legal_entity",
+            "mapping_id": "28fb2b8c-85e9-4732-9e53-d38066fa9bf6:1"
+          },
+          "record_id": "016f749ab252a442dd88ce02b88673565166b188c281906feb949d3c6e5e47f2",
+          "locator": {
+            "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+            "sheet": "Income tax details",
+            "row": 303
+          }
+        }
+      ]
+    }
+  ],
+  "id": "7d1794f191a2f3d704117377b3afa5a980e7de1371ccb95746b78eec5f829c4a"
+}

@@ -1,0 +1,476 @@
+{
+  "dataset_id": "f71709a8-2eeb-4592-ad1f-443f7f520186",
+  "attempts": [
+    {
+      "resource_id": "e44e9729-30f5-4764-848e-f060f5099277",
+      "url": "https://data.gov.au/data/dataset/f71709a8-2eeb-4592-ad1f-443f7f520186/resource/e44e9729-30f5-4764-848e-f060f5099277/download/20260831_ttc_notifications.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:16.148419+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/f71709a8-2eeb-4592-ad1f-443f7f520186/resource/e44e9729-30f5-4764-848e-f060f5099277/download/20260831_ttc_notifications.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 234469,
+      "partial": false,
+      "artifact_id": "fa865360500c1355647d679934ddb5c1a24ed213d7aacc9bd8be22e7e3f0d622",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "List of VTTC reports",
+            "rows": [
+              [
+                "",
+                "Voluntary tax transparency code publications - notifications received as at 31 August 2026",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "Signatory name",
+                "ABN",
+                "Business size",
+                "Signatory income year ending",
+                "Origin of ultimate parent company or fund",
+                "Disclosure type",
+                "Details last updated",
+                "Notification originally received",
+                "Links to published reports as provided by the signatory\nLinks are maintained by the signatories, not the ATO\nWhere multiple hyperlinks exist for the same year, copy the links to your browser to access the report.\n"
+              ],
+              [
+                "",
+                "ACCIONA AGUA AUSTRALIA PTY LTD",
+                "84128531742",
+                "Large",
+                "2017-12-31 00:00:00",
+                "Foreign",
+                "Part A & B",
+                "2018-12-20 00:00:00",
+                "2018-12-20 00:00:00",
+                "https://www.acciona.com.au/our-purpose/corporate-governance/"
+              ],
+              [
+                "",
+                "ACCIONA AGUA AUSTRALIA PTY LTD",
+                "84128531742",
+                "Large",
+                "2018-12-31 00:00:00",
+                "Foreign",
+                "Part A & B",
+                "2019-12-05 00:00:00",
+                "2019-12-05 00:00:00",
+                "https://www.acciona.com.au/our-purpose/corporate-governance/"
+              ],
+              [
+                "",
+                "ACCIONA AGUA AUSTRALIA PTY LTD",
+                "84128531742",
+                "Large",
+                "2019-12-31 00:00:00",
+                "Foreign",
+                "Part A & B",
+                "2021-04-23 00:00:00",
+                "2021-04-22 00:00:00",
+                "https://www.acciona.com.au/our-purpose/corporate-governance/"
+              ],
+              [
+                "",
+                "ACCIONA AGUA AUSTRALIA PTY LTD",
+                "84128531742",
+                "Large",
+                "2020-12-31 00:00:00",
+                "Foreign",
+                "Part A & B",
+                "2022-01-21 00:00:00",
+                "2022-01-21 00:00:00",
+                "https://www.acciona.com.au/our-purpose/corporate-governance/"
+              ],
+              [
+                "",
+                "ACCIONA AGUA AUSTRALIA PTY LTD",
+                "84128531742",
+                "Large",
+                "2021-12-31 00:00:00",
+                "Foreign",
+                "Part A & B",
+                "2023-05-09 00:00:00",
+                "2023-05-01 00:00:00",
+                "https://www.acciona.com.au/our-purpose/corporate-governance/"
+              ],
+              [
+                "",
+                "ACCIONA AGUA AUSTRALIA PTY LTD",
+                "84128531742",
+                "Large",
+                "2022-12-31 00:00:00",
+                "Foreign",
+                "Part A & B",
+                "2023-10-19 00:00:00",
+                "2023-10-19 00:00:00",
+                "https://www.acciona.com.au/our-purpose/corporate-governance/"
+              ],
+              [
+                "",
+                "ADELAIDE BRIGHTON LTD",
+                "15007596018",
+                "Large",
+                "2017-12-31 00:00:00",
+                "Australia",
+                "Part A & B",
+                "2018-08-31 00:00:00",
+                "2017-04-07 00:00:00",
+                "https://adbri.com.au/investors#reports-2017"
+              ],
+              [
+                "",
+                "AGL ENERGY LIMITED",
+                "74115061375",
+                "Large",
+                "2016-06-30 00:00:00",
+                "Australia",
+                "Part A & B",
+                "2017-04-07 00:00:00",
+                "2017-04-07 00:00:00",
+                "http://agl2016.sustainability-report.com.au/economic-performance/taxation "
+              ],
+              [
+                "",
+                "AGL ENERGY LIMITED",
+                "74115061375",
+                "Large",
+                "2017-06-30 00:00:00",
+                "Australia",
+                "Part A & B",
+                "2020-09-02 00:00:00",
+                "2020-09-02 00:00:00",
+                "http://agl2016.sustainability-report.com.au/economic-performance/taxation "
+              ],
+              [
+                "",
+                "AGL ENERGY LIMITED",
+                "74115061375",
+                "Large",
+                "2018-06-30 00:00:00",
+                "Australia",
+                "Part A & B",
+                "2020-09-02 00:00:00",
+                "2020-09-02 00:00:00",
+                "http://agl2016.sustainability-report.com.au/economic-performance/taxation "
+              ],
+              [
+                "",
+                "AGL ENERGY LIMITED",
+                "74115061375",
+                "Large",
+                "2019-06-30 00:00:00",
+                "Australia",
+                "Part A & B",
+                "2020-09-02 00:00:00",
+                "2020-09-02 00:00:00",
+                "http://agl2016.sustainability-report.com.au/economic-performance/taxation "
+              ],
+              [
+                "",
+                "AGL ENERGY LIMITED",
+                "74115061375",
+                "Large",
+                "2020-06-30 00:00:00",
+                "Australia",
+                "Part A & B",
+                "2020-08-24 00:00:00",
+                "2020-08-24 00:00:00",
+                "https://www.agl.com.au/about-agl/who-we-are/our-commitments#tax"
+              ],
+              [
+                "",
+                "AGL ENERGY LIMITED",
+                "74115061375",
+                "Large",
+                "2024-06-30 00:00:00",
+                "Australia",
+                "Part A & B",
+                "2024-11-15 00:00:00",
+                "2024-11-15 00:00:00",
+                "240814-fy24-tax-transparency-report-final-for-agl-website.pdf"
+              ],
+              [
+                "",
+                "AGL ENERGY LIMITED",
+                "74115061375",
+                "Large",
+                "2025-06-30 00:00:00",
+                "Australia",
+                "Part A & B",
+                "2026-08-13 00:00:00",
+                "2026-08-12 00:00:00",
+                "FY25 AGL Tax Transparency Report"
+              ],
+              [
+                "",
+                "AGL ENERGY LIMITED",
+                "74115061375",
+                "Large",
+                "2026-06-30 00:00:00",
+                "Australia",
+                "Part A & B",
+                "2026-08-13 00:00:00",
+                "2026-08-12 00:00:00",
+                "https://www.agl.com.au/content/dam/digital/agl/documents/about-agl/news-centre/2026/260812-fy26-agl-tax-transparency-report.pdf"
+              ],
+              [
+                "",
+                "AIRSERVICES AUSTRALIA",
+                "59698720886",
+                "Large",
+                "2018-06-30 00:00:00",
+                "Australia",
+                "Part A & B",
+                "2018-12-18 00:00:00",
+                "2018-12-18 00:00:00",
+                "http://www.airservicesaustralia.com/wp-content/uploads/Tax-Transparency-Report-2017-2018.pdf "
+              ],
+              [
+                "",
+                "AIRSERVICES AUSTRALIA",
+                "59698720886",
+                "Large",
+                "2019-06-30 00:00:00",
+                "Australia",
+                "Part A & B",
+                "2019-12-18 00:00:00",
+                "2019-12-18 00:00:00",
+                "http://www.airservicesaustralia.com/wp-content/uploads/Tax-Transparency-Report-2018-2019.pdf "
+              ]
+            ]
+          },
+          {
+            "sheet": "Stats",
+            "rows": [
+              [
+                "",
+                "Voluntary tax transparency code statistics",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "Signatories with Board of Taxation",
+                "",
+                "224",
+                "1",
+                "Signatories by Origin of Ultimate Holding Company #",
+                "",
+                ""
+              ],
+              [
+                "",
+                "# Yet to notify of publication of TTC reports",
+                "",
+                "2",
+                "0.008928571428571428",
+                "Australia",
+                "170",
+                "0.7589285714285714"
+              ],
+              [
+                "",
+                "Signatories which have notified of at least one published report",
+                "",
+                "222",
+                "0.9910714285714286",
+                "Foreign",
+                "45",
+                "0.20089285714285715"
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "Australia & Foreign Dual Listed",
+                "7",
+                "0.03125"
+              ],
+              [
+                "",
+                "Total Notifications received to date #",
+                "",
+                "1333",
+                "",
+                "",
+                "2",
+                "0.008928571428571428"
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "Total",
+                "224",
+                ""
+              ],
+              [
+                "",
+                "Signatories by Size of signatory #",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "Large",
+                "",
+                "185",
+                "0.8333333333333334",
+                "Signatories by Disclosure Type #",
+                "",
+                ""
+              ],
+              [
+                "",
+                "Medium",
+                "",
+                "29",
+                "0.13063063063063063",
+                "Part A & B",
+                "202",
+                "0.9017857142857143"
+              ],
+              [
+                "",
+                "Small",
+                "",
+                "8",
+                "0.036036036036036036",
+                "Part A",
+                "17",
+                "0.07589285714285714"
+              ],
+              [
+                "",
+                "Total",
+                "",
+                "222",
+                "",
+                "Part B",
+                "1",
+                "0.004464285714285714"
+              ],
+              [
+                "",
+                "# Excludes 2 signatories which are yet to notify of publication of TTC reports",
+                "",
+                "",
+                "",
+                "Part A & partially Part B",
+                "2",
+                "0.008928571428571428"
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "2",
+                "0.008928571428571428"
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "Total",
+                "224",
+                "1"
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 1.762
+    }
+  ],
+  "status": "available",
+  "resource_id": "e44e9729-30f5-4764-848e-f060f5099277",
+  "policy_version": "download-preflight-3"
+}

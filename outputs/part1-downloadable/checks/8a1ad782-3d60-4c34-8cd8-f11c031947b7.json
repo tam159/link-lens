@@ -1,0 +1,1828 @@
+{
+  "dataset_id": "8a1ad782-3d60-4c34-8cd8-f11c031947b7",
+  "attempts": [
+    {
+      "resource_id": "0cf2ea00-0fa2-45e3-952f-99c2277c1fe8",
+      "url": "https://fjc-vic-gov.my.salesforce-sites.com/downloadCertExport",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:41.837231+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://fjc-vic-gov.my.salesforce-sites.com/downloadCertExport",
+      "content_type": "application/octet-stream; charset=UTF-8",
+      "bytes": 1007214,
+      "partial": false,
+      "artifact_id": "157fc31c77f293af128e029a6bf2d70f2887618302bb5d54924d62a70159a446",
+      "sample": {
+        "encoding": "utf-8-sig",
+        "delimiter": ",",
+        "rows": [
+          [
+            "CertificateNumber",
+            "EntityName",
+            " TradeName",
+            " ABN",
+            " Status",
+            " IssueDate",
+            " ExpiryDate"
+          ],
+          [
+            "FJC-220812-014",
+            "Zauner Construction Pty Limited",
+            "Zauner Construction Pty Limited",
+            "21087732607",
+            "Issued",
+            "08/09/2026",
+            "07/09/2028"
+          ],
+          [
+            "FJC-220816-015",
+            "ELLIS AIR CONDITIONING PROPRIETARY LIMITED",
+            "Ellis Air Conditioning Pty Ltd",
+            "13004601790",
+            "Issued",
+            "09/06/2026",
+            "13/08/2028"
+          ],
+          [
+            "FJC-220817-016",
+            "ACIL ALLEN PTY LIMITED",
+            "ACIL Allen",
+            "68102652148",
+            "Issued",
+            "09/06/2026",
+            "14/08/2028"
+          ],
+          [
+            "FJC-220818-017",
+            "D & E AIR CONDITIONING PTY LIMITED",
+            "D & E Air Conditioning Pty Ltd",
+            "24158631979",
+            "Issued",
+            "17/06/2026",
+            "15/08/2028"
+          ],
+          [
+            "FJC-220821-019",
+            "GAMUDA ENGINEERING PTY LTD",
+            "Gamuda Engineering Australia",
+            "36636433522",
+            "Issued",
+            "19/08/2026",
+            "18/08/2028"
+          ],
+          [
+            "FJC-220822-022",
+            "APPSCORE INTERNATIONAL PTY LTD",
+            "Appscore International",
+            "92143315066",
+            "Issued",
+            "05/09/2026",
+            "04/09/2028"
+          ],
+          [
+            "FJC-220825-028",
+            "NATIONAL PROTECTIVE SERVICES PTY. LTD.",
+            "National Protective Services",
+            "49007009261",
+            "Issued",
+            "23/08/2026",
+            "22/08/2028"
+          ],
+          [
+            "FJC-220826-029",
+            "TOBIN PLUMBING PTY. LTD.",
+            "Tobin Plumbing Pty Ltd",
+            "18050024550",
+            "Issued",
+            "24/08/2026",
+            "23/08/2028"
+          ],
+          [
+            "FJC-220826-031",
+            "AIRMASTER CORPORATION PTY LTD",
+            "Specialised Fire Protection",
+            "26133652749",
+            "Issued",
+            "25/09/2025",
+            "24/09/2027"
+          ],
+          [
+            "FJC-220826-032",
+            "DGS DOMINANCE GUARDIAN SERVICES",
+            "DGS Dominance Guardian Services",
+            "86087016448",
+            "Issued",
+            "17/08/2026",
+            "23/08/2028"
+          ],
+          [
+            "FJC-220826-033",
+            "DUO PROJECTS",
+            "Duo Projects",
+            "32116660596",
+            "Issued",
+            "19/06/2026",
+            "23/08/2028"
+          ],
+          [
+            "FJC-220829-034",
+            "SIMBUILT PTY LTD",
+            "Simbuilt pty ltd",
+            "86140288080",
+            "Issued",
+            "28/08/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220829-035",
+            "TECTURA PTY. LTD.",
+            "Tectura",
+            "13053962413",
+            "Issued",
+            "04/08/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220830-037",
+            "DEVCO PROJECT & CONSTRUCTION MANAGEMENT PTY. LTD.",
+            "Devco Project & Construction Management Pty Ltd",
+            "15007223332",
+            "Issued",
+            "19/06/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220830-038",
+            "VINCENT CHRISP & PARTNERS PTY. LTD.",
+            "VINCENT CHRISP & PARTNERS PTY. LTD.",
+            "43061381753",
+            "Issued",
+            "08/09/2026",
+            "07/09/2028"
+          ],
+          [
+            "FJC-220830-039",
+            "MINX ARCHITECTURE PTY LTD",
+            "Minx Architecture Pty Ltd",
+            "49098071562",
+            "Issued",
+            "28/08/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220830-040",
+            "NEO CONSTRUCT PTY LTD",
+            "Neo Construct P/L",
+            "78145177215",
+            "Issued",
+            "19/06/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220830-041",
+            "MELBCON PTY LTD",
+            "Melbcon Pty Ltd",
+            "89094370457",
+            "Issued",
+            "19/06/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220830-042",
+            "NORTH PROJECTS PTY LTD",
+            "North Projects Pty Ltd",
+            "36082851161",
+            "Issued",
+            "16/08/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220830-043",
+            "CROW CONSTRUCTIONS PTY. LIMITED",
+            "Crow Constructions Pty Ltd",
+            "83120281487",
+            "Issued",
+            "19/06/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220830-044",
+            "CONNELLAN INDUSTRIES AUSTRALIA PTY LTD",
+            "Connellan Industries Australia Pty Ltd",
+            "48621314083",
+            "Issued",
+            "04/08/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220830-046",
+            "MCLEOD & AITKEN LIMITED",
+            "Mcleod and Aitken Limited",
+            "72161655018",
+            "Issued",
+            "24/06/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220830-047",
+            "MCR PTY. LTD.",
+            "McBride Charles Ryan",
+            "25151542399",
+            "Issued",
+            "28/08/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220830-048",
+            "H20 ARCHITECTS PTY. LTD.",
+            "H2o architects Pty Ltd",
+            "63088273929",
+            "Issued",
+            "27/06/2025",
+            "26/06/2027"
+          ],
+          [
+            "FJC-220830-049",
+            "P W C CONSULTING GROUP PTY LTD",
+            "HR Consulting Engineers",
+            "13126718670",
+            "Issued",
+            "19/06/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220830-050",
+            "BLR PROVINCIAL CONSTRUCTION PTY LTD",
+            "BLR Provincial Construction",
+            "19134420965",
+            "Issued",
+            "19/06/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220830-051",
+            "CPM BUILDING CONTRACTORS PTY LTD",
+            "CPM Building Contractors Pty Ltd",
+            "25006906369",
+            "Issued",
+            "19/06/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220830-053",
+            "HASKELL ARCHITECTS PTY LTD",
+            "Haskell Architects",
+            "55099347350",
+            "Issued",
+            "19/06/2026",
+            "27/08/2028"
+          ],
+          [
+            "FJC-220830-055",
+            "ALTUS GROUP CONSULTING PTY LIMITED",
+            "Altus Group Consulting Pty Limited",
+            "34091512471",
+            "Issued",
+            "08/09/2026",
+            "07/09/2028"
+          ],
+          [
+            "FJC-220831-056",
+            "HADDARCO PTY LTD",
+            "Haddarco Pty Ltd",
+            "59007431316",
+            "Issued",
+            "19/06/2026",
+            "28/08/2028"
+          ],
+          [
+            "FJC-220831-058",
+            "MR LABRO VRAKAS",
+            "Premier Project Management",
+            "97614463749",
+            "Issued",
+            "29/08/2026",
+            "28/08/2028"
+          ],
+          [
+            "FJC-220831-059",
+            "SENVERSA PTY LTD",
+            "Senversa Pty Ltd",
+            "89132231380",
+            "Issued",
+            "19/06/2026",
+            "28/08/2028"
+          ],
+          [
+            "FJC-220831-060",
+            "AMA Projects Pty Ltd",
+            "AMA Projects Pty Ltd",
+            "52141420680",
+            "Issued",
+            "19/06/2026",
+            "28/08/2028"
+          ],
+          [
+            "FJC-220831-061",
+            "HELIA EHS PTY LTD",
+            "",
+            "17618314104",
+            "Issued",
+            "02/07/2025",
+            "01/07/2027"
+          ],
+          [
+            "FJC-220831-062",
+            "ARC 3 PTY LTD",
+            "Arc3 pty Ltd",
+            "22602589293",
+            "Issued",
+            "19/06/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220901-065",
+            "NEWTON MANOR CONSTRUCTIONS PTY. LTD.",
+            "Newton Manor Constructions Pty Ltd",
+            "72006101711",
+            "Issued",
+            "24/06/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220901-066",
+            "SENSUM VIC PTY LTD",
+            "Sensum VIC Pty Ltd",
+            "37607883974",
+            "Issued",
+            "19/06/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220901-067",
+            "BOWDEN CORPORATION PTY LTD",
+            "Bowden Corporation Pty Ltd",
+            "55097029993",
+            "Issued",
+            "30/08/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220901-070",
+            "J. HUTCHINSON PTY. LTD.",
+            "J Hutchinson Pty Ltd T/A Hutchinson Builders",
+            "52009778330",
+            "Issued",
+            "30/08/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220901-072",
+            "FIMMA CONSTRUCTIONS PTY. LTD.",
+            "FIMMA Constructions Pty Ltd",
+            "22101232320",
+            "Issued",
+            "19/06/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220901-074",
+            "RALPH & BEATTIE BOSWORTH PTY LTD",
+            "RALPH & BEATTIE BOSWORTH PTY LTD",
+            "64008946503",
+            "Issued",
+            "21/07/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220901-075",
+            "LEHR CONSULTANTS INTERNATIONAL (AUSTRALIA) PTY LTD",
+            "Lehr Consultants International (Aust) Pty Ltd",
+            "92124107973",
+            "Issued",
+            "30/08/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220901-076",
+            "DONALD CANT  WATTS  CORKE (MANAGEMENT) PTY LTD",
+            "DONALD CANT  WATTS  CORKE (MANAGEMENT) PTY LTD",
+            "49108262139",
+            "Issued",
+            "30/08/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220901-077",
+            "ARCHIPHILIA PTY LTD",
+            "Archiphilia Pty Ltd",
+            "38621401518",
+            "Issued",
+            "19/06/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220901-079",
+            "1:1 ARCHITECTS PTY LTD",
+            "1:1 Architects Pty Ltd",
+            "66110958711",
+            "Issued",
+            "24/07/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220901-081",
+            "MGS ARCHITECTS PTY LTD",
+            "MGS Architects Pty Ltd",
+            "13006488302",
+            "Issued",
+            "24/06/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220901-082",
+            "SEMZ PROPERTY ADVISORY & PROJECT MANAGEMENT PTY LTD",
+            "SEMZ Property Advisory & Project Management Pty Lt",
+            "83603444015",
+            "Issued",
+            "30/08/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220901-083",
+            "PROGRAMMED FACILITY MANAGEMENT PTY. LTD.",
+            "Programed Facility Management Pty Ltd",
+            "23001382010",
+            "Issued",
+            "30/08/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220901-084",
+            "PEDAVOLI ARCHITECTS PTY LTD",
+            "Pedavoli Architects",
+            "39000971924",
+            "Issued",
+            "30/08/2026",
+            "29/08/2028"
+          ],
+          [
+            "FJC-220905-085",
+            "PERKINS ARCHITECTS PTY. LTD.",
+            "Perkins Architects",
+            "85007172670",
+            "Issued",
+            "16/08/2026",
+            "02/09/2028"
+          ],
+          [
+            "FJC-220905-086",
+            "FIRST NATIONS SECURITY",
+            "First Nations Security",
+            "60658127050",
+            "Issued",
+            "16/08/2026",
+            "02/09/2028"
+          ],
+          [
+            "FJC-220905-087",
+            "SJB ARCHITECTURE PTY. LTD.",
+            "SJB Architecture Pty Ltd",
+            "68065207490",
+            "Issued",
+            "24/06/2026",
+            "03/09/2028"
+          ],
+          [
+            "FJC-220905-088",
+            "TULLIO HOLDINGS PTY LTD",
+            "Tullio Holdings Pty. Ltd.",
+            "67625387313",
+            "Issued",
+            "31/08/2026",
+            "03/09/2028"
+          ],
+          [
+            "FJC-220905-090",
+            "MELBOURNE QUANTITY SURVEYORS PTY LTD",
+            "MELBOURNE QUANTITY SURVEYORS",
+            "96635662725",
+            "Issued",
+            "15/09/2025",
+            "14/09/2027"
+          ],
+          [
+            "FJC-220905-091",
+            "SEARLE BROS PTY LTD",
+            "Colbrico Pty Ltd T/as Searle Bros",
+            "51080097276",
+            "Issued",
+            "08/07/2026",
+            "03/09/2028"
+          ],
+          [
+            "FJC-220905-092",
+            "HAYBALL PTY LTD",
+            "Hayball Pty Ltd",
+            "84006394261",
+            "Issued",
+            "04/09/2026",
+            "03/09/2028"
+          ],
+          [
+            "FJC-220905-094",
+            "CASE MEALLIN (VIC) PTY LTD",
+            "Case Meallin (Vic) Pty Ltd",
+            "46612752833",
+            "Issued",
+            "04/09/2026",
+            "03/09/2028"
+          ],
+          [
+            "FJC-220906-096",
+            "K2LD ARCHITECTS PTY LTD",
+            "K2LD ARCHITECTS PTY LTD",
+            "88119940911",
+            "Issued",
+            "16/08/2026",
+            "03/09/2028"
+          ],
+          [
+            "FJC-220906-097",
+            "LOFT ARCHITECTURE PTY LTD",
+            "Loft Architecture Pty Ltd",
+            "71143139655",
+            "Issued",
+            "24/06/2026",
+            "03/09/2028"
+          ],
+          [
+            "FJC-220906-098",
+            "Katz Architecture Pty Ltd",
+            "Katz Architecture Pty Ltd",
+            "92101078415",
+            "Issued",
+            "25/08/2026",
+            "03/09/2028"
+          ],
+          [
+            "FJC-220906-099",
+            "JONES LANG LASALLE (VIC) PTY LIMITED",
+            "Jones Lang LaSalle (VIC) Pty Limited",
+            "28004582423",
+            "Issued",
+            "19/06/2026",
+            "04/09/2028"
+          ],
+          [
+            "FJC-220907-101",
+            "SPACES PTY. LTD.",
+            "Spaces Pty Ltd",
+            "64005527908",
+            "Issued",
+            "02/07/2026",
+            "04/09/2028"
+          ],
+          [
+            "FJC-220912-105",
+            "LANDSERV PTY. LTD.",
+            "Landserv Pty Ltd",
+            "87065632895",
+            "Issued",
+            "22/07/2026",
+            "09/09/2028"
+          ],
+          [
+            "FJC-220912-106",
+            "GENTON PTY. LIMITED",
+            "Genton",
+            "24003926305",
+            "Issued",
+            "12/05/2026",
+            "11/05/2028"
+          ],
+          [
+            "FJC-220914-107",
+            "SAVILLS PROJECT MANAGEMENT PTY. LTD.",
+            "SAVILLS PROJECT MANAGEMENT PTY. LTD.",
+            "59129012700",
+            "Issued",
+            "29/07/2025",
+            "28/07/2027"
+          ],
+          [
+            "FJC-220914-108",
+            "CIRCON CONSTRUCTIONS PTY. LTD.",
+            "Circon Constructions Pty Ltd",
+            "44113265044",
+            "Issued",
+            "08/07/2026",
+            "11/09/2028"
+          ],
+          [
+            "FJC-220914-109",
+            "2CONSTRUCT PTY. LTD.",
+            "2Construct Pty Ltd",
+            "28109517188",
+            "Issued",
+            "28/08/2026",
+            "11/09/2028"
+          ],
+          [
+            "FJC-220914-110",
+            "MORETTO BUILDING PTY. LTD.",
+            "Moretto Building Pty Ltd",
+            "71060642775",
+            "Issued",
+            "02/07/2026",
+            "11/09/2028"
+          ],
+          [
+            "FJC-220914-111",
+            "CO.OP STUDIO PTY LTD",
+            "CO.OP Studio Pty Ltd",
+            "93167783600",
+            "Issued",
+            "01/05/2025",
+            "30/04/2027"
+          ],
+          [
+            "FJC-220914-112",
+            "SHAPE AUSTRALIA PTY LIMITED",
+            "SHAPE Australia Pty Ltd",
+            "70003861765",
+            "Issued",
+            "30/08/2026",
+            "11/09/2028"
+          ],
+          [
+            "FJC-220914-113",
+            "COMMERCIAL INDUSTRIAL CONSTRUCTION GROUP PTY LTD",
+            "CICG",
+            "42091460230",
+            "Issued",
+            "25/08/2026",
+            "11/09/2028"
+          ],
+          [
+            "FJC-220915-116",
+            "CADBUILD CONSTRUCTION PTY LTD",
+            "Cadbuild Construction Pty Ltd",
+            "90133580051",
+            "Issued",
+            "28/08/2026",
+            "12/09/2028"
+          ],
+          [
+            "FJC-220915-117",
+            "ASPECT STUDIOS PTY LTD",
+            "ASPECT Studios",
+            "11120219561",
+            "Issued",
+            "21/07/2026",
+            "12/09/2028"
+          ],
+          [
+            "FJC-220915-118",
+            "TSA RILEY PTY LTD",
+            "TSA Management Pty Limited",
+            "71099000272",
+            "Issued",
+            "15/07/2026",
+            "12/09/2028"
+          ],
+          [
+            "FJC-220915-120",
+            "KENNEDY NOLAN ARCHITECTS PTY. LTD",
+            "Kennedy Nolan Architects Pty Ltd",
+            "21138171285",
+            "Issued",
+            "25/08/2026",
+            "12/09/2028"
+          ],
+          [
+            "FJC-220916-122",
+            "LEEMARK FIRE PROTECTION PTY LTD",
+            "LEEMARK FIRE PROTECTION PTY LTD",
+            "86095287380",
+            "Issued",
+            "30/08/2026",
+            "13/09/2028"
+          ],
+          [
+            "FJC-220916-123",
+            "RP INFRASTRUCTURE PTY LTD",
+            "RP Infrastructure Pty Ltd",
+            "62065072193",
+            "Issued",
+            "14/09/2026",
+            "13/09/2028"
+          ],
+          [
+            "FJC-220919-124",
+            "RPS AAP CONSULTING PTY LTD",
+            "RPS AAP Consulting Pty Ltd",
+            "97117883173",
+            "Issued",
+            "30/08/2026",
+            "16/09/2028"
+          ],
+          [
+            "FJC-220919-125",
+            "HANSEN YUNCKEN PTY LTD",
+            "Hansen Yuncken Pty Ltd",
+            "38063384056",
+            "Issued",
+            "21/07/2026",
+            "16/09/2028"
+          ],
+          [
+            "FJC-220919-126",
+            "OPS ENGINEERS PTY LTD",
+            "OPS Engineers",
+            "70006438375",
+            "Issued",
+            "16/09/2026",
+            "16/09/2028"
+          ],
+          [
+            "FJC-220919-127",
+            "RICH RIVER ASPHALT PTY LTD",
+            "RICH RIVER ASPHALT PTY LTD",
+            "69602586621",
+            "Issued",
+            "02/07/2026",
+            "16/09/2028"
+          ],
+          [
+            "FJC-220919-128",
+            "RECIVIL PTY. LTD.",
+            "RECIVIL PTY LTD",
+            "93102480599",
+            "Issued",
+            "02/07/2026",
+            "16/09/2028"
+          ],
+          [
+            "FJC-220919-129",
+            "EASTERN VICTORIA CONSTRUCTION GROUP PTY LTD",
+            "Eastern Victoria Construction Group Pty Ltd",
+            "63629139279",
+            "Issued",
+            "08/09/2026",
+            "16/09/2028"
+          ],
+          [
+            "FJC-220919-131",
+            "STUDIO BRIGHT PTY LTD",
+            "Studio Bright Pty Ltd",
+            "94122986154",
+            "Issued",
+            "16/09/2026",
+            "16/09/2028"
+          ],
+          [
+            "FJC-220919-132",
+            "DLG SHAPE PTY LIMITED",
+            "DLG SHAPE PTY LIMITED",
+            "35614247228",
+            "Issued",
+            "11/09/2026",
+            "16/09/2028"
+          ],
+          [
+            "FJC-220919-133",
+            "BAUMGART CLARK ARCHITECTS PTY LTD",
+            "Baumgart Clark Architects Pty Ltd",
+            "19164899316",
+            "Issued",
+            "17/09/2026",
+            "16/09/2028"
+          ],
+          [
+            "FJC-220919-134",
+            "AUSTRALIAN RESTORATION AND CONSTRUCTION PTY LTD",
+            "ARC Projects",
+            "42169552416",
+            "Issued",
+            "15/07/2026",
+            "16/09/2028"
+          ],
+          [
+            "FJC-220919-135",
+            "MACUTEX PTY LTD ATF MACUTEX UNIT TRUST",
+            "",
+            "56588969728",
+            "Issued",
+            "08/07/2026",
+            "16/09/2028"
+          ],
+          [
+            "FJC-220919-138",
+            "FARNHAM DEVELOPMENTS PTY. LTD.",
+            "Farnham Developments Pty Ltd",
+            "36005206137",
+            "Issued",
+            "15/07/2026",
+            "16/09/2028"
+          ],
+          [
+            "FJC-220919-141",
+            "JACOBS THOMAS AND ASSOCIATES PTY LTD ATF THE J T UNIT TRUST",
+            "Jacobs Thomas and Associates Pty Ltd",
+            "14610954856",
+            "Issued",
+            "28/08/2026",
+            "16/09/2028"
+          ],
+          [
+            "FJC-220919-142",
+            "BUILDING ENGINEERING PTY LTD",
+            "Building Engineering Pty Ltd",
+            "41103839514",
+            "Issued",
+            "15/07/2026",
+            "16/09/2028"
+          ],
+          [
+            "FJC-220921-143",
+            "PLAN GROUP (GEELONG) PTY LTD",
+            "Plan Group (Geelong) Pty Ltd",
+            "47618868429",
+            "Issued",
+            "23/07/2026",
+            "18/09/2028"
+          ],
+          [
+            "FJC-220921-145",
+            "FULTON HOGAN CONSTRUCTION PTY LTD",
+            "Fulton Hogan Construction",
+            "46010240758",
+            "Issued",
+            "15/07/2026",
+            "18/09/2028"
+          ],
+          [
+            "FJC-220921-146",
+            "ORION BUILDERS PTY. LTD.",
+            "Orion Builders Pty Limited",
+            "90077479111",
+            "Issued",
+            "08/07/2026",
+            "18/09/2028"
+          ],
+          [
+            "FJC-220921-147",
+            "CENTRUM ARCHITECTS PTY. LTD.",
+            "Centrum Architects Pty Ltd",
+            "40065422835",
+            "Issued",
+            "28/08/2026",
+            "18/09/2028"
+          ],
+          [
+            "FJC-220921-149",
+            "4D Workshop Pty Ltd",
+            "4D Workshop Pty Ltd",
+            "75150139245",
+            "Issued",
+            "25/08/2026",
+            "18/09/2028"
+          ],
+          [
+            "FJC-220921-150",
+            "LORA NATIONAL PTY LTD",
+            "LORA NATIONAL",
+            "72644255907",
+            "Issued",
+            "24/08/2026",
+            "18/09/2028"
+          ],
+          [
+            "FJC-220921-151",
+            "BRYANT ALSOP PTY LTD ATF BRYANT FAMILY TRUST",
+            "",
+            "44319878181",
+            "Issued",
+            "30/08/2026",
+            "18/09/2028"
+          ],
+          [
+            "FJC-220921-153",
+            "MIRAIT TECHNOLOGIES AUSTRALIA PTY. LIMITED",
+            "Mirait Technologies Australia",
+            "16089894502",
+            "Issued",
+            "30/08/2026",
+            "18/09/2028"
+          ],
+          [
+            "FJC-220921-154",
+            "PLAN GROUP PTY LTD",
+            "Plan Group Pty Ltd",
+            "67160102198",
+            "Issued",
+            "23/07/2026",
+            "18/09/2028"
+          ],
+          [
+            "FJC-220921-155",
+            "RIDER LEVETT BUCKNALL VICTORIA PTY LTD",
+            "Rider Levett Bucknall",
+            "28006699476",
+            "Issued",
+            "30/08/2026",
+            "18/09/2028"
+          ],
+          [
+            "FJC-220921-159",
+            "CORTESE CONSULTANTS PTY LTD",
+            "Cortese Consultants",
+            "76098726606",
+            "Issued",
+            "08/07/2026",
+            "18/09/2028"
+          ],
+          [
+            "FJC-220921-160",
+            "DRAPER NOXON ARCHITECTURE PTY LTD",
+            "",
+            "57112140806",
+            "Issued",
+            "04/08/2026",
+            "18/09/2028"
+          ],
+          [
+            "FJC-220927-161",
+            "Corsec Services Pty Ltd",
+            "CORSEC SERVICES",
+            "15134691946",
+            "Issued",
+            "03/09/2026",
+            "24/09/2028"
+          ],
+          [
+            "FJC-220927-162",
+            "MILLS GORMAN PTY. LTD.",
+            "Mills Gorman Architects",
+            "11085429796",
+            "Issued",
+            "26/09/2024",
+            "25/09/2026"
+          ],
+          [
+            "FJC-220927-163",
+            "GRAYSPACE ARCHITECTS & URBAN DESIGNERS PTY LTD",
+            "Grayspace Architect & Urban Designers",
+            "32165158547",
+            "Issued",
+            "08/09/2026",
+            "24/09/2028"
+          ],
+          [
+            "FJC-220927-164",
+            "VIDERE GROUP PTY LTD",
+            "Videre Group Pty Ltd",
+            "27627426724",
+            "Issued",
+            "31/08/2026",
+            "24/09/2028"
+          ],
+          [
+            "FJC-220927-165",
+            "FCC CONSTRUCTION AUSTRALIA PTY LTD",
+            "FCC Construction Australia Pty Ltd",
+            "31640182163",
+            "Issued",
+            "24/07/2024",
+            "25/09/2026"
+          ],
+          [
+            "FJC-220927-166",
+            "ONTOIT GLOBAL PTY LTD ATF ONTOIT UNIT TRUST",
+            "ONTOIT GLOBAL PTY LTD",
+            "68001220816",
+            "Issued",
+            "08/09/2026",
+            "24/09/2028"
+          ],
+          [
+            "FJC-220927-167",
+            "CBG ARCHITECTS PTY. LTD. ATF CBG ARCHITECTS UNIT TRUST",
+            "CBG ARCHITECTS PTY LTD",
+            "95623714281",
+            "Issued",
+            "21/07/2026",
+            "24/09/2028"
+          ],
+          [
+            "FJC-221003-168",
+            "APR STRUCTURAL STEEL PTY LTD as trustee for APR Structural Steel Family Trust",
+            "",
+            "85286423475",
+            "Issued",
+            "11/09/2026",
+            "30/09/2028"
+          ],
+          [
+            "FJC-221003-169",
+            "KINGDOM PROJECTS PTY LTD",
+            "Kingdom Projects Pty Ltd",
+            "44133698638",
+            "Issued",
+            "21/07/2026",
+            "30/09/2028"
+          ],
+          [
+            "FJC-221003-170",
+            "NORTH - VIC CONSTRUCTIONS PTY. LTD.",
+            "north vic constructions pty ltd",
+            "61007289661",
+            "Issued",
+            "04/08/2026",
+            "30/09/2028"
+          ],
+          [
+            "FJC-221003-171",
+            "HKA GLOBAL PTY LTD",
+            "HKA Global",
+            "75085532047",
+            "Issued",
+            "02/10/2024",
+            "01/10/2026"
+          ],
+          [
+            "FJC-221003-172",
+            "IRELAND BROWN CONSTRUCTIONS PTY LTD",
+            "Ireland Brown Constructions Pty Ltd",
+            "69111715621",
+            "Issued",
+            "18/07/2024",
+            "01/10/2026"
+          ],
+          [
+            "FJC-221003-173",
+            "LOR RAIL OPERATIONS PTY LTD",
+            "LOR Rail Operations",
+            "55644497227",
+            "Issued",
+            "24/08/2026",
+            "30/09/2028"
+          ],
+          [
+            "FJC-221003-174",
+            "JAMES O. MILLAR PTY. LTD.",
+            "James O. Millar Pty Ltd t/a JMA Architects",
+            "59007406206",
+            "Issued",
+            "05/09/2026",
+            "30/09/2028"
+          ],
+          [
+            "FJC-221003-175",
+            "ROUBAIX PROJECTS PTY LTD AS THE TRUSTEE FOR DE ZOETE FAMILY TRUST AND THE TRUSTEE FOR HEWITT FAMILY TRUST",
+            "",
+            "22684232574",
+            "Issued",
+            "05/12/2025",
+            "04/12/2027"
+          ],
+          [
+            "FJC-221003-176",
+            "DOWNER EDI WORKS PTY LTD",
+            "Downer EDI Works Pty Ltd",
+            "66008709608",
+            "Issued",
+            "11/09/2026",
+            "30/09/2028"
+          ],
+          [
+            "FJC-221003-177",
+            "NAT PROT PTY LTD",
+            "Nat Prot Pty Ltd",
+            "35654413082",
+            "Issued",
+            "24/08/2026",
+            "30/09/2028"
+          ],
+          [
+            "FJC-221003-178",
+            "XYZ SECURITY SERVICES PTY LTD",
+            "Advent Security Services",
+            "71007399493",
+            "Issued",
+            "04/09/2026",
+            "30/09/2028"
+          ],
+          [
+            "FJC-221003-179",
+            "R.A.B.S Paving Services Pty Ltd",
+            "R.A.B.S Paving Services Pty Ltd",
+            "60145446939",
+            "Issued",
+            "02/10/2024",
+            "01/10/2026"
+          ],
+          [
+            "FJC-221003-180",
+            "ACCIONA INFRASTRUCTURE PROJECTS AUSTRALIA PTY LTD",
+            "Acciona Infrastructure Projects Australia Pty Ltd",
+            "40000201516",
+            "Issued",
+            "26/09/2024",
+            "01/10/2026"
+          ],
+          [
+            "FJC-221003-181",
+            "ACCIONA CONSTRUCTION AUSTRALIA PTY LTD",
+            "Acciona Construction Australia Pty Ltd",
+            "66618030872",
+            "Issued",
+            "29/07/2024",
+            "01/10/2026"
+          ],
+          [
+            "FJC-221003-182",
+            "ARCHITECTURE MATTERS PTY LTD AS TRUSTEE FOR THE GIONFRIDDO & QUIGLEY UNIT TRUST",
+            "",
+            "38213895383",
+            "Issued",
+            "21/07/2026",
+            "30/09/2028"
+          ],
+          [
+            "FJC-221003-184",
+            "DESIGNINC MELBOURNE PTY LTD AS TRUSTEE FOR EMSARCH CONSULTANTS TRUST",
+            "",
+            "57448891837",
+            "Issued",
+            "23/07/2024",
+            "01/10/2026"
+          ],
+          [
+            "FJC-221004-185",
+            "JUST GOLD DIGITAL AGENCY PTY LTD",
+            "JUST GOLD DIGITAL AGENCY",
+            "20630605926",
+            "Issued",
+            "16/08/2026",
+            "01/10/2028"
+          ],
+          [
+            "FJC-221004-186",
+            "ELBURY PTY LTD",
+            "Elbury Pty Ltd",
+            "56166993764",
+            "Issued",
+            "31/08/2026",
+            "01/10/2028"
+          ],
+          [
+            "FJC-221004-188",
+            "EDSICO PTY LTD",
+            "EDSICO Management",
+            "45601297803",
+            "Issued",
+            "28/08/2024",
+            "02/10/2026"
+          ],
+          [
+            "FJC-221004-189",
+            "BUILT PTY LIMITED",
+            "Built",
+            "24083928045",
+            "Issued",
+            "18/09/2026",
+            "01/10/2028"
+          ],
+          [
+            "FJC-221004-190",
+            "SELECT PLANT AUSTRALIA PTY LTD",
+            "Select Plant Hire",
+            "49644500354",
+            "Issued",
+            "04/08/2026",
+            "01/10/2028"
+          ],
+          [
+            "FJC-221004-191",
+            "CRANES ASPHALTING & BITUMEN SEALING PTY LTD",
+            "Cranes Asphalting & Bitumen Sealing P/L",
+            "45006551668",
+            "Issued",
+            "16/07/2024",
+            "02/10/2026"
+          ],
+          [
+            "FJC-221004-192",
+            "FULTON HOGAN UTILITIES PTY LTD",
+            "Fulton Hogan Utilities",
+            "83632499686",
+            "Issued",
+            "04/08/2026",
+            "01/10/2028"
+          ],
+          [
+            "FJC-221004-193",
+            "GEOTECH PTY LTD",
+            "Geotech Pty Ltd",
+            "94114336515",
+            "Issued",
+            "23/07/2024",
+            "02/10/2026"
+          ],
+          [
+            "FJC-221004-194",
+            "MANAGEMENT CONSULTANCY INTERNATIONAL PTY LIMITED",
+            "MCI Solutions",
+            "58103488482",
+            "Issued",
+            "16/07/2024",
+            "02/10/2026"
+          ],
+          [
+            "FJC-221004-195",
+            "EXTONS PTY. LTD.",
+            "Extons Pty Ltd",
+            "44005916192",
+            "Issued",
+            "21/07/2026",
+            "01/10/2028"
+          ],
+          [
+            "FJC-221004-197",
+            "ARCHITECTURE & ACCESS (AUST) PTY LTD",
+            "Architecture & Access (Aust) Pty Ltd",
+            "45159663582",
+            "Issued",
+            "30/08/2024",
+            "02/10/2026"
+          ],
+          [
+            "FJC-221004-198",
+            "MCELLIGOTTS (VIC) PTY LTD",
+            "McElligotts (VIC) Pty Ltd",
+            "23651246365",
+            "Issued",
+            "03/10/2024",
+            "02/10/2026"
+          ],
+          [
+            "FJC-221004-199",
+            "JTX CIVIL CONTRACTING PTY. LTD.",
+            "Jotomex Civil Contracting",
+            "72161928436",
+            "Issued",
+            "08/08/2026",
+            "01/10/2028"
+          ],
+          [
+            "FJC-221004-200",
+            "BOURKE & BOUTELOUP ARCHITECTS PTY LTD AS TRUSTEE FOR BOURKE & BOUTELOUP FAMILY TRUST",
+            "",
+            "35597160522",
+            "Issued",
+            "30/08/2026",
+            "01/10/2028"
+          ],
+          [
+            "FJC-221005-201",
+            "SEYMOUR WHYTE CONSTRUCTIONS PTY LTD",
+            "Seymour Whyte Constructions Pty Ltd",
+            "48105493187",
+            "Issued",
+            "16/09/2024",
+            "03/10/2026"
+          ],
+          [
+            "FJC-221005-202",
+            "LENDLEASE CONSTRUCTION (SOUTHERN) PTY LIMITED",
+            "Lendlease Building Contractors Pty Limited",
+            "56002625130",
+            "Issued",
+            "05/09/2026",
+            "02/10/2028"
+          ],
+          [
+            "FJC-221010-203",
+            "COX ARCHITECTURE PTY LTD ATF THE PHILIP COX & PARTNERS UNIT TRUST",
+            "",
+            "78426372646",
+            "Issued",
+            "18/09/2024",
+            "08/10/2026"
+          ],
+          [
+            "FJC-221011-205",
+            "NEWNHAM EARTHMOVING PTY. LTD.",
+            "Newnham Earthmoving Pty Ltd",
+            "28006288795",
+            "Issued",
+            "08/09/2026",
+            "08/10/2028"
+          ],
+          [
+            "FJC-221011-206",
+            "THREAD GROUP AUSTRALIA PTY LTD AS TRUSTEE FOR THREAD GROUP AUSTRALIA TRUST",
+            "",
+            "62459183298",
+            "Issued",
+            "08/09/2026",
+            "07/09/2028"
+          ],
+          [
+            "FJC-221011-207",
+            "CCB ENVICO PTY LTD",
+            "CCB ENVICO PTY LTD",
+            "73106515066",
+            "Issued",
+            "30/08/2026",
+            "08/10/2028"
+          ],
+          [
+            "FJC-221011-208",
+            "ACCIONA M&E PTY LTD",
+            "John Beever Australia",
+            "84006337113",
+            "Issued",
+            "29/07/2024",
+            "09/10/2026"
+          ],
+          [
+            "FJC-221011-209",
+            "MBB GROUP PTY LTD",
+            "MBB Group Pty Ltd",
+            "25600765106",
+            "Issued",
+            "20/09/2024",
+            "09/10/2026"
+          ],
+          [
+            "FJC-221011-210",
+            "C.D. WILSON & SON PTY. LTD.",
+            "C.D. WILSON & SON PTY. LTD.",
+            "79075516479",
+            "Issued",
+            "19/08/2026",
+            "08/10/2028"
+          ],
+          [
+            "FJC-221011-211",
+            "POWER CABLES PTY LTD",
+            "Power Cables Pty Ltd",
+            "56073705594",
+            "Issued",
+            "07/09/2026",
+            "08/10/2028"
+          ],
+          [
+            "FJC-221011-213",
+            "SYMAL CONTRACTORS PTY LTD",
+            "Symal Contractors Pty Ltd",
+            "69630027342",
+            "Issued",
+            "15/08/2024",
+            "09/10/2026"
+          ],
+          [
+            "FJC-221011-214",
+            "UNYTE SOUTHERN PTY LTD",
+            "Grampians Excavations Pty Ltd",
+            "94626334745",
+            "Issued",
+            "21/08/2024",
+            "09/10/2026"
+          ],
+          [
+            "FJC-221011-215",
+            "Architecture Architecture Pty Ltd",
+            "Architecture architecture",
+            "19156517350",
+            "Issued",
+            "04/08/2026",
+            "08/10/2028"
+          ],
+          [
+            "FJC-221011-217",
+            "MAINTENANCE CONCEPTS PTY LTD",
+            "MC Diving Services",
+            "54639188051",
+            "Issued",
+            "19/08/2026",
+            "08/10/2028"
+          ],
+          [
+            "FJC-221011-219",
+            "WAMARRA PTY LTD",
+            "Wamarra Pty Ltd",
+            "12637087980",
+            "Issued",
+            "15/08/2024",
+            "09/10/2026"
+          ],
+          [
+            "FJC-221011-220",
+            "POP EDUCATION PTY LTD",
+            "Pop Education  Pty Ltd",
+            "89614611960",
+            "Issued",
+            "10/10/2024",
+            "09/10/2026"
+          ],
+          [
+            "FJC-221011-221",
+            "LANDSUR PTY LTD ATF LANDAIR SURVEYS TRUST",
+            "",
+            "31313157757",
+            "Issued",
+            "14/08/2026",
+            "08/10/2028"
+          ],
+          [
+            "FJC-221011-223",
+            "NEGRI CONTRACTORS (VIC.) PTY. LTD.",
+            "NEGRI CONTRACTORS (VIC.) PTY. LTD.",
+            "99006337239",
+            "Issued",
+            "10/10/2024",
+            "09/10/2026"
+          ],
+          [
+            "FJC-221011-225",
+            "EIFER'S CIVIL PTY LTD",
+            "EIfers Civil Pty Ltd",
+            "69105072811",
+            "Issued",
+            "18/09/2026",
+            "08/10/2028"
+          ],
+          [
+            "FJC-221011-226",
+            "CITY CIRCLE DEMOLITION & EXCAVATION PTY. LTD.",
+            "City Circle Demolition & Excavation Pty. Ltd.",
+            "27006399766",
+            "Issued",
+            "04/10/2024",
+            "09/10/2026"
+          ],
+          [
+            "FJC-221011-227",
+            "Leech Earthmoving Contracting Pty Ltd",
+            "Leech Earthmoving Contracting Pty Ltd",
+            "17124550296",
+            "Issued",
+            "08/09/2026",
+            "08/10/2028"
+          ],
+          [
+            "FJC-221011-228",
+            "AWMA PTY LTD",
+            "AWMA Pty Ltd",
+            "46108429876",
+            "Issued",
+            "07/09/2026",
+            "08/10/2028"
+          ],
+          [
+            "FJC-221011-229",
+            "EDU PROJECTS PTY LTD",
+            "EDU PROJECTS PTY LTD",
+            "28618696629",
+            "Issued",
+            "20/09/2024",
+            "09/10/2026"
+          ],
+          [
+            "FJC-221012-230",
+            "SANDRIDGE ROADS PTY LTD",
+            "Sandridge Roads P/L",
+            "62137677439",
+            "Issued",
+            "24/07/2026",
+            "09/10/2028"
+          ],
+          [
+            "FJC-221012-231",
+            "SIMPSON CONSTRUCTION COMPANY PTY. LTD.",
+            "Simpson Construction Company Pty Ltd",
+            "50006655376",
+            "Issued",
+            "18/09/2026",
+            "09/10/2028"
+          ],
+          [
+            "FJC-221012-232",
+            "CDR GEOTECHNICAL & ENVIRONMENTAL SERVICES PTY LTD",
+            "CDR Geotechnical & Environmental Services Pty Ltd",
+            "40168381584",
+            "Issued",
+            "04/08/2026",
+            "09/10/2028"
+          ],
+          [
+            "FJC-221012-233",
+            "PROARK PTY LTD ATF THE DUVNJAK FAMILY TRUST",
+            "",
+            "15059414758",
+            "Issued",
+            "11/09/2026",
+            "09/10/2028"
+          ],
+          [
+            "FJC-221012-234",
+            "BILD GREENFIELDS PTY LTD",
+            "BILD GREENFIELDS PTY LTD",
+            "81645884000",
+            "Issued",
+            "06/08/2025",
+            "05/08/2027"
+          ],
+          [
+            "FJC-221012-235",
+            "MAWSON CONSTRUCTIONS PTY LTD",
+            "Mawson Constructions",
+            "70150124637",
+            "Issued",
+            "16/08/2026",
+            "09/10/2028"
+          ],
+          [
+            "FJC-221012-236",
+            "WET FISH PTY LTD ATF SMITH FAMILY TRUST",
+            "",
+            "45682428073",
+            "Issued",
+            "04/08/2026",
+            "09/10/2028"
+          ],
+          [
+            "FJC-221012-237",
+            "ARCADIS AUSTRALIA PACIFIC PTY LTD",
+            "\u200bArcadis Australia Pacific Pty Ltd",
+            "76104485289",
+            "Issued",
+            "16/09/2026",
+            "09/10/2028"
+          ],
+          [
+            "FJC-221012-238",
+            "AOA CHRISTOPHER PECK PTY LTD ATF AOA CHRISTOPHER PECK TRUST.",
+            "",
+            "92884269289",
+            "Issued",
+            "12/08/2024",
+            "10/10/2026"
+          ],
+          [
+            "FJC-221012-239",
+            "BAYSIDE GROUP 2 PTY LTD",
+            "Bayside Group 2 Pty Ltd",
+            "63109478471",
+            "Issued",
+            "14/08/2026",
+            "09/10/2028"
+          ],
+          [
+            "FJC-221012-240",
+            "FOURSIGHT ARCHITECTS PTY LTD ATF FOURSIGHT ARCHITECTS UNIT TRUST",
+            "",
+            "49268720143",
+            "Issued",
+            "25/07/2024",
+            "10/10/2026"
+          ],
+          [
+            "FJC-221012-241",
+            "MATANIEL LAURATE PTY LTD",
+            "Mataniel Laurate Pty Ltd T/A Carey Civil Contracto",
+            "37094906028",
+            "Issued",
+            "24/07/2026",
+            "09/10/2028"
+          ],
+          [
+            "FJC-221012-243",
+            "RAMSAY CRANES PTY LTD",
+            "ramsay cranes pty ltd",
+            "81635272605",
+            "Issued",
+            "29/07/2024",
+            "10/10/2026"
+          ],
+          [
+            "FJC-221012-244",
+            "APPROVAL SYSTEMS PTY LTD ATF ZITA FAMILY TRUST",
+            "",
+            "29538736280",
+            "Issued",
+            "23/09/2024",
+            "10/10/2026"
+          ],
+          [
+            "FJC-221012-246",
+            "OPAT ARCHITECTS PTY LTD ATF ROWAN OPAT FAMILY TRUST",
+            "",
+            "49210619927",
+            "Issued",
+            "08/10/2024",
+            "10/10/2026"
+          ],
+          [
+            "FJC-221013-247",
+            "CETEC PTY. LTD.",
+            "CETEC Pty Ltd",
+            "44006873687",
+            "Issued",
+            "12/10/2024",
+            "11/10/2026"
+          ],
+          [
+            "FJC-221013-248",
+            "A W NICHOLSON PTY LTD",
+            "A W NICHOLSON PTY LTD",
+            "14118404381",
+            "Issued",
+            "14/08/2026",
+            "10/10/2028"
+          ],
+          [
+            "FJC-221013-249",
+            "ACCLAIMED WORKFORCE PTY LTD",
+            "Acclaimed Workforce Pty Ltd",
+            "52006531817",
+            "Issued",
+            "14/08/2026",
+            "10/10/2028"
+          ],
+          [
+            "FJC-221013-250",
+            "ACCLAIMED WORKFORCE 2 PTY LTD",
+            "Acclaimed Workforce 2 Pty Ltd",
+            "86065207187",
+            "Issued",
+            "14/08/2026",
+            "10/10/2028"
+          ],
+          [
+            "FJC-221013-251",
+            "PHILIP CHUN BC VIC PTY LTD",
+            "Philip Chun BC VIC Pty Ltd",
+            "76633815835",
+            "Issued",
+            "31/07/2024",
+            "11/10/2026"
+          ],
+          [
+            "FJC-221013-253",
+            "INTERNATIONAL RESILIENCE GROUP PTY. LTD.",
+            "International  Resilience Group",
+            "48606543819",
+            "Issued",
+            "04/08/2026",
+            "10/10/2028"
+          ],
+          [
+            "FJC-221013-254",
+            "DURATEC LIMITED",
+            "DURATEC LIMITED",
+            "94141614075",
+            "Issued",
+            "13/10/2024",
+            "12/10/2026"
+          ],
+          [
+            "FJC-221013-255",
+            "UNIVERSITY OF MELBOURNE",
+            "University of Melbourne",
+            "84002705224",
+            "Issued",
+            "08/10/2024",
+            "12/10/2026"
+          ],
+          [
+            "FJC-221013-256",
+            "WILSON SECURITY PTY LTD",
+            "Wilson Security",
+            "90127406295",
+            "Issued",
+            "19/08/2026",
+            "11/10/2028"
+          ],
+          [
+            "FJC-221017-257",
+            "KPI TRAFFIC CONTROL PTY LTD",
+            "kpi traffic control pty ltd",
+            "90141690208",
+            "Issued",
+            "08/09/2026",
+            "14/10/2028"
+          ],
+          [
+            "FJC-221018-258",
+            "ELITE BUILDING AND ENVIRONMENTAL SERVICES PTY LTD",
+            "Elite Building and Environmental Services Pty Ltd",
+            "35007127906",
+            "Issued",
+            "30/08/2026",
+            "16/10/2028"
+          ],
+          [
+            "FJC-221018-259",
+            "CONSTRUCTIVE GROUP PTY LTD",
+            "Constructive Group Pty LTD",
+            "40102865074",
+            "Issued",
+            "19/08/2026",
+            "16/10/2028"
+          ],
+          [
+            "FJC-221018-260",
+            "SYMAL INFRASTRUCTURE PTY LTD",
+            "Symal Infrastructure",
+            "87130808276",
+            "Issued",
+            "21/08/2024",
+            "17/10/2026"
+          ],
+          [
+            "FJC-221018-261",
+            "SMEDLEY TECHNICAL & STRATEGIC PTY LTD",
+            "Smedley Technical & Strategic",
+            "64604667558",
+            "Issued",
+            "19/08/2026",
+            "16/10/2028"
+          ],
+          [
+            "FJC-221018-262",
+            "INFRASTRUCTURE ADVISORY GROUP PTY LTD",
+            "Infrastructure Advisory Group",
+            "94626007494",
+            "Issued",
+            "11/10/2024",
+            "17/10/2026"
+          ],
+          [
+            "FJC-221018-263",
+            "COLLABORATIVE ITS CONSULTING AUSTRALIA PTY LTD",
+            "Cica Group",
+            "99153821688",
+            "Issued",
+            "16/08/2026",
+            "16/10/2028"
+          ],
+          [
+            "FJC-221018-264",
+            "WOWOWA PTY LTD",
+            "WOWOWA Pty Ltd",
+            "33140084537",
+            "Issued",
+            "06/09/2024",
+            "17/10/2026"
+          ],
+          [
+            "FJC-221018-265",
+            "DRIVER GROUP AUSTRALIA PTY. LTD.",
+            "Driver Group Australia",
+            "79004638153",
+            "Issued",
+            "14/08/2026",
+            "16/10/2028"
+          ],
+          [
+            "FJC-221018-266",
+            "KONE ELEVATORS PTY LTD",
+            "KONE Elevators",
+            "47000142423",
+            "Issued",
+            "20/06/2025",
+            "19/06/2027"
+          ],
+          [
+            "FJC-221019-267",
+            "RENDINE CONSTRUCTIONS PROPRIETARY LIMITED",
+            "Rendine Constructions",
+            "29005366129",
+            "Issued",
+            "04/09/2026",
+            "16/10/2028"
+          ],
+          [
+            "FJC-221019-268",
+            "MICHAEL CARR ARCHITECT PTY LTD ATF C MICHAEL CARR FAMILY TRUST",
+            "",
+            "58975970134",
+            "Issued",
+            "19/08/2026",
+            "16/10/2028"
+          ]
+        ]
+      },
+      "wall_seconds": 2.278
+    }
+  ],
+  "status": "available",
+  "resource_id": "0cf2ea00-0fa2-45e3-952f-99c2277c1fe8",
+  "policy_version": "download-preflight-3"
+}

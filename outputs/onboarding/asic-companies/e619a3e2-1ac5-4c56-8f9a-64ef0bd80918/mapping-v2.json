@@ -1,0 +1,227 @@
+{
+  "id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:2",
+  "run_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918",
+  "version": 2,
+  "config_hash": "2abe03c984a69c1b31bef2ad6f3e529daf7b02f35c0845ae78e3e1aab45ffa8b",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": "\t",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One ASIC Company Dataset row representing a registered or historical company-name record",
+    "subject_role": "legal_entity",
+    "source_kind": "company_register",
+    "subject_label_field": "Company Name",
+    "address_role": "unknown",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "Company Name"
+        ],
+        "canonical_field": "entity.legal_name",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "ASIC Company Dataset Help File, p.8, data dictionary: “Company Name — Company name as it appears on the register”; header “Company Name”; sample row 2: “LOVINI HOLDINGS PTY LTD”."
+      },
+      {
+        "source_fields": [
+          "ACN"
+        ],
+        "canonical_field": "entity.acn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "acn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.97,
+        "evidence": "ASIC Company Dataset Help File, p.8, data dictionary: “ACN — Australian Company Number”, format 9-digit numerical including leading zeros; sample row 2 header/value: ACN “000000019”."
+      },
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.97,
+        "evidence": "ASIC Company Dataset Help File, pp.10–11, data dictionary: “ABN — Australian Business Number”; documentation states the field shows the company ABN and shows 0 when there is no ABN; sample row 2 header/value: ABN “89000000019”."
+      },
+      {
+        "source_fields": [
+          "Type"
+        ],
+        "canonical_field": "entity.entity_type",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "APTY": "company",
+              "APUB": "company",
+              "FNOS": "company",
+              "RACN": "other"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.86,
+        "evidence": "ASIC Company Dataset Help File, p.8, data dictionary: “Type — Specifies the type of company”; documented values include APTY, APUB, FNOS and RACN. Sample rows 2–9 show APTY. Mapping is limited to the explicitly documented type field and does not use a name suffix."
+      },
+      {
+        "source_fields": [
+          "Status"
+        ],
+        "canonical_field": "entity.status",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "REGD": "active",
+              "DRGD": "deregistered",
+              "EXAD": "in_liquidation",
+              "NOAC": "unknown",
+              "NRGD": "unknown",
+              "PROV": "unknown",
+              "SOFF": "unknown",
+              "DISS": "unknown",
+              "DIV3": "unknown",
+              "PEND": "unknown",
+              "CNCL": "unknown"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.91,
+        "evidence": "ASIC Company Dataset Help File, pp.9–10, data dictionary: “Status — Status of company”; documented codes include REGD (Registered), DRGD (De-registered), and EXAD (External administration). Sample row 2: Status “REGD”."
+      },
+      {
+        "source_fields": [
+          "Date of Registration"
+        ],
+        "canonical_field": "entity.date_registered",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "date",
+            "argument": "%d/%m/%Y",
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "ASIC Company Dataset Help File, p.11, data dictionary: “Date of Registration — Date on which a company was registered”, format DD/MM/YYYY; sample row 2: “08/01/1990”."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Class",
+        "reason": "ASIC liability/class code is not represented by the supplied ontology; do not infer entity_type from it."
+      },
+      {
+        "source_field": "Sub Class",
+        "reason": "ASIC company subclass code is not represented by the supplied ontology."
+      },
+      {
+        "source_field": "Date of Deregistration",
+        "reason": "The ontology has no deregistration-date field; it must not be mapped to date_registered."
+      },
+      {
+        "source_field": "Previous State of Registration",
+        "reason": "This is historical state-registration metadata, not an address state."
+      },
+      {
+        "source_field": "State Registration number",
+        "reason": "State registration identifier is not an ACN/ABN and has no corresponding ontology field."
+      },
+      {
+        "source_field": "Modified since last report",
+        "reason": "Dataset-change flag has no corresponding ontology field."
+      },
+      {
+        "source_field": "Current Name Indicator",
+        "reason": "Name-history indicator has no corresponding ontology field."
+      },
+      {
+        "source_field": "Current Name",
+        "reason": "Documentation describes this as a current company name used conditionally for historical records; the ontology does not provide a separate legal-name-history field, and it must not be relabelled as a trading name."
+      },
+      {
+        "source_field": "Current Name Start Date",
+        "reason": "Historical/current-name start date has no corresponding ontology field and is not the company registration date."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.96,
+    "limitations": [
+      "The source is a weekly snapshot and documentation warns it may not be accurate at query time; publication_proxy is used from the source envelope (2026-09-14T14:53:34.014830), not a row-change timestamp.",
+      "Company Name rows include historical name records and repeated ACNs; ingestion preserves rows and does not reconcile names or assign historical names as trading names.",
+      "The ACN field is documented to contain an ARBN when Type=RACN; the acn operation validates the supplied value but does not resolve that qualification.",
+      "ABN and ACN are independently validated with their dedicated operations; no ABN suffix is used to derive an ACN, and zero/missing invalid values emit no identifier observation.",
+      "Status is a register status, not proof of operational activity; deregistration status is not inferred from any licence event.",
+      "No address, website, industry code, branch, licence, trading-name ownership, or reporting-group relationship is evidenced by this source.",
+      "Authority, field, and linking scores are provisional and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-luna",
+  "created_at": "2026-09-19T08:56:09.907594+00:00",
+  "status": "proposed"
+}

@@ -1,0 +1,234 @@
+{
+  "dataset_id": "cfc1a18e-f4e0-4ed8-9a19-36b59b7a3d5b",
+  "attempts": [
+    {
+      "resource_id": "dbba5286-8a92-4ec9-8733-04375275d93a",
+      "url": "https://data.gov.au/data/dataset/cfc1a18e-f4e0-4ed8-9a19-36b59b7a3d5b/resource/dbba5286-8a92-4ec9-8733-04375275d93a/download/2018-ais_list-of-group-members.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:55:55.623165+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/cfc1a18e-f4e0-4ed8-9a19-36b59b7a3d5b/resource/dbba5286-8a92-4ec9-8733-04375275d93a/download/2018-ais_list-of-group-members.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 79186,
+      "partial": false,
+      "artifact_id": "b2a3e36fc759e845e64a292f300a5e50bb9730645bfb7ef8d70179f36b6191c3",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Account Advanced Find View",
+            "rows": [
+              [
+                "ABN",
+                "Charity legal name",
+                "Date charity started reporting as a group",
+                "Date charity ended reporting as a group",
+                "Name of ACNC approved group",
+                ""
+              ],
+              [
+                "11616332444",
+                "Purpose Real Estate Ltd",
+                "2017-07-01 00:00:00",
+                "",
+                "Coast2Bay Housing_ACNC Group",
+                ""
+              ],
+              [
+                "15006145222",
+                "G-Force Recruitment Ltd ",
+                "2013-07-01 00:00:00",
+                "",
+                "G-Force Recruitment_ACNC GROUP",
+                ""
+              ],
+              [
+                "16007383360",
+                "The Korowa Foundation Limited",
+                "2017-01-01 00:00:00",
+                "",
+                "The Korowa Foundation_ACNC Group",
+                ""
+              ],
+              [
+                "26137533843",
+                "Headspace National Youth Mental Health Foundation Ltd",
+                "2015-07-01 00:00:00",
+                "",
+                "Headspace_ACNC GROUP",
+                ""
+              ],
+              [
+                "29608297012",
+                "Catholic Church Endowment Society Inc",
+                "2014-01-01 00:00:00",
+                "",
+                "Catholic Church Endowment Society_ACNC Group",
+                ""
+              ],
+              [
+                "37072731894",
+                "Chemcert Limtied",
+                "2015-07-01 00:00:00",
+                "",
+                "ChemCert_ACNC GROUP",
+                ""
+              ],
+              [
+                "37447253549",
+                "Generocity Church Limited",
+                "2017-07-01 00:00:00",
+                "",
+                "Generocity Church Incorporated_ACNC Group",
+                ""
+              ],
+              [
+                "39091427756",
+                "Lenity Australia Limited",
+                "2017-07-01 00:00:00",
+                "",
+                "Lenity Australia_ACNC Group",
+                ""
+              ],
+              [
+                "40105498459",
+                "Leadership Western Australia",
+                "2014-01-01 00:00:00",
+                "",
+                "Leadership WA_ACNC Group",
+                ""
+              ],
+              [
+                "52303567862",
+                "Childrens Protection Society Inc.",
+                "2017-07-01 00:00:00",
+                "",
+                "Childrens Protection Society_ACNC Group",
+                ""
+              ],
+              [
+                "58584532336",
+                "Church Missionary Society - Australia Limited",
+                "2014-07-01 00:00:00",
+                "",
+                "Church Missionary Society_ACNC GROUP",
+                ""
+              ],
+              [
+                "64005081523",
+                "Australian Breastfeeding Association",
+                "2013-07-01 00:00:00",
+                "2018-06-30 00:00:00",
+                "Australian Breastfeeding Association_ACNC GROUP",
+                ""
+              ],
+              [
+                "66092814349",
+                "Whitsunday Anglican School Foundation Limited",
+                "2017-07-01 00:00:00",
+                "",
+                "Whitsunday Anglican School Foundation_ACNC Group",
+                ""
+              ],
+              [
+                "67192579348",
+                "The Open Hand Incorporated",
+                "2015-07-01 00:00:00",
+                "",
+                "The Open Hand Incorporated_ACNC GROUP",
+                ""
+              ],
+              [
+                "74457506140",
+                "Infoxchange",
+                "2014-07-01 00:00:00",
+                "",
+                "Infoxchange_ACNC Group",
+                ""
+              ],
+              [
+                "85609262777",
+                "Tweddle Foundation Limited",
+                "2016-07-01 00:00:00",
+                "",
+                "Tweddle Foundation_ACNC GROUP",
+                ""
+              ],
+              [
+                "87302064152",
+                "The Northcott Society",
+                "2016-07-01 00:00:00",
+                "",
+                "The Northcott Society_ACNC Group",
+                ""
+              ],
+              [
+                "88125771587",
+                "Uca - Wayside Chapel",
+                "2014-07-01 00:00:00",
+                "",
+                "Wayside Chapel_ACNC GROUP",
+                ""
+              ],
+              [
+                "91893631195",
+                "Catholic Education Office",
+                "2014-01-01 00:00:00",
+                "",
+                "Catholic Church Endowment Society_ACNC Group",
+                ""
+              ]
+            ]
+          },
+          {
+            "sheet": "hiddenSheet",
+            "rows": [
+              [
+                "account:CWZQGwr0W5hv1wagOSlycQhNDikeKVSZ/xfxeY/DEmwqbHUcfekurC6vppeAGRuZubssy5aHIquVIa/IRrTgaw==:accountid=%28Do%20Not%20Modify%29%20Account&checksumLogicalName=%28Do%20Not%20Modify%29%20Row%20Checksum&modifiedon=%28Do%20Not%20Modify%29%20Modified%20On&parentaccountid=Parent%20Account&acnc_abn=ABN&name=Legal%20Name&acnc_groupstartdate=Group%20Start%20Date&acnc_groupenddate=Group%20End%20Date&statuscode=Charity%20Status",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Registered",
+                "Pending",
+                "Revoked ABN",
+                "Revoked Double Defaulter",
+                "Revoked RTS",
+                "Revoked Registration",
+                "Revoked Compliance",
+                "Voluntarily Revoked Merged",
+                "Voluntarily Revoked No Longer Operating",
+                "Voluntarily Revoked Continuing But No Longer Wants To Be A Charity",
+                "Voluntarily Revoked Not Entitled To Be A Charity",
+                "Inactive Withdrawn",
+                "Inactive Insufficient Information",
+                "Refused Non Charitable",
+                "Refused Insufficient Information",
+                "Inactive Created In Error",
+                "Inactive Legacy"
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 1.161
+    }
+  ],
+  "status": "available",
+  "resource_id": "dbba5286-8a92-4ec9-8733-04375275d93a",
+  "policy_version": "download-preflight-3"
+}

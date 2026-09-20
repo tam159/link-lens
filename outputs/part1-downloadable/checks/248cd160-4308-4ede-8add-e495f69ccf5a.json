@@ -1,0 +1,231 @@
+{
+  "dataset_id": "248cd160-4308-4ede-8add-e495f69ccf5a",
+  "attempts": [
+    {
+      "resource_id": "ca690526-e1a0-4d1b-a098-2effce4a066c",
+      "url": "https://data.gov.au/data/dataset/248cd160-4308-4ede-8add-e495f69ccf5a/resource/ca690526-e1a0-4d1b-a098-2effce4a066c/download/lhn_sip_anticipatory-notice-06-mar-2025.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:24.678021+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/248cd160-4308-4ede-8add-e495f69ccf5a/resource/ca690526-e1a0-4d1b-a098-2effce4a066c/download/lhn_sip_anticipatory-notice-06-mar-2025.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 20226,
+      "partial": false,
+      "artifact_id": "0e29e18e842448b1ff0bc349d660290a9ef07328ff42db52327ce74a6e1b7550",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "06 MAR 2025",
+            "rows": [
+              [
+                "LBB REFERENCE",
+                "Development Name or Address",
+                "State",
+                "Network Infrastructure",
+                " Contract date",
+                "Date Notice Given",
+                "Estimated Completion Date",
+                ""
+              ],
+              [
+                "LHN_277Annangrove",
+                "277-279 Annangrove Road, Rouse Hill, NSW 2155",
+                "NSW",
+                "FTTP",
+                "2025-02-24 00:00:00",
+                "2025-03-06 00:00:00",
+                "2027-03-06 00:00:00",
+                ""
+              ],
+              [
+                "LHN_The Carter",
+                "73 Linton Street, Kangaroo Point, QLD 4169",
+                "QLD",
+                "FTTP",
+                "2025-02-18 00:00:00",
+                "2025-03-06 00:00:00",
+                "2027-03-06 00:00:00",
+                ""
+              ],
+              [
+                "LHN_The Bedford",
+                "23-31 Ferry Street & 16-30 Prospect Street, Kangaroo Point, QLD 4169",
+                "QLD",
+                "FTTP",
+                "2025-02-18 00:00:00",
+                "2025-03-06 00:00:00",
+                "2027-03-06 00:00:00",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "6-8 Lords Ave Asquith NSW",
+                "",
+                "",
+                "",
+                "2023-06-29 00:00:00",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                ".",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 0.694
+    }
+  ],
+  "status": "available",
+  "resource_id": "ca690526-e1a0-4d1b-a098-2effce4a066c",
+  "policy_version": "download-preflight-3"
+}

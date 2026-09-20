@@ -1,0 +1,86 @@
+{
+  "id": "8acd7625-6835-4790-af94-aaa88cec9c03:1",
+  "run_id": "8acd7625-6835-4790-af94-aaa88cec9c03",
+  "version": 1,
+  "config_hash": "8b830a1472279b9939fbe8e70ce852167e563e914a339d6bc813261921a718e2",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": "\t",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One row per ASIC Business Names Register business-name registration record, representing a registered or recently deregistered business name rather than necessarily a legal entity",
+    "subject_role": "business_name_holder",
+    "source_kind": "business_name_register",
+    "subject_label_field": "BN_NAME",
+    "address_role": "unknown",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "BN_NAME"
+        ],
+        "canonical_field": "entity.trading_name",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "ASIC Business Names Dataset Help File, p. 7, data dictionary: BN_NAME is “A name used, or to be used, in relation to one or more businesses” and is the Business Name as it appears on ASIC’s Business Names register; sample header BN_NAME and row values such as “Plumbing Gas and Solar”."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "REGISTER_NAME",
+        "reason": "Register label (“BUSINESS NAMES”), not a legal entity name, trading name, identifier, address, or ontology status."
+      },
+      {
+        "source_field": "BN_STATUS",
+        "reason": "Describes registration status of the business name, not the status of a legal entity; the ontology has no business-name registration-status target, and cancellation does not prove entity deregistration."
+      },
+      {
+        "source_field": "BN_REG_DT",
+        "reason": "This is the date the business name started/was registered, not a legal entity registration date. The ontology’s entity.date_registered must not receive a business-name registration date. ASIC Help File, p. 8, defines BN_REG_DT as the date by which the Business Name started."
+      },
+      {
+        "source_field": "BN_CANCEL_DT",
+        "reason": "This is the date the business name ceased, not a legal-entity deregistration date; the ontology has no business-name cancellation-date target. ASIC Help File, p. 8, specifies it is populated when the Business Name has been cancelled."
+      },
+      {
+        "source_field": "BN_STATE_NUM",
+        "reason": "Former state-registration identifying number allocated by a previous business-names regulator before 28 May 2012; no ontology target and not a current legal-entity identifier. ASIC Help File, p. 8."
+      },
+      {
+        "source_field": "BN_STATE_OF_REG",
+        "reason": "Previous state of registration under a former business-names regulator, not a current entity/address state; no suitable ontology target. ASIC Help File, p. 8."
+      },
+      {
+        "source_field": "BN_ABN",
+        "reason": "Although documented as an Australian Business Number, this business-name-register field may be NULL for suppressed, multiple, or unavailable ABNs and does not establish the legal identity or ownership of the business-name holder. The supplied provenance semantics require identifiers to remain unmapped when holder/ownership is unsupported; no ACN inference is made. ASIC Help File, p. 9, states the field can be NULL in these cases."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.9,
+    "limitations": [
+      "The source is a snapshot of ASIC’s Business Names Register, not a company register; a row is not necessarily a legal entity record.",
+      "BN_NAME is retained as a raw subject label and mapped only as a trading-name claim; no legal-name or ownership claim is made.",
+      "No legal entity, company type, branch, address, licence, or reporting-group fields are supplied.",
+      "Publication timestamp 2026-09-15T20:36:19.202924 is used by the source envelope as an allowed observation proxy, not as a row-change timestamp.",
+      "ASIC states the dataset includes currently registered business names and deregistered business names for the preceding 12 months (Help File, p. 2); coverage outside that window is not represented.",
+      "All authority and field-confidence scores are provisional and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-luna",
+  "created_at": "2026-09-19T08:56:34.162789+00:00",
+  "status": "proposed"
+}

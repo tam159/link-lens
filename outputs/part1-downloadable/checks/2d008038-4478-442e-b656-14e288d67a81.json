@@ -1,0 +1,21 @@
+{
+  "dataset_id": "2d008038-4478-442e-b656-14e288d67a81",
+  "attempts": [
+    {
+      "resource_id": "792d81eb-dc6b-4bec-a185-88a7d8ac95b8",
+      "url": "https://www.data.qld.gov.au/dataset/2d008038-4478-442e-b656-14e288d67a81/resource/792d81eb-dc6b-4bec-a185-88a7d8ac95b8/download/sq-contract-disclosure-2020.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:56.056221+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/2d008038-4478-442e-b656-14e288d67a81/resource/792d81eb-dc6b-4bec-a185-88a7d8ac95b8/download/sq-contract-disclosure-2020.xlsx",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.214
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

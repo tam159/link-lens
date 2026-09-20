@@ -1,0 +1,211 @@
+{
+  "dataset_id": "42bad3df-f2e0-4c9c-bef0-0a4328927718",
+  "attempts": [
+    {
+      "resource_id": "e119647b-a2aa-4e78-b810-d3f6d60c53af",
+      "url": "https://storagesolutiondocsprod.blob.core.windows.net/register-documents-rso/rso-register.xlsx?timestamp=2026-09-18T10:20:01+10:00",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:39.149758+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://storagesolutiondocsprod.blob.core.windows.net/register-documents-rso/rso-register.xlsx?timestamp=2026-09-18T10:20:01+10:00",
+      "content_type": "application/octet-stream",
+      "bytes": 899786,
+      "partial": false,
+      "artifact_id": "929fd5cc5ed8f6cd8a537ed582354e118730cbef7a4afdb8385d61bcb474fd18",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Registered Suitable Operators",
+            "rows": [
+              [
+                "Entity Type",
+                "Customer Name",
+                "Business Number",
+                "Registration Date",
+                "RSO Number",
+                "Registration Status",
+                "Location"
+              ],
+              [
+                "Corporation (Company)",
+                "\"OVER THE TOP\" ROOF RESTORATIONS PTY. LTD",
+                "ACN 090444714",
+                "2013-03-26 00:00:00",
+                "649054",
+                "Registered",
+                "BIRTINYA, QLD, 4575"
+              ],
+              [
+                "Corporation (Company)",
+                "$Uccess Pty Ltd",
+                "ACN 600137942",
+                "2014-12-18 00:00:00",
+                "735094",
+                "Registered",
+                "KELSO, QLD, 4815"
+              ],
+              [
+                "Corporation (Company)",
+                "111 TRADING GROUP PTY LTD",
+                "ACN 688234362",
+                "2026-03-27 00:00:00",
+                "101064497",
+                "Registered",
+                "ROCKLEA, QLD, 4106"
+              ],
+              [
+                "Corporation (Company)",
+                "1205 PTY LTD",
+                "ACN 669387562",
+                "2024-10-15 00:00:00",
+                "100740901",
+                "Registered",
+                "ORMOND, VIC, 3204"
+              ],
+              [
+                "Corporation (Company)",
+                "1300 DEMOLITION PTY LTD",
+                "ACN 621895690",
+                "2025-11-12 00:00:00",
+                "100977166",
+                "Registered",
+                "DECEPTION BAY, QLD, 4508"
+              ],
+              [
+                "Corporation (Company)",
+                "1300LOCATE PTY LTD",
+                "ACN 120503442",
+                "2013-06-13 00:00:00",
+                "708792",
+                "Registered",
+                "CABOOLTURE, QLD, 4510"
+              ],
+              [
+                "Corporation (Company)",
+                "167 EAGLE STREET PTY LTD",
+                "ACN 096451017",
+                "2013-03-26 00:00:00",
+                "704071",
+                "Registered",
+                "BRISBANE, QLD, 4001"
+              ],
+              [
+                "Corporation (Company)",
+                "1749 QLD PTY LIMITED",
+                "ACN 150715405",
+                "2013-05-13 00:00:00",
+                "707494",
+                "Registered",
+                "SYDNEY, NSW, 2000"
+              ],
+              [
+                "Corporation (Company)",
+                "1770 CASTAWAY SURVIVOR PTY LTD",
+                "ACN 619147116",
+                "2024-10-04 00:00:00",
+                "100735182",
+                "Registered",
+                "GEEBUNG, QLD, 4034"
+              ],
+              [
+                "Corporation (Company)",
+                "1873 CO PTY LTD",
+                "ACN 601079949",
+                "2014-08-20 00:00:00",
+                "729864",
+                "Registered",
+                "BROMELTON, QLD, 4285"
+              ],
+              [
+                "Corporation (Company)",
+                "1ONEGROUP PTY LTD",
+                "ACN 667551019",
+                "2024-07-09 00:00:00",
+                "100683760",
+                "Registered",
+                "BARLOWS HILL, QLD, 4703"
+              ],
+              [
+                "Corporation (Company)",
+                "1ST FLEET PTY. LIMITED",
+                "ACN 003475214",
+                "2013-03-26 00:00:00",
+                "704072",
+                "Registered",
+                "SMITHFIELD, NSW, 2164"
+              ],
+              [
+                "Corporation (Company)",
+                "21 GROUP AU PTY LTD",
+                "ACN 655562762",
+                "2022-11-17 00:00:00",
+                "100347233",
+                "Registered",
+                "UNDERWOOD, QLD, 4119"
+              ],
+              [
+                "Corporation (Company)",
+                "23A PTY LTD",
+                "ACN 603880440",
+                "2015-07-30 00:00:00",
+                "RSO000243",
+                "Registered",
+                "HEMMANT, QLD, 4174"
+              ],
+              [
+                "Corporation (Company)",
+                "2DE PROPERTY PTY LTD",
+                "ACN 660397857",
+                "2022-08-04 00:00:00",
+                "100293503",
+                "Registered",
+                "TOOWOOMBA, QLD, 4350"
+              ],
+              [
+                "Corporation (Company)",
+                "2DE PTY LTD",
+                "ACN 640156636",
+                "2022-08-09 00:00:00",
+                "100295397",
+                "Registered",
+                "TOOWOOMBA, QLD, 4350"
+              ],
+              [
+                "Corporation (Company)",
+                "343 Bowhill Pty Ltd",
+                "ACN 697246665",
+                "2026-05-08 00:00:00",
+                "101096447",
+                "Registered",
+                "KEILOR EAST, VIC, 3033"
+              ],
+              [
+                "Corporation (Company)",
+                "3D DEMOLITION QLD PTY LTD",
+                "ACN 608316025",
+                "2021-10-18 00:00:00",
+                "100144135",
+                "Registered",
+                "KURWONGBAH, QLD, 4514"
+              ],
+              [
+                "Corporation (Company)",
+                "3D SITE CLEAN PTY LTD",
+                "ACN 145319624",
+                "2013-03-26 00:00:00",
+                "691069",
+                "Registered",
+                "KURWONGBAH, QLD, 4503"
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 2.28
+    }
+  ],
+  "status": "available",
+  "resource_id": "e119647b-a2aa-4e78-b810-d3f6d60c53af",
+  "policy_version": "download-preflight-3"
+}

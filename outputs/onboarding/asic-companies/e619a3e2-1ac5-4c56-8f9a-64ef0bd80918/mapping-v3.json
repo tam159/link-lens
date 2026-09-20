@@ -1,0 +1,255 @@
+{
+  "id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918:3",
+  "run_id": "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918",
+  "version": 3,
+  "config_hash": "394b9c061280955cc4ed49286c529cc4136344f04e884a4c13fa030601f86c75",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": "\t",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One ASIC Company Dataset row representing a registered or historical company-name record",
+    "subject_role": "legal_entity",
+    "source_kind": "company_register",
+    "subject_label_field": "Company Name",
+    "address_role": "unknown",
+    "filters": [
+      {
+        "field": "Current Name Indicator",
+        "op": "in",
+        "values": [
+          "Y"
+        ],
+        "length": null
+      }
+    ],
+    "fields": [
+      {
+        "source_fields": [
+          "Company Name"
+        ],
+        "canonical_field": "entity.legal_name",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "Current Name Indicator",
+            "op": "in",
+            "values": [
+              "Y"
+            ],
+            "length": null
+          }
+        ],
+        "confidence": 0.97,
+        "evidence": "ASIC Company Dataset Help File, p.8, data dictionary: “Company Name — Company name as it appears on the register”; p.4 example headers/records; discovery row 3: Current Name Indicator “Y”, Company Name “MONAKA PTY LTD”. The current-name filter prevents historical Company Name rows from being emitted as current legal names."
+      },
+      {
+        "source_fields": [
+          "ACN"
+        ],
+        "canonical_field": "entity.acn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "acn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "Type",
+            "op": "not_in",
+            "values": [
+              "RACN"
+            ],
+            "length": null
+          }
+        ],
+        "confidence": 0.96,
+        "evidence": "ASIC Company Dataset Help File, p.8, data dictionary: “ACN — Australian Company Number”, 9-digit format including leading zeros; same page documents the exception that when Type='RACN' the field contains an ARBN. Discovery rows 2–9 show Type APTY and ACN values such as “000000019”. The declarative Type exclusion prevents ARBN emission as entity.acn."
+      },
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.97,
+        "evidence": "ASIC Company Dataset Help File, pp.10–11, data dictionary: “ABN — Australian Business Number”; it states the field shows the company ABN and shows 0 when there is no ABN. Discovery row 2 header/value: ABN “89000000019”. The abn operation validates the identifier and suppresses zero/invalid values."
+      },
+      {
+        "source_fields": [
+          "Type"
+        ],
+        "canonical_field": "entity.entity_type",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "APTY": "company",
+              "APUB": "company",
+              "FNOS": "company",
+              "RACN": "other"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.84,
+        "evidence": "ASIC Company Dataset Help File, p.8, data dictionary: “Type — Specifies the type of company”; documented values APTY, APUB, FNOS and RACN. Discovery rows 2–9 show APTY. Mapping uses documented codes only and does not infer company type from a name suffix."
+      },
+      {
+        "source_fields": [
+          "Status"
+        ],
+        "canonical_field": "entity.status",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "REGD": "active",
+              "DRGD": "deregistered",
+              "EXAD": "unknown",
+              "NOAC": "unknown",
+              "NRGD": "unknown",
+              "PROV": "unknown",
+              "SOFF": "unknown",
+              "DISS": "unknown",
+              "DIV3": "unknown",
+              "PEND": "unknown",
+              "CNCL": "unknown"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.9,
+        "evidence": "ASIC Company Dataset Help File, pp.9–10, data dictionary: “Status — Status of company”; REGD is “Registered”, DRGD “De-registered”, and EXAD “External administration (in receivership/liquidation)”. EXAD is deliberately mapped to unknown because the documentation does not establish that external administration is exactly the ontology’s in_liquidation status. Discovery row 2 has Status “REGD”."
+      },
+      {
+        "source_fields": [
+          "Date of Registration"
+        ],
+        "canonical_field": "entity.date_registered",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "date",
+            "argument": "%d/%m/%Y",
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "ASIC Company Dataset Help File, p.11, data dictionary: “Date of Registration — Date on which a company was registered”, format DD/MM/YYYY; discovery row 2 sample “08/01/1990”. This field is not populated from charity, trading-name, licence, or deregistration dates."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Class",
+        "reason": "ASIC liability/class code is not represented by the supplied ontology; do not infer entity_type from it."
+      },
+      {
+        "source_field": "Sub Class",
+        "reason": "ASIC company subclass code is not represented by the supplied ontology."
+      },
+      {
+        "source_field": "Date of Deregistration",
+        "reason": "The ontology has no deregistration-date field; it must not be mapped to entity.date_registered."
+      },
+      {
+        "source_field": "Previous State of Registration",
+        "reason": "This is historical state-registration metadata, not an address state."
+      },
+      {
+        "source_field": "State Registration number",
+        "reason": "State registration identifier is not an ACN/ABN and has no corresponding ontology field."
+      },
+      {
+        "source_field": "Modified since last report",
+        "reason": "Dataset-change flag has no corresponding ontology field."
+      },
+      {
+        "source_field": "Current Name Indicator",
+        "reason": "Used only as a declarative current-name filter/condition; it has no ontology target field."
+      },
+      {
+        "source_field": "Current Name",
+        "reason": "ASIC documents this as a conditional current-name field for historical records (Help File p.11–12), but the ontology has no separate legal-name-history field. It is not mapped to trading_name, and historical names are not emitted as current legal names."
+      },
+      {
+        "source_field": "Current Name Start Date",
+        "reason": "Historical/current-name start date has no corresponding ontology field and is not the company registration date."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.96,
+    "limitations": [
+      "The source is a weekly snapshot and ASIC warns it may not be accurate at query time; publication_proxy uses the supplied publication timestamp 2026-09-14T14:53:34.014830 and is not a row-change timestamp.",
+      "The current-name filter emits only records with Current Name Indicator='Y'; historical name rows are retained as raw source evidence but do not produce current legal-name observations. Rows with other or missing indicators are excluded from mapped observations, so current-name coverage may be incomplete if publisher conventions vary.",
+      "The row grain is a company-register name record; repeated ACNs represent name history and are not reconciled or collapsed during ingestion.",
+      "The ACN field is documented to contain an ARBN when Type=RACN; the declarative Type exclusion prevents those values from being emitted as entity.acn. No ACN is inferred from an ABN suffix.",
+      "ABN and ACN are independently validated with their dedicated operations; valid values of the other identifier type produce no observation, and zero/missing/invalid values produce no identifier observation.",
+      "REGD is approximated as active and DRGD as deregistered. EXAD and all other unmapped-to-ontology status meanings are conservatively emitted as unknown; external administration is not equated with liquidation.",
+      "No address, website, industry code, branch, trading-name ownership, licence, or reporting-group relationship is evidenced by this source.",
+      "Authority, field, and linking scores are provisional judgements and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-luna",
+  "created_at": "2026-09-19T09:11:07.453662+00:00",
+  "status": "proposed"
+}

@@ -1,0 +1,221 @@
+{
+  "id": "23fca114-0f59-4df6-9e5b-ec0be3971727:1",
+  "run_id": "23fca114-0f59-4df6-9e5b-ec0be3971727",
+  "version": 1,
+  "config_hash": "cfd3ec2b122263581ba17ae433f4ae13b620034bf7b648ee91375dbb666c08f8",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One row per current Australian Financial Services licence register entry",
+    "subject_role": "licence_holder",
+    "source_kind": "licence_register",
+    "subject_label_field": "AFS_LIC_NAME",
+    "address_role": "business",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "AFS_LIC_ABN_ACN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "Help File p.8 data dictionary: AFS_LIC_ABN_ACN is the licensee ABN or ACN; sample row 2 header/value AFS_LIC_ABN_ACN=85007186003 is an 11-digit identifier. The abn operation validates ABN checksum and emits no value for a valid ACN."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ABN_ACN"
+        ],
+        "canonical_field": "entity.acn",
+        "transformations": [
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "acn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "Help File p.8 data dictionary: AFS_LIC_ABN_ACN is the licensee ABN or ACN; the supplied column is explicitly polymorphic. The acn operation validates ACN checksum and emits no value for a valid ABN; no ABN suffix inference is used."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_LOCAL"
+        ],
+        "canonical_field": "address.locality",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_LOCAL",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.99,
+        "evidence": "Help File p.9 data dictionary: AFS_LIC_ADD_LOCAL is the locality of the current principal business address; sample row 2 has SOUTHBANK."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_STATE"
+        ],
+        "canonical_field": "address.state",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "uppercase",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "NSW": "NSW",
+              "VIC": "VIC",
+              "QLD": "QLD",
+              "WA": "WA",
+              "SA": "SA",
+              "TAS": "TAS",
+              "ACT": "ACT",
+              "NT": "NT"
+            }
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_STATE",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.99,
+        "evidence": "Help File p.10 data dictionary: AFS_LIC_ADD_STATE is the state from the current principal business address; sample rows 2–3 show VIC and NSW."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_PCODE"
+        ],
+        "canonical_field": "address.postcode",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "postcode",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_PCODE",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.98,
+        "evidence": "Help File p.10 data dictionary: AFS_LIC_ADD_PCODE is the postcode from the current principal business address; sample row 2 has 3006. The postcode operation preserves source string semantics and does not infer padding for damaged values."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_COUNTRY"
+        ],
+        "canonical_field": "address.country",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_COUNTRY",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.99,
+        "evidence": "Help File p.10 data dictionary: AFS_LIC_ADD_COUNTRY is the country of the principal business address and countries outside Australia are set to International; sample rows 2–3 have Australia."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "REGISTER_NAME",
+        "reason": "Identifies the register entry, not a canonical ontology field; it is not evidence of legal entity type or name."
+      },
+      {
+        "source_field": "AFS_LIC_NUM",
+        "reason": "Licence identifier has no corresponding field in the supplied ontology; preserved as unmapped rather than invented as an entity identifier."
+      },
+      {
+        "source_field": "AFS_LIC_START_DT",
+        "reason": "This is the date the AFS licence was issued, not company/entity registration; the ontology has no licence start-date field and it must not map to entity.date_registered (Help File p.8)."
+      },
+      {
+        "source_field": "AFS_LIC_PRE_FSR",
+        "reason": "Historical superseded licence identifiers and types are nested text with no ontology target; they are not current entity identifiers (Help File p.9)."
+      },
+      {
+        "source_field": "AFS_LIC_CONDITION",
+        "reason": "Current licence authorisations/conditions are nested text with no ontology target (Help File p.11); they do not establish entity industry, status, or legal name."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.97,
+    "limitations": [
+      "The source is a snapshot of current Australian Financial Services licensees, but a current licence is not evidence that the legal entity is active, nor does it prove deregistration if a licence later changes or is revoked.",
+      "AFS_LIC_NAME is retained as the raw subject label only; the documentation calls it the register entry name and it may represent a person or organisation, so it is not mapped to legal_name or trading_name.",
+      "AFS_LIC_ABN_ACN is a mixed ABN/ACN column; each value is independently checksum-validated and only the matching ontology identifier is emitted.",
+      "The source exposes principal business address components but no full street address, so address.full is not mapped.",
+      "The source documentation describes current records but supplies no row-level status or explicit legal-entity type; entity.status and entity.entity_type remain unmapped.",
+      "observed_at uses the supplied publication timestamp 2026-09-16T21:52:45.982310 as a publication proxy, not a row-change timestamp; ingested_at and other observation-envelope fields are supplied by the ingestion system.",
+      "All authority and field confidence scores are provisional and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-luna",
+  "created_at": "2026-09-19T08:57:02.741498+00:00",
+  "status": "proposed"
+}

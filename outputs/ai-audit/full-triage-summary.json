@@ -1,0 +1,18 @@
+{
+  "worksheet_id": "de07af4c61937995ea79b2f6072239bdbd5cfdf93203a7c635c16de9d1fee749",
+  "kind": "triage",
+  "review_type": "ai_assisted",
+  "sample_size": 50,
+  "sampling": "Census of frozen 50 download-gated ranks; bounded fresh resource evidence and companion documents; no reranking after judgments",
+  "seed": null,
+  "threshold": null,
+  "assessed": 50,
+  "supported": 47,
+  "not_supported": 1,
+  "unresolved": 2,
+  "resolved_denominator": 48,
+  "support_fraction_on_resolved": 0.9791666666666666,
+  "negative_fraction_on_resolved": 0.020833333333333332,
+  "human_requirement_satisfied": false,
+  "limitation": "Assistant evidence audit; not human ground truth or measured human precision. Shared source errors and selection bias remain possible."
+}

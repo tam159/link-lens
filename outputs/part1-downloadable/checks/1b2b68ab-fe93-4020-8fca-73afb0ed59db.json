@@ -1,0 +1,921 @@
+{
+  "dataset_id": "1b2b68ab-fe93-4020-8fca-73afb0ed59db",
+  "attempts": [
+    {
+      "resource_id": "2facc25e-8544-4e65-8897-3d6f3d7dd4f1",
+      "url": "https://vpsc.vic.gov.au/wp-content/uploads/2022/03/Board-and-board-member-profile.xlsx",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:56:33.904230+00:00",
+      "status": "unavailable",
+      "http_status": 206,
+      "final_url": "https://www.vpsc.vic.gov.au/wp-content/uploads/2022/03/Board-and-board-member-profile.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 176832,
+      "partial": true,
+      "artifact_id": "b254bed6616b898fbe4483ac1ee1ccbb03e072e24a338315f3272d2c24a2625a",
+      "error": "ValueError: ZIP payload labelled CSV; archive reader not supported",
+      "wall_seconds": 1.45
+    },
+    {
+      "resource_id": "ff715ff2-2dce-44d4-bc1b-9575f97acd09",
+      "url": "https://www.vpsc.vic.gov.au/wp-content/uploads/2023/04/SOPS-Workforce-2022-Board-and-board-member-profile.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:35.354658+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://www.vpsc.vic.gov.au/wp-content/uploads/2023/04/SOPS-Workforce-2022-Board-and-board-member-profile.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 254131,
+      "partial": false,
+      "artifact_id": "ea48a530045157b1575ced450820625ab29050e72a92bcd2f35348973a01192d",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Boards by portfolio",
+            "rows": [
+              [
+                "Table A 2022 Victorian public sector board numbers by portfolio department, portfolio group, and portfolio",
+                "End of this title row",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Portfolio department",
+                "Ministerial portfolio group",
+                "Ministerial portfolio ",
+                "Number of boards",
+                "Number of board members",
+                "",
+                "",
+                ""
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "All ministerial portfolios",
+                "3519",
+                "31289",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "All portfolio groups",
+                "All ministerial portfolios",
+                "1602",
+                "17684",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Education",
+                "Early Childhood",
+                "1",
+                "6",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Education",
+                "Education (excluding school councils)",
+                "8",
+                "151",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "School Councils",
+                "Education (all)",
+                "1569",
+                "17312",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Training and Skills",
+                "Training and Skills",
+                "24",
+                "215",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Environment, Land, Water and Planning",
+                "All portfolio groups",
+                "All ministerial portfolios",
+                "1192",
+                "7762",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Environment, Land, Water and Planning",
+                "Committees of managment (Crown land)",
+                "EECC-COMs",
+                "1121",
+                "7136",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Environment, Land, Water and Planning",
+                "Energy, Environment and Climate Change",
+                "Energy",
+                "2",
+                "16",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Environment, Land, Water and Planning",
+                "Energy, Environment and Climate Change",
+                "Environment and Climate Action",
+                "29",
+                "223",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Environment, Land, Water and Planning",
+                "Planning",
+                "Planning",
+                "10",
+                "145",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Environment, Land, Water and Planning",
+                "Water",
+                "Water",
+                "30",
+                "242",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Families, Fairness and Housing",
+                "All portfolio groups",
+                "All ministerial portfolios",
+                "15",
+                "191",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Families, Fairness and Housing",
+                "Fairer Victoria",
+                "Multicultural Affairs",
+                "2",
+                "20",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Families, Fairness and Housing",
+                "Fairer Victoria",
+                "Prevention of Family Violence",
+                "1",
+                "8",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Families, Fairness and Housing",
+                "Fairer Victoria",
+                "Veterans",
+                "2",
+                "19",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Families, Fairness and Housing",
+                "Fairer Victoria",
+                "Women",
+                "1",
+                "12",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Department of Families, Fairness and Housing",
+                "Housing and Welfare",
+                "Child Protection",
+                "2",
+                "31",
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "sheet": "Board characteristics",
+            "rows": [
+              [
+                "Table B 2022 Victorian public sector boards by board characteristics",
+                "End of this title row",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Portfolio department",
+                "Ministerial portfolio group",
+                "Ministerial portfolio ",
+                "Board name",
+                "Major board* (Yes/No)",
+                "Public Administration Act status",
+                "Is an employer board",
+                "Board classification (A,B,C,D)**",
+                "Number of boards",
+                "Number of board members",
+                "Number of board members on major boards *"
+              ],
+              [
+                "Department of Education and Training",
+                "Education",
+                "Early Childhood",
+                "Children's Services Coordination Board",
+                "Yes",
+                "Public Entity",
+                "No",
+                "B1 Annual",
+                "1",
+                "6",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Education",
+                "Education (excluding school councils)",
+                "Disciplinary Appeals Board",
+                "Yes",
+                "Public Entity",
+                "No",
+                "B1 (a) sessional",
+                "1",
+                "26",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Education",
+                "Education (excluding school councils)",
+                "Merit Protection Boards",
+                "Yes",
+                "Public Entity",
+                "No",
+                "C1 (b)",
+                "1",
+                "40",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Education",
+                "Education (excluding school councils)",
+                "Victorian Academy of Teaching and Leadership",
+                "Yes",
+                "Public Entity",
+                "No",
+                "B1",
+                "1",
+                "6",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Education",
+                "Education (excluding school councils)",
+                "Victorian Children's Council",
+                "Yes",
+                "Public Entity",
+                "No",
+                "C2",
+                "1",
+                "13",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Education",
+                "Education (excluding school councils)",
+                "Victorian Curriculum and Assessment Authority",
+                "Yes",
+                "Public Entity",
+                "No",
+                "B1 Annual",
+                "1",
+                "12",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Education",
+                "Education (excluding school councils)",
+                "Victorian Institute of Teaching Council",
+                "Yes",
+                "Public Entity",
+                "Yes",
+                "B1 (b) Sessional",
+                "1",
+                "14",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Education",
+                "Education (excluding school councils)",
+                "Victorian Institute of Teaching Hearing Panel Pool",
+                "Yes",
+                "Public Entity",
+                "No",
+                "B1 (b) Sessional",
+                "1",
+                "29",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Education",
+                "Education (excluding school councils)",
+                "Victorian Registration and Qualifications Authority",
+                "Yes",
+                "Public Entity",
+                "No",
+                "B1 Annual",
+                "1",
+                "11",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "School Councils",
+                "Education (all)",
+                "School councils (aggregated)",
+                "No",
+                "Public Entity",
+                "yes",
+                "C",
+                "1569",
+                "17312",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Training and Skills",
+                "Training and Skills",
+                "Adult, Community and Further Education Board (ACFE)",
+                "Yes",
+                "Public Entity",
+                "No",
+                "B1",
+                "1",
+                "12",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Training and Skills",
+                "Training and Skills",
+                "AMES Australia",
+                "Yes",
+                "Public Entity",
+                "Yes",
+                "A4",
+                "1",
+                "8",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Training and Skills",
+                "Training and Skills",
+                "Barwon South Western Regional Council of ACFE",
+                "Yes",
+                "Public Entity",
+                "No",
+                "C3 (b)",
+                "1",
+                "10",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Training and Skills",
+                "Training and Skills",
+                "Bendigo Kangan Institute",
+                "Yes",
+                "Public Entity",
+                "Yes",
+                "A3",
+                "1",
+                "10",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Training and Skills",
+                "Training and Skills",
+                "Box Hill Institute",
+                "Yes",
+                "Public Entity",
+                "Yes",
+                "A3",
+                "1",
+                "11",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Training and Skills",
+                "Training and Skills",
+                "Chisholm Institute of TAFE",
+                "Yes",
+                "Public Entity",
+                "Yes",
+                "A3",
+                "1",
+                "9",
+                ""
+              ],
+              [
+                "Department of Education and Training",
+                "Training and Skills",
+                "Training and Skills",
+                "Eastern Metropolitan Regional Council of ACFE",
+                "Yes",
+                "Public Entity",
+                "No",
+                "C3 (b)",
+                "1",
+                "9",
+                ""
+              ]
+            ]
+          },
+          {
+            "sheet": "Board member profiles",
+            "rows": [
+              [
+                "Table C Victorian public sector board member profile by  gender, age, residential location, volunteer status, and diversity group - Aboriginal and/or Torres Strait Islander, with disability and Culturally and Linguistically Diverse (CALD)\n\n*** board members - for each department and ministerial portfolio grouping ",
+                "End of this title row",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Portfolio department",
+                "Ministerial portfolio group",
+                "Measure",
+                "June 2018",
+                "June 2019",
+                "June 2020",
+                "June 2021",
+                "June 2022"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Number of board members",
+                "31729",
+                "31670",
+                "32036",
+                "32258",
+                "31289"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups (excluding school councils)*",
+                "Number of board members ",
+                "13803",
+                "13611",
+                "14093",
+                "14144",
+                "13977"
+              ],
+              [
+                "Gender profile",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Gender - Woman - Number of board members",
+                "5342",
+                "5324",
+                "5531",
+                "5585",
+                "5602"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Number of men board members",
+                "8456",
+                "8276",
+                "8531",
+                "8535",
+                "8327"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Gender - Self described - Number of board members",
+                "0",
+                "1",
+                "1",
+                "0",
+                "0"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Gender - Prefer not to say - Number of board members",
+                "5",
+                "10",
+                "30",
+                "24",
+                "48"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Gender question - Not asked - Number of board members",
+                "17926",
+                "18059",
+                "17943",
+                "18114",
+                "17312"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Gender - Woman - Percentage of board members(excluding school councils)*",
+                "0.387017315076433",
+                "0.391154213503784",
+                "0.392464344000568",
+                "0.394867081447964",
+                "0.400801316448451"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Gender - Man - Percentage of board members(excluding school councils)*",
+                "0.612620444830834",
+                "0.608037616633605",
+                "0.605335982402611",
+                "0.603436085972851",
+                "0.595764470201045"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Percentage of board members who are self-described (excluding school councils)*",
+                "0",
+                "7.34699875101021e-05",
+                "7.09572128006812e-05",
+                "0",
+                "0"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Gender - Prefer not to say - Percentage of board members(excluding school councils)*",
+                "0.000362240092733464",
+                "0.000734699875101021",
+                "0.00212871638402044",
+                "0.00169683257918552",
+                "0.0034342133505044"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Gender question - Not asked - Percentage of board members",
+                "0.564972107535693",
+                "0.570224186927692",
+                "0.560088650268448",
+                "0.561535123070246",
+                "0.553293489724823"
+              ],
+              [
+                "Department of Education and Training",
+                "All portfolio groups",
+                "Number of board members",
+                "18269",
+                "18424",
+                "18337",
+                "18477",
+                "17684"
+              ],
+              [
+                "Department of Education and Training",
+                "All portfolio groups",
+                "Gender - Woman - Number of board members",
+                "196",
+                "205",
+                "219",
+                "203",
+                "204"
+              ],
+              [
+                "Department of Education and Training",
+                "All portfolio groups",
+                "Gender - Man - Number of board members",
+                "146",
+                "157",
+                "173",
+                "159",
+                "166"
+              ],
+              [
+                "Department of Education and Training",
+                "All portfolio groups",
+                "Gender - Self described - Number of board members",
+                "0",
+                "1",
+                "1",
+                "0",
+                "0"
+              ],
+              [
+                "Department of Education and Training",
+                "All portfolio groups",
+                "Gender - Prefer not to say - Number of board members",
+                "1",
+                "2",
+                "1",
+                "1",
+                "2"
+              ]
+            ]
+          },
+          {
+            "sheet": "Major board member gender profi",
+            "rows": [
+              [
+                "Table D Victorian public sector major board* member profile by gender for each department and ministerial portfolio grouping",
+                "End of this title row",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Portfolio department",
+                "Ministerial portfolio group",
+                "Measure",
+                "June 2018",
+                "June 2019",
+                "June 2020",
+                "June 2021",
+                "June 2022"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Number of major board members**",
+                "2745",
+                "2708",
+                "2701",
+                "2850",
+                "2876"
+              ],
+              [
+                "Gender profile",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Number of women major board members",
+                "1465",
+                "1472",
+                "1478",
+                "1573",
+                "1577"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Number of men major board members",
+                "1277",
+                "1227",
+                "1214",
+                "1257",
+                "1275"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Number of major board members not disclosing gender identity when asked",
+                "3",
+                "8",
+                "8",
+                "20",
+                "24"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Number of major board members - gender identity not asked",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Percentage of major board members who are women ",
+                "0.533697632058288",
+                "0.54357459379616",
+                "0.547204738985561",
+                "0.551929824561403",
+                "0.548331015299026"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Percentage of major board members who are men",
+                "0.465209471766849",
+                "0.453101920236337",
+                "0.449463161791929",
+                "0.441052631578947",
+                "0.443324061196106"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Percentage of major board members not disclosing gender identity when asked ",
+                "0.00109289617486339",
+                "0.00295420974889217",
+                "0.00296186597556461",
+                "0.00701754385964912",
+                "0.00834492350486787"
+              ],
+              [
+                "All Departments",
+                "All portfolio groups",
+                "Percentage of major board members - gender identity not asked",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0"
+              ],
+              [
+                "Department of Education and Training",
+                "All portfolio groups",
+                "Number of major board members",
+                "262",
+                "284",
+                "313",
+                "281",
+                "291"
+              ],
+              [
+                "Department of Education and Training",
+                "All portfolio groups",
+                "Number of major board members who are women",
+                "153",
+                "164",
+                "181",
+                "163",
+                "164"
+              ],
+              [
+                "Department of Education and Training",
+                "All portfolio groups",
+                "Number of major board members who are men",
+                "108",
+                "117",
+                "130",
+                "117",
+                "125"
+              ],
+              [
+                "Department of Education and Training",
+                "All portfolio groups",
+                "Number of major board members not disclosing gender identity when asked",
+                "1",
+                "2",
+                "1",
+                "1",
+                "2"
+              ],
+              [
+                "Department of Education and Training",
+                "All portfolio groups",
+                "Percentage of major board members who are women",
+                "0.583969465648855",
+                "0.577464788732394",
+                "0.578274760383387",
+                "0.580071174377224",
+                "0.563573883161512"
+              ],
+              [
+                "Department of Education and Training",
+                "All portfolio groups",
+                "Percentage of major board members who are men",
+                "0.412213740458015",
+                "0.411971830985915",
+                "0.415335463258786",
+                "0.416370106761566",
+                "0.429553264604811"
+              ],
+              [
+                "Department of Education and Training",
+                "All portfolio groups",
+                "Percentage of major board members not disclosing gender identity when asked ",
+                "0.00381679389312977",
+                "0.00704225352112676",
+                "0.00319488817891374",
+                "0.00355871886120996",
+                "0.00687285223367698"
+              ],
+              [
+                "Department of Education and Training",
+                "All portfolio groups",
+                "Percentage of major board members - gender identity not asked",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0"
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 0.566
+    }
+  ],
+  "status": "available",
+  "resource_id": "ff715ff2-2dce-44d4-bc1b-9575f97acd09",
+  "policy_version": "download-preflight-3"
+}

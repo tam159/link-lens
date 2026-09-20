@@ -1,0 +1,2028 @@
+{
+  "dataset_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+  "attempts": [
+    {
+      "resource_id": "55ad4b1c-5eeb-44ea-8b29-d410da431be3",
+      "url": "https://data.gov.au/data/dataset/bc515135-4bb6-4d50-957a-3713709a76d3/resource/55ad4b1c-5eeb-44ea-8b29-d410da431be3/download/business_names_202609.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:55:52.935036+00:00",
+      "status": "available",
+      "http_status": 206,
+      "final_url": "https://data.gov.au/data/dataset/bc515135-4bb6-4d50-957a-3713709a76d3/resource/55ad4b1c-5eeb-44ea-8b29-d410da431be3/download/business_names_202609.csv",
+      "content_type": "text/csv",
+      "bytes": 1048576,
+      "partial": true,
+      "artifact_id": "9f969be211c18f315442238bb4ee83f73c0ec9a557cc9ae8e66c651df7e5b667",
+      "sample": {
+        "encoding": "utf-8-sig",
+        "delimiter": "\t",
+        "rows": [
+          [
+            "REGISTER_NAME",
+            "BN_NAME",
+            "BN_STATUS",
+            "BN_REG_DT",
+            "BN_CANCEL_DT",
+            "BN_STATE_NUM",
+            "BN_STATE_OF_REG",
+            "BN_ABN"
+          ],
+          [
+            "BUSINESS NAMES",
+            "   Plumbing Gas and Solar",
+            "Registered",
+            "09/05/2013",
+            "",
+            "",
+            "",
+            "30947976159"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  Bruce Ward Training",
+            "Registered",
+            "12/04/2018",
+            "",
+            "",
+            "",
+            "16897173642"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  Elite Power Services",
+            "Registered",
+            "08/08/2017",
+            "",
+            "",
+            "",
+            "16158800796"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  FARM HARVEST AND CONTRACTING",
+            "Registered",
+            "28/08/2017",
+            "",
+            "",
+            "",
+            "82380602437"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  Happy Handymen 4017",
+            "Registered",
+            "27/04/2016",
+            "",
+            "",
+            "",
+            "32087762696"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  KARINYA FARM CAPE SCHANCK",
+            "Registered",
+            "06/09/2018",
+            "",
+            "",
+            "",
+            "85342032664"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  Strauf Support Service",
+            "Registered",
+            "05/09/2025",
+            "",
+            "",
+            "",
+            "56776686618"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  THE CALL OF IRELAND SHOWCASE",
+            "Registered",
+            "15/03/2025",
+            "",
+            "",
+            "",
+            "31173815472"
+          ],
+          [
+            "BUSINESS NAMES",
+            " @ James's place",
+            "Registered",
+            "20/05/2016",
+            "",
+            "",
+            "",
+            "34422526568"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1 Clique Consultancy Services",
+            "Registered",
+            "15/03/2020",
+            "",
+            "",
+            "",
+            "80607939604"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-53349617109",
+            "Registered",
+            "17/02/2023",
+            "",
+            "",
+            "",
+            "41664976416"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-55867934929",
+            "Registered",
+            "01/08/2023",
+            "",
+            "",
+            "",
+            "50876500181"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-60053841390",
+            "Registered",
+            "30/04/2024",
+            "",
+            "",
+            "",
+            "63665033107"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 24/7  Energy 365",
+            "Registered",
+            "04/07/2015",
+            "",
+            "",
+            "",
+            "76402514730"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 4WD OBSESSION NOOSA",
+            "Registered",
+            "10/05/2024",
+            "",
+            "",
+            "",
+            "18655017271"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 5 Stars Store",
+            "Registered",
+            "08/03/2025",
+            "",
+            "",
+            "",
+            "87622901540"
+          ],
+          [
+            "BUSINESS NAMES",
+            " a better peace of mind TERMITE SERVICES",
+            "Registered",
+            "01/07/2014",
+            "",
+            "",
+            "",
+            "68161485721"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A fan's notes",
+            "Registered",
+            "12/08/2018",
+            "",
+            "",
+            "",
+            "64877647501"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A MAX CARPET CLEANING GROUP",
+            "Registered",
+            "29/08/2024",
+            "",
+            "",
+            "",
+            "82670937363"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A MAX PAINTING GROUP",
+            "Registered",
+            "30/08/2024",
+            "",
+            "",
+            "",
+            "82670937363"
+          ],
+          [
+            "BUSINESS NAMES",
+            " ADVANCED METAPHYSICS",
+            "Registered",
+            "09/12/2024",
+            "",
+            "",
+            "",
+            "37536469147"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Affect Psychology",
+            "Registered",
+            "16/06/2021",
+            "",
+            "",
+            "",
+            "34295963383"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AFFORDABLE FUNERAL CARE",
+            "Registered",
+            "14/09/2022",
+            "",
+            "",
+            "",
+            "45409611320"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Albany Civil",
+            "Registered",
+            "17/01/2020",
+            "",
+            "",
+            "",
+            "68268991416"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Arete Psychology",
+            "Registered",
+            "12/06/2019",
+            "",
+            "",
+            "",
+            "61413642540"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Asset Alley Insurance",
+            "Registered",
+            "21/06/2024",
+            "",
+            "",
+            "",
+            "16660499865"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Astar  Air-conditioning & Electrical  services",
+            "Registered",
+            "13/04/2023",
+            "",
+            "",
+            "",
+            "81667180136"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AUSCONSTRUCT SOFTWARE SERVICES",
+            "Registered",
+            "15/01/2026",
+            "",
+            "",
+            "",
+            "55763274510"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Australia Pacific Education Travel",
+            "Deregistered",
+            "02/06/2019",
+            "02/07/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " Australian MJ Beauty",
+            "Registered",
+            "17/08/2025",
+            "",
+            "",
+            "",
+            "87837686658"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AVDHUT",
+            "Registered",
+            "10/12/2021",
+            "",
+            "",
+            "",
+            "12633583472"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Award Joinery",
+            "Registered",
+            "16/08/2016",
+            "",
+            "",
+            "",
+            "70059150076"
+          ],
+          [
+            "BUSINESS NAMES",
+            " B & S Lucht Truck Hire",
+            "Registered",
+            "20/10/2022",
+            "",
+            "",
+            "",
+            "32622804433"
+          ],
+          [
+            "BUSINESS NAMES",
+            " B&G Electrical Contractors",
+            "Registered",
+            "14/04/2020",
+            "",
+            "",
+            "",
+            "34639726686"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Barretts Bread CQ",
+            "Deregistered",
+            "18/12/2018",
+            "22/01/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " BAX BUILT CONCRETING",
+            "Registered",
+            "06/12/2024",
+            "",
+            "",
+            "",
+            "71939982998"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Bear Air Conditioning",
+            "Registered",
+            "16/09/2015",
+            "",
+            "",
+            "",
+            "51103048879"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Beta Plumbing & Gas",
+            "Registered",
+            "01/07/2021",
+            "",
+            "",
+            "",
+            "92136566038"
+          ],
+          [
+            "BUSINESS NAMES",
+            " BETTA BUILT CARPENTRY",
+            "Deregistered",
+            "17/08/2017",
+            "18/09/2025",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            "  ALI WRECKER",
+            "Registered",
+            "23/02/2024",
+            "",
+            "",
+            "",
+            "58605222295"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  ASSOB INCUBATOR AUSTRALIA",
+            "Registered",
+            "12/05/2015",
+            "",
+            "",
+            "",
+            "60008028733"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  caloundra painters",
+            "Registered",
+            "03/08/2021",
+            "",
+            "",
+            "",
+            "61109569425"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  colour expert painting and decorating service",
+            "Deregistered",
+            "23/04/2013",
+            "04/06/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            "  DAWN HOUSE BUFFET",
+            "Registered",
+            "22/04/2024",
+            "",
+            "",
+            "",
+            "70657703092"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  Faculty of Outside Learning-School Division",
+            "Registered",
+            "03/10/2023",
+            "",
+            "",
+            "",
+            "72004664759"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  SA PLASTERING AND FIXING",
+            "Deregistered",
+            "25/06/2013",
+            "30/07/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            "  stone developments SR",
+            "Registered",
+            "13/09/2012",
+            "",
+            "",
+            "",
+            "82152497651"
+          ],
+          [
+            "BUSINESS NAMES",
+            " \"D\" DIFFERENCE",
+            "Registered",
+            "05/02/2014",
+            "",
+            "",
+            "",
+            "54652195975"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1300 LOCKSMITH",
+            "Registered",
+            "27/02/2009",
+            "",
+            "B2164382Y",
+            "VIC",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-45647515209",
+            "Registered",
+            "15/10/2021",
+            "",
+            "",
+            "",
+            "42995422039"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-56618471319",
+            "Registered",
+            "20/09/2023",
+            "",
+            "",
+            "",
+            "48658085324"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-60734652060",
+            "Deregistered",
+            "25/06/2024",
+            "30/07/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-61248402240",
+            "Registered",
+            "16/07/2024",
+            "",
+            "",
+            "",
+            "90156135921"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-68566358309",
+            "Registered",
+            "16/06/2025",
+            "",
+            "",
+            "",
+            "57757249571"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Absolute carpentry solutions.",
+            "Registered",
+            "22/09/2019",
+            "",
+            "",
+            "",
+            "31081989104"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Adelaide Caravan Storage SA",
+            "Registered",
+            "20/03/2020",
+            "",
+            "",
+            "",
+            "57168088435"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Ador a bella  Hair Designs",
+            "Registered",
+            "14/01/2014",
+            "",
+            "",
+            "",
+            "78809887391"
+          ],
+          [
+            "BUSINESS NAMES",
+            " African Lily Boutique",
+            "Registered",
+            "24/01/2018",
+            "",
+            "",
+            "",
+            "59716299452"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Air fare Food For Flyers",
+            "Deregistered",
+            "11/08/2017",
+            "11/09/2025",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " AJ and RP Oberin Retired",
+            "Registered",
+            "26/09/2025",
+            "",
+            "",
+            "",
+            "52056563994"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Alec's Lolly Land",
+            "Deregistered",
+            "22/10/2021",
+            "27/11/2025",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " All In Earthmoving",
+            "Registered",
+            "26/11/2020",
+            "",
+            "",
+            "",
+            "59233050142"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AMARA PROGETTI",
+            "Registered",
+            "30/10/2025",
+            "",
+            "",
+            "",
+            "90625965696"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AMORE BY PIETRO",
+            "Registered",
+            "27/02/2025",
+            "",
+            "",
+            "",
+            "74475317505"
+          ],
+          [
+            "BUSINESS NAMES",
+            " amos electric",
+            "Registered",
+            "08/08/2013",
+            "",
+            "",
+            "",
+            "22466458771"
+          ],
+          [
+            "BUSINESS NAMES",
+            " ANA homes",
+            "Deregistered",
+            "04/07/2022",
+            "06/08/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " Apla-Coat",
+            "Deregistered",
+            "26/02/2024",
+            "09/04/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " archiveo",
+            "Registered",
+            "14/07/2014",
+            "",
+            "",
+            "",
+            "27372078457"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Arima Homewares",
+            "Registered",
+            "13/01/2024",
+            "",
+            "",
+            "",
+            "18933008655"
+          ],
+          [
+            "BUSINESS NAMES",
+            " ASIA PACIFIC HMB STYLED INTERNATIONAL PAGEANTS PROMOTIONS EVENTS",
+            "Registered",
+            "04/08/2022",
+            "",
+            "",
+            "",
+            "81080445376"
+          ],
+          [
+            "BUSINESS NAMES",
+            " B.B HAIR ARTISTRY",
+            "Registered",
+            "15/12/2023",
+            "",
+            "",
+            "",
+            "45509373263"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Ballarat car care",
+            "Registered",
+            "06/02/2024",
+            "",
+            "",
+            "",
+            "29674009897"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Ballina Byron to Goldcoast Transport",
+            "Registered",
+            "02/08/2024",
+            "",
+            "",
+            "",
+            "43451266192"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Bayfit Leisure Centre",
+            "Registered",
+            "30/04/2024",
+            "",
+            "",
+            "",
+            "74127508230"
+          ],
+          [
+            "BUSINESS NAMES",
+            " BB CONVENIENCE STORE",
+            "Registered",
+            "29/07/2025",
+            "",
+            "",
+            "",
+            "78245271296"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Beauty queen australia",
+            "Registered",
+            "12/06/2019",
+            "",
+            "",
+            "",
+            "48296192217"
+          ],
+          [
+            "BUSINESS NAMES",
+            " BEE NOTICED SIGNS & DESIGNS",
+            "Registered",
+            "06/11/2015",
+            "",
+            "",
+            "",
+            "35481320639"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Bich Van Vietnamese Restaurant",
+            "Registered",
+            "27/08/2024",
+            "",
+            "",
+            "",
+            "40912349380"
+          ],
+          [
+            "BUSINESS NAMES",
+            "     A Cut Above Painting & Texture Coating",
+            "Registered",
+            "04/12/2019",
+            "",
+            "",
+            "",
+            "86634681397"
+          ],
+          [
+            "BUSINESS NAMES",
+            "    Best & Co Property",
+            "Registered",
+            "10/01/2025",
+            "",
+            "",
+            "",
+            "12951988688"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  I Shine 4 U Cleaning Services",
+            "Registered",
+            "22/04/2020",
+            "",
+            "",
+            "",
+            "70151405938"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  Melbourne Star Painting and Decorating",
+            "Deregistered",
+            "07/03/2017",
+            "09/04/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            "  MINH DUC TRAN CLOTHING",
+            "Registered",
+            "02/07/2003",
+            "",
+            "B1698762E",
+            "VIC",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            "  Our Gift Cupboard",
+            "Registered",
+            "21/08/2023",
+            "",
+            "",
+            "",
+            "59204199761"
+          ],
+          [
+            "BUSINESS NAMES",
+            " (Northern Auto Detailing)",
+            "Registered",
+            "22/07/2025",
+            "",
+            "",
+            "",
+            "97828469297"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-22894441039",
+            "Registered",
+            "07/12/2016",
+            "",
+            "",
+            "",
+            "92603907893"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 12345 SOLUTION",
+            "Registered",
+            "29/10/2015",
+            "",
+            "",
+            "",
+            "42767512328"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-33031330809",
+            "Registered",
+            "15/05/2019",
+            "",
+            "",
+            "",
+            "71626133319"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 7 Star Aluminium",
+            "Registered",
+            "24/05/2018",
+            "",
+            "",
+            "",
+            "99612339134"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A & J Pilot and Escort Service",
+            "Registered",
+            "19/12/2013",
+            "",
+            "",
+            "",
+            "47141912781"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A Highland Wedding - Kilt Hire",
+            "Registered",
+            "07/07/2014",
+            "",
+            "",
+            "",
+            "58392230489"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A MAX CAR DETAILING GROUP",
+            "Registered",
+            "30/08/2024",
+            "",
+            "",
+            "",
+            "82670937363"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A MAX ELECTRICAL GROUP",
+            "Registered",
+            "30/08/2024",
+            "",
+            "",
+            "",
+            "82670937363"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A MAX HANDYMAN GROUP",
+            "Registered",
+            "30/08/2024",
+            "",
+            "",
+            "",
+            "82670937363"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A MAX LANDSCAPING GROUP",
+            "Registered",
+            "30/08/2024",
+            "",
+            "",
+            "",
+            "82670937363"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A MAX LAUNDRY GROUP",
+            "Registered",
+            "29/08/2024",
+            "",
+            "",
+            "",
+            "82670937363"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A MAX PLUMBING GROUP",
+            "Registered",
+            "30/08/2024",
+            "",
+            "",
+            "",
+            "82670937363"
+          ],
+          [
+            "BUSINESS NAMES",
+            "- AA A AARDVARK POWER",
+            "Registered",
+            "26/10/2011",
+            "",
+            "BN98601922",
+            "NSW",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " ABILITYAURA SUPPORT SERVICES",
+            "Registered",
+            "19/03/2026",
+            "",
+            "",
+            "",
+            "99757082441"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Adept staffing solutions",
+            "Registered",
+            "27/05/2024",
+            "",
+            "",
+            "",
+            "89670826856"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AJ collab",
+            "Deregistered",
+            "13/08/2021",
+            "18/09/2025",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " AL mini excavator Service",
+            "Registered",
+            "11/06/2020",
+            "",
+            "",
+            "",
+            "98362583567"
+          ],
+          [
+            "BUSINESS NAMES",
+            " ALBURY WINDOW SHINE AND MAINTENANCE",
+            "Registered",
+            "08/02/2018",
+            "",
+            "",
+            "",
+            "84972359556"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Alfresco Indian cuisine",
+            "Registered",
+            "28/06/2023",
+            "",
+            "",
+            "",
+            "72994321341"
+          ],
+          [
+            "BUSINESS NAMES",
+            " all points south",
+            "Registered",
+            "11/02/2021",
+            "",
+            "",
+            "",
+            "49085808130"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Angelic Elegance",
+            "Registered",
+            "18/09/2024",
+            "",
+            "",
+            "",
+            "93089765852"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AR Contracting NQ",
+            "Registered",
+            "30/05/2021",
+            "",
+            "",
+            "",
+            "72645606113"
+          ],
+          [
+            "BUSINESS NAMES",
+            " ART EXPLORERS 11:11",
+            "Registered",
+            "18/05/2017",
+            "",
+            "",
+            "",
+            "20986159789"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Australia Cross Roads - ACR",
+            "Registered",
+            "11/12/2024",
+            "",
+            "",
+            "",
+            "89097385736"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Australia Piano Quartet",
+            "Registered",
+            "17/03/2016",
+            "",
+            "",
+            "",
+            "11780365210"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Australian CX Professionals Association",
+            "Registered",
+            "25/10/2021",
+            "",
+            "",
+            "",
+            "58817433774"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Australian elk",
+            "Registered",
+            "21/08/2025",
+            "",
+            "",
+            "",
+            "87725443501"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Auto Trading Group",
+            "Deregistered",
+            "19/04/2024",
+            "28/05/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " B.A.M.L. Farms",
+            "Registered",
+            "17/06/2020",
+            "",
+            "",
+            "",
+            "65505304091"
+          ],
+          [
+            "BUSINESS NAMES",
+            " BAEUTY KULTURE PERTH",
+            "Registered",
+            "03/07/2024",
+            "",
+            "",
+            "",
+            "55772241393"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Bago Kitchens",
+            "Registered",
+            "05/01/2023",
+            "",
+            "",
+            "",
+            "54368628788"
+          ],
+          [
+            "BUSINESS NAMES",
+            "                  SILENT SCISSORZ",
+            "Registered",
+            "07/11/2018",
+            "",
+            "",
+            "",
+            "76643277300"
+          ],
+          [
+            "BUSINESS NAMES",
+            "                LITTLE MIRACLES PRESCHOOL & LONG DAY CARE (POINT CLARE, SWANSEA, MT RIVERVIEW & WAMBERAL)",
+            "Registered",
+            "27/07/2022",
+            "",
+            "",
+            "",
+            "23979823212"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  THE SUPER CAR SHOP",
+            "Registered",
+            "06/04/2023",
+            "",
+            "",
+            "",
+            "84703551228"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-36843914180",
+            "Registered",
+            "17/12/2019",
+            "",
+            "",
+            "",
+            "91320864518"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-38893175069",
+            "Registered",
+            "15/06/2020",
+            "",
+            "",
+            "",
+            "26641632046"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-43893172029",
+            "Deregistered",
+            "21/06/2021",
+            "23/07/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-45399168079",
+            "Deregistered",
+            "28/09/2021",
+            "30/10/2025",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-63054792819",
+            "Deregistered",
+            "24/10/2024",
+            "13/02/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-64111006079",
+            "Registered",
+            "11/12/2024",
+            "",
+            "",
+            "",
+            "12682423669"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 5AAB TRUCKING",
+            "Registered",
+            "19/09/2024",
+            "",
+            "",
+            "",
+            "68610897286"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 7-Eleven2364A",
+            "Registered",
+            "06/02/2020",
+            "",
+            "",
+            "",
+            "29963756974"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A MAX PEST CONTROL GROUP",
+            "Registered",
+            "30/08/2024",
+            "",
+            "",
+            "",
+            "82670937363"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A1 Electrical and Air Conditioning Services",
+            "Registered",
+            "08/03/2024",
+            "",
+            "",
+            "",
+            "50635543832"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Abachi Living",
+            "Registered",
+            "28/04/2016",
+            "",
+            "",
+            "",
+            "39518305031"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Adelaide Car Keys and Remotes",
+            "Registered",
+            "03/02/2014",
+            "",
+            "",
+            "",
+            "30159585323"
+          ],
+          [
+            "BUSINESS NAMES",
+            " ADVANCE CAPITAL",
+            "Registered",
+            "21/10/2014",
+            "",
+            "",
+            "",
+            "83117766033"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Aesop Discovery Early Learning Centre Leopold",
+            "Registered",
+            "26/07/2024",
+            "",
+            "",
+            "",
+            "50673262729"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AIRCON MAN",
+            "Registered",
+            "17/01/2020",
+            "",
+            "",
+            "",
+            "23995827288"
+          ],
+          [
+            "BUSINESS NAMES",
+            " ALANA'S DANCE STUDIO",
+            "Deregistered",
+            "23/04/2019",
+            "07/09/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " Alkimos Pest Control",
+            "Registered",
+            "27/09/2023",
+            "",
+            "",
+            "",
+            "43644163879"
+          ],
+          [
+            "BUSINESS NAMES",
+            " All Type Shotcrete Shells",
+            "Registered",
+            "10/02/2015",
+            "",
+            "",
+            "",
+            "34567662704"
+          ],
+          [
+            "BUSINESS NAMES",
+            " ALROWAD ICE CREAM",
+            "Registered",
+            "25/08/2025",
+            "",
+            "",
+            "",
+            "71661480995"
+          ],
+          [
+            "BUSINESS NAMES",
+            " ALZZZTRANSPORT",
+            "Registered",
+            "26/03/2024",
+            "",
+            "",
+            "",
+            "15610863536"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AM Westside Plumbing",
+            "Registered",
+            "19/07/2017",
+            "",
+            "",
+            "",
+            "32144141909"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AMAZING WOMEN IN BUSINESS",
+            "Registered",
+            "02/08/2018",
+            "",
+            "",
+            "",
+            "20098042650"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AMPLE EARTHMOVING",
+            "Deregistered",
+            "04/08/2023",
+            "04/09/2025",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " angela artistry",
+            "Registered",
+            "27/08/2025",
+            "",
+            "",
+            "",
+            "71904405833"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Anytime Staffing solution",
+            "Registered",
+            "24/09/2025",
+            "",
+            "",
+            "",
+            "91605652299"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AquaBoat Hire",
+            "Registered",
+            "19/06/2015",
+            "",
+            "",
+            "",
+            "54787418369"
+          ],
+          [
+            "BUSINESS NAMES",
+            " ARKANIES LANDSCAPING & CONCRETING PROPERTY MAINTENANCE SERVICES",
+            "Registered",
+            "04/11/2022",
+            "",
+            "",
+            "",
+            "24641071841"
+          ],
+          [
+            "BUSINESS NAMES",
+            " ARTHURS CARING  SUPPORT",
+            "Registered",
+            "27/06/2019",
+            "",
+            "",
+            "",
+            "49543404821"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AUSSIE DEALERS",
+            "Registered",
+            "11/08/2019",
+            "",
+            "",
+            "",
+            "47131668338"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AUSTRALASIAN Support Care",
+            "Registered",
+            "09/12/2019",
+            "",
+            "",
+            "",
+            "30171621340"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Avocet Handyman Service",
+            "Registered",
+            "26/04/2021",
+            "",
+            "",
+            "",
+            "21133783931"
+          ],
+          [
+            "BUSINESS NAMES",
+            " B & F Cabinets",
+            "Registered",
+            "15/02/2019",
+            "",
+            "",
+            "",
+            "68145615056"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Baan Raun Thai Restaurant",
+            "Registered",
+            "28/10/2024",
+            "",
+            "",
+            "",
+            "39676080238"
+          ],
+          [
+            "BUSINESS NAMES",
+            " BayCity Estate Agents",
+            "Registered",
+            "21/05/2024",
+            "",
+            "",
+            "",
+            "39137700308"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Beauty Flair Fairfield",
+            "Registered",
+            "16/10/2012",
+            "",
+            "",
+            "",
+            "78260832093"
+          ],
+          [
+            "BUSINESS NAMES",
+            "    HOMSAFE",
+            "Registered",
+            "07/02/2019",
+            "",
+            "",
+            "",
+            "56098948915"
+          ],
+          [
+            "BUSINESS NAMES",
+            "   COASTAL  EARTH WORKS",
+            "Registered",
+            "30/05/2019",
+            "",
+            "",
+            "",
+            "88573118334"
+          ],
+          [
+            "BUSINESS NAMES",
+            "   Easy Settlements",
+            "Registered",
+            "06/03/2020",
+            "",
+            "",
+            "",
+            "47613497233"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  Brothers Lelo Bricklaying",
+            "Registered",
+            "30/06/2021",
+            "",
+            "",
+            "",
+            "12470757353"
+          ],
+          [
+            "BUSINESS NAMES",
+            "  So Fresh Cleaning Services",
+            "Registered",
+            "08/08/2016",
+            "",
+            "",
+            "",
+            "58204865889"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-45595826339",
+            "Registered",
+            "12/10/2021",
+            "",
+            "",
+            "",
+            "27146404109"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-47767809869",
+            "Deregistered",
+            "04/03/2022",
+            "09/04/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " 1-49079020289",
+            "Registered",
+            "27/05/2022",
+            "",
+            "",
+            "",
+            "96597970510"
+          ],
+          [
+            "BUSINESS NAMES",
+            " 7-Eleven 2061 E",
+            "Registered",
+            "24/01/2017",
+            "",
+            "",
+            "",
+            "67612909252"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A Dingfelder",
+            "Registered",
+            "18/04/2013",
+            "",
+            "",
+            "",
+            "27856763018"
+          ],
+          [
+            "BUSINESS NAMES",
+            " A MAX MOWING GROUP",
+            "Registered",
+            "30/08/2024",
+            "",
+            "",
+            "",
+            "82670937363"
+          ],
+          [
+            "BUSINESS NAMES",
+            "' AA A MR H2O",
+            "Registered",
+            "28/10/2010",
+            "",
+            "BN98535290",
+            "NSW",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " ABILITY PLUS WA",
+            "Registered",
+            "18/03/2024",
+            "",
+            "",
+            "",
+            "75660534485"
+          ],
+          [
+            "BUSINESS NAMES",
+            " ACCESS LIVING",
+            "Registered",
+            "13/02/2009",
+            "",
+            "B2160825G",
+            "VIC",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " ACE ELECTRICAL CO.",
+            "Registered",
+            "02/06/2023",
+            "",
+            "",
+            "",
+            "44667800446"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Addz services",
+            "Registered",
+            "21/04/2020",
+            "",
+            "",
+            "",
+            "57416038679"
+          ],
+          [
+            "BUSINESS NAMES",
+            " ADW ALUMINIUM",
+            "Registered",
+            "29/05/2022",
+            "",
+            "",
+            "",
+            "16495331556"
+          ],
+          [
+            "BUSINESS NAMES",
+            " All Electrons",
+            "Deregistered",
+            "28/08/2023",
+            "02/10/2025",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " ALL PEST & CLEANING",
+            "Registered",
+            "09/01/2019",
+            "",
+            "",
+            "",
+            "30235745259"
+          ],
+          [
+            "BUSINESS NAMES",
+            " All Pumps and Irrigation Repairs",
+            "Registered",
+            "14/08/2013",
+            "",
+            "",
+            "",
+            "25856694170"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Allgen Foods VIC",
+            "Registered",
+            "21/03/2025",
+            "",
+            "",
+            "",
+            "18111784706"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Allom Heritage",
+            "Registered",
+            "20/03/2013",
+            "",
+            "",
+            "",
+            "79420693848"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AMBARSARIYA CARS AND TYRES",
+            "Registered",
+            "14/06/2023",
+            "",
+            "",
+            "",
+            "28634679986"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AOK Driving School ACT",
+            "Registered",
+            "20/11/2023",
+            "",
+            "",
+            "",
+            "51168839208"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Athena Restaurant",
+            "Registered",
+            "06/07/2017",
+            "",
+            "",
+            "",
+            "49420273167"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Atlas Fuel Bendigo",
+            "Registered",
+            "08/05/2025",
+            "",
+            "",
+            "",
+            "43682743764"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AU Nutrition house",
+            "Registered",
+            "27/07/2017",
+            "",
+            "",
+            "",
+            "99560065168"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AUDREY BULNER BROKER & FINANCIAL SERVICES",
+            "Registered",
+            "16/03/2017",
+            "",
+            "",
+            "",
+            "52243388680"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Aussie Oxenford",
+            "Registered",
+            "05/06/2024",
+            "",
+            "",
+            "",
+            "86671659528"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Australia and Asian Wealth Group",
+            "Deregistered",
+            "06/10/2023",
+            "06/11/2025",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " Australian Track Services (NSW)",
+            "Registered",
+            "27/05/2020",
+            "",
+            "",
+            "",
+            "85641124414"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Avenue Executive",
+            "Registered",
+            "20/02/2019",
+            "",
+            "",
+            "",
+            "38624228440"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AXIOM PRECISION MANUFACTURING",
+            "Registered",
+            "27/08/2014",
+            "",
+            "",
+            "",
+            "69008078626"
+          ],
+          [
+            "BUSINESS NAMES",
+            " AXIOM PROJEX",
+            "Registered",
+            "07/07/2025",
+            "",
+            "",
+            "",
+            "31476293907"
+          ],
+          [
+            "BUSINESS NAMES",
+            " B&C Phillips Maintenance Services",
+            "Registered",
+            "03/10/2017",
+            "",
+            "",
+            "",
+            "60382336845"
+          ],
+          [
+            "BUSINESS NAMES",
+            " BELLATA GOLD",
+            "Registered",
+            "25/08/2020",
+            "",
+            "",
+            "",
+            "89624225029"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Belong Migration and Education Services",
+            "Registered",
+            "11/04/2025",
+            "",
+            "",
+            "",
+            "71686126876"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Benchmark Group Australia",
+            "Registered",
+            "20/09/2021",
+            "",
+            "",
+            "",
+            "22707764078"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Big C's Texas BBQ",
+            "Deregistered",
+            "13/05/2022",
+            "18/06/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " Bellamy Plumbing Woolgoolga",
+            "Registered",
+            "12/07/2025",
+            "",
+            "",
+            "",
+            "43611187958"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Beyond Prosperity 2022",
+            "Deregistered",
+            "28/01/2022",
+            "12/03/2026",
+            "",
+            "",
+            ""
+          ],
+          [
+            "BUSINESS NAMES",
+            " Bright Steps Academy Chiton",
+            "Registered",
+            "15/04/2025",
+            "",
+            "",
+            "",
+            "38642340850"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Browns Hardware & Garden",
+            "Registered",
+            "18/04/2013",
+            "",
+            "",
+            "",
+            "21153446201"
+          ],
+          [
+            "BUSINESS NAMES",
+            " Bryan Goody's Garden Services",
+            "Registered",
+            "17/06/2017",
+            "",
+            "",
+            "",
+            "89392626157"
+          ],
+          [
+            "BUSINESS NAMES",
+            " BTG MECHANICAL",
+            "Registered",
+            "17/11/2019",
+            "",
+            "",
+            "",
+            "53470185407"
+          ]
+        ]
+      },
+      "wall_seconds": 1.683
+    }
+  ],
+  "status": "available",
+  "resource_id": "55ad4b1c-5eeb-44ea-8b29-d410da431be3",
+  "policy_version": "download-preflight-3"
+}

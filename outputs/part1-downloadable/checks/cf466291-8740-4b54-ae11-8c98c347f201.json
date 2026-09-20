@@ -1,0 +1,103 @@
+{
+  "dataset_id": "cf466291-8740-4b54-ae11-8c98c347f201",
+  "attempts": [
+    {
+      "resource_id": "51139b10-7835-41ea-b6ec-d29964d619cd",
+      "url": "https://data.sa.gov.au/data/storage/f/2013-09-03T23%3A58%3A19.892Z/l-g-licences.csv",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:45.565994+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/storage/f/2013-09-03T23%3A58%3A19.892Z/l-g-licences.csv",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/storage/f/2013-09-03T23%3A58%3A19.892Z/l-g-licences.csv'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.793
+    },
+    {
+      "resource_id": "63bcec3f-4e88-4c7c-8a0b-ea1afb3ed2e6",
+      "url": "https://data.sa.gov.au/data/storage/f/2013-05-16T03%3A45%3A07.344Z/unleashed-meta-data-template-l-g-licences.doc",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:46.358562+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/storage/f/2013-05-16T03%3A45%3A07.344Z/unleashed-meta-data-template-l-g-licences.doc",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/storage/f/2013-05-16T03%3A45%3A07.344Z/unleashed-meta-data-template-l-g-licences.doc'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.899
+    },
+    {
+      "resource_id": "9a52946f-65b1-44cc-9d54-dbb4b443aafd",
+      "url": "https://data.sa.gov.au/data/storage/f/2014-06-05T04%3A53%3A34.586Z/l-g-licences.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:47.257599+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/storage/f/2014-06-05T04%3A53%3A34.586Z/l-g-licences.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/storage/f/2014-06-05T04%3A53%3A34.586Z/l-g-licences.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.967
+    },
+    {
+      "resource_id": "cb40e5b0-31d8-4ebb-a2c2-ad5e4e8e1df2",
+      "url": "https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/cb40e5b0-31d8-4ebb-a2c2-ad5e4e8e1df2/download/unleashed-1-liquor-and-gaming-licences.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:48.224335+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/cb40e5b0-31d8-4ebb-a2c2-ad5e4e8e1df2/download/unleashed-1-liquor-and-gaming-licences.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/cb40e5b0-31d8-4ebb-a2c2-ad5e4e8e1df2/download/unleashed-1-liquor-and-gaming-licences.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.925
+    },
+    {
+      "resource_id": "fb519fd2-7659-49c5-a318-757caa2e9b5a",
+      "url": "https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/fb519fd2-7659-49c5-a318-757caa2e9b5a/download/lglicences20170922.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:49.149788+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/fb519fd2-7659-49c5-a318-757caa2e9b5a/download/lglicences20170922.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/fb519fd2-7659-49c5-a318-757caa2e9b5a/download/lglicences20170922.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.798
+    },
+    {
+      "resource_id": "3ea20b6b-b018-48bc-8d6c-0a43c00369f4",
+      "url": "https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/3ea20b6b-b018-48bc-8d6c-0a43c00369f4/download/lglicences20180827.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:49.947723+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/3ea20b6b-b018-48bc-8d6c-0a43c00369f4/download/lglicences20180827.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/3ea20b6b-b018-48bc-8d6c-0a43c00369f4/download/lglicences20180827.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.791
+    },
+    {
+      "resource_id": "771ed88b-4cc5-4ef6-a1c4-ea55b9b12f02",
+      "url": "https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/771ed88b-4cc5-4ef6-a1c4-ea55b9b12f02/download/datasa-licencetypes.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:50.738322+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/771ed88b-4cc5-4ef6-a1c4-ea55b9b12f02/download/datasa-licencetypes.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/771ed88b-4cc5-4ef6-a1c4-ea55b9b12f02/download/datasa-licencetypes.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.802
+    },
+    {
+      "resource_id": "a15314ed-891d-4e14-8c1c-bf080894e9d9",
+      "url": "https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/a15314ed-891d-4e14-8c1c-bf080894e9d9/download/lglicences20190819.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:51.540305+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/a15314ed-891d-4e14-8c1c-bf080894e9d9/download/lglicences20190819.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/cf466291-8740-4b54-ae11-8c98c347f201/resource/a15314ed-891d-4e14-8c1c-bf080894e9d9/download/lglicences20190819.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.87
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

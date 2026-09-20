@@ -1,0 +1,38 @@
+[
+  {
+    "source": "asic-companies",
+    "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+    "observations": 3813,
+    "profiles_receiving_evidence": 52
+  },
+  {
+    "source": "asic-business-names",
+    "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+    "observations": 892,
+    "profiles_receiving_evidence": 0
+  },
+  {
+    "source": "asic-afs-licensee",
+    "source_id": "ab7eddce-84df-4098-bc8f-500d0d9776d1",
+    "observations": 3968,
+    "profiles_receiving_evidence": 0
+  },
+  {
+    "source": "acnc-register",
+    "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+    "observations": 7192,
+    "profiles_receiving_evidence": 17
+  },
+  {
+    "source": "corporate-transparency",
+    "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+    "observations": 993,
+    "profiles_receiving_evidence": 35
+  },
+  {
+    "source": "employment-provider-locations-and-contacts",
+    "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+    "observations": 3980,
+    "profiles_receiving_evidence": 0
+  }
+]

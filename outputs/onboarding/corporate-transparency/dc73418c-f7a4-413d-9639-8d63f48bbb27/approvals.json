@@ -1,0 +1,24 @@
+[
+  {
+    "id": "07f9cf9b0fb0f0816e6a26d4f6755036b39a9313cacead33ce2c5fa350003f6a",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+    "mapping_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27:1",
+    "decision": "revision_requested",
+    "reviewer": "local-user",
+    "at": "2026-09-19T09:09:54.272020+00:00",
+    "feedback": "Please revise the mapping before approval. Restrict current legal-name claims to records supported as current by the publisher's current-name indicators, or explicitly use the supported current-name field without emitting historical names as current. Do not emit an ARBN as entity.acn: use the documented Type qualifier to exclude that case. Do not equate external administration with liquidation unless the publisher evidence establishes that exact meaning; otherwise map it to unknown or leave it unmapped. Encode these protections in the declarative config, not only in limitations. Keep the existing reader and partitions unchanged.",
+    "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+  },
+  {
+    "id": "322d39f6f092377a8b1f49f7c48b5a9a2ba393e0b1707d283a6557d463ebf930",
+    "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+    "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+    "mapping_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27:2",
+    "decision": "revision_requested",
+    "reviewer": "local-user",
+    "at": "2026-09-19T09:11:16.148046+00:00",
+    "feedback": "Please revise the mapping before approval. Restrict current legal-name claims to records supported as current by the publisher's current-name indicators, or explicitly use the supported current-name field without emitting historical names as current. Do not emit an ARBN as entity.acn: use the documented Type qualifier to exclude that case. Do not equate external administration with liquidation unless the publisher evidence establishes that exact meaning; otherwise map it to unknown or leave it unmapped. Encode these protections in the declarative config, not only in limitations. Keep the existing reader and partitions unchanged.",
+    "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+  }
+]

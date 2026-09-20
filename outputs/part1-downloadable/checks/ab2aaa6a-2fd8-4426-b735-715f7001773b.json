@@ -1,0 +1,167 @@
+{
+  "dataset_id": "ab2aaa6a-2fd8-4426-b735-715f7001773b",
+  "attempts": [
+    {
+      "resource_id": "bc32f7d6-b722-46b4-9bda-8e1f3967fc0d",
+      "url": "https://data.gov.au/data/dataset/ab2aaa6a-2fd8-4426-b735-715f7001773b/resource/bc32f7d6-b722-46b4-9bda-8e1f3967fc0d/download/lynham-networks_9-nominated-service-area-declarations_sept-2023.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:48.624394+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/ab2aaa6a-2fd8-4426-b735-715f7001773b/resource/bc32f7d6-b722-46b4-9bda-8e1f3967fc0d/download/lynham-networks_9-nominated-service-area-declarations_sept-2023.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 18545,
+      "partial": false,
+      "artifact_id": "4c6faf50566c7ec7caa0746144d1899d01a5e91e9c12aed961848a107ea82467",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "22 Sep 2023",
+            "rows": [
+              [
+                "LBB REFERENCE",
+                "Development Name or Address",
+                "State",
+                "Network Infrastructure",
+                "Declaration Date",
+                "Anticipatory Notices Submission Date "
+              ],
+              [
+                "LHN_ATELIER",
+                "23-33 Johnston St, Collingwood, VIC 3066",
+                "VIC",
+                "FTTB",
+                "2023-09-22 00:00:00",
+                "2021-05-17 00:00:00"
+              ],
+              [
+                "LHN_KASHMIR",
+                "356 Northbourne Ave, Dickson, ACT 2602",
+                "ACT",
+                "FTTP",
+                "2023-09-22 00:00:00",
+                "2021-05-17 00:00:00"
+              ],
+              [
+                "LHN_NO1COMO",
+                "1 Como St, Malvern, VIC 3144",
+                "VIC",
+                "FTTP",
+                "2023-09-22 00:00:00",
+                "2023-01-11 00:00:00"
+              ],
+              [
+                "LHN_PACE OF BLACKBURN",
+                "160 Whitehorse Rd, Blackburn, VIC 3130",
+                "VIC",
+                "FTTP",
+                "2023-09-22 00:00:00",
+                "2021-05-17 00:00:00"
+              ],
+              [
+                "LHN_STATURE",
+                "35-51 Hancock St, Southbank, VIC 3006",
+                "VIC",
+                "FTTP",
+                "2023-09-22 00:00:00",
+                "2021-05-17 00:00:00"
+              ],
+              [
+                "LHN_THE FOUNDRY",
+                "636 Newcastle St, Leederville, WA 6007",
+                "WA",
+                "FTTP",
+                "2023-09-22 00:00:00",
+                "2021-08-19 00:00:00"
+              ],
+              [
+                "LHN_447Bay",
+                "447 Bay St, Brighton, VIC 3186",
+                "VIC",
+                "FTTP",
+                "2023-09-22 00:00:00",
+                "2023-03-17 00:00:00"
+              ],
+              [
+                "LHN_RENSHAW",
+                " 7 Renshaw St, Cranebrook, NSW 2749",
+                "NSW",
+                "FTTP",
+                "2023-09-22 00:00:00",
+                "2021-09-27 00:00:00"
+              ],
+              [
+                "LHN_52Townhall",
+                "52-60 Townhall Ave, Preston, VIC 3072",
+                "VIC",
+                "FTTP",
+                "2023-09-22 00:00:00",
+                "2023-04-21 00:00:00"
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 1.165
+    }
+  ],
+  "status": "available",
+  "resource_id": "bc32f7d6-b722-46b4-9bda-8e1f3967fc0d",
+  "policy_version": "download-preflight-3"
+}

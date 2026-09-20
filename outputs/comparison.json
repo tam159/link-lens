@@ -1,0 +1,228 @@
+{
+  "generated_at": "2026-09-19T12:04:49.122174+00:00",
+  "current_experiment": "jev-luna-v1",
+  "baseline_cost": {
+    "calls": 52,
+    "priced_calls": 50,
+    "unpriced_calls": 2,
+    "measured_subtotal_usd": 2.0150253
+  },
+  "current_cost": {
+    "calls": 292,
+    "priced_calls": 275,
+    "unpriced_calls": 17,
+    "measured_subtotal_usd": 0.261160344
+  },
+  "baseline_counts": {
+    "observations": 20851,
+    "links": 50,
+    "unlinked": 5535,
+    "profiles": 50
+  },
+  "current_counts": {
+    "observations": 20838,
+    "links": 52,
+    "unlinked": 5543,
+    "profiles": 52
+  },
+  "baseline_ai_triage": {
+    "yes": 39,
+    "no": 5,
+    "unsure": 6
+  },
+  "current_ai_triage": {
+    "worksheet_id": "de07af4c61937995ea79b2f6072239bdbd5cfdf93203a7c635c16de9d1fee749",
+    "kind": "triage",
+    "review_type": "ai_assisted",
+    "sample_size": 50,
+    "sampling": "Census of frozen 50 download-gated ranks; bounded fresh resource evidence and companion documents; no reranking after judgments",
+    "seed": null,
+    "threshold": null,
+    "assessed": 50,
+    "supported": 47,
+    "not_supported": 1,
+    "unresolved": 2,
+    "resolved_denominator": 48,
+    "support_fraction_on_resolved": 0.9791666666666666,
+    "negative_fraction_on_resolved": 0.020833333333333332,
+    "human_requirement_satisfied": false,
+    "limitation": "Assistant evidence audit; not human ground truth or measured human precision. Shared source errors and selection bias remain possible."
+  },
+  "current_ai_links": {
+    "worksheet_id": "7d1794f191a2f3d704117377b3afa5a980e7de1371ccb95746b78eec5f829c4a",
+    "kind": "links",
+    "review_type": "ai_assisted",
+    "sample_size": 52,
+    "sampling": "Census of every proposed link in the overlap-selected batch (52 links); not a population sample",
+    "seed": null,
+    "threshold": 0.99,
+    "assessed": 52,
+    "supported": 52,
+    "not_supported": 0,
+    "unresolved": 0,
+    "resolved_denominator": 52,
+    "support_fraction_on_resolved": 1.0,
+    "negative_fraction_on_resolved": 0.0,
+    "human_requirement_satisfied": false,
+    "limitation": "Assistant evidence audit; not human ground truth or measured human precision. Shared source errors and selection bias remain possible."
+  },
+  "comparable_cost_scopes": {
+    "baseline_six_sources_all_attempts": {
+      "calls": 47,
+      "priced": 45,
+      "unpriced": 2,
+      "subtotal_usd": 1.8562503
+    },
+    "current_six_sources_all_attempts": {
+      "calls": 78,
+      "priced": 61,
+      "unpriced": 17,
+      "subtotal_usd": 0.2530887
+    },
+    "current_jev_triage": {
+      "calls": 213,
+      "priced": 213,
+      "unpriced": 0,
+      "subtotal_usd": 0.007996044
+    }
+  },
+  "source_contributions": [
+    {
+      "source": "asic-companies",
+      "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+      "observations": 3813,
+      "profiles_receiving_evidence": 52
+    },
+    {
+      "source": "asic-business-names",
+      "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+      "observations": 892,
+      "profiles_receiving_evidence": 0
+    },
+    {
+      "source": "asic-afs-licensee",
+      "source_id": "ab7eddce-84df-4098-bc8f-500d0d9776d1",
+      "observations": 3968,
+      "profiles_receiving_evidence": 0
+    },
+    {
+      "source": "acnc-register",
+      "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+      "observations": 7192,
+      "profiles_receiving_evidence": 17
+    },
+    {
+      "source": "corporate-transparency",
+      "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+      "observations": 993,
+      "profiles_receiving_evidence": 35
+    },
+    {
+      "source": "employment-provider-locations-and-contacts",
+      "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+      "observations": 3980,
+      "profiles_receiving_evidence": 0
+    }
+  ],
+  "shortlist_overlap": 26,
+  "shortlist_added": [
+    "09e3797c-7409-4420-bfb1-e38a4e215b88",
+    "0a32fd99-cebc-453f-a7e8-b753a3f9d123",
+    "1b2b68ab-fe93-4020-8fca-73afb0ed59db",
+    "248cd160-4308-4ede-8add-e495f69ccf5a",
+    "24c4e49d-b284-46ca-9ad4-17b5a0880ee6",
+    "3c82afe5-9fd6-457d-acaf-da790715a637",
+    "49017fd0-e7be-4fc0-88c8-046fc366d980",
+    "4baffe31-81f0-48cf-a968-8bf48ce0a4ff",
+    "4d35cd80-2538-4705-82f3-d0d18e823d98",
+    "559708e5-480e-4f94-8429-c49571e82761",
+    "5715b850-a989-4343-a1e8-e779ec729de4",
+    "5b70b4e7-4171-4c60-b2e9-6461bc213ac0",
+    "5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841",
+    "6917a3a8-a239-4e32-acc4-1d037025a0ff",
+    "6f1cc305-a8b2-4748-bd40-c00754ad6504",
+    "6fd9d178-066f-4044-9578-6cf8772c5259",
+    "8bffe010-63be-4245-941c-c93ca01fa106",
+    "8d0910dd-e38e-42c1-92e8-452d5db70d60",
+    "a1f8626c-fefb-4c4d-86ea-deaa04fb1f6e",
+    "a5fde808-ba32-4cee-bfcb-fbb3afa56a28",
+    "cfc1a18e-f4e0-4ed8-9a19-36b59b7a3d5b",
+    "d7992845-5d3b-4868-b012-71f672085412",
+    "f71709a8-2eeb-4592-ad1f-443f7f520186",
+    "f87d61e4-c857-49ba-a98f-4e37db41cde4"
+  ],
+  "shortlist_removed": [
+    "0241f125-1d58-48a9-8d32-a6a6bc82f52e",
+    "05c2312c-73e5-4834-b1fe-0941c5606400",
+    "0bdcbc69-b468-4817-99ff-fb3ba2c834ed",
+    "0e4a82b7-b1d9-47d8-8c74-3cb2ac296661",
+    "144dc4ff-949f-436d-9c8b-37b683eb3d76",
+    "166d7571-a9a0-4471-8ff7-12dffae965b2",
+    "1918fbdd-b725-4b1a-9ae6-2ae39cd2196a",
+    "1ccfa002-13de-465a-afee-1b4589b71b81",
+    "26173014-dfdf-4b7c-b322-9c22990f98fc",
+    "276ec1bc-4971-461c-88bc-be9f3c99a0f8",
+    "3103d0b8-e9a5-4ba1-82e3-0e6712e92fd9",
+    "31203511-887c-4d44-96af-cad2c6cd05f1",
+    "36a1f36a-6542-47ad-80e3-db4529954ec5",
+    "3a923fae-bab4-4b54-a3d5-ae50d601345e",
+    "47925267-7407-473c-b110-a06b174ee9b4",
+    "57d6ae20-3139-44e0-92cb-a2e706a8eba0",
+    "5bd7fcab-e315-42cb-8daf-50b7efc2027e",
+    "5c42d7d6-f3ff-4b7c-bc72-ed052063e12b",
+    "7e073d71-4eef-4f0c-921b-9880fb59b206",
+    "9584dbb5-2d1f-4a73-9bba-e1bae966c124",
+    "a265ef83-1190-4c63-ac51-a0ca3966c666",
+    "abe00ded-8175-42cc-b054-3abd215f3eb8",
+    "b4cce8aa-ebdb-48e5-948c-0c9b64854402",
+    "f2b7c2c1-f4ef-4ae9-aba5-45c19e4d3038"
+  ],
+  "catalogue_overlap": 943,
+  "catalogue_added": [
+    "118ac4fd-1ff5-4bd3-a28a-c89dada228d9",
+    "c029d95e-0d5a-4421-8901-e81cfacbe6ca"
+  ],
+  "catalogue_removed": [
+    "40971c35-5d64-47ca-8d31-9c6fca6d00dd",
+    "5eb72248-f131-436f-a1ce-23b5192db700"
+  ],
+  "snapshots": [
+    {
+      "source": "asic-companies",
+      "same_snapshot_as_baseline": true
+    },
+    {
+      "source": "asic-business-names",
+      "same_snapshot_as_baseline": true
+    },
+    {
+      "source": "asic-afs-licensee",
+      "same_snapshot_as_baseline": true
+    },
+    {
+      "source": "acnc-register",
+      "same_snapshot_as_baseline": true
+    },
+    {
+      "source": "corporate-transparency",
+      "same_snapshot_as_baseline": true
+    },
+    {
+      "source": "employment-provider-locations-and-contacts",
+      "same_snapshot_as_baseline": true
+    }
+  ],
+  "caveat": "Operational before/after comparison, not controlled model-only A/B test. Baseline includes development failures and a seventh-source run. Prompt improvements and review/recovery counts differ. Missing usage excludes some calls from cost subtotals. AI audits are not human ground truth.",
+  "download_gate_revision": {
+    "id": "discovery-jev-luna-v1-downloadable-v3",
+    "previous_audit": {
+      "supported": 36,
+      "not_supported": 0,
+      "unresolved": 14
+    },
+    "retained": 35,
+    "replaced": 15,
+    "additional_model_calls": 0,
+    "downstream_rerun": false
+  }
+}

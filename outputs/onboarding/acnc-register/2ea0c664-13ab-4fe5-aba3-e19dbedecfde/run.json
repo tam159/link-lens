@@ -1,0 +1,770 @@
+{
+  "id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde",
+  "experiment_id": "jev-luna-v1",
+  "model": "gpt-5.6-luna",
+  "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+  "source_slug": "acnc-register",
+  "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+  "status": "completed",
+  "created_at": "2026-09-19T10:32:45.106926+00:00",
+  "model_calls": 2,
+  "python_calls": 1,
+  "version": 1,
+  "input_tokens": 33625,
+  "output_tokens": 4390,
+  "active_seconds": 36.25912372599487,
+  "calculated_cost_usd": 0.013674249999999999,
+  "pricing_basis": "unknown; no provider rates configured",
+  "analysis_artifact": "08598f40e875f49f5ece7bc82422521d786fcd13fbeb31cfb3b1a93630818bb3",
+  "partitions_artifact": "e2d805329dcf92ee2ab59fb38612284721027f70187c41d1b929d94281071b39",
+  "partition_counts": {
+    "discovery": 3034,
+    "validation": 1010,
+    "final": 956
+  },
+  "mapping_id": "2ea0c664-13ab-4fe5-aba3-e19dbedecfde:1",
+  "critique": {
+    "acceptable": true,
+    "blocking_issues": [],
+    "warnings": [
+      "The mapping is deliberately partial and leaves ACNC registration date, establishment date, status, entity type, operating locations/countries, subtypes, beneficiaries, responsible-person count, size, and financial year end unmapped because the ontology lacks compatible fields or the semantics do not support the target. This is appropriate rather than a defect.",
+      "The source documentation says Charity_Legal_Name is formal/legal or official name, but may contain an ACNC alternate identifier when the legal name is withheld; the mapping does not condition or flag such substituted values, so legal_name confidence should be understood as conditional on the source value actually being a legal name.",
+      "Other_Organisation_Names may contain multiple trading or other names. Emitting the unsplit trimmed field as one trading_name observation is supported by the absence of a documented separator, but it can represent multiple names in one value and does not establish ownership; this limitation is disclosed.",
+      "The business address is explicitly an operating/business address, not necessarily a registered office. Discovery includes PO Box values, so address.full is a source address claim and should not be interpreted as a physical service location without further qualification.",
+      "Country is copied as the address-country value (observed as Australia), while Operating_Countries is correctly left unmapped; the source's alpha-3 operating-country codes are not address country.",
+      "No source field supplies current/historic entity status or reporting-group membership, and the mapping correctly does not invent them.",
+      "Confidence values are provisional judgements, not measured probabilities. The discovery/exploration script failed due to a counting bug and cannot establish full-file distributions; validation passed on its separate sample but is not semantic proof.",
+      "The source publication proxy is an allowed dataset-level observed_at policy, not a row-change timestamp; this is disclosed. The supplied envelope semantics cover required provenance fields.",
+      "Address_Type is unmapped despite being Business; the mapping's declared business address role and source documentation adequately explain the semantic use, and no ontology field requires the raw type label.",
+      "The source dataset is weekly and may omit withheld records or fields; blank values therefore do not mean nonexistence. No unsupported constants or legal meanings are introduced. The mapped ABN operation is appropriate under the authoritative checksum semantics; no ACN suffix derivation is made."
+    ],
+    "evidence_checked": [
+      "ACNC User Guide Dec 2024 pp.1-2: registered-charity scope, legal/formal Charity name, other/trading names, business address fields, website, and ACNC registration-date meaning.",
+      "ACNC User Guide Dec 2024 pp.3-6: establishment date, reporting size, responsible-person count, financial year end, operating locations/countries, charity subtypes, and beneficiaries.",
+      "Raw discovery headers and rows: ABNs, legal names, a populated trading/other name (Georges Riverkeeper), Business address type, PO Box examples, websites, dates, flags, and operating-country values.",
+      "Ontology contract: legal_name versus trading_name, ABN checksum semantics, address fields, absence of status/reporting-group/operating-purpose fields, observation envelope, and provenance/linking rules.",
+      "Previous mapping, unmapped-field rationales, limitations, and validation feedback (250 validation rows, passed; not treated as semantic ground truth)."
+    ]
+  },
+  "final_cursor": 300,
+  "supersedes_run_id": "6429eee3-39c1-45cf-b38c-06df2715fba5",
+  "retry_reason": "User-requested revision exhausted prior attempt; explicit new bounded attempt, frozen partitions and consumed final cursor retained",
+  "carried_feedback": "charity legal name/ABN/address claims; charity registration is not company incorporation.",
+  "thread_id": "01a0b939-c158-7fd1-bb12-3884aae20c25",
+  "timing_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+  "exploration_artifact": "e0b31222753e6428cb2dec5d4a4760fe0c5eaee20a5fac94548c6da05a7587e9",
+  "usage_has_estimates": false,
+  "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b939-c15c-7e73-bddb-06062cf2e8ce/run/01a0b93a-1d99-76a3-b508-9cf812c63ed3?start_time=2026-09-19T10%3A33%3A08.761830%2B00%3A00",
+  "validation": {
+    "passed": true,
+    "blocking_issues": [],
+    "records": 250,
+    "observations": 1799,
+    "quarantined_fields": 0,
+    "filtered_records": 0,
+    "error_examples": [],
+    "output_examples": [
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "de4b31bb006e3ffe623d87a8907babd2b51ac1dd784b0dd15c021918b09ffbe6",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "entity.abn",
+        "value": "75313755767",
+        "source_fields": [
+          "ABN"
+        ],
+        "raw_value": [
+          "75313755767"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 24
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.98
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "fa02a9050ff46fd1e983a9c287068c5a76d55d457a8d6ed31c9ee3b6911dd60c"
+      },
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "de4b31bb006e3ffe623d87a8907babd2b51ac1dd784b0dd15c021918b09ffbe6",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "entity.legal_name",
+        "value": "NORTH WEST REGIONAL LANDCARERS INC",
+        "source_fields": [
+          "Charity_Legal_Name"
+        ],
+        "raw_value": [
+          "NORTH WEST REGIONAL LANDCARERS INC"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 24
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.97
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "54b6566e3cc6f6557047b48ad7ac9a08befa86bb812fa3a0c2d4f3f4fa51e86f"
+      },
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "de4b31bb006e3ffe623d87a8907babd2b51ac1dd784b0dd15c021918b09ffbe6",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "address.full",
+        "value": "Po Box 3122",
+        "source_fields": [
+          "Address_Line_1",
+          "Address_Line_2",
+          "Address_Line_3"
+        ],
+        "raw_value": [
+          "Po Box 3122",
+          "",
+          ""
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 24
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.91
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "4a7c69b41380012eb5e625d0861fc7f7cfa38a9c120a90cfe84e21570e0ce1ad"
+      },
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "de4b31bb006e3ffe623d87a8907babd2b51ac1dd784b0dd15c021918b09ffbe6",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "address.locality",
+        "value": "West Tamworth",
+        "source_fields": [
+          "Town_City"
+        ],
+        "raw_value": [
+          "West Tamworth"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 24
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.98
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "80a60e3b67cff77bbcda52d374c88fff4de8b8dfe9b08636f788251e1bcfdee8"
+      },
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "de4b31bb006e3ffe623d87a8907babd2b51ac1dd784b0dd15c021918b09ffbe6",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "address.state",
+        "value": "NSW",
+        "source_fields": [
+          "State"
+        ],
+        "raw_value": [
+          "NSW"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 24
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.98
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "663924a80745faa340bd5c253258ad130984c9ed62d6437a788a4d7e5ae3a843"
+      },
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "de4b31bb006e3ffe623d87a8907babd2b51ac1dd784b0dd15c021918b09ffbe6",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "address.postcode",
+        "value": "2340",
+        "source_fields": [
+          "Postcode"
+        ],
+        "raw_value": [
+          "2340"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 24
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.97
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "fc1bd915cdeb96c863327bc1c42b4c92941f4871f672ca4d46b96fda7a152da5"
+      },
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "de4b31bb006e3ffe623d87a8907babd2b51ac1dd784b0dd15c021918b09ffbe6",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "address.country",
+        "value": "Australia",
+        "source_fields": [
+          "Country"
+        ],
+        "raw_value": [
+          "Australia"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 24
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.97
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "a1c0f956d7c73bdc152d5e4082705f5a1f574f8f2f3bde1e7a835f368c524b80"
+      },
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "de4b31bb006e3ffe623d87a8907babd2b51ac1dd784b0dd15c021918b09ffbe6",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "entity.website",
+        "value": "www.nwrl.org.au",
+        "source_fields": [
+          "Charity_Website"
+        ],
+        "raw_value": [
+          "www.nwrl.org.au"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 24
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.96
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "bbec13a319a57d223906f7dcbf2360b75bbd46903389853b3b85526dad0c103d"
+      }
+    ],
+    "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+  },
+  "critique_format_error": null,
+  "final_validation": {
+    "passed": true,
+    "blocking_issues": [],
+    "records": 100,
+    "observations": 710,
+    "quarantined_fields": 1,
+    "filtered_records": 0,
+    "error_examples": [
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "9a523aa06b25f2b518302c28f4e303e1f2539a4d78f3d85fc3a53d1f686d0750",
+        "kind": "field_quarantine",
+        "field": "address.postcode",
+        "raw_value": [
+          "QLD 4207"
+        ],
+        "reason": "Postcode is not four preserved digits; do not invent leading zeros"
+      }
+    ],
+    "output_examples": [
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "78783b9beb6b4d2e4a45b04f7592218e782618b8c305b95f8f9841d4f6f1799d",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "entity.abn",
+        "value": "72686306258",
+        "source_fields": [
+          "ABN"
+        ],
+        "raw_value": [
+          "72686306258"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 1038
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.98
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "e045f1c51db4ac0f182e877306bd3dbca5352d838c3ca405584a3cf4d54e6d7d"
+      },
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "78783b9beb6b4d2e4a45b04f7592218e782618b8c305b95f8f9841d4f6f1799d",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "entity.legal_name",
+        "value": "HEALING UMMAH LTD",
+        "source_fields": [
+          "Charity_Legal_Name"
+        ],
+        "raw_value": [
+          "HEALING UMMAH LTD"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 1038
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.97
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "bdfb46eec3dda2a8a9c9df125f2945ddab8a36c3afd1370dcfa5f0608527cea5"
+      },
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "78783b9beb6b4d2e4a45b04f7592218e782618b8c305b95f8f9841d4f6f1799d",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "address.country",
+        "value": "Australia",
+        "source_fields": [
+          "Country"
+        ],
+        "raw_value": [
+          "Australia"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 1038
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.97
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "1a163fad51d9e4311e2e881f9b326e96e6a5eedba3b06d416ad956fd254a8af4"
+      },
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "4f11f91df5bb0131337b90d4c2190d975e343c0c39daebc5fd581171934e4f98",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "entity.abn",
+        "value": "87683140392",
+        "source_fields": [
+          "ABN"
+        ],
+        "raw_value": [
+          "87683140392"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 1044
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.98
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "57e752493dba3a989fa32ef3ab7a8f44819a637d753485e0fd49564134795797"
+      },
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "4f11f91df5bb0131337b90d4c2190d975e343c0c39daebc5fd581171934e4f98",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "entity.legal_name",
+        "value": "KINDER WORLD LIMITED",
+        "source_fields": [
+          "Charity_Legal_Name"
+        ],
+        "raw_value": [
+          "KINDER WORLD LIMITED"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 1044
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.97
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "0fd46f6d12ec58504c859f7c6ca3fdde088651fdaa0df26fe255bb7b578c5e2d"
+      },
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "4f11f91df5bb0131337b90d4c2190d975e343c0c39daebc5fd581171934e4f98",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "address.full",
+        "value": "169 Old South Head Rd",
+        "source_fields": [
+          "Address_Line_1",
+          "Address_Line_2",
+          "Address_Line_3"
+        ],
+        "raw_value": [
+          "169 Old South Head Rd",
+          "",
+          ""
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 1044
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.91
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "90044532904d8c9dbe94c49cc91127b23dfd3966d240f158636a1793d3e89439"
+      },
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "4f11f91df5bb0131337b90d4c2190d975e343c0c39daebc5fd581171934e4f98",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "address.locality",
+        "value": "Bondi Junction",
+        "source_fields": [
+          "Town_City"
+        ],
+        "raw_value": [
+          "Bondi Junction"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 1044
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.98
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "1f4145810ac6c6f5be0cb0b8ed70be06583f2ac62c052adcb4bf6587f9f2b760"
+      },
+      {
+        "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+        "source_record_id": "4f11f91df5bb0131337b90d4c2190d975e343c0c39daebc5fd581171934e4f98",
+        "observed_at": "2026-09-13T19:00:54.497199+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "field": "address.state",
+        "value": "NSW",
+        "source_fields": [
+          "State"
+        ],
+        "raw_value": [
+          "NSW"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+          "sheet": "csv",
+          "row": 1044
+        },
+        "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+        "config_hash": "44fda6069d8697cfbbce223d43eaf65dcc0543cd212600de0719df45dbaf673b",
+        "subject_role": "legal_entity",
+        "source_kind": "charity_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.98
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "e3f78217a2291c1c0d5e6d36477a4e27771933d3b9b5c149e7787023b8f1661e"
+      }
+    ],
+    "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+  },
+  "final_record_ids": [
+    "78783b9beb6b4d2e4a45b04f7592218e782618b8c305b95f8f9841d4f6f1799d",
+    "4f11f91df5bb0131337b90d4c2190d975e343c0c39daebc5fd581171934e4f98",
+    "3b1758f925d84cab8a359fe704995ebaf8bea80c0d59d67441e94c208fd5151c",
+    "38defc4f3ebdc19c6010a35bec33c2bafe7a2f8c5ad3598af75d896f65905a5c",
+    "0d28ea5c2e1bbf221c35cb940f16b145c90f67325f63a559a313433ba4656664",
+    "c61600a4c6b86b9f8167cd376a3c8a4bc6b145b9338a68cd7e10c637fe67c93d",
+    "b4c5482d59dabeeed4fb3aeb69f1aafc942c30841e6eefcf05d45d61dc63efb6",
+    "7048235ad564720d3c29b50175cff67a0aa2bf01719ddc2f37b154a69ac7dea9",
+    "2ffcd42616834af5d2ce5ecfda5e75b7a637e1e5e2de1cf241ed9d8256349a6c",
+    "62fa9e446c69f230955c1009842832593bac233fd3261d64d6d60f397093055d",
+    "3fc5fe285e39a05b1b45a74981246b679ebf34176c2edd3cdb9a84e4d7e71a56",
+    "86303324d5b22943f18c1bd2d01d0bc312414d1436be2692ab27e27022fb37bb",
+    "72783b7e13dd055fa39af236b072ef294abdd8aaccaba9f1c0f425bdc4323c7d",
+    "5d50331461b61eab9f63d7ed023ace6b14853450e907cf4d4d36d8a6dd2b2a76",
+    "4bb898d50624e2cbff9c73a9c8d7f53afd0fe822a2a6e86bf5201f79d4740a8e",
+    "332716f77f95cd533f0e14818bc5410cbd1e15da6bfde91af0ee4b5f8c386f93",
+    "0b0a828585f7589e563f29032722ecaf058077cbf8a0ec3ef6fc58f0399cb625",
+    "c6ec740978e9a2458165069bba7fae07a7aa5b858ad9bf02a9368a9b1b2fa92e",
+    "2c9d78bcb549b768e32bdebe494960c9e2a5e08c1478b88561e83dae9f058726",
+    "ceddc96aab012c1adf91615c7e5b8d36c757c18b6d0f740822b5da0baaa37b91",
+    "4b6e6acbcf6d714cc182f259de8a774d28dcd20234670e46a2a7e95898193974",
+    "0082f68a2eafb8f9efadaca659b950565a909e3f58988cb500081455916ea086",
+    "7be3f97d87d2aa53643703c28cf1d5a8057f2c9b961fe6d2793ca60f5f001c37",
+    "656a6e0218a74a65bfc0184fafd6f00e35cc86fec92f103286a9f99135b3b899",
+    "f1a7a53de83ce0fa7bb82cc6877e18b737652215d443442fc6e4bdeec3fe4750",
+    "ae79709810b4fd5fe12f43bed0dbff5a4d18999c4ccb72e5856182ab782c05e8",
+    "942ced7d5c344ff25eef4479212640f2ca0e67e6c10963f6892002395b94214a",
+    "aa90c7e7338293672d97336946e740f2e33cede602ffbf8aa7d01e0d8a11055b",
+    "8314641737673f7a9ee4baf835fd0c976bf77eba2d8bef408258a519bd734f30",
+    "9a523aa06b25f2b518302c28f4e303e1f2539a4d78f3d85fc3a53d1f686d0750",
+    "eeb61cb531ca26bd4452666c43ee2690db8283e824318fb63dd839bfcf9809aa",
+    "832d00d586ceeab0f7c85c35bc5e9dc38378a14b6b0991d9f345d372a5280ba1",
+    "639efb74aa32cf678c4dac79e425160e8087474576eceac85d342490bbb2cc38",
+    "4b8a27d47e65b5805d1138f1ac83eea659a7990c46a3fca4de2a566eb65f83f2",
+    "5198be836307cd6adcc856e8fa528ca34caa0a92dc3728a5a957aca6bdb3b9d4",
+    "9b47d58cd717521dcf573ed6270945b97bde5e11a0a4b4c49411538bd7a58ac2",
+    "a861c98a751610f15472e37beaf2fa06680d45d0e753399fec9a023e1695cbf4",
+    "d1ed341076bb502dd81feee2d23e801079f647e8988c5b25a7b4f308ab8c5258",
+    "0f8a4cdc96bc287ca502d3a6c884aa9d1de55af032fdd425e0df1e1f630d8245",
+    "062ed50414b4bcc1e453898c0937f7cbba261998fb62fd24f08270c44ac08a59",
+    "0a76de81ebea887ec4f3b931ed7b1dfe90d30720823a060c7d6f0420b648ca20",
+    "2d45c8558ecc184887ea768380786d37ae28f9474805a81d4f2a613dceef3fb8",
+    "dfdafdebee57a96b53020f6c0b5eda722b50f74f8575004db6c9e02fd1916e4e",
+    "45f038b3e6919e96ea390338589f14eeed9669832df13e818be80d5745b718e9",
+    "3990716910a26b8e7124194630bb6d64014d8d4faed37615ec3ca801ff4ccee1",
+    "af976138b04849f81a5328b14f0e97f45e6ef802086858a22ed816212e1274d8",
+    "d4c4d6bb2df67eacc45e2ef1af28c261e0be20087aee30e8a1da6ff273b58337",
+    "5fbeb413762b2a17946e14a9607c6edb4473e97b97e9f961b376033701f12fac",
+    "48690f57f6ee635ad7b70c0c26c526a59960572a6234e92f81ce939d168dcacf",
+    "6ec77cbff363aa070a935af986aa7e3c8047b23fdfe191a1302dfa805c930654",
+    "a442371dc8f090ab8fbe4709e704321ddb19f14c455cc0bb3e53f6af1505a57f",
+    "35fad5ad0920d4b2e8d339fde38d13d01b8175995b72b5678beabd3addf19f44",
+    "4ee3b490d1388381f9f85a7f2d6d6bbdd2bae13c38dc5c1b2cab4d07f88eaa0f",
+    "c62c92ab4016324db2c5bcb22fecf48d871ed0f8cff24348e059893a77fd5df9",
+    "f05ab0994170fdb962c65c283c42a48be46608cf3ae954abc5b9adbce56d6216",
+    "2a4d631aafc57d53725f34573bf6ba9f28cfa4f68b2076b5d609569f7b65669a",
+    "5f7ca4f193c75432c408fb4c4a0bf87a6b5f5caea29e2ca82a2cae9a39f477e7",
+    "dcb92a98262f4c4c1a43f184300dc4eac4286c6922adb5d4f883a9fc0b883c1f",
+    "25343f4839afe075840cc90df48d6890643d97e8c96f3ae0274670c3e30c8ad8",
+    "9d57e3e4bca6289c408caca20e6c0329619d65f2fe125e80f1d7b1ba26507161",
+    "6074101582059014784667d81c89c74faeaa2a945d5f70d322e83cef65782e55",
+    "337649b13200a1ebef8d3369e47a677b1319b66dbd7340018d2616054b8ae221",
+    "c143c7233d2515dc979d52acd3024208f44d40ff8621bc2ee84e80f2525f789a",
+    "e421eb3538f146a4bd63b47cfadf72416038e5e80fad2c7d45862f668cd0a9ee",
+    "353b40856b49ff5821b65d4171519cdccf56ba4821ac6d6a8aca5d800511fa8d",
+    "4f22600ac2ba0ab6e48ccecabfc169a852de2e28044859df3d60cebd25055c0f",
+    "46e7fe7744a2c20ec1f9ef112a5084f75c229de896cb6be450f4592d26087261",
+    "3f02bd5f9600e476b2affcb48466f15017466f67738988b16bcf195b90c4aea4",
+    "ee934a32fdbde29f8482af77582682a2c7cb115f0318b310a3c531007de73ae3",
+    "555f979e9f1846a74bae71a5ce161e15024dd1703c9327870d9e51dca60d1d29",
+    "3a17044a7170bdb3bb97f612d26ac9a9793387dfa4173faaafa26999f92cbb32",
+    "21b064f590ea4702591c299373dec27be4c420a5421206391125af29f5998f81",
+    "1b12711a63c88485c5ded6b479439b7a294d32c00978c29f6e8cd19da98dd953",
+    "57d2445e0c8b8832eb41bf2a7d434343c0818a1accc871fbae5b8f0fcb7dac2a",
+    "b0dcd5784c035c30abbbd9b8c6a7e6a70caef986242eeb7d6bf65472dafeec6c",
+    "15c7528ea6abe6ca0449b5ab87ecc38942def456283b6058d884a3c5ff6589f7",
+    "6d3771b18d3d8fd0913c0b330b3b1e3732700a10787fc8946a7a7ac14d6b274c",
+    "8c8fd39b593dfe721c10012a84d61f275a73d751130ba0c2f1de564e6348d011",
+    "8dcf6a911caf83c70f0370d64d4fa725874504bffc1582c8855aa4a4864add2a",
+    "0e8a137144f6bc6054579fa7896035e7419478e1a5b2106484d9e31caa62b5a9",
+    "8cef9605059b632f272f8c3fcbb9c61e5c5978af3d97eab9f40cfcfacfcb9b9a",
+    "be1d9c31d755df38442450c6398b3b34ecd96f8b21e907d2bd01e707a2b46a89",
+    "db86991ca09679fbfb9a51b185e9064ae2363b78dd7212195e2c75410c0e836d",
+    "f14a12e258790998d8dcb633611d289499f2aa0321018d08c8d33fffd5bba63e",
+    "ff4d9562aa887b093b106723a25bcd3a2fa57c5ff6bc32661108d98d0f240742",
+    "2d7d838f9d5563aae48260308fba206cc1fea49ee979e6e66582ee91a987d0e2",
+    "d12b7dc538b5809d2afd821093239163dd513f17e81624cccc6f77c163ad943d",
+    "0ada80ad00ed1e963b75d8c421e45e3b8491a351c116c62e0ff24d36e0f29034",
+    "37f82f3150546a881d4281d8f0890305bf0456cc68a378b33ec08248e1a7e0a4",
+    "afd0c4198e2ace8fc5c63c38bdb7873b126f878105066f68f930a22653ace6a9",
+    "b298af81017c517a0a0613e91a8f8fdc8a4891b89eddd7fc838e005f1aaba688",
+    "4dcb271ed6809015dfb89d1e107636b9c21d0fcd8967cb477bfb167f939354e6",
+    "e593a62a30c99bd5ce49a1d35f8f3083e2a5b5383f418b426693fb50ab1ddc2d",
+    "9060a9af0942449599f0df452f0ac0c1ff617d678503930d6c3e8ff9f4f536e1",
+    "889ab2a6ae5cbbf3b4fc6191f9e2a25f48076f5d9bb8cd37fbd76017ad5e555c",
+    "6dc6fd4afc7a15c1221f47938fb88af6435666fa16bc6764cee3dde290e74f84",
+    "338b1abcd446fee8d5e9dfb9402f7d196e670c50d6a423a8302ddfcef600cfaa",
+    "6f0483034acdecc8c970ff4e6cd463d75d0f3762dcbb7ae6917d4f4b41cc8d40",
+    "d25057f7120b4ca464c22a6933b9578170cd179a2f86a81b680ce6c597bae718",
+    "cfd2c28fded7df790d6db6212338e1e0d7263bb4a2b6d15890c7d73157911884"
+  ],
+  "review_artifact": "5f0c591e71e4162e3b13b52d560ee267a5762a76da535819989d64be2e0be25b",
+  "approval_id": "e82e9e0f2efc92929e8cd9ab8c0e70b4b29696fd9925fdc80c7c906472540ddd",
+  "extraction_artifact": "5d5c5ed56fdfaf7917b07f916ec6d0e6e7ff4cf6c7db0f0a4ac53763540b80ff",
+  "extracted_records": 1000,
+  "observation_count": 7121,
+  "completed_at": "2026-09-19T10:35:14.008697+00:00"
+}

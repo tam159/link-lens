@@ -1,0 +1,49 @@
+{
+  "dataset_id": "6e01bfa0-f6b8-4850-9d6f-a4c58ec4344b",
+  "attempts": [
+    {
+      "resource_id": "3261333b-deea-42bf-b5eb-c033a20b4e8d",
+      "url": "https://www.data.qld.gov.au/dataset/6e01bfa0-f6b8-4850-9d6f-a4c58ec4344b/resource/3261333b-deea-42bf-b5eb-c033a20b4e8d/download/2018-business-growth-fund-tranche-1.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:56.271631+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/6e01bfa0-f6b8-4850-9d6f-a4c58ec4344b/resource/3261333b-deea-42bf-b5eb-c033a20b4e8d/download/2018-business-growth-fund-tranche-1.xlsx",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.105
+    },
+    {
+      "resource_id": "4fe9afab-4a00-4155-9714-7183ba870343",
+      "url": "https://www.data.qld.gov.au/dataset/6e01bfa0-f6b8-4850-9d6f-a4c58ec4344b/resource/4fe9afab-4a00-4155-9714-7183ba870343/download/2018-business-growth-fund-tranche-2.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:56.377017+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/6e01bfa0-f6b8-4850-9d6f-a4c58ec4344b/resource/4fe9afab-4a00-4155-9714-7183ba870343/download/2018-business-growth-fund-tranche-2.xlsx",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.111
+    },
+    {
+      "resource_id": "412c5974-e0d9-4efe-96f1-faf54a50caff",
+      "url": "https://www.data.qld.gov.au/dataset/6e01bfa0-f6b8-4850-9d6f-a4c58ec4344b/resource/412c5974-e0d9-4efe-96f1-faf54a50caff/download/2018-business-growth-fund-tranche-3.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:56.488174+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/6e01bfa0-f6b8-4850-9d6f-a4c58ec4344b/resource/412c5974-e0d9-4efe-96f1-faf54a50caff/download/2018-business-growth-fund-tranche-3.xlsx",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.109
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

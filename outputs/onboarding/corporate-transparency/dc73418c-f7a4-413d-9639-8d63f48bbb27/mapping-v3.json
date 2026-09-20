@@ -1,0 +1,104 @@
+{
+  "id": "dc73418c-f7a4-413d-9639-8d63f48bbb27:3",
+  "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+  "version": 3,
+  "config_hash": "4aadebfc4ea01d12141e302560b3bce2a3909b963ea71a538203d8785d6786d6",
+  "config": {
+    "reader": {
+      "format": "xlsx",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": "Income tax details",
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One row per corporate tax entity reported in the Income tax details worksheet",
+    "subject_role": "legal_entity",
+    "source_kind": "tax_disclosure",
+    "subject_label_field": "Name",
+    "address_role": "unknown",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "ABN",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.98,
+        "evidence": "Publisher dataset_notes explicitly state the reports contain the name and ABN for selected corporate tax entities; exact worksheet header 'ABN'; discovery sample Income tax details row 2 has ABN '94600082111'. The declarative abn operation validates and preserves the ABN, without deriving an ACN suffix."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Name",
+        "reason": "The publisher provides only the header 'Name' and no current-name indicator or documented distinction establishing a current registered legal name versus trading or historical name; retained raw through subject_label_field, not emitted as entity.legal_name or entity.trading_name."
+      },
+      {
+        "source_field": "Total income $",
+        "reason": "Exact worksheet header and discovery sample row 2 value '159074147' identify a financial measure, which has no corresponding field in the supplied ontology."
+      },
+      {
+        "source_field": "Taxable income $",
+        "reason": "Exact worksheet header and discovery sample row 2 is blank; this financial measure has no corresponding ontology field, and documented blank/unreportable values must not be converted to zero."
+      },
+      {
+        "source_field": "Tax payable $",
+        "reason": "Exact worksheet header and discovery sample row 2 is blank; this financial measure has no corresponding ontology field, and documented blank/unreportable values must not be converted to zero."
+      },
+      {
+        "source_field": "Income year",
+        "reason": "Exact worksheet header and discovery sample row 2 value '2023-24' identify a reporting period, not entity.date_registered or observation time; no matching ontology field exists."
+      },
+      {
+        "source_field": "__unnamed_7",
+        "reason": "Exact supplied worksheet header contains an empty unnamed column; no ontology target and no documented meaning."
+      },
+      {
+        "source_field": "__unnamed_8",
+        "reason": "Exact supplied worksheet header contains an empty unnamed column; no ontology target and no documented meaning."
+      },
+      {
+        "source_field": "__unnamed_9",
+        "reason": "Exact supplied worksheet header contains an empty unnamed column; no ontology target and no documented meaning."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.9,
+    "limitations": [
+      "The source envelope supplies publication_proxy '2025-10-01T21:08:09.091363' and the licence 'Creative Commons Attribution 3.0 Australia'; no row-level statement timestamp is supplied, so publication_proxy is used for observed_at.",
+      "No publisher current-name indicator is present. Name is therefore retained only as subject_label_field and no canonical current legal or trading name is emitted.",
+      "The tax-transparency inclusion criteria and ABN do not establish active status, deregistration, liquidation, external administration, registration date, address, or a legal entity type beyond the publisher's reporting description. No status or date_registered claim is made.",
+      "No ACN is mapped or inferred from an ABN suffix. The supplied column is documented as ABN; the declarative abn operation is the only identifier operation used.",
+      "The report's financial measures and Income year are not represented in the supplied ontology and remain unmapped; blank financial cells remain unknown rather than zero.",
+      "The source describes entity-level tax data and states it does not reflect actual economic or accounting groupings; no reporting group, ownership, or beneficial-owner relationship is inferred.",
+      "The supplied documentation array is empty; evidence is limited to dataset_notes, exact worksheet headers, discovery samples, and the supplied ontology/engine semantics.",
+      "Authority, field-confidence, and linking judgements are provisional and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-luna",
+  "created_at": "2026-09-19T09:11:27.455528+00:00",
+  "status": "proposed"
+}

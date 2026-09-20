@@ -1,0 +1,25 @@
+{
+  "dataset_id": "b4cce8aa-ebdb-48e5-948c-0c9b64854402",
+  "attempts": [
+    {
+      "resource_id": "ea62f69e-0296-4a59-8077-27cce6e4c114",
+      "url": "https://data.gov.au/geoserver/myport-pty-ltd-trading-as-gigafy-alderley-qld-anticipatory-notice-july-2022/wfs?request=GetFeature&typeName=ckan_b4cce8aa_ebdb_48e5_948c_0c9b64854402&outputFormat=json",
+      "format": "json",
+      "checked_at": "2026-09-19T13:56:46.096747+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/geoserver/myport-pty-ltd-trading-as-gigafy-alderley-qld-anticipatory-notice-july-2022/wfs?request=GetFeature&typeName=ckan_b4cce8aa_ebdb_48e5_948c_0c9b64854402&outputFormat=json",
+      "content_type": "application/json;charset=UTF-8",
+      "bytes": 960,
+      "partial": false,
+      "artifact_id": "fcadb935b0921e64bf247f1f77134fe6e2d3f239630cd7957b2fef12e119f384",
+      "sample": {
+        "json_sample": "{'type': 'FeatureCollection', 'features': [{'type': 'Feature', 'id': 'ckan_b4cce8aa_ebdb_48e5_948c_0c9b64854402.1', 'geometry': {'type': 'MultiPolygon', 'coordinates': [[[[153.0063, -27.4279], [153.0048, -27.4267], [153.0047, -27.4266], [153.0048, -27.4264], [153.0054, -27.4265], [153.0056, -27.4263], [153.0057, -27.4259], [153.0076, -27.4262], [153.0074, -27.4272], [153.0078, -27.4274], [153.0078, -27.4277], [153.0075, -27.4277], [153.0069, -27.4283], [153.0063, -27.4279]]]]}, 'geometry_name': 'geom', 'properties': {'name_of_sip': 'Myport pty ltd trading as Gigafy', 'service_area': 'anticipatory notice', 'service_area_identifier': 'ac757262-fe26-46f0-8a14-e16e82f6200e', 'contract': '20th June 2022', 'project_area': '117, Mina Parade, Alderley QLD 4051', 'network_infrastructure': 'FTTP', 'estimated_completion_date': '1 October 2023'}}], 'totalFeatures': 1, 'numberMatched': 1, 'numberReturned': 1, 'timeStamp': '2026-09-19T13:56:47.053Z', 'crs': {'type': 'name', 'properties': {'name': 'urn:ogc:def:crs:EPSG::4326'}}}"
+      },
+      "wall_seconds": 1.078
+    }
+  ],
+  "status": "available",
+  "resource_id": "ea62f69e-0296-4a59-8077-27cce6e4c114",
+  "policy_version": "download-preflight-3"
+}

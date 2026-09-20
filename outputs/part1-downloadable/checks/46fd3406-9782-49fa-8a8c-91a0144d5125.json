@@ -1,0 +1,21 @@
+{
+  "dataset_id": "46fd3406-9782-49fa-8a8c-91a0144d5125",
+  "attempts": [
+    {
+      "resource_id": "9a72dd9f-2e07-4ac6-bc45-a2d2ec76522a",
+      "url": "https://www.data.qld.gov.au/dataset/46fd3406-9782-49fa-8a8c-91a0144d5125/resource/9a72dd9f-2e07-4ac6-bc45-a2d2ec76522a/download/queensland-contracts-directory-awarded-contracts_3.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:54.699247+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/46fd3406-9782-49fa-8a8c-91a0144d5125/resource/9a72dd9f-2e07-4ac6-bc45-a2d2ec76522a/download/queensland-contracts-directory-awarded-contracts_3.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.198
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

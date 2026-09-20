@@ -1,0 +1,440 @@
+{
+  "id": "f2810464-ad88-4896-9022-984951fc7d58:1",
+  "run_id": "f2810464-ad88-4896-9022-984951fc7d58",
+  "version": 1,
+  "config_hash": "09225d7c4b97d1fc370ba335ddb2556e5083c31db76ebfe64964d1c98d99863d",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One row per ACNC-registered charity/legal entity, primarily identified by the source ABN; names, business address and charity attributes describe that charity record.",
+    "subject_role": "legal_entity",
+    "source_kind": "charity_register",
+    "subject_label_field": "Charity_Legal_Name",
+    "address_role": "business",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "User guide, p. 2, §§6-7: ABN is a charity's Australian Business Number and the field is numeric; discovery sample header ABN with sample 51214424410."
+      },
+      {
+        "source_fields": [
+          "Charity_Legal_Name"
+        ],
+        "canonical_field": "entity.legal_name",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "User guide, p. 2, §§8-9: Charity name is the formal name appearing on legal or official documents; exact header Charity_Legal_Name and sample U3A Inner North Incorporated."
+      },
+      {
+        "source_fields": [
+          "Other_Organisation_Names"
+        ],
+        "canonical_field": "entity.trading_name",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.95,
+        "evidence": "User guide, p. 2, §§10-11: other organisation names may be trading names or other names and are names by which the charity is known; exact header Other_Organisation_Names and sample Georges Riverkeeper."
+      },
+      {
+        "source_fields": [
+          "Address_Line_1",
+          "Address_Line_2",
+          "Address_Line_3"
+        ],
+        "canonical_field": "address.full",
+        "transformations": [
+          {
+            "op": "join",
+            "argument": " ",
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.92,
+        "evidence": "User guide, p. 2, §§12-14: Charity address is the business address and address lines 1-3 are supplied address fields; exact headers Address_Line_1, Address_Line_2, Address_Line_3 and sample 540 Regency Rd."
+      },
+      {
+        "source_fields": [
+          "Town_City"
+        ],
+        "canonical_field": "address.locality",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "User guide, p. 2, §13 lists Town/City as an address field; exact header Town_City and sample Enfield."
+      },
+      {
+        "source_fields": [
+          "State"
+        ],
+        "canonical_field": "address.state",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "uppercase",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "User guide, p. 2, §13 lists State as an address field; exact header State and samples SA and VIC."
+      },
+      {
+        "source_fields": [
+          "Postcode"
+        ],
+        "canonical_field": "address.postcode",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "postcode",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "User guide, p. 2, §13 lists Postcode as an address field; exact header Postcode and sample 5085."
+      },
+      {
+        "source_fields": [
+          "Country"
+        ],
+        "canonical_field": "address.country",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "User guide, p. 2, §13 lists Country as an address field; exact header Country and sample Australia."
+      },
+      {
+        "source_fields": [
+          "Charity_Website"
+        ],
+        "canonical_field": "entity.website",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "website",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.96,
+        "evidence": "User guide, p. 2, §15: Charity website contains the supplied website address; exact header Charity_Website and samples https://www.u3ainnernorth.org.au/ and www.spectrum3.org.au."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Address_Type",
+        "reason": "Describes address type; ontology has no address-type field. The documentation identifies the supplied charity address as a business address, retained via address_role=business."
+      },
+      {
+        "source_field": "Registration_Date",
+        "reason": "ACNC charity registration effective date, not legal-entity registration; explicitly not mapped to entity.date_registered."
+      },
+      {
+        "source_field": "Date_Organisation_Established",
+        "reason": "Organisation establishment date is not legal-entity registration date and has no matching ontology field."
+      },
+      {
+        "source_field": "Charity_Size",
+        "reason": "Charity reporting-size classification; no ontology field."
+      },
+      {
+        "source_field": "Number_of_Responsible_Persons",
+        "reason": "Count of board or committee members; no ontology field."
+      },
+      {
+        "source_field": "Financial_Year_End",
+        "reason": "Charity financial year-end value; no ontology field."
+      },
+      {
+        "source_field": "Operates_in_ACT",
+        "reason": "Charity operating-location indicator; no ontology field for operating regions."
+      },
+      {
+        "source_field": "Operates_in_NSW",
+        "reason": "Charity operating-location indicator; no ontology field for operating regions."
+      },
+      {
+        "source_field": "Operates_in_NT",
+        "reason": "Charity operating-location indicator; no ontology field for operating regions."
+      },
+      {
+        "source_field": "Operates_in_QLD",
+        "reason": "Charity operating-location indicator; no ontology field for operating regions."
+      },
+      {
+        "source_field": "Operates_in_SA",
+        "reason": "Charity operating-location indicator; no ontology field for operating regions."
+      },
+      {
+        "source_field": "Operates_in_TAS",
+        "reason": "Charity operating-location indicator; no ontology field for operating regions."
+      },
+      {
+        "source_field": "Operates_in_VIC",
+        "reason": "Charity operating-location indicator; no ontology field for operating regions."
+      },
+      {
+        "source_field": "Operates_in_WA",
+        "reason": "Charity operating-location indicator; no ontology field for operating regions."
+      },
+      {
+        "source_field": "Operating_Countries",
+        "reason": "ISO alpha-3 operating-country list, not an entity country/address-country field."
+      },
+      {
+        "source_field": "PBI",
+        "reason": "Charity subtype indicator; no ontology field."
+      },
+      {
+        "source_field": "HPC",
+        "reason": "Charity subtype indicator; no ontology field."
+      },
+      {
+        "source_field": "Preventing_or_relieving_suffering_of_animals",
+        "reason": "Charity subtype indicator; no ontology field."
+      },
+      {
+        "source_field": "Advancing_Culture",
+        "reason": "Charity subtype indicator; no ontology field."
+      },
+      {
+        "source_field": "Advancing_Education",
+        "reason": "Charity subtype indicator; no ontology field."
+      },
+      {
+        "source_field": "Advancing_Health",
+        "reason": "Charity subtype indicator; no ontology field."
+      },
+      {
+        "source_field": "Promote_or_oppose_a_change_to_law__government_poll_or_prac",
+        "reason": "Charity subtype indicator; no ontology field."
+      },
+      {
+        "source_field": "Advancing_natual_environment",
+        "reason": "Charity subtype indicator; no ontology field; source spelling is preserved exactly."
+      },
+      {
+        "source_field": "Promoting_or_protecting_human_rights",
+        "reason": "Charity subtype indicator; no ontology field."
+      },
+      {
+        "source_field": "Purposes_beneficial_to_ther_general_public_and_other_analogous",
+        "reason": "Charity subtype indicator; no ontology field; source spelling is preserved exactly."
+      },
+      {
+        "source_field": "Promoting_reconciliation__mutual_respect_and_tolerance",
+        "reason": "Charity subtype indicator; no ontology field."
+      },
+      {
+        "source_field": "Advancing_Religion",
+        "reason": "Charity subtype indicator; no ontology field."
+      },
+      {
+        "source_field": "Advancing_social_or_public_welfare",
+        "reason": "Charity subtype indicator; no ontology field."
+      },
+      {
+        "source_field": "Advancing_security_or_safety_of_Australia_or_Australian_public",
+        "reason": "Charity subtype indicator; no ontology field."
+      },
+      {
+        "source_field": "Aboriginal_or_TSI",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Adults",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Aged_Persons",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Children",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Communities_Overseas",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Early_Childhood",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Ethnic_Groups",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Families",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Females",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Financially_Disadvantaged",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "LGBTIQA+",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "General_Community_in_Australia",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Males",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Migrants_Refugees_or_Asylum_Seekers",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Other_Beneficiaries",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Other_Charities",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "People_at_risk_of_homelessness",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "People_with_Chronic_Illness",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "People_with_Disabilities",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Pre_Post_Release_Offenders",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Rural_Regional_Remote_Communities",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Unemployed_Person",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Veterans_or_their_families",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Victims_of_crime",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Victims_of_Disasters",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "Youth",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "animals",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "environment",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      },
+      {
+        "source_field": "other_gender_identities",
+        "reason": "Charity beneficiary indicator; no ontology field."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.93,
+    "limitations": [
+      "The source is a subset of the ACNC Charity Register and may omit records or fields withheld by charities; absence is not evidence of nonexistence.",
+      "The publication proxy 2026-09-13T19:00:54.497199 is used because the source envelope supplies publication metadata and no record-level observation timestamp is present.",
+      "The preview contains six records while analysis reports a 300-record discovery set; full-file duplicate, blank-identifier and anomaly checks were not established.",
+      "No entity status, entity type, ACN, industry code or legal-entity registration date is explicitly supplied; these remain unmapped.",
+      "Other organisation names are retained as trading-name observations but are not treated as separate legal entities.",
+      "All authority and field confidence scores are provisional and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-luna",
+  "created_at": "2026-09-19T07:40:42.524955+00:00",
+  "status": "proposed"
+}
