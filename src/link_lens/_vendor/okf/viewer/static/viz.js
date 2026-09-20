@@ -326,8 +326,15 @@
     });
   }
 
-  // Auto-show the first node (a dataset if available, else first concept)
+  // Start Link Lens bundles with business profiles; keep other bundles unfiltered.
+  if (bundle.types.includes("Business Profile")) {
+    typeSelect.value = "Business Profile";
+    typeSelect.dispatchEvent(new Event("change"));
+  }
+
+  // Show a node matching the initial filter when available.
   const initial =
+    bundle.nodes.find((n) => n.data.type === typeSelect.value) ||
     bundle.nodes.find((n) => n.data.type === "BigQuery Dataset") ||
     bundle.nodes[0];
   if (initial) showDetail(initial.data.id);

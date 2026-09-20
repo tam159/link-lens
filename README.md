@@ -2,6 +2,8 @@
 
 A LangGraph agent investigates public business datasets and produces mapping configurations for human approval. One shared engine then extracts observations, links entities and generates profiles with provenance. The submitted run uses **Jev for triage and gpt-5.6-luna for onboarding**.
 
+**[Explore the live evidence viewer →](https://tam159.github.io/link-lens/)** Browse business profiles, explore their connections and inspect supporting evidence directly in your browser—no setup required. The viewer presents the saved submission snapshot.
+
 **Choose a starting point:** [How it works](#how-it-works) · [Run locally](#run-locally) · [Read the write-up](WRITEUP.md) · [Inspect saved results](outputs/README.md) · [Follow the illustrated demo](docs/DEMO.md)
 
 ## Inspect saved results without setup
@@ -166,6 +168,16 @@ uv run link-lens usage
 ```
 
 Open `outputs/local-run/okf/viewer.html`. The export also contains JSONL observations, links, unlinked records and profiles. Assembly requires at least 50 cross-source entities in the sampled pools and reports a failure if overlap is insufficient; it does not invent matches to meet the count. [Write-up](WRITEUP.md), section **Identity, conflicts and provenance**.
+
+#### Publish the saved viewer with GitHub Pages
+
+The [Pages workflow](.github/workflows/pages.yml) publishes `outputs/okf/viewer.html` as the site's `index.html`, preserving its embedded data and attribution. The interactive viewer shows the committed evidence snapshot and loads its JavaScript libraries from a CDN. It does not run onboarding, mapping approvals or database updates.
+
+1. In the repository's **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions**.
+2. Commit and push the workflow to `main`. Changes to the workflow or `outputs/okf/viewer.html` on `main` trigger deployment automatically.
+3. Wait for **Actions → Deploy evidence viewer to Pages** to succeed, then open <https://tam159.github.io/link-lens/>. To redeploy manually, select **Run workflow** on `main`.
+
+Only the viewer is included in the deployment artifact. No services, model calls or additional secrets are required; deployment uses the workflow's `GITHUB_TOKEN` permissions. Refresh the saved export and push the changed viewer to update the hosted snapshot.
 
 ### 4. Create evaluation worksheets
 
