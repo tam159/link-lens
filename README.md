@@ -59,6 +59,8 @@ flowchart TD
 
 The node names match [agent.py](src/link_lens/agent.py). The partition box represents work inside `inspect`; it is not a separate graph node. All automatic revision paths are bounded by model-call, mapping-version, Python, time and cost budgets. Exhaustion retains a reviewable run record without authorising extraction. Feedback-driven changes require a fresh approval and another unused final slice; final-test failure does not loop against the exposed test data.
 
+For the eight-node transition diagram, node responsibilities, checkpointed state and tool interfaces, open [the engineering guide](docs/ENGINEERING.md), section **Part 2: LangGraph agent design**. It distinguishes structured model calls from graph-controlled execution and shows where evidence is stored.
+
 ## Run locally
 
 ### 1. Install prerequisites
@@ -218,7 +220,7 @@ The sandbox receives supplied discovery samples and documentation, not access to
 
 ### Three stores
 
-- LangGraph development checkpointer: messages/step/interrupt state; Compose volume `checkpoints`.
+- LangGraph development checkpointer: `run_id`, `route`, `feedback`, execution position and pending interrupt; Compose volume `checkpoints`.
 - PostgreSQL: independently versioned application evidence, mappings, decisions and results. Alembic manages tables. JSON payloads preserve detailed evidence; owner and kind indexes support the small demonstration workload.
 - SHA-256 artifact volume: immutable bytes, referenced by registered IDs. Exports are replaceable presentations, not the authoritative store.
 

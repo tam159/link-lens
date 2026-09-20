@@ -1,6 +1,93 @@
 # Engineering notes and verification
 
-[Implementation](#implementation-notes) · [Verification](#verification-evidence) · [Operations](#operations-and-recovery)
+[Agent design](#part-2-langgraph-agent-design) · [Implementation](#implementation-notes) · [Verification](#verification-evidence) · [Operations](#operations-and-recovery)
+
+## Part 2: LangGraph agent design
+
+This section describes the implemented graph in [agent.py](../src/link_lens/agent.py), rather than a proposed architecture. It is one bounded workflow with **eight nodes**, three kinds of structured model response and an optional Python investigation. Acquisition/registration happens before the graph; cross-source linking and profile assembly happen afterward.
+
+### Nodes and conditional edges
+
+```mermaid
+flowchart TD
+    Start([START]) --> Entry{"Stored run status"}
+    Entry -->|Other| Inspect["inspect · model selects reader"]
+    Entry -->|waiting_for_human| Review["review · Inbox interrupt"]
+    Entry -->|completed| Done([END])
+    Inspect -->|Reader parse error; bounded retry| Inspect
+    Inspect -->|Freeze reader and partitions| Explore["explore · optional sandbox Python"]
+    Explore --> Propose["propose · model emits MappingSpec"]
+    Propose -->|Malformed typed response; within bounds| Propose
+    Propose -->|Mapping saved| Validate["validate · deterministic checks"]
+    Validate -->|Blocking issues| Propose
+    Validate -->|Passed| Critique["critique · model emits SemanticReview"]
+    Critique -->|Malformed response; bounded retry| Critique
+    Critique -->|Semantic blockers| Propose
+    Critique -->|Acceptable for human review| Final["final · unused held-out slice"]
+    Final -->|Failed| Done
+    Final -->|Passed; packet saved| Review
+    Review -->|Respond; feedback| Propose
+    Review -->|Ignore; deferred| Done
+    Review -->|Accept exact config hash| Extract["extract · shared engine"]
+    Extract -->|Completed| Done
+```
+
+`build_graph()` registers conditional edges for every node using the returned `state["route"]`; `"end"` maps to LangGraph `END`. The diagram shows the routes the node implementations actually emit. `START` dispatch is distinct from resuming a checkpointed interrupt. Exhausted proposal versions also route to `END` with `needs_review`; this status does not itself create an Inbox approval packet. Wrapped-node exceptions route to `END` with `failed` or `budget_exhausted`; framework interrupts propagate normally. `final` is not wrapped by `safe_node`, so an unexpected exception there surfaces as a graph error.
+
+| Node | Work and model involvement | Saved evidence / next step |
+|---|---|---|
+| `inspect` | Inspect physical structure; model returns `AnalysisPlan` with reader, grain hypothesis, uncertainty and optional Python. Parse using the proposed reader. | Save analysis and partition artifacts. Reader errors retry up to three structural attempts; success → `explore`. An existing analysis skips reinspection. |
+| `explore` | Execute the proposed Python once when present, using up to 300 discovery records and supplied documentation. No model call here. | Save code, bounded output, exit status and duration → `propose`. An existing exploration artifact is reused; an execution failure is retained as feedback, not automatically retried. |
+| `propose` | Model returns `MappingSpec`, using discovery examples, ontology, exploration, prior diagnostics and human feedback. Reader must stay frozen. | Save immutable mapping version and hash → `validate`. Malformed output retries `propose`; version/call budgets still apply. |
+| `validate` | Run the shared validator on up to 250 validation records; check the reader matches the frozen reader. No model call. | Save diagnostics → `critique` on pass, otherwise `propose`. Bounded examples become feedback data. |
+| `critique` | Separate model call returns `SemanticReview` about subject role, ownership, field meaning and evidence. Uses the same configured model, not an independent ground-truth judge. | Save critique → `final` when acceptable with no blockers, otherwise `propose`. One format retry is allowed; the second malformed critique fails. |
+| `final` | Validate the frozen proposal on the next unused slice of up to 100 final records. No model call. | Advance `final_cursor`, save record IDs and report. Pass saves the review packet → `review`; failure ends the attempt without a tuning loop. |
+| `review` | Pause with `interrupt()` and an Agent Inbox payload. No model call; config editing is disabled. | Save an idempotent decision tied to the config hash. Accept → `extract`; Respond → `propose` with feedback; Ignore → `END`. |
+| `extract` | Verify exact-hash approval, then extract the first up to 1,000 records in source order from the partition pool. No model call. | Save immutable observations, extraction artifact and completed status → `END`. Later cohort assembly is a separate deterministic operation. |
+
+### State: what is checkpointed versus persisted
+
+The graph uses `State(TypedDict, total=False)`, with no message-history reducer. Nodes return partial state updates; large records and configs are retrieved through `run_id` rather than carried in the checkpoint.
+
+| Location | Fields / contents | Purpose |
+|---|---|---|
+| Graph state | `run_id: str` | Locate the authoritative run, source and snapshot. Required to execute nodes even though the TypedDict allows partial updates. |
+| Graph state | `route: str` | Select the next node or `end`; this is a control-flow value, not the run's business status. |
+| Graph state | `feedback: str` | Carry malformed-proposal feedback or the human's revision request into `propose`; cleared after a valid proposal is stored. |
+| LangGraph checkpoint | State, execution position and pending interrupt | Resume the workflow. The development server supplies the checkpointer; tests can inject one through `build_graph(checkpointer=...)`. |
+| PostgreSQL run record | Status, mapping/version, artifact references, validation/critique, final cursor, approval ID, counters and timing | Persist progress, decisions and measurements beyond a single node call. `run_data()` reloads it; `update()` saves changes. |
+| PostgreSQL evidence records | Source/snapshot metadata, immutable mappings, approvals, observations and events | Preserve provenance and exact configuration identity. |
+| Content-addressed artifacts | Analysis, partitioned records, exploration output, review Markdown and extraction results | Store larger evidence payloads. The agent receives selected context, not arbitrary filesystem access to these artifacts. |
+
+```mermaid
+flowchart LR
+    Checkpoint["LangGraph checkpoint: run_id, route, feedback, interrupt"] --> Node["Executing node"]
+    Node <-->|Load run; persist decisions| DB[(PostgreSQL)]
+    DB -->|Artifact IDs| Artifacts[(Content-addressed evidence)]
+    Artifacts -->|Selected discovery context| Model["Luna structured call"]
+    Artifacts -->|Discovery records and documentation only| Sandbox["Restricted Python container"]
+    Model -->|Typed result| Node
+    Sandbox -->|Bounded output| Node
+```
+
+### Tools and typed model responses
+
+The graph controls which operation runs next. There is **no generic `ToolNode` or ReAct tool-selection loop**. [llm.py](../src/link_lens/llm.py) uses `with_structured_output(..., method="function_calling", include_raw=True)` to obtain validated Pydantic responses. The model's optional Python is a field in `AnalysisPlan`; the `explore` node invokes the sandbox wrapper explicitly.
+
+| Interface | Who invokes it? | Input → output / boundary |
+|---|---|---|
+| `call(..., AnalysisPlan, ..., "inspect")` | `inspect` | Source documentation + structural preview → reader, grain, uncertainties and optional investigation code. |
+| `call(..., MappingSpec, ..., "propose_mapping")` | `propose` | Evidence + ontology + bounded feedback → declarative mapping. No embedded extraction Python. |
+| `call(..., SemanticReview, ..., "semantic_critique")` | `critique` | Proposal and evidence → acceptability, blockers and warnings. Quality check, not measured accuracy. |
+| `inspect_resource()`, `read_records()`, `partition()` | `inspect`, as ordinary Python functions | Snapshot bytes → structural preview, parsed pool and disjoint partitions. Not model-callable filesystem tools. |
+| `python_tool()`, traced as `execute_discovery_python` | `explore` | Proposed code + supplied discovery records/documentation → bounded execution output. The container receives no credentials, network, repository or Docker socket. |
+| `validate()` | `validate` and `final` | Mapping + designated records → deterministic report. Final-test rows are not supplied to the model for revision. |
+| `interrupt()` / resume response | `review` and Agent Inbox | Review packet → Accept, Respond or Ignore. Acceptance binds the stored hash, never returned edited config arguments. |
+| `extract()` | `extract`, after approval | Approved mapping + records → observations and issues. No per-record LLM calls. |
+
+**Why this is agentic:** model decisions affect reader choice, exploration code and mapping semantics; actual parser/validation/critique/human feedback changes later proposals. **What is bounded:** default limits are three mapping versions, twelve model calls and eight Python executions per attempt, plus token, time and cost budgets. The graph normally offers one optional Python investigation, not eight automatic exploration iterations. Reader and critique repair loops also consume the call budget. A human revision traverses validation and critique again and consumes another unused final slice before fresh approval.
+
+For evidence, inspect [saved onboarding runs](../outputs/onboarding/) and [current approval packets](../outputs/README.md). [Graph tests](../tests/test_graph.py), [budget tests](../tests/test_budgets.py) and [review recovery tests](../tests/test_review_recovery.py) exercise these boundaries. This design reference does not imply every saved source used Python or needed every revision path.
 
 ## Implementation notes
 
