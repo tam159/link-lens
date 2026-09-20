@@ -1,0 +1,95 @@
+{
+  "id": "47109ded-709d-4b83-8bab-d962a9b3b341:2",
+  "run_id": "47109ded-709d-4b83-8bab-d962a9b3b341",
+  "version": 2,
+  "config_hash": "473d003d207ab074f567f1f2b2551d9d1fbe2d0c23d73a37cea8433392c77787",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": "\t",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One published ASIC Business Names Register row describing one business name and its business-name registration attributes in a snapshot; it does not identify a legal entity or establish an ABN-holder relationship.",
+    "subject_role": "unknown",
+    "source_kind": "business_name_register",
+    "subject_label_field": "BN_NAME",
+    "address_role": "unknown",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "BN_NAME"
+        ],
+        "canonical_field": "entity.trading_name",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "BN_NAME",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.93,
+        "evidence": "Help file p.7 defines BN_NAME as a name used, or to be used, in relation to one or more businesses and as it appears on ASIC's Business Names register. Sample rows show whitespace-padded business-name labels, e.g. '   Plumbing Gas and Solar'."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "REGISTER_NAME",
+        "reason": "Help file p.7 defines it as the name of the register, not an entity attribute. It is BUSINESS NAMES in all 300 discovery rows."
+      },
+      {
+        "source_field": "BN_STATUS",
+        "reason": "Help file p.7 defines status of the business-name registration, not legal-entity status. Discovery observes Registered and Deregistered; no entity.status conversion is justified."
+      },
+      {
+        "source_field": "BN_REG_DT",
+        "reason": "Help file p.8 defines the date by which the business name started. This is not company/legal-entity date_registered."
+      },
+      {
+        "source_field": "BN_CANCEL_DT",
+        "reason": "Help file p.8 defines the date by which the business name ceased. No canonical business-name cancellation-date field exists, and it does not establish entity deregistration."
+      },
+      {
+        "source_field": "BN_STATE_NUM",
+        "reason": "Help file p.8 defines a former state business-name registration number. No canonical field represents this historic business-name identifier; retain raw text externally without numeric coercion or zero-padding."
+      },
+      {
+        "source_field": "BN_STATE_OF_REG",
+        "reason": "Help file p.8 defines the previous state in which the business name was registered. It is neither an entity address nor an entity jurisdiction field."
+      },
+      {
+        "source_field": "BN_ABN",
+        "reason": "Help file p.9 identifies this value as an ABN but does not explicitly state that it identifies the holder/legal entity for the BN_NAME row. It is nullable for documented former-regulator, multiple-ABN, and suppressed-ABN cases. Mapping it alongside BN_NAME would assert an unsupported business-name-to-holder relationship."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.9,
+    "limitations": [
+      "ASIC describes this as a selective, point-in-time snapshot of its Business Names Register, containing currently registered business names and deregistered business names for 12 months (help file p.2). It is not a company or business-name-holder register extract.",
+      "The source has no stable business-name registration identifier and supplies no explicit holder/legal-entity name or holder relationship. BN_ABN therefore remains unmapped rather than being treated as the identity of the unknown subject.",
+      "BN_NAME is mapped only as a trading name; it is not mapped as entity.legal_name. The untransformed raw label is retained through subject_label_field.",
+      "No filter is applied: documentation describes the published snapshot scope, but does not provide a condition that safely selects legal entities or current names for this ontology.",
+      "The source envelope publication timestamp is a publication proxy, not a row-level registration, cancellation, or change timestamp.",
+      "All authority, source-reliability, and field-confidence scores are provisional uncalibrated judgements requiring human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-terra",
+  "created_at": "2026-09-18T01:02:38.625844+00:00",
+  "status": "proposed",
+  "approval_status": "completed",
+  "snapshot_id": "da44f27f1ffc7a414929ea349dcd45e0549f52b332b1909db335c751aa445e6a"
+}

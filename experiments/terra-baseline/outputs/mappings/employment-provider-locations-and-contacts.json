@@ -1,0 +1,197 @@
+{
+  "id": "46041705-750a-414f-8dcb-a698974724c2:3",
+  "run_id": "46041705-750a-414f-8dcb-a698974724c2",
+  "version": 3,
+  "config_hash": "50f578a4e6d3000c7d17622b63804059ef65a65790f7c330145dc84221ecb3b4",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "cp1252",
+      "delimiter": ",",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One provider service-site offering under a contract and Employment Service Area code.",
+    "subject_role": "service_provider",
+    "source_kind": "service_locations",
+    "subject_label_field": "SITE_NAME",
+    "address_role": "service_location",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "SITE_ADDRESS_LN"
+        ],
+        "canonical_field": "address.full",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.75,
+        "evidence": "Exact header SITE_ADDRESS_LN. Discovery rows 2–9 contain street-address text: \"2nd Floor 22 East Row\", \"2B Campbell Street\", \"55 Peter Street\", and \"Shop 6 & 7 The HUB Wynyard Street\". The dataset title is \"Employment Services Provider Locations and Contacts\" and its notes state it provides location, service and contact information. Locality, state and postcode are separately headed fields."
+      },
+      {
+        "source_fields": [
+          "SITE_LOCALITY_NAME"
+        ],
+        "canonical_field": "address.locality",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.9,
+        "evidence": "Exact header SITE_LOCALITY_NAME; discovery row 2 is \"CANBERRA\", row 3 is \"YOUNG\", and rows 4–9 include \"WAGGA WAGGA\", \"TUMUT\", and \"COOTAMUNDRA\". These occur beside the separately supplied site-address, state, and postcode components."
+      },
+      {
+        "source_fields": [
+          "SITE_STATE_CD"
+        ],
+        "canonical_field": "address.state",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "uppercase",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "NSW": "NSW",
+              "VIC": "VIC",
+              "QLD": "QLD",
+              "WA": "WA",
+              "SA": "SA",
+              "TAS": "TAS",
+              "ACT": "ACT",
+              "NT": "NT"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.9,
+        "evidence": "Exact header SITE_STATE_CD. Discovery rows show \"ACT\" and \"NSW\"; validation output additionally confirms direct \"QLD\" output. These are ontology state literals; enum mapping does not infer a state from another field."
+      },
+      {
+        "source_fields": [
+          "SITE_POSTCODE"
+        ],
+        "canonical_field": "address.postcode",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "postcode",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.88,
+        "evidence": "Exact header SITE_POSTCODE. Discovery row 2 is \"2601\", row 3 is \"2594\", and rows 4–9 include \"2650\", \"2720\", and \"2590\". Validation confirms preserved \"4300\" output and quarantines short raw values such as \"871\" rather than zero-padding."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "DIS_SITE_CODE",
+        "reason": "Site-like code (for example A230); the ontology has no site identifier, and it is not a legal-entity identifier."
+      },
+      {
+        "source_field": "CONTRACT_NAME",
+        "reason": "Contract/program code (for example DESB or DESA); no corresponding canonical field."
+      },
+      {
+        "source_field": "LOCATION_NAME",
+        "reason": "Location label (for example CANBERRA); locality is directly supplied in SITE_LOCALITY_NAME, while this field has no separate canonical role."
+      },
+      {
+        "source_field": "SITE_NAME",
+        "reason": "Retained as subject_label_field because it is a provider/site-facing label (for example Vision Australia or Job Centre Australia), not evidence of a legal or registered trading name."
+      },
+      {
+        "source_field": "SITE_CONTACT_PHONE",
+        "reason": "Site contact telephone number; no telephone canonical field."
+      },
+      {
+        "source_field": "SITE_URL",
+        "reason": "The header and dataset purpose support a site/provider contact URL, but there is no location-website field and legal-entity ownership is not established; do not map to entity.website."
+      },
+      {
+        "source_field": "SITE_EMAIL_ADDRESS",
+        "reason": "Site email address; no email canonical field."
+      },
+      {
+        "source_field": "ESA_CD_1",
+        "reason": "Employment Service Area code; no corresponding canonical field and no authoritative code meaning is supplied."
+      },
+      {
+        "source_field": "ESA_CD_2",
+        "reason": "Additional Employment Service Area code; discovery values are whitespace and no corresponding canonical field exists."
+      },
+      {
+        "source_field": "ESA_CD_3",
+        "reason": "Additional Employment Service Area code; discovery values are whitespace and no corresponding canonical field exists."
+      },
+      {
+        "source_field": "AGENT_FREECALL_NUM",
+        "reason": "Freecall telephone number; no telephone canonical field."
+      },
+      {
+        "source_field": "PHONE_NUMBER",
+        "reason": "Telephone number; no telephone canonical field."
+      },
+      {
+        "source_field": "LATITUDE",
+        "reason": "Geographic coordinate; no latitude canonical field."
+      },
+      {
+        "source_field": "LONGITUDE",
+        "reason": "Geographic coordinate; no longitude canonical field."
+      },
+      {
+        "source_field": "__unnamed_19",
+        "reason": "Unnamed trailing column; discovery samples are empty and it has no canonical meaning."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.7,
+    "limitations": [
+      "This is a service-location dataset, not a company, business-name, or licence register. It does not establish legal-entity identity, legal name, trading-name status, entity type, entity status, or registration date.",
+      "SITE_NAME is retained only as a raw subject label. No supplied documentation or identifier establishes it as a legal name or trading name.",
+      "Discovery rows 4–5 share DIS_SITE_CODE A300, SITE_NAME, and address but differ in CONTRACT_NAME (DESA/DESB) and ESA_CD_1 (4SOE/5MRV). Rows are service-site offerings, not unique entities and not necessarily unique physical locations.",
+      "SITE_ADDRESS_LN is mapped only as the source-supplied street-address text. It is not an assembled address: SITE_LOCALITY_NAME, SITE_STATE_CD, and SITE_POSTCODE remain separate observations.",
+      "The 0.75 confidence for SITE_ADDRESS_LN is an uncalibrated mapping judgement, not a measured quality score. It is acceptable under the supplied semantic review, but deliberately lower than locality/state/postcode because the header's abbreviated \"LN\" is supported by repeated street-text samples rather than supplied field documentation, and the value is only one component of the address. It does not indicate low usability or establish entity linkage.",
+      "SITE_URL is intentionally unmapped because the evidence supports only a site/provider contact URL, not a website owned by an identified legal entity.",
+      "No per-record observation, effective, or current-status date is supplied. observed_at uses only the supplied publication proxy, 2016-05-27T00:00:00, not a per-site effective date.",
+      "No explicit country field is supplied; address.country is intentionally unmapped rather than inferred from Australian provenance or state/postcode values.",
+      "The postcode operation emits only preserved valid postcodes. Validation quarantined raw short values \"871\", \"850\", \"836\", and \"822\"; no leading zeroes are invented.",
+      "No dataset documentation pages were supplied. Mapped-field evidence is therefore limited to exact headers, discovery samples, dataset title/notes, and validation output. Authority and confidence scores are provisional and require human review.",
+      "The supplied exploratory profiling failed before full-file profiling. Claims about full-file duplication, trailing-column population, and code cardinality are limited to the supplied samples and validation feedback."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-terra",
+  "created_at": "2026-09-18T05:29:04.124956+00:00",
+  "status": "proposed",
+  "approval_status": "completed",
+  "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359"
+}

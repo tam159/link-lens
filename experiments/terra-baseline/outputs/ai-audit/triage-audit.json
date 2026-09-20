@@ -1,0 +1,312 @@
+{
+  "review_type": "ai_assisted",
+  "reviewer": "Codex assistant (AI)",
+  "review_date": "2026-09-18",
+  "method": "Assistant inspection of raw source names, identifiers, roles, sample records and publisher documents. Scripts collect and format evidence; they do not independently establish truth.",
+  "limitations": [
+    "Not a human hand-check. No human-ground-truth precision claim.",
+    "Same source snapshots used by the pipeline can share errors; no external live ABR/company verification for each pair.",
+    "Link sample is the 50-link constructed overlap cohort, not a population sample. Only Companies, ACNC and AFS contribute links.",
+    "Dataset audit checks existence of identifiable businesses, not extraction readiness, freshness or business purity.",
+    "Downloads are samples except full XLSX/PDF documents; no claim to review every source row.",
+    "Assistant audit token cost and wall time are not in the application model-call ledger and are unknown."
+  ],
+  "evidence_artifacts": {
+    "triage-evidence.json": "5f0f336c28d151150e4beba753db5540fe3bb4eeddb93bab446415ac7cfb50a6",
+    "link-evidence.json": "b6d9025d515debbc4f2aa40ec2e3c0df7ef0664e512cead84ffdcd3b59c510ed",
+    "followup-evidence.json": "2e27b761b830e2a4e4392bf74fbd4136842df502ec3ac003cb8a910a3bcd2acb"
+  },
+  "id": "4948065285319487873eca98a1a65101465ad97b91b7070804d6660ce885b86d",
+  "kind": "triage",
+  "batch_id": "discovery",
+  "seed": 159,
+  "threshold": null,
+  "items": [
+    {
+      "item_id": "553b3049-2b8b-46a2-95e6-640d7986a8c1",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "The CSV has named commercial venues: FacilityID 82 is Zephyrs Cafe (Food outlet), and 94 is Thargo Roadhouse (Service station). This satisfies the broad contains-businesses criterion. Most rows are facilities; names identify venues, not verified legal operators. No ABN/ACN or ownership inference is justified.",
+      "evidence_refs": {
+        "dataset_id": "553b3049-2b8b-46a2-95e6-640d7986a8c1",
+        "catalogue_url": "https://data.gov.au/data/dataset/553b3049-2b8b-46a2-95e6-640d7986a8c1",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/553b3049-2b8b-46a2-95e6-640d7986a8c1/resource/34076296-6692-4e30-b627-67b7c4eb1027/download/toiletmapexport_260901_074429.csv"
+        ],
+        "evidence_entry": 1
+      }
+    },
+    {
+      "item_id": "1def6e08-bed2-4904-b16b-a2a0c533045f",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "TEL Register sheet rows 2 and 3 explicitly name TEL holders SYNTECH RESOURCES PTY LTD and TA Australia Security Agent Pty Ltd. Repeated licence versions and expired records are present; holder identity must be kept separate from sites and current licence status.",
+      "evidence_refs": {
+        "dataset_id": "1def6e08-bed2-4904-b16b-a2a0c533045f",
+        "catalogue_url": "https://data.gov.au/data/dataset/1def6e08-bed2-4904-b16b-a2a0c533045f",
+        "resource_urls": [
+          "https://storagesolutiondocsprod.blob.core.windows.net/register-documents-tel/tel-register.xlsx?timestamp=2026-09-11T10:20:02+10:00"
+        ],
+        "evidence_entry": 2
+      }
+    },
+    {
+      "item_id": "b4cce8aa-ebdb-48e5-948c-0c9b64854402",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "Attached 5 July 2022 PDF page 1 names Myport pty ltd trading as Gigafy in Name_of_SIP and prints ABN 32 121 129 280. Contains an identifiable business even though resources are PDF/geospatial, outside the initial tabular extractor. Project address is not automatically a registered business address.",
+      "evidence_refs": {
+        "dataset_id": "b4cce8aa-ebdb-48e5-948c-0c9b64854402",
+        "catalogue_url": "https://data.gov.au/data/dataset/b4cce8aa-ebdb-48e5-948c-0c9b64854402",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/b4cce8aa-ebdb-48e5-948c-0c9b64854402/resource/f91f767f-cee9-4674-882c-d5e98464fbfe/download/2022-sip-anticipatory-letter-myport-brickworks-alderley-qld-july-2022.pdf"
+        ],
+        "evidence_entry": 3
+      }
+    },
+    {
+      "item_id": "5c42d7d6-f3ff-4b7c-bc72-ed052063e12b",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "Attached PDF page 1 dated 27 Sep 2021 explicitly states Lynham Networks Pty Ltd gives the notice. Letterhead prints Lightning Wholesale and ABN 17 602 258 337. This is business-bearing documentation; the XLSX rows themselves are development sites (e.g. 75-135 Bolinda Road). Do not infer separate companies from project names or assign the letterhead ABN without resolving its role.",
+      "evidence_refs": {
+        "dataset_id": "5c42d7d6-f3ff-4b7c-bc72-ed052063e12b",
+        "catalogue_url": "https://data.gov.au/data/dataset/5c42d7d6-f3ff-4b7c-bc72-ed052063e12b",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/5c42d7d6-f3ff-4b7c-bc72-ed052063e12b/resource/b0f185fa-b858-4af7-96c8-dd4c9d21975c/download/lbb_sip_anticipatory-notice-27-sep-2021.xlsx",
+          "https://data.gov.au/data/dataset/5c42d7d6-f3ff-4b7c-bc72-ed052063e12b/resource/0d209c73-51e1-4e6e-ad7f-ee6f82df03e3/download/anticipatory-notice-signed.pdf"
+        ],
+        "evidence_entry": 4
+      }
+    },
+    {
+      "item_id": "3103d0b8-e9a5-4ba1-82e3-0e6712e92fd9",
+      "verdict": "no",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "Publisher description explicitly says monthly number of driver licence renewals by how early they were paid. That is an aggregate count grain, not identifiable businesses. Resource returned zero bytes; explanatory TXT returned 403. This negative judgment is based on publisher metadata, not a claimed inspection of unavailable rows.",
+      "evidence_refs": {
+        "dataset_id": "3103d0b8-e9a5-4ba1-82e3-0e6712e92fd9",
+        "catalogue_url": "https://data.gov.au/data/dataset/3103d0b8-e9a5-4ba1-82e3-0e6712e92fd9",
+        "resource_urls": [
+          "https://www.data.qld.gov.au/dataset/3103d0b8-e9a5-4ba1-82e3-0e6712e92fd9/resource/10af9b07-68b7-4bc4-ac87-4fd9a20ed453/download/monthly_driver_licence_renewal_2025_06_11_1155.csv",
+          "https://www.tmr.qld.gov.au/-/media/aboutus/corpinfo/Open%20data/explanations/monthlydriverlicencerenewalexplanation.txt"
+        ],
+        "evidence_entry": 5
+      }
+    },
+    {
+      "item_id": "7e073d71-4eef-4f0c-921b-9880fb59b206",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "2016 workbook Sheet1 row 2 contains ABN 11000047950 and Sydney Missionary & Bible College, alongside registration, location and financial fields. Charities are organisations, not all incorporated companies; annual/group financial reporting requires grain checks.",
+      "evidence_refs": {
+        "dataset_id": "7e073d71-4eef-4f0c-921b-9880fb59b206",
+        "catalogue_url": "https://data.gov.au/data/dataset/7e073d71-4eef-4f0c-921b-9880fb59b206",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/7e073d71-4eef-4f0c-921b-9880fb59b206/resource/b4a08924-af4f-4def-96f7-bf32ada7ee2b/download/datadotgov_ais16.xlsx"
+        ],
+        "evidence_entry": 6
+      }
+    },
+    {
+      "item_id": "276ec1bc-4971-461c-88bc-be9f3c99a0f8",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "2024 AIS CSV row 2 contains ABN 11000047950, Sydney Missionary & Bible College, Registered, and reporting dates. Row 3 is Integricare Limited, ABN 11000073870. Entity-level records with explicit identifiers; consolidated financial reports must not imply group identity.",
+      "evidence_refs": {
+        "dataset_id": "276ec1bc-4971-461c-88bc-be9f3c99a0f8",
+        "catalogue_url": "https://data.gov.au/data/dataset/276ec1bc-4971-461c-88bc-be9f3c99a0f8",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/276ec1bc-4971-461c-88bc-be9f3c99a0f8/resource/710630ea-1202-4bbb-95f7-3973a972ddf8/download/datadotgov_ais24.csv"
+        ],
+        "evidence_entry": 7
+      }
+    },
+    {
+      "item_id": "a7bbbf64-e2ef-4d96-9fb4-0aea73ada2af",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "The tab-separated sample contains NETWEALTH PTY LTD with AFS_REP_ACN 119484043 and ASPIRA ADVICE SOLUTIONS PTY LTD with ACN 627832820. Earlier rows are natural persons. Representative ACN identifies the representative, while AFS_LIC_NUM is a licence number, not the representative company identifier.",
+      "evidence_refs": {
+        "dataset_id": "a7bbbf64-e2ef-4d96-9fb4-0aea73ada2af",
+        "catalogue_url": "https://data.gov.au/data/dataset/a7bbbf64-e2ef-4d96-9fb4-0aea73ada2af",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/a7bbbf64-e2ef-4d96-9fb4-0aea73ada2af/resource/5515dfcc-5266-44df-950d-7e359a83d514/download/afs_rep_202609.csv"
+        ],
+        "evidence_entry": 8
+      }
+    },
+    {
+      "item_id": "d61374dd-1a62-4132-913d-35d90cfdac81",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "IPLORD CSV rows 2-3 name bacoz developments pty ltd with party_id value 1.0, AU/VIC/3214 and different financial years. Counts are repeated per named party/year rather than anonymous national aggregates. party_id is a local key, not a verified ABN; no name-only automatic merge.",
+      "evidence_refs": {
+        "dataset_id": "d61374dd-1a62-4132-913d-35d90cfdac81",
+        "catalogue_url": "https://data.gov.au/data/dataset/d61374dd-1a62-4132-913d-35d90cfdac81",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/d61374dd-1a62-4132-913d-35d90cfdac81/resource/8ff87fe0-d50e-450f-9b51-21366072d449/download/iplord_1901_2020_full_data_set.csv"
+        ],
+        "evidence_entry": 9
+      }
+    },
+    {
+      "item_id": "05c2312c-73e5-4834-b1fe-0941c5606400",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "Workbook Anticipatory notice sheet row 2 has Name_of_SIP DGtek Pty Ltd and a contract statement naming that company. Project_Area is 29-37 Genoa Street, Moorabbin. A single-company notice qualifies, although project geometry/address must not become company identity or headquarters.",
+      "evidence_refs": {
+        "dataset_id": "05c2312c-73e5-4834-b1fe-0941c5606400",
+        "catalogue_url": "https://data.gov.au/data/dataset/05c2312c-73e5-4834-b1fe-0941c5606400",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/05c2312c-73e5-4834-b1fe-0941c5606400/resource/21a00002-24f2-423c-8b0e-9fbc7d40746f/download/29-37a-genoa-st-location-data.xlsx"
+        ],
+        "evidence_entry": 10
+      }
+    },
+    {
+      "item_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "Tab-separated company sample rows 2-3 have ACN 000000019, ABN 89000000019, former name LOVINI HOLDINGS PTY LTD and current MONAKA PTY LTD. Explicit business identifiers are present; Current Name Indicator is essential to avoid presenting former names as current.",
+      "evidence_refs": {
+        "dataset_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+        "catalogue_url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv"
+        ],
+        "evidence_entry": 11
+      }
+    },
+    {
+      "item_id": "47925267-7407-473c-b110-a06b174ee9b4",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "Attached PDF page 1 dated 27 Oct 2021 names Lynham Networks Pty Ltd as the notifying company. XLSX holds site references, addresses and dates, not separate company rows. Letterhead ABN 17 602 258 337 appears under Lightning Wholesale; role requires care. Business-bearing, but low diversity alongside other Lynham notices.",
+      "evidence_refs": {
+        "dataset_id": "47925267-7407-473c-b110-a06b174ee9b4",
+        "catalogue_url": "https://data.gov.au/data/dataset/47925267-7407-473c-b110-a06b174ee9b4",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/47925267-7407-473c-b110-a06b174ee9b4/resource/bb556989-ddc2-4969-aec8-883a94efc2f7/download/lbb_sip_anticipatory-notice-27-oct-2021.xlsx",
+          "https://data.gov.au/data/dataset/47925267-7407-473c-b110-a06b174ee9b4/resource/ad8f6748-5c44-4d20-bfbe-d670a01c08fb/download/anticipatory-notice-signed.pdf"
+        ],
+        "evidence_entry": 12
+      }
+    },
+    {
+      "item_id": "0bdcbc69-b468-4817-99ff-fb3ba2c834ed",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "Attached PDF page 1 dated 03 Sep 2021 names Lynham Networks Pty Ltd; XLSX includes LHN_SMITH at 5-9 Smith Street, Epping. The company is identifiable from the notice, not from converting the development into a business. Metadata says VIC while spreadsheet says NSW for that site: preserve this discrepancy. Repeated notices do not add distinct companies.",
+      "evidence_refs": {
+        "dataset_id": "0bdcbc69-b468-4817-99ff-fb3ba2c834ed",
+        "catalogue_url": "https://data.gov.au/data/dataset/0bdcbc69-b468-4817-99ff-fb3ba2c834ed",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/0bdcbc69-b468-4817-99ff-fb3ba2c834ed/resource/258d429a-ab42-4463-a5e3-f62cb1921474/download/lbb_sip_anticipatory-notice-03-sep-2021.xlsx",
+          "https://data.gov.au/data/dataset/0bdcbc69-b468-4817-99ff-fb3ba2c834ed/resource/f1f57501-43bd-410a-9299-a4f506adfa5a/download/anticipatory-notice-signed.pdf"
+        ],
+        "evidence_entry": 13
+      }
+    },
+    {
+      "item_id": "31203511-887c-4d44-96af-cad2c6cd05f1",
+      "verdict": "unsure",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "Catalogue describes an ACT Government contracts list, but CSV export and the alternative official JSON resource endpoint both returned HTTP 403. Likely business suppliers, but no supplier rows were inspected. Do not count metadata plausibility as a verified positive.",
+      "evidence_refs": {
+        "dataset_id": "31203511-887c-4d44-96af-cad2c6cd05f1",
+        "catalogue_url": "https://data.gov.au/data/dataset/31203511-887c-4d44-96af-cad2c6cd05f1",
+        "resource_urls": [
+          "https://www.data.act.gov.au/api/v3/views/pfs5-8d64/export.csv?accessType=DOWNLOAD",
+          "https://www.data.act.gov.au/resource/pfs5-8d64.json?$limit=5"
+        ],
+        "evidence_entry": 14
+      }
+    },
+    {
+      "item_id": "a3b6d445-3a00-409a-8b49-53dc62b823bf",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "Credit representative CSV includes BOQ SPECIALIST PTY LTD with CRED_REP_ABN_ACN 94110704464, and CEMRUN PTY LTD with 97071719205. Also contains natural persons with blank IDs. Mixed ABN/ACN semantics and representative versus appointing licensee must remain distinct.",
+      "evidence_refs": {
+        "dataset_id": "a3b6d445-3a00-409a-8b49-53dc62b823bf",
+        "catalogue_url": "https://data.gov.au/data/dataset/a3b6d445-3a00-409a-8b49-53dc62b823bf",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/a3b6d445-3a00-409a-8b49-53dc62b823bf/resource/999d9e92-df2c-4d6d-b580-321dcd205292/download/credit_rep_202609.csv"
+        ],
+        "evidence_entry": 15
+      }
+    },
+    {
+      "item_id": "297dfb0e-3b94-433b-be64-3bb0905e28a4",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "CSV rows 2-3 explicitly identify licensees CHARLESTOWN GOLF CLUB LTD and BAROOGA SPORTS CLUB LTD as well as licence/premises names. Contains businesses, but licence ID is not ABN/ACN, premises can differ from holder, and this resource is a June 2020 snapshot.",
+      "evidence_refs": {
+        "dataset_id": "297dfb0e-3b94-433b-be64-3bb0905e28a4",
+        "catalogue_url": "https://data.gov.au/data/dataset/297dfb0e-3b94-433b-be64-3bb0905e28a4",
+        "resource_urls": [
+          "https://data.nsw.gov.au/data/dataset/297dfb0e-3b94-433b-be64-3bb0905e28a4/resource/bda22b68-8e4f-4028-b725-52dc0912a626/download/ebethanypremises-list-as-at-june-2020.csv"
+        ],
+        "evidence_entry": 16
+      }
+    },
+    {
+      "item_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "CSV rows 2-3 identify provider/site labels Vision Australia and Job Centre Australia, with websites and service-location addresses. Identifiable organisation evidence, but no ABN/ACN. DIS_SITE_CODE is a site code and SITE_NAME is not established as a legal company name; repeated locations must not create separate companies.",
+      "evidence_refs": {
+        "dataset_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+        "catalogue_url": "https://data.gov.au/data/dataset/638f89d7-1c12-4db9-8342-abfcd7b49e95",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/638f89d7-1c12-4db9-8342-abfcd7b49e95/resource/d9c69f98-f0af-4db8-b598-513e1da748ce/download/providerdetailsmay2016.csv"
+        ],
+        "evidence_entry": 17
+      }
+    },
+    {
+      "item_id": "57d6ae20-3139-44e0-92cb-a2e706a8eba0",
+      "verdict": "unsure",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "Catalogue describes contracts with suppliers above $25,000, but both CSV and alternative official JSON endpoints returned HTTP 403. Supplier-level data is plausible; unavailable rows prevent a verified decision. Not counted as either correct or incorrect.",
+      "evidence_refs": {
+        "dataset_id": "57d6ae20-3139-44e0-92cb-a2e706a8eba0",
+        "catalogue_url": "https://data.gov.au/data/dataset/57d6ae20-3139-44e0-92cb-a2e706a8eba0",
+        "resource_urls": [
+          "https://www.data.act.gov.au/api/v3/views/wp9g-3hg8/export.csv?accessType=DOWNLOAD",
+          "https://www.data.act.gov.au/resource/wp9g-3hg8.json?$limit=5"
+        ],
+        "evidence_entry": 18
+      }
+    },
+    {
+      "item_id": "34b35c52-8af0-4cc1-aa0b-2278f6416d09",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "2019 AIS CSV contains abn and charity name fields, including St Peters Pre-School Ltd / 11002389746 and Chrysalis School For Rudolf Steiner Education Ltd / 11002595422. These are organisation-level reporting records. Historical annual values and consolidated reports require temporal/grain checks.",
+      "evidence_refs": {
+        "dataset_id": "34b35c52-8af0-4cc1-aa0b-2278f6416d09",
+        "catalogue_url": "https://data.gov.au/data/dataset/34b35c52-8af0-4cc1-aa0b-2278f6416d09",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/34b35c52-8af0-4cc1-aa0b-2278f6416d09/resource/76006467-18f2-4094-a1cb-50544fd9b7b2/download/datadotgov_ais19.csv"
+        ],
+        "evidence_entry": 19
+      }
+    },
+    {
+      "item_id": "f2b7c2c1-f4ef-4ae9-aba5-45c19e4d3038",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "Financial-adviser CSV row 2 names individual JOHN PETER CORNIPS and separately LICENCE_NAME BJT FINANCIAL PLANNING PTY. LTD. with LICENCE_ABN 25005620824. Row 3 names HOOD SWEENEY SECURITIES PTY LTD / 40081455165. Contains identifiable companies as licensees; never assign a licensee ABN to the adviser as the same entity.",
+      "evidence_refs": {
+        "dataset_id": "f2b7c2c1-f4ef-4ae9-aba5-45c19e4d3038",
+        "catalogue_url": "https://data.gov.au/data/dataset/f2b7c2c1-f4ef-4ae9-aba5-45c19e4d3038",
+        "resource_urls": [
+          "https://data.gov.au/data/dataset/f2b7c2c1-f4ef-4ae9-aba5-45c19e4d3038/resource/91d80440-5787-46fc-99de-0c1d93e6cc9f/download/financial_advisers_202609.csv"
+        ],
+        "evidence_entry": 20
+      }
+    }
+  ]
+}

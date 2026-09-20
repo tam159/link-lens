@@ -1,0 +1,633 @@
+{
+  "kind": "triage",
+  "batch_id": "discovery-jev-luna-v1",
+  "seed": 159,
+  "sampling": "Seeded simple random sample without replacement",
+  "threshold": null,
+  "items": [
+    {
+      "item_id": "8a1ad782-3d60-4c34-8cd8-f11c031947b7",
+      "evidence_to_review": {
+        "dataset_id": "8a1ad782-3d60-4c34-8cd8-f11c031947b7",
+        "slug": "fair-jobs-code-registers",
+        "title": "Fair Jobs Code Registers",
+        "publisher": "Department of Jobs, Skills, Industry and Regions",
+        "formats": [
+          "CSV"
+        ],
+        "confidence": 0.63,
+        "deterministic_score": 0.42,
+        "jev": {
+          "id": "triage-f59f5a6947b3db4a5ae4805b18aba35753597c3bfdbf603bce699ef39453a60b",
+          "dataset_id": "8a1ad782-3d60-4c34-8cd8-f11c031947b7",
+          "probability": 0.84,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803250-yCCrBfdXIplRqDR4DxbM",
+          "response_artifact": "2f4c4c15859b09811a040db915b2a3550602f69cb867df7411053f6087a8ccb8",
+          "prompt_sha256": "cfc0dc4a0c5b763adec8f44187fe606baabb4c198fae0f1bfddfc9cbefd724c9",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: supplier, entity; aggregate penalties: none; Jev metadata relevance: 0.84",
+        "catalogue_url": "https://data.gov.au/data/dataset/8a1ad782-3d60-4c34-8cd8-f11c031947b7"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "3cd97d99-3c12-45f5-8727-05a93467907e",
+      "evidence_to_review": {
+        "dataset_id": "3cd97d99-3c12-45f5-8727-05a93467907e",
+        "slug": "fdzw-rncp",
+        "title": "ACT NoWaste Licences & Registrations",
+        "publisher": "ACT Government Open Data",
+        "formats": [
+          "CSV",
+          "JSON",
+          "XML"
+        ],
+        "confidence": 0.55,
+        "deterministic_score": 0.2,
+        "jev": {
+          "id": "triage-99dad585eae409c1e586290baf55695717da224674a83654d33612c74ff0c724",
+          "dataset_id": "3cd97d99-3c12-45f5-8727-05a93467907e",
+          "probability": 0.9,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803249-BpqDuQAqYx7rxfEkzCDi",
+          "response_artifact": "733d71c2429582ed65becc3f52c6d52801bccadd3d1946f3ad0e876d5afaa63d",
+          "prompt_sha256": "f758c9dd84738de2ec39bc5f41a2461b9e9f9a76ff91605313f80c905795eed7",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: weak; aggregate penalties: none; Jev metadata relevance: 0.9",
+        "catalogue_url": "https://data.gov.au/data/dataset/3cd97d99-3c12-45f5-8727-05a93467907e"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "d7992845-5d3b-4868-b012-71f672085412",
+      "evidence_to_review": {
+        "dataset_id": "d7992845-5d3b-4868-b012-71f672085412",
+        "slug": "acnc2014ais",
+        "title": "ACNC 2014 Annual Information Statement data",
+        "publisher": "Australian Charities and Not-for-profits Commission (ACNC)",
+        "formats": [
+          "PDF",
+          "XLSX"
+        ],
+        "confidence": 0.685,
+        "deterministic_score": 0.44,
+        "jev": {
+          "id": "triage-a0ea00c55bf76aa4907fb0809f0e7a4872d2b26e7c76a8c4e42d6e7b254e9203",
+          "dataset_id": "d7992845-5d3b-4868-b012-71f672085412",
+          "probability": 0.93,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803252-6zPE4ZWia2gNXw9KZSne",
+          "response_artifact": "aa8e12b13453665b3b8baf779f0819493fb51408e0f6230d4e77b81bb6538065",
+          "prompt_sha256": "086b04646f0b48b5640f5095b18328023a4c09203c087eddb31f6c9a3e6a8ea9",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: charities, register; aggregate penalties: none; Jev metadata relevance: 0.93",
+        "catalogue_url": "https://data.gov.au/data/dataset/d7992845-5d3b-4868-b012-71f672085412"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "9c7bc715-c8c4-46ac-b984-50ac5f6d1231",
+      "evidence_to_review": {
+        "dataset_id": "9c7bc715-c8c4-46ac-b984-50ac5f6d1231",
+        "slug": "companies-rockhampton-1904-1975",
+        "title": "Companies, Rockhampton 1904-1975",
+        "publisher": "Queensland State Archives",
+        "formats": [
+          "CSV"
+        ],
+        "confidence": 0.57,
+        "deterministic_score": 0.2,
+        "jev": {
+          "id": "triage-c250cc32942fe2ea4cbcf6896c5dc00604f38d0766bd3059605b6980653d708a",
+          "dataset_id": "9c7bc715-c8c4-46ac-b984-50ac5f6d1231",
+          "probability": 0.94,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803251-hzeXQcQtQynUw2QtPWy7",
+          "response_artifact": "d9d3074606c7870ff0adb201beb7919273bf24df53aee812b78f67413a537c6f",
+          "prompt_sha256": "3b1e40ae18652e25f4ed27158c410397a270d1aaf79948e7c49dde097ecb9973",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: weak; aggregate penalties: none; Jev metadata relevance: 0.94",
+        "catalogue_url": "https://data.gov.au/data/dataset/9c7bc715-c8c4-46ac-b984-50ac5f6d1231"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "57d6ae20-3139-44e0-92cb-a2e706a8eba0",
+      "evidence_to_review": {
+        "dataset_id": "57d6ae20-3139-44e0-92cb-a2e706a8eba0",
+        "slug": "wp9g-3hg8",
+        "title": "Contracts ACT Report as at 31 December 2020",
+        "publisher": "ACT Government Open Data",
+        "formats": [
+          "CSV",
+          "JSON",
+          "XML"
+        ],
+        "confidence": 0.615,
+        "deterministic_score": 0.42,
+        "jev": {
+          "id": "triage-52a9b191cb6dba761e4cf9a0be41cdf772561c2d4076af28bc56c17b6d6fbdf0",
+          "dataset_id": "57d6ae20-3139-44e0-92cb-a2e706a8eba0",
+          "probability": 0.81,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803290-9G6wu3Uvq9LnjoO4WCeO",
+          "response_artifact": "397d4358186c8950eb4f04a463f36d5b699205c2bcc55eb4ed4cebc80f0caa9b",
+          "prompt_sha256": "7de997f2eb9e2939d3a6d855f1e6587b9e03bd2d7f843e83a260a303d1751523",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: register, entity; aggregate penalties: none; Jev metadata relevance: 0.81",
+        "catalogue_url": "https://data.gov.au/data/dataset/57d6ae20-3139-44e0-92cb-a2e706a8eba0"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "a7bbbf64-e2ef-4d96-9fb4-0aea73ada2af",
+      "evidence_to_review": {
+        "dataset_id": "a7bbbf64-e2ef-4d96-9fb4-0aea73ada2af",
+        "slug": "asic-afs-authorised-representative",
+        "title": "ASIC – Australian Financial Services Authorised Representative Dataset",
+        "publisher": "Australian Securities and Investments Commission (ASIC)",
+        "formats": [
+          "CSV",
+          "PDF",
+          "XLSX"
+        ],
+        "confidence": 0.94,
+        "deterministic_score": 0.98,
+        "jev": {
+          "id": "triage-c534e5883ec4957b32dce25397632f5a1db3afdbee9c069086a64361c43f0a79",
+          "dataset_id": "a7bbbf64-e2ef-4d96-9fb4-0aea73ada2af",
+          "probability": 0.9,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803269-YOl7BSOBwwAkZdGsdaRI",
+          "response_artifact": "1a094aab8d3b37e48dd92e433a89b09642eb9156bcf125fe3fb5039a473f6d86",
+          "prompt_sha256": "371c490286ed770a949f251197c34e12c479babff45bf22acda53befb2906747",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: abn, acn, business names, licensee, licence, corporate, register; aggregate penalties: none; Jev metadata relevance: 0.9",
+        "catalogue_url": "https://data.gov.au/data/dataset/a7bbbf64-e2ef-4d96-9fb4-0aea73ada2af"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "49017fd0-e7be-4fc0-88c8-046fc366d980",
+      "evidence_to_review": {
+        "dataset_id": "49017fd0-e7be-4fc0-88c8-046fc366d980",
+        "slug": "ipgod2022",
+        "title": "IPGOD2022",
+        "publisher": "IP Australia",
+        "formats": [
+          "CSV",
+          "PDF",
+          "ZIP"
+        ],
+        "confidence": 0.55,
+        "deterministic_score": 0.2,
+        "jev": {
+          "id": "triage-c7463d522be361f127cb1b757cb2eda23f6736a706b1b2b30363de74b0cf964d",
+          "dataset_id": "49017fd0-e7be-4fc0-88c8-046fc366d980",
+          "probability": 0.9,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803268-fuG2idnOQvogJy9Hxsfs",
+          "response_artifact": "2b086eb0f78dbb16ea3ef394ac869b027d4104ef179883f0805310146dd7ae01",
+          "prompt_sha256": "fda5cf63c6fbbdad2541cab494ceea3f2bf96371e846959f7038c2bfa8b66618",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: weak; aggregate penalties: none; Jev metadata relevance: 0.9",
+        "catalogue_url": "https://data.gov.au/data/dataset/49017fd0-e7be-4fc0-88c8-046fc366d980"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "cf3fb933-34a2-4200-9c6e-c806bbc58a1f",
+      "evidence_to_review": {
+        "dataset_id": "cf3fb933-34a2-4200-9c6e-c806bbc58a1f",
+        "slug": "companies-1863-to-1959",
+        "title": "Companies 1863 to 1959",
+        "publisher": "Queensland State Archives",
+        "formats": [
+          "CSV"
+        ],
+        "confidence": 0.625,
+        "deterministic_score": 0.32,
+        "jev": {
+          "id": "triage-713e9ca71dcdeab4e63fe5c5c7f54a460627f2fcde26d7a3c2b63e45961d1adc",
+          "dataset_id": "cf3fb933-34a2-4200-9c6e-c806bbc58a1f",
+          "probability": 0.93,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803255-MlXZVwrp0TmMMbxacHo5",
+          "response_artifact": "4edd03d25e0ec6fc63a0e9ae98fd6a16d81a08bb45c01c91f8edde4971387d2b",
+          "prompt_sha256": "f24b9607605721e92823ab93d11e38309b7ef6faa874db43606cb7be5a7d41ff",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: company; aggregate penalties: none; Jev metadata relevance: 0.93",
+        "catalogue_url": "https://data.gov.au/data/dataset/cf3fb933-34a2-4200-9c6e-c806bbc58a1f"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "f71709a8-2eeb-4592-ad1f-443f7f520186",
+      "evidence_to_review": {
+        "dataset_id": "f71709a8-2eeb-4592-ad1f-443f7f520186",
+        "slug": "voluntary-tax-transparency-code",
+        "title": "Voluntary Tax Transparency Code",
+        "publisher": "Australian Taxation Office",
+        "formats": [
+          "excel (.xlsx)"
+        ],
+        "confidence": 0.555,
+        "deterministic_score": 0.32,
+        "jev": {
+          "id": "triage-a174e05ca08c910c09c8d68191d8d1c07b4916f4e421b8c550249b69f3fb2547",
+          "dataset_id": "f71709a8-2eeb-4592-ad1f-443f7f520186",
+          "probability": 0.79,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803282-ysGIPMxdItERSSlfiVNz",
+          "response_artifact": "87d2f1d0a1bd2dcfd25253dbdb1ae462888b9637f87c4525e3a7e332dd61f3a0",
+          "prompt_sha256": "c06375ec58f05e4e0a0d96db1430efee53863d5276bb1c917dd34f6be2893edd",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: corporate; aggregate penalties: none; Jev metadata relevance: 0.79",
+        "catalogue_url": "https://data.gov.au/data/dataset/f71709a8-2eeb-4592-ad1f-443f7f520186"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "0e4a82b7-b1d9-47d8-8c74-3cb2ac296661",
+      "evidence_to_review": {
+        "dataset_id": "0e4a82b7-b1d9-47d8-8c74-3cb2ac296661",
+        "slug": "mount-gambier-main-street-traders",
+        "title": "Mount Gambier Main Street Traders",
+        "publisher": "Mount Gambier Library",
+        "formats": [
+          "CSV"
+        ],
+        "confidence": 0.595,
+        "deterministic_score": 0.32,
+        "jev": {
+          "id": "triage-11a22877e72370e06f8a18b22614a8ba22fc9b648d9f7769caa58fd97163095c",
+          "dataset_id": "0e4a82b7-b1d9-47d8-8c74-3cb2ac296661",
+          "probability": 0.87,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803255-itKcHECL4K8JyneczUEx",
+          "response_artifact": "451b2a574cecbe99fa8c856a7abaddd75c0af21578070bbc719aa952b81bbcb7",
+          "prompt_sha256": "ce1eabe3f6256163621aa15599873541186cf11bc12aa02b548e43198ba6acb1",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: company; aggregate penalties: none; Jev metadata relevance: 0.87",
+        "catalogue_url": "https://data.gov.au/data/dataset/0e4a82b7-b1d9-47d8-8c74-3cb2ac296661"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "a3b6d445-3a00-409a-8b49-53dc62b823bf",
+      "evidence_to_review": {
+        "dataset_id": "a3b6d445-3a00-409a-8b49-53dc62b823bf",
+        "slug": "asic-credit-representative",
+        "title": "ASIC – Credit Representative Dataset",
+        "publisher": "Australian Securities and Investments Commission (ASIC)",
+        "formats": [
+          "CSV",
+          "PDF",
+          "TSV",
+          "XLSX"
+        ],
+        "confidence": 0.885,
+        "deterministic_score": 0.96,
+        "jev": {
+          "id": "triage-031cdf51b1baccf3e08413f026591d1df54d175aa7f26efae170f8196e65ed90",
+          "dataset_id": "a3b6d445-3a00-409a-8b49-53dc62b823bf",
+          "probability": 0.81,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803269-HjKvmzbIvDOZarQYFjjJ",
+          "response_artifact": "960d68fe9999d52caebf015c4760ba083adc4c1f13f248f674aa4499883f698b",
+          "prompt_sha256": "a6f0f775e09e8fcf3f3eb2bf152a5081b0f8c64b1a72ce5108f2403991587d7e",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: abn, acn, licensee, corporate, register; aggregate penalties: none; Jev metadata relevance: 0.81",
+        "catalogue_url": "https://data.gov.au/data/dataset/a3b6d445-3a00-409a-8b49-53dc62b823bf"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "86cad799-2601-4f23-b02c-c4c0fc3b6aff",
+      "evidence_to_review": {
+        "dataset_id": "86cad799-2601-4f23-b02c-c4c0fc3b6aff",
+        "slug": "acnc2015ais",
+        "title": "ACNC 2015 Annual Information Statement Data",
+        "publisher": "Australian Charities and Not-for-profits Commission (ACNC)",
+        "formats": [
+          "PDF",
+          "XLS",
+          "XLSX"
+        ],
+        "confidence": 0.685,
+        "deterministic_score": 0.44,
+        "jev": {
+          "id": "triage-7d5c7e55f4105af097e2ace2cb12f491cef0d7514fe37d3a6d01a54c3754340e",
+          "dataset_id": "86cad799-2601-4f23-b02c-c4c0fc3b6aff",
+          "probability": 0.93,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803252-uaMP52wuwoIZAJ7K096I",
+          "response_artifact": "2b348fb06c98e70fab0fbf297dab9c10f5f1d8f71a1d9f7248753a988fc2f169",
+          "prompt_sha256": "08bd446077239264edbcd735ebabf7487080ee88a4fb8c0dcd593af1f4651998",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: charities, register; aggregate penalties: none; Jev metadata relevance: 0.93",
+        "catalogue_url": "https://data.gov.au/data/dataset/86cad799-2601-4f23-b02c-c4c0fc3b6aff"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "1ca29b03-220d-4c19-b34e-c7932cd4508d",
+      "evidence_to_review": {
+        "dataset_id": "1ca29b03-220d-4c19-b34e-c7932cd4508d",
+        "slug": "victorian-government-schools-abns",
+        "title": "Victorian Government Schools ABNs",
+        "publisher": "Department of Education",
+        "formats": [
+          "XLSX"
+        ],
+        "confidence": 0.715,
+        "deterministic_score": 0.52,
+        "jev": {
+          "id": "triage-e1f8a7c0ead66ff777ec438da25d5c0b3fbcbf1c913a214e80b41ef6fb6a88b8",
+          "dataset_id": "1ca29b03-220d-4c19-b34e-c7932cd4508d",
+          "probability": 0.91,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803267-N4fQzCd9gSAu2xiCRPFA",
+          "response_artifact": "4be90fff2554d24ee1aff25967fe157fe2029ea51664c0befca9b1487a66e0aa",
+          "prompt_sha256": "749e0a796a5b6070cfa252255388a4b92a5205defb5d4c4281f0556cbf4ac961",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: abn, register; aggregate penalties: none; Jev metadata relevance: 0.91",
+        "catalogue_url": "https://data.gov.au/data/dataset/1ca29b03-220d-4c19-b34e-c7932cd4508d"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "5bd7fcab-e315-42cb-8daf-50b7efc2027e",
+      "evidence_to_review": {
+        "dataset_id": "5bd7fcab-e315-42cb-8daf-50b7efc2027e",
+        "slug": "abn-bulk-extract",
+        "title": "ABN Bulk Extract",
+        "publisher": "Australian Business Register",
+        "formats": [
+          "CSV",
+          "PDF",
+          "XML",
+          "ZIP"
+        ],
+        "confidence": 0.855,
+        "deterministic_score": 0.78,
+        "jev": {
+          "id": "triage-1242669c37edccc32def5b96443a72e914cbc85f18e71ae0acba733e7c0efba9",
+          "dataset_id": "5bd7fcab-e315-42cb-8daf-50b7efc2027e",
+          "probability": 0.93,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803267-p1b9tpgH2bA3CoNfWb38",
+          "response_artifact": "4f6c4c85151890b2ea5bd61f5cf78ff461920fc821dd9e7ebbc63c7e617c2a90",
+          "prompt_sha256": "d10be140b3fdaed5472ef6fd338dc467eec10c3e894460d6d7a6aee049087ef3",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: abn, acn, register, entity; aggregate penalties: none; Jev metadata relevance: 0.93",
+        "catalogue_url": "https://data.gov.au/data/dataset/5bd7fcab-e315-42cb-8daf-50b7efc2027e"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "ccb9f9d1-5e77-49f7-a78d-7475c3da5362",
+      "evidence_to_review": {
+        "dataset_id": "ccb9f9d1-5e77-49f7-a78d-7475c3da5362",
+        "slug": "junior-minerals-exploration-incentive-credit-allocations",
+        "title": "Junior Minerals Exploration Incentive credit allocations",
+        "publisher": "Australian Taxation Office",
+        "formats": [
+          "XLSX"
+        ],
+        "confidence": 0.66,
+        "deterministic_score": 0.4,
+        "jev": {
+          "id": "triage-72e91c48395c3f18fcb83b779c34e4b1124a86fbccfdc5a32d6becee5b8a180c",
+          "dataset_id": "ccb9f9d1-5e77-49f7-a78d-7475c3da5362",
+          "probability": 0.92,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803267-0Rh6szI09B64g01sDQkR",
+          "response_artifact": "7b8b29394c1deba920a6dd5c31bdb642dd12b90d6fd3c9a117a8a7d55fc96d55",
+          "prompt_sha256": "679ea412fce1ea49b3c5c104ae3cf6718dc3de8fb20f8379879f5c4c09dba531",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: abn; aggregate penalties: none; Jev metadata relevance: 0.92",
+        "catalogue_url": "https://data.gov.au/data/dataset/ccb9f9d1-5e77-49f7-a78d-7475c3da5362"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "5715b850-a989-4343-a1e8-e779ec729de4",
+      "evidence_to_review": {
+        "dataset_id": "5715b850-a989-4343-a1e8-e779ec729de4",
+        "slug": "ipgod2021",
+        "title": "IPGOD2021 [SUPERSEDED]",
+        "publisher": "IP Australia",
+        "formats": [
+          ".pdf",
+          "CSV",
+          "ZIP"
+        ],
+        "confidence": 0.55,
+        "deterministic_score": 0.2,
+        "jev": {
+          "id": "triage-ecac451feb0cac07263cfa88771271b19cba907e9fe9ef239b7ddfc9ec3c23d3",
+          "dataset_id": "5715b850-a989-4343-a1e8-e779ec729de4",
+          "probability": 0.9,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803268-ozs85EqVAE6NgmRTFF2F",
+          "response_artifact": "e26d5fba17a381b6a0686af80d825bb8ab8a41d3181357181c632792f3275792",
+          "prompt_sha256": "a2f62c2a2fcf9075c7c6b0dd4968ba9c204dbc220a26a90fd9151ceeb33b82aa",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: weak; aggregate penalties: none; Jev metadata relevance: 0.9",
+        "catalogue_url": "https://data.gov.au/data/dataset/5715b850-a989-4343-a1e8-e779ec729de4"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "a265ef83-1190-4c63-ac51-a0ca3966c666",
+      "evidence_to_review": {
+        "dataset_id": "a265ef83-1190-4c63-ac51-a0ca3966c666",
+        "slug": "victorian-liquor-licences-split-by-licence-type",
+        "title": "Victorian liquor licences split by licence type",
+        "publisher": "Liquor Control Victoria",
+        "formats": [
+          "CSV"
+        ],
+        "confidence": 0.85,
+        "deterministic_score": 0.76,
+        "jev": {
+          "id": "triage-cf04c89511f8588277d274c8b44f67a3c727147ff8fdc4b997f12792f78cad62",
+          "dataset_id": "a265ef83-1190-4c63-ac51-a0ca3966c666",
+          "probability": 0.94,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803247-ERApbAVffkT8DqaE21dS",
+          "response_artifact": "5f0487a887d677be5b6e832b99945240dba231e67154d5fe44022535707d6cbd",
+          "prompt_sha256": "e5ec6d1f9a6e61daa83970e4434ee42a59d4b56b2668b283e3c99f9771e04c26",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: business names, licensee, licence, register; aggregate penalties: none; Jev metadata relevance: 0.94",
+        "catalogue_url": "https://data.gov.au/data/dataset/a265ef83-1190-4c63-ac51-a0ca3966c666"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "918416ce-7f76-48eb-9210-aa0760862202",
+      "evidence_to_review": {
+        "dataset_id": "918416ce-7f76-48eb-9210-aa0760862202",
+        "slug": "companion-card-business-affiliates",
+        "title": "Companion Card Business Affiliates",
+        "publisher": "Communities, Housing and Digital Economy",
+        "formats": [
+          "CSV"
+        ],
+        "confidence": 0.555,
+        "deterministic_score": 0.2,
+        "jev": {
+          "id": "triage-a7b2a24f3d025940c4b9ddc69b86926b78279a77d783328a131bbdc404949331",
+          "dataset_id": "918416ce-7f76-48eb-9210-aa0760862202",
+          "probability": 0.91,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803262-G5uJOlRPZsA6UGHwxbv5",
+          "response_artifact": "218ea439ec7b408a0aff1d5713110f2807ac028cf73940d0f668edea8572be02",
+          "prompt_sha256": "81f652b46b67ecc5689da7eeec689fde70505d25f63442c075adc405642d4a0d",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: weak; aggregate penalties: none; Jev metadata relevance: 0.91",
+        "catalogue_url": "https://data.gov.au/data/dataset/918416ce-7f76-48eb-9210-aa0760862202"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841",
+      "evidence_to_review": {
+        "dataset_id": "5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841",
+        "slug": "ipgod2020",
+        "title": "IPGOD2020",
+        "publisher": "IP Australia",
+        "formats": [
+          "CSV",
+          "PDF"
+        ],
+        "confidence": 0.555,
+        "deterministic_score": 0.2,
+        "jev": {
+          "id": "triage-359ce4be714a949b92e939b0ebcd5f2eed4b02815a470f45958a425a1378f325",
+          "dataset_id": "5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841",
+          "probability": 0.91,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803268-Pn6wKMVKHx2Kl3P7adOO",
+          "response_artifact": "3420c8e054c1ea7207f5a75675e6b0aa64a409b7f4b8d93bb716e92d20549a44",
+          "prompt_sha256": "a079964a1816f3dca63b24cf5b20ab8e1cd38afdf8d4f2f86c14eff804ed55a4",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: weak; aggregate penalties: none; Jev metadata relevance: 0.91",
+        "catalogue_url": "https://data.gov.au/data/dataset/5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "fa0b0d71-b8b8-4af8-bc59-0b000ce0d5e4",
+      "evidence_to_review": {
+        "dataset_id": "fa0b0d71-b8b8-4af8-bc59-0b000ce0d5e4",
+        "slug": "asic-credit-licensee",
+        "title": "ASIC – Credit Licensee Dataset",
+        "publisher": "Australian Securities and Investments Commission (ASIC)",
+        "formats": [
+          "CSV",
+          "PDF",
+          "TSV",
+          "XLSX"
+        ],
+        "confidence": 0.97,
+        "deterministic_score": 0.98,
+        "jev": {
+          "id": "triage-3d51c6868a2609f3daea367f4372c999faf9ff760b3c8a939ddf0a2a4af940d5",
+          "dataset_id": "fa0b0d71-b8b8-4af8-bc59-0b000ce0d5e4",
+          "probability": 0.96,
+          "model": "typesafe/jev-1.13-20260917",
+          "request_id": "gen-dec-1789803250-amxNZ6kDaPjO8fu0U89N",
+          "response_artifact": "2cc84b4c32128efc7e4c9702d7a0540464952437873f24cc125ccd6d7aada974",
+          "prompt_sha256": "3ea664c43a0752fddfa3e51a9c5c282cb76eb059094d7f2a99cda0fe0547637e",
+          "basis": "Catalogue metadata only; uncalibrated on this task; not an evaluation label"
+        },
+        "confidence_kind": "uncalibrated 50:50 metadata rule score and Jev relevance score; not measured precision",
+        "reason": "Signals: abn, acn, licensee, licence, corporate, register; aggregate penalties: none; Jev metadata relevance: 0.96",
+        "catalogue_url": "https://data.gov.au/data/dataset/fa0b0d71-b8b8-4af8-bc59-0b000ce0d5e4"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    }
+  ],
+  "id": "4f2cb2d701a0106d1ab8335a4689afe7d5b2911eaa9c5f9614abe86709df1f38"
+}

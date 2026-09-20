@@ -1,0 +1,34 @@
+{
+  "id": "b574474c-701a-49f2-a63c-a927b8db4287",
+  "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+  "source_slug": "asic-companies",
+  "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+  "status": "needs_review",
+  "created_at": "2026-09-18T00:56:56.055419+00:00",
+  "model_calls": 4,
+  "python_calls": 1,
+  "version": 3,
+  "input_tokens": 36281,
+  "output_tokens": 5556,
+  "active_seconds": 62.33838529199792,
+  "calculated_cost_usd": null,
+  "pricing_basis": "unknown; no provider rates configured",
+  "thread_id": "01a0b205-d906-74f3-85c2-ad093cd68efd",
+  "usage_has_estimates": false,
+  "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b205-d912-75d1-b9d8-39219faca191/run/01a0b206-a1c6-7af3-9766-1719a396bbfc?start_time=2026-09-18T00%3A59%3A34.214356%2B00%3A00",
+  "analysis_artifact": "e8d4660368e94188fa439412157abbac05eb7c613a48a89e93dffb8a57c52be4",
+  "partitions_artifact": "621865d43add69f6e338ec5566a878aa2ec153a8d841b65fbfde0fc7498f6f24",
+  "partition_counts": {
+    "discovery": 2973,
+    "validation": 1022,
+    "final": 1005
+  },
+  "final_cursor": 0,
+  "exploration_artifact": "3cb86741f7aae902e0f8ef4df156eb4ca17cdb39da958118ab8f07d6305cc2e8",
+  "validation": {
+    "blocking_issues": [
+      "Structured response failed validation: 5 validation errors for MappingSpec\nfields.0\n  Value error, Unknown ontology field [type=value_error, input_value={'source_fields': ['Compa... current company name.\"}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error\nfields.1\n  Value error, Unknown ontology field [type=value_error, input_value={'source_fields': ['ACN']...instead contains ARBN.'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error\nfields.2\n  Value error, Unknown ontology field [type=value_error, input_value={'source_fields': ['ABN']... 0 when no ABN exists.'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error\nfields.3\n  Value error, Unknown ontology field [type=value_error, input_value={'source_fields': ['Statu...ternal administration.'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error\nfields.4\n  Value error, Unknown ontology field [type=value_error, input_value={'source_fields': ['Date ...ed, format DD/MM/YYYY.'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"
+    ]
+  },
+  "error": "Maximum mapping versions reached; no extraction authorised"
+}

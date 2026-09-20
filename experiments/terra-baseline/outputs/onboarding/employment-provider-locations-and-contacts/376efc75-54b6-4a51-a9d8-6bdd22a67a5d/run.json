@@ -1,0 +1,20 @@
+{
+  "id": "376efc75-54b6-4a51-a9d8-6bdd22a67a5d",
+  "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+  "source_slug": "employment-provider-locations-and-contacts",
+  "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+  "status": "failed",
+  "created_at": "2026-09-18T00:57:11.652648+00:00",
+  "model_calls": 1,
+  "python_calls": 0,
+  "version": 0,
+  "input_tokens": 1242,
+  "output_tokens": 648,
+  "active_seconds": 8.512,
+  "calculated_cost_usd": null,
+  "pricing_basis": "unknown; no provider rates configured",
+  "thread_id": "01a0b208-8cbb-7c42-8186-02caf4489b8c",
+  "usage_has_estimates": false,
+  "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b208-8cbe-7ef3-88f1-e509b832006f/run/01a0b20d-245c-7bf1-b5c2-e5af954fe390?start_time=2026-09-18T01%3A06%3A40.860388%2B00%3A00",
+  "error": "UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd0 in position 291307: invalid continuation byte"
+}

@@ -1,0 +1,235 @@
+{
+  "id": "4ece70d5-3cd1-49d8-933c-130a5bc561b8:2",
+  "run_id": "4ece70d5-3cd1-49d8-933c-130a5bc561b8",
+  "version": 2,
+  "config_hash": "9363fc043a0381f39e87bcdd7213ea6cbe5ce1b17ce15a21807476f65318714f",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": "\t",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One current-name row for a legal entity in an ASIC Company Register snapshot; historical-name rows are excluded.",
+    "subject_role": "legal_entity",
+    "source_kind": "company_register",
+    "subject_label_field": "Company Name",
+    "address_role": "unknown",
+    "filters": [
+      {
+        "field": "Current Name Indicator",
+        "op": "in",
+        "values": [
+          "Y"
+        ],
+        "length": null
+      }
+    ],
+    "fields": [
+      {
+        "source_fields": [
+          "Company Name"
+        ],
+        "canonical_field": "entity.legal_name",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.96,
+        "evidence": "ASIC Company Dataset Help File p.7 defines Company Name as the company name as it appears on the ASIC register; p.10 says Current Name Indicator flags whether the displayed company name is current. Filter retains Y rows."
+      },
+      {
+        "source_fields": [
+          "ACN"
+        ],
+        "canonical_field": "entity.acn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "acn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "Type",
+            "op": "not_in",
+            "values": [
+              "RACN"
+            ],
+            "length": null
+          }
+        ],
+        "confidence": 0.95,
+        "evidence": "Help File p.7 defines ACN as a 9-digit Australian Company Number including leading zeroes and expressly says that, where Type=RACN, this field instead contains an ARBN. RACN rows are excluded from this field mapping."
+      },
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.95,
+        "evidence": "Help File p.10 defines ABN as the Australian Business Number for the company and states that 0 is shown when absent. The ABN operation suppresses missing/0 and validates the 11-digit identifier."
+      },
+      {
+        "source_fields": [
+          "Status"
+        ],
+        "canonical_field": "entity.status",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "REGD": "active",
+              "DRGD": "deregistered",
+              "EXAD": "unknown",
+              "NOAC": "unknown",
+              "NRGD": "unknown",
+              "PROV": "unknown",
+              "SOFF": "unknown",
+              "DISS": "unknown",
+              "DIV3": "unknown",
+              "PEND": "unknown",
+              "CNCL": "unknown"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.86,
+        "evidence": "Help File pp.9-10 defines REGD as Registered and DRGD as De-registered. It defines EXAD as external administration (receivership/liquidation), which cannot safely assert the narrower target in_liquidation; all non-exact target meanings map to unknown."
+      },
+      {
+        "source_fields": [
+          "Date of Registration"
+        ],
+        "canonical_field": "entity.date_registered",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "date",
+            "argument": "%d/%m/%Y",
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.95,
+        "evidence": "Help File p.10 defines Date of Registration as the date on which a company was registered and gives DD/MM/YYYY as the source format."
+      },
+      {
+        "source_fields": [
+          "Type"
+        ],
+        "canonical_field": "entity.entity_type",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "APTY": "company",
+              "APUB": "company",
+              "FNOS": "company",
+              "RACN": "unknown"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.85,
+        "evidence": "Help File p.7 defines APTY as Australian proprietary company, APUB as Australian public company, and FNOS as a foreign company registered in Australia. It defines RACN as a registered Australian corporation/organisation, so RACN is retained only as unknown rather than inferred as company."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Class",
+        "reason": "Liability-class codes (for example LMSH) have no corresponding canonical field; they are not used to infer entity type."
+      },
+      {
+        "source_field": "Sub Class",
+        "reason": "Company subclass codes have no corresponding canonical field and do not safely map to the limited entity_type enum."
+      },
+      {
+        "source_field": "Date of Deregistration",
+        "reason": "No canonical deregistration-date field exists. Status is separately supplied and no status is derived from this date."
+      },
+      {
+        "source_field": "Previous State of Registration",
+        "reason": "Historical original-registration jurisdiction has no corresponding canonical field and is not an address."
+      },
+      {
+        "source_field": "State Registration number",
+        "reason": "Historical state registration identifier has no matching canonical identifier field; it is preserved unmapped rather than retyped."
+      },
+      {
+        "source_field": "Modified since last report",
+        "reason": "Dataset-change flag has no canonical field and does not provide an observation timestamp."
+      },
+      {
+        "source_field": "Current Name Indicator",
+        "reason": "Used solely as the documented filter selecting current displayed company names; no canonical field represents this flag."
+      },
+      {
+        "source_field": "Current Name",
+        "reason": "Help File p.11 describes this as a current-company-name helper for historical records. Historical rows are filtered out; it is not documented as a trading name."
+      },
+      {
+        "source_field": "Current Name Start Date",
+        "reason": "Help File p.11 describes a name-history effective-date helper. There is no corresponding canonical name-validity field, and it is not a company registration date."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.9,
+    "limitations": [
+      "ASIC Help File p.2 describes this as a weekly point-in-time snapshot and warns it may not be current; the supplied publication timestamp is used only as an observation-time proxy, not as the time underlying company facts became true.",
+      "The extract includes historical company-name data (Help File p.2). Help File p.10 and discovery rows 2-9 show Current Name Indicator=Y selects the displayed current Company Name; historical names are excluded and are not treated as trading names.",
+      "Discovery exploration found repeated ACNs for 81 of 165 ACNs in the 300-row sample, so unfiltered rows do not have legal-entity grain.",
+      "For Type=RACN, the value in ACN is documented as an ARBN (Help File p.7), for which this ontology provides no field; it cannot emit entity.acn.",
+      "REGD mapped to active is a constrained target-enum approximation of registered status, not evidence of operational activity. EXAD remains unknown because ASIC expressly includes receivership as well as liquidation.",
+      "No addresses, service locations, branches, reporting groups, licences, websites, industry codes, or trading names are documented in this extract.",
+      "All field-confidence and source-reliability scores are provisional human-review judgements, not calibrated measurements."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-terra",
+  "created_at": "2026-09-18T01:13:34.276891+00:00",
+  "status": "proposed"
+}

@@ -1,0 +1,52 @@
+---
+type: Field Observation
+title: 'address.country: Australia'
+description: A source claim, not independent proof of identity.
+generated:
+  by: process:link-lens-exporter-1
+  at: '2026-09-18T10:28:03.324603+00:00'
+tags:
+- evidence
+sources:
+- resource: ../sources/b050b242-4487-4306-abf5-07ca073e5594.md
+---
+
+[Source](../sources/b050b242-4487-4306-abf5-07ca073e5594.md)
+
+```json
+{
+  "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+  "source_record_id": "c63e267cc67684b3c28b26c8d897a01d781f7f68f8d09918ef648147efc487f4",
+  "observed_at": "2026-09-13T19:00:54.497199+00:00",
+  "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+  "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+  "ingested_at": "2026-09-18T00:57:06.135607+00:00",
+  "licence": "Creative Commons Attribution 3.0 Australia",
+  "extractor_version": "extractor-1:6a404a7904ebf06f5060e97e0c6c86b5fee42840970ff5fe4686801942de59ef",
+  "field": "address.country",
+  "value": "Australia",
+  "source_fields": [
+    "Country"
+  ],
+  "raw_value": [
+    "Australia"
+  ],
+  "raw_locator": {
+    "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+    "sheet": "csv",
+    "row": 12579
+  },
+  "snapshot_id": "3c2dc18c3feda589be940ee51fc24f26a2ba5361e975e26a63e72de1c96904bc",
+  "config_hash": "6a404a7904ebf06f5060e97e0c6c86b5fee42840970ff5fe4686801942de59ef",
+  "subject_role": "legal_entity",
+  "source_kind": "charity_register",
+  "address_role": "business",
+  "confidence": {
+    "source_reliability": 0.9,
+    "field_confidence": 0.94
+  },
+  "confidence_kind": "uncalibrated mapping/source judgements",
+  "derivation_level": "L1",
+  "id": "de648ffbc0dc3df2ac1ff7b80ad9fa16da9dc183014ba58e21d01aa8bae478d6"
+}
+```

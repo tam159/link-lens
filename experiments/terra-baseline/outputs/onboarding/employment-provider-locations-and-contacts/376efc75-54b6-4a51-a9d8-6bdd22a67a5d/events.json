@@ -1,0 +1,28 @@
+[
+  {
+    "id": "19722823-ee83-409d-9d15-c0faacbcedd2",
+    "run_id": "376efc75-54b6-4a51-a9d8-6bdd22a67a5d",
+    "kind": "model_usage",
+    "at": "2026-09-18T01:06:49.378090+00:00",
+    "stage": "inspect",
+    "model": "gpt-5.6-terra",
+    "attempt": 1,
+    "input_tokens": 1242,
+    "output_tokens": 648,
+    "calculated_cost_usd": null,
+    "pricing_basis": "unknown; no provider rates configured",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b208-8cbe-7ef3-88f1-e509b832006f/run/01a0b20d-245c-7bf1-b5c2-e5af954fe390?start_time=2026-09-18T01%3A06%3A40.860388%2B00%3A00",
+    "trace_run_id": "01a0b20d-245c-7bf1-b5c2-e5af954fe390",
+    "response_artifact": "58ba9b0a3b2238201ea701435c711b4f5049726e1d96a293cbe7bdbc182d714d",
+    "status": "success",
+    "wall_seconds": 8.512
+  },
+  {
+    "id": "a6edafa7-7d86-46d9-a3da-6575fea3b442",
+    "run_id": "376efc75-54b6-4a51-a9d8-6bdd22a67a5d",
+    "kind": "failure",
+    "at": "2026-09-18T01:06:49.384181+00:00",
+    "node": "inspect_node",
+    "error": "UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd0 in position 291307: invalid continuation byte"
+  }
+]

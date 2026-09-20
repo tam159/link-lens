@@ -1,0 +1,34 @@
+{
+  "id": "discovery",
+  "queries": [
+    {
+      "query": "business OR company OR charity OR licence OR contract",
+      "returned": 200,
+      "total_matches": 13432
+    },
+    {
+      "query": "abn",
+      "returned": 200,
+      "total_matches": 863
+    },
+    {
+      "query": "corporate transparency",
+      "returned": 200,
+      "total_matches": 999
+    },
+    {
+      "query": "employment provider locations",
+      "returned": 200,
+      "total_matches": 2570
+    },
+    {
+      "query": "supplier register",
+      "returned": 200,
+      "total_matches": 1192
+    }
+  ],
+  "unique_records": 945,
+  "publisher_cap": 8,
+  "retrieved_at": "2026-09-18T00:55:31.939822+00:00",
+  "catalogue_artifact": "2514fd12daedb44169e44f34cc79491a39ebf5b87fd286bfee638209419bbe51"
+}

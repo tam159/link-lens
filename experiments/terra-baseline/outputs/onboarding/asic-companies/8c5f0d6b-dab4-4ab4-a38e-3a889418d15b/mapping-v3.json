@@ -1,0 +1,226 @@
+{
+  "id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b:3",
+  "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+  "version": 3,
+  "config_hash": "58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": "\t",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One current registered-name row in an ASIC Company Register snapshot, selected where Current Name Indicator is Y. This is a current legal-name row and may have any documented company-register status, including deregistered; it is not universally one row per legal entity.",
+    "subject_role": "legal_entity",
+    "source_kind": "company_register",
+    "subject_label_field": "Company Name",
+    "address_role": "unknown",
+    "filters": [
+      {
+        "field": "Current Name Indicator",
+        "op": "in",
+        "values": [
+          "Y"
+        ],
+        "length": null
+      }
+    ],
+    "fields": [
+      {
+        "source_fields": [
+          "Company Name"
+        ],
+        "canonical_field": "entity.legal_name",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.96,
+        "evidence": "ASIC help file p.7 defines Company Name as the name appearing on the register; p.10 defines Current Name Indicator Y as the displayed company name being current. Discovery row 3: Company Name MONAKA PTY LTD and indicator Y."
+      },
+      {
+        "source_fields": [
+          "ACN"
+        ],
+        "canonical_field": "entity.acn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "acn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "Type",
+            "op": "not_in",
+            "values": [
+              "RACN"
+            ],
+            "length": null
+          }
+        ],
+        "confidence": 0.94,
+        "evidence": "ASIC help file p.7 defines ACN as a 9-digit number including leading zeros and states that for Type RACN this column instead holds an ARBN. Discovery row 3 ACN is 000000019."
+      },
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "ABN",
+            "op": "length",
+            "values": [],
+            "length": 11
+          }
+        ],
+        "confidence": 0.93,
+        "evidence": "ASIC help file p.10 defines ABN as the company's Australian Business Number and says 0 is shown when absent. Discovery row 3 has 11-character ABN 89000000019; the abn operation validates it."
+      },
+      {
+        "source_fields": [
+          "Type"
+        ],
+        "canonical_field": "entity.entity_type",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "APTY": "company",
+              "APUB": "company",
+              "FNOS": "company",
+              "RACN": "other"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.86,
+        "evidence": "ASIC help file p.7 defines APTY as Australian proprietary company, APUB as Australian public company, FNOS as a foreign company registered in Australia, and RACN as a Registered Australian Corporation. Discovery sample contains APTY, APUB, and FNOS."
+      },
+      {
+        "source_fields": [
+          "Status"
+        ],
+        "canonical_field": "entity.status",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "REGD": "active",
+              "DRGD": "deregistered",
+              "EXAD": "unknown",
+              "NOAC": "unknown",
+              "NRGD": "unknown",
+              "PROV": "unknown",
+              "SOFF": "unknown",
+              "DISS": "unknown",
+              "DIV3": "unknown",
+              "PEND": "unknown",
+              "CNCL": "unknown"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.87,
+        "evidence": "ASIC help file pp.9-10 defines REGD as Registered and DRGD as De-registered; EXAD covers receivership/liquidation and is therefore conservatively unknown. Discovery row 3 has REGD."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Class",
+        "reason": "ASIC help file pp.7-8 describes company liability class (for example LMSH); the supplied ontology has no corresponding field."
+      },
+      {
+        "source_field": "Sub Class",
+        "reason": "ASIC help file pp.8-9 describes company subclass (for example PROP or PSTC); the supplied ontology has no corresponding field."
+      },
+      {
+        "source_field": "Date of Registration",
+        "reason": "ASIC help file p.10 defines this as the company registration date in DD/MM/YYYY, but it is intentionally not mapped pending an operationally verified declarative date parsing configuration. It must not be silently emitted with an unverified parser."
+      },
+      {
+        "source_field": "Date of Deregistration",
+        "reason": "ASIC help file p.10 defines the company deregistration date. The supplied ontology has no deregistration-date field, and it cannot substitute for entity.date_registered."
+      },
+      {
+        "source_field": "Previous State of Registration",
+        "reason": "ASIC help file p.10 defines the state in which the company was originally registered. It is not a current address state and no registration-jurisdiction field exists."
+      },
+      {
+        "source_field": "State Registration number",
+        "reason": "ASIC help file p.10 defines an original state registration number whose format varies by state. No matching canonical identifier field exists."
+      },
+      {
+        "source_field": "Modified since last report",
+        "reason": "ASIC help file p.10 defines a Y/null flag for a dataset record updated since the last report. It is record-update metadata, not an entity attribute in this ontology subset."
+      },
+      {
+        "source_field": "Current Name Indicator",
+        "reason": "Used only as the documented current-name row filter; no canonical output field exists."
+      },
+      {
+        "source_field": "Current Name",
+        "reason": "ASIC help file p.11 says this is populated on historical-name rows when Current Name Indicator is null. It is a reference to the current registered legal name, not a trading name; those historical rows are excluded."
+      },
+      {
+        "source_field": "Current Name Start Date",
+        "reason": "ASIC help file p.11 defines this as the start date for the current registered company name on historical-name rows. The schema has no legal-name validity-date output field, and those rows are excluded."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.91,
+    "limitations": [
+      "The supplied publication proxy is used only as an observation-time proxy, not as proof of the legal-register snapshot time. ASIC help file p.2 says this is a point-in-time weekly extract that may be stale when accessed.",
+      "The Current Name Indicator=Y filter selects the row whose displayed Company Name is current; it does not restrict Status to REGD. ASIC help file p.2 says the extract includes currently registered companies, deregistered companies from the past year, and historical name data.",
+      "Historical name rows are deliberately excluded rather than mapped as trading names. Discovery shows ACN 000000019 with historical displayed name LOVINI HOLDINGS PTY LTD and current MONAKA PTY LTD, and ACN 000000028 with historical TASDARK PTY LTD and current CHRISTENSEN & ASSOCIATES PTY LTD.",
+      "For Type=RACN, ASIC help file p.7 says the ACN column contains an ARBN. No ACN is emitted for RACN, and there is no ARBN target field in this ontology subset.",
+      "ABN value 0 is not emitted because it fails the 11-character condition; valid identifier output additionally depends on the abn validation operation. Leading-zero ACNs are retained as source strings and never zero-padded.",
+      "EXAD is not mapped to in_liquidation because ASIC documents it as external administration including receivership or liquidation. Raw status remains necessary provenance where supported.",
+      "The source grain is name-history-oriented and this mapping does not establish a unique legal-entity record key; exact raw row locator and snapshot provenance must be retained by the source envelope.",
+      "All source-reliability and field-confidence scores are provisional, uncalibrated judgements requiring human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-terra",
+  "created_at": "2026-09-18T01:08:15.031957+00:00",
+  "status": "proposed"
+}

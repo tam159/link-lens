@@ -1,0 +1,2906 @@
+{
+  "review_type": "ai_assisted",
+  "reviewer": "Codex assistant (AI)",
+  "review_date": "2026-09-18",
+  "method": "Assistant inspection of raw source names, identifiers, roles, sample records and publisher documents. Scripts collect and format evidence; they do not independently establish truth.",
+  "limitations": [
+    "Not a human hand-check. No human-ground-truth precision claim.",
+    "Same source snapshots used by the pipeline can share errors; no external live ABR/company verification for each pair.",
+    "Link sample is the 50-link constructed overlap cohort, not a population sample. Only Companies, ACNC and AFS contribute links.",
+    "Dataset audit checks existence of identifiable businesses, not extraction readiness, freshness or business purity.",
+    "Downloads are samples except full XLSX/PDF documents; no claim to review every source row.",
+    "Assistant audit token cost and wall time are not in the application model-call ledger and are unknown."
+  ],
+  "evidence_artifacts": {
+    "triage-evidence.json": "5f0f336c28d151150e4beba753db5540fe3bb4eeddb93bab446415ac7cfb50a6",
+    "link-evidence.json": "b6d9025d515debbc4f2aa40ec2e3c0df7ef0664e512cead84ffdcd3b59c510ed",
+    "followup-evidence.json": "2e27b761b830e2a4e4392bf74fbd4136842df502ec3ac003cb8a910a3bcd2acb"
+  },
+  "id": "348e329b620eaa6ddc8dcb2fe4bc79a0ebeddba886f2332e555db22f6479d883",
+  "kind": "links",
+  "batch_id": "134b78f0-99ff-4420-8c9a-bb6da8ce8d2d",
+  "seed": 159,
+  "threshold": 0.99,
+  "items": [
+    {
+      "item_id": "8be1ed8076fba25b3143c07192055f48a7f827d25ba047fd98d8ed44998be368",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"THE ROYAL AUSTRALIAN AND NEW ZEALAND COLLEGE OF OPHTHALMOLOGISTS\"; acnc-register: \"The Royal Australian And New Zealand College Of Ophthalmologists\". Explicit ABN 80000644404 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 1,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "4402f27a4198eeac7b46c7525ca3f4d7f6229e38a1f640352a5bb29a00d3c641",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 12756
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "87e990d59519ec2cbc76dc525f410a2e165f8e3f711b2efdaa42f0c40b3e1c41",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 10775
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "3a7a64c2ac1c67b5bf270df356b1ae9b9b9dc9cf50cc43fdcf3ae716f07d5bfd",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"FAR EAST BROADCASTING CO (AUSTRALIA)\"; acnc-register: \"Far East Broadcasting Co (Australia)\". Explicit ABN 68000509517 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 2,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "8898bd0bca2be74b3e11ff2e4a36eae3df716324d79f29bdf538d46a57cde704",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 10171
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "bf9714611a89b51aafbcec98c15cb38868f156c00affbf0c5358bd3919100f5f",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 20197
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "da1ecb4b4937f98ab8e82f64dddc5001e25168ccf1de508f3ca1c378e9386a05",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"UKRAINIAN AUTOCEPHALIC ORTHODOX CHURCH IN AUSTRALIA AND NEW ZEALAND\"; acnc-register: \"Ukrainian Autocephalic Orthodox Church In Australia And New Zealand\". Explicit ABN 22000638559 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 3,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "af0e1730829aa0ea015354cf58949413bffc67ca862a0266844889313cc80e8c",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 12647
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "3aa1cedb40600d4d9842cf552592e8ca1cc828b39d40e402c7d99c4af43bfeb7",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 17136
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "9e6134fcf4c4b1bba87b2af438f90b1e77004dfa4e0738a5d6d9d06e6faff025",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"BAPTISTCARE\"; acnc-register: \"BaptistCare\". Explicit ABN 90000049525 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 4,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "a0e67396a93d3a3872dc958d976e75f7c22954d5f2640e3e2fad4035b07ab12f",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 1592
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "d0a93ce8229a089c1147d98fb0362bf8041c7e23b845d501f3a2ecdfb1e95956",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 13159
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "58c81d032fe186ba042df1146067c47e986cf75bb638c5792efc7be651fde239",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"ASCEND INSURANCE ADVICE NETWORK PTY LTD\"; asic-afs-licensee: \"ASCEND INSURANCE ADVICE NETWORK PTY LTD\". Explicit ABN 14000106203 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 5,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "60449e44fa38c98b6b3a40390229153d48c749f3a4c2ab88b429450cb3cb81ab",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 2731
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "b16afa47f149323c10352f2fde184a2724de74deea89b470aa1980ff58ba132d",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 637
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "a77fb74247e527e76abe14d10512c1ffbee134b8dedb3744ade52a2255ccbcbe",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"THE ORDER OF ST LUKE THE PHYSICIAN IN AUSTRALIA\"; acnc-register: \"The Order Of St Luke The Physician In Australia\". Explicit ABN 70001220631 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 6,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "495079e6abf48bd1bac3e02d2ef06ab78d42261868548f180c6599f0d51cc6cd",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 24414
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "4397c52aa70a906326d9ea83eb735268515549f9b53188ecd5d9258d166f5b5d",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 24830
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "4ca0a09c9406835641c94248927680ffdd06fdc0074da307246e19c59bdce1f0",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"THE ROYAL AUSTRALIAN COLLEGE OF GENERAL PRACTITIONERS LIMITED\"; acnc-register: \"The Royal Australian College Of General Practitioners Ltd\". Explicit ABN 34000223807 agrees and passes an independently written checksum calculation. LIMITED versus Ltd is a suffix abbreviation. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 7,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "bf9de46149f57b7217302a45f8bf88307bd9038b688e543ff7de9d042e4a854a",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 5067
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "1f40fc1465e881a932791569601cabef7b84eaeea6cb1dabc4094b0e1143366d",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 17255
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "bf39665d9d887328d195f32017a17d552af19c69ff6e6a9aaf8325b563e545cc",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"THE GEMMOLOGICAL ASSOCIATION OF AUSTRALIA\"; acnc-register: \"The Gemmological Association of Australia\". Explicit ABN 69000106061 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 8,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "4bff919216df6f08bfe66c196071a6722c51d7910938b0f9e637e8b893c2cb81",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 2725
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "fb17ea97ba15acb4d66437b7f01c6e7907197ca0995f8ab32c88b3f628c65dcf",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 14997
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "f2b0c3828531c921ee80987eae544053b5aa9b04067b6bf305ffb76b65eb350a",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"WILLIAM INGLIS & SON LIMITED\"; asic-afs-licensee: \"WILLIAM INGLIS & SON LIMITED\". Explicit ABN 75000011307 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 9,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "6cb2d54b77f13f6e020845f6e03cf2ded72fbe8a436174bc0b696a84f609faf5",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 501
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "b6798623a8c5c1f18bb641be1c49285fa2df02075c057d1a975bed74c3b8473f",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 793
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "0d3b6608cb10031eb5c025297ad524eb428aadfb243db7da3062fcd676b1f834",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-afs-licensee: \"EA INSURANCE SERVICES PTY LTD\"; acnc-register: \"EA INSURANCE SERVICES PTY LTD\". Explicit ABN 54062461527 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 10,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "38d756ca9a440d646ccd719806d7610a355bd8c59ca402725e113b760e08ffdc",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 929
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "8ca9cd492762f584fadc3cf2d8b277f1f37ebd27dbccb853ef37b31b9c2bddb9",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 806
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "a492909ed92e890371a01f8ace0c29d1f86e36efe161ff7cbe36207a20827edb",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"RELATIONSHIPS AUSTRALIA (NSW) LIMITED\"; acnc-register: \"Relationships Australia (NSW) Limited\". Explicit ABN 73000509982 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 11,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "0e754c1d48f8062e8737d215e4902ad31761d284f35ec24cae1fbd16c0a129b4",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 10181
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "5cea67c1a181ecd99d98321c7c7a20e8ee3df0673c745e320fbcd1ec0733e683",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 15493
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "864ca4e79470b7e04bb2392ea78fca1100de5cf50c642ae0a41731bcb437c040",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-afs-licensee: \"MELBOURNE ANGLICAN TRUST CORPORATION\"; acnc-register: \"Melbourne Anglican Trust Corporation\". Explicit ABN 82862724352 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 12,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "d4c7093e7eb9c3fbe901235e49ebe60e4dcb78c38e4269aa069f0a56336fa943",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 4046
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "ad6aca49659c3c5d84852d6d647244cf516a44537b0d572a7d9e8c86d0e3fbe6",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 24182
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "10d8dab61459c93cd629e87adddd12a2cc2eedd9db07fcb6a6882540236c8710",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-afs-licensee: \"LUTHERAN LAYPEOPLE'S LEAGUE OF AUSTRALIA LIMITED\"; acnc-register: \"Lutheran Laypeople's League Of Australia Limited\". Explicit ABN 25044678441 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 13,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "74fbfe8e533be9aff5c7a4dd32b993c8c248742fa547624c5269b33d0a71fc57",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 2057
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "318efbc64aa265bc3fbf03f90488ca0ae25a22c7dbe50fcf679f0bb739d091ce",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 19980
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "6470fb8835fc4c9319a3677541bcb87d5350dd705e45c4e780b55dd3fb193bda",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"PROGRESSIVE MORTGAGE COMPANY LIMITED\"; asic-afs-licensee: \"PROGRESSIVE MORTGAGE COMPANY LIMITED\". Explicit ABN 88000192012 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 14,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "638c4b63e802fee7646ff910266dddaf8c06feba3d8050056f5ade2b50ecbf70",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 4421
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "9483f9deac7661f108ca88b7ae5960d1c877f30e363ca03cf96570c1f512180e",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 1405
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "bc749a8bbf37840a429a6e67fff58e1657df6d02cb0039c22b9db2e75ad9b1de",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"ROYAL LIFE SAVING SOCIETY OF AUSTRALIA (NEW SOUTH WALES BRANCH)\"; acnc-register: \"Royal Life Saving Society Of Australia (New South Wales Branch)\". Explicit ABN 73000580825 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 15,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "f4b97b6c03a1b20919d9a7e023d756d4e56b8a1f03a235c8efa19e801983a94a",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 11531
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "3efb02b82e201f44840055d359f850791517fc0d1484cacff69275848e916838",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 15496
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "50d3e6eecf6c287d180bde73571589db868cf158f669fc528c36a8b310069d17",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"THE KILLARNEY SCHOOL LTD\"; acnc-register: \"THE KILLARNEY SCHOOL LTD\". Explicit ABN 11001209490 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 16,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "b188127bb68f225f7b40743411cebd960291ce049b2c9d6c6a38449f3404c6fd",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 24151
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "1f542fd334ac774dd8c7b4e89f7562a0bd4af6ee75b6642816a06058e8adaa32",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 1829
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "a0f1b83d315fa52d140b7a187ee089044a34b4a2a305c1766d1cc062bdeb6b06",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"ERM AUSTRALIA SUSTAINABILITY PTY LTD\"; asic-afs-licensee: \"ERM AUSTRALIA SUSTAINABILITY PTY LTD\". Explicit ABN 67001204039 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 17,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "7d2e40b4c240b91562324782e990523d688fb0f85eb015b26736b917ca0bdc65",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 24034
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "50aecd198b2e06427683992e23daaa4c244026dd9cf68ee25ddcfdffa98e1e7e",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 2070
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "8dd1afcc2e7d13fe50b253f88fd36f2f96af04e981eb6a546ed5b0c2eaa38244",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"THE HOSPITALS CONTRIBUTION FUND OF AUSTRALIA LTD\"; asic-afs-licensee: \"THE HOSPITALS CONTRIBUTION FUND OF AUSTRALIA LTD\". Explicit ABN 68000026746 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 18,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "549c80ae62f948c35f8c1c89c8bbdd5d14c3f64336a09611b6686eaa15e535d4",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 1017
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "cca97cc7c908102dc9391151e0caaa9542adcb9f590c22206ffa90a6c3d7de70",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 964
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "6a566f06d7ace0f2b13bc478f84981e1a1dc21c35d0e4fd48fa8f4d5f04794f1",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"KINMA LIMITED\"; acnc-register: \"Kinma Limited\". Explicit ABN 12000964081 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 19,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "513fda7e2f04aa8c53d39cb8a1f2c57f1b8c67de58f37fe4c6bd29b7174aae8d",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 19110
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "b2728f46ff95ecf608abd2bf157fcc6e6838843878a2aed092ff6e5de98a200e",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 19507
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "f2b492d8b7e22d443b5d89a827819654017f31b6f2028560364b04e0bee95a07",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"SPIRITUAL ASSEMBLY OF THE BAHA'IS OF THE NORTHERN BEACHES LTD\"; acnc-register: \"Spiritual Assembly Of The Baha'Is Of Northern Beaches Limited\". Explicit ABN 38001092593 agrees and passes an independently written checksum calculation. Names differ by an extra \"the\" before Northern Beaches and LTD/Limited; locality and organisation agree. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 20,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "4d0a7f70182aabb3a0302f3994ef1f3e0be64389359835818e2776cbfc25ebc6",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 21909
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "a3aeb95090cf8c511f5b30387a9b63a9e63d206fbcfb4c23af8ff626f3fe34f9",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 15469
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "7fb5922d244c94e1957df1f9d798ec0bfadcb937ce48991f49a23ffeda6a93cc",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"HENLEY UNDERWRITING & INVESTMENT COMPANY PTY LTD\"; asic-afs-licensee: \"HENLEY UNDERWRITING & INVESTMENT COMPANY PTY LTD\". Explicit ABN 75000034435 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 21,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "cb337bf91de04092e59093fe285096ce8ec6ed525d954fb672cb249946f023b0",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 1219
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "dcfd1545873028d373faf013482a40c6b738386791e9d0e9ac8b125327f9b7a0",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 1373
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "2caad8c20d213076e60121293689b2af01aaa23f68318a27fa857831a433ffca",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"THE BLAVATSKY LODGE OF THE THEOSOPHICAL SOCIETY\"; acnc-register: \"The Blavatsky Lodge Of The Theosophical Society\". Explicit ABN 48000014442 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 22,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "b1a905a1cbf308798aade3b8586fb9bdaa13d02d75792f2244d5f038158be290",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 641
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "9ebf9518d888251cd3250572d70499502950a3890dd5bc84497829c7488f2921",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 12560
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "db48beead790516708b92390284371be409e52a88d6225d7d08ab8e7c4135444",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"CHURCH MISSIONARY SOCIETY TRUST LTD\"; acnc-register: \"Church Missionary Society Trust Ltd\". Explicit ABN 26000048886 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 23,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "c980d72bca804fc1b8a02ab86ed867a4f48dd280e45c96e4e69ea4d81e1b81b5",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 1545
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "7a36aaf22c878fbca07f2e0d97ed4c77d14f8e73f2b5696afa3545b3a6d3afff",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 7669
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "2a6846b34305d20b335090231678ec05e1fce0ecba44c551d0705ebb4b65e3ea",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"THE NORTHCOTT SOCIETY LIMITED\"; acnc-register: \"The Northcott Society\". Explicit ABN 87302064152 agrees and passes an independently written checksum calculation. ACNC omits LIMITED. The explicit shared ABN differs from the company ACN suffix; this is a useful counterexample to deriving ACN from ABN. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 24,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "075fb4f54a1b4afcd500c9e83a8ccaba06fd2917e994c154f5264f42611aa876",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 907
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "02d6cfb853af7ddcbe286af61186872fd01b6675ea088ee2757a606503d6231c",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 24682
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "0b1cea1bae37187f482a3828d4a3d016200daa6c51fc7417746269055201a2f6",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"NIPPON LIFE INSURANCE AUSTRALIA AND NEW ZEALAND LIMITED\"; asic-afs-licensee: \"NIPPON LIFE INSURANCE AUSTRALIA AND NEW ZEALAND LIMITED\". Explicit ABN 90000000402 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 25,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "29393f45458a052ec565c3531e6cf23c1b4d2893260b4222e4eb43b26b9f1868",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 23
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "cbf13fb3c352bcfdc9c67c88f66b97b761eb6e3cf70be212d51c942780a0fcfc",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 320
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "7a20d38838677eff47ad3928f3ca1d911ebc0ddd6373907c5de9e9560903650f",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"JEWELLERS ASSOCIATION OF AUSTRALIA LIMITED\"; acnc-register: \"Jewellers Association Of Australia Limited\". Explicit ABN 48000024162 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 26,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "1544fc81ee7d3409f3dd46f413cde3119840b3ca924bf978f2df54be12121e0a",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 947
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "c63e267cc67684b3c28b26c8d897a01d781f7f68f8d09918ef648147efc487f4",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 12579
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "d2f54b44cf41be181fa108b409835e0974bbc82eab76df6d841c4d64bd3b781b",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"SYDNEY COMMUNITY SERVICES\"; acnc-register: \"Sydney Community Services\". Explicit ABN 22000597697 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 27,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "4df2ba17bdc9276b713a6b5679947966ad01a9c24a60722f9f7073c79672fb94",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 11858
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "0da525a70144cd25fecccb3618d47eeaa30c5c65ca0d8ed5205870d1450f6798",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 17237
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "296a7b6be241553486617c54c35c23ab2610f6aa48b4b7ca5c37a0476a1d5f33",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"SYDNEY INSTITUTE FOR PSYCHO-ANALYSIS\"; acnc-register: \"SYDNEY INSTITUTE FOR PSYCHO-ANALYSIS\". Explicit ABN 63000096837 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 28,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "ea4ae4fe2815536c4f59d485e5ad98c93cba9ab09c4a21fc39a3219233f16131",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 2555
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "51757c89630b2a8a8e40e96d8eeda81cf01c374bba6e76656413abf0cab9ef2a",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 4205
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "d1e6596b4313a1064cd210f11053b6b2b077fd10fda036178741a9253a9e7404",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"THE SYDNEY FILM FESTIVAL\"; acnc-register: \"The Sydney Film Festival\". Explicit ABN 84000233741 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 29,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "4f6ecc0bda7fdbc6b25d947eab9763a3b230fd54477f22ec63ce04c016d79b3f",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 5260
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "4c3668980a695c4c3fc2bef104324a078ac4beaec6508da86b25c8046351a332",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 18296
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "dcfa0ffa2f21d42c77f13a72616caebc16554afe123837b99ccadbe86202290b",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"THE PITTWATER HOUSE SCHOOLS LTD\"; acnc-register: \"The Pittwater House Schools Ltd\". Explicit ABN 87000655845 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 30,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "2c56a0a3036adf37236d9c0292dde5a515eecf5ba33757211d53113e7d018710",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 13030
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "aa60e70bca6fb7bb347ebf60e2c663f502861e4b63349d8d40917b15d2b14eaf",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 24409
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "b47629aa39389b6c9e450da971cb22f3a19c90f66d1ac2b9ed6daa41b388e3de",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"THE TRUST COMPANY (AUSTRALIA) LIMITED\"; asic-afs-licensee: \"THE TRUST COMPANY (AUSTRALIA) LIMITED\". Explicit ABN 21000000993 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 31,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "13bfe50c7f6728e64fdc3f76b14bbe6a6d2f4d962dc1b354b0bb9fa1e1f21a3a",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 56
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "4317ce61c95d3d17bd56e853b1b0302a1a19f435fbd73c5854b03ff8ace9c04a",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 500
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "cac0ccc9a95a34a3f56fa29fc1887d804c824e1cfe3c248d61ce2e1f73e97394",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"PITT CAPITAL PARTNERS LIMITED\"; asic-afs-licensee: \"PITT CAPITAL PARTNERS LIMITED\". Explicit ABN 17000651427 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 32,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "ce80f9ae28a068765d3743d8681e79d955ac762a73b6583804b10338fb552405",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 12927
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "f76b0f273a346d01fc213e70d9eb834182e713e7a96586543237f1eb8e9ffa1f",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 1428
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "bbcd15804cf3906b934ee7138e579795beccdaa9c707c01d9fae7ec354cd7c01",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"LENDLEASE FUNDS MANAGEMENT LIMITED\"; asic-afs-licensee: \"LENDLEASE FUNDS MANAGEMENT LIMITED\". Explicit ABN 94000335473 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 33,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "562210701fa712501975b6d39ca6068f8190a9a12316c437cca8a84ec470cfad",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 7077
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "6d2d50f0b8f580473bd8a5dc46512b7f063688de13607489e2aada58c22a136c",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 1297
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "1ee11c6ff9d688c2a153d0cc0b34ed406691ac6871381e93103e52672347a3d2",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"NTI LIMITED\"; asic-afs-licensee: \"NTI LIMITED\". Explicit ABN 84000746109 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 34,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "89c8b16e1015c5d724354690cdaf6722f2d23e605dad0a068fac9a44eeff7c57",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 14748
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "ba9588ec52a2ad1083b690f7c57d0e04ce8bb5dd9a24d094dcf20b1ab21e1cd2",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 570
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "9dd999165f80769ebcdeb4d6f419ec1ebf96555ebe55e11b7f73a6fe4c3b3686",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"THE UNITING CHURCH (N S W) TRUST ASSOCIATION LIMITED\"; asic-afs-licensee: \"THE UNITING CHURCH (N S W) TRUST ASSOCIATION LIMITED\". Explicit ACN 000022480 agrees. Company ABN is sentinel 0 and is not used; nine-digit AFS value is treated as ACN, never padded into an ABN. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 35,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "f01356dd9803abf6225ed50f4deec01a0dab28f483d879c22995b5cf735f2cbb",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 893
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "cb23be180041488ce459780f974fb06e41d3b4526936bf9897b717fb8bd4ea60",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 1623
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "4d549fe6cd0ea1633fa16cd1add57fecb3c7bf6f252a2f45316eeaf206d4e52e",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"AMBASSADORS FOR CHRIST INTERNATIONAL - AUSTRALIA LIMITED\"; acnc-register: \"Ambassadors For Christ International - Australia Limited\". Explicit ABN 51000606646 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 36,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "57e2c01a97a4e9454d3296b82d5c60debeb37571fee7f31c361a54c4ae5a3c37",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 12012
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "e38905b2f86734d2aebe339fee787b441e35fca94dbf69df0742c3d28e261c83",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 10381
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "a5075cef63f9cd9ba94497a960aafad8cbbe2048173a550ec2a7149b48e6684e",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"CHRISTIAN ENTERPRISES LTD\"; acnc-register: \"Christian Enterprises Ltd\". Explicit ABN 80000374738 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 37,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "abae2ecfc883cf3ebb5f3b14ecab993909e9ffeefb337cf430dac474c36f643f",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 7720
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "2729f0a3ab600b47b8eee5f77fe5368583167e856e909afac33e4d01fb1cbf98",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 10672
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "eac0dae32ff5a735c2bb72e5b8c5c68e11689ccc48e2d4e029d854c108938090",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"WILLIS AUSTRALIA LIMITED\"; asic-afs-licensee: \"WILLIS AUSTRALIA LIMITED\". Explicit ABN 90000321237 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 38,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "35aafcbe58ad840db92d5b8242bc68908a0ba7108d63093da40eef16c8064039",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 6807
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "de00318b3e4c6867b6320f1377b344c494b75bc2b580d406c3c379eac8561403",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 860
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "3dcad7cfcbe6ba1c5706e2b9667b45bd181876a86394dce05077bd7198e1d4ee",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"LEGACY CLUB SERVICES\"; acnc-register: \"Legacy Club Services\". Explicit ABN 22000048868 agrees and passes an independently written checksum calculation. Other organisation names list several Legacy branches; this link uses the legal-name record, not a claim that all branches are one entity. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 39,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "9efffefcd22b9e5387c92f9923a62181ac33e5206f30ae451f700683baff8747",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 1537
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "67a456bb2fca062b797ed203c613b84b551073077e1eeda1e23cc2a5765884eb",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 17138
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "1894f8dad21b631cba8296e7af1d889aefb31231c76c4e533ce1b2e8283c0178",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"CEREBRAL PALSY ALLIANCE\"; acnc-register: \"Cerebral Palsy Alliance\". Explicit ABN 45000062288 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 40,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "800366b58b7b76dbfa27e2ee04597293ae50851a19215e7eba65102e774f3ab3",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 1831
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "8bac6dd2ae68c8c03d960085a18ea920569eb56e3f1944ee60cc97727a06ad08",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 24657
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "6cfc4587c8f9660307e04a7975d14b1505ef47aa3f6f10a13ccf165c6ac7aaf0",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"THE THEOSOPHICAL FOUNDATION PTY LTD\"; acnc-register: \"The Theosophical Foundation Pty Ltd\". Explicit ABN 43000409343 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 41,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "b372164a22b5796f885220f86db6b33a4502ca78b582154b6fd0fc71e3784e03",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 8390
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "ef824b0a73da67aefc492eb14f48ec57245a5531dfd566588e44dab79a67ff03",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 12847
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "9ea4d2090dcc360aab246009731e27e837052f6167525a1d84a28d49493057d5",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"UHY HAINES NORTON CORPORATE FINANCE PTY LIMITED\"; asic-afs-licensee: \"UHY HAINES NORTON CORPORATE FINANCE PTY LIMITED\". Explicit ABN 74001155988 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 42,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "89dbc29ac38b957c589b74e1bb35248958438eda1b47e20ba82660566ec67717",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 23138
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "fb4f0f9e944003ae8d46ea3121e8a255a51d3b2d0194f2cd7490288ba7f217f3",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 1398
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "34491983fd1753f0a0a5bfc3d67db76c0a1c897de8173f954da1f4038d26ba32",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"GREEK YOUNG MATRONS ASSOCIATION\"; acnc-register: \"GREEK YOUNG MATRONS' ASSOCIATION\". Explicit ABN 64000862297 agrees and passes an independently written checksum calculation. ACNC adds an apostrophe after MATRONS; the organisation name otherwise agrees. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 43,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "e706da4b9a523b85d59b2a8f8b7de1fc5c1f7a40091f7bcb750e2d84c6d5e90d",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 17055
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "fc585cc8d1c0a2d91933d66e12a2beffc4b6842cc6b198bdcb8ba797ffd0242c",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 5280
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "81fcb67cc54deb3c5fa6f7a493e8c18298c28347f8996bb7bae5fd3af40e8d13",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"PERPETUAL INVESTMENT MANAGEMENT LIMITED\"; asic-afs-licensee: \"PERPETUAL INVESTMENT MANAGEMENT LIMITED\". Explicit ABN 18000866535 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 44,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "cf5f2d7b73099a2ebe0e28660de1e24b99eadb54c22b4eb257b3c8011d5f0a5d",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 17138
+            }
+          },
+          {
+            "source": {
+              "slug": "asic-afs-licensee",
+              "snapshot": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "url": "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv",
+              "role": "licence_holder",
+              "filters": [
+                {
+                  "field": "REGISTER_NAME",
+                  "op": "in",
+                  "values": [
+                    "AFS Licence"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "11f5271af8b57718a4cf49dc3f32ee1a6aa27fa035ae0af264a7e861e0d260d6",
+            "locator": {
+              "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+              "sheet": "csv",
+              "row": 429
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "1a715709218ee586018f2d2dbd8859bbf005cfb872e7f4cb9fe793c4cacab7e4",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"THE SPIRITUAL ASSEMBLY OF THE BAHA'IS OF RYDE LTD\"; acnc-register: \"The Spiritual Assembly Of The Baha'Is Of Ryde Ltd\". Explicit ABN 34001092575 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 45,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "e5aff3ae96e89573756c20871ef9419e4222586dc33c51dca959703b34aadfab",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 21907
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "6c609d3afdb8aef82f40de29fba606668826c6db6d97161163acdb813583fac1",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 17256
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "b8c9166433c46d0ce3b436eb122190e8102adf3bbe19423d7a4fc76b56a830d2",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"B'NAI B'RITH CENTRE (N S W) LTD\"; acnc-register: \"B'nai B'rith Centre (N S W) Ltd\". Explicit ABN 70000379500 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 46,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "74e98c1bcfaeae21b397647fbec60e5466155e594ebf8bd7b482ed93ec1db309",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 7796
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "2da0098c808de990820183b57e5dc1531824c8f0b438e41fc06f367b395348cb",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 14246
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "5bdc53955cee6519c6bbfce7a56202999106fb2932827da95c41941b1d85103e",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"REFORM MOVEMENT PTY LTD\"; acnc-register: \"Reform Movement Pty Ltd\". Explicit ABN 79000124363 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 47,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "41880d921bdeeabe1b2525c0a5b3634f07afe13a03d014ff21ddf603a6bda484",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 3034
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "3a3c55b00628374ad46318236f6aea413b220da3a599492599ece85c2b2c36d0",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 17067
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "affdd6516f244c7837755b037a02dcba35dd4d0cab5606901ae1df7eddb329e0",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"SYDNEY MARITIME MUSEUM LTD\"; acnc-register: \"Sydney Maritime Museum Ltd\". Explicit ABN 70000519246 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 48,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "747c20e37546ced023e7ece3fe380ff76d8b925e7d0cda847bda554c6be0f743",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 10350
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "a0b9ed777fd17726fc6282e6e4beed4a18e34cbddf9aa0f06f813b4ae7eb03be",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 24751
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "fd98908f64414ddb209ed93ad7585a54f52022c6a67bfd7c9256bf3087277acb",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"W.E.C. INTERNATIONAL\"; acnc-register: \"W.E.C. International\". Explicit ABN 22000637749 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 49,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "50cd338645e2e2f1fedb2b2c24fe6290132c4225013f777a1ef8cc17b532be56",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 12626
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "c97b22acfefccfa8c5148c5b4469ce625274f62f16739457fb00b28214f5f9dd",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 17358
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "80ec75397f8fe9745a89b64cc24f109cf267930b63c65bb4a7f35ec7d22a859f",
+      "verdict": "yes",
+      "reviewer": "Codex assistant (AI)",
+      "evidence": "asic-companies: \"NATIONAL HEART FOUNDATION OF AUSTRALIA (N.S.W. DIVISION)\"; acnc-register: \"National Heart Foundation Of Australia (N.S.W. Division)\". Explicit ABN 95000253289 agrees and passes an independently written checksum calculation. Names agree after case/outer-whitespace normalization. The compared fields identify the company/registered organisation or licensee itself, not its parent or appointee. Supported within these snapshots; not independent registry ground truth.",
+      "evidence_refs": {
+        "evidence_entry": 50,
+        "raw_records": [
+          {
+            "source": {
+              "slug": "asic-companies",
+              "snapshot": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "url": "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "Current Name Indicator",
+                  "op": "in",
+                  "values": [
+                    "Y"
+                  ],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "351ca0b41d09a3a87efc3a315dde356cef571d728978fcac2a1dc43681a214d8",
+            "locator": {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 5622
+            }
+          },
+          {
+            "source": {
+              "slug": "acnc-register",
+              "snapshot": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "url": "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv",
+              "role": "legal_entity",
+              "filters": [
+                {
+                  "field": "ABN",
+                  "op": "nonempty",
+                  "values": [],
+                  "length": null
+                }
+              ]
+            },
+            "record_id": "3c128c8dbb75968a1d783b47eb835d23e264fc0d49876db8ec25d9734fb2b564",
+            "locator": {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 9247
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

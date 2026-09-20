@@ -1,0 +1,225 @@
+{
+  "id": "2d07bca2-eeba-4f63-8b9a-505bbab46ce5:1",
+  "run_id": "2d07bca2-eeba-4f63-8b9a-505bbab46ce5",
+  "version": 1,
+  "config_hash": "3ed034b6f4312191ee263a43d98f04b7305b49d1425220b8f97a32697352dfc8",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One current AFS licence register entry per licensee snapshot row.",
+    "subject_role": "licence_holder",
+    "source_kind": "licence_register",
+    "subject_label_field": "AFS_LIC_NAME",
+    "address_role": "business",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "AFS_LIC_ABN_ACN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ABN_ACN",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.9,
+        "evidence": "Help file p.8: AFS_LIC_ABN_ACN is the licensee ABN or ACN; ABN is shown when provided. Sample row 2: 85007186003."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ABN_ACN"
+        ],
+        "canonical_field": "entity.acn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "acn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ABN_ACN",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.9,
+        "evidence": "Help file p.8: AFS_LIC_ABN_ACN is the licensee ABN or ACN; ACN is shown only if no ABN is provided. Validation distinguishes types."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_LOCAL"
+        ],
+        "canonical_field": "address.locality",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_LOCAL",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.94,
+        "evidence": "Help file p.9: AFS_LIC_ADD_LOCAL is locality from the current principal business address. Sample row 2: SOUTHBANK."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_STATE"
+        ],
+        "canonical_field": "address.state",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "uppercase",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_STATE",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.94,
+        "evidence": "Help file p.10: AFS_LIC_ADD_STATE is state from the current principal business address. Sample row 2: VIC."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_PCODE"
+        ],
+        "canonical_field": "address.postcode",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "postcode",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_PCODE",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.93,
+        "evidence": "Help file p.10: AFS_LIC_ADD_PCODE is postcode from the current principal business address. Sample row 2: 3006."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_COUNTRY"
+        ],
+        "canonical_field": "address.country",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_COUNTRY",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.91,
+        "evidence": "Help file p.10: AFS_LIC_ADD_COUNTRY is country of the principal business address; outside Australia is International. Sample row 2: Australia."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "REGISTER_NAME",
+        "reason": "Identifies the register to which the record belongs (help file p.8); no corresponding assignment-subset field."
+      },
+      {
+        "source_field": "AFS_LIC_NUM",
+        "reason": "Unique AFS licence number (help file p.8), not a legal-entity identifier in the supplied ontology; preserve as source-record provenance outside canonical fields."
+      },
+      {
+        "source_field": "AFS_LIC_NAME",
+        "reason": "Retained verbatim through subject_label_field only. Help file p.8 calls it the register entry name and specifies that it may be a person's given and last names or an organisation name; it is not safely a registered legal name."
+      },
+      {
+        "source_field": "AFS_LIC_START_DT",
+        "reason": "Start date of the Australian Financial Services licensee (help file p.8), which is a licence date and must not map to entity.date_registered."
+      },
+      {
+        "source_field": "AFS_LIC_PRE_FSR",
+        "reason": "Serialized previous pre-FSR register type and licence number(s) (help file p.9), with no corresponding field in the assignment subset."
+      },
+      {
+        "source_field": "AFS_LIC_CONDITION",
+        "reason": "Serialized current licence authorisations/conditions (help file p.11), with no corresponding field in the assignment subset."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.91,
+    "limitations": [
+      "Documentation states this is a point-in-time snapshot of publicly available information for current AFS licensees (help file p.3); current inclusion supports neither legal-entity status nor company registration status.",
+      "The supplied publication timestamp is used only as the publication proxy because no row-level snapshot/effective timestamp is available.",
+      "AFS_LIC_ABN_ACN is a mixed ABN/ACN field. Both mappings intentionally validate the raw value; no ACN is inferred from an ABN suffix, and invalid or opposite-type values produce no value for that canonical field.",
+      "The register entry can be an individual or organisation (help file p.8). No legal name, entity type, trading name, or entity status is asserted.",
+      "Address components are only the current principal business address; documentation says blanks can indicate an address that could not be validated (help file pp.9-10). No full address can be constructed from the supplied columns.",
+      "No record filter is encoded: documentation already defines this dataset as current licensees (help file p.3), while the supplied CSV has no status column to test.",
+      "Source authority and all field confidence scores are provisional and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-terra",
+  "created_at": "2026-09-18T01:03:13.444611+00:00",
+  "status": "proposed"
+}

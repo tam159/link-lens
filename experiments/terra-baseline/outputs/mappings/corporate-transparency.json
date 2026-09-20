@@ -1,0 +1,106 @@
+{
+  "id": "1d1b03be-af0a-40e0-8bb8-04c473e58e00:2",
+  "run_id": "1d1b03be-af0a-40e0-8bb8-04c473e58e00",
+  "version": 2,
+  "config_hash": "f81993ff7872eb550477a77b15d2b60086438db750aa98e563acc033d26a4f36",
+  "config": {
+    "reader": {
+      "format": "xlsx",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": "Income tax details",
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One income-tax disclosure row for a named corporate tax entity and stated income year.",
+    "subject_role": "unknown",
+    "source_kind": "tax_disclosure",
+    "subject_label_field": "Name",
+    "address_role": "unknown",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "ABN",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.94,
+        "evidence": "ATO dataset notes state reports contain the ABN for corporate tax entities; exact sheet header is “ABN”; row 2 sample is 94600082111."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Name",
+        "reason": "Retained only as subject_label_field. ATO dataset notes say the report contains a name, but do not establish it as a registered legal name, trading name, or other canonical name."
+      },
+      {
+        "source_field": "Total income $",
+        "reason": "Tax-disclosure measure with no corresponding canonical field in the supplied ontology; header is “Total income $”."
+      },
+      {
+        "source_field": "Taxable income $",
+        "reason": "Tax-disclosure measure with no corresponding canonical field in the supplied ontology; header is “Taxable income $”."
+      },
+      {
+        "source_field": "Tax payable $",
+        "reason": "Tax-disclosure measure with no corresponding canonical field in the supplied ontology; header is “Tax payable $”."
+      },
+      {
+        "source_field": "Income year",
+        "reason": "Disclosure reporting-period field with no corresponding canonical field; it is not an entity registration date. Header is “Income year”; sample rows show 2023-24."
+      },
+      {
+        "source_field": "__unnamed_7",
+        "reason": "Unnamed trailing column; supplied rows 2–9 are empty and there is no semantic header or canonical field."
+      },
+      {
+        "source_field": "__unnamed_8",
+        "reason": "Unnamed trailing column; supplied rows 2–9 are empty and there is no semantic header or canonical field."
+      },
+      {
+        "source_field": "__unnamed_9",
+        "reason": "Unnamed trailing column; supplied rows 2–9 are empty and there is no semantic header or canonical field."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.82,
+    "limitations": [
+      "Subject role is unknown: ATO documentation describes rows as corporate tax entities and does not establish that each tax subject is a legal entity in this ontology. No legal-entity, reporting-group, parent, branch, or licence-holder relationship is asserted.",
+      "The Name field is retained as the raw subject label only; it is not mapped to legal name or trading name.",
+      "ABN is checksum-validated after conservative digits normalization. No ACN is inferred from any ABN suffix.",
+      "No row filter is encoded: supplied notes establish disclosure content and thresholds but do not provide a row-validity/completeness rule supporting exclusion. Empty or invalid ABN values emit no ABN observation under the field condition.",
+      "Publication proxy is used because the selected sheet has no row-level statement datetime. The source-envelope publication timestamp is not the income-year date or an entity fact date.",
+      "Tax measures and income year have no fields in this ontology subset. Blank tax cells are not converted to zero.",
+      "Only the frozen Income tax details sheet is covered. The analysis notes a separate PRRT details sheet at a different grain that requires separate onboarding.",
+      "Authority and confidence scores are provisional, uncalibrated judgements requiring human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-terra",
+  "created_at": "2026-09-18T01:06:30.724639+00:00",
+  "status": "proposed",
+  "approval_status": "completed",
+  "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2"
+}

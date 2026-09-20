@@ -1,0 +1,460 @@
+[
+  {
+    "rank": 4,
+    "artifact_id": "40681ef69bf40e46ef14aee55116b8cedf51419dd111e4fa7d54a2fc29f5c4af",
+    "examples": [
+      {
+        "row": 5,
+        "values": {
+          "REGISTER_NAME": "AFS Representative",
+          "AFS_REP_NAME": "NETWEALTH PTY LTD",
+          "AFS_REP_ABN": "",
+          "AFS_REP_ACN": "119484043"
+        }
+      },
+      {
+        "row": 6,
+        "values": {
+          "REGISTER_NAME": "AFS Representative",
+          "AFS_REP_NAME": "ASPIRA ADVICE SOLUTIONS PTY LTD",
+          "AFS_REP_ABN": "",
+          "AFS_REP_ACN": "627832820"
+        }
+      },
+      {
+        "row": 10,
+        "values": {
+          "REGISTER_NAME": "AFS Representative",
+          "AFS_REP_NAME": "ARK WARRNAMBOOL PTY LTD",
+          "AFS_REP_ABN": "",
+          "AFS_REP_ACN": "686824984"
+        }
+      }
+    ]
+  },
+  {
+    "rank": 5,
+    "artifact_id": "9c098856cd215c2704e419c008b1d0ecb66e99c158562df2ce6a2ec12cc1c0ff",
+    "examples": [
+      {
+        "row": 23,
+        "values": {
+          "REGISTER_NAME": "Credit Representative",
+          "CRED_REP_NAME": "BOQ SPECIALIST PTY LTD",
+          "CRED_REP_ABN_ACN": "94110704464"
+        }
+      },
+      {
+        "row": 24,
+        "values": {
+          "REGISTER_NAME": "Credit Representative",
+          "CRED_REP_NAME": "BAYMAN PTY. LIMITED",
+          "CRED_REP_ABN_ACN": "60003993388"
+        }
+      },
+      {
+        "row": 25,
+        "values": {
+          "REGISTER_NAME": "Credit Representative",
+          "CRED_REP_NAME": "CEMRUN PTY LTD",
+          "CRED_REP_ABN_ACN": "97071719205"
+        }
+      }
+    ]
+  },
+  {
+    "rank": 7,
+    "url": "https://data.gov.au/data/dataset/5bd7fcab-e315-42cb-8daf-50b7efc2027e/resource/3b975e4f-af2f-4de7-a20e-6dcb3f67805c/download/abnlookupbulkextractreadme.pdf",
+    "receipt": {
+      "partial": false,
+      "retrieved_at": "2026-09-19T07:41:48.660921+00:00",
+      "url": "https://data.gov.au/data/dataset/5bd7fcab-e315-42cb-8daf-50b7efc2027e/resource/3b975e4f-af2f-4de7-a20e-6dcb3f67805c/download/abnlookupbulkextractreadme.pdf",
+      "bytes": 153761
+    },
+    "artifact_id": "472e01cce4f169dee2214fb69bb4e4e5b72f553814bf978113524776324ccd02",
+    "pages": [
+      {
+        "page": 1,
+        "text": " \nABN Lookup \u2013 Bulk Extract \nVersion 2.6\n"
+      },
+      {
+        "page": 2,
+        "text": " \nTable of Contents \n1 Getting started ............................................................................................................................ 3 \n1.1 What is ABN Lookup? ........................................................................................................ 3 \n1.2 What is the ABN Lookup bulk extract? ................................................................................ 3 \n1.3 Bulk extract files overview .................................................................................................. 3 \n1.4 ABN record Overview ......................................................................................................... 4 \n1.5 XML data elements and attributes ...................................................................................... 5 \n1.6 Useful ABNs for test Scenarios ........................................................................................... 6 \n2 ABN Lookup Web Services ......................................................................................................... 7 \n2.1 Why use the ABN Lookup web services?............................................................................ 7 \nAPPENDIX A \u2013 Bulk Extract Schema .................................................................................................  8 \nAPPENDIX B \u2013 Entity type codes and descriptions .......................................................................... 11 \nTable of Figures \nFigure 1 - Root node .......................................................................................................................... 8 \nFigure 2 - ABN and Entity type ........................................................................................................... 8 \nFigure 3 - Main Entity and Legal Entity ............................................................................................... 9 \nFigure 4 \u2013 ACN .................................................................................................................................. 9 \nFigure 5 \u2013 GST .................................................................................................................................. 9 \nFigure 6 \u2013 DGR ............................................................................................................................... 10 \nFigure 7 - Other Entity ..................................................................................................................... 10 \n \n -2- \n"
+      },
+      {
+        "page": 3,
+        "text": " \n1 Getting started \nThe purpose of this document is to provide information about the ABN Lookup bulk extract service.  \n1.1 What is ABN Lookup? \nABN Lookup (http://abr.business.gov.au) contains the publicly available information provided by \nbusinesses when they register for an Australian Business Number (ABN).  ABN Lookup is hosted by \nthe Department of Industry on behalf of the Australian Business Register (ABR) \u2013 see \nhttp://abr.gov.au.  \nABN Lookup contains current and historical information about an ABN. \nAs at November 2015, the ABN Lookup database held over 11.7 million ABNs and 26 million names. \n1.2 What is the ABN Lookup bulk extract? \nThe ABN Lookup bulk extract is a snapshot of a subset of current ABN details. The extract is \ngenerated weekly and available in xml format. \nThe ABN details included in the snapshot are: \n\u2022 ABN and current ABN status \n\u2022 Current Goods and Services Tax (GST) registration \n\u2022 Current Deductible Gift Recipient (DGR) fund registrations and fund names \n\u2022 Australian Company Number (ACN) \n\u2022 Current entity name  \n\u2022 Current registered business names  \n\u2022 Current trading names \n\u2022 State and postcode of current main business location \nThe extract includes both active and cancelled ABNs. \n1.3 Bulk extract files overview \nThe ABN Lookup bulk extract data is written across 20 files. Each file contains a single TransferInfo \nnode and many node ABR nodes.  \nTransferInfo contains:  \n\u2022 The file sequence number (1 to 20) \n\u2022 The number of ABN records in the file \n\u2022 Date of extract \nFor information about the ABR node see 1.4 ABN record Overview below \nAs at November 2015, the ABN Lookup bulk extract files held a total of: \n\u2022 11.7 million ABNs  \n\u2022 18 million names \n\u2022 And contained 6 gigabytes of data (uncompressed)  \nThe ABN Lookup bulk extract files are named: \nyyyymmddPublic01.xml,  \nyyyymmddPublic02.xml  \n\u2026 \nyyyymmddPublic20.xml  \n -3- \n"
+      },
+      {
+        "page": 4,
+        "text": " \nwhere yyyymmdd is the year, month and day that the files were generated. \n1.4 ABN record Overview \nThe format of the ABN Lookup Bulk Extract files XML is described by the schema - see APPENDIX A \n\u2013 Bulk Extract Schema.  \nIn summary an ABN record has: \n\u2022 one ABN \n\u2022 one entity type  \n\u2022 zero or one GST status \n\u2022 zero or one ASIC Number \n\u2022 If the entity is an individual (EntityTypeInd = IND) the ABN record will have one \nLegalEntity otherwise it will have one MainEntity \n\u2022 zero or more OtherEntity elements ( \no OtherEntity hold registered business names and trading names \no There are examples where an ABN has in excess of 300 OtherEntity nodes \n\u2022 zero or more DGR elements \n -4- \n"
+      },
+      {
+        "page": 5,
+        "text": " \n1.5 XML data elements and attributes \nThe table below summaries the main data element and attributes (highlighted with an @) that make \nup an ABN record. \nElement/attribute name Max length/format Type \nABR   \n@recordLastUpdatedDate yyyymmdd Date \nABN 11 Numeric \n@status 3 String \n@ABNStatusFromDate yyyymmdd Date \nEntityType   \nEntityTypeInd 4 String \nEntityTypeText 100 String \nMainEntity   \nNonIndividualName   \n@type 3 String \nNonIndividualNameText 200 String \nLegalEntity   \nIndividualName   \n@type 3 String \nNameTitle 50 String \nGivenName 100 String \nFamilyName 50 String \nASICNumber 9 Numeric \nGST   \n@status 3 String \n@GSTStatusFromDate yyyymmdd Date \nDGR   \n@ DGRStatusFromDate yyyymmdd Date \nNonIndividualName   \n@type 3 String \nNonIndividualNameText 200 String \nOtherEntity   \nNonIndividualName   \n@type 3 String \nNonIndividualNameText 200 String \nBusinessAddress   \nAddressDetails   \nState 3 String \nPostcode 50 String \nTable 1 - ABN record data elements and attributes  \nSee APPENDIX A \u2013 Bulk Extract Schema for a diagrammatic representation of the schema. \n -5- \n"
+      },
+      {
+        "page": 6,
+        "text": " \n1.6 Useful ABNs for test Scenarios \nThe following ABNs provide useful examples of when testing your bulk extract load. \n88712649015 \n49991006857 \n30613501612 \n27776681795 \n27776681795 \n85832766990 \n86308026589 \n12850816238 \n38875128921 \n11092508586 \n45891839079 \n37601599422 \n56638257003 \n79002637069 \n45877249165 \n80776127243 \n13993250709 \n75812792400 \n66264753659 \n -6- \n"
+      }
+    ]
+  },
+  {
+    "rank": 9,
+    "artifact_id": "f65a84f0d5c078a7a2c82793eb32606a060bdab44f256e8c215682c5c640da5a",
+    "examples": [
+      {
+        "row": 4,
+        "values": {
+          "REGISTER_NAME": "SMSF Auditor",
+          "SMSF_NAME": "Benjamin Jenkins",
+          "SMSF_PERSON_ABN": "",
+          "SMSF_CAPACITY_FIRM_NAME": ""
+        }
+      },
+      {
+        "row": 9,
+        "values": {
+          "REGISTER_NAME": "SMSF Auditor",
+          "SMSF_NAME": "Benjamin Jenkins",
+          "SMSF_PERSON_ABN": "",
+          "SMSF_CAPACITY_FIRM_NAME": "GPP Audit Pty Limited"
+        }
+      },
+      {
+        "row": 12,
+        "values": {
+          "REGISTER_NAME": "SMSF Auditor",
+          "SMSF_NAME": "Alissa Hodge",
+          "SMSF_PERSON_ABN": "",
+          "SMSF_CAPACITY_FIRM_NAME": ""
+        }
+      }
+    ]
+  },
+  {
+    "rank": 24,
+    "artifact_id": "bd16f48ef63bce87d77d1e22c1e41d28da9fa6635c444dd8c76727ad8f8c6a56",
+    "examples": [
+      {
+        "row": 2,
+        "values": {
+          "CONTRACT_NAME": "DESB",
+          "LOCATION_NAME": "CANBERRA",
+          "SITE_NAME": "Vision Australia",
+          "SITE_LOCALITY_NAME": "CANBERRA"
+        }
+      },
+      {
+        "row": 3,
+        "values": {
+          "CONTRACT_NAME": "DESB",
+          "LOCATION_NAME": "YOUNG",
+          "SITE_NAME": "Job Centre Australia",
+          "SITE_LOCALITY_NAME": "YOUNG"
+        }
+      },
+      {
+        "row": 4,
+        "values": {
+          "CONTRACT_NAME": "DESA",
+          "LOCATION_NAME": "WAGGA WAGGA",
+          "SITE_NAME": "Job Centre Australia",
+          "SITE_LOCALITY_NAME": "WAGGA WAGGA"
+        }
+      }
+    ]
+  },
+  {
+    "rank": 26,
+    "artifact_id": "32b3a36f8bb770b64175f6823d6112785833a3309243a96700f2352642e0a939",
+    "examples": [
+      {
+        "row": 2,
+        "values": {
+          "lord_party_id": "1.0",
+          "lord_party_id_type": "party_id",
+          "party_name": "bacoz developments pty ltd"
+        }
+      },
+      {
+        "row": 3,
+        "values": {
+          "lord_party_id": "1.0",
+          "lord_party_id_type": "party_id",
+          "party_name": "bacoz developments pty ltd"
+        }
+      },
+      {
+        "row": 4,
+        "values": {
+          "lord_party_id": "1.0",
+          "lord_party_id_type": "party_id",
+          "party_name": "bacoz developments pty ltd"
+        }
+      }
+    ]
+  },
+  {
+    "rank": 40,
+    "url": "https://data.gov.au/data/dataset/4d35cd80-2538-4705-82f3-d0d18e823d98/resource/a15bc1e1-d19f-4f08-965a-cab8d49b2666/download/reporting-questionnaire-201920.pdf",
+    "receipt": {
+      "partial": false,
+      "retrieved_at": "2026-09-19T07:41:49.769340+00:00",
+      "url": "https://data.gov.au/data/dataset/4d35cd80-2538-4705-82f3-d0d18e823d98/resource/a15bc1e1-d19f-4f08-965a-cab8d49b2666/download/reporting-questionnaire-201920.pdf",
+      "bytes": 1004623
+    },
+    "artifact_id": "29ea4a1510201851396db3e64f793bc148819dd4580db0002d059d2970237da7",
+    "pages": [
+      {
+        "page": 1,
+        "text": "Workplace Gender Equality Agency  |  2019-20 Indicative format: workplace profile and reporting questionnaire 1 \n \n2019-20 Indicative format: \nWorkplace profile and reporting \nquestionnaire \nReporting under the Workplace Gender  \nEquality Act 2012 \n \n \nVersion 2.0 \n \n \n  \n"
+      },
+      {
+        "page": 2,
+        "text": "Workplace Gender Equality Agency  |  2019-20 Indicative format: workplace profile and reporting questionnaire 2 \n \n \nChanges to the indicative format for 2019-20 \nChange made page/section \nUpdated title and wording from Reference Guide to Guide to Reporting \nsection. This section replaces the previous Reference Guide document.  \npage 4 \nQ 1.11 \u2013 question and table text amended page 17 \nQ 2.1 b \u2013 question amended page 19 \nQ 4.1 \u2013 option \u201cSet targets to reduced any like-for-like gaps\u201d removed page 24 "
+      },
+      {
+        "page": 3,
+        "text": "Workplace Gender Equality Agency  |  2019-20 Indicative format: workplace profile and reporting questionnaire 3 \n \nSection 1: Overview \nUnder the Workplace Gender Equality Act 2012 (Act) relevant employers are \nrequired to complete and submit a report covering standardised reporting \nmatters under six gender equality indicators (GEIs). The format of this report \nincludes a workplace profile and a reporting questionnaire.  \n\uf092 Workplace profile: The workplace profile reflects data required under gender equality indicators one \n(GEI 1: gender composition of the workforce) and three (GEI 3: equal remuneration  between women \nand men) and is in an Excel format.  \n\uf092 Reporting questionnaire: The reporting questionnaire reflects data required under all six gender \nequality indicators and includes 17 questions. Response options in the reporting questionnaire are \ntypically a yes/no or table format. Where \u2018no\u2019 is selected, employers have the option to provide a \nreason for this by either selecting from a series of provided options or via a free -text box.  \nAbout this document \nRelevant employers are required to complete and submit their report online using the Workplace Gender \nEquality Agency\u2019s (Agency) secure online portal. To assist relevant employers to prepare for reporting in \n2020, this document provides the indicative format of the: \n\uf092 workplace profile in Section 2 \n\uf092 reporting questionnaire in Section 3. \nRelevant employers can get ready for reporting as follows: \n\uf092 workplace profile \u2013 start preparing data by using excel worksheeets provided by the Agency. \n(Remember, when you actually start reporting online, you will have to download the system generated \ntemplate from the reporting portal, then populate, upload and submit that document, not the \nworksheets.) \n\uf092 reporting questionnaire \u2013 relevant employers can start planning their responses and gathering data for \nthe questions set out in the reporting questionnaire. Note that the questionnaire format in Section 3 of \nthis document is indicative only. It is not the reporting template. \nOverview of reporting under the Act \nFor information on the Agency and reporting under the Act please refer  to the Quick guide to reporting and \ncompliance located on the Agency\u2019s website at www.wgea.gov.au . \nMinimum standards  \nMinimum standards relate to specified gender equality indicators (GEIs) and are set by the Minister in the \nWorkplace Gender Equality (Minimum Standards) Instrument 2014.  \nMinimum standards represent the standard needed to achieve a particular objective und er a GEI. To meet \nthe minimum standard, relevant employers with 500 or more employees (in total within the corporate \nstructure) must have a policy or strategy in place that specifically supports gender equality in relation to one, \nor more, of the following GEIs. The related questions in the reporting questionnaire are also detailed below.  \n \n\uf092 GEI 1: gender composition of the workforce:  \n\u2018Yes\u2019 to having a policy or strategy for any of the options 1.1 to 1.9 \nOR  \n\uf092 GEI 3: equal remuneration between women and men: \n\u2018Yes\u2019 to having a policy or strategy for question 3 and yes to 3.1.  \nOR  "
+      },
+      {
+        "page": 4,
+        "text": "Workplace Gender Equality Agency  |  2019-20 Indicative format: workplace profile and reporting questionnaire 4 \n \n\uf092 GEI 4: availability and utility of employment terms, conditions and practices relating to flexible \nworking arrangements for employees and to working arrangements supporting employees with \nfamily or caring responsibilities: \n\u2018Yes\u2019 to having a policy or strategy for question 10.  \nOR  \n\uf092 GEI 6: any other matters specified by the Minister in a legislative instrument: sex -based \nharassment and discrimination:  \n\u2018Yes\u2019 to having a policy or strategy for question 16.  \nIf an employer that is required to meet a minimum standard does not do so, it will have a further two \nreporting periods to improve against the minimum standard before it may be deemed non -compliant by the \nAgency.  \nFor example, for employers who reported in 2017-18 and 2018-19 that they did not have a formal policy or \nstrategy in place in one of the above GEIs, and report in 2019-20 that one has still not been put in place, \nthey may be non-compliant with the Act.  \nFor more details on meeting minimum standards, refer to resources provided in the \u2018Minimum standards\u2019 \nsection of the website. \nCompetitor Analysis Benchmark Reports and data quality  \nStandardised reporting under the Act enables the Agency to provide relevant employers with customised \nconfidential Competitor Analysis Benchmark Reports as well as aggregated national public industry \nbenchmark data.   \nCritical to the provision of quality Competitor Analysis Benchmark Reports (CABRs) is the reliability of data \nprovided by employers through the reporting process. To ensure the CABRs are meaningful and comparable \nover time it is essential that employers take care to accurately:  \n\uf092 classify their employees to manager and non-manager categories  \n\uf092 calculate remuneration data as indicated in the workplace profile (for corporate structures, this must \nbe done in relation to each employing entity in the group \u2013 refer to the Guide:Entity level reporting for \ncorporate structures & requirements for combined reports. \n\uf092 ensure responses in the reporting questionnaire reflect shared industry interpretations of key concepts \nand terms within your industry.  \nNote that the online system will perform a validation of the data and inform you of possible data entry errors, \nor possible data quality errors. \nGuide to Reporting \nThis Indicative format is a companion document to the Guide to Reporting section on the Agency\u2019s website. \nThe Guide to Reporting section of the website provides employers with detailed information required for \nreporting, including key terms and definitions and guidance for engaging with key stakeholders within their \norganisation. \nConfidentiality  \nInformation relating to remuneration included in a report will not be published by the Agency unless written \npermission from the relevant employer has been provided. Remuneration data may be published in an \naggregated form so long as it does not disclose information about a specific employer or person. This will \nenable the Agency to collect and analyse data and to develop other resources on pay equity to benefit \nemployers. Please refer to the WGEA protocol on sharing reporting data section on our website.  \n  "
+      },
+      {
+        "page": 5,
+        "text": "Workplace Gender Equality Agency  |  2019-20 Indicative format: workplace profile and reporting questionnaire 5 \n \nSection 2: Workplace profile \nRelevant employers are required to complete a workplace profile. The \nworkplace profile reflects data required under GEI 1 (gender composition of \nthe workforce) and GEI 3 (equal remuneration between women and men).  \nA workplace profile must include: \n\uf092 actual headcount (that is, the actual number of employees, not full-time equivalents) of all employees \n(including full-time, part-time, individuals on a fixed-term contract and casuals)  \n\uf092 data which reflects your workforce at a point in time within the 2019-20 reporting period (1 April 2019 to \n31 March 2020).  You may choose to use data based on the financial year that concludes during the \nreporting period. For example, you may choose to use data as at 30 June 2019. \nThe following information needs to be provided in the workplace profile which is in an Excel format:  \n\uf092 WGEA-defined standardised occupational categories for managers and non-managers  \n\uf092 for managers only: reporting level from the CEO/head of business (or equivalent)  \n\uf092 gender \n\uf092 graduate/apprentice  \n\uf092 employment status:  \n\u2022 full-time permanent/ongoing \n\u2022 full-time contract (fixed-term) \n\u2022 part-time permanent/ongoing \n\u2022 part-time contract (fixed-term) \n\u2022 casual. \n\uf092 remuneration: \n\u2022 annualised, full-time equivalent base salary and,  \n\u2022 annualised, full-time equivalent total remuneration. \nSelecting unit level or aggregated data \nThe workplace profile may be provided to the Agency as either unit level data or aggregated data. Table 1 \nbelow provides a summary of the differences between the two options. Remember, you only have to choose \nONE of these options. If you use the unit level data template, the system will automatically generate \naggregated tables for you to review. \nFor both options, we recommend you prepare your data offline by populating the 2020 workplace profile \nworksheets available from the website. This allows you to sort, find or replace data if needed. The system-\ngenerated workplace profile template via the online portal is encrypted and does not allow you to sort, find \nor replace data. Data from your worksheets can be copied and pasted into the system-generated template. \n \nTable 1: Differences between unit level data and aggregated data \nOption 1: Unit level data Option 2: Aggregated data \nSimplest option, one table to complete. \nOne employee per line (de-identified employee \ndata). \nTwo tables to complete: one for managers, one for \nnon-managers*. \n*This is because the reporting level to the CEO/head of business \nis only required for managers.  Graduate and apprentice \ncategories only apply to non-managers.  \n "
+      },
+      {
+        "page": 6,
+        "text": "Workplace Gender Equality Agency  |  2019-20 Indicative format: workplace profile and reporting questionnaire 6 \n \nOption 1: Unit level data Option 2: Aggregated data \nOnce uploaded, the online system generates the \naggregated tables from your unit level data and \nautomatically calculates the relevant remuneration \ntotals. \nEmployers need to calculate: \n\uf092 aggregated employee numbers per category \n\uf092 aggregated AVERAGE base salary and total \nremuneration per category. \n \n \n \nImportant note: the public report only displays the workplace profile as aggregated tables, and does not \ncontain remuneration data. "
+      }
+    ]
+  },
+  {
+    "rank": 41,
+    "url": "https://data.gov.au/data/dataset/5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841/resource/51f6686d-de02-4e3c-a08e-014cda00c3cf/download/design-party-activity.csv",
+    "receipt": {
+      "partial": true,
+      "retrieved_at": "2026-09-19T07:41:52.373195+00:00",
+      "url": "https://data.gov.au/data/dataset/5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841/resource/51f6686d-de02-4e3c-a08e-014cda00c3cf/download/design-party-activity.csv",
+      "bytes": 524288
+    },
+    "artifact_id": "3eb3b4bb475d986d4e877f96583575fa34a886548668d531eaaec4f35314411d",
+    "examples": [
+      {
+        "row": 7,
+        "values": {
+          "party_id": "28.0",
+          "party_role": "submitter",
+          "party_role_category": "other",
+          "party_type": "organisation",
+          "party_name": "pizzeys patent and trade mark attorneys pty ltd",
+          "abn": "55626186356"
+        }
+      },
+      {
+        "row": 8,
+        "values": {
+          "party_id": "28.0",
+          "party_role": "submitter",
+          "party_role_category": "other",
+          "party_type": "organisation",
+          "party_name": "pizzeys patent and trade mark attorneys pty ltd",
+          "abn": "55626186356"
+        }
+      },
+      {
+        "row": 9,
+        "values": {
+          "party_id": "28.0",
+          "party_role": "submitter",
+          "party_role_category": "other",
+          "party_type": "organisation",
+          "party_name": "pizzeys patent and trade mark attorneys pty ltd",
+          "abn": "55626186356"
+        }
+      }
+    ]
+  },
+  {
+    "rank": 45,
+    "url": "https://data.gov.au/data/dataset/09e3797c-7409-4420-bfb1-e38a4e215b88/resource/2da1db92-ed49-4452-8d76-460e64bbbf80/download/sip_service_area_declaration-nominated_20dec24-signed.pdf",
+    "receipt": {
+      "partial": false,
+      "retrieved_at": "2026-09-19T07:41:53.263692+00:00",
+      "url": "https://data.gov.au/data/dataset/09e3797c-7409-4420-bfb1-e38a4e215b88/resource/2da1db92-ed49-4452-8d76-460e64bbbf80/download/sip_service_area_declaration-nominated_20dec24-signed.pdf",
+      "bytes": 83896
+    },
+    "artifact_id": "9c20b1b9e04cd0a056f3657c8dbf55d48fdfe01dde29d2399311957c4703b14b",
+    "pages": [
+      {
+        "page": 1,
+        "text": " \nLynham networks     \nSuite 104 / 427 Glen Huntly Rd, Elsternwick VIC 3185 |    T:  1300 596 426    |    E:  hello@lynhamnetworks.au \nW:  lynhamnetworks.au    |    ABN:  17 602 258 337 \n \n \n \n \n20th December 2024 \n \n \n \n \nThe Manager - National Interests Section \nAustralian Communications and Media Authority \nsip@acma.gov.au \n \n \n \nStatutory Infrastructure Provider (SIP) \u2013 Provisional Nominated Service Area Declaration  \n \n \n \nIn accordance with Telecommunications Act 1997 section 360H requirements, Lynham Networks Pty Ltd \n(trading as Lightning Wholesale) hereby declares the project areas as described in the attached file set and \nspreadsheet (LHN_SIP_Nominated Service Area Declaration (20Dec2024.xlsx) are provisional nominated \nservice areas for the purposes of Part 19 \n \n \n \n \n \n \n \n \n \nYours sincerely, \n \n \n \n \n \n \n \nJeremy Rich \nDirector \n \n \n \n"
+      }
+    ]
+  },
+  {
+    "rank": 47,
+    "url": "https://data.gov.au/data/dataset/49017fd0-e7be-4fc0-88c8-046fc366d980/resource/385d1ca3-fb91-4c58-acd6-f076744a9122/download/pbr-party-activity.csv",
+    "receipt": {
+      "partial": true,
+      "retrieved_at": "2026-09-19T07:41:55.997356+00:00",
+      "url": "https://data.gov.au/data/dataset/49017fd0-e7be-4fc0-88c8-046fc366d980/resource/385d1ca3-fb91-4c58-acd6-f076744a9122/download/pbr-party-activity.csv",
+      "bytes": 524288
+    },
+    "artifact_id": "de747ea6dfae17eded22d1e719137f93379980239494ee6adfcf961938c0a529",
+    "examples": [
+      {
+        "row": 2,
+        "values": {
+          "party_id": "o312815",
+          "party_role_category": "applicant",
+          "party_role": "applicant",
+          "party_type": "organisation",
+          "party_name": "grasslanz technology limited",
+          "abn": ""
+        }
+      },
+      {
+        "row": 3,
+        "values": {
+          "party_id": "o312815",
+          "party_role_category": "applicant",
+          "party_role": "applicant",
+          "party_type": "organisation",
+          "party_name": "grasslanz technology limited",
+          "abn": ""
+        }
+      },
+      {
+        "row": 4,
+        "values": {
+          "party_id": "o312815",
+          "party_role_category": "applicant",
+          "party_role": "applicant",
+          "party_type": "organisation",
+          "party_name": "grasslanz technology limited",
+          "abn": ""
+        }
+      }
+    ]
+  },
+  {
+    "rank": 48,
+    "url": "https://data.gov.au/data/dataset/5715b850-a989-4343-a1e8-e779ec729de4/resource/8303e332-3bda-4a34-ae9f-c63b47a5e561/download/design-party-activity.csv",
+    "receipt": {
+      "partial": true,
+      "retrieved_at": "2026-09-19T07:41:57.361866+00:00",
+      "url": "https://data.gov.au/data/dataset/5715b850-a989-4343-a1e8-e779ec729de4/resource/8303e332-3bda-4a34-ae9f-c63b47a5e561/download/design-party-activity.csv",
+      "bytes": 524288
+    },
+    "artifact_id": "a9d67e216792bfa5eeda1a1c42c7bef022c181693f34f3fe1ec06c0079eb5e0a",
+    "examples": [
+      {
+        "row": 2,
+        "values": {
+          "party_id": "t287b09eb32753d330a20fd260be94126",
+          "party_role": "opposition_respondent",
+          "party_role_category": "opposition",
+          "party_type": "organisation",
+          "party_name": "watson chiarella pty ltd",
+          "abn": ""
+        }
+      },
+      {
+        "row": 3,
+        "values": {
+          "party_id": "t287b09eb32753d330a20fd260be94126",
+          "party_role": "opposition_respondent",
+          "party_role_category": "opposition",
+          "party_type": "organisation",
+          "party_name": "watson chiarella pty ltd",
+          "abn": ""
+        }
+      },
+      {
+        "row": 4,
+        "values": {
+          "party_id": "t287b09eb32753d330a20fd260be94126",
+          "party_role": "opposition_respondent",
+          "party_role_category": "opposition",
+          "party_type": "organisation",
+          "party_name": "watson chiarella pty ltd",
+          "abn": ""
+        }
+      }
+    ]
+  },
+  {
+    "rank": 49,
+    "artifact_id": "fbf6521eeb4ce420edb5e4655574d36dad0ef5921f5150f24e0681df4a428fa2",
+    "examples": [
+      {
+        "row": 2,
+        "values": {
+          "Family Name": "",
+          "Brand": "Daikin",
+          "Product Website": "http://www.daikin.co.nz",
+          "Representative Brand URL": "https://www.daikin.co.nz"
+        }
+      },
+      {
+        "row": 3,
+        "values": {
+          "Family Name": "",
+          "Brand": "Daikin",
+          "Product Website": "http://www.daikin.co.nz",
+          "Representative Brand URL": "https://www.daikin.co.nz"
+        }
+      },
+      {
+        "row": 4,
+        "values": {
+          "Family Name": "",
+          "Brand": "Daikin",
+          "Product Website": "http://www.daikin.co.nz",
+          "Representative Brand URL": "https://www.daikin.co.nz"
+        }
+      }
+    ]
+  },
+  {
+    "rank": 40,
+    "url": "https://data.gov.au/data/dataset/4d35cd80-2538-4705-82f3-d0d18e823d98/resource/2b0cb5e3-05d4-4e95-b9e8-7a1493a01a81/download/2022_included_organisations_per_abn.csv",
+    "artifact_id": "b6f224e70cb8ca30a4f46901a3883b7823c71662e63215617521fb84339a124d",
+    "receipt": {
+      "partial": true,
+      "retrieved_at": "2026-09-19T08:55:11.103422+00:00",
+      "url": "https://data.gov.au/data/dataset/4d35cd80-2538-4705-82f3-d0d18e823d98/resource/2b0cb5e3-05d4-4e95-b9e8-7a1493a01a81/download/2022_included_organisations_per_abn.csv",
+      "bytes": 524288
+    },
+    "rows": [
+      [
+        "Primary ABN",
+        "Primary Organisation",
+        "ABN",
+        "Company Name"
+      ],
+      [
+        "11000073870",
+        "Integricare",
+        "11000073870",
+        "Integricare"
+      ],
+      [
+        "11000143082",
+        "Morris; Mcmahon & Co Pty Ltd",
+        "11000143082",
+        "Morris; Mcmahon & Co Pty Ltd"
+      ],
+      [
+        "11000388161",
+        "Colas Australia Group Pty Ltd",
+        "11000388161",
+        "Colas Australia Group Pty Ltd"
+      ]
+    ]
+  }
+]
