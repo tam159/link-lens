@@ -47,6 +47,8 @@ flowchart TD
 
 Each automatic attempt allows at most **3 mapping versions, 12 model calls and 8 Python executions**, with token, time and cost bounds. Failed attempts and explicit recovery runs retain their evidence and costs. LangGraph checkpoints preserve workflow state; PostgreSQL separately stores config versions and decisions. Idempotent approval/extraction prevents duplicate results on resume. [Architecture and boundaries](README.md), [recovery evidence](docs/ENGINEERING.md).
 
+For implementation detail behind the workflow above, see [the engineering guide](docs/ENGINEERING.md), section **Part 2: LangGraph agent design**: node/edge diagrams, state ownership and the typed model/tool interfaces.
+
 ## Six datasets, one engine
 
 The six sources span four publishers and remain in the final generated shortlist. Their differences exercise parsing and semantic decisions—not separate source-specific parsers.
