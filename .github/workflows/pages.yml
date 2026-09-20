@@ -1,0 +1,50 @@
+name: Deploy evidence viewer to Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - outputs/okf/viewer.html
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Prepare viewer
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s outputs/okf/viewer.html
+          mkdir -p "$RUNNER_TEMP/link-lens-pages"
+          cp outputs/okf/viewer.html "$RUNNER_TEMP/link-lens-pages/index.html"
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/link-lens-pages
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
