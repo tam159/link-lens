@@ -1,0 +1,151 @@
+{
+  "dataset_id": "27e3f483-df23-4485-8c51-13806275735a",
+  "attempts": [
+    {
+      "resource_id": "b93dc9a0-a2f2-43fe-b862-a20cf4968370",
+      "url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/b93dc9a0-a2f2-43fe-b862-a20cf4968370/download/lclhn-executive-employment.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:49.562619+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/b93dc9a0-a2f2-43fe-b862-a20cf4968370/download/lclhn-executive-employment.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/b93dc9a0-a2f2-43fe-b862-a20cf4968370/download/lclhn-executive-employment.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.862
+    },
+    {
+      "resource_id": "50a32504-6024-4050-8ea4-a0e6b1be210d",
+      "url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/50a32504-6024-4050-8ea4-a0e6b1be210d/download/lclhn-consultants.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:50.424580+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/50a32504-6024-4050-8ea4-a0e6b1be210d/download/lclhn-consultants.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/50a32504-6024-4050-8ea4-a0e6b1be210d/download/lclhn-consultants.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.786
+    },
+    {
+      "resource_id": "c893fd94-2d9b-49f3-826d-aaad63683eb8",
+      "url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/c893fd94-2d9b-49f3-826d-aaad63683eb8/download/lclhn-contractors.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:51.210961+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/c893fd94-2d9b-49f3-826d-aaad63683eb8/download/lclhn-contractors.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/c893fd94-2d9b-49f3-826d-aaad63683eb8/download/lclhn-contractors.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.784
+    },
+    {
+      "resource_id": "0d3f642f-1c9f-4cd3-9a47-c96d138a8e2e",
+      "url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/0d3f642f-1c9f-4cd3-9a47-c96d138a8e2e/download/lclhn-fraud.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:51.994539+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/0d3f642f-1c9f-4cd3-9a47-c96d138a8e2e/download/lclhn-fraud.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/0d3f642f-1c9f-4cd3-9a47-c96d138a8e2e/download/lclhn-fraud.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.834
+    },
+    {
+      "resource_id": "78ab3b3e-889c-40b8-9f05-2d2c343c2db7",
+      "url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/78ab3b3e-889c-40b8-9f05-2d2c343c2db7/download/lclhn-public-disclosure.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:52.828126+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/78ab3b3e-889c-40b8-9f05-2d2c343c2db7/download/lclhn-public-disclosure.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/78ab3b3e-889c-40b8-9f05-2d2c343c2db7/download/lclhn-public-disclosure.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.82
+    },
+    {
+      "resource_id": "5e7ae0c2-ad79-4392-a66c-f1f353c392b3",
+      "url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/5e7ae0c2-ad79-4392-a66c-f1f353c392b3/download/lclhn-work-health-safety-and-return-to-work-programs.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:53.648036+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/5e7ae0c2-ad79-4392-a66c-f1f353c392b3/download/lclhn-work-health-safety-and-return-to-work-programs.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/5e7ae0c2-ad79-4392-a66c-f1f353c392b3/download/lclhn-work-health-safety-and-return-to-work-programs.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.786
+    },
+    {
+      "resource_id": "5356b49f-f3d9-41ec-bacd-ab5ce0d34b53",
+      "url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/5356b49f-f3d9-41ec-bacd-ab5ce0d34b53/download/lclhn-complaints.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:54.433800+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/5356b49f-f3d9-41ec-bacd-ab5ce0d34b53/download/lclhn-complaints.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/5356b49f-f3d9-41ec-bacd-ab5ce0d34b53/download/lclhn-complaints.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.802
+    },
+    {
+      "resource_id": "c41e0321-eb1c-4b4e-8541-efec2d782fb9",
+      "url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/c41e0321-eb1c-4b4e-8541-efec2d782fb9/download/bordertown-hac-complaints.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:55.235573+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/c41e0321-eb1c-4b4e-8541-efec2d782fb9/download/bordertown-hac-complaints.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/c41e0321-eb1c-4b4e-8541-efec2d782fb9/download/bordertown-hac-complaints.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.8
+    },
+    {
+      "resource_id": "64d2ba15-976e-4f52-9c82-ec7808770362",
+      "url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/64d2ba15-976e-4f52-9c82-ec7808770362/download/bordertown-hac-consultants.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:56.035660+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/64d2ba15-976e-4f52-9c82-ec7808770362/download/bordertown-hac-consultants.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/64d2ba15-976e-4f52-9c82-ec7808770362/download/bordertown-hac-consultants.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.781
+    },
+    {
+      "resource_id": "dd176378-0e3f-48aa-b80b-73e5d9f0ef16",
+      "url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/dd176378-0e3f-48aa-b80b-73e5d9f0ef16/download/bordertown-hac-contractors.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:56.816279+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/dd176378-0e3f-48aa-b80b-73e5d9f0ef16/download/bordertown-hac-contractors.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/dd176378-0e3f-48aa-b80b-73e5d9f0ef16/download/bordertown-hac-contractors.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.792
+    },
+    {
+      "resource_id": "b3d6c76c-b2c5-4cfb-9e05-a69aca9577a1",
+      "url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/b3d6c76c-b2c5-4cfb-9e05-a69aca9577a1/download/bordertown-hac-fraud.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:57.608530+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/b3d6c76c-b2c5-4cfb-9e05-a69aca9577a1/download/bordertown-hac-fraud.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/b3d6c76c-b2c5-4cfb-9e05-a69aca9577a1/download/bordertown-hac-fraud.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.807
+    },
+    {
+      "resource_id": "8bc98155-a8f0-4886-a0b9-ac9baa1dd886",
+      "url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/8bc98155-a8f0-4886-a0b9-ac9baa1dd886/download/bordertown-hac-public-disclosure.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:58.415347+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/8bc98155-a8f0-4886-a0b9-ac9baa1dd886/download/bordertown-hac-public-disclosure.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/27e3f483-df23-4485-8c51-13806275735a/resource/8bc98155-a8f0-4886-a0b9-ac9baa1dd886/download/bordertown-hac-public-disclosure.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.821
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

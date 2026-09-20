@@ -1,0 +1,13 @@
+[
+  {
+    "id": "3c69d0a10e1ccb9708ba7e71cd1109925342ee74a7da23c0e09d9fb0fa2984b3",
+    "run_id": "4eb70b95-c3b4-4619-b928-3e928167a63b",
+    "config_hash": "412bf5d1ce4b7fa0ed190013c502877f16b2d6d3a55ac83ff846039551493da6",
+    "mapping_id": "4eb70b95-c3b4-4619-b928-3e928167a63b:1",
+    "decision": "revision_requested",
+    "reviewer": "local-user",
+    "at": "2026-09-19T10:30:42.230521+00:00",
+    "feedback": "mixed ABN/ACN validation, licence versus entity semantics, and omission of the `International` country sentinel.",
+    "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+  }
+]

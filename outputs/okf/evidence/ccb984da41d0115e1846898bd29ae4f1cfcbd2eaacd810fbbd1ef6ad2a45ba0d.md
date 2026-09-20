@@ -1,0 +1,52 @@
+---
+type: Field Observation
+title: 'entity.status: active'
+description: A source claim, not independent proof of identity.
+generated:
+  by: process:link-lens-exporter-1
+  at: '2026-09-19T12:04:48.337312+00:00'
+tags:
+- evidence
+sources:
+- resource: ../sources/7b8656f9-606d-4337-af29-66b89b2eeefb.md
+---
+
+[Source](../sources/7b8656f9-606d-4337-af29-66b89b2eeefb.md)
+
+```json
+{
+  "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+  "source_record_id": "784354586d46aed5ec5640656c6ef98789687d4efdc0365a76cc6ca05aada4a5",
+  "observed_at": "2026-09-14T14:53:34.014830+00:00",
+  "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+  "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+  "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+  "licence": "Creative Commons Attribution 3.0 Australia",
+  "extractor_version": "extractor-1:394b9c061280955cc4ed49286c529cc4136344f04e884a4c13fa030601f86c75",
+  "field": "entity.status",
+  "value": "active",
+  "source_fields": [
+    "Status"
+  ],
+  "raw_value": [
+    "REGD"
+  ],
+  "raw_locator": {
+    "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+    "sheet": "csv",
+    "row": 1334
+  },
+  "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+  "config_hash": "394b9c061280955cc4ed49286c529cc4136344f04e884a4c13fa030601f86c75",
+  "subject_role": "legal_entity",
+  "source_kind": "company_register",
+  "address_role": "unknown",
+  "confidence": {
+    "source_reliability": 0.96,
+    "field_confidence": 0.9
+  },
+  "confidence_kind": "uncalibrated mapping/source judgements",
+  "derivation_level": "L1",
+  "id": "ccb984da41d0115e1846898bd29ae4f1cfcbd2eaacd810fbbd1ef6ad2a45ba0d"
+}
+```

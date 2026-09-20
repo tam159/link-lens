@@ -1,0 +1,51 @@
+{
+  "dataset_id": "077b0e65-77c0-4548-97f9-a65332ea6e7a",
+  "attempts": [
+    {
+      "resource_id": "1d6fffd3-dd5c-4a1d-9db6-21bf1b0bb448",
+      "url": "https://data.gov.au/data/dataset/077b0e65-77c0-4548-97f9-a65332ea6e7a/resource/1d6fffd3-dd5c-4a1d-9db6-21bf1b0bb448/download/vostronet_australia_pty_ltd_09122021_declaration_lennox.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:49.056027+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/077b0e65-77c0-4548-97f9-a65332ea6e7a/resource/1d6fffd3-dd5c-4a1d-9db6-21bf1b0bb448/download/vostronet_australia_pty_ltd_09122021_declaration_lennox.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 10484,
+      "partial": false,
+      "artifact_id": "9f4dac283587dc1962937d14975c3d24b4a6d4ae45cd23c0a109753970072034",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Sheet1",
+            "rows": [
+              [
+                "WKT",
+                "Name_of_SIP",
+                "Service_Area",
+                "Service_Area_Identifier",
+                "Contract",
+                "Project_Area",
+                "Network_Infrastructure",
+                "Estimated_Completion_Date"
+              ],
+              [
+                "POLYGON((151.00310015896252 -33.81124031218866,151.00308701570594 -33.811304804496636,151.0033403134462 -33.81151766645441,151.00333151155306 -33.811555197509364,151.003519550522 -33.8115493247149,151.0035308244375 -33.81146955101238,151.00362862111996 -33.811468605472236,151.003664961439 -33.811392740239405,151.00382017758164 -33.811410759923895,151.00394488339504 -33.81106572007563,151.00396995702386 -33.81102417014331,151.00403930798154 -33.811025447062725,151.00413760027755 -33.811062597086305,151.00424125699155 -33.811093061338724,151.0043671630301 -33.81082533042245,151.00415481197098 -33.810833003686994,151.00368604554 -33.81085392978431,151.00357724855508 -33.81086863534033,151.00347983467435 -33.810910871240225,151.0032605655 -33.8110384922961,151.003219614882 -33.8111334517996,151.003157579159 -33.8111940480888,151.00310015896252 -33.81124031218866))",
+                "VostroNet (Australia) Pty Ltd",
+                "Nominated Service Area",
+                "VPO336",
+                "Completed",
+                "The Lennox, 12 Phillip St, Parramatta NSW 2150",
+                "FTTP",
+                "N/A"
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 0.588
+    }
+  ],
+  "status": "available",
+  "resource_id": "1d6fffd3-dd5c-4a1d-9db6-21bf1b0bb448",
+  "policy_version": "download-preflight-3"
+}

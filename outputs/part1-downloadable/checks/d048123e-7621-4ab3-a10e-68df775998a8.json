@@ -1,0 +1,35 @@
+{
+  "dataset_id": "d048123e-7621-4ab3-a10e-68df775998a8",
+  "attempts": [
+    {
+      "resource_id": "5e00a587-74d8-4ac2-bbcd-588b61320f99",
+      "url": "https://www.data.qld.gov.au/dataset/d048123e-7621-4ab3-a10e-68df775998a8/resource/5e00a587-74d8-4ac2-bbcd-588b61320f99/download/dtesb-q3-1516.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:56:48.818907+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/d048123e-7621-4ab3-a10e-68df775998a8/resource/5e00a587-74d8-4ac2-bbcd-588b61320f99/download/dtesb-q3-1516.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.106
+    },
+    {
+      "resource_id": "5c700b5f-18d4-4c0a-84b4-981887bc1fe6",
+      "url": "https://www.data.qld.gov.au/dataset/d048123e-7621-4ab3-a10e-68df775998a8/resource/5c700b5f-18d4-4c0a-84b4-981887bc1fe6/download/dtesb-q4-1516.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:56:48.925384+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/d048123e-7621-4ab3-a10e-68df775998a8/resource/5c700b5f-18d4-4c0a-84b4-981887bc1fe6/download/dtesb-q4-1516.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.13
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

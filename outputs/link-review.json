@@ -1,0 +1,2410 @@
+{
+  "kind": "links",
+  "batch_id": "fa5523f0-7d5a-41d2-af42-59e6362e3046",
+  "seed": 159,
+  "sampling": "Seeded simple random sample without replacement",
+  "threshold": 0.99,
+  "items": [
+    {
+      "item_id": "aaeabe80ca539b14acb0cedc228a1ab95c21badf3c0f712890bcebe585120e40",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "cc0640eec764bac181929390ec011c622aca2f7af2ed155c259dcd464faada87"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "863774e5c18f87ca107cd496c8539758789767bf4df393fc9569048c5a757ee2"
+        ],
+        "canonical_entity_key": "2053a6f0-d2de-5da4-bff4-777df3c49350",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "19000871330",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "STOCKWELL INTERNATIONAL PTY LTD",
+            "STOCKWELL INTERNATIONAL PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 17207
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 3501
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "aaeabe80ca539b14acb0cedc228a1ab95c21badf3c0f712890bcebe585120e40"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "3efea9e4661a149f8982334ae9cf667b39ceb892d560a07dad1e7b0c35bdef10",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "7d2dc2c8bd941604406f65cf11051f1a108986c30b03cdfa5163b5178c7eeab4"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "57dd4031e6480c99c0dbe8b0b899fabb8574bcd46871f3409cf1ef0e15ab72b8"
+        ],
+        "canonical_entity_key": "25fd80bb-95cd-5e43-b3ea-6d2b8bc9686a",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "98000101315",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "SELL & PARKER PTY LTD",
+            "SELL & PARKER PTY LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 2634
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 3302
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "3efea9e4661a149f8982334ae9cf667b39ceb892d560a07dad1e7b0c35bdef10"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "ddd4784c0b3d62094a6c6593e4c5b1bfa4f42cd692630b29a6b1fbb0e7fec996",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "8e9ffef7d3e10541383e59edaec57ca93e09db59742735ee1e0df8906f570001"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "8a00abd3ebea219d535763077064ceb9a6531015182961fbf27884d5b439b709"
+        ],
+        "canonical_entity_key": "1494c54f-86ea-5315-bce6-f63cc3882979",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "64000071278",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "RECKITT BENCKISER HEALTHCARE AUSTRALIA PTY LIMITED",
+            "RECKITT BENCKISER HEALTHCARE AUSTRALIA PTY LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 2005
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 3088
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "ddd4784c0b3d62094a6c6593e4c5b1bfa4f42cd692630b29a6b1fbb0e7fec996"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "b293dbba4e3dc114b1ae5079f9cb9dbaabafb7dcf561e7371498498aa3e78104",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "89c8b16e1015c5d724354690cdaf6722f2d23e605dad0a068fac9a44eeff7c57"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "45cb5e7e3efbdc1c92750175342716232042a0219d8da620705e71ba15929e11"
+        ],
+        "canonical_entity_key": "194c0ad8-3623-5a93-bed1-63374f375a81",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "84000746109",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "NTI LIMITED",
+            "NTI LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 14748
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 2685
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "b293dbba4e3dc114b1ae5079f9cb9dbaabafb7dcf561e7371498498aa3e78104"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "5bdc53955cee6519c6bbfce7a56202999106fb2932827da95c41941b1d85103e",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "41880d921bdeeabe1b2525c0a5b3634f07afe13a03d014ff21ddf603a6bda484"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "3a3c55b00628374ad46318236f6aea413b220da3a599492599ece85c2b2c36d0"
+        ],
+        "canonical_entity_key": "06fc2dd1-5f98-561b-8c34-726ed51a056a",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "79000124363",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "REFORM MOVEMENT PTY LTD                                                                             ",
+            "Reform Movement Pty Ltd"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 3034
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 17067
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "5bdc53955cee6519c6bbfce7a56202999106fb2932827da95c41941b1d85103e"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "bc80c60f585900a79662ce1af4ff53ab1d96d776ca893a6467326fea13f15f9f",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "076ca20f588d55e9d5fe026dc05b8dcb47fa2f7c1bf4b27f3949ce419a991bd3"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "1a0ab29beb6e4e14d8c71ead721441b5a3821b94722a8231bca59a4c5c5474b6"
+        ],
+        "canonical_entity_key": "047abc73-212f-5176-a514-fbc5ebfc14ef",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "88000014675",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "WOOLWORTHS GROUP LIMITED",
+            "WOOLWORTHS GROUP LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 654
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 4045
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "bc80c60f585900a79662ce1af4ff53ab1d96d776ca893a6467326fea13f15f9f"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "4d01aaf979741344b980aebbdca7fb3abcb927d9a033299ba59d748efb5391a9",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "2cc0037cd4c1aa024373d7b1884544ff2a54d2838b6e38c38dfd26ae625d21cd"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "e2b2e37f01150c30efdc27a990a36a68d14eb9fed388264baeb9a80190bc7cfa"
+        ],
+        "canonical_entity_key": "139173cb-a3f7-591f-932e-7a8108ec2338",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "62000172967",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "DAIKIN AUSTRALIA PTY LTD",
+            "DAIKIN AUSTRALIA PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 4011
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 1084
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "4d01aaf979741344b980aebbdca7fb3abcb927d9a033299ba59d748efb5391a9"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "d976ef3046d0172e95b766806698c190aea877ee7c0fc92160117b8b4c87325c",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "8895f249ba2819224e32a79412a04f68d358e04ceff87c32d8a7a42f3266d3b6"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "f683473162f08353dea0d3a4f1ac1af22b75730d9742119c0fe3142063dbb3ce"
+        ],
+        "canonical_entity_key": "0f4675bc-813b-5703-a38e-e562fbb287ea",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "44000537333",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "SCANIA AUSTRALIA PTY. LIMITED",
+            "SCANIA AUSTRALIA PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 10708
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 3260
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "d976ef3046d0172e95b766806698c190aea877ee7c0fc92160117b8b4c87325c"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "e7edb39a550cbfd2bc9258e090f3d72527225b6203ccdd8aae043e262dfc041a",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "81713ed62f78ff4a7bd243a31f1cdb96450ecc7523aa65872ad67e04ee2ab281"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "29cb86d08f2d24e56f1212d55c16a285421d8f7169c6f2f4ad156578d0f2cd45"
+        ],
+        "canonical_entity_key": "138c9492-c684-5015-8665-a9ba5944aff4",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "86001217527",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "NEC AUSTRALIA PTY LTD",
+            "NEC AUSTRALIA PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 24346
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 2590
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "e7edb39a550cbfd2bc9258e090f3d72527225b6203ccdd8aae043e262dfc041a"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "18a489a203c59c1509b56b2747b803606067b38ad65e31743d97e7b9626d4175",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "68d78c5858f7dca6f48a50fd32ce3624c85dd852a99bc94600ac080187778e71"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "d5d991ed4f2df3bd6fa68a90ef20a05c0859b923fd8f213f13ffd771f657076b"
+        ],
+        "canonical_entity_key": "010b4082-ba85-5669-b8f0-f921e9da5525",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "22000138714",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "BAYER AUSTRALIA LTD",
+            "BAYER AUSTRALIA LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 3316
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 538
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "18a489a203c59c1509b56b2747b803606067b38ad65e31743d97e7b9626d4175"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "bc58e91f2fb1635dd54f71ddb081fc18c307d1011d9632ab655c2e0267254c91",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "cc7226a84a89957a2ddde791f6f20a1beb05cbaa94d74233d2526242080da6e3"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "2e61535f5cf901748874fbc27ca2b30afa5f1d27deded77d156066d02c2db27b"
+        ],
+        "canonical_entity_key": "290d9e62-be3e-5edd-8627-f187502279a9",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "18000383764",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "HONEYWELL HOLDINGS PTY LTD",
+            "HONEYWELL HOLDINGS PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 7893
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 1803
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "bc58e91f2fb1635dd54f71ddb081fc18c307d1011d9632ab655c2e0267254c91"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "a77fb74247e527e76abe14d10512c1ffbee134b8dedb3744ade52a2255ccbcbe",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "495079e6abf48bd1bac3e02d2ef06ab78d42261868548f180c6599f0d51cc6cd"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "4397c52aa70a906326d9ea83eb735268515549f9b53188ecd5d9258d166f5b5d"
+        ],
+        "canonical_entity_key": "26623479-50c0-535f-8a3f-27b6c201f020",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "70001220631",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "THE ORDER OF ST LUKE THE PHYSICIAN IN AUSTRALIA                                                     ",
+            "The Order Of St Luke The Physician In Australia"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 24414
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 24830
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "a77fb74247e527e76abe14d10512c1ffbee134b8dedb3744ade52a2255ccbcbe"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "18afd0e5d3660ddce17e861f7af057c3a32924fe592a95ee62c868ca2b11140e",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "06be375d3f8bc04bc0a9bb2f432dc6ba41d564ec5578002eac0177845b13a6b7"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "016f749ab252a442dd88ce02b88673565166b188c281906feb949d3c6e5e47f2"
+        ],
+        "canonical_entity_key": "47c0f40c-08e6-536d-bf36-0c3e289e91ba",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "44000330772",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "ARKEMA PTY LTD",
+            "ARKEMA PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 6971
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 303
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "18afd0e5d3660ddce17e861f7af057c3a32924fe592a95ee62c868ca2b11140e"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "6184912159956e0e522c8c45efa38f7be31eca02eb2390d2a034f1b1b0d45fa4",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "f1e00036312d0eb0c5166c599746a0a6b70a3d3a1197d365e83bedc2b0b3fcf8"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "bd03274233fc49c614785f86acefcd80f87d7c4e65765c9e411057955332f01a"
+        ],
+        "canonical_entity_key": "140a57a2-347c-5d3a-84dd-9f72bbc461c0",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "73000004893",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "W.H. MCCARTHY PTY LTD",
+            "WH MCCARTHY PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 231
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 3998
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "6184912159956e0e522c8c45efa38f7be31eca02eb2390d2a034f1b1b0d45fa4"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "da1ecb4b4937f98ab8e82f64dddc5001e25168ccf1de508f3ca1c378e9386a05",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "af0e1730829aa0ea015354cf58949413bffc67ca862a0266844889313cc80e8c"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "3aa1cedb40600d4d9842cf552592e8ca1cc828b39d40e402c7d99c4af43bfeb7"
+        ],
+        "canonical_entity_key": "133f4f75-d4bf-54ec-a2b1-36935ea1ebe5",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "22000638559",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "UKRAINIAN AUTOCEPHALIC ORTHODOX CHURCH IN AUSTRALIA AND NEW ZEALAND                                 ",
+            "Ukrainian Autocephalic Orthodox Church In Australia And New Zealand"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 12647
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 17136
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "da1ecb4b4937f98ab8e82f64dddc5001e25168ccf1de508f3ca1c378e9386a05"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "56d7929081114757102c4ad64c6a4869bb7ebcad7a6943b3ec0fb41a2f14ea76",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "81f662a30b0dec7e6cef2dd35d28f86e56b01d3779f2fa71c7f1e448a3799623"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "b416762438c31c058deb5170b2a009a7a966b972dd6c3ce35216303c40aabe2c"
+        ],
+        "canonical_entity_key": "111707d7-536d-5903-8d71-ce882b95db02",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "29000145657",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "DANA AUSTRALIA (HOLDINGS) PTY LTD",
+            "DANA AUSTRALIA (HOLDINGS) PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 3471
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 1093
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "56d7929081114757102c4ad64c6a4869bb7ebcad7a6943b3ec0fb41a2f14ea76"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "b8c9166433c46d0ce3b436eb122190e8102adf3bbe19423d7a4fc76b56a830d2",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "74e98c1bcfaeae21b397647fbec60e5466155e594ebf8bd7b482ed93ec1db309"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "2da0098c808de990820183b57e5dc1531824c8f0b438e41fc06f367b395348cb"
+        ],
+        "canonical_entity_key": "2550c23d-edb3-5517-bbd2-ba9a8b4fb6ae",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "70000379500",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "B'NAI B'RITH CENTRE (N S W) LTD                                                                     ",
+            "B'nai B'rith Centre (N S W) Ltd"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 7796
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 14246
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "b8c9166433c46d0ce3b436eb122190e8102adf3bbe19423d7a4fc76b56a830d2"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "afb5683acb5d6d35f832acb5fe50b9ecb537df50eb8dbe0bc93fb7c94c2b69a2",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "534cbfe281da0d8c43d82f0622a824c0282010a414c5c429e67db4b76ad5fb84"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "6af1b3d32a5e8d060f9cc3aad4869cc80e38b41e735cb70f69070fe29426060b"
+        ],
+        "canonical_entity_key": "1d638141-4bea-55be-a6c2-0db6f587e652",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "77000060364",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "PET CARE HOLDINGS AUSTRALIA PTY LTD",
+            "PET CARE HOLDINGS AUSTRALIA PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 1799
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 2872
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "afb5683acb5d6d35f832acb5fe50b9ecb537df50eb8dbe0bc93fb7c94c2b69a2"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "681b2c5f1c702f463c2e1fd9379101f661643caaea3dfc61f0d0c98712003218",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "d630ef8a4831cd5d8399a785fc0155a48681e4ac35fa72bee6eaae1514ffcf74"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "96d88242b0185d6a2c2bc89cde0e01bdf8538880ac90645eaf9cd4a719a4c133"
+        ],
+        "canonical_entity_key": "25b71a20-d2d9-53c0-b99e-644680bc0c82",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "36000040308",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "THE LINCOLN ELECTRIC COMPANY (AUSTRALIA) PROPRIETARY LIMITED",
+            "THE LINCOLN ELECTRIC COMPANY (AUSTRALIA) PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 1366
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 3675
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "681b2c5f1c702f463c2e1fd9379101f661643caaea3dfc61f0d0c98712003218"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "6f28915d69354ba2b81ae2702d90a27054976fe6ef57e4cfd5bdb1f4003b5569",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "ec2728e0f095193d3da8a2ae203a2eb27f9cf0b74b28a90df0f45c2d84c788e6"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "8df915af43d219bf5098ae88979c0595b2b7ec8e8928010897c946c043bb04d9"
+        ],
+        "canonical_entity_key": "0dbccfdb-8651-57ff-9072-17d60adc6a85",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "49000698626",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "MERITON PROPERTIES PTY LTD",
+            "MERITON PROPERTIES PTY LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 13802
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 2415
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "6f28915d69354ba2b81ae2702d90a27054976fe6ef57e4cfd5bdb1f4003b5569"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "5f0fd1ba16d047414be842999cb145cad0700d40cfc68ae405e5f4a5b04ba44c",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "05a979f7639e2e710ee84168091b5806f1135874aa6961fd9e0b9cbd063e1af2"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "34fb8c477a75306cecee9379d0e0e2972b0d34531b41ee99101cac4c1aa21f54"
+        ],
+        "canonical_entity_key": "2a269646-a006-5d2a-ba8d-5b146ff2fac1",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "87000064086",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "BROWN-FORMAN AUSTRALIA PTY LIMITED",
+            "BROWN-FORMAN AUSTRALIA PTY LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 1873
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 713
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "5f0fd1ba16d047414be842999cb145cad0700d40cfc68ae405e5f4a5b04ba44c"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "f5d2a54d934394fe2173420a0d99995a3352927f61e1e4262dce1d5a66f9fedb",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "70a42112d827c4967e4dded408fc6381ca0069e172c94518c9b3ff29c9b3a5ae"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "e489475b982dfbb85449ea467132fffb99e54839c766b517f05b9b8812a75215"
+        ],
+        "canonical_entity_key": "21b28109-7d03-582f-b963-877b3c5b4e79",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "48000003976",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "PERRON INVESTMENTS PTY LTD",
+            "PERRON INVESTMENTS PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 191
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 2867
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "f5d2a54d934394fe2173420a0d99995a3352927f61e1e4262dce1d5a66f9fedb"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "34491983fd1753f0a0a5bfc3d67db76c0a1c897de8173f954da1f4038d26ba32",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "e706da4b9a523b85d59b2a8f8b7de1fc5c1f7a40091f7bcb750e2d84c6d5e90d"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "fc585cc8d1c0a2d91933d66e12a2beffc4b6842cc6b198bdcb8ba797ffd0242c"
+        ],
+        "canonical_entity_key": "042fce8e-59f4-5c9b-861b-c2906f4ad943",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "64000862297",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "GREEK YOUNG MATRONS ASSOCIATION",
+            "GREEK YOUNG MATRONS' ASSOCIATION"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 17055
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 5280
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "34491983fd1753f0a0a5bfc3d67db76c0a1c897de8173f954da1f4038d26ba32"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "02885cf5ef0bc1e11bec04f413c51c04ee0e1c7374d2cf9d53d9b4e73f750ce2",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "4269bc8a7ff1f20976b01a9e1d8c211846cd1bc7a9350549734fec00a1540cc3"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "6fdab438e5ca964f2cc7b3b360c9c2d7cc1487921034eb53ca90a5832e86aba9"
+        ],
+        "canonical_entity_key": "19e31bc1-1e89-5116-9bb5-9ae8fcb32b84",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "43000181733",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "STOCKLAND CORPORATION LTD",
+            "STOCKLAND CORPORATION LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 4185
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 3500
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "02885cf5ef0bc1e11bec04f413c51c04ee0e1c7374d2cf9d53d9b4e73f750ce2"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "bc749a8bbf37840a429a6e67fff58e1657df6d02cb0039c22b9db2e75ad9b1de",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "f4b97b6c03a1b20919d9a7e023d756d4e56b8a1f03a235c8efa19e801983a94a"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "3efb02b82e201f44840055d359f850791517fc0d1484cacff69275848e916838"
+        ],
+        "canonical_entity_key": "05e5b3cd-26bc-5953-aa0e-041e30115b72",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "73000580825",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "ROYAL LIFE SAVING SOCIETY OF AUSTRALIA (NEW SOUTH WALES BRANCH)                                     ",
+            "Royal Life Saving Society Of Australia (New South Wales Branch)"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 11531
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 15496
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "bc749a8bbf37840a429a6e67fff58e1657df6d02cb0039c22b9db2e75ad9b1de"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "eaca09ed1f2f3950a7e6b2f6bc4c780c04ac8f8569f39ab33a2bdbcb58147732",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "ca305b5600214e2d0f403477f6a7460d6141d079a32fba107f7bf178a634e2d0"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "1a950f43608de6010bc66f27d2a90885e31679b65ab9125ecac0f6e9ba82827e"
+        ],
+        "canonical_entity_key": "03c330f2-284f-5c2a-801b-3a708a88be48",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "18000473674",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "S&P GLOBAL AUSTRALIA PTY LTD",
+            "S&P GLOBAL AUSTRALIA PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 9546
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 3221
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "eaca09ed1f2f3950a7e6b2f6bc4c780c04ac8f8569f39ab33a2bdbcb58147732"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "32d75dcd4a106eb9f610b9508520b398bd39475903935d23d745b20e8bea741d",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "cf53638581cda9c7df86278867df6bb25b119432fa2766c0ce314590de663959"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "9e928ebaf27871de2d3eec5653e7c49df4cbe4d5b57450988bb166ff1a61e7b1"
+        ],
+        "canonical_entity_key": "0954707c-92c1-5d52-aacb-a1567b11290c",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "92000565579",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "BRISTOW HELICOPTERS AUSTRALIA PTY LTD.",
+            "BRISTOW HELICOPTERS AUSTRALIA PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 11263
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 703
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "32d75dcd4a106eb9f610b9508520b398bd39475903935d23d745b20e8bea741d"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "f2b492d8b7e22d443b5d89a827819654017f31b6f2028560364b04e0bee95a07",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "4d0a7f70182aabb3a0302f3994ef1f3e0be64389359835818e2776cbfc25ebc6"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "a3aeb95090cf8c511f5b30387a9b63a9e63d206fbcfb4c23af8ff626f3fe34f9"
+        ],
+        "canonical_entity_key": "09519064-3119-5357-b0fc-15b0972811c0",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "38001092593",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "SPIRITUAL ASSEMBLY OF THE BAHA'IS OF THE NORTHERN BEACHES LTD                                       ",
+            "Spiritual Assembly Of The Baha'Is Of Northern Beaches Limited"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 21909
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 15469
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "f2b492d8b7e22d443b5d89a827819654017f31b6f2028560364b04e0bee95a07"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "eb5c2fbc5d51ca813cc5708365df67b5ea6a17c84b41a5c9838bfd89188d1f2c",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "87c5662dc5618c4f89e57fa6325b0fec29f336fff1ff99655c055372652672bd"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "f9988507ef538e603fdf122ce5215699ecfae754ae0b0cee7f93003c31248a73"
+        ],
+        "canonical_entity_key": "00fcbdec-ef20-5dd3-bdbf-c9c99c030df3",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "11000614577",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "SCHOLASTIC AUSTRALIA PTY LIMITED",
+            "SCHOLASTIC AUSTRALIA PTY LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 12172
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 3269
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "eb5c2fbc5d51ca813cc5708365df67b5ea6a17c84b41a5c9838bfd89188d1f2c"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "a5075cef63f9cd9ba94497a960aafad8cbbe2048173a550ec2a7149b48e6684e",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "abae2ecfc883cf3ebb5f3b14ecab993909e9ffeefb337cf430dac474c36f643f"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "2729f0a3ab600b47b8eee5f77fe5368583167e856e909afac33e4d01fb1cbf98"
+        ],
+        "canonical_entity_key": "1ec71304-24b2-51da-85ac-240afcb63a3f",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "80000374738",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "CHRISTIAN ENTERPRISES LTD                                                                           ",
+            "Christian Enterprises Ltd"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 7720
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 10672
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "a5075cef63f9cd9ba94497a960aafad8cbbe2048173a550ec2a7149b48e6684e"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "affdd6516f244c7837755b037a02dcba35dd4d0cab5606901ae1df7eddb329e0",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "747c20e37546ced023e7ece3fe380ff76d8b925e7d0cda847bda554c6be0f743"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "a0b9ed777fd17726fc6282e6e4beed4a18e34cbddf9aa0f06f813b4ae7eb03be"
+        ],
+        "canonical_entity_key": "144bfe83-ccd9-52fe-9333-de75997b5180",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "70000519246",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "SYDNEY MARITIME MUSEUM LTD                                                                          ",
+            "Sydney Maritime Museum Ltd"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 10350
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 24751
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "affdd6516f244c7837755b037a02dcba35dd4d0cab5606901ae1df7eddb329e0"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "dcfa0ffa2f21d42c77f13a72616caebc16554afe123837b99ccadbe86202290b",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "2c56a0a3036adf37236d9c0292dde5a515eecf5ba33757211d53113e7d018710"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "aa60e70bca6fb7bb347ebf60e2c663f502861e4b63349d8d40917b15d2b14eaf"
+        ],
+        "canonical_entity_key": "243b7979-7a05-57b8-b731-e084bb54efd3",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "87000655845",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "THE PITTWATER HOUSE SCHOOLS LTD",
+            "The Pittwater House Schools Ltd"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 13030
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 24409
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "dcfa0ffa2f21d42c77f13a72616caebc16554afe123837b99ccadbe86202290b"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "debb4fbfa09ae57a198d868042e3fdff9c329cef3ec5d42dd9872843a4abaa87",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "4c65ceb604728b5f500016904caf2b1ec18a001965a036a99f2102614306d7ee"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "f92e03a914bf49fc7d30ddc08cd922751c6b2b50dfd834c4ab5e0e0c36282038"
+        ],
+        "canonical_entity_key": "106cd646-d0ff-59bb-a85d-edbb028d1b64",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "61000143733",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "RENTOKIL PTY LTD",
+            "RENTOKIL PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 3417
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 3126
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "debb4fbfa09ae57a198d868042e3fdff9c329cef3ec5d42dd9872843a4abaa87"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "2d68930aadc13b33d144454b8262b8e3d329dd1c4d1a3b21f9e2e0f5bffcfedb",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "174b92268e6e9a968ba0e78d0412fd796a6ebd4be4c7fd278a83b4a9bf788b44"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "b8073f6e5867e5f88a39d671518a46bdb8a76614659efef26331328b31fd5a35"
+        ],
+        "canonical_entity_key": "1f5e309a-b843-572f-8d0f-6bf93c7b949a",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "90000061227",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "PANDROL AUSTRALIA PTY LTD",
+            "PANDROL AUSTRALIA PTY LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 1812
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 2803
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "2d68930aadc13b33d144454b8262b8e3d329dd1c4d1a3b21f9e2e0f5bffcfedb"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "c16d81f191ce4fc71ca6135c3d44fed5e17420167627e32bc49f49bd97f0c54d",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "3028bbd41cbba54d006b6eb58aab2aa2bf0a021b97427c06975e8fda4929c02f"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "33035d41bd3a035abdf50c3e10f988ec1197df6d607f9ea0b9e35cfbcc9defe5"
+        ],
+        "canonical_entity_key": "0ee43e66-d41b-5c94-ae30-e57c4f03199d",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "66000586096",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "CAPE FLATTERY SILICA MINES PTY LTD",
+            "CAPE FLATTERY SILICA MINES PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 11630
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 777
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "c16d81f191ce4fc71ca6135c3d44fed5e17420167627e32bc49f49bd97f0c54d"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "a12517fb89aa2fd236a32aad7225e7488f6f58f5d0136e72141af613067135f9",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "2db3b8e0ecf3af9efb062bbc7a1e75a89828b79652bafb088b5782d012080063"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "c034004aad36a820d4ad91226ea247a32579a1f79bce1c0ba77f163953dbf0b7"
+        ],
+        "canonical_entity_key": "151c6888-1d78-5c87-8c5a-57ca574e6e89",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "76001193193",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "GEODIS HOLDING AUSTRALIA PTY LTD",
+            "GEODIS HOLDING AUSTRALIA PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 23832
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 1546
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "a12517fb89aa2fd236a32aad7225e7488f6f58f5d0136e72141af613067135f9"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "b4879d178269b2420918688244c3f054ad7d09df96d02e94e5f7f759262bb8bc",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "46c5f0bdf6cc472658ccfd8ee318adeb78f1984a7f7c2e6767acc36de9059cb6"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "9e67e50af88f853609190e2716ba2b98fdd65d81652dacbfbe57d662709cb44f"
+        ],
+        "canonical_entity_key": "29501d61-8371-5a78-98e6-08d5cf1e7f18",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "30000087347",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "ELECTUS DISTRIBUTION PTY. LIMITED",
+            "ELECTUS DISTRIBUTION PTY LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 2325
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 1278
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "b4879d178269b2420918688244c3f054ad7d09df96d02e94e5f7f759262bb8bc"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "296a7b6be241553486617c54c35c23ab2610f6aa48b4b7ca5c37a0476a1d5f33",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "ea4ae4fe2815536c4f59d485e5ad98c93cba9ab09c4a21fc39a3219233f16131"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "51757c89630b2a8a8e40e96d8eeda81cf01c374bba6e76656413abf0cab9ef2a"
+        ],
+        "canonical_entity_key": "1f940eb8-0394-50fb-ac7e-961b90a0762b",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "63000096837",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "SYDNEY INSTITUTE FOR PSYCHO-ANALYSIS",
+            "SYDNEY INSTITUTE FOR PSYCHO-ANALYSIS"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 2555
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 4205
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "296a7b6be241553486617c54c35c23ab2610f6aa48b4b7ca5c37a0476a1d5f33"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "396a5854392080d992a70c6a7344fb4f07c34cd4071a720e9b00064dd66c3452",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "74c0b3695304ebb4c15b26e2b5201f42b2c2515dd11285d8968c6966bc02505f"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "d91f31d4a2209c3e157d1077bcf015c6578695595358b643b67605b7cd074bad"
+        ],
+        "canonical_entity_key": "262e4fc8-4722-5d59-8b9f-78dee65892b6",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "83001214268",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "TRAKNEW HOLDINGS PTY LTD",
+            "TRAKNEW HOLDINGS PTY LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 24230
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 4184
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "396a5854392080d992a70c6a7344fb4f07c34cd4071a720e9b00064dd66c3452"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "c8018f0ab56b2e1a5172edf52f96b30780f003ffef27c4beb2afb1fcd148002e",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "04f6be9393211ece11f891d055240440541279cb32aea6e5d57d21fc844a2392"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "f473da20f194f1c0e16c0c06d6f948df89c73e60cc1b1a2ba5dbc5652114ea4c"
+        ],
+        "canonical_entity_key": "0d58080a-250d-5a65-97c8-6048781bd932",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "35000689216",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "ALKANE RESOURCES LTD",
+            "ALKANE RESOURCES LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 13562
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 181
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "c8018f0ab56b2e1a5172edf52f96b30780f003ffef27c4beb2afb1fcd148002e"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "6a566f06d7ace0f2b13bc478f84981e1a1dc21c35d0e4fd48fa8f4d5f04794f1",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "513fda7e2f04aa8c53d39cb8a1f2c57f1b8c67de58f37fe4c6bd29b7174aae8d"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "b2728f46ff95ecf608abd2bf157fcc6e6838843878a2aed092ff6e5de98a200e"
+        ],
+        "canonical_entity_key": "28ffcc9b-75b5-5c8d-b614-d0f0bc604143",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "12000964081",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "KINMA LIMITED                                                                                       ",
+            "Kinma Limited"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 19110
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 19507
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "6a566f06d7ace0f2b13bc478f84981e1a1dc21c35d0e4fd48fa8f4d5f04794f1"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "50d3e6eecf6c287d180bde73571589db868cf158f669fc528c36a8b310069d17",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "b188127bb68f225f7b40743411cebd960291ce049b2c9d6c6a38449f3404c6fd"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "1f542fd334ac774dd8c7b4e89f7562a0bd4af6ee75b6642816a06058e8adaa32"
+        ],
+        "canonical_entity_key": "078b091b-0fae-51bc-89cf-765a0dfe2483",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "11001209490",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "THE KILLARNEY SCHOOL LTD",
+            "THE KILLARNEY SCHOOL LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 24151
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 1829
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "50d3e6eecf6c287d180bde73571589db868cf158f669fc528c36a8b310069d17"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "2a6846b34305d20b335090231678ec05e1fce0ecba44c551d0705ebb4b65e3ea",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "075fb4f54a1b4afcd500c9e83a8ccaba06fd2917e994c154f5264f42611aa876"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "02d6cfb853af7ddcbe286af61186872fd01b6675ea088ee2757a606503d6231c"
+        ],
+        "canonical_entity_key": "19ea8cfc-8f9e-5f2c-b665-366f8b0b6f2c",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "87302064152",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "THE NORTHCOTT SOCIETY LIMITED",
+            "The Northcott Society"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 907
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 24682
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "2a6846b34305d20b335090231678ec05e1fce0ecba44c551d0705ebb4b65e3ea"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "3a7a64c2ac1c67b5bf270df356b1ae9b9b9dc9cf50cc43fdcf3ae716f07d5bfd",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "8898bd0bca2be74b3e11ff2e4a36eae3df716324d79f29bdf538d46a57cde704"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "bf9714611a89b51aafbcec98c15cb38868f156c00affbf0c5358bd3919100f5f"
+        ],
+        "canonical_entity_key": "11ca59ea-b26a-5abd-b03d-ba379da06ae9",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "68000509517",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "FAR EAST BROADCASTING CO (AUSTRALIA)                                                                ",
+            "Far East Broadcasting Co (Australia)"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 10171
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 20197
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "3a7a64c2ac1c67b5bf270df356b1ae9b9b9dc9cf50cc43fdcf3ae716f07d5bfd"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "f220d5b8a3cd2d450f71ff47e41cdd61b853bfdd8c5dc0ab351ca0a548549f5c",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "e75a2cb01c869aba4801f8c6d29fc7a5c16898951b14ad231d92a0a2717817c4"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "a25f8cb952e53293cec029df3610ddb9f33c90baa8f948cff9fcdc77e199bb42"
+        ],
+        "canonical_entity_key": "22eec5b2-6065-52e8-a8be-1dc5c136097b",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "47000426808",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "BAIADA PTY LTD",
+            "BAIADA PTY LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 8677
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 498
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "f220d5b8a3cd2d450f71ff47e41cdd61b853bfdd8c5dc0ab351ca0a548549f5c"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "db48beead790516708b92390284371be409e52a88d6225d7d08ab8e7c4135444",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "c980d72bca804fc1b8a02ab86ed867a4f48dd280e45c96e4e69ea4d81e1b81b5"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "7a36aaf22c878fbca07f2e0d97ed4c77d14f8e73f2b5696afa3545b3a6d3afff"
+        ],
+        "canonical_entity_key": "093a1f03-2f2f-5e74-a158-90d3bb14d701",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "26000048886",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "CHURCH MISSIONARY SOCIETY TRUST LTD                                                                 ",
+            "Church Missionary Society Trust Ltd"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 1545
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 7669
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "db48beead790516708b92390284371be409e52a88d6225d7d08ab8e7c4135444"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "faa4fac9bd01eda6abeb7c4081cec42789a7604d9bfbbc586000898e8a10efc9",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "cf26382c35e37a9647bb3a4889706067aa6d9efde270c42785f806b7a6b8b7a1"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "3389e9fec949341c1781130634aa9ecd88535bee7ae04a569ff3ee39c483e313"
+        ],
+        "canonical_entity_key": "265c1fff-d4b4-580e-86fa-080405fdc017",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "75000074573",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "DAVID JONES PTY LIMITED",
+            "DAVID JONES PTY LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 2076
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 1109
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "faa4fac9bd01eda6abeb7c4081cec42789a7604d9bfbbc586000898e8a10efc9"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "7eb9d7871439edc3e2b1f850c887177d0f714aec183c7b613fd615fbdc2537fa",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "9e5dca216b305706477b5dcb39bd7ce7e669f9a8e558fadc79c043d1d0b42f43"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "64fc781bdedb2291bc08583b3210c30a31769e7e7dae05a0c26fae5afcb73b4e"
+        ],
+        "canonical_entity_key": "0c097270-2b3b-5c3b-b5dd-67496b0cc236",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "41000565739",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "LEGRAND GROUP PTY LTD",
+            "LEGRAND GROUP PTY LIMITED"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 11275
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 2180
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "7eb9d7871439edc3e2b1f850c887177d0f714aec183c7b613fd615fbdc2537fa"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "cbc035422568654b7c59d739eedd476e5d16683e34e38f13a583481c574a67d4",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "939547d24ba4fc5c735f11be06a7b9afe1799fa2432befa167989e47b6bb0151"
+        ],
+        "source_b_record": [
+          "c2524c87-cea4-4636-acac-599a82048a26",
+          "07ca3278bb431fd695a05c98af86004bba8c3b0776d812c05437246192a9c257"
+        ],
+        "canonical_entity_key": "220c59d5-6646-5d56-a090-143c92900459",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "40000805425",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "J.J. RICHARDS & SONS PTY LTD",
+            "J.J. RICHARDS & SONS PTY LTD"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 15946
+            },
+            {
+              "snapshot_sha": "6b47837efab92e1eb2b0cacc46945376a5b185c1b16814146c3282a1921b0c75",
+              "sheet": "Income tax details",
+              "row": 1973
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "cbc035422568654b7c59d739eedd476e5d16683e34e38f13a583481c574a67d4"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    },
+    {
+      "item_id": "4ca0a09c9406835641c94248927680ffdd06fdc0074da307246e19c59bdce1f0",
+      "evidence_to_review": {
+        "source_a_record": [
+          "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "bf9de46149f57b7217302a45f8bf88307bd9038b688e543ff7de9d042e4a854a"
+        ],
+        "source_b_record": [
+          "b050b242-4487-4306-abf5-07ca073e5594",
+          "1f40fc1465e881a932791569601cabef7b84eaeea6cb1dabc4094b0e1143366d"
+        ],
+        "canonical_entity_key": "00598347-568b-598d-ad21-0d49bd170781",
+        "confidence": 0.99,
+        "confidence_kind": "uncalibrated rule score",
+        "threshold": 0.99,
+        "evidence": {
+          "rule": "exact_validated_identifier",
+          "identifier_type": "entity.abn",
+          "identifier": "34000223807",
+          "subject_roles": [
+            "legal_entity",
+            "legal_entity"
+          ],
+          "labels": [
+            "THE ROYAL AUSTRALIAN COLLEGE OF GENERAL PRACTITIONERS LIMITED                                       ",
+            "The Royal Australian College Of General Practitioners Ltd"
+          ],
+          "raw_locators": [
+            {
+              "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+              "sheet": "csv",
+              "row": 5067
+            },
+            {
+              "snapshot_sha": "d1c52aee8a24ed76a2897c2c43c2b4b7beda7465449a5401249a0a5defa4a8aa",
+              "sheet": "csv",
+              "row": 17255
+            }
+          ]
+        },
+        "rule_version": "identifier-evidence-1",
+        "status": "proposed_unreviewed",
+        "id": "4ca0a09c9406835641c94248927680ffdd06fdc0074da307246e19c59bdce1f0"
+      },
+      "verdict": "",
+      "reviewer": "",
+      "evidence": ""
+    }
+  ],
+  "id": "21d268ce79911ad6484046fd15129477f60fbecb096fe6a4fba16654e5269233"
+}

@@ -1,0 +1,16 @@
+{
+  "dataset_id": "b1dd2266-3e63-4238-a5e0-5c9c8b44f24d",
+  "attempts": [
+    {
+      "resource_id": "5634a649-e01e-41cf-b15b-b777e8b4ecc7",
+      "url": "https://www.dptiapps.com.au/dataportal/AquacultureLeasesAndLicences_geojson.zip",
+      "format": "json",
+      "checked_at": "2026-09-19T13:56:46.096490+00:00",
+      "status": "unavailable",
+      "error": "ValueError: Resource must be on a government domain",
+      "wall_seconds": 0.0
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

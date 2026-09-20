@@ -1,0 +1,21 @@
+{
+  "dataset_id": "db947930-2679-4ce5-b020-49db4ad8c8e7",
+  "attempts": [
+    {
+      "resource_id": "d4271564-30fe-4bca-85b1-c5c6363e213d",
+      "url": "https://www.data.qld.gov.au/dataset/db947930-2679-4ce5-b020-49db4ad8c8e7/resource/d4271564-30fe-4bca-85b1-c5c6363e213d/download/contract-disclosure-report-2024-2025-odg.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:56:48.831212+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/db947930-2679-4ce5-b020-49db4ad8c8e7/resource/d4271564-30fe-4bca-85b1-c5c6363e213d/download/contract-disclosure-report-2024-2025-odg.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.094
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

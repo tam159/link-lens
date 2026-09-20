@@ -1,0 +1,24 @@
+[
+  {
+    "id": "f9953faa3d7167c2489d28ee3a99e10c5655a635c507c3a1280a08e65ca33199",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+    "mapping_id": "7c816605-4497-4040-b96d-a8f93580517b:1",
+    "decision": "revision_requested",
+    "reviewer": "local-user",
+    "at": "2026-09-19T10:28:48.706595+00:00",
+    "feedback": " service-site addresses/URLs do not prove legal-entity ownership; omission can be correct.",
+    "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+  },
+  {
+    "id": "3cb4413d1ab939651065bf006f41799667a3bc2e8e61446842a141276fcbbdcf",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+    "mapping_id": "7c816605-4497-4040-b96d-a8f93580517b:2",
+    "decision": "approved",
+    "reviewer": "local-user",
+    "at": "2026-09-19T10:31:39.618530+00:00",
+    "feedback": "",
+    "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+  }
+]

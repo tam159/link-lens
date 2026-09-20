@@ -1,0 +1,59 @@
+{
+  "dataset_id": "fac8c9a4-03d5-44c6-9a9e-bb81085b0a44",
+  "attempts": [
+    {
+      "resource_id": "33159533-c2ee-4e11-902d-e2d250e2c84c",
+      "url": "https://www.data.qld.gov.au/dataset/fac8c9a4-03d5-44c6-9a9e-bb81085b0a44/resource/33159533-c2ee-4e11-902d-e2d250e2c84c/download/opendata-discount-offers-20260910170017.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:45.031875+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/fac8c9a4-03d5-44c6-9a9e-bb81085b0a44/resource/33159533-c2ee-4e11-902d-e2d250e2c84c/download/opendata-discount-offers-20260910170017.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.108
+    },
+    {
+      "resource_id": "5da0fa14-33a2-4046-9f94-f96a90819b15",
+      "url": "https://www.data.qld.gov.au/dataset/fac8c9a4-03d5-44c6-9a9e-bb81085b0a44/resource/5da0fa14-33a2-4046-9f94-f96a90819b15/download/opendata-business-venues-20260903170004.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:45.139966+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/fac8c9a4-03d5-44c6-9a9e-bb81085b0a44/resource/5da0fa14-33a2-4046-9f94-f96a90819b15/download/opendata-business-venues-20260903170004.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.102
+    },
+    {
+      "resource_id": "83121792-6d31-4ab0-8510-ff6e01888249",
+      "url": "https://www.families.qld.gov.au/_media/documents/open-data/business-discount-directory.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:45.242395+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://www.families.qld.gov.au/_media/documents/open-data/business-discount-directory.xlsx",
+      "content_type": "text/html; charset=UTF-8",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://www.families.qld.gov.au/_media/documents/open-data/business-discount-directory.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.23
+    },
+    {
+      "resource_id": "1fafd786-151b-4be0-9b87-f511e716178a",
+      "url": "https://www.families.qld.gov.au/_media/documents/open-data/companion-card.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:45.472455+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://www.families.qld.gov.au/_media/documents/open-data/companion-card.xlsx",
+      "content_type": "text/html; charset=UTF-8",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://www.families.qld.gov.au/_media/documents/open-data/companion-card.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.244
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

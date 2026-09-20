@@ -1,0 +1,477 @@
+{
+  "dataset_id": "7d670f88-97e0-45b6-a816-4fb7ab5f2ef2",
+  "attempts": [
+    {
+      "resource_id": "efe0c944-84b4-40cd-9265-fe361d300c6f",
+      "url": "https://data.nsw.gov.au/data/dataset/7d670f88-97e0-45b6-a816-4fb7ab5f2ef2/resource/efe0c944-84b4-40cd-9265-fe361d300c6f/download/construction-category-spend-data-fy15-16.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:45.544256+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.nsw.gov.au/data/dataset/7d670f88-97e0-45b6-a816-4fb7ab5f2ef2/resource/efe0c944-84b4-40cd-9265-fe361d300c6f/download/construction-category-spend-data-fy15-16.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 22684,
+      "partial": false,
+      "artifact_id": "4ca01515c0b44e6d183cf7cdaac188454634e1c9d989b8e68da982bc41539b4c",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Notes",
+            "rows": [
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "Report Name",
+                "Construction Spend Data FY2015-16",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "Explanatory Notes",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "\u00b7\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 This report presents accounts payable (general ledger) spend as collected by Department of Finance, Services & Innovations (DFSI) from over 150 entities of the NSW Government and excludes some small entities, State Owned Corporations, Universities and government entities of other jurisdictions",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "\u00b7\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 As the \u2018custodian\u2019 of the spend data, DFSI is unable to confirm the completeness or accuracy of the payments data received from the entities",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "\u00b7\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 DFSI regularly improves and refreshes how agency payments data are presented; therefore, caution should be exercised when using historical figures previously used.",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "\u00b7\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 Amount displayed is construction category spend only; categorised by nature of the suppliers\u2019 business ",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "\u00b7\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 Spend is consolidated by ABN provided by NSW Government entities; entities with differing ABNs treated as separate vendors",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "\u00b7\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 Spend information represents payments (account payable) reported and made during the 2015-16 financial year.",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "\u00b7\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 Suppliers identified to be Government Entities as well as non-construction in overall nature were excluded.",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "\u00b7\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 Figures excludes GST",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "\u00b7\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 Public-Private-Partnerships(PPPs) are excluded from the Spend data",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "\u00b7\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 Peculiar trading names were reviewed and linked back to Business entity names",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "1. Total Construction Spend",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "2.\u00a0Top 80% of Category Vendors",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "sheet": "Total Spend",
+            "rows": [
+              [
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "1. Total Construction Spend",
+                "",
+                ""
+              ],
+              [
+                "",
+                "Adjusted FY2015/16 Construction Category Spend",
+                "5785431539",
+                ""
+              ],
+              [
+                "",
+                "Approximate Number of Construction Category Vendors (ASIC Organisation Names) supplied / dealt with the NSW Government",
+                "10000",
+                ""
+              ],
+              [
+                "",
+                "Approximate No. of Suppliers Making Up the Top 80% of Spend",
+                "166",
+                ""
+              ],
+              [
+                "",
+                "Cumulative Spend of the Top 80% of Suppliers in Value",
+                "4596336995",
+                ""
+              ]
+            ]
+          },
+          {
+            "sheet": "Top Vendors",
+            "rows": [
+              [
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "2.\u00a0Top 80% of Category Vendors",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "ASIC ABN",
+                "Business Entity Name (ASIC)",
+                "Construction Category Spend Only",
+                ""
+              ],
+              [
+                "",
+                "40000201516",
+                "LENDLEASE ENGINEERING PTY LIMITED ",
+                "391540526",
+                ""
+              ],
+              [
+                "",
+                "46010240758",
+                "Fulton Hogan",
+                "259509489",
+                ""
+              ],
+              [
+                "",
+                "56002625130",
+                "LENDLEASE BUILDING CONTRACTORS PTY LIMITED ",
+                "240087830",
+                ""
+              ],
+              [
+                "",
+                "92646425631",
+                "DOWNER MOUCHEL",
+                "197761798",
+                ""
+              ],
+              [
+                "",
+                "52470484055",
+                "Acciona Ferrovial Joint Venture",
+                "176288184",
+                ""
+              ],
+              [
+                "",
+                "11004282268",
+                "JOHN HOLLAND PTY LTD ",
+                "129634536",
+                ""
+              ],
+              [
+                "",
+                "59010126100",
+                "BMD CONSTRUCTIONS PTY LTD ",
+                "123843524",
+                ""
+              ],
+              [
+                "",
+                "48105493187",
+                "SEYMOUR WHYTE CONSTRUCTIONS PTY LTD",
+                "122234488",
+                ""
+              ],
+              [
+                "",
+                "76000045849",
+                "A.W Edwards",
+                "112881936",
+                ""
+              ],
+              [
+                "",
+                "70000614826",
+                "BORAL CONSTRUCTION MATERIALS LTD",
+                "112287496",
+                ""
+              ],
+              [
+                "",
+                "40604169754",
+                "OHL Construction Pacific Pty Ltd & YORK CIVIL PTY. LTD ",
+                "108117539",
+                ""
+              ],
+              [
+                "",
+                "39112099000",
+                "LAING O'ROURKE AUSTRALIA CONSTRUCTION PTY LTD",
+                "99725244",
+                ""
+              ],
+              [
+                "",
+                "70107007527",
+                "MULTIPLEX CONSTRUCTIONS PTY LTD ",
+                "94786876",
+                ""
+              ],
+              [
+                "",
+                "52674041299",
+                "LAING O'ROURKE AUSTRALIA CONSTRUCTION PTY LTD & PARSONS BRINCKERHOFF AUSTRALIA PTY LIMITED",
+                "86929800",
+                ""
+              ],
+              [
+                "",
+                "33001375266",
+                "RICHARD CROOKES CONSTRUCTIONS PTY. LIMITED",
+                "85093965",
+                ""
+              ],
+              [
+                "",
+                "98000893667",
+                "CPB CONTRACTORS PTY LIMITED ",
+                "84439352",
+                ""
+              ],
+              [
+                "",
+                "29109960652",
+                "Burton Contractors",
+                "83534731",
+                ""
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 1.204
+    }
+  ],
+  "status": "available",
+  "resource_id": "efe0c944-84b4-40cd-9265-fe361d300c6f",
+  "policy_version": "download-preflight-3"
+}

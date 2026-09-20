@@ -1,0 +1,31 @@
+{
+  "dataset_id": "4216c4e5-9588-4963-9764-57243deadc27",
+  "attempts": [
+    {
+      "resource_id": "4c8855bd-0da7-4705-8868-e5f43cdcef90",
+      "url": "http://www.hpw.qld.gov.au/SiteCollectionDocuments/201415AnnualReportBrisbaneHousingCompany.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:55.240826+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://www.hpw.qld.gov.au/SiteCollectionDocuments/201415AnnualReportBrisbaneHousingCompany.xlsx",
+      "content_type": "text/html; charset=UTF-8",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://www.hpw.qld.gov.au/SiteCollectionDocuments/201415AnnualReportBrisbaneHousingCompany.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.436
+    },
+    {
+      "resource_id": "403a699b-146b-4077-b691-a3add4919e9a",
+      "url": "http://www.hpw.qld.gov.au/SiteCollectionDocuments/201415AnnualReportBrisbaneHousingCompanyNotes.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:55.676542+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://www.hpw.qld.gov.au/SiteCollectionDocuments/201415AnnualReportBrisbaneHousingCompanyNotes.xlsx",
+      "content_type": "text/html; charset=UTF-8",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://www.hpw.qld.gov.au/SiteCollectionDocuments/201415AnnualReportBrisbaneHousingCompanyNotes.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.227
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

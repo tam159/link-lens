@@ -1,0 +1,21 @@
+{
+  "dataset_id": "33d1d655-0619-443d-98ce-6478d35c740e",
+  "attempts": [
+    {
+      "resource_id": "710c20da-bf5e-4a5f-89b0-04e4dee55799",
+      "url": "https://www.data.qld.gov.au/dataset/33d1d655-0619-443d-98ce-6478d35c740e/resource/710c20da-bf5e-4a5f-89b0-04e4dee55799/download/contract-disclosure-report-2023-2024-fnho.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:58:06.495623+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/33d1d655-0619-443d-98ce-6478d35c740e/resource/710c20da-bf5e-4a5f-89b0-04e4dee55799/download/contract-disclosure-report-2023-2024-fnho.xlsx",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.107
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

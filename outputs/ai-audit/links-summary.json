@@ -1,0 +1,18 @@
+{
+  "worksheet_id": "7d1794f191a2f3d704117377b3afa5a980e7de1371ccb95746b78eec5f829c4a",
+  "kind": "links",
+  "review_type": "ai_assisted",
+  "sample_size": 52,
+  "sampling": "Census of every proposed link in the overlap-selected batch (52 links); not a population sample",
+  "seed": null,
+  "threshold": 0.99,
+  "assessed": 52,
+  "supported": 52,
+  "not_supported": 0,
+  "unresolved": 0,
+  "resolved_denominator": 52,
+  "support_fraction_on_resolved": 1.0,
+  "negative_fraction_on_resolved": 0.0,
+  "human_requirement_satisfied": false,
+  "limitation": "Assistant evidence audit; not human ground truth or measured human precision. Shared source errors and selection bias remain possible."
+}

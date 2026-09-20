@@ -1,0 +1,417 @@
+{
+  "id": "f2810464-ad88-4896-9022-984951fc7d58:3",
+  "run_id": "f2810464-ad88-4896-9022-984951fc7d58",
+  "version": 3,
+  "config_hash": "45b1183e6417dfb6441ac507659529e7d7b8fd2c52cbf87821bfa751203a07a8",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One row per ACNC-registered charity record, primarily identified by the source ABN; the row describes the charity record, its business address and charity attributes, not separate legal entities for other names.",
+    "subject_role": "legal_entity",
+    "source_kind": "charity_register",
+    "subject_label_field": "Charity_Legal_Name",
+    "address_role": "business",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ACNC Registered Charities User guide, Dec 2024, p. 2 §§6-7: ABN is the charity's Australian Business Number and the field is numeric; exact header ABN and discovery sample 51214424410."
+      },
+      {
+        "source_fields": [
+          "Address_Line_1",
+          "Address_Line_2",
+          "Address_Line_3"
+        ],
+        "canonical_field": "address.full",
+        "transformations": [
+          {
+            "op": "join",
+            "argument": " ",
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.91,
+        "evidence": "ACNC User guide, p. 2 §§12-14: the charity address is its business address and the supplied fields include Address line 1, 2 and 3; exact headers Address_Line_1, Address_Line_2, Address_Line_3 and sample 540 Regency Rd. Blank components are source blanks."
+      },
+      {
+        "source_fields": [
+          "Town_City"
+        ],
+        "canonical_field": "address.locality",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "ACNC User guide, p. 2 §13 lists Town/City among the address fields; exact header Town_City and discovery sample Enfield."
+      },
+      {
+        "source_fields": [
+          "State"
+        ],
+        "canonical_field": "address.state",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "uppercase",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ACNC User guide, p. 2 §13 lists State among the address fields; exact header State and discovery samples SA and VIC."
+      },
+      {
+        "source_fields": [
+          "Postcode"
+        ],
+        "canonical_field": "address.postcode",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "postcode",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "ACNC User guide, p. 2 §13 lists Postcode among the address fields; exact header Postcode and discovery sample 5085. The postcode operation preserves the source string and does not zero-pad damaged values."
+      },
+      {
+        "source_fields": [
+          "Country"
+        ],
+        "canonical_field": "address.country",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "ACNC User guide, p. 2 §13 lists Country among the address fields; exact header Country and discovery sample Australia."
+      },
+      {
+        "source_fields": [
+          "Charity_Website"
+        ],
+        "canonical_field": "entity.website",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "website",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.96,
+        "evidence": "ACNC User guide, p. 2 §15: Charity website contains the supplied website address; exact header Charity_Website and discovery samples https://www.u3ainnernorth.org.au/ and www.spectrum3.org.au."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Charity_Legal_Name",
+        "reason": "The field is documented as a formal charity name (ACNC User guide, p. 2 §§8-9), but no explicit current-name indicator or separately supported current-name field is present in the supplied schema. It is retained as the raw subject_label_field and is not emitted as a current entity.legal_name claim to avoid treating an unsupported or historical name as current."
+      },
+      {
+        "source_field": "Other_Organisation_Names",
+        "reason": "ACNC User guide, p. 2 §§10-11 says this may contain one or more trading names or other names. The source does not establish the role for every value or provide a documented separator for multiple values; left unmapped rather than asserting entity.trading_name."
+      },
+      {
+        "source_field": "Address_Type",
+        "reason": "Source address-type label has no canonical ontology field; address_role=business is based on ACNC User guide, p. 2 §§12-14, without emitting this raw type."
+      },
+      {
+        "source_field": "Registration_Date",
+        "reason": "This is the effective date of registration with the ACNC, not established as legal-entity registration; explicitly not mapped to entity.date_registered. ACNC User guide, p. 2 §§16-17."
+      },
+      {
+        "source_field": "Date_Organisation_Established",
+        "reason": "Organisation establishment date, not legal-entity registration date; no matching ontology field. ACNC User guide, p. 3 §18."
+      },
+      {
+        "source_field": "Charity_Size",
+        "reason": "Charity reporting-size classification based on the latest Annual Information Statement; no ontology field. ACNC User guide, p. 3 §§19-21."
+      },
+      {
+        "source_field": "Number_of_Responsible_Persons",
+        "reason": "Count of board or committee members; no ontology field. ACNC User guide, p. 3 §22."
+      },
+      {
+        "source_field": "Financial_Year_End",
+        "reason": "Charity financial year-end; no ontology field. ACNC User guide, p. 3 §§23-24."
+      },
+      {
+        "source_field": "Operates_in_ACT",
+        "reason": "Operating-location indicator; no ontology field for operating regions. ACNC User guide, p. 4 §§25-26."
+      },
+      {
+        "source_field": "Operates_in_NSW",
+        "reason": "Operating-location indicator; no ontology field for operating regions. ACNC User guide, p. 4 §§25-26."
+      },
+      {
+        "source_field": "Operates_in_NT",
+        "reason": "Operating-location indicator; no ontology field for operating regions. ACNC User guide, p. 4 §§25-26."
+      },
+      {
+        "source_field": "Operates_in_QLD",
+        "reason": "Operating-location indicator; no ontology field for operating regions. ACNC User guide, p. 4 §§25-26."
+      },
+      {
+        "source_field": "Operates_in_SA",
+        "reason": "Operating-location indicator; no ontology field for operating regions. ACNC User guide, p. 4 §§25-26."
+      },
+      {
+        "source_field": "Operates_in_TAS",
+        "reason": "Operating-location indicator; no ontology field for operating regions. ACNC User guide, p. 4 §§25-26."
+      },
+      {
+        "source_field": "Operates_in_VIC",
+        "reason": "Operating-location indicator; no ontology field for operating regions. ACNC User guide, p. 4 §§25-26."
+      },
+      {
+        "source_field": "Operates_in_WA",
+        "reason": "Operating-location indicator; no ontology field for operating regions. ACNC User guide, p. 4 §§25-26."
+      },
+      {
+        "source_field": "Operating_Countries",
+        "reason": "ISO 3166-1 alpha-3 operating-country list, not the address country; no operating-country field. ACNC User guide, p. 4 §§27-28."
+      },
+      {
+        "source_field": "PBI",
+        "reason": "Charity subtype indicator; no ontology field. ACNC User guide, p. 5 §§29-32."
+      },
+      {
+        "source_field": "HPC",
+        "reason": "Charity subtype indicator; no ontology field. ACNC User guide, p. 5 §§29-32."
+      },
+      {
+        "source_field": "Preventing_or_relieving_suffering_of_animals",
+        "reason": "Charity subtype indicator; no ontology field. ACNC User guide, p. 5 §§29-32."
+      },
+      {
+        "source_field": "Advancing_Culture",
+        "reason": "Charity subtype indicator; no ontology field. ACNC User guide, p. 5 §§29-32."
+      },
+      {
+        "source_field": "Advancing_Education",
+        "reason": "Charity subtype indicator; no ontology field. ACNC User guide, p. 5 §§29-32."
+      },
+      {
+        "source_field": "Advancing_Health",
+        "reason": "Charity subtype indicator; no ontology field. ACNC User guide, p. 5 §§29-32."
+      },
+      {
+        "source_field": "Promote_or_oppose_a_change_to_law__government_poll_or_prac",
+        "reason": "Charity subtype indicator; no ontology field. ACNC User guide, p. 5 §§29-32."
+      },
+      {
+        "source_field": "Advancing_natual_environment",
+        "reason": "Charity subtype indicator; source spelling retained; no ontology field. ACNC User guide, p. 5 §§29-32."
+      },
+      {
+        "source_field": "Promoting_or_protecting_human_rights",
+        "reason": "Charity subtype indicator; no ontology field. ACNC User guide, p. 5 §§29-32."
+      },
+      {
+        "source_field": "Purposes_beneficial_to_ther_general_public_and_other_analogous",
+        "reason": "Charity subtype indicator; source spelling retained; no ontology field. ACNC User guide, p. 5 §§29-32."
+      },
+      {
+        "source_field": "Promoting_reconciliation__mutual_respect_and_tolerance",
+        "reason": "Charity subtype indicator; no ontology field. ACNC User guide, p. 5 §§29-32."
+      },
+      {
+        "source_field": "Advancing_Religion",
+        "reason": "Charity subtype indicator; no ontology field. ACNC User guide, p. 5 §§29-32."
+      },
+      {
+        "source_field": "Advancing_social_or_public_welfare",
+        "reason": "Charity subtype indicator; no ontology field. ACNC User guide, p. 5 §§29-32."
+      },
+      {
+        "source_field": "Advancing_security_or_safety_of_Australia_or_Australian_public",
+        "reason": "Charity subtype indicator; no ontology field. ACNC User guide, p. 5 §§29-32."
+      },
+      {
+        "source_field": "Aboriginal_or_TSI",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Adults",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Aged_Persons",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Children",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Communities_Overseas",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Early_Childhood",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Ethnic_Groups",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Families",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Females",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Financially_Disadvantaged",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "LGBTIQA+",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "General_Community_in_Australia",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Males",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Migrants_Refugees_or_Asylum_Seekers",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Other_Beneficiaries",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Other_Charities",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "People_at_risk_of_homelessness",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "People_with_Chronic_Illness",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "People_with_Disabilities",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Pre_Post_Release_Offenders",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Rural_Regional_Remote_Communities",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Unemployed_Person",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Veterans_or_their_families",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Victims_of_crime",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Victims_of_Disasters",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "Youth",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "animals",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "environment",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      },
+      {
+        "source_field": "other_gender_identities",
+        "reason": "Charity beneficiary indicator; no ontology field. ACNC User guide, p. 6 §§33-34."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.93,
+    "limitations": [
+      "The source envelope publication_proxy 2026-09-13T19:00:54.497199 is used as a dataset-level observed_at proxy; no record-level statement timestamp is supplied.",
+      "The dataset is updated weekly and only includes ACNC-registered charities; records or fields may be withheld, so absence is not evidence of nonexistence. ACNC User guide, p. 1 §§2-5.",
+      "Charity_Legal_Name is retained as the raw subject label but is not emitted as entity.legal_name because the supplied schema has no explicit current-name indicator or supported current-name field. Human review is required if the publisher documents such an indicator in the full release.",
+      "Other_Organisation_Names may contain trading names or other names and possibly multiple values; it is intentionally unmapped because role and separator are unsupported.",
+      "Registration_Date is ACNC charity registration, not legal-entity registration; no entity.date_registered, entity.status, entity.entity_type or liquidation claim is inferred.",
+      "No ACN, ARBN, reporting-group, industry-code or legal-entity registration field is supplied; none is inferred. All authority and field-confidence scores are provisional judgements requiring human review.",
+      "The frozen reader and partitions are retained unchanged."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-luna",
+  "created_at": "2026-09-19T09:09:54.120117+00:00",
+  "status": "proposed"
+}

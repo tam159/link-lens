@@ -1,0 +1,49 @@
+{
+  "dataset_id": "a308bc00-694b-4c53-b010-7c0d415953c1",
+  "attempts": [
+    {
+      "resource_id": "01697e0b-a26d-4706-a4b9-aca6aa72841c",
+      "url": "https://www.data.qld.gov.au/dataset/a308bc00-694b-4c53-b010-7c0d415953c1/resource/01697e0b-a26d-4706-a4b9-aca6aa72841c/download/cdsb-contract-disclosure-report-1-november-2024-to-30-june-2025.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:55.541791+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/a308bc00-694b-4c53-b010-7c0d415953c1/resource/01697e0b-a26d-4706-a4b9-aca6aa72841c/download/cdsb-contract-disclosure-report-1-november-2024-to-30-june-2025.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.111
+    },
+    {
+      "resource_id": "a830c8dd-cdae-464b-90f2-6f8d3e04a299",
+      "url": "https://www.data.qld.gov.au/dataset/a308bc00-694b-4c53-b010-7c0d415953c1/resource/a830c8dd-cdae-464b-90f2-6f8d3e04a299/download/cdsb-contract-disclosure-report-1-july-2025-to-30-june-2026.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:55.653232+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/a308bc00-694b-4c53-b010-7c0d415953c1/resource/a830c8dd-cdae-464b-90f2-6f8d3e04a299/download/cdsb-contract-disclosure-report-1-july-2025-to-30-june-2026.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.099
+    },
+    {
+      "resource_id": "3cebe312-2392-421b-97c0-8ae17ea9f669",
+      "url": "https://www.data.qld.gov.au/dataset/a308bc00-694b-4c53-b010-7c0d415953c1/resource/3cebe312-2392-421b-97c0-8ae17ea9f669/download/cdsb-contract-disclosure-report-1-july-2026-to-31-july-2026.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:55.752593+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/a308bc00-694b-4c53-b010-7c0d415953c1/resource/3cebe312-2392-421b-97c0-8ae17ea9f669/download/cdsb-contract-disclosure-report-1-july-2026-to-31-july-2026.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.109
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

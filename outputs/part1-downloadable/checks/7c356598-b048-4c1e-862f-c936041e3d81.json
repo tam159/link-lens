@@ -1,0 +1,188 @@
+{
+  "dataset_id": "7c356598-b048-4c1e-862f-c936041e3d81",
+  "attempts": [
+    {
+      "resource_id": "e9c059c8-a801-4068-844e-9d4ee84a1d81",
+      "url": "https://data.gov.au/data/dataset/7c356598-b048-4c1e-862f-c936041e3d81/resource/e9c059c8-a801-4068-844e-9d4ee84a1d81/download/report-of-information-about-research-and-development-tax-incentive-entities.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:55:53.484213+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/7c356598-b048-4c1e-862f-c936041e3d81/resource/e9c059c8-a801-4068-844e-9d4ee84a1d81/download/report-of-information-about-research-and-development-tax-incentive-entities.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 656173,
+      "partial": false,
+      "artifact_id": "a2a05ddfacba084003daa098dcbfeb8c2c825f1d1eae10026676dbd6744d38cc",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Information",
+            "rows": [
+              [
+                "Research and Development tax transparency: report of data about research and development tax incentive entities"
+              ],
+              [
+                "This annual report contains data about Research and Development (R&D) tax incentive claims reported by companies for the 2022-23 income year. This report also includes amendments from previously published companies, along with information from late lodging companies for the 2021-22 income year that were not available by the cut-off date to produce the 2021-22 report. "
+              ],
+              [
+                "This report is intended to be read in conjunction with guidance material available from the link below which provides context around the data included in this report."
+              ],
+              [
+                "R&D tax incentive transparency reports | Australian Taxation Office (ato.gov.au)"
+              ]
+            ]
+          },
+          {
+            "sheet": "2022-23 Report",
+            "rows": [
+              [
+                "Company name",
+                "ABN/ACN",
+                "Total R&D expenditure (notional deductions less feedstock adjustments) $",
+                "Total amended R&D expenditure (notional deductions less feedstock adjustments) $",
+                "Income Year"
+              ],
+              [
+                "(UI!) THE URBAN INSTITUTE PTY LTD",
+                "95608464535",
+                "449266",
+                "",
+                "2022-23"
+              ],
+              [
+                "@HOME ARCHITECTURE PTY LTD",
+                "53666147271",
+                "70421",
+                "",
+                "2022-23"
+              ],
+              [
+                "@PAY PTY LTD",
+                "87644546770",
+                "1074917",
+                "",
+                "2022-23"
+              ],
+              [
+                "02 FARM PTY LTD",
+                "42656444674",
+                "404507",
+                "",
+                "2022-23"
+              ],
+              [
+                "108 DEV CO PTY LTD",
+                "96659942060",
+                "303491",
+                "",
+                "2022-23"
+              ],
+              [
+                "128 TRADING COMPANY PTY. LTD.",
+                "72606263656",
+                "38481",
+                "",
+                "2022-23"
+              ],
+              [
+                "12D SYNERGY PTY LTD",
+                "92624225421",
+                "148409",
+                "",
+                "2022-23"
+              ],
+              [
+                "12THLEVEL PTY LTD",
+                "46109799171",
+                "396405",
+                "",
+                "2022-23"
+              ],
+              [
+                "1414 DEGREES LIMITED",
+                "57138803620",
+                "3373773",
+                "",
+                "2022-23"
+              ],
+              [
+                "17 ROCKS PTY LTD",
+                "96096408454",
+                "169772",
+                "",
+                "2022-23"
+              ],
+              [
+                "1BILL HOLDINGS PTY LTD",
+                "59642697425",
+                "872623",
+                "",
+                "2022-23"
+              ],
+              [
+                "1BREADCRUMB PTY LTD",
+                "54640134023",
+                "776236",
+                "",
+                "2022-23"
+              ],
+              [
+                "1IT PTY LTD",
+                "36092074247",
+                "122400",
+                "",
+                "2022-23"
+              ],
+              [
+                "1MILLIKELVIN PTY LTD",
+                "55624227765",
+                "268295",
+                "",
+                "2022-23"
+              ],
+              [
+                "1QUESTION PTY LTD",
+                "58643556889",
+                "731829",
+                "",
+                "2022-23"
+              ],
+              [
+                "1ST HEALTH PTY LTD",
+                "658860738",
+                "28805",
+                "",
+                "2022-23"
+              ],
+              [
+                "1-STOP CONNECTIONS PTY LIMITED",
+                "58102573544",
+                "1263019",
+                "",
+                "2022-23"
+              ],
+              [
+                "2 DAM CREATIVE PTY LTD",
+                "27158965729",
+                "510057",
+                "",
+                "2022-23"
+              ],
+              [
+                "2020 SIGHT PTY LTD",
+                "63631846672",
+                "26003",
+                "",
+                "2022-23"
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 1.753
+    }
+  ],
+  "status": "available",
+  "resource_id": "e9c059c8-a801-4068-844e-9d4ee84a1d81",
+  "policy_version": "download-preflight-3"
+}

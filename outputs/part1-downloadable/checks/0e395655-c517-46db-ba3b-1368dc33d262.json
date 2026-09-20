@@ -1,0 +1,63 @@
+{
+  "dataset_id": "0e395655-c517-46db-ba3b-1368dc33d262",
+  "attempts": [
+    {
+      "resource_id": "7efab561-4e12-4122-87f8-bbcdbfb95cfc",
+      "url": "https://www.data.qld.gov.au/dataset/0e395655-c517-46db-ba3b-1368dc33d262/resource/7efab561-4e12-4122-87f8-bbcdbfb95cfc/download/business-basics-round-1-open-data.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:52.422888+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/0e395655-c517-46db-ba3b-1368dc33d262/resource/7efab561-4e12-4122-87f8-bbcdbfb95cfc/download/business-basics-round-1-open-data.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.203
+    },
+    {
+      "resource_id": "e4df7b3b-46af-4dec-bb50-16e6ef24a92c",
+      "url": "https://www.data.qld.gov.au/dataset/0e395655-c517-46db-ba3b-1368dc33d262/resource/e4df7b3b-46af-4dec-bb50-16e6ef24a92c/download/business-basics-round-2-open-data.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:52.625595+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/0e395655-c517-46db-ba3b-1368dc33d262/resource/e4df7b3b-46af-4dec-bb50-16e6ef24a92c/download/business-basics-round-2-open-data.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.1
+    },
+    {
+      "resource_id": "f662f2e5-6b8c-4ea5-bae0-2bd8a0452cfe",
+      "url": "https://www.data.qld.gov.au/dataset/0e395655-c517-46db-ba3b-1368dc33d262/resource/f662f2e5-6b8c-4ea5-bae0-2bd8a0452cfe/download/business-boost-round-1-open-data.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:52.725398+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/0e395655-c517-46db-ba3b-1368dc33d262/resource/f662f2e5-6b8c-4ea5-bae0-2bd8a0452cfe/download/business-boost-round-1-open-data.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.159
+    },
+    {
+      "resource_id": "e8c6f3fe-205e-433d-9df5-03a5441e736e",
+      "url": "https://www.data.qld.gov.au/dataset/0e395655-c517-46db-ba3b-1368dc33d262/resource/e8c6f3fe-205e-433d-9df5-03a5441e736e/download/business-growth-fund-round-3-open-data.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:52.884361+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/0e395655-c517-46db-ba3b-1368dc33d262/resource/e8c6f3fe-205e-433d-9df5-03a5441e736e/download/business-growth-fund-round-3-open-data.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.12
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

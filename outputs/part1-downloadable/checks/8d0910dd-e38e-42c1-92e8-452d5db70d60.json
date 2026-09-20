@@ -1,0 +1,51 @@
+{
+  "dataset_id": "8d0910dd-e38e-42c1-92e8-452d5db70d60",
+  "attempts": [
+    {
+      "resource_id": "d6270a5e-a491-4158-bc5a-fbc2185e7e00",
+      "url": "https://data.gov.au/data/dataset/8d0910dd-e38e-42c1-92e8-452d5db70d60/resource/d6270a5e-a491-4158-bc5a-fbc2185e7e00/download/vostronet_australia_pty_ltd_180522_the_cullinan.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:33.907755+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/8d0910dd-e38e-42c1-92e8-452d5db70d60/resource/d6270a5e-a491-4158-bc5a-fbc2185e7e00/download/vostronet_australia_pty_ltd_180522_the_cullinan.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 10387,
+      "partial": false,
+      "artifact_id": "6a961a4f22588df38852130e005052f1a65562c0d61d5813a0be6da5831d1223",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Sheet1",
+            "rows": [
+              [
+                "WKT",
+                "Name_of_SIP",
+                "Service_Area",
+                "Service_Area_Identifier",
+                "Contract",
+                "Project_Area",
+                "Network_Infrastructure",
+                "Estimated_Completion_Date"
+              ],
+              [
+                "POLYGON ((138.5925261 -34.9262108,138.5925368 -34.9264746,138.5930518 -34.9264593,138.5930411 -34.9261998,138.5925261 -34.9262108))",
+                "VostroNet (Australia) Pty Ltd",
+                "Anticipatory notice",
+                "VPO967",
+                "VostroNet (Australia) Pty Ltd has entered into a real estate development project contract",
+                "The Cullinan, 175-189 Waymouth Street, Adelaide SA 5000",
+                "FTTP",
+                "2023-12-31 00:00:00"
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 1.021
+    }
+  ],
+  "status": "available",
+  "resource_id": "d6270a5e-a491-4158-bc5a-fbc2185e7e00",
+  "policy_version": "download-preflight-3"
+}

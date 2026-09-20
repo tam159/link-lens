@@ -1,0 +1,53 @@
+{
+  "dataset_id": "6917a3a8-a239-4e32-acc4-1d037025a0ff",
+  "attempts": [
+    {
+      "resource_id": "867e586c-88bb-4750-8414-8315c7d92ad3",
+      "url": "https://data.gov.au/data/dataset/6917a3a8-a239-4e32-acc4-1d037025a0ff/resource/867e586c-88bb-4750-8414-8315c7d92ad3/download/netbay_free_wifi_pty_ltd_002_declaration.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:35.027116+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/6917a3a8-a239-4e32-acc4-1d037025a0ff/resource/867e586c-88bb-4750-8414-8315c7d92ad3/download/netbay_free_wifi_pty_ltd_002_declaration.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 9525,
+      "partial": false,
+      "artifact_id": "0a97995a0c088983a7e095bb8224d956b542bb0a42f98e18df0e3b929234cc4c",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Sheet1",
+            "rows": [
+              [
+                "WKT",
+                "Name_of_SIP",
+                "Service_Area",
+                "Service_Area_Identifier",
+                "Contract",
+                "Project_Area",
+                "Network_Infrastructure",
+                "Estimated_Completion_Date",
+                "Contract_Entered_Date"
+              ],
+              [
+                "POLYGON ((145.09599479427058 -37.82589648024287,145.095902063027 -37.826431072715756,145.09606567777692 -37.8264496104836,145.09610082842437 -37.826242336316845,145.09654607512084 -37.826292123581545,145.09660549637596 -37.82596455369836,145.09599479427058 -37.82589648024287))",
+                "Netbay Free WiFi Pty Ltd",
+                "Nominated Service Area",
+                "Netbay_002",
+                "Completed",
+                "352-358 Canterbury Road, Surrey Hills Victoria 3127",
+                "FTTB",
+                "N/A",
+                "N/A"
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 0.673
+    }
+  ],
+  "status": "available",
+  "resource_id": "867e586c-88bb-4750-8414-8315c7d92ad3",
+  "policy_version": "download-preflight-3"
+}

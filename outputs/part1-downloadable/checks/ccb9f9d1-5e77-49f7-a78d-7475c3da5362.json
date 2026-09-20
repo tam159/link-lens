@@ -1,0 +1,949 @@
+{
+  "dataset_id": "ccb9f9d1-5e77-49f7-a78d-7475c3da5362",
+  "attempts": [
+    {
+      "resource_id": "ddf75a39-d948-4faa-8622-a330cf36219b",
+      "url": "https://data.gov.au/data/dataset/ccb9f9d1-5e77-49f7-a78d-7475c3da5362/resource/ddf75a39-d948-4faa-8622-a330cf36219b/download/jmei_allocation-2017-25.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:03.438227+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/ccb9f9d1-5e77-49f7-a78d-7475c3da5362/resource/ddf75a39-d948-4faa-8622-a330cf36219b/download/jmei_allocation-2017-25.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 34828,
+      "partial": false,
+      "artifact_id": "62ae9333abd03ba13d03ba85b427f9294c2ae7b6debf897f71c8ad1191f7a0f0",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "JMEI version",
+            "rows": [
+              [
+                "Junior Minerals Exploration Incentive: allocations of exploration credits"
+              ],
+              [
+                "The Commissioner is required to report the allocation of exploration credits under the Junior Minerals Exploration Incentive (JMEI). \n\nThe JMEI is intended to enable junior greenfields explorers to generate tax credits by choosing to give up a portion of their losses from greenfields mineral exploration expenditure. These tax credits can then be distributed to investors who purchase newly issued shares in that eligible entity.\n\nThis report is our eighth update and lists entities (including their ABN) that have received a determination from the Commissioner allocating exploration credits for the 2017-18 to 2024-25 income years. "
+              ],
+              [
+                ""
+              ],
+              [
+                ""
+              ],
+              [
+                "Where can you find more information?"
+              ],
+              [
+                "www.ato.gov.au/JMEI"
+              ]
+            ]
+          },
+          {
+            "sheet": "2017-18",
+            "rows": [
+              [
+                "Name",
+                "ABN",
+                "Commissioners allocation $"
+              ],
+              [
+                "Alchemy Resources Limited",
+                "17124444122",
+                "206250"
+              ],
+              [
+                "Andromeda Metals Limited",
+                "75061503375",
+                "82500"
+              ],
+              [
+                "Archer Exploration Limited",
+                "64123993233",
+                "270000"
+              ],
+              [
+                "Breaker Resources NL",
+                "87145011178",
+                "750000"
+              ],
+              [
+                "Cassini Resources Limited",
+                "50149789337",
+                "137500"
+              ],
+              [
+                "Core Exploration Limited",
+                "80146287809",
+                "750000"
+              ],
+              [
+                "DevEx Resources Limited",
+                "74009799553",
+                "181500"
+              ],
+              [
+                "Encounter  Resources Limited",
+                "47109815796",
+                "750000"
+              ],
+              [
+                "Hammer Metals Limited",
+                "87095092158",
+                "302500"
+              ],
+              [
+                "Kingston Resources Limited",
+                "44009148529",
+                "412500"
+              ],
+              [
+                "Marmota Limited",
+                "38119270816",
+                "364375"
+              ],
+              [
+                "MAXIMUS Resources Limited",
+                "74111977354",
+                "126500"
+              ],
+              [
+                "Minotaur Exploration Ltd",
+                "35108483601",
+                "377841"
+              ],
+              [
+                "Mithril Resources Ltd",
+                "30099883922",
+                "227796"
+              ],
+              [
+                "Navarre Minerals Limited",
+                "66125140105",
+                "750000"
+              ],
+              [
+                "Northern Cobalt Limited",
+                "99617789732",
+                "275000"
+              ],
+              [
+                "Oakland Gold Pty Ltd",
+                "18142902476",
+                "2750"
+              ],
+              [
+                "Riversgold Ltd",
+                "64617614598",
+                "440000"
+              ],
+              [
+                "Silver City Minerals Ltd",
+                "68130933309",
+                "690000"
+              ]
+            ]
+          },
+          {
+            "sheet": "2018-19",
+            "rows": [
+              [
+                "Name",
+                "ABN",
+                "Commissioners allocation $"
+              ],
+              [
+                "Accelerate Resources Limited",
+                "33617821771",
+                "600000"
+              ],
+              [
+                "Alchemy Resources Limited",
+                "17124444122",
+                "330000"
+              ],
+              [
+                "Alligator Energy Ltd",
+                "79140575604",
+                "467500"
+              ],
+              [
+                "Alloy Resources Limited",
+                "20109361195",
+                "756250"
+              ],
+              [
+                "Apollo Consolidated Limited",
+                "13102084917",
+                "580250"
+              ],
+              [
+                "Archer Exploration Limited",
+                "64123993233",
+                "390000"
+              ],
+              [
+                "Auris Minerals Limited",
+                "77085806284",
+                "825000"
+              ],
+              [
+                "Ballista Resources Limited",
+                "49626158352",
+                "390000"
+              ],
+              [
+                "Black Cat Syndicate Limited",
+                "63620896282",
+                "687500"
+              ],
+              [
+                "Bryah Resources Limited",
+                "59616795245",
+                "550000"
+              ],
+              [
+                "Chalice Gold Mines Limited",
+                "47116648956",
+                "1375000"
+              ],
+              [
+                "Coolabah Minerals Pty Ltd",
+                "91625587555",
+                "1200000"
+              ],
+              [
+                "Core Exploration Limited",
+                "80146287809",
+                "1375000"
+              ],
+              [
+                "Devex Resources Limited",
+                "74009799553",
+                "646250"
+              ],
+              [
+                "Emmerson Resources Limited",
+                "53117086745",
+                "809600"
+              ],
+              [
+                "Encounter  Resources Limited",
+                "47109815796",
+                "1237500"
+              ],
+              [
+                "Estrella Resources Limited",
+                "39151155207",
+                "550000"
+              ],
+              [
+                "Hammer Metals Limited",
+                "87095092158",
+                "275000"
+              ],
+              [
+                "Impact Minerals Ltd",
+                "52119062261",
+                "825000"
+              ]
+            ]
+          },
+          {
+            "sheet": "2019-20",
+            "rows": [
+              [
+                "Name",
+                "ABN",
+                "Commissioners allocation $"
+              ],
+              [
+                "Alchemy Resources Limited",
+                "17124444122",
+                "330000"
+              ],
+              [
+                "Alloy Resources Limited",
+                "20109361195",
+                "275000"
+              ],
+              [
+                "Andromeda Metals Limited",
+                "75061503375",
+                "150000"
+              ],
+              [
+                "Archer Exploration Limited",
+                "64123993233",
+                "300000"
+              ],
+              [
+                "Bardoc Gold Limited",
+                "40125578743",
+                "907500.0000000001"
+              ],
+              [
+                "Black Cat Syndicate Limited",
+                "63620896282",
+                "1500000"
+              ],
+              [
+                "Bryah Resources Limited",
+                "59616795245",
+                "550000"
+              ],
+              [
+                "Carawine Resources Limited",
+                "52611352348",
+                "780000"
+              ],
+              [
+                "Carnaby Resources Limited",
+                "62610855064",
+                "1024575"
+              ],
+              [
+                "Cassini Resources Limited",
+                "50149789337",
+                "220000.00000000003"
+              ],
+              [
+                "Cohiba Minerals Limited",
+                "72149026308",
+                "343750"
+              ],
+              [
+                "Core Lithium Ltd",
+                "80146287809",
+                "1500000"
+              ],
+              [
+                "DevEx Resources Limited",
+                "74009799553",
+                "384229"
+              ],
+              [
+                "Dreadnought Resources Limited",
+                "40119031864",
+                "600000"
+              ],
+              [
+                "Emmerson Resources Limited",
+                "53117086745",
+                "594275"
+              ],
+              [
+                "Estrella Resources Limited",
+                "39151155207",
+                "412500.00000000006"
+              ],
+              [
+                "Gateway Mining Limited",
+                "31008402391",
+                "687500"
+              ],
+              [
+                "Hammer Metals Limited",
+                "87095092158",
+                "481250.00000000006"
+              ],
+              [
+                "Impact Minerals Ltd",
+                "52119062261",
+                "825000.0000000001"
+              ]
+            ]
+          },
+          {
+            "sheet": "2020-21",
+            "rows": [
+              [
+                "Name",
+                "ABN",
+                "Commissioners allocation $"
+              ],
+              [
+                "Accelerate Resources Limited",
+                "33617821771",
+                "450000"
+              ],
+              [
+                "Alloy Resources Limited",
+                "20109361195",
+                "572000"
+              ],
+              [
+                "Archer Materials Limited",
+                "64123993233",
+                "1005000"
+              ],
+              [
+                "Aureus Resources Pty Ltd",
+                "72639679440",
+                "1750000"
+              ],
+              [
+                "Auris Minerals Limited",
+                "77085806284",
+                "325000"
+              ],
+              [
+                "Ausmon Resources Limited",
+                "88134358964",
+                "150000"
+              ],
+              [
+                "Bardoc Gold Limited",
+                "40125578743",
+                "767000"
+              ],
+              [
+                "Battery Minerals Limited",
+                "75152071095",
+                "300000"
+              ],
+              [
+                "Black Cat Syndicate Limited",
+                "63620896282",
+                "1664000"
+              ],
+              [
+                "Bryah Resourcres Limited",
+                "59616795245",
+                "585000"
+              ],
+              [
+                "Cassini Resources Limited",
+                "50149789337",
+                "46264"
+              ],
+              [
+                "Catalyst Metals Limited",
+                "54118912495",
+                "1750000"
+              ],
+              [
+                "Cauldron Energy Limited",
+                "22102912783",
+                "600000"
+              ],
+              [
+                "Chalice Gold Mines Limited",
+                "47116648956",
+                "1750000"
+              ],
+              [
+                "Colonial Goldfields Pty Limited",
+                "64603812997",
+                "124800"
+              ],
+              [
+                "Core Lithium Ltd",
+                "80146287809",
+                "1440000"
+              ],
+              [
+                "Cygnus Gold Ltd",
+                "80609094653",
+                "600000"
+              ],
+              [
+                "Dart Mining NL",
+                "84119904880",
+                "390000"
+              ],
+              [
+                "Devex Resources Limited",
+                "74009799553",
+                "1750000"
+              ]
+            ]
+          },
+          {
+            "sheet": "2021-22",
+            "rows": [
+              [
+                "Name",
+                "ABN",
+                "Commissioners allocation $"
+              ],
+              [
+                "Accelerate Resources Limited",
+                "33617821771",
+                "600000"
+              ],
+              [
+                "Argonaut Resources N.L.",
+                "97008084848",
+                "750000"
+              ],
+              [
+                "Aruma Resources Limited",
+                "77141335364",
+                "550000"
+              ],
+              [
+                "Ausmon Resources Limited",
+                "88134358964",
+                "500000"
+              ],
+              [
+                "Australasian Gold Limited",
+                "54625744907",
+                "375000"
+              ],
+              [
+                "Battery Minerals Limited",
+                "75152071095",
+                "575000"
+              ],
+              [
+                "Black Cat Syndicate Limited",
+                "63620896282",
+                "784613.25"
+              ],
+              [
+                "Carnaby Resources Limited",
+                "62610855064",
+                "625000"
+              ],
+              [
+                "Chalice Mining Limited",
+                "47116648956",
+                "1250000"
+              ],
+              [
+                "Core Lithium Ltd",
+                "80146287809",
+                "1250000"
+              ],
+              [
+                "Dreadnought Resources Ltd",
+                "40119031864",
+                "750000"
+              ],
+              [
+                "Dundas Minerals Pty Ltd",
+                "14640432819",
+                "262500"
+              ],
+              [
+                "Eastern Iron Limited",
+                "70126678037",
+                "120000"
+              ],
+              [
+                "Global Lithium Resources Pty Ltd",
+                "58626093150",
+                "300000"
+              ],
+              [
+                "Great Southern Mining Limited",
+                "37148168825",
+                "625000"
+              ],
+              [
+                "Great Western Exploration Limited",
+                "53123631470",
+                "1200000"
+              ],
+              [
+                "Hannans Ltd",
+                "52099862129",
+                "187500"
+              ],
+              [
+                "Inca Minerals Limited",
+                "36128512907",
+                "356706.75"
+              ],
+              [
+                "Indiana Resources Limited",
+                "67009129560",
+                "1250000"
+              ]
+            ]
+          },
+          {
+            "sheet": "2022-23",
+            "rows": [
+              [
+                "Name",
+                "ABN",
+                "Commissioners allocation $",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Accelerate Resources Limited",
+                "33617821771",
+                "900000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Ausmon Resources Limited",
+                "88134358964",
+                "600000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Australian Rare Earths Limited",
+                "73632645302",
+                "1200000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Black Cat Syndicate Limited",
+                "63620896282",
+                "1250000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Demetallica Pty Ltd",
+                "16061595051",
+                "1005000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Devex Resources Limited",
+                "74009799553",
+                "1250000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "E79 Gold Mines Limited",
+                "34124782038",
+                "900000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Encounter Resources Limited",
+                "47109815796",
+                "1250000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Global Lithium Resources Pty Ltd",
+                "58626093150",
+                "930000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Golden State Mining Limited",
+                "52621105995",
+                "681250",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Great Western Exploration Limited",
+                "53123631470",
+                "1140000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Hamelin Gold Limited",
+                "15650439580",
+                "1250000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Hannans Ltd",
+                "52099862129",
+                "250000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Impact Minerals Limited",
+                "52119062261",
+                "375000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Investigator Resources Ltd",
+                "90115338979",
+                "312500",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Itech Minerals Pty Ltd",
+                "41648219050",
+                "1250000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Kalamazoo Resources Limited",
+                "33150026850",
+                "500000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "King River Resources Limited",
+                "67100714181",
+                "1050000",
+                "",
+                "",
+                ""
+              ],
+              [
+                "Koonenberry Gold Limited",
+                "17619137576",
+                "1250000",
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "sheet": "2023-24",
+            "rows": [
+              [
+                "Name",
+                "ABN",
+                "Commissioners allocation $"
+              ],
+              [
+                "BMG Resources Limited",
+                "96107118678",
+                "750000"
+              ],
+              [
+                "Caspin Resources Limited",
+                "50149789337",
+                "1357500"
+              ],
+              [
+                "Copper Search Limited",
+                "78650673500",
+                "1357500"
+              ],
+              [
+                "Cosmo Metals Limited",
+                "17653132828",
+                "800000"
+              ],
+              [
+                "Devex Resources Limited",
+                "74009799553",
+                "1357500"
+              ],
+              [
+                "Dreadnought Resources Limited",
+                "40119031864",
+                "1357500"
+              ],
+              [
+                "E79 Gold Mines Limited",
+                "34124782038",
+                "1200000"
+              ],
+              [
+                "Encounter Resources Limited",
+                "47109815796",
+                "1250000"
+              ],
+              [
+                "Everest Metals Corporation Ltd",
+                "48119978013",
+                "1357500"
+              ],
+              [
+                "Godolphin Resources Limited",
+                "13633779950",
+                "599489"
+              ],
+              [
+                "Golden State Mining Pty Ltd",
+                "52621105995",
+                "750000"
+              ],
+              [
+                "Great Western Exploration Limited",
+                "53123631470",
+                "1050000"
+              ],
+              [
+                "Hamelin Gold Limited",
+                "15650439580",
+                "375338"
+              ],
+              [
+                "Investigator Resources Ltd",
+                "90115338979",
+                "312500"
+              ],
+              [
+                "iTech Minerals Ltd",
+                "41648219050",
+                "1357500"
+              ],
+              [
+                "King River Resources Limited",
+                "67100714181",
+                "1305000"
+              ],
+              [
+                "Koonenberry Gold Limited",
+                "17619137576",
+                "1260000"
+              ],
+              [
+                "Magmatic Resources Limited",
+                "32615598322",
+                "715500"
+              ],
+              [
+                "Marmota Limited",
+                "38119270816",
+                "875000"
+              ]
+            ]
+          },
+          {
+            "sheet": "2024-25",
+            "rows": [
+              [
+                "Name",
+                "ABN",
+                "Commissioners allocation $"
+              ],
+              [
+                "Ausmon Resources Limited",
+                "88134358964",
+                "600000"
+              ],
+              [
+                "Barton Gold Holdings Limited",
+                "36633442618",
+                "1488500"
+              ],
+              [
+                "Bmg Resources Limited",
+                "96107118678",
+                "364250"
+              ],
+              [
+                "Cosmo Metals Limited",
+                "17653132828",
+                "960000"
+              ],
+              [
+                "Dreadnought Resources Limited",
+                "40119031864",
+                "1488500"
+              ],
+              [
+                "Eastern Metals Ltd",
+                "29643902943",
+                "910750"
+              ],
+              [
+                "Encounter Resources Limited",
+                "47109815796",
+                "1475000"
+              ],
+              [
+                "Errawarra Resources Ltd",
+                "95155472834",
+                "450000"
+              ],
+              [
+                "Everest Metals Corporation Ltd",
+                "48119978013",
+                "1170000"
+              ],
+              [
+                "Godolphin Resources Limited",
+                "13633779950",
+                "600000"
+              ],
+              [
+                "Golden State Mining Limited",
+                "52621105995",
+                "875000"
+              ],
+              [
+                "Great Southern Mining Limited",
+                "37148168825",
+                "1488500"
+              ],
+              [
+                "Great Western Exploration Limited",
+                "53123631470",
+                "1488500"
+              ],
+              [
+                "Hamelin Gold Limited",
+                "15650439580",
+                "1488500"
+              ],
+              [
+                "Inca Minerals Limited",
+                "36128512907",
+                "437500"
+              ],
+              [
+                "Investigator Resources Ltd",
+                "90115338979",
+                "300000"
+              ],
+              [
+                "Itech Minerals Ltd",
+                "41648219050",
+                "1250000"
+              ],
+              [
+                "King River Resources Limited",
+                "67100714181",
+                "1350000"
+              ],
+              [
+                "Koonenberry Gold Limited",
+                "17619137576",
+                "780000"
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 1.379
+    }
+  ],
+  "status": "available",
+  "resource_id": "ddf75a39-d948-4faa-8622-a330cf36219b",
+  "policy_version": "download-preflight-3"
+}

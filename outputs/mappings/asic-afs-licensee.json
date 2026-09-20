@@ -1,0 +1,207 @@
+{
+  "id": "42e0a217-dc32-4078-8309-65098f5a831b:2",
+  "run_id": "42e0a217-dc32-4078-8309-65098f5a831b",
+  "version": 2,
+  "config_hash": "3d423c445dfcac297519623ccdf126e9e108bf77e24693e0d2033a60bc81a0bd",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One row per current Australian Financial Services licence/register entry, stating a licence-holder register label, optional mixed ABN or ACN, licence start date, principal business address components, and licence conditions",
+    "subject_role": "licence_holder",
+    "source_kind": "licence_register",
+    "subject_label_field": "AFS_LIC_NAME",
+    "address_role": "business",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_LOCAL"
+        ],
+        "canonical_field": "address.locality",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "uppercase",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_LOCAL",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.98,
+        "evidence": "ASIC Australian Financial Services Licensee Dataset Help File p.9, exact header AFS_LIC_ADD_LOCAL: locality from the current principal business address of the Australian Financial Services licensee. Discovery CSV row 2 sample: SOUTHBANK."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_STATE"
+        ],
+        "canonical_field": "address.state",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "uppercase",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "NSW": "NSW",
+              "VIC": "VIC",
+              "QLD": "QLD",
+              "WA": "WA",
+              "SA": "SA",
+              "TAS": "TAS",
+              "ACT": "ACT",
+              "NT": "NT"
+            }
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_STATE",
+            "op": "in",
+            "values": [
+              "NSW",
+              "VIC",
+              "QLD",
+              "WA",
+              "SA",
+              "TAS",
+              "ACT",
+              "NT"
+            ],
+            "length": null
+          }
+        ],
+        "confidence": 0.98,
+        "evidence": "ASIC Australian Financial Services Licensee Dataset Help File p.10, exact header AFS_LIC_ADD_STATE: state from the current principal business address. Discovery CSV rows 2-10 sample values include VIC, NSW and WA."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_PCODE"
+        ],
+        "canonical_field": "address.postcode",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "postcode",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_PCODE",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.96,
+        "evidence": "ASIC Australian Financial Services Licensee Dataset Help File p.10, exact header AFS_LIC_ADD_PCODE: postcode from the current principal business address. Discovery CSV row 2 sample: 3006. The p.12 change log states non-Australian addresses display null rather than zero; no zero-padding or repair is applied."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_COUNTRY"
+        ],
+        "canonical_field": "address.country",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_COUNTRY",
+            "op": "not_in",
+            "values": [
+              "",
+              "International"
+            ],
+            "length": null
+          }
+        ],
+        "confidence": 0.97,
+        "evidence": "ASIC Australian Financial Services Licensee Dataset Help File p.10, exact header AFS_LIC_ADD_COUNTRY: country from the principal business address; countries outside Australia are represented by the literal sentinel International, and blanks represent unvalidated addresses. Discovery CSV row 2 sample: Australia."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "REGISTER_NAME",
+        "reason": "ASIC Help File p.8 exact header REGISTER_NAME describes the register classification only. The ontology has no register target; it is not evidence of legal name, entity type, status, or reporting group."
+      },
+      {
+        "source_field": "AFS_LIC_NUM",
+        "reason": "ASIC Help File p.8 exact header AFS_LIC_NUM describes a unique number allocated to the Australian Financial Services licensee. No licence-number target exists, and it must not be treated as an ABN or ACN."
+      },
+      {
+        "source_field": "AFS_LIC_NAME",
+        "reason": "ASIC Help File p.8 exact header AFS_LIC_NAME defines the register entry name, not necessarily a registered legal name or trading name. It is retained as subject_label_field, but no ontology name target is supported without asserting an unsupported legal/trading interpretation."
+      },
+      {
+        "source_field": "AFS_LIC_ABN_ACN",
+        "reason": "ASIC Help File p.8 exact header AFS_LIC_ABN_ACN contains either an ABN or ACN but exposes no row-level type distinction. Checksum/length validation alone cannot establish whether the source stated ABN or ACN, so the mixed identifier is left unmapped rather than misclassified; no ACN is inferred from an ABN suffix."
+      },
+      {
+        "source_field": "AFS_LIC_START_DT",
+        "reason": "ASIC Help File p.8 exact header AFS_LIC_START_DT defines the AFS licence start/issue date. It is not company registration, so it is not mapped to entity.date_registered."
+      },
+      {
+        "source_field": "AFS_LIC_PRE_FSR",
+        "reason": "ASIC Help File p.9 exact header AFS_LIC_PRE_FSR describes superseded pre-FSR register identifiers and licence numbers, including nested tilde-delimited values. No compatible predecessor-licence target exists."
+      },
+      {
+        "source_field": "AFS_LIC_CONDITION",
+        "reason": "ASIC Help File p.11 exact header AFS_LIC_CONDITION describes financial services and products authorised under the licence, with nested tilde-delimited output formats. No compatible licence-condition target exists."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.93,
+    "limitations": [
+      "The Help File p.3 describes a point-in-time snapshot of current Australian Financial Services licensees, but no row-level snapshot timestamp is supplied. Use the supplied publication proxy 2026-09-16T21:52:45.982310 for observed_at under publication_proxy; this is provenance for publication, not a claim of row-change time or exact register snapshot time.",
+      "AFS_LIC_NAME is retained only as the raw subject label for the licence-holder role. It is not mapped to entity.legal_name or entity.trading_name because the documentation calls it a register entry name and does not establish legal/trading-name semantics.",
+      "AFS_LIC_ABN_ACN is a mixed ABN/ACN column without a source type flag. It remains unmapped; identifier checksum validators cannot determine the source-declared type, and no suffix-derived ACN is produced.",
+      "The source describes licence holders and does not establish incorporation, legal entity type, deregistration, branches, trading names, reporting groups, or ownership. No entity.entity_type, entity.status, or entity.date_registered mapping is made. A current licence snapshot does not prove active legal-entity status or deregistration.",
+      "Locality, state, postcode, and country are components of the current principal business address of the licence holder, not a complete street address, branch, service location, or independently resolved entity address. Their subject attachment remains the licence-holder observation.",
+      "The documented International country sentinel and blanks are omitted from canonical country claims. Invalid or unsupported state/postcode values are not repaired or coerced.",
+      "AFS_LIC_START_DT, AFS_LIC_NUM, AFS_LIC_PRE_FSR, and AFS_LIC_CONDITION remain raw source evidence because this ontology subset has no compatible licence fields.",
+      "All authority, source-reliability, and field-confidence values are provisional uncalibrated judgements requiring human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-luna",
+  "created_at": "2026-09-19T10:33:57.899881+00:00",
+  "status": "proposed",
+  "approval_status": "completed",
+  "snapshot_id": "b98b4d1e7d35fba9103f52959e33f369dfae77731f17f96870d3a67573f67f9d"
+}

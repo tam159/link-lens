@@ -1,0 +1,21 @@
+{
+  "dataset_id": "cf3fb933-34a2-4200-9c6e-c806bbc58a1f",
+  "attempts": [
+    {
+      "resource_id": "1cf4cc1d-0699-46c4-ba0a-884f72806ad2",
+      "url": "https://www.data.qld.gov.au/dataset/cf3fb933-34a2-4200-9c6e-c806bbc58a1f/resource/1cf4cc1d-0699-46c4-ba0a-884f72806ad2/download/companies-index-1863-1959-.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:41.836370+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/cf3fb933-34a2-4200-9c6e-c806bbc58a1f/resource/1cf4cc1d-0699-46c4-ba0a-884f72806ad2/download/companies-index-1863-1959-.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.204
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

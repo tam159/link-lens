@@ -1,0 +1,98 @@
+{
+  "id": "dc73418c-f7a4-413d-9639-8d63f48bbb27:2",
+  "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+  "version": 2,
+  "config_hash": "ecb0b5daef0fe0cf8bb71fcdf4d11511df00a8aa462291ae89d9be26e457e9fb",
+  "config": {
+    "reader": {
+      "format": "xlsx",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": "Income tax details",
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One row per corporate tax entity reported in the Income tax details worksheet",
+    "subject_role": "legal_entity",
+    "source_kind": "tax_disclosure",
+    "subject_label_field": "Name",
+    "address_role": "unknown",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "ABN",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.98,
+        "evidence": "Dataset notes state that the reports contain the name and ABN for selected corporate tax entities; exact worksheet header 'ABN' and discovery sample Income tax details row 2 value '94600082111'."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Name",
+        "reason": "The publisher labels this column only 'Name' and supplies no current-name indicator or documentation establishing that it is a current registered legal name or trading name; retain the raw identity label through subject_label_field without emitting a canonical name."
+      },
+      {
+        "source_field": "Total income $",
+        "reason": "Financial measure is not represented in the supplied ontology."
+      },
+      {
+        "source_field": "Taxable income $",
+        "reason": "Financial measure is not represented in the supplied ontology; documented blank/unreportable values must not be converted to zero."
+      },
+      {
+        "source_field": "Tax payable $",
+        "reason": "Financial measure is not represented in the supplied ontology; documented blank/unreportable values must not be converted to zero."
+      },
+      {
+        "source_field": "Income year",
+        "reason": "Reporting period is not represented by the supplied ontology and must not be treated as entity.date_registered or observation time."
+      },
+      {
+        "source_field": "__unnamed_7",
+        "reason": "Empty unnamed column present in the supplied worksheet header; no ontology target."
+      },
+      {
+        "source_field": "__unnamed_8",
+        "reason": "Empty unnamed column present in the supplied worksheet header; no ontology target."
+      },
+      {
+        "source_field": "__unnamed_9",
+        "reason": "Empty unnamed column present in the supplied worksheet header; no ontology target."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.9,
+    "limitations": [
+      "The source envelope supplies publication_proxy '2025-10-01T21:08:09.091363' and licence 'Creative Commons Attribution 3.0 Australia'; no row-level statement timestamp is provided, so publication_proxy is used for observed_at.",
+      "The source documentation describes selected corporate tax entities and does not establish that Name is a current registered legal name; it is retained only as subject_label_field. No historical/current-name indicator is supplied, so no canonical name is emitted.",
+      "This is not a complete company register. Inclusion in a tax-transparency report does not establish active status, deregistration, liquidation, external administration, entity type beyond the source's reporting description, or a registration date.",
+      "The source notes that entity-level data does not reflect actual economic or accounting groupings; no reporting-group or beneficial-owner relationship is inferred.",
+      "Financial measures and Income year remain unmapped because the supplied ontology has no corresponding fields; blank financial cells remain unknown.",
+      "ABN is validated with the declarative abn operation only. No ACN is derived from an ABN suffix, and no status or legal-name claim is emitted.",
+      "All authority, field-confidence, and linking judgements are provisional and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-luna",
+  "created_at": "2026-09-19T09:10:04.308572+00:00",
+  "status": "proposed"
+}

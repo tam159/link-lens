@@ -1,0 +1,51 @@
+{
+  "dataset_id": "8bffe010-63be-4245-941c-c93ca01fa106",
+  "attempts": [
+    {
+      "resource_id": "dc79e24c-5b56-4aab-bdb3-083b366a847a",
+      "url": "https://data.gov.au/data/dataset/8bffe010-63be-4245-941c-c93ca01fa106/resource/dc79e24c-5b56-4aab-bdb3-083b366a847a/download/netbay_free_wifi_pty_ltd_006_declaration.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:19.887506+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/8bffe010-63be-4245-941c-c93ca01fa106/resource/dc79e24c-5b56-4aab-bdb3-083b366a847a/download/netbay_free_wifi_pty_ltd_006_declaration.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 10164,
+      "partial": false,
+      "artifact_id": "06f738192d6738d20c1c41d4240d11e7130aae6d0191b69add561a8c6bc3d623",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Sheet1",
+            "rows": [
+              [
+                "WKT",
+                "Name_of_SIP",
+                "Service_Area",
+                "Service_Area_Identifier",
+                "Contract and date contract signed",
+                "Project_Area",
+                "Network_Infrastructure",
+                "Estimated_Completion_Date"
+              ],
+              [
+                "POLYGON((145.12650157594845 -37.90717669532221,145.12701924228833 -37.90724864887676,145.12695218706295 -37.90756185764735,145.12644256735013 -37.9074899043991,145.12650157594845 -37.90717669532221))",
+                "Netbay Free WiFi Pty Ltd",
+                "Nominated Service Area",
+                "Netbay_006",
+                "Completed",
+                "4-6 Stockdale Ave, Clayton Victoria 3168",
+                "FTTB",
+                "N/A"
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 0.86
+    }
+  ],
+  "status": "available",
+  "resource_id": "dc79e24c-5b56-4aab-bdb3-083b366a847a",
+  "policy_version": "download-preflight-3"
+}

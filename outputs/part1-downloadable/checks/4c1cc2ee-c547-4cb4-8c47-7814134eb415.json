@@ -1,0 +1,63 @@
+{
+  "dataset_id": "4c1cc2ee-c547-4cb4-8c47-7814134eb415",
+  "attempts": [
+    {
+      "resource_id": "5267a633-3013-4e62-a64a-fb84c96b3229",
+      "url": "https://www.data.qld.gov.au/dataset/4c1cc2ee-c547-4cb4-8c47-7814134eb415/resource/5267a633-3013-4e62-a64a-fb84c96b3229/download/2024-business-boost-round-3-open-data.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:54.697047+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/4c1cc2ee-c547-4cb4-8c47-7814134eb415/resource/5267a633-3013-4e62-a64a-fb84c96b3229/download/2024-business-boost-round-3-open-data.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.196
+    },
+    {
+      "resource_id": "b5159c6c-aac4-4c03-bda0-acde445465b8",
+      "url": "https://www.data.qld.gov.au/dataset/4c1cc2ee-c547-4cb4-8c47-7814134eb415/resource/b5159c6c-aac4-4c03-bda0-acde445465b8/download/2024-business-basics-round-5-version-1-open-data.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:54.893382+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/4c1cc2ee-c547-4cb4-8c47-7814134eb415/resource/b5159c6c-aac4-4c03-bda0-acde445465b8/download/2024-business-basics-round-5-version-1-open-data.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.133
+    },
+    {
+      "resource_id": "8c329b2a-0383-4b3d-855f-50dc76785d69",
+      "url": "https://www.data.qld.gov.au/dataset/4c1cc2ee-c547-4cb4-8c47-7814134eb415/resource/8c329b2a-0383-4b3d-855f-50dc76785d69/download/2024-business-growth-fund-round-6-version-1-open-data.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:55.026270+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/4c1cc2ee-c547-4cb4-8c47-7814134eb415/resource/8c329b2a-0383-4b3d-855f-50dc76785d69/download/2024-business-growth-fund-round-6-version-1-open-data.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.104
+    },
+    {
+      "resource_id": "9f8e4ba9-317b-4078-983f-813ec306065a",
+      "url": "https://www.data.qld.gov.au/dataset/4c1cc2ee-c547-4cb4-8c47-7814134eb415/resource/9f8e4ba9-317b-4078-983f-813ec306065a/download/regional-networker-grants-2024-recipients-and-event-details-open-data.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:57:55.130043+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/4c1cc2ee-c547-4cb4-8c47-7814134eb415/resource/9f8e4ba9-317b-4078-983f-813ec306065a/download/regional-networker-grants-2024-recipients-and-event-details-open-data.xlsx",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.109
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

@@ -1,0 +1,207 @@
+{
+  "id": "3fc655c5-d7eb-4132-bbb8-d3175e5d731b:2",
+  "run_id": "3fc655c5-d7eb-4132-bbb8-d3175e5d731b",
+  "version": 2,
+  "config_hash": "8d75a2c95ce4d2dc4ab337b6705d93f1319a51300a2f86a9946e78c6b153e44a",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One row per current Australian Financial Services licence/register entry, stating the licence holder label, optional ABN or ACN, licence issue date, principal business address components, and licence conditions",
+    "subject_role": "licence_holder",
+    "source_kind": "licence_register",
+    "subject_label_field": "AFS_LIC_NAME",
+    "address_role": "business",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "AFS_LIC_ABN_ACN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "Help File p.8 data dictionary: AFS_LIC_ABN_ACN is the licensee's ABN or ACN; the field displays an ABN if the licensee has provided one."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ABN_ACN"
+        ],
+        "canonical_field": "entity.acn",
+        "transformations": [
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "acn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "Help File p.8 data dictionary: AFS_LIC_ABN_ACN is the licensee's ABN or ACN; the field displays an ACN if no ABN is provided. The independent acn validation does not derive an ACN from an ABN suffix."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_LOCAL"
+        ],
+        "canonical_field": "address.locality",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "Help File p.9 exact field header AFS_LIC_ADD_LOCAL: locality from the current principal business address; blank fields represent records where the address could not be validated."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_STATE"
+        ],
+        "canonical_field": "address.state",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "uppercase",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "NSW": "NSW",
+              "VIC": "VIC",
+              "QLD": "QLD",
+              "WA": "WA",
+              "SA": "SA",
+              "TAS": "TAS",
+              "ACT": "ACT",
+              "NT": "NT"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "Help File p.10 exact field header AFS_LIC_ADD_STATE: state from the current principal business address."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_PCODE"
+        ],
+        "canonical_field": "address.postcode",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "postcode",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.97,
+        "evidence": "Help File p.10 exact field header AFS_LIC_ADD_PCODE: postcode from the current principal business address; Help File p.12 change log: outside-Australia addresses display null rather than zero."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_COUNTRY"
+        ],
+        "canonical_field": "address.country",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_COUNTRY",
+            "op": "not_in",
+            "values": [
+              "",
+              "International"
+            ],
+            "length": null
+          }
+        ],
+        "confidence": 0.98,
+        "evidence": "Help File p.10 exact field header AFS_LIC_ADD_COUNTRY: country of the principal business address; countries outside Australia are set to the literal value International."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "REGISTER_NAME",
+        "reason": "Register classification has no matching ontology target; it is not evidence of legal entity type or status."
+      },
+      {
+        "source_field": "AFS_LIC_NUM",
+        "reason": "AFS licence number is a licence identifier, but this ontology subset has no licence identifier field; it must not be used as an ABN or ACN."
+      },
+      {
+        "source_field": "AFS_LIC_NAME",
+        "reason": "The documentation calls this the register entry name (Help File p.8), not necessarily a legal name for every record; it is retained as the raw subject label via subject_label_field but is not mapped to entity.legal_name or entity.trading_name."
+      },
+      {
+        "source_field": "AFS_LIC_START_DT",
+        "reason": "This is the date the AFS licence was issued (Help File p.8), not company registration; it cannot map to entity.date_registered."
+      },
+      {
+        "source_field": "AFS_LIC_PRE_FSR",
+        "reason": "Superseded pre-FSR register identifiers and licence numbers have no ontology target; the nested values cannot be flattened into the supplied fields."
+      },
+      {
+        "source_field": "AFS_LIC_CONDITION",
+        "reason": "Current financial services and products authorised under the licence (Help File p.11) have no matching ontology target; nested condition text remains source evidence only."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.95,
+    "limitations": [
+      "AFS_LIC_NAME is retained as a raw subject label, but is not asserted as entity.legal_name because the source describes it as a register entry name and the documentation also supports individual entries; no legal-name status is established for every row.",
+      "The combined AFS_LIC_ABN_ACN column is tested independently by checksum-valid abn and acn operations. Valid identifiers of the other type produce no value; no ACN is inferred from an ABN suffix, and invalid values produce no identifier observation.",
+      "The source describes current Australian Financial Services licensees in a point-in-time snapshot (Help File p.3), but supplies no entity deregistration/status field. A current licence record does not prove company registration, entity activity, or absence of deregistration.",
+      "The source supplies no row-level statement timestamp. The envelope must use the supplied publication timestamp 2026-09-16T21:52:45.982310 under publication_proxy, not as a row-change timestamp.",
+      "Only principal business address locality, state, postcode, and country are available. A full street address is not supplied; the documentation states blank address components can represent addresses that could not be validated (Help File pp.9-10).",
+      "AFS_LIC_PRE_FSR and AFS_LIC_CONDITION contain nested tilde-delimited structures, but the ontology has no licence, authorisation, or condition fields, so they are deliberately unmapped.",
+      "All authority and field confidence scores are provisional and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-luna",
+  "created_at": "2026-09-19T09:00:19.706344+00:00",
+  "status": "proposed"
+}

@@ -1,0 +1,151 @@
+{
+  "dataset_id": "42dc292f-2d27-439f-add7-2d7cb8717af1",
+  "attempts": [
+    {
+      "resource_id": "fcd7e791-57e3-4cc9-8bb4-5f985e4b4faa",
+      "url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/fcd7e791-57e3-4cc9-8bb4-5f985e4b4faa/download/balaklava-riverton-hac-complaints-template.xlsx",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:56.054780+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/fcd7e791-57e3-4cc9-8bb4-5f985e4b4faa/download/balaklava-riverton-hac-complaints-template.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/fcd7e791-57e3-4cc9-8bb4-5f985e4b4faa/download/balaklava-riverton-hac-complaints-template.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.906
+    },
+    {
+      "resource_id": "edece7dd-c668-408a-a53c-ee4e2eff2d46",
+      "url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/edece7dd-c668-408a-a53c-ee4e2eff2d46/download/balaklava-riverton-hac-consultants-template.xlsx",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:56.960978+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/edece7dd-c668-408a-a53c-ee4e2eff2d46/download/balaklava-riverton-hac-consultants-template.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/edece7dd-c668-408a-a53c-ee4e2eff2d46/download/balaklava-riverton-hac-consultants-template.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.838
+    },
+    {
+      "resource_id": "cbc79814-6ba4-4708-a7fe-67f43cab1eee",
+      "url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/cbc79814-6ba4-4708-a7fe-67f43cab1eee/download/fraud-template-balaklava-riverton-hac.xlsx",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:57.798599+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/cbc79814-6ba4-4708-a7fe-67f43cab1eee/download/fraud-template-balaklava-riverton-hac.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/cbc79814-6ba4-4708-a7fe-67f43cab1eee/download/fraud-template-balaklava-riverton-hac.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.822
+    },
+    {
+      "resource_id": "39ba4c43-9b4f-4eae-af19-f3efd2f6eec7",
+      "url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/39ba4c43-9b4f-4eae-af19-f3efd2f6eec7/download/balaklava-riverton-hac-executive-employment-template.xlsx",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:58.620471+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/39ba4c43-9b4f-4eae-af19-f3efd2f6eec7/download/balaklava-riverton-hac-executive-employment-template.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/39ba4c43-9b4f-4eae-af19-f3efd2f6eec7/download/balaklava-riverton-hac-executive-employment-template.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.801
+    },
+    {
+      "resource_id": "306918d8-6a1a-45c0-934d-291e6c58478b",
+      "url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/306918d8-6a1a-45c0-934d-291e6c58478b/download/balaklava-riverton-hac-whistle-blowers-template-.xlsx",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:59.421253+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/306918d8-6a1a-45c0-934d-291e6c58478b/download/balaklava-riverton-hac-whistle-blowers-template-.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/306918d8-6a1a-45c0-934d-291e6c58478b/download/balaklava-riverton-hac-whistle-blowers-template-.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.806
+    },
+    {
+      "resource_id": "9532688a-3f80-4fa5-9204-6caa9772689f",
+      "url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/9532688a-3f80-4fa5-9204-6caa9772689f/download/chsalhn-hac-complaints-template.xlsx",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:58:00.227714+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/9532688a-3f80-4fa5-9204-6caa9772689f/download/chsalhn-hac-complaints-template.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/9532688a-3f80-4fa5-9204-6caa9772689f/download/chsalhn-hac-complaints-template.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.773
+    },
+    {
+      "resource_id": "48565252-9744-4a89-aafa-89846bc6dcae",
+      "url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/48565252-9744-4a89-aafa-89846bc6dcae/download/chsalhn-hac-consultants-template.xlsx",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:58:01.000366+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/48565252-9744-4a89-aafa-89846bc6dcae/download/chsalhn-hac-consultants-template.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/48565252-9744-4a89-aafa-89846bc6dcae/download/chsalhn-hac-consultants-template.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.833
+    },
+    {
+      "resource_id": "54464388-1f2b-4189-ada7-5c0aa13c0e35",
+      "url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/54464388-1f2b-4189-ada7-5c0aa13c0e35/download/executive-employment-template-chsalhn-hac.xlsx",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:58:01.833775+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/54464388-1f2b-4189-ada7-5c0aa13c0e35/download/executive-employment-template-chsalhn-hac.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/54464388-1f2b-4189-ada7-5c0aa13c0e35/download/executive-employment-template-chsalhn-hac.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.907
+    },
+    {
+      "resource_id": "4371c5ac-afb5-413f-96e1-d995e96212a8",
+      "url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/4371c5ac-afb5-413f-96e1-d995e96212a8/download/fraud-template-chsalhn-hac.xlsx",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:58:02.741214+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/4371c5ac-afb5-413f-96e1-d995e96212a8/download/fraud-template-chsalhn-hac.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/4371c5ac-afb5-413f-96e1-d995e96212a8/download/fraud-template-chsalhn-hac.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.892
+    },
+    {
+      "resource_id": "cf38ec1e-2c49-45d3-801f-78769a76a324",
+      "url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/cf38ec1e-2c49-45d3-801f-78769a76a324/download/whistle-blowers-template-chsalhn-hac.xlsx",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:58:03.633676+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/cf38ec1e-2c49-45d3-801f-78769a76a324/download/whistle-blowers-template-chsalhn-hac.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/cf38ec1e-2c49-45d3-801f-78769a76a324/download/whistle-blowers-template-chsalhn-hac.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.816
+    },
+    {
+      "resource_id": "b355e665-c5d1-4d2b-9791-ca7733328ea0",
+      "url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/b355e665-c5d1-4d2b-9791-ca7733328ea0/download/barossa-and-districts-hac-whistle-blowers-template-.xlsx",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:58:04.450094+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/b355e665-c5d1-4d2b-9791-ca7733328ea0/download/barossa-and-districts-hac-whistle-blowers-template-.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/b355e665-c5d1-4d2b-9791-ca7733328ea0/download/barossa-and-districts-hac-whistle-blowers-template-.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.795
+    },
+    {
+      "resource_id": "f4100789-c692-4cd6-9ce6-129afc9edef7",
+      "url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/f4100789-c692-4cd6-9ce6-129afc9edef7/download/fraud-template-barossa-and-districts-hac.xlsx",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:58:05.244849+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/f4100789-c692-4cd6-9ce6-129afc9edef7/download/fraud-template-barossa-and-districts-hac.xlsx",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://data.sa.gov.au/data/dataset/42dc292f-2d27-439f-add7-2d7cb8717af1/resource/f4100789-c692-4cd6-9ce6-129afc9edef7/download/fraud-template-barossa-and-districts-hac.xlsx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.87
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

@@ -1,0 +1,51 @@
+{
+  "dataset_id": "24c4e49d-b284-46ca-9ad4-17b5a0880ee6",
+  "attempts": [
+    {
+      "resource_id": "e833892d-492d-4435-a187-62d576479f27",
+      "url": "https://data.gov.au/data/dataset/24c4e49d-b284-46ca-9ad4-17b5a0880ee6/resource/e833892d-492d-4435-a187-62d576479f27/download/dgtek_pty_ltd_mxc43200_declaration.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:19.886752+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/24c4e49d-b284-46ca-9ad4-17b5a0880ee6/resource/e833892d-492d-4435-a187-62d576479f27/download/dgtek_pty_ltd_mxc43200_declaration.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 9941,
+      "partial": false,
+      "artifact_id": "0ddce0da831326050e2fce9f9702ed86b974b5f3cfe4c3263a02f37acd449101",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Anticipatory notice ",
+            "rows": [
+              [
+                "WKT",
+                "Name_of_SIP",
+                "Service_Area",
+                "Service_Area_Identifier",
+                "Contract",
+                "Project_Area",
+                "Network_Infrastructure",
+                "Estimated_Completion_Date"
+              ],
+              [
+                "POLYGON((144.99101400375363 -37.82615626967282,144.99162286520004 -37.82622406516789,144.99151423573494 -37.82684163688802,144.9909107387066 -37.826778079145114,144.99101400375363 -37.82615626967282))",
+                "DGtek Pty Ltd ",
+                "Nominated service area",
+                "DGtek_MXC43200",
+                "Completed",
+                "33 Cremorne St\nCremorne\nVictoria\n3121",
+                "FTTP",
+                "N/A"
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 1.151
+    }
+  ],
+  "status": "available",
+  "resource_id": "e833892d-492d-4435-a187-62d576479f27",
+  "policy_version": "download-preflight-3"
+}

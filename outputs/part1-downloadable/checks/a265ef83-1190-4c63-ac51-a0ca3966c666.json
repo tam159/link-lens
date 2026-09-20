@@ -1,0 +1,151 @@
+{
+  "dataset_id": "a265ef83-1190-4c63-ac51-a0ca3966c666",
+  "attempts": [
+    {
+      "resource_id": "a1c5a15c-1a6f-4be8-a40a-60ca911c8bb6",
+      "url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/BYO_Permit.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:34.465734+00:00",
+      "status": "unavailable",
+      "http_status": 404,
+      "final_url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/BYO_Permit.csv",
+      "content_type": "application/xml",
+      "error": "HTTPStatusError: Client error '404 Not Found' for url 'https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/BYO_Permit.csv'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",
+      "wall_seconds": 0.44
+    },
+    {
+      "resource_id": "001956cc-7adf-4da6-a59f-f7074aa1b9bc",
+      "url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Full_Club_Licence.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:34.905481+00:00",
+      "status": "unavailable",
+      "http_status": 404,
+      "final_url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Full_Club_Licence.csv",
+      "content_type": "application/xml",
+      "error": "HTTPStatusError: Client error '404 Not Found' for url 'https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Full_Club_Licence.csv'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",
+      "wall_seconds": 0.475
+    },
+    {
+      "resource_id": "75b202c3-db79-473f-87b9-5c60fa088ab2",
+      "url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/General_Licence.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:35.380769+00:00",
+      "status": "unavailable",
+      "http_status": 404,
+      "final_url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/General_Licence.csv",
+      "content_type": "application/xml",
+      "error": "HTTPStatusError: Client error '404 Not Found' for url 'https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/General_Licence.csv'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",
+      "wall_seconds": 0.42
+    },
+    {
+      "resource_id": "f866848e-3079-4bd3-8f3d-ffe1fd2522d9",
+      "url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Late_Night_Licence.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:35.801020+00:00",
+      "status": "unavailable",
+      "http_status": 404,
+      "final_url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Late_Night_Licence.csv",
+      "content_type": "application/xml",
+      "error": "HTTPStatusError: Client error '404 Not Found' for url 'https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Late_Night_Licence.csv'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",
+      "wall_seconds": 0.446
+    },
+    {
+      "resource_id": "3d79945b-609d-4283-9fd1-67d873e87e44",
+      "url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Limited_Licence.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:36.246887+00:00",
+      "status": "unavailable",
+      "http_status": 404,
+      "final_url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Limited_Licence.csv",
+      "content_type": "application/xml",
+      "error": "HTTPStatusError: Client error '404 Not Found' for url 'https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Limited_Licence.csv'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",
+      "wall_seconds": 0.353
+    },
+    {
+      "resource_id": "84eb7f3e-846c-4539-8c96-00286b885376",
+      "url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/On_Premises_Licence.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:36.600297+00:00",
+      "status": "unavailable",
+      "http_status": 404,
+      "final_url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/On_Premises_Licence.csv",
+      "content_type": "application/xml",
+      "error": "HTTPStatusError: Client error '404 Not Found' for url 'https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/On_Premises_Licence.csv'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",
+      "wall_seconds": 0.334
+    },
+    {
+      "resource_id": "cf7ff241-1f7f-4f94-8833-ea3070e97412",
+      "url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Packaged_Liquor_Licence.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:36.934690+00:00",
+      "status": "unavailable",
+      "http_status": 404,
+      "final_url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Packaged_Liquor_Licence.csv",
+      "content_type": "application/xml",
+      "error": "HTTPStatusError: Client error '404 Not Found' for url 'https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Packaged_Liquor_Licence.csv'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",
+      "wall_seconds": 0.414
+    },
+    {
+      "resource_id": "e32179a2-7066-45ae-bf2d-e9707a6ec836",
+      "url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Pre_retail_Licence.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:37.349205+00:00",
+      "status": "unavailable",
+      "http_status": 404,
+      "final_url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Pre_retail_Licence.csv",
+      "content_type": "application/xml",
+      "error": "HTTPStatusError: Client error '404 Not Found' for url 'https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Pre_retail_Licence.csv'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",
+      "wall_seconds": 0.358
+    },
+    {
+      "resource_id": "87d76b7d-b58f-4a01-9a36-7f9521f20813",
+      "url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Producers_Licence.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:37.707428+00:00",
+      "status": "unavailable",
+      "http_status": 404,
+      "final_url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Producers_Licence.csv",
+      "content_type": "application/xml",
+      "error": "HTTPStatusError: Client error '404 Not Found' for url 'https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Producers_Licence.csv'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",
+      "wall_seconds": 0.344
+    },
+    {
+      "resource_id": "cb54dc4d-14d0-419c-97de-afea08b5314d",
+      "url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Remote_Sellers_Licence.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:38.051380+00:00",
+      "status": "unavailable",
+      "http_status": 404,
+      "final_url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Remote_Sellers_Licence.csv",
+      "content_type": "application/xml",
+      "error": "HTTPStatusError: Client error '404 Not Found' for url 'https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Remote_Sellers_Licence.csv'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",
+      "wall_seconds": 0.399
+    },
+    {
+      "resource_id": "e8b1591e-4e0b-4bee-960f-87f27dd7c94a",
+      "url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Restaurant_and_cafe_Licence.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:38.450698+00:00",
+      "status": "unavailable",
+      "http_status": 404,
+      "final_url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Restaurant_and_cafe_Licence.csv",
+      "content_type": "application/xml",
+      "error": "HTTPStatusError: Client error '404 Not Found' for url 'https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Restaurant_and_cafe_Licence.csv'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",
+      "wall_seconds": 0.336
+    },
+    {
+      "resource_id": "be0a20b8-7634-4f9a-94bd-8e59917650cb",
+      "url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Restricted_Club_Licence.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:38.786513+00:00",
+      "status": "unavailable",
+      "http_status": 404,
+      "final_url": "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Restricted_Club_Licence.csv",
+      "content_type": "application/xml",
+      "error": "HTTPStatusError: Client error '404 Not Found' for url 'https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Restricted_Club_Licence.csv'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",
+      "wall_seconds": 0.35
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

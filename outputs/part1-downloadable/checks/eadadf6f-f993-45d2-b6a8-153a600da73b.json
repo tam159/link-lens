@@ -1,0 +1,49 @@
+{
+  "dataset_id": "eadadf6f-f993-45d2-b6a8-153a600da73b",
+  "attempts": [
+    {
+      "resource_id": "c03a2b39-49bb-4ada-a4eb-3cc8cd4a48b6",
+      "url": "https://www.data.qld.gov.au/dataset/eadadf6f-f993-45d2-b6a8-153a600da73b/resource/c03a2b39-49bb-4ada-a4eb-3cc8cd4a48b6/download/contract-disclosure-report-2023-24.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:45.717688+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/eadadf6f-f993-45d2-b6a8-153a600da73b/resource/c03a2b39-49bb-4ada-a4eb-3cc8cd4a48b6/download/contract-disclosure-report-2023-24.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.125
+    },
+    {
+      "resource_id": "00a42fa6-8c7e-4a52-9f6b-4f1be788744c",
+      "url": "https://www.data.qld.gov.au/dataset/eadadf6f-f993-45d2-b6a8-153a600da73b/resource/00a42fa6-8c7e-4a52-9f6b-4f1be788744c/download/open-data-load_20250702.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:45.842490+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/eadadf6f-f993-45d2-b6a8-153a600da73b/resource/00a42fa6-8c7e-4a52-9f6b-4f1be788744c/download/open-data-load_20250702.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.122
+    },
+    {
+      "resource_id": "96f925e4-26e6-4b7d-8db4-37bae6818cd0",
+      "url": "https://www.data.qld.gov.au/dataset/eadadf6f-f993-45d2-b6a8-153a600da73b/resource/96f925e4-26e6-4b7d-8db4-37bae6818cd0/download/contract-register-open-data-29.05.26.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:45.964114+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/eadadf6f-f993-45d2-b6a8-153a600da73b/resource/96f925e4-26e6-4b7d-8db4-37bae6818cd0/download/contract-register-open-data-29.05.26.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.115
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

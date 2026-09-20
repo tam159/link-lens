@@ -1,0 +1,51 @@
+{
+  "dataset_id": "3c3442d6-4ec0-4b2a-a314-11f2b220c44e",
+  "attempts": [
+    {
+      "resource_id": "db9e8f0e-ac8a-47f0-aed6-ba89a6062229",
+      "url": "https://data.gov.au/data/dataset/3c3442d6-4ec0-4b2a-a314-11f2b220c44e/resource/db9e8f0e-ac8a-47f0-aed6-ba89a6062229/download/vostronet_australia_pty_ltd_130922_lidcombe_rise.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:35.810227+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/3c3442d6-4ec0-4b2a-a314-11f2b220c44e/resource/db9e8f0e-ac8a-47f0-aed6-ba89a6062229/download/vostronet_australia_pty_ltd_130922_lidcombe_rise.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 10568,
+      "partial": false,
+      "artifact_id": "f7ab6a816e3b8f2f79571d38702eb58cae44b83ccc0f8cf70098ca2a2cf86f3f",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Sheet1",
+            "rows": [
+              [
+                "WKT",
+                "Name_of_SIP",
+                "Service_Area",
+                "Service_Area_Identifier",
+                "Contract",
+                "Project_Area",
+                "Network_Infrastructure",
+                "Estimated_Completion_Date"
+              ],
+              [
+                "POLYGON ((151.0487279 -33.8640493,151.0487949 -33.8642074,151.0490095 -33.8642052,151.0490363 -33.8642453,151.0506081 -33.8642876,151.0516139 -33.8641785,151.0519251 -33.864056,151.0518097 -33.8639312,151.0516756 -33.8638577,151.0512384 -33.8638355,151.0504257 -33.8639624,151.0490605 -33.8639312,151.0487279 -33.8640493))",
+                "VostroNet (Australia) Pty Ltd",
+                "Anticipatory notice",
+                "VPO622",
+                "VostroNet (Australia) Pty Ltd has entered into a real estate development project contract",
+                "The Lidcombe Rise, Buildings B, C & D, 2-36 Church St,\nLidcombe, NSW 2141",
+                "FTTP",
+                "2023-06-30 00:00:00"
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 0.944
+    }
+  ],
+  "status": "available",
+  "resource_id": "db9e8f0e-ac8a-47f0-aed6-ba89a6062229",
+  "policy_version": "download-preflight-3"
+}

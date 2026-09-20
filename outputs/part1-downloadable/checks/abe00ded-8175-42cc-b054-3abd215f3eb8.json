@@ -1,0 +1,35 @@
+{
+  "dataset_id": "abe00ded-8175-42cc-b054-3abd215f3eb8",
+  "attempts": [
+    {
+      "resource_id": "92e3c9f5-df8d-478d-9fec-bca7cd5838d6",
+      "url": "https://www.data.qld.gov.au/dataset/abe00ded-8175-42cc-b054-3abd215f3eb8/resource/92e3c9f5-df8d-478d-9fec-bca7cd5838d6/download/20260630_limousine_service_licence_transfers.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:55.850202+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/abe00ded-8175-42cc-b054-3abd215f3eb8/resource/92e3c9f5-df8d-478d-9fec-bca7cd5838d6/download/20260630_limousine_service_licence_transfers.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.101
+    },
+    {
+      "resource_id": "b1496953-ee72-485e-a99e-2db0429ccca9",
+      "url": "https://www.data.qld.gov.au/dataset/abe00ded-8175-42cc-b054-3abd215f3eb8/resource/b1496953-ee72-485e-a99e-2db0429ccca9/download/20260630_taxi_service_licence_transfers.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:55.950778+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/abe00ded-8175-42cc-b054-3abd215f3eb8/resource/b1496953-ee72-485e-a99e-2db0429ccca9/download/20260630_taxi_service_licence_transfers.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.102
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

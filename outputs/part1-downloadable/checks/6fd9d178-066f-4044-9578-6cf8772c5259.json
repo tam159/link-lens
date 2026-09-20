@@ -1,0 +1,51 @@
+{
+  "dataset_id": "6fd9d178-066f-4044-9578-6cf8772c5259",
+  "attempts": [
+    {
+      "resource_id": "6dbe73c3-026f-4d87-85ba-6b89780453cc",
+      "url": "https://data.gov.au/data/dataset/6fd9d178-066f-4044-9578-6cf8772c5259/resource/6dbe73c3-026f-4d87-85ba-6b89780453cc/download/netbay_free_wifi_pty_ltd_007_declaration.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:16.147415+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/6fd9d178-066f-4044-9578-6cf8772c5259/resource/6dbe73c3-026f-4d87-85ba-6b89780453cc/download/netbay_free_wifi_pty_ltd_007_declaration.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 10224,
+      "partial": false,
+      "artifact_id": "b690fe2296f50e916d3481724169a9d475b5d57a6cb1735e2442f47b0691a02e",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "Sheet1",
+            "rows": [
+              [
+                "WKT",
+                "Name_of_SIP",
+                "Service_Area",
+                "Service_Area_Identifier",
+                "Contract and date contract signed",
+                "Project_Area",
+                "Network_Infrastructure",
+                "Estimated_Completion_Date"
+              ],
+              [
+                "POLYGON((144.98552351226544 -37.86514607332795,144.9852459036324 -37.86511000981177,144.98515068521237 -37.86567319419429,144.98572333683705 -37.86574512214468,144.98552351226544 -37.86514607332795))",
+                "Netbay Free WiFi Pty Ltd",
+                "Nominated Service Area",
+                "Netbay_007",
+                "Completed",
+                "333 St Kilda Road, St Kilda Victoria 3182",
+                "FTTB",
+                "N/A"
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 1.254
+    }
+  ],
+  "status": "available",
+  "resource_id": "6dbe73c3-026f-4d87-85ba-6b89780453cc",
+  "policy_version": "download-preflight-3"
+}

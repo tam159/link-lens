@@ -1,0 +1,225 @@
+{
+  "id": "23fca114-0f59-4df6-9e5b-ec0be3971727:2",
+  "run_id": "23fca114-0f59-4df6-9e5b-ec0be3971727",
+  "version": 2,
+  "config_hash": "5a47be3921bc8e201835b995fed489f314931898b5233ddd09dceaa1eb60e98b",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One row per current Australian Financial Services licence register entry, with the licence holder label, optional ABN/ACN, principal business address components, and licence-register attributes",
+    "subject_role": "licence_holder",
+    "source_kind": "licence_register",
+    "subject_label_field": "AFS_LIC_NAME",
+    "address_role": "business",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "AFS_LIC_ABN_ACN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "Help File p.8 data dictionary: AFS_LIC_ABN_ACN is the licensee ABN or ACN; discovery row 2 shows 85007186003. The abn operation checksum-validates 11-digit ABNs and emits no value for a valid ACN."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ABN_ACN"
+        ],
+        "canonical_field": "entity.acn",
+        "transformations": [
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "acn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "Help File p.8 data dictionary: AFS_LIC_ABN_ACN is explicitly the licensee ABN or ACN; the same mixed column may map to both operations. The acn operation checksum-validates 9-digit ACNs and emits no value for a valid ABN; no suffix inference is used."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_LOCAL"
+        ],
+        "canonical_field": "address.locality",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_LOCAL",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.99,
+        "evidence": "Help File p.9: AFS_LIC_ADD_LOCAL is the locality of the current principal business address; discovery row 2 sample is SOUTHBANK."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_STATE"
+        ],
+        "canonical_field": "address.state",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "uppercase",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "NSW": "NSW",
+              "VIC": "VIC",
+              "QLD": "QLD",
+              "WA": "WA",
+              "SA": "SA",
+              "TAS": "TAS",
+              "ACT": "ACT",
+              "NT": "NT"
+            }
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_STATE",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.99,
+        "evidence": "Help File p.10: AFS_LIC_ADD_STATE is the state from the current principal business address; discovery rows 2-3 sample VIC and NSW."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_PCODE"
+        ],
+        "canonical_field": "address.postcode",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "postcode",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_PCODE",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.98,
+        "evidence": "Help File p.10: AFS_LIC_ADD_PCODE is the postcode from the current principal business address; discovery row 2 sample is 3006. The postcode operation preserves numeric IDs as strings and does not zero-pad damaged values."
+      },
+      {
+        "source_fields": [
+          "AFS_LIC_ADD_COUNTRY"
+        ],
+        "canonical_field": "address.country",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "AFS_LIC_ADD_COUNTRY",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.99,
+        "evidence": "Help File p.10: AFS_LIC_ADD_COUNTRY is the country of the principal business address; countries outside Australia are set to International. Discovery rows 2-3 sample Australia."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "REGISTER_NAME",
+        "reason": "Identifies the register entry, not a supplied canonical ontology field; it is not evidence of legal entity type or legal name."
+      },
+      {
+        "source_field": "AFS_LIC_NUM",
+        "reason": "Licence identifier has no corresponding field in the supplied ontology; it is not mapped to an entity identifier."
+      },
+      {
+        "source_field": "AFS_LIC_NAME",
+        "reason": "Help File p.8 calls this the register entry name and documents both person and organisation formats; it is retained via subject_label_field but not mapped to legal_name or trading_name because the source does not establish that it is a legal name or trading name."
+      },
+      {
+        "source_field": "AFS_LIC_START_DT",
+        "reason": "Help File p.8 defines this as the AFS licensee/licence start date; it is not company/entity registration and is not mapped to entity.date_registered."
+      },
+      {
+        "source_field": "AFS_LIC_PRE_FSR",
+        "reason": "Help File p.9 defines this as previous superseded register identifiers and licence numbers in nested text; the supplied ontology has no licence-history target."
+      },
+      {
+        "source_field": "AFS_LIC_CONDITION",
+        "reason": "Help File p.11 defines this as current financial-services authorisations/conditions in nested text; the supplied ontology has no licence-condition target, and it does not establish industry, status, legal name, or entity type."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.97,
+    "limitations": [
+      "This is a point-in-time snapshot of current Australian Financial Services licensee register data (Help File p.3); a current licence is not proof of legal-entity active status, and licence changes or revocation do not prove deregistration.",
+      "AFS_LIC_NAME is a raw register-entry identity label retained through subject_label_field, not a canonical legal or trading name claim (Help File p.8).",
+      "AFS_LIC_ABN_ACN is polymorphic; ABN and ACN are independently checksum-validated from the same source column, with no ABN-suffix-to-ACN derivation.",
+      "Only principal business locality, state, postcode, and country are available; no street address is supplied, so address.full is unmapped.",
+      "The source does not provide a canonical legal-entity type, legal registration date, or row-level entity status; entity.entity_type, entity.date_registered, and entity.status remain unmapped.",
+      "The supplied publication timestamp 2026-09-16T21:52:45.982310 is used as an observed-at publication proxy, not a row-change timestamp; other observation-envelope fields are supplied by the ingestion system.",
+      "All source-reliability and field-confidence scores are provisional judgements and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-luna",
+  "created_at": "2026-09-19T08:57:12.984612+00:00",
+  "status": "proposed"
+}

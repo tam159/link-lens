@@ -1,0 +1,25 @@
+{
+  "dataset_id": "716bc51b-3dd1-472e-986d-093ef6861dfd",
+  "attempts": [
+    {
+      "resource_id": "9d912557-571c-4c35-9ded-d6b799a793be",
+      "url": "https://www.dtesb.qld.gov.au/__data/assets/file/0003/266484/late-payment-q2-14-15-dtesb.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:56:48.623795+00:00",
+      "status": "unavailable",
+      "error": "ConnectError: [Errno 8] nodename nor servname provided, or not known",
+      "wall_seconds": 0.183
+    },
+    {
+      "resource_id": "22db73d2-feb0-453d-8468-d7d82c74ace8",
+      "url": "https://www.dtesb.qld.gov.au/__data/assets/file/0011/273953/late-payment-report-2015-15-q3-dtesb.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:56:48.806390+00:00",
+      "status": "unavailable",
+      "error": "ConnectError: [Errno 8] nodename nor servname provided, or not known",
+      "wall_seconds": 0.012
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

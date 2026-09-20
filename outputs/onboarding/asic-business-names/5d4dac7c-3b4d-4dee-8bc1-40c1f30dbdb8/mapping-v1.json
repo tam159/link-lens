@@ -1,0 +1,128 @@
+{
+  "id": "5d4dac7c-3b4d-4dee-8bc1-40c1f30dbdb8:1",
+  "run_id": "5d4dac7c-3b4d-4dee-8bc1-40c1f30dbdb8",
+  "version": 1,
+  "config_hash": "6f2e573368062f8d12159cd51faac965963daa4a582577654380ab8a92db5751",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": "\t",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "one row per ASIC business-name registration record, including currently registered names and recent deregistered names",
+    "subject_role": "business_name_holder",
+    "source_kind": "business_name_register",
+    "subject_label_field": "BN_NAME",
+    "address_role": "unknown",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "BN_NAME"
+        ],
+        "canonical_field": "entity.trading_name",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.94,
+        "evidence": "Help File PDF p.3 sample header BN_NAME; p.8 data dictionary: BN_NAME is the business name as it appears on ASIC's Business Names register. Discovery sample row 2 contains '   Plumbing Gas and Solar', supporting trim only."
+      },
+      {
+        "source_fields": [
+          "BN_STATUS"
+        ],
+        "canonical_field": "entity.status",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "Registered": "active",
+              "Cancelled": "deregistered"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.93,
+        "evidence": "Help File PDF p.8: BN_STATUS is Registration Status for the Business Name; permitted values are Registered and Cancelled, with cancellation meaning the registered business name ceases to exist. Discovery samples show Registered."
+      },
+      {
+        "source_fields": [
+          "BN_ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.91,
+        "evidence": "Help File PDF p.9: BN_ABN is the Australian Business Number and suppressed ABNs are NULL; p.3 sample header includes BN_ABN. Discovery samples show 11-digit numeric strings such as 30947976159. The abn operation performs validation; no ACN is inferred."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "REGISTER_NAME",
+        "reason": "Register label ('BUSINESS NAMES'), not a legal entity name, trading name, identifier, or supported canonical field."
+      },
+      {
+        "source_field": "BN_REG_DT",
+        "reason": "This is the business-name registration date, not a legal entity registration date; explicitly not mapped to entity.date_registered."
+      },
+      {
+        "source_field": "BN_CANCEL_DT",
+        "reason": "This is the business-name cancellation date. The ontology subset has no business-name valid-to/cancellation field, and it must not be used as legal entity deregistration."
+      },
+      {
+        "source_field": "BN_STATE_NUM",
+        "reason": "Former state-regulator business-name identifier; no supported canonical field for this identifier."
+      },
+      {
+        "source_field": "BN_STATE_OF_REG",
+        "reason": "Previous state of registration for the former business-name regulator; no supported address or canonical field is justified."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.94,
+    "limitations": [
+      "This is a business-name register snapshot, not a company/legal-entity register; BN_NAME is retained as a trading/business-name label and does not establish a legal name or holder type.",
+      "BN_ABN may be suppressed, absent, associated with multiple business names, or not identify the legal holder uniquely; only checksum-valid ABNs emit observations.",
+      "BN_STATUS describes the business-name registration, not necessarily the legal entity's status. Cancelled must not be interpreted as entity deregistration.",
+      "BN_REG_DT and BN_CANCEL_DT are deliberately unmapped because they describe the business name rather than the legal entity.",
+      "The source envelope supplies the publication timestamp and licence; this mapping uses the publication timestamp as the observation-time proxy.",
+      "All authority and field-confidence scores are provisional and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-luna",
+  "created_at": "2026-09-19T07:38:16.358631+00:00",
+  "status": "proposed"
+}

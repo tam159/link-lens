@@ -1,0 +1,21 @@
+{
+  "dataset_id": "9c7bc715-c8c4-46ac-b984-50ac5f6d1231",
+  "attempts": [
+    {
+      "resource_id": "f5370382-f7d3-450e-bd9d-7dc1fc9757f3",
+      "url": "https://www.data.qld.gov.au/dataset/9c7bc715-c8c4-46ac-b984-50ac5f6d1231/resource/f5370382-f7d3-450e-bd9d-7dc1fc9757f3/download/companies-rockhampton-1904-1975.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:45.449184+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/9c7bc715-c8c4-46ac-b984-50ac5f6d1231/resource/f5370382-f7d3-450e-bd9d-7dc1fc9757f3/download/companies-rockhampton-1904-1975.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.116
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

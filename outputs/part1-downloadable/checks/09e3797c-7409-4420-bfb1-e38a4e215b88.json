@@ -1,0 +1,127 @@
+{
+  "dataset_id": "09e3797c-7409-4420-bfb1-e38a4e215b88",
+  "attempts": [
+    {
+      "resource_id": "3796cbcb-d667-4dc8-819f-fcd42cc77929",
+      "url": "https://data.gov.au/data/dataset/09e3797c-7409-4420-bfb1-e38a4e215b88/resource/3796cbcb-d667-4dc8-819f-fcd42cc77929/download/lhn_sip_nominated-service-area-declaration-20-dec-2024.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:16.352244+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/09e3797c-7409-4420-bfb1-e38a4e215b88/resource/3796cbcb-d667-4dc8-819f-fcd42cc77929/download/lhn_sip_nominated-service-area-declaration-20-dec-2024.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 19305,
+      "partial": false,
+      "artifact_id": "97fc22d2248796200601dd228a95b65df615386f567e7f1365c2e30836555cbd",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "20 Dec 2024",
+            "rows": [
+              [
+                "LBB REFERENCE",
+                "Development Name or Address",
+                "State",
+                "Network Infrastructure",
+                "Declaration Date",
+                "Anticipatory Notices Submission Date "
+              ],
+              [
+                "LHN_PaceofCoburg",
+                "9s Wardens Walk, Coburg, VIC 3058",
+                "VIC",
+                "FTTP",
+                "2024-12-20 00:00:00",
+                "2023-01-11 00:00:00"
+              ],
+              [
+                "LHN_5Curran",
+                "5 Curran St, North Melbourne, VIC 3051",
+                "VIC",
+                "FTTP",
+                "2024-12-20 00:00:00",
+                "2024-02-02 00:00:00"
+              ],
+              [
+                "LHN_SeaclusionApartments",
+                "4 Twenty First Ave, Palm Beach, QLD 4221",
+                "QLD",
+                "FTTP",
+                "2024-12-20 00:00:00",
+                "2023-08-04 00:00:00"
+              ],
+              [
+                "LHN_515OLSEN",
+                "515 Olsen Ave, Southport, QLD 4215",
+                "QLD",
+                "FTTP",
+                "2024-12-20 00:00:00",
+                "2023-01-11 00:00:00"
+              ],
+              [
+                "LHN_P1BachelorFlats",
+                "354 Northbourne Ave, Dickson, ACT 2602",
+                "ACT",
+                "FTTP",
+                "2024-12-20 00:00:00",
+                "2024-12-06 00:00:00"
+              ],
+              [
+                "LHN_10Monash ",
+                "10 Monash Rd, Gladesville, NSW 2111",
+                "NSW",
+                "FTTP",
+                "2024-12-20 00:00:00",
+                "2023-07-06 00:00:00"
+              ],
+              [
+                "LHN_65Kerrs",
+                "65-71 Kerrs Rd, Lidcombe, NSW 2141",
+                "NSW",
+                "FTTP",
+                "2024-12-20 00:00:00",
+                "2023-08-04 00:00:00"
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 0.538
+    }
+  ],
+  "status": "available",
+  "resource_id": "3796cbcb-d667-4dc8-819f-fcd42cc77929",
+  "policy_version": "download-preflight-3"
+}

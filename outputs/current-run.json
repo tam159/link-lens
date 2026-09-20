@@ -1,0 +1,40 @@
+{
+  "experiment_id": "jev-luna-v1",
+  "discovery_id": "discovery-jev-luna-v1-downloadable-v3",
+  "run_ids": [
+    "e619a3e2-1ac5-4c56-8f9a-64ef0bd80918",
+    "8acd7625-6835-4790-af94-aaa88cec9c03",
+    "42e0a217-dc32-4078-8309-65098f5a831b",
+    "2ea0c664-13ab-4fe5-aba3-e19dbedecfde",
+    "28fb2b8c-85e9-4732-9e53-d38066fa9bf6",
+    "7c816605-4497-4040-b96d-a8f93580517b"
+  ],
+  "batch_id": "fa5523f0-7d5a-41d2-af42-59e6362e3046",
+  "snapshots": [
+    {
+      "source": "asic-companies",
+      "same_snapshot_as_baseline": true
+    },
+    {
+      "source": "asic-business-names",
+      "same_snapshot_as_baseline": true
+    },
+    {
+      "source": "asic-afs-licensee",
+      "same_snapshot_as_baseline": true
+    },
+    {
+      "source": "acnc-register",
+      "same_snapshot_as_baseline": true
+    },
+    {
+      "source": "corporate-transparency",
+      "same_snapshot_as_baseline": true
+    },
+    {
+      "source": "employment-provider-locations-and-contacts",
+      "same_snapshot_as_baseline": true
+    }
+  ],
+  "original_pipeline_discovery_id": "discovery-jev-luna-v1"
+}

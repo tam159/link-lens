@@ -1,0 +1,35 @@
+{
+  "dataset_id": "3a4d1d90-f164-402a-a775-e280c1bd3c54",
+  "attempts": [
+    {
+      "resource_id": "fe3822a1-2390-45f0-be7b-0164f88106cd",
+      "url": "https://www.data.qld.gov.au/dataset/3a4d1d90-f164-402a-a775-e280c1bd3c54/resource/fe3822a1-2390-45f0-be7b-0164f88106cd/download/qhrc-contract-disclosures-july-2026.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:56:46.748963+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/3a4d1d90-f164-402a-a775-e280c1bd3c54/resource/fe3822a1-2390-45f0-be7b-0164f88106cd/download/qhrc-contract-disclosures-july-2026.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.095
+    },
+    {
+      "resource_id": "053de2fb-5f77-40e4-ae30-489f442e2b55",
+      "url": "https://www.data.qld.gov.au/dataset/3a4d1d90-f164-402a-a775-e280c1bd3c54/resource/053de2fb-5f77-40e4-ae30-489f442e2b55/download/qhrc-contract-disclosures-2026-27.csv",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:56:46.843903+00:00",
+      "status": "unavailable",
+      "http_status": 202,
+      "final_url": "https://www.data.qld.gov.au/dataset/3a4d1d90-f164-402a-a775-e280c1bd3c54/resource/053de2fb-5f77-40e4-ae30-489f442e2b55/download/qhrc-contract-disclosures-2026-27.csv",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 0,
+      "partial": false,
+      "error": "ValueError: Empty response",
+      "wall_seconds": 0.095
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

@@ -1,0 +1,31 @@
+{
+  "dataset_id": "31203511-887c-4d44-96af-cad2c6cd05f1",
+  "attempts": [
+    {
+      "resource_id": "d6665d6f-88eb-4c12-8784-2d3a29ed58bf",
+      "url": "https://www.data.act.gov.au/api/v3/views/pfs5-8d64/export.csv?accessType=DOWNLOAD",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:57:46.080882+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://www.data.act.gov.au/api/v3/views/pfs5-8d64/export.csv?accessType=DOWNLOAD",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://www.data.act.gov.au/api/v3/views/pfs5-8d64/export.csv?accessType=DOWNLOAD'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 1.025
+    },
+    {
+      "resource_id": "5bcf7f90-8b51-4d0b-a1f1-bf335d818d66",
+      "url": "https://www.data.act.gov.au/api/v3/views/pfs5-8d64/query.json?accessType=DOWNLOAD",
+      "format": "json",
+      "checked_at": "2026-09-19T13:57:47.105693+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://www.data.act.gov.au/api/v3/views/pfs5-8d64/query.json?accessType=DOWNLOAD",
+      "content_type": "text/html",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://www.data.act.gov.au/api/v3/views/pfs5-8d64/query.json?accessType=DOWNLOAD'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 1.118
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

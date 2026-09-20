@@ -1,0 +1,89 @@
+{
+  "id": "dc73418c-f7a4-413d-9639-8d63f48bbb27:1",
+  "run_id": "dc73418c-f7a4-413d-9639-8d63f48bbb27",
+  "version": 1,
+  "config_hash": "ffaa24f90b89ac37fa1d3b4f044469202f37ed25cb0550faac3e7983e7e6c6dd",
+  "config": {
+    "reader": {
+      "format": "xlsx",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": "Income tax details",
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One row per corporate tax entity reported in the Income tax details sheet",
+    "subject_role": "legal_entity",
+    "source_kind": "tax_disclosure",
+    "subject_label_field": "Name",
+    "address_role": "unknown",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "Source documentation dataset_notes: reports contain the name and ABN for corporate tax entities; exact header 'ABN'; sample row 2 value '94600082111'."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Name",
+        "reason": "The source identifies this only as 'Name', not explicitly as the registered legal name; retained as the raw subject label via subject_label_field."
+      },
+      {
+        "source_field": "Total income $",
+        "reason": "Financial measure not represented in the supplied ontology."
+      },
+      {
+        "source_field": "Taxable income $",
+        "reason": "Financial measure not represented in the supplied ontology; blank values are documented as unreportable and are not converted."
+      },
+      {
+        "source_field": "Tax payable $",
+        "reason": "Financial measure not represented in the supplied ontology; blank values are documented as unreportable and are not converted."
+      },
+      {
+        "source_field": "Income year",
+        "reason": "Reporting period is not represented by the supplied observation or entity fields; it is not a registration date."
+      },
+      {
+        "source_field": "__unnamed_7",
+        "reason": "Empty unnamed column in the supplied header; no ontology mapping."
+      },
+      {
+        "source_field": "__unnamed_8",
+        "reason": "Empty unnamed column in the supplied header; no ontology mapping."
+      },
+      {
+        "source_field": "__unnamed_9",
+        "reason": "Empty unnamed column in the supplied header; no ontology mapping."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.9,
+    "limitations": [
+      "The source envelope supplies the publication timestamp and licence; no row-level statement timestamp is provided, so publication_proxy is used.",
+      "The supplied documentation does not establish that the Name column is a registered legal name; it is retained only as subject_label_field.",
+      "This mapping does not map financial amounts, income year, reporting groups, status, entity type, or registration dates.",
+      "The report covers selected corporate tax entities and is not a complete company register; inclusion does not establish active status or deregistration status.",
+      "All authority and field confidence scores are provisional and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-luna",
+  "created_at": "2026-09-19T07:41:57.503583+00:00",
+  "status": "proposed"
+}

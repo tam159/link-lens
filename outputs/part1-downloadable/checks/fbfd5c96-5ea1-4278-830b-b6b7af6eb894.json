@@ -1,0 +1,19 @@
+{
+  "dataset_id": "fbfd5c96-5ea1-4278-830b-b6b7af6eb894",
+  "attempts": [
+    {
+      "resource_id": "b30259e1-bfb0-4ca4-8c1d-4751a6036e74",
+      "url": "http://www.tmr.qld.gov.au/~/media/aboutus/corpinfo/Open%20data/roadconstruction/infrastructurecontractsawarded.ashx",
+      "format": "csv",
+      "checked_at": "2026-09-19T13:58:06.118400+00:00",
+      "status": "unavailable",
+      "http_status": 403,
+      "final_url": "https://www.tmr.qld.gov.au/~/media/aboutus/corpinfo/Open%20data/roadconstruction/infrastructurecontractsawarded.ashx",
+      "content_type": "text/html; charset=UTF-8",
+      "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://www.tmr.qld.gov.au/~/media/aboutus/corpinfo/Open%20data/roadconstruction/infrastructurecontractsawarded.ashx'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "wall_seconds": 0.376
+    }
+  ],
+  "status": "unavailable",
+  "policy_version": "download-preflight-3"
+}

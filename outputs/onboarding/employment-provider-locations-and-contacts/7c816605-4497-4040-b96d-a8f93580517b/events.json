@@ -1,0 +1,1783 @@
+[
+  {
+    "id": "68a80b47-58a5-45c5-8241-c7c92b69f5cb",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:14:41.325878+00:00",
+    "node": "inspect_node",
+    "wall_seconds": 0.0012
+  },
+  {
+    "id": "09d30173-ea8b-43ac-aa1a-9360d782de96",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "exploration",
+    "at": "2026-09-19T09:14:42.044394+00:00",
+    "artifact_id": "5f4d9e8eaf166cab3fc8eb34133e2df4ed7790eb3052364a7d54ece70f526c57",
+    "exit_code": 1
+  },
+  {
+    "id": "1a5a9f63-bfc5-42dc-9a9a-74db42b0e623",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:14:42.047483+00:00",
+    "node": "explore_node",
+    "wall_seconds": 0.7187
+  },
+  {
+    "id": "e40966e1-dbf7-4b19-9757-8e2b46b80cbc",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "model_usage",
+    "at": "2026-09-19T09:14:51.513721+00:00",
+    "stage": "propose_mapping",
+    "prompt_sha256": "b64a9b002b473204be95e95a4822b27cbe314dc82a85a3fc6c2afd803f67cd35",
+    "prompt_version": "onboarding-3-luna-feedback",
+    "model": "gpt-5.6-luna",
+    "experiment_id": "jev-luna-v1",
+    "attempt": 1,
+    "input_tokens": 8719,
+    "output_tokens": 1238,
+    "calculated_cost_usd": 0.00366535,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b8f1-1b2e-7be2-a827-a1bd9369d37d/run/01a0b8f2-4c01-7402-8edc-e557b0fffdcb?start_time=2026-09-19T09%3A14%3A42.049719%2B00%3A00",
+    "trace_run_id": "01a0b8f2-4c01-7402-8edc-e557b0fffdcb",
+    "response_artifact": "a6aaf5929c0a3d69b1548be62d715edcc385954b5ec28bafc89e1c6b3f1caf8d",
+    "status": "success",
+    "wall_seconds": 9.43
+  },
+  {
+    "id": "055319cc-5331-402d-a44a-b5bb6fb1d896",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:14:51.518122+00:00",
+    "node": "propose_node",
+    "wall_seconds": 9.4673
+  },
+  {
+    "id": "ecd8e980-ccb5-41b9-ba44-bb5f3ddae6d9",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "validation",
+    "at": "2026-09-19T09:14:51.554177+00:00",
+    "version": 1,
+    "report": {
+      "passed": true,
+      "blocking_issues": [],
+      "records": 250,
+      "observations": 996,
+      "quarantined_fields": 4,
+      "filtered_records": 0,
+      "error_examples": [
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "bf3f641825e038dfca933900fcd31c84cb0b04c2f58f53e045511669133b561a",
+          "kind": "field_quarantine",
+          "field": "address.postcode",
+          "raw_value": [
+            "871"
+          ],
+          "reason": "Postcode is not four preserved digits; do not invent leading zeros"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "d83a4c3fcc7c5798dcd07e2bac5bdd85e3c6c348db6b952a68736d31af027ec4",
+          "kind": "field_quarantine",
+          "field": "address.postcode",
+          "raw_value": [
+            "850"
+          ],
+          "reason": "Postcode is not four preserved digits; do not invent leading zeros"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "a562c9ccb8bf541520b4a5b1dbe9d8747fdd72f9e1a54d7befa18166af4603b5",
+          "kind": "field_quarantine",
+          "field": "address.postcode",
+          "raw_value": [
+            "836"
+          ],
+          "reason": "Postcode is not four preserved digits; do not invent leading zeros"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "4bcaafc449d5d597f38a41a701f9c68309f8b48c6a1b079bfc7e42649b9ad865",
+          "kind": "field_quarantine",
+          "field": "address.postcode",
+          "raw_value": [
+            "822"
+          ],
+          "reason": "Postcode is not four preserved digits; do not invent leading zeros"
+        }
+      ],
+      "output_examples": [
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "27404baf1aeee752c1b6eb774ff97394a317fa5ac9fb10dc98c537f132735d7f",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.full",
+          "value": "Suite 7 18 Queen Stree",
+          "source_fields": [
+            "SITE_ADDRESS_LN"
+          ],
+          "raw_value": [
+            "Suite 7 18 Queen Stree"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 22
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "34c6bc1c297ccb81a40f736521b9d4801f41b6a8163457cc52432d90c2f4b60e"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "27404baf1aeee752c1b6eb774ff97394a317fa5ac9fb10dc98c537f132735d7f",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.locality",
+          "value": "GOODNA",
+          "source_fields": [
+            "SITE_LOCALITY_NAME"
+          ],
+          "raw_value": [
+            "GOODNA"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 22
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "a9881fb0eeee298352a089db5e95c9271bb8652b82c401d9095334fe41996b2d"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "27404baf1aeee752c1b6eb774ff97394a317fa5ac9fb10dc98c537f132735d7f",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.state",
+          "value": "QLD",
+          "source_fields": [
+            "SITE_STATE_CD"
+          ],
+          "raw_value": [
+            "QLD"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 22
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.97
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "de11805cfeefa17fb06dd035e14c100a38efc7dd65d660e216a451aa729eefda"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "27404baf1aeee752c1b6eb774ff97394a317fa5ac9fb10dc98c537f132735d7f",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.postcode",
+          "value": "4300",
+          "source_fields": [
+            "SITE_POSTCODE"
+          ],
+          "raw_value": [
+            "4300"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 22
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.94
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "0ddd99ef73f6c19448341d773b6a4debc55472c1de604811cb0f7027f79ee79d"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "3cc6875f60ac41e42cc32f991c4f6da57e77b56dcf0836820494b1e8c1e276df",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.full",
+          "value": "Cnr of Percy and Maughan Streets",
+          "source_fields": [
+            "SITE_ADDRESS_LN"
+          ],
+          "raw_value": [
+            "Cnr of Percy and Maughan Streets"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 23
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "c8a4f1e42f2a3fc4a00ad589f954f2913549c653ae544a667ee8d8eda3448317"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "3cc6875f60ac41e42cc32f991c4f6da57e77b56dcf0836820494b1e8c1e276df",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.locality",
+          "value": "WELLINGTON",
+          "source_fields": [
+            "SITE_LOCALITY_NAME"
+          ],
+          "raw_value": [
+            "WELLINGTON"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 23
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "f3986eeab2e3aacc1d3c15ff9f5cd92b69a9df3f249eeb7c1a9c17e51dee8ab3"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "3cc6875f60ac41e42cc32f991c4f6da57e77b56dcf0836820494b1e8c1e276df",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.state",
+          "value": "NSW",
+          "source_fields": [
+            "SITE_STATE_CD"
+          ],
+          "raw_value": [
+            "NSW"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 23
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.97
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "c5b2e1b37fda27d0551e3324a412b2a65a1acf42ef21eb050c832eb9fb3d9f14"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "3cc6875f60ac41e42cc32f991c4f6da57e77b56dcf0836820494b1e8c1e276df",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.postcode",
+          "value": "2820",
+          "source_fields": [
+            "SITE_POSTCODE"
+          ],
+          "raw_value": [
+            "2820"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 23
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.94
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "858d2c697e10116801a68fb0ded7d7d0c53bc3e64f78a1d1f629d916e93e15f2"
+        }
+      ],
+      "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+    }
+  },
+  {
+    "id": "2e928c7a-111a-41fa-969e-fddb8b2c81dc",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:14:51.557767+00:00",
+    "node": "validate_node",
+    "wall_seconds": 0.0361
+  },
+  {
+    "id": "d4448497-68d2-453c-957c-5062a2cac4cd",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "model_usage",
+    "at": "2026-09-19T09:14:58.620002+00:00",
+    "stage": "semantic_critique",
+    "prompt_sha256": "0fed3141af84765201dc8efa7d9eafc1ab0cfa60354496c5e36859e3071508d4",
+    "prompt_version": "onboarding-3-luna-feedback",
+    "model": "gpt-5.6-luna",
+    "experiment_id": "jev-luna-v1",
+    "attempt": 2,
+    "input_tokens": 7577,
+    "output_tokens": 457,
+    "calculated_cost_usd": 0.00244265,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b8f1-1b2e-7be2-a827-a1bd9369d37d/run/01a0b8f2-7127-7b12-9c99-9aee18187ecb?start_time=2026-09-19T09%3A14%3A51.559212%2B00%3A00",
+    "trace_run_id": "01a0b8f2-7127-7b12-9c99-9aee18187ecb",
+    "response_artifact": "a4092ef35d78fc187f3f6dd8d83c41a94beec1bddeebf77b7c72d13698155084",
+    "status": "success",
+    "wall_seconds": 7.03
+  },
+  {
+    "id": "c57a7a5a-3c46-4bea-90da-4edf4df73d8c",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "semantic_critique",
+    "at": "2026-09-19T09:14:58.626757+00:00",
+    "version": 1,
+    "acceptable": true,
+    "blocking_issues": [],
+    "warnings": [
+      "The mapping is semantically conservative and appropriately leaves legal names, identifiers, status, website, contact fields, contract/reporting-group concepts, and service-area codes unmapped where the source does not support those meanings.",
+      "The source subject is a service provider as represented by the dataset, but SITE_NAME is explicitly retained only as a raw subject label; this avoids asserting that it is a legal or current trading name.",
+      "Mapped addresses are correctly treated as service locations rather than registered legal-entity addresses.",
+      "Publication proxy is disclosed and is acceptable under the supplied engine semantics; it is not presented as row-change time.",
+      "Validation quarantined malformed three-digit postcodes rather than inventing leading zeroes. The trailing unnamed column is appropriately treated as an export artifact.",
+      "The mapping does not emit confidence observations for the unmapped raw subject label; the supplied confidence values are judgemental field/source scores and are not evidence of link certainty. Human review should confirm whether the provisional source reliability and field confidences are suitably calibrated.",
+      "The discovery evidence is only a preview and documentation is empty, so identifier scope, update semantics, and provider/name authority remain unresolved limitations."
+    ],
+    "evidence_checked": [
+      "Dataset title and notes describe employment-services provider locations and contacts, supporting service-location grain.",
+      "Rows show repeated DIS_SITE_CODE values across DESA/DESB contracts and ESA codes, supporting a site/contract/service-area relationship rather than a simple legal-entity row.",
+      "SITE_ADDRESS_LN, SITE_LOCALITY_NAME, SITE_STATE_CD, and SITE_POSTCODE appear together as physical location components in the sample.",
+      "SITE_NAME values such as Vision Australia and Job Centre Australia are not documented as legal names or current trading names.",
+      "CONTRACT_NAME values DESA and DESB and ESA_CD values are not documented as legal entities or reporting groups.",
+      "No ABN, ACN, registration date, status, or explicit historic/current-name fields are present.",
+      "The trusted engine semantics confirm envelope provenance/timestamps are engine-emitted, publication_proxy is allowed, service_location address treatment is compatible, and partial unmapped mappings are allowed.",
+      "Validation passed; malformed three-digit postcodes were quarantined and no unsupported constants or identifier conversions were emitted."
+    ]
+  },
+  {
+    "id": "4669dcdd-1dd3-4746-b324-45f6138fc887",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:14:58.629849+00:00",
+    "node": "critique_node",
+    "wall_seconds": 7.0687
+  },
+  {
+    "id": "2a5ac80e-a7a3-4773-a67b-88e8c9443841",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "final_validation",
+    "at": "2026-09-19T09:14:58.663348+00:00",
+    "version": 1,
+    "report": {
+      "passed": true,
+      "blocking_issues": [],
+      "records": 100,
+      "observations": 398,
+      "quarantined_fields": 2,
+      "filtered_records": 0,
+      "error_examples": [
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "a08d17193c902c49e66ea7f99bfff831cd60785f1d2c6681ce4a634c4c372ead",
+          "kind": "field_quarantine",
+          "field": "address.postcode",
+          "raw_value": [
+            "886"
+          ],
+          "reason": "Postcode is not four preserved digits; do not invent leading zeros"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "8b4e77d0f7ac089194985c736ec05555b525a7f42abbdbf2d8400e1bfb878b65",
+          "kind": "field_quarantine",
+          "field": "address.postcode",
+          "raw_value": [
+            "822"
+          ],
+          "reason": "Postcode is not four preserved digits; do not invent leading zeros"
+        }
+      ],
+      "output_examples": [
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "2d9fff78a057028a38f69307a553d1f5d93c72a77ee3b9eb93ce183ba688e254",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.full",
+          "value": "145 Summerland Way",
+          "source_fields": [
+            "SITE_ADDRESS_LN"
+          ],
+          "raw_value": [
+            "145 Summerland Way"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1011
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "2c963ebc25a89839a458e905a5714ff7b72fb0bddff8e71c797fe3777cfbf3f1"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "2d9fff78a057028a38f69307a553d1f5d93c72a77ee3b9eb93ce183ba688e254",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.locality",
+          "value": "Kyogle",
+          "source_fields": [
+            "SITE_LOCALITY_NAME"
+          ],
+          "raw_value": [
+            "Kyogle"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1011
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "9167a321b4aa7fc2da2b205777a8d7b75915b4f7ebaf05fdd5a8817b34f491f5"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "2d9fff78a057028a38f69307a553d1f5d93c72a77ee3b9eb93ce183ba688e254",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.state",
+          "value": "NSW",
+          "source_fields": [
+            "SITE_STATE_CD"
+          ],
+          "raw_value": [
+            "NSW"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1011
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.97
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "c9d5672db3d34ba2145d07dbbe9b883d08bf1049bcde8ca24d9841cca86d6a86"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "2d9fff78a057028a38f69307a553d1f5d93c72a77ee3b9eb93ce183ba688e254",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.postcode",
+          "value": "2474",
+          "source_fields": [
+            "SITE_POSTCODE"
+          ],
+          "raw_value": [
+            "2474"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1011
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.94
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "a81ae51959133cd24b3e231bcc8016a6fbf878e26bfe95a5aa56c54e6be25038"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "6139582fe1d36d22641dd03bb3d3b533e8cfd5d672069657c482686714a46a1c",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.full",
+          "value": "145 Summerland Way",
+          "source_fields": [
+            "SITE_ADDRESS_LN"
+          ],
+          "raw_value": [
+            "145 Summerland Way"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1014
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "6c82b310de93e661430fa1f7a8e0dcf9f37d2e5a24245c51158053a772a11bd8"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "6139582fe1d36d22641dd03bb3d3b533e8cfd5d672069657c482686714a46a1c",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.locality",
+          "value": "Kyogle",
+          "source_fields": [
+            "SITE_LOCALITY_NAME"
+          ],
+          "raw_value": [
+            "Kyogle"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1014
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "63df0ef3f3cd12f96061ad2e21dd0e4df1b5129836874e04795a64b81369eb65"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "6139582fe1d36d22641dd03bb3d3b533e8cfd5d672069657c482686714a46a1c",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.state",
+          "value": "NSW",
+          "source_fields": [
+            "SITE_STATE_CD"
+          ],
+          "raw_value": [
+            "NSW"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1014
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.97
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "5798a2b26e5eeac5efb90b308623c8e08ae6f6e4446c71a4224c846544c0e468"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "6139582fe1d36d22641dd03bb3d3b533e8cfd5d672069657c482686714a46a1c",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "field": "address.postcode",
+          "value": "2474",
+          "source_fields": [
+            "SITE_POSTCODE"
+          ],
+          "raw_value": [
+            "2474"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1014
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "3411fa7223d6e0323e98cf8fa1808b3f4449aabf00fe7d1ab500198e62dd4e70",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.94
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "d70984a9a71542030256010a74cd61bcfaf36887405f43a75e7cb124e1a63e95"
+        }
+      ],
+      "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+    },
+    "record_ids": [
+      "2d9fff78a057028a38f69307a553d1f5d93c72a77ee3b9eb93ce183ba688e254",
+      "6139582fe1d36d22641dd03bb3d3b533e8cfd5d672069657c482686714a46a1c",
+      "3abce1032aa339e6a328045745c3821caca2157f111327322e864c7e339402b5",
+      "9721a8ed9a48e73735824384d1c180bc1b0c77e86291df7073c860d26a579f7a",
+      "172951957c05f346400471ff2993eb026d9e9b8c82b733e8b819bc306d4a4935",
+      "3172754078b1aaece4ab4d47db6e543c04522fe472f6d1bdc39354b8d91945c3",
+      "0d0f08ee01d00efb32f5536e3da40ed45ccec1db045962fef8cc6beb9da8629d",
+      "e4106cb6d49e09bcb977a39e662575a1be28c59b23bf43d497fbc1a8bc597056",
+      "a08d17193c902c49e66ea7f99bfff831cd60785f1d2c6681ce4a634c4c372ead",
+      "391c9f5022c5f986d68579cfcaa6ead67994c8d0ba550c8fcf8468de90f7ab84",
+      "a8be4c5ab8b8d258781797a2275be831fe585a70e1d07ddbc5b34baf8e6d8124",
+      "8b4e77d0f7ac089194985c736ec05555b525a7f42abbdbf2d8400e1bfb878b65",
+      "b7bd06b5eb482f29603697094fea923d65abc3da6afa2fb8047477dc26122e7a",
+      "cdd34e0ffc5fe53217685a7600b72967cce5f7ee286222d73eb8d72d29a57d43",
+      "f53c606ce70059361258c8597d4bd6159559caa486d4a32aa92cfa34a39a9f3c",
+      "1a14b9ee065a9cf38f66c0080eeee7de2661b4ce8f3fd59117fb1f3058d8ff9a",
+      "48ba263f4a7b38e34702f583000e107bf3bdc25be7e9cdaa242e685a5f2ea614",
+      "4078ae01580361cec1d05320f7f84fdb9ec8b131834d4a19008015b414f5d3d6",
+      "4473efa26fc49e9424f7ca64b6bf8af145bb740669607cb6b7e2515545561d7e",
+      "9a541dc0a11b1d934763a8107dc90389714ffcba930cff3d956aa6ca27064856",
+      "0b3b8b7d0f0561be0d8b5f8105d66367037d81f0ab248d33dfbf94584ad448f0",
+      "10185e69367e09dc96d56f5196149ff68ae152eb709dd57f2cfb2302042da303",
+      "b04f3c040cab1eb5f004e56ceb70ee5807964e988e2f875597354293cba219b7",
+      "e42652f6e955961b2fd488016933184ce462440e7bb38a7501b6cc440e25fc51",
+      "56474a8ab724457f8a4fc3e6b29f931e602a229b6f37dad538f3be05802cf5d3",
+      "7a627f166dae1e0ceaae77dc2eab0159df63fe7b4a07b0bb81847f2e77073e22",
+      "de1156e51b40ece24c94999276b3a0c36a2fc2c396271a03d4f33645944654df",
+      "64ec3fc311ce46b9c3f258adbb318d1181301b0880a45d3d8397cd8f13405a83",
+      "28cd4f5af8750e74e95cc462af85228ffcf11af223c98885ed3aeed83ef20727",
+      "19b6bd992e65577e7d89c37029e078af3132ad0d65d89a99b639551dc76e793c",
+      "1995c6e321d186219bc64fe847c9e1c3dd7d8ddd03955faaca2b045c14db6850",
+      "120e635d596a498cd6075edc2d5a49f312c01b3fc8066676480d25dff8af5283",
+      "d5fa62a309db245c11ec5e51def9ce9e4174b317c365afb9931a3012bef85702",
+      "38d2620a272d1595ca6a9e2abccd0cb7b9258caf33d9cc8031434f3422c6ac67",
+      "2af6e3277a7df7cdc1ffdb3a30d1984b2a9ef1671e8d7f9704da14c7fcbd0713",
+      "8a3316217e38a0f7bec5b73d66ae8e4de007e837db2352c11e238da3cb873097",
+      "e8ae55c63487e1bb502051b4ddf6407ef02aa60e9d14bb43fb062b3b2c11eac1",
+      "5b9d839b0d06759ac41a7f57b26a9a692b4fe0d813b9777bd92205613cc530ed",
+      "cecd404af64aedbd43bf89bd83c49a07526dedb7a54e1f3a5dfa3d0d045a3606",
+      "18cd4db7ba2feacc25c674ef30694967bfd4b30e2cff23b9e2200c25ff4f2dc0",
+      "7ead87411286443db0125bb79242e741de771d8f8ee965ca84c68bae8dfc57b6",
+      "7cb7ea30d90f591b38db8f48387915f462f728c89a81ae7214eae9386a1548c6",
+      "64eee057797c363830756e5d1cee145ac8178cbafab83c7e0efb061cb3ed21a8",
+      "88d1546e1134d8333f91b7a4207317a49c88e851669a5193b9006626fb4d405f",
+      "d8256348228b49fc6f7c744c0ff412233c6e8a792bc22ceaab7dd5cc2eb72b01",
+      "d0e389890a9955512bfd1ba23853eef904c1f240b6b6e0c955a1af3e178eec1d",
+      "69b970c5500707a1f4a395e2185c663cb7306e6e3b468226a8a03b24ff7e815f",
+      "7dd71b348cf6358fd4d924ae621abe5cbd05ee9791235988181097fd6f25bf95",
+      "c0b66801d52181b1794f7bfa4211594f8afddee65a4462a7cc44e3aa53c57e61",
+      "d5671ec1117cbf0603b6176087b699ad17d932c84280ce243dbacf26b1d84dd3",
+      "fa63f5d22c614fa8732c2975cc37cdf0f14d572d4702186c7bda8835cfa43eef",
+      "e120fa43461653c2dcea6621b49a099111b3cf034cca5451a0e71cba08909754",
+      "36bf85fbfe492622e7213129cdcba0c5e76b03dcdd289f0b58e63f6fc1a5fbf7",
+      "82daf353e71c978b590493b0279682c47082adb27425ff1bfe3674244c329866",
+      "dddadaa2521921f5ac88bb36076b482e7c3b2a14c6e6d2359d1bc98cf8698dee",
+      "0f95c233a9cea10f8f374e85366edc880232fa249d7a325e3a953da7234141b3",
+      "10272d5e14721e212a754bb6eca35527bd2b8fef92343b4b7a16633d06bd42fe",
+      "9ed0fbb61274e5829053e653b78ec5a125aa533fce69c2273335a3f00245fdc0",
+      "7ead8ab1e5d02f66e8629b00483461bf944f4adbfc19c5255242e131bc1d9beb",
+      "8622f41b0a0d40eb5db260d35f228b1a5a90418956b38c6b5cdcb1a2e768899a",
+      "f29832cdfe349d914c10f8f8274e36b71119100dea3e1ff0c1ba604d9000e447",
+      "7d49c30ba924c6b48c3fc7f775e7eb47c663f34600806a9c88ea306741812b28",
+      "1d33aeb4cb4988194ad570ddd09091fa3527c28bcd8203375f8b66ff760cf500",
+      "efe09c96c70ad7debc9325b4d92b8e57365055d5bf5f555b6c0059678ca7e0ed",
+      "9579b76fb711269fa33221d57fa2612b65d6ef53fd87742a8269cbb561891ccb",
+      "dbbb312cea00c287100e2675f6dafec26eddf29720f31ef4ab9cf377f5ada790",
+      "e68b65bd712ec2256b92233f209f56fc579abfea857d47689f4ddec58e871abc",
+      "9ed4beb8da97b075ea50d8ca4e316e205403ae4a06d5aee371d27d9b2b006575",
+      "1e01091dd61beb92e7375326476f19d8108065284199ca38d62713e5ba52b5b7",
+      "cbf093774179dd118960a2f0e048ab6cc35d798876057f1afea9cb5fdbf56bed",
+      "786bbf7420aa47753931d45ce2cd66a66a54bf57cf8cdbd40d4767ae11e55524",
+      "9ec1fe1d8eb8ae1e4e98ca806a8a9b072c740a5f09954496d3df678d644b507c",
+      "5a7e3adc73e265d394d7785bef6e4549372d7093b4675218a311ebd527552282",
+      "5dd533cadc5f06f0b675c61a0a5a672ff5bc3b86e58e71669b382fd01390bfe1",
+      "4e16a58b2e8b6d96af4668823bffd4470718900ef2f8c7bffb978c81256f6dd2",
+      "30a9df953838ae8d89d65ca6c0db0cb58e70eba6eaf68f5cb2a962802772d5a2",
+      "12043275932b8f5a0cb6abf46d5bb69e90e29af8caaf6d36b0f281cd4a3ee700",
+      "3d00b8bd96cee128b467d1c510073db911d15bd0187b90f9834e5d5631a6f76a",
+      "907d01e063558dab5a486db1443dc6c4b369064acd59c7ef87af8e42cd8fc0a9",
+      "26bc9e466d5d1c637a8427fb50533994723b40f41baa36f9ef2ba5d76b2f727e",
+      "5c5c047e5ceef85e4295dff97bd0e4c7badab9ed1d606a3280b652a1ce847a46",
+      "19d3fba7efdf5c30a9aacce5ecea89fdd2a5d2dd2b6b53dedbfa6ec4117b4578",
+      "280992726b055aca5ee014d99b745c8b3762ec4e988784231e94fb1289a6c15a",
+      "a6ab654c3f6dc8166894cfc4d1bbd3640f9097e08282e5f868d84e3dbb33e8a4",
+      "7d2cd77db23d0f163065316fc7419110609e8ec25658cc4e2c6ed500b13bf76b",
+      "9f7b91b6d9449187a1a00fd74010cf35f510e2285f85b775074611efae267c83",
+      "d81cfa05c519a04786aa0fa9d3d98bc2b8b1d5f14dba31fa64b1de599deb6927",
+      "412669512743a8397f7b2dedd07d670878994abab33cfbc59356bba60a041c95",
+      "84cf1996a4d9261ed25a28dbee8512c7d45a9a0bac498f92db375b7fa97823a5",
+      "8893ba823ac06383c3dadd8edfe3fcd645aa2c8809f50935e69d0fced3f6a740",
+      "4a38e6aef9ee2d2f1255f1cbebac62dc68d64e769d76c61091a8fa7d24081953",
+      "1623b5b578315c5e91618cef796ffb425d30510773d454e86b0b9f69de5d9ab2",
+      "9257c6e4a5a2c1dadd4a321cb5b6a79fe6416bcc9923129ffc6ddcf4cf42562c",
+      "7ec583462d4100154e5576c06560d90a28ba9b481c57a3ce57c863e051881ab1",
+      "93866dae88f2b427cef0d77566068985e3f6aa8f0367c846d5e3b3ad2f6dac66",
+      "a11f455d13a459636ecf5c185fdccd87494f25b28162c33c3188548c03487c03",
+      "d32f466ae946fefa2f2f9d2895dbc3cefd29030e91b73f78395606d9540bfc62",
+      "f3e6c15344ea2c16721a43c492ca1bba4c41eec750a1a49fd1bd093104e0771f",
+      "1d069b09b359de8376e89e255137699ab321677a967815f0dfd31b357267cb9e",
+      "292c28c7133634fd7ffc050dcb9f12728187ac701dac5634986aaad269323c68"
+    ]
+  },
+  {
+    "id": "a2b42917-561e-4b0f-b499-33c80c69c05d",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:14:58.693080+00:00",
+    "node": "final_node",
+    "wall_seconds": 0.0589
+  },
+  {
+    "id": "2cf3c563-55bf-405d-826f-59fbe81b01b5",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T09:14:58.698789+00:00",
+    "node": "review_node",
+    "wall_seconds": 0.0022
+  },
+  {
+    "id": "1af55bca-3669-48e2-b9fc-9a8b478cb52e",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T10:28:48.718716+00:00",
+    "node": "review_node",
+    "wall_seconds": 0.0184
+  },
+  {
+    "id": "55119d94-9568-4e5b-94f3-8e27f04b7a34",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "model_usage",
+    "at": "2026-09-19T10:28:59.178589+00:00",
+    "stage": "propose_mapping",
+    "prompt_sha256": "b692a33de9a159da498e2284e2bb9c5b370ce2123af60e733bcd59b4d968d6d5",
+    "prompt_version": "onboarding-3-luna-feedback",
+    "model": "gpt-5.6-luna",
+    "experiment_id": "jev-luna-v1",
+    "attempt": 3,
+    "input_tokens": null,
+    "output_tokens": null,
+    "calculated_cost_usd": null,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b936-22e8-73a1-b7f7-c60ff5cdca70/run/01a0b936-25d2-71a0-9c3b-c83665cda7a6?start_time=2026-09-19T10%3A28%3A48.722283%2B00%3A00",
+    "trace_run_id": "01a0b936-25d2-71a0-9c3b-c83665cda7a6",
+    "response_artifact": "910f0410fad2921558f3c0bda02d617718456a9c801aab8d124a006f2aeaf84f",
+    "status": "success",
+    "wall_seconds": 10.405
+  },
+  {
+    "id": "bfd1f8b8-010e-43ad-8939-6eaa239d623a",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T10:28:59.183926+00:00",
+    "node": "propose_node",
+    "wall_seconds": 10.4594
+  },
+  {
+    "id": "8392f1ef-e21c-4f21-ab0b-c6439d3f2259",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "validation",
+    "at": "2026-09-19T10:28:59.220329+00:00",
+    "version": 2,
+    "report": {
+      "passed": true,
+      "blocking_issues": [],
+      "records": 250,
+      "observations": 996,
+      "quarantined_fields": 4,
+      "filtered_records": 0,
+      "error_examples": [
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "bf3f641825e038dfca933900fcd31c84cb0b04c2f58f53e045511669133b561a",
+          "kind": "field_quarantine",
+          "field": "address.postcode",
+          "raw_value": [
+            "871"
+          ],
+          "reason": "Postcode is not four preserved digits; do not invent leading zeros"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "d83a4c3fcc7c5798dcd07e2bac5bdd85e3c6c348db6b952a68736d31af027ec4",
+          "kind": "field_quarantine",
+          "field": "address.postcode",
+          "raw_value": [
+            "850"
+          ],
+          "reason": "Postcode is not four preserved digits; do not invent leading zeros"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "a562c9ccb8bf541520b4a5b1dbe9d8747fdd72f9e1a54d7befa18166af4603b5",
+          "kind": "field_quarantine",
+          "field": "address.postcode",
+          "raw_value": [
+            "836"
+          ],
+          "reason": "Postcode is not four preserved digits; do not invent leading zeros"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "4bcaafc449d5d597f38a41a701f9c68309f8b48c6a1b079bfc7e42649b9ad865",
+          "kind": "field_quarantine",
+          "field": "address.postcode",
+          "raw_value": [
+            "822"
+          ],
+          "reason": "Postcode is not four preserved digits; do not invent leading zeros"
+        }
+      ],
+      "output_examples": [
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "27404baf1aeee752c1b6eb774ff97394a317fa5ac9fb10dc98c537f132735d7f",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.full",
+          "value": "Suite 7 18 Queen Stree",
+          "source_fields": [
+            "SITE_ADDRESS_LN"
+          ],
+          "raw_value": [
+            "Suite 7 18 Queen Stree"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 22
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "58c0a5fb2d4b6b641ecde4654511695e13fe0608ce21d7a3d1c909c15a7236aa"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "27404baf1aeee752c1b6eb774ff97394a317fa5ac9fb10dc98c537f132735d7f",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.locality",
+          "value": "GOODNA",
+          "source_fields": [
+            "SITE_LOCALITY_NAME"
+          ],
+          "raw_value": [
+            "GOODNA"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 22
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "3c277e650a833e728b641d08207a85b2e5322bdc3efc03ac5ee2212979d4f5f0"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "27404baf1aeee752c1b6eb774ff97394a317fa5ac9fb10dc98c537f132735d7f",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.state",
+          "value": "QLD",
+          "source_fields": [
+            "SITE_STATE_CD"
+          ],
+          "raw_value": [
+            "QLD"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 22
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.97
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "9d2192efce18c1a3e05595c6e9a95d18aa1d7899b54a91669ca41563f54cc4b5"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "27404baf1aeee752c1b6eb774ff97394a317fa5ac9fb10dc98c537f132735d7f",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.postcode",
+          "value": "4300",
+          "source_fields": [
+            "SITE_POSTCODE"
+          ],
+          "raw_value": [
+            "4300"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 22
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.94
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "5c2382ee751bf89ec849103750847fc8018f5a3b17dd7bd2aacecd2bcf85c4da"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "3cc6875f60ac41e42cc32f991c4f6da57e77b56dcf0836820494b1e8c1e276df",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.full",
+          "value": "Cnr of Percy and Maughan Streets",
+          "source_fields": [
+            "SITE_ADDRESS_LN"
+          ],
+          "raw_value": [
+            "Cnr of Percy and Maughan Streets"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 23
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "fd3051564cf32cecfff93d5fedb5a6355c54e0056c917cd0e68743638493f6ef"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "3cc6875f60ac41e42cc32f991c4f6da57e77b56dcf0836820494b1e8c1e276df",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.locality",
+          "value": "WELLINGTON",
+          "source_fields": [
+            "SITE_LOCALITY_NAME"
+          ],
+          "raw_value": [
+            "WELLINGTON"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 23
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "a1b7433b4241425dd9f1c27c153950dfcc64a0ac6e8d3446581e73c8862df097"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "3cc6875f60ac41e42cc32f991c4f6da57e77b56dcf0836820494b1e8c1e276df",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.state",
+          "value": "NSW",
+          "source_fields": [
+            "SITE_STATE_CD"
+          ],
+          "raw_value": [
+            "NSW"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 23
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.97
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "b8b172e69cd6f5ffd5f568ef89afef3e0c7bb5ef5c580dc3f20502660bd45917"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "3cc6875f60ac41e42cc32f991c4f6da57e77b56dcf0836820494b1e8c1e276df",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.postcode",
+          "value": "2820",
+          "source_fields": [
+            "SITE_POSTCODE"
+          ],
+          "raw_value": [
+            "2820"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 23
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.94
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "8fa3c5b03324e0bb36468a4fea09fe8489cfb01eb613aa5580e9aa9a06ebde4a"
+        }
+      ],
+      "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+    }
+  },
+  {
+    "id": "2d28620c-8edf-44b2-a2a8-f77cc03d6892",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T10:28:59.224327+00:00",
+    "node": "validate_node",
+    "wall_seconds": 0.0364
+  },
+  {
+    "id": "976a3ea1-ee4c-4ec9-a9bd-0e2063031e69",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "model_usage",
+    "at": "2026-09-19T10:29:07.007996+00:00",
+    "stage": "semantic_critique",
+    "prompt_sha256": "4a4302023ea264ca86a0f21ba0db2e458c1291a85d982db4ec08e126c0a4bfb2",
+    "prompt_version": "onboarding-3-luna-feedback",
+    "model": "gpt-5.6-luna",
+    "experiment_id": "jev-luna-v1",
+    "attempt": 4,
+    "input_tokens": null,
+    "output_tokens": null,
+    "calculated_cost_usd": null,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b936-22e8-73a1-b7f7-c60ff5cdca70/run/01a0b936-4eda-7911-9c4e-e2b368fd5c89?start_time=2026-09-19T10%3A28%3A59.226232%2B00%3A00",
+    "trace_run_id": "01a0b936-4eda-7911-9c4e-e2b368fd5c89",
+    "response_artifact": "0fea2a696fdee5633e2ccb4d09ca2d7af85a11ee775ca47bbd5f12a553bd33f1",
+    "status": "success",
+    "wall_seconds": 7.748
+  },
+  {
+    "id": "ddf0f74f-fdef-436d-b724-af47d3cd3ab6",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "semantic_critique",
+    "at": "2026-09-19T10:29:07.011898+00:00",
+    "version": 2,
+    "acceptable": true,
+    "blocking_issues": [],
+    "warnings": [
+      "The mapping is deliberately partial: it maps only service-location address components and leaves identifiers, names, website, contacts, ESA codes, coordinates, and contract fields unmapped, which is appropriate given the empty documentation and ontology limits.",
+      "SITE_NAME is retained as a raw subject label rather than asserted as a legal or trading name; this preserves the legal/trading distinction, though human review should confirm the intended subject label semantics.",
+      "The row grain and service_provider role are reasonable for the title, notes, and repeated site/contract/ESA examples, but DIS_SITE_CODE scope and CONTRACT_NAME semantics remain unconfirmed.",
+      "Address fields are explicitly treated as service locations rather than registered legal-entity addresses.",
+      "The publication proxy is disclosed as an observation-time policy rather than a row-change timestamp; source documentation has no explicit timestamp.",
+      "Four invalid three-digit postcodes were quarantined rather than padded, which is semantically conservative.",
+      "Confidence values are provisional judgements and are not independently calibrated; source reliability 0.72 is disclosed and should not be read as measured accuracy.",
+      "The exploration script failed because it treated header/value dictionaries as sequences, but supplied discovery records and validation evidence still support the reviewed columns and the validator passed."
+    ],
+    "evidence_checked": [
+      "Dataset title and notes identify employment-services locations, services, and contacts.",
+      "Empty source documentation and stated analysis uncertainties about identifier, contract, name, update, and field authority semantics.",
+      "Discovery rows show repeated physical sites across DESA/DESB contracts and ESA codes, supporting service-location grain and non-reconciliation.",
+      "Discovery rows show SITE_NAME values such as Vision Australia and Job Centre Australia without legal-name or current-name evidence.",
+      "Mapped source headers and sample values for SITE_ADDRESS_LN, SITE_LOCALITY_NAME, SITE_STATE_CD, and SITE_POSTCODE.",
+      "Ontology restrictions separating legal_name, trading_name, status, identifiers, and address fields.",
+      "Trusted engine semantics for envelope timestamps, service_provider subject roles, source-record provenance, filters, and postcode validation.",
+      "Validation result: passed; 250 validation records, 996 observations, no blocking issues, and four postcode quarantines."
+    ]
+  },
+  {
+    "id": "f279c265-7487-4da6-8bee-c29e156f5f8c",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T10:29:07.014352+00:00",
+    "node": "critique_node",
+    "wall_seconds": 7.7857
+  },
+  {
+    "id": "97004d1e-5908-4509-8060-1f43f6ee8748",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "final_validation",
+    "at": "2026-09-19T10:29:07.046651+00:00",
+    "version": 2,
+    "report": {
+      "passed": true,
+      "blocking_issues": [],
+      "records": 100,
+      "observations": 400,
+      "quarantined_fields": 0,
+      "filtered_records": 0,
+      "error_examples": [],
+      "output_examples": [
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "35f8374ee2e43783c751d84b948d113066c2dea86268bbe663bded594388757a",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.full",
+          "value": "Shop 2 15 William Street",
+          "source_fields": [
+            "SITE_ADDRESS_LN"
+          ],
+          "raw_value": [
+            "Shop 2 15 William Street"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1582
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "74172d507361324283926d650d1d2ec61ad8352be1aa9fb58b11206c0eae4582"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "35f8374ee2e43783c751d84b948d113066c2dea86268bbe663bded594388757a",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.locality",
+          "value": "SEYMOUR",
+          "source_fields": [
+            "SITE_LOCALITY_NAME"
+          ],
+          "raw_value": [
+            "SEYMOUR"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1582
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "5c3bd814feda61f30169850b9c12d8e12152940020c0d1b5f56d83aa4ba5a94a"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "35f8374ee2e43783c751d84b948d113066c2dea86268bbe663bded594388757a",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.state",
+          "value": "VIC",
+          "source_fields": [
+            "SITE_STATE_CD"
+          ],
+          "raw_value": [
+            "VIC"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1582
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.97
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "99207ae9f139799bef9196d5efa652f54abc869cc8cbd05e088efeabc4d6751d"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "35f8374ee2e43783c751d84b948d113066c2dea86268bbe663bded594388757a",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.postcode",
+          "value": "3660",
+          "source_fields": [
+            "SITE_POSTCODE"
+          ],
+          "raw_value": [
+            "3660"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1582
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.94
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "986dd809dd0075c33a30ec1419a31579e3d2fdbb55801ad553707817174dfe45"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "5bea799427a145a061562b65acf76436ad1f54c391f11f58d64292efe5c8ba9f",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.full",
+          "value": "Level 1, 40 Synnot Street",
+          "source_fields": [
+            "SITE_ADDRESS_LN"
+          ],
+          "raw_value": [
+            "Level 1, 40 Synnot Street"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1584
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "589fd343a1fd7f386f0ef074ae1c8478c4d2ca67b5d15364a49d40ecd033044f"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "5bea799427a145a061562b65acf76436ad1f54c391f11f58d64292efe5c8ba9f",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.locality",
+          "value": "WERRIBEE",
+          "source_fields": [
+            "SITE_LOCALITY_NAME"
+          ],
+          "raw_value": [
+            "WERRIBEE"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1584
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "6fb3e3262e2382cffbf0bc6f5c2e0ae6972890d9f369570b2b4e3dec69708169"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "5bea799427a145a061562b65acf76436ad1f54c391f11f58d64292efe5c8ba9f",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.state",
+          "value": "VIC",
+          "source_fields": [
+            "SITE_STATE_CD"
+          ],
+          "raw_value": [
+            "VIC"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1584
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.97
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "8f354c2f4f583780e560a4f8d64361a13a4b62a8b0d5147d126b2c29113a1594"
+        },
+        {
+          "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+          "source_record_id": "5bea799427a145a061562b65acf76436ad1f54c391f11f58d64292efe5c8ba9f",
+          "observed_at": "2016-05-27T00:00:00+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:57:11.621160+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "field": "address.postcode",
+          "value": "3030",
+          "source_fields": [
+            "SITE_POSTCODE"
+          ],
+          "raw_value": [
+            "3030"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "0034e176b580405064272e688c7bf51230f051880263cdeeb5107ac00bd7a979",
+            "sheet": "csv",
+            "row": 1584
+          },
+          "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+          "config_hash": "b1f6967915d1d9e97a7f200f00411e033a7b55455161bc8197c29fdc1a8a88f8",
+          "subject_role": "service_provider",
+          "source_kind": "service_locations",
+          "address_role": "service_location",
+          "confidence": {
+            "source_reliability": 0.72,
+            "field_confidence": 0.94
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "f4f0bb758c684a1292955fde8a786d34b3a63ea9f4cf5b6689370a7f8c988561"
+        }
+      ],
+      "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+    },
+    "record_ids": [
+      "35f8374ee2e43783c751d84b948d113066c2dea86268bbe663bded594388757a",
+      "5bea799427a145a061562b65acf76436ad1f54c391f11f58d64292efe5c8ba9f",
+      "5e618497976cc8794cffe44f4746d68f7c5c2cfc950db571bae7ac48f0a78cc2",
+      "134c297b46dfb7e9ba22501cc9bc6aea242e3357161ac43c928a55bb2254442f",
+      "e1c0188f405bb453932a480dc681a59795158ce92a720e93b05fe315d2ed2193",
+      "75e7d2b58fe99f9fafeb8a94c0e0f61c01191f0d99f5ed085dfcaf60a9afc9e5",
+      "1cb3f926127e6a5a708dafa2441b7334956e2d62ae596257196153a71322d3a5",
+      "c47f94f3422c373371025fc0263888175ad98da4eef76b86de3d40f4d0215ee9",
+      "04066b253b99afcb17976cdbec39363b0b6e124032d900ed15e0e41fe7f7bf3d",
+      "e52890b0d0b567edcdd21370c2a1f64a00d24642ddc2247a65d1a9c85e7eb2be",
+      "f6249fbcbd090c1201d8f74487f8b6ab7f776dc0d586a867c996f61075eab5c8",
+      "c31dc607a680c0260df65769c37c848027b1dae29a0baf4ab69487f022f6073d",
+      "b77f5cca3421aea1e5395de7cb81cf493e236440dd1790d04c6ee163f200c200",
+      "ae84541deaf0a0c7dcda12e6123a06537d8a54be9f46ecbe29d51088ca08cdd1",
+      "90a21dae8eba4047220bb87c8ad0a6951b2b77a9a78b163e6c3e9478177007fa",
+      "1235645827854e4fe606f3063f16b2f3fa5cac883defecf068b8408aec6ab04f",
+      "e50abba88da2a745d3caeac0c9eb1c2550b834adde5790828724549663edff89",
+      "556f481aefa58943f57fea4ed43d58393cc4adeb5baa08ec3ff0c65846f5ba49",
+      "07e5904ad969f2c198c06f4b6886cbb942e2b7ecdec9ae0ead9e586c47ff54dc",
+      "a7456174f5221620541a59964dc009496a9965275079dd1c3585aa8f3c7ef8e4",
+      "420c83c3efc3a101c3f51f0e19170124719d72531a2fdbcdd15ba97a658db5af",
+      "2a9d78695c69710daf5baa73d20b2b0757dd3286ea4939523710c5a564f118ef",
+      "8e2d4d5ff646b4520027eef0d82e67e6a895486ed07a7ab348efe989a5ec6d1b",
+      "acb87853199b4ebb2bf257a24d912ef22ff05e1efe773b69448ad52043bf8d72",
+      "365844687f31f523087a5cbe03e6055b9824a27f97ffa55592003263ac07d32b",
+      "fccfc148711387e9218b9e9628271e35fd6e7672fe3ba740f752b1187c193231",
+      "30e672cf7b3d89a947d9fea046e3f200b60b4170af0f1fd48f6367895d598234",
+      "f8633450154abe3d1962fd7cbbfc5a78b4ef0e41117ca8a75500d13028e44a95",
+      "12b6d592b796be763fd4e21dfee706f5b89c293a99d86fd500972efa24166613",
+      "5136adc90a3fa77fa1357adcbb961fb47985bbae8640f0bec36bd42a286e70eb",
+      "87c952295d83b741f8a283dd1f2b6466932b89cf14d9c487eeee46aad460b713",
+      "f282bbb48896ef50f43f265ce19fdd700c455e015b9038eed13764e2cd737333",
+      "05bff733ab26e55b71078054df0ccea4b39da8de3a81c980169c65db7cdeed1d",
+      "8f5f16d61abe83b114a2d2cfdb242a27231364aaa124efc3ab9bd0c309b785c7",
+      "fdb36f2e9ae0b25355357db8eb77274a1d389d82bb9a56444e77b665deaf0196",
+      "bfe0564eb10c1f1f7c6820355d8e114ee5f18decf09c6598d427be5cbadfb1a7",
+      "718562aa19ca6983160a8716f493471e1b5e858947e95d67cd6b268ab579e862",
+      "eb1df10e704105e85ac035ccd3ad4a079890ded107c1b70f2a2da53395510e23",
+      "911f2047838e1dd89b990efa47dbb9a2798ec83eeb729c0743dd0aa05f7107ba",
+      "d21beb982e3760ce467e7da256eede75dd614fbd7eeb3c470d8e42b6452cce08",
+      "c26fbde61a975822e624de2ffa91b30e0cc9e37183683fccda21ad2653cfcdc1",
+      "ac214811fca34460ac388c7437f889ec1a761fe9c3165485b0a07b0b4f624205",
+      "f25e91f3e516bec0f76d6bb15adfe84788797cfd72cb8f28ced2529059ed0a06",
+      "6842a1a37cf2ccf34b7f87c1d9a709ed709c9f24bd6a1b320200f60cd9aae927",
+      "81b80b0f0908184df2ab0efdb403a0a432585c6c3d2b108737b0938235025f38",
+      "d8f69a8f84b6ced157f9612af7c6ebb1cc4e6809bcf95db38125980d37c3d656",
+      "c4f61f38f1334d96fbd1cc146d672f1c18a5d76440387048ac78dd1cc12c9d89",
+      "e91ca490a3c612fdbcbb113c5e2bf3ba239473e00eea726e2aeb5c06a16286a7",
+      "ddc9f9b263e0ebaf68f7c61375e2dd8245bfff3393d0eec62762847be0d2183f",
+      "eae26945c87d853f1a3c271241a7b4d4fe534bccdc7d69c0aa749dfcf222a874",
+      "2908eb194b8c18543b634ef01fcc443810abdb11c06f17f83a9b7559b78da2ce",
+      "efd5e71f4d96d9de779b874b45142b79f57f206040119f408fd764469e163a26",
+      "39f0ded29705c42328baad0a8c3a79a7d68368fef08d4f9e1792a4df1c6f558e",
+      "f904000bbb82f7d9c923858cd9f7042a3276328b80d1b6539f89dcc5bde650e6",
+      "4d08af9f2612407482285dfbd2edd8053609354fee3b68db39e35bd2c0909dfb",
+      "16a40d7d64d5b2dec21647da745d8dd4a1a9deea1dd54bbd935527be351128a3",
+      "d36d87138eb9867fb63cef720249ad3364fc906499dace3524abb53e23fae359",
+      "83c66d47a01b66a256f6cb825fe1e411c3c036328fcfa393a910b7e580d0a61c",
+      "4cb12946ded8af1a55a1449135bca378c697a0f8217d0637251b1dd4df3c38e0",
+      "55861ee1025f21e1220530785eaedebb3d41504598cfcc60bd4deb20f934637f",
+      "5c709024613adce1c1949fcf11ecf3c9f717f5e7277f14a339bc924cd271ff8c",
+      "f3b7e89cb8ec53ad6d0399f52d55ada7067a00fe12c50f25e3325f138fa267fb",
+      "a36955e799b1f4594941f32d76577f20c190d8e09abafba0071dda6a8773557e",
+      "b3d9d48d74bbf684c4e85cb01eefa44bb47c09b5136593c5b9d724d66ca1d186",
+      "ccdf385bf0af2582b1bc035523918e6ea36cba50c9b15c722497d85edd1d3783",
+      "4e2f3fc97a63e0ae0ef18a284ceffe89e4f87a4c303e250c65c65a4f27ebfdd7",
+      "2c2722758892d04a1fe3decce03fd066a7b9e51560e298cdb2cfeb523a5f2447",
+      "9a6d0c042c0afd6c341e156907bb1f4bcfc8dfd38a3ba30b3b9b788b6fbb9423",
+      "a63ca48babd9f47ee15db676b0c28e2d851382587f3ab6537b3f3d761b8d781a",
+      "0ff2f15b26ee84172e5615f4a13f4d8c53a3d89926cf7efe6b8f44b3c35e02b2",
+      "72cc68d945b8cc98429723e77274c323742e9d9bd4686e0c5652293e64175c94",
+      "ca66f5648089319caf523093dc6291d01b620efba53e5a24fdd7647131ae0ce2",
+      "615e7a6fbff2233b51c1e5064ac6d3cbb4321ac8f28a7bc9acff8df2ac573174",
+      "c36cfdcbeb466fd9204680fe72b72825aeb93d077d6b8679f59612cf0b736cb2",
+      "7482a00defe20269ec85105bf2cb292598a0a2493aedcb7c0104df4329fd55a7",
+      "b82d5a41ba240b35e01b59e77815ed6a14705f664848856360ee76a275c26f36",
+      "dadfa9c2047134ac7d46fa92e611ea94d5016ee2171101834a4a19871773bb20",
+      "95856510c7c82f7e0b0479feea32a99c761c8936cd3df7662bcd6b639f2f341a",
+      "b20bb8c9999bb0ff5565bc7f330ad590cf0dbe0257c5b66d1cb56caef050af1a",
+      "50f9e12d4f99413747b7175312f54e2bffb40e895e2854639a456cff583d849b",
+      "5ff6c682906867d4fc6a1ef3aa59a2289eead90882e01f32412a36c2069ec21a",
+      "40e75fef8c3b44e111532829b49097c63ddf8ff402179a7e01600dad991cf77d",
+      "20b033aff32d19cd5d4afc8fa0c110ac3fc4bd314d72dfba51fed9391cfbad5a",
+      "6c5bf20dd112c0a330e0327d77420612de46cd7f896423fca93843a936613d74",
+      "11ef55a382e797b51292d42bb8cf11a6940591598b9a2adbdd02a1ced9e48827",
+      "3c4a4894d6e0547b0d3b641e1336bfce53c407fd5993ab96ea0bb208c210fc7a",
+      "94d4522fffb8da3291475e359e9d5be97696504f9ae9954d964bddebe4a287aa",
+      "e810f1c34b472ee97a46a2102352958e251c89f65f16cc5d483116fca3dce5a3",
+      "ccd976aada82fe77c7f1072c21b049ed4f218e9902a5765d2dad72e6c7e0aefb",
+      "5678e2e310f89a0d906ccf1cc0030ff4718c74bb144dae9e2270ab209f2d333a",
+      "d5dc7cfc94a639dd7c1f133cb65decd4c9e837436a878e83e0c144635c3743e1",
+      "41a26a15141901c3d42d686fdfe0832f4505c4afa4b82c2550a343ac3f3c317b",
+      "d12d85a20bd60bd7ce827fd4ed2e2720d0a4e571faab9f87f613a995dc3fc1a5",
+      "e1669eea489ba453fae69d25ea4a11eab5dec4f2ca17abfa277b8aec24a7d5f3",
+      "a3ab7143b8357e03917dc48b9007c5c8d6cc79ec9cf5cb4cd86bf73105e47b0c",
+      "883ac0036121970d332ae1b2610025c19d939a416c1967f7e385aad6853c75a6",
+      "a22ac12545eaef1c99df8579edfaa97b5cf4f2310e1ab79104e2d5fad74e5dfd",
+      "e3817af1fc8a7fd54cb328a984c10e8d87c6c5ca92f623b4eafdbc3093d15a8d",
+      "7c99b56a48585fcdff8ac6e113056b6f397832348dbcadef778f322d714af5ee",
+      "53180d09e77cf48c7ca47e1f2a8375a5d364c26636c6e518da65115b638659ca"
+    ]
+  },
+  {
+    "id": "9eefd402-3309-4171-8940-86b405a4709d",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T10:29:07.077695+00:00",
+    "node": "final_node",
+    "wall_seconds": 0.0593
+  },
+  {
+    "id": "51345bcb-0067-4f80-94be-e33318d3fed2",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T10:29:07.085235+00:00",
+    "node": "review_node",
+    "wall_seconds": 0.003
+  },
+  {
+    "id": "d67bd4ed-7d80-4b6c-bf83-d0c415f1a00d",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T10:31:39.621893+00:00",
+    "node": "review_node",
+    "wall_seconds": 0.0053
+  },
+  {
+    "id": "44869e89-f11e-4cb9-9974-3049e1daf259",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "extraction",
+    "at": "2026-09-19T10:31:42.602720+00:00",
+    "records": 1000,
+    "observations": 3988,
+    "issues": 12
+  },
+  {
+    "id": "58e17736-2caa-48bf-8809-e5cd2dba7127",
+    "run_id": "7c816605-4497-4040-b96d-a8f93580517b",
+    "kind": "node_execution",
+    "at": "2026-09-19T10:31:42.608258+00:00",
+    "node": "extract_node",
+    "wall_seconds": 2.9817
+  }
+]

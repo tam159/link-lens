@@ -1,0 +1,87 @@
+{
+  "dataset_id": "4baffe31-81f0-48cf-a968-8bf48ce0a4ff",
+  "attempts": [
+    {
+      "resource_id": "cb0534f9-4283-4672-aff4-fba869cabc13",
+      "url": "https://data.gov.au/data/dataset/4baffe31-81f0-48cf-a968-8bf48ce0a4ff/resource/cb0534f9-4283-4672-aff4-fba869cabc13/download/lhn_sip_nominated-service-area-declaration-06-mar-2025.xlsx",
+      "format": "xlsx",
+      "checked_at": "2026-09-19T13:56:19.886432+00:00",
+      "status": "available",
+      "http_status": 200,
+      "final_url": "https://data.gov.au/data/dataset/4baffe31-81f0-48cf-a968-8bf48ce0a4ff/resource/cb0534f9-4283-4672-aff4-fba869cabc13/download/lhn_sip_nominated-service-area-declaration-06-mar-2025.xlsx",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes": 18954,
+      "partial": false,
+      "artifact_id": "9407dc142d294334ae32318486a468d661139db354c3e72e74093522f3116073",
+      "sample": {
+        "sheets": [
+          {
+            "sheet": "06 MAR 2025",
+            "rows": [
+              [
+                "LBB REFERENCE",
+                "Development Name or Address",
+                "State",
+                "Network Infrastructure",
+                "Declaration Date",
+                "Anticipatory Notices Submission Date "
+              ],
+              [
+                "LHN_SerenityOnSecond",
+                "26 Second Ave, Maroochydore, QLD 4558",
+                "QLD",
+                "FTTP",
+                "2025-03-06 00:00:00",
+                "2023-01-20 00:00:00"
+              ],
+              [
+                "LHN_",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ]
+            ]
+          }
+        ]
+      },
+      "wall_seconds": 0.747
+    }
+  ],
+  "status": "available",
+  "resource_id": "cb0534f9-4283-4672-aff4-fba869cabc13",
+  "policy_version": "download-preflight-3"
+}

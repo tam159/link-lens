@@ -1,0 +1,348 @@
+{
+  "id": "e3431ab3-0276-423b-9c18-36afa2eaec55",
+  "experiment_id": "jev-luna-v1",
+  "model": "gpt-5.6-luna",
+  "source_id": "ab7eddce-84df-4098-bc8f-500d0d9776d1",
+  "source_slug": "asic-afs-licensee",
+  "snapshot_id": "b98b4d1e7d35fba9103f52959e33f369dfae77731f17f96870d3a67573f67f9d",
+  "status": "failed",
+  "created_at": "2026-09-19T07:35:42.059190+00:00",
+  "model_calls": 5,
+  "python_calls": 1,
+  "version": 2,
+  "input_tokens": 59365,
+  "output_tokens": 5903,
+  "active_seconds": 61.58999794399915,
+  "calculated_cost_usd": 0.02192485,
+  "pricing_basis": "unknown; no provider rates configured",
+  "thread_id": "01a0b898-85bf-74f3-8338-c34d628447c8",
+  "reader_attempts": 1,
+  "usage_has_estimates": false,
+  "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b898-85c2-7231-bdb1-ee79872d6a9c/run/01a0b89b-b972-7ed2-9dd5-4786331d513c?start_time=2026-09-19T07%3A40%3A08.434639%2B00%3A00",
+  "analysis_artifact": "9f7904e6bceffbd36dd802dabc71e3611acf5df501665dfff268eb9cd4d9ef42",
+  "partitions_artifact": "d7c5ed08ffa6dc4675c50a0cc5b0389ffd29cc5ed96ed92563059e29f6351162",
+  "partition_counts": {
+    "discovery": 2890,
+    "validation": 993,
+    "final": 976
+  },
+  "final_cursor": 0,
+  "timing_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+  "exploration_artifact": "dd84e56d62d239a570ecaed02c6e7e216914f5bd60bb09e779ad0c93af623a67",
+  "mapping_id": "e3431ab3-0276-423b-9c18-36afa2eaec55:2",
+  "validation": {
+    "passed": true,
+    "blocking_issues": [],
+    "records": 250,
+    "observations": 1000,
+    "quarantined_fields": 0,
+    "filtered_records": 0,
+    "error_examples": [],
+    "output_examples": [
+      {
+        "source_id": "ab7eddce-84df-4098-bc8f-500d0d9776d1",
+        "source_record_id": "bcb62ad8a34078be42a5e27facd501b952e9b13e2fb6c86a2d7c988ea7b7cdf2",
+        "observed_at": "2026-09-16T21:52:45.982310+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:02.276683+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "field": "entity.abn",
+        "value": "80005443292",
+        "source_fields": [
+          "AFS_LIC_ABN_ACN"
+        ],
+        "raw_value": [
+          "80005443292"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+          "sheet": "csv",
+          "row": 11
+        },
+        "snapshot_id": "b98b4d1e7d35fba9103f52959e33f369dfae77731f17f96870d3a67573f67f9d",
+        "config_hash": "4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "subject_role": "licence_holder",
+        "source_kind": "licence_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.96
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "eba13201c59b373cf806f72e8d3af0160dffb06f66413eec9b3f9dd717e0835b"
+      },
+      {
+        "source_id": "ab7eddce-84df-4098-bc8f-500d0d9776d1",
+        "source_record_id": "bcb62ad8a34078be42a5e27facd501b952e9b13e2fb6c86a2d7c988ea7b7cdf2",
+        "observed_at": "2026-09-16T21:52:45.982310+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:02.276683+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "field": "address.locality",
+        "value": "LEONGATHA",
+        "source_fields": [
+          "AFS_LIC_ADD_LOCAL"
+        ],
+        "raw_value": [
+          "LEONGATHA"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+          "sheet": "csv",
+          "row": 11
+        },
+        "snapshot_id": "b98b4d1e7d35fba9103f52959e33f369dfae77731f17f96870d3a67573f67f9d",
+        "config_hash": "4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "subject_role": "licence_holder",
+        "source_kind": "licence_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.99
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "ffffed9fb6c02fa120c84314034d718a17bc5885dff97f3ae75b3a1ca6583ce3"
+      },
+      {
+        "source_id": "ab7eddce-84df-4098-bc8f-500d0d9776d1",
+        "source_record_id": "bcb62ad8a34078be42a5e27facd501b952e9b13e2fb6c86a2d7c988ea7b7cdf2",
+        "observed_at": "2026-09-16T21:52:45.982310+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:02.276683+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "field": "address.state",
+        "value": "VIC",
+        "source_fields": [
+          "AFS_LIC_ADD_STATE"
+        ],
+        "raw_value": [
+          "VIC"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+          "sheet": "csv",
+          "row": 11
+        },
+        "snapshot_id": "b98b4d1e7d35fba9103f52959e33f369dfae77731f17f96870d3a67573f67f9d",
+        "config_hash": "4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "subject_role": "licence_holder",
+        "source_kind": "licence_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.99
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "eb7cbb2c024140a240132f275ddfd2c31156d340b8d72aaa97a8ca50fabc9ae9"
+      },
+      {
+        "source_id": "ab7eddce-84df-4098-bc8f-500d0d9776d1",
+        "source_record_id": "bcb62ad8a34078be42a5e27facd501b952e9b13e2fb6c86a2d7c988ea7b7cdf2",
+        "observed_at": "2026-09-16T21:52:45.982310+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:02.276683+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "field": "address.postcode",
+        "value": "3953",
+        "source_fields": [
+          "AFS_LIC_ADD_PCODE"
+        ],
+        "raw_value": [
+          "3953"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+          "sheet": "csv",
+          "row": 11
+        },
+        "snapshot_id": "b98b4d1e7d35fba9103f52959e33f369dfae77731f17f96870d3a67573f67f9d",
+        "config_hash": "4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "subject_role": "licence_holder",
+        "source_kind": "licence_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.98
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "304ebdac6834931c2e9c9b2e56611021df67a32ebe7b66cd501f6aa0091f20d1"
+      },
+      {
+        "source_id": "ab7eddce-84df-4098-bc8f-500d0d9776d1",
+        "source_record_id": "03f11ada155d3be8037bc2fdd2582bc76e1be850fd1bc7afc65e0f86fdd6dce2",
+        "observed_at": "2026-09-16T21:52:45.982310+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:02.276683+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "field": "entity.abn",
+        "value": "26100409890",
+        "source_fields": [
+          "AFS_LIC_ABN_ACN"
+        ],
+        "raw_value": [
+          "26100409890"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+          "sheet": "csv",
+          "row": 31
+        },
+        "snapshot_id": "b98b4d1e7d35fba9103f52959e33f369dfae77731f17f96870d3a67573f67f9d",
+        "config_hash": "4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "subject_role": "licence_holder",
+        "source_kind": "licence_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.96
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "fe0d28ff6fa7251cae72ba6847b36c2c690c175b1ef11ed4f18590983a0dd581"
+      },
+      {
+        "source_id": "ab7eddce-84df-4098-bc8f-500d0d9776d1",
+        "source_record_id": "03f11ada155d3be8037bc2fdd2582bc76e1be850fd1bc7afc65e0f86fdd6dce2",
+        "observed_at": "2026-09-16T21:52:45.982310+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:02.276683+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "field": "address.locality",
+        "value": "MELBOURNE",
+        "source_fields": [
+          "AFS_LIC_ADD_LOCAL"
+        ],
+        "raw_value": [
+          "MELBOURNE"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+          "sheet": "csv",
+          "row": 31
+        },
+        "snapshot_id": "b98b4d1e7d35fba9103f52959e33f369dfae77731f17f96870d3a67573f67f9d",
+        "config_hash": "4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "subject_role": "licence_holder",
+        "source_kind": "licence_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.99
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "b84d76647bfe172d5a2fd9e1733387f405c347dfe2b64fc42d88c7d65eb27348"
+      },
+      {
+        "source_id": "ab7eddce-84df-4098-bc8f-500d0d9776d1",
+        "source_record_id": "03f11ada155d3be8037bc2fdd2582bc76e1be850fd1bc7afc65e0f86fdd6dce2",
+        "observed_at": "2026-09-16T21:52:45.982310+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:02.276683+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "field": "address.state",
+        "value": "VIC",
+        "source_fields": [
+          "AFS_LIC_ADD_STATE"
+        ],
+        "raw_value": [
+          "VIC"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+          "sheet": "csv",
+          "row": 31
+        },
+        "snapshot_id": "b98b4d1e7d35fba9103f52959e33f369dfae77731f17f96870d3a67573f67f9d",
+        "config_hash": "4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "subject_role": "licence_holder",
+        "source_kind": "licence_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.99
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "4710e014ae2ee0292b50e98d96ac2e1c35812cccc5efaed49c88aa60e1eb0622"
+      },
+      {
+        "source_id": "ab7eddce-84df-4098-bc8f-500d0d9776d1",
+        "source_record_id": "03f11ada155d3be8037bc2fdd2582bc76e1be850fd1bc7afc65e0f86fdd6dce2",
+        "observed_at": "2026-09-16T21:52:45.982310+00:00",
+        "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+        "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+        "ingested_at": "2026-09-18T00:57:02.276683+00:00",
+        "licence": "Creative Commons Attribution 3.0 Australia",
+        "extractor_version": "extractor-1:4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "field": "address.postcode",
+        "value": "3000",
+        "source_fields": [
+          "AFS_LIC_ADD_PCODE"
+        ],
+        "raw_value": [
+          "3000"
+        ],
+        "raw_locator": {
+          "snapshot_sha": "6190811ea4f4df19daab6ad63677f4a0930a0d5669b62ba6312624385681d86f",
+          "sheet": "csv",
+          "row": 31
+        },
+        "snapshot_id": "b98b4d1e7d35fba9103f52959e33f369dfae77731f17f96870d3a67573f67f9d",
+        "config_hash": "4fedbb161ca78fcf07647d5c94252a7cb93dff66a4247b60f5f3231bb2634b85",
+        "subject_role": "licence_holder",
+        "source_kind": "licence_register",
+        "address_role": "business",
+        "confidence": {
+          "source_reliability": 0.93,
+          "field_confidence": 0.98
+        },
+        "confidence_kind": "uncalibrated mapping/source judgements",
+        "derivation_level": "L1",
+        "id": "a5b57f6f022628ae134f7cd87ab2deca9b15fd9dcb38763f1eac00d9204a955f"
+      }
+    ],
+    "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+  },
+  "critique": {
+    "acceptable": false,
+    "blocking_issues": [
+      "The mapping directly maps AFS_LIC_ADD_COUNTRY into address.country, but the source documentation explicitly says non-Australian countries are represented by the sentinel value \"International\". That is not a country value and therefore can produce a semantically invalid canonical address.country observation. The mapping needs an explicit handling decision (for example, omit/quarantine that canonical field while retaining the raw source value), rather than treating the sentinel as a country."
+    ],
+    "warnings": [
+      "The mapping is appropriately partial: it does not assert AFS_LIC_NAME as a legal or trading name, does not map the AFS licence number into an unrelated entity identifier, does not confuse the licence start date with entity.date_registered, and leaves pre-FSR data and licence conditions unmapped because the ontology has no corresponding fields.",
+      "The current-register/current-licensee scope is not equivalent to entity.status=active; leaving status unmapped is correct. The limitation is disclosed, but reviewers should ensure downstream consumers do not infer entity status from the source grain.",
+      "The principal business address is correctly treated as a business address and not silently relabelled as a registered office, branch, or service location. The source does not establish reporting groups or branch records.",
+      "The mixed ABN/ACN mapping is semantically sound under the supplied engine semantics: checksum-valid 11-digit values can emit as ABN, checksum-valid 9-digit values as ACN, and no suffix-derived ACN is created. The source does not identify the type, so the separate validated observations are appropriate.",
+      "The publication timestamp proxy is a disclosed limitation rather than an exact record-level observation time. It is acceptable only if the required observation envelope actually carries that supplied proxy, along with source_id, traceable source_record_id, ingested_at, licence, and extractor_version.",
+      "Confidence values are explicitly provisional judgements, but the high field confidences should not be read as measured accuracy or as evidence that AFS_LIC_NAME is a canonical legal name. No link confidence is needed unless an entity link is emitted."
+    ],
+    "evidence_checked": [
+      "Help File p.3: the dataset is a point-in-time snapshot containing current Australian Financial Services licensees.",
+      "Help File p.8: AFS_LIC_NAME is the register entry name; AFS_LIC_ABN_ACN is an ABN or ACN; AFS_LIC_START_DT is the licence start date.",
+      "Help File pp.9-11: PRE_FSR is superseded pre-FSR licence information; address fields describe the current principal business address; non-Australian countries are set to \"International\"; conditions are current licence authorisations.",
+      "Discovery records: AFS licence numbers are present, names are register labels, identifiers are supplied in the mixed field, and previewed addresses are principal-business components such as SOUTHBANK/VIC/3006/Australia.",
+      "Supplied engine semantics: ABN/ACN validation and exclusivity, trimming, enum handling, and the distinction between source values and derived observations.",
+      "Previous mapping and validation feedback: the mapped fields, deliberate unmapped fields, publication-proxy timestamp policy, and parse/type validation outputs."
+    ]
+  },
+  "error": "ValueError: Structured response failed validation: 1 validation error for SemanticReview\nwarnings\n  Field required [type=missing, input_value={'acceptable': False, 'bl...ss observations only.']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing"
+}
