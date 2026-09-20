@@ -2,6 +2,8 @@
 
 A LangGraph agent investigates public business datasets and produces mapping configurations for human approval. One shared engine then extracts observations, links entities and generates profiles with provenance. The submitted run uses **Jev for triage and gpt-5.6-luna for onboarding**.
 
+**[Explore the live evidence viewer →](https://tam159.github.io/link-lens/)** Browse business profiles, explore their connections and inspect supporting evidence directly in your browser—no setup required. The viewer presents the saved submission snapshot.
+
 **Choose a starting point:** [How it works](#how-it-works) · [Run locally](#run-locally) · [Read the write-up](WRITEUP.md) · [Inspect saved results](outputs/README.md) · [Follow the illustrated demo](docs/DEMO.md)
 
 ## Inspect saved results without setup
