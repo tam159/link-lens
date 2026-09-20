@@ -1,0 +1,63 @@
+name: link-lens
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: linklens
+      POSTGRES_USER: linklens
+      POSTGRES_PASSWORD: ${LINK_LENS_POSTGRES_PASSWORD:-linklens}
+    ports: ["127.0.0.1:5439:5432"]
+    volumes: ["postgres-data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U linklens -d linklens"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  backend:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.backend
+    image: link-lens-backend:local
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      LINK_LENS_DATABASE_URL: postgresql+psycopg://linklens:${LINK_LENS_POSTGRES_PASSWORD:-linklens}@postgres:5432/linklens
+      LINK_LENS_ARTIFACT_DIR: /app/artifacts
+      LINK_LENS_SANDBOX_URL: http://sandbox-controller:8091
+      LINK_LENS_SANDBOX_TOKEN: ${LINK_LENS_SANDBOX_TOKEN:-local-development-only}
+      LINK_LENS_API_URL: http://localhost:2024
+    ports: ["127.0.0.1:2024:2024"]
+    volumes:
+      - ./artifacts:/app/artifacts
+      - checkpoints:/app/.langgraph_api
+    depends_on:
+      postgres: {condition: service_healthy}
+      sandbox-controller: {condition: service_started}
+  frontend:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.frontend
+    ports: ["127.0.0.1:3000:3000"]
+  sandbox-controller:
+    image: link-lens-backend:local
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.backend
+    user: root
+    command: ["uvicorn", "link_lens.sandbox:app", "--host", "0.0.0.0", "--port", "8091"]
+    environment:
+      LINK_LENS_SANDBOX_TOKEN: ${LINK_LENS_SANDBOX_TOKEN:-local-development-only}
+      SANDBOX_IMAGE: link-lens-sandbox:local
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+    ports: ["127.0.0.1:8091:8091"]
+    # Trusted controller only. Never mount this socket in an execution container.
+  sandbox-image:
+    image: link-lens-sandbox:local
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.sandbox
+    profiles: ["build-sandbox"]
+volumes:
+  postgres-data:
+  checkpoints:

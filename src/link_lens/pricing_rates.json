@@ -1,0 +1,203 @@
+{
+  "verified_on": "2026-09-19",
+  "source_url": "https://developers.openai.com/api/docs/pricing",
+  "cache_semantics_url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+  "currency": "USD",
+  "unit": "per 1000000 tokens",
+  "models": {
+    "gpt-5.6-sol": {
+      "standard": {
+        "short": {
+          "input": 4,
+          "cache_read": 0.4,
+          "cache_write": 5,
+          "output": 20
+        },
+        "long": {
+          "input": 8,
+          "cache_read": 0.8,
+          "cache_write": 10,
+          "output": 30
+        }
+      },
+      "batch": {
+        "short": {
+          "input": 2.0,
+          "cache_read": 0.2,
+          "cache_write": 2.5,
+          "output": 10.0
+        },
+        "long": {
+          "input": 4.0,
+          "cache_read": 0.4,
+          "cache_write": 5.0,
+          "output": 15.0
+        }
+      },
+      "flex": {
+        "short": {
+          "input": 2.0,
+          "cache_read": 0.2,
+          "cache_write": 2.5,
+          "output": 10.0
+        },
+        "long": {
+          "input": 4.0,
+          "cache_read": 0.4,
+          "cache_write": 5.0,
+          "output": 15.0
+        }
+      },
+      "fast": {
+        "short": {
+          "input": 8,
+          "cache_read": 0.8,
+          "cache_write": 10,
+          "output": 40
+        },
+        "long": {
+          "input": 16,
+          "cache_read": 1.6,
+          "cache_write": 20,
+          "output": 60
+        }
+      }
+    },
+    "gpt-5.6-terra": {
+      "standard": {
+        "short": {
+          "input": 2,
+          "cache_read": 0.2,
+          "cache_write": 2.5,
+          "output": 12
+        },
+        "long": {
+          "input": 4,
+          "cache_read": 0.4,
+          "cache_write": 5,
+          "output": 18
+        }
+      },
+      "batch": {
+        "short": {
+          "input": 1.0,
+          "cache_read": 0.1,
+          "cache_write": 1.25,
+          "output": 6.0
+        },
+        "long": {
+          "input": 2.0,
+          "cache_read": 0.2,
+          "cache_write": 2.5,
+          "output": 9.0
+        }
+      },
+      "flex": {
+        "short": {
+          "input": 1.0,
+          "cache_read": 0.1,
+          "cache_write": 1.25,
+          "output": 6.0
+        },
+        "long": {
+          "input": 2.0,
+          "cache_read": 0.2,
+          "cache_write": 2.5,
+          "output": 9.0
+        }
+      },
+      "fast": {
+        "short": {
+          "input": 4,
+          "cache_read": 0.4,
+          "cache_write": 5.0,
+          "output": 24
+        },
+        "long": {
+          "input": 8,
+          "cache_read": 0.8,
+          "cache_write": 10,
+          "output": 36
+        }
+      }
+    },
+    "gpt-5.6-luna": {
+      "standard": {
+        "short": {
+          "input": 0.2,
+          "cache_read": 0.02,
+          "cache_write": 0.25,
+          "output": 1.2
+        },
+        "long": {
+          "input": 0.4,
+          "cache_read": 0.04,
+          "cache_write": 0.5,
+          "output": 1.8
+        }
+      },
+      "batch": {
+        "short": {
+          "input": 0.1,
+          "cache_read": 0.01,
+          "cache_write": 0.125,
+          "output": 0.6
+        },
+        "long": {
+          "input": 0.2,
+          "cache_read": 0.02,
+          "cache_write": 0.25,
+          "output": 0.9
+        }
+      },
+      "flex": {
+        "short": {
+          "input": 0.1,
+          "cache_read": 0.01,
+          "cache_write": 0.125,
+          "output": 0.6
+        },
+        "long": {
+          "input": 0.2,
+          "cache_read": 0.02,
+          "cache_write": 0.25,
+          "output": 0.9
+        }
+      },
+      "fast": {
+        "short": {
+          "input": 0.4,
+          "cache_read": 0.04,
+          "cache_write": 0.5,
+          "output": 2.4
+        },
+        "long": {
+          "input": 0.8,
+          "cache_read": 0.08,
+          "cache_write": 1.0,
+          "output": 3.6
+        }
+      }
+    },
+    "typesafe/jev-1.13": {
+      "source_url": "https://openrouter.ai/typesafe/jev-1.13",
+      "verified_on": "2026-09-19",
+      "cache_policy": "Flat input-token rate; no separate cache tier advertised",
+      "standard": {
+        "short": {
+          "input": 0.042,
+          "cache_read": 0.042,
+          "cache_write": 0.042,
+          "output": 0
+        }
+      }
+    }
+  },
+  "notes": [
+    "Published OpenAI rates used as the user-agreed approximation for deployment costs.",
+    "Cache-write rate replaces ordinary input rate for those tokens; it is not additive.",
+    "Use per-call context, not sum of project tokens. Current measured calls have at most 20278 input tokens and use short-context pricing.",
+    "Sol promotional pricing is listed as available at least through 2026-11-21.",
+    "Regional processing uplift, taxes, negotiated rates and other charges excluded."
+  ]
+}

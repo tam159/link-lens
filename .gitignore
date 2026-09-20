@@ -1,0 +1,35 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Local API credentials
+.env
+.env.*
+!.env.example
+
+# Application runtime and local tools
+artifacts/
+.langgraph_api/
+.pytest_cache/
+.ruff_cache/
+.coverage
+*.sqlite
+.codex/
+frontend/node_modules/
+frontend/.next/
+
+# Personal reference material and local editor context
+/local/
+/walkthrough/
+.DS_Store
+
+# Locally generated database bundles; saved submission outputs remain versioned
+/demo/*.zip
+/experiments/**/*.zip
