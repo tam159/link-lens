@@ -1,0 +1,1182 @@
+[
+  {
+    "id": "d0a89eb6-a001-4a46-a091-ed6d4ce6f385",
+    "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+    "kind": "model_usage",
+    "at": "2026-09-18T01:06:56.574553+00:00",
+    "stage": "inspect",
+    "model": "gpt-5.6-terra",
+    "attempt": 1,
+    "input_tokens": 5712,
+    "output_tokens": 520,
+    "calculated_cost_usd": null,
+    "pricing_basis": "unknown; no provider rates configured",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b208-8ccd-7262-99f8-a0531c6bb44c/run/01a0b20d-45ae-7b20-aa35-db16123bcd2d?start_time=2026-09-18T01%3A06%3A49.390831%2B00%3A00",
+    "trace_run_id": "01a0b20d-45ae-7b20-aa35-db16123bcd2d",
+    "response_artifact": "4d34c08d04d325837298938e0748fc15cb42abef24b1e0f726e5bcd31b786671",
+    "status": "success",
+    "wall_seconds": 7.176
+  },
+  {
+    "id": "492aedb6-f82e-466d-aa2f-ff65e581d859",
+    "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+    "kind": "inspect",
+    "at": "2026-09-18T01:06:56.639673+00:00",
+    "partition_counts": {
+      "discovery": 2973,
+      "validation": 1022,
+      "final": 1005
+    },
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": "\t",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    }
+  },
+  {
+    "id": "806eddcc-b162-49a8-b3d3-ae17b6472aeb",
+    "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+    "kind": "exploration",
+    "at": "2026-09-18T01:06:57.324238+00:00",
+    "artifact_id": "b7be7909c6af0117110430ec81e74263e167d5a7196ecee2f18652e1c2fa61d2",
+    "exit_code": 0
+  },
+  {
+    "id": "ecf8dc82-70a5-4575-92e4-c3f2637c149e",
+    "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+    "kind": "model_usage",
+    "at": "2026-09-18T01:07:15.585874+00:00",
+    "stage": "propose_mapping",
+    "model": "gpt-5.6-terra",
+    "attempt": 2,
+    "input_tokens": 11286,
+    "output_tokens": 1736,
+    "calculated_cost_usd": null,
+    "pricing_basis": "unknown; no provider rates configured",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b208-8ccd-7262-99f8-a0531c6bb44c/run/01a0b20d-64ae-75e0-872c-51df90353d48?start_time=2026-09-18T01%3A06%3A57.326662%2B00%3A00",
+    "trace_run_id": "01a0b20d-64ae-75e0-872c-51df90353d48",
+    "response_artifact": "9e3890c2befd4622090ce1c0e347b9265b83e21331cf5ba0346674c594896b74",
+    "status": "success",
+    "wall_seconds": 18.236
+  },
+  {
+    "id": "5eee1674-a326-47b0-b799-9f0f3a06edd9",
+    "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+    "kind": "validation",
+    "at": "2026-09-18T01:07:15.621435+00:00",
+    "version": 1,
+    "report": {
+      "passed": true,
+      "blocking_issues": [],
+      "records": 250,
+      "observations": 556,
+      "quarantined_fields": 113,
+      "filtered_records": 137,
+      "error_examples": [
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "kind": "field_quarantine",
+          "field": "entity.date_registered",
+          "raw_value": [
+            "30/04/1907"
+          ],
+          "reason": "time data '30/04/1907' does not match format 'DD/MM/YYYY'"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "347c810dcac500287b828c182f84973eb1015587e9f7fdbd95f9446682c5f47c",
+          "kind": "field_quarantine",
+          "field": "entity.date_registered",
+          "raw_value": [
+            "20/11/1878"
+          ],
+          "reason": "time data '20/11/1878' does not match format 'DD/MM/YYYY'"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "7ce42ca740f1355760c78bc7e097b6b6934c8c67be8e20a82f48a798535b05b3",
+          "kind": "field_quarantine",
+          "field": "entity.date_registered",
+          "raw_value": [
+            "01/07/1887"
+          ],
+          "reason": "time data '01/07/1887' does not match format 'DD/MM/YYYY'"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "a7ad6a2ae32556030217ef4c8ff42b969f400184e96a38a71873e891201c07a3",
+          "kind": "field_quarantine",
+          "field": "entity.date_registered",
+          "raw_value": [
+            "04/12/1891"
+          ],
+          "reason": "time data '04/12/1891' does not match format 'DD/MM/YYYY'"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "f2ae315335983300d855513dcbdd2eaadeb01521802149b6747c7c375b5e5dee",
+          "kind": "field_quarantine",
+          "field": "entity.date_registered",
+          "raw_value": [
+            "31/12/1894"
+          ],
+          "reason": "time data '31/12/1894' does not match format 'DD/MM/YYYY'"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "651288853c25f99e0c4abbe0dd2c7d6fd4eba56a3110d7b1281588055fd8ebef",
+          "kind": "field_quarantine",
+          "field": "entity.date_registered",
+          "raw_value": [
+            "09/01/1901"
+          ],
+          "reason": "time data '09/01/1901' does not match format 'DD/MM/YYYY'"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "924cf1c3519a4d2289057098d8fe6e64a1b9cd82904fbcd5bbc9bcf0db450c99",
+          "kind": "field_quarantine",
+          "field": "entity.date_registered",
+          "raw_value": [
+            "21/01/1903"
+          ],
+          "reason": "time data '21/01/1903' does not match format 'DD/MM/YYYY'"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "c8f18252c7461596f53fe6d5e0bfe0472da0752901d14427ed23207c5794d7dc",
+          "kind": "field_quarantine",
+          "field": "entity.date_registered",
+          "raw_value": [
+            "15/02/1905"
+          ],
+          "reason": "time data '15/02/1905' does not match format 'DD/MM/YYYY'"
+        }
+      ],
+      "output_examples": [
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "field": "entity.legal_name",
+          "value": "BNP PARIBAS",
+          "source_fields": [
+            "Company Name"
+          ],
+          "raw_value": [
+            "BNP PARIBAS                                                                                         "
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "e9f66a3afc50c958d03f4ec4ee9a0c31b13f9985808ffb7531a5d5c08278cd1c"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "field": "entity.acn",
+          "value": "000000117",
+          "source_fields": [
+            "ACN"
+          ],
+          "raw_value": [
+            "000000117"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.94
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "72dfe05e828c1dcfacb82a23f5a69db87fb87b20a6a45e9840dd19491e379d0b"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "field": "entity.abn",
+          "value": "23000000117",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "23000000117"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.93
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "d5b0fd870021932445a50a897db19b29c7fec2f1761fe1a6b8cf46516bbccc34"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "field": "entity.entity_type",
+          "value": "company",
+          "source_fields": [
+            "Type"
+          ],
+          "raw_value": [
+            "FNOS"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.86
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "8d6e70d345cff59fdcd0424868a62c44c9b2d32d04dcf8b2f85d2b2d62edda04"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "field": "entity.status",
+          "value": "active",
+          "source_fields": [
+            "Status"
+          ],
+          "raw_value": [
+            "REGD"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.89
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "ab1e45abe22fe12744831b633e0d92bf895ba16809cf9b47284813a190a3a6bc"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "347c810dcac500287b828c182f84973eb1015587e9f7fdbd95f9446682c5f47c",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "field": "entity.legal_name",
+          "value": "MLC LIFETIME COMPANY LIMITED",
+          "source_fields": [
+            "Company Name"
+          ],
+          "raw_value": [
+            "MLC LIFETIME COMPANY LIMITED"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 28
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "99b9d35c7bcbf59263545372055bd473ecea243112edc409af5690a119f384f3"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "347c810dcac500287b828c182f84973eb1015587e9f7fdbd95f9446682c5f47c",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "field": "entity.acn",
+          "value": "000000420",
+          "source_fields": [
+            "ACN"
+          ],
+          "raw_value": [
+            "000000420"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 28
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.94
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "21008cd4ab3a077ea7be8ca185cda0b9685c9dffff258356a23cecb952bc06a0"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "347c810dcac500287b828c182f84973eb1015587e9f7fdbd95f9446682c5f47c",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "field": "entity.abn",
+          "value": "94000000420",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "94000000420"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 28
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "de8c377bfdf18fdf354f7c57f7c8cc4b1f9c0d99cbdee56f5c061d978070ac2b",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.93
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "0d2fb3b768aac3655d8e8f34e9bc07c937230dd51b3483d8b37aaf65ef341216"
+        }
+      ],
+      "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+    }
+  },
+  {
+    "id": "cfff06d7-d603-4954-8208-8455e2127417",
+    "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+    "kind": "model_usage",
+    "at": "2026-09-18T01:07:29.238516+00:00",
+    "stage": "semantic_critique",
+    "model": "gpt-5.6-terra",
+    "attempt": 3,
+    "input_tokens": 17235,
+    "output_tokens": 1013,
+    "calculated_cost_usd": null,
+    "pricing_basis": "unknown; no provider rates configured",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b208-8ccd-7262-99f8-a0531c6bb44c/run/01a0b20d-ac28-77d2-8517-0aaceabcffc6?start_time=2026-09-18T01%3A07%3A15.624575%2B00%3A00",
+    "trace_run_id": "01a0b20d-ac28-77d2-8517-0aaceabcffc6",
+    "response_artifact": "e2ff3a8c8a4c809bd62a8579916769346ae2370fa9f60ada9ae53d83220fd758",
+    "status": "success",
+    "wall_seconds": 13.589
+  },
+  {
+    "id": "4899ad17-72da-41ff-827f-448fc9c0c085",
+    "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+    "kind": "semantic_critique",
+    "at": "2026-09-18T01:07:29.241916+00:00",
+    "version": 1,
+    "acceptable": false,
+    "blocking_issues": [
+      "The mapping declares record grain as one current registered company-name entry but filters only `Current Name Indicator = Y`. Documentation says the extract includes currently registered companies and deregistered companies from the past year; current-name rows can have statuses such as DRGD or other non-REGD values. Thus the filter selects current legal-name rows, not only currently registered companies. The grain statement is materially inaccurate and conflicts with the mapped deregistered/in-liquidation statuses.",
+      "`Date of Registration` is documented as DD/MM/YYYY and the mapping specifies that format, yet validation quarantined 113 values with the reason that values such as `30/04/1907` do not match DD/MM/YYYY. This is a production parsing defect that suppresses a directly documented field across otherwise included records. Human review should not accept the mapping until the declared date transformation is made operational and tested."
+    ],
+    "warnings": [
+      "The selection is deliberately partial and correctly treats Company Name on Y rows as the current registered legal name, not a trading name. Discovery evidence supports this: ACN 000000019 has historical `LOVINI HOLDINGS PTY LTD` with blank indicator and `Current Name` MONAKA PTY LTD, followed by `MONAKA PTY LTD` with Y; ACN 000000028 similarly shows TASDARK as historic and CHRISTENSEN & ASSOCIATES as Y. Excluding historic rows is appropriate if historical legal-name observations are out of scope.",
+      "The mapping should not characterize all selected rows as 'registered companies.' ASIC's documented `Status` is an entity/register status and includes DRGD, EXAD, SOFF, DISS, etc.; status mapping is generally conservative. `REGD -> active` is a reasonable ontology approximation, `DRGD -> deregistered` is direct, and `EXAD -> in_liquidation` loses the documented receivership alternative but is the nearest available enum. The raw status code should remain retained in provenance if the platform permits.",
+      "No address, service location, trading name, reporting-group, or licence claims are emitted. This is correct: the source fields do not document any of these concepts. Previous State of Registration is correctly left unmapped rather than treated as an address.",
+      "The conditional non-emission of entity.acn for Type=RACN is supported by the data dictionary, which says that field contains an ARBN for RACN. Mapping RACN to `other` is a cautious choice, though it means the source covers a registrable Australian body rather than necessarily a company; no unsupported legal-entity claim should be made for RACN records.",
+      "The ABN rule handles source sentinel `0` by requiring length 11, but length alone is not ABN checksum validation. The ontology requires checksum validation. The stated reliance on downstream 'identifier validators' needs confirmation; otherwise malformed 11-digit values may be emitted. This is not demonstrated as failing in the supplied evidence.",
+      "`publication_proxy` is appropriately disclosed as a proxy rather than the register snapshot/as-of time. However the production examples label it `CKAN resource last_modified`, while the supplied source calls it `publication_proxy`; that stronger attribution is not established by the supplied evidence. Retain the neutral proxy wording unless metadata verifies it.",
+      "Confidence values are explicitly uncalibrated and are broadly plausible. They should not be read as measured accuracy. `entity_type` confidence should remain qualified because FNOS is documented as a foreign company registered in Australia and RACN is not necessarily a company; the actual mapping makes the relevant distinction.",
+      "The declared filter intentionally drops historical name records and therefore does not preserve legal-name history or the documented current-name start date. This is an acceptable disclosed scope limitation, not a requirement to map those fields.",
+      "The source-record IDs in outputs are opaque hashes but raw locators include snapshot hash and row, which provides traceability. The exact deterministic construction is not stated in the mapping and should be documented for operational reproducibility."
+    ],
+    "evidence_checked": [
+      "ASIC help file pp.2–4: weekly point-in-time Company Register extract includes all currently registered companies, deregistered companies for the past year, and historical name data; source may be stale at access time.",
+      "ASIC help file pp.7 and 10–11: ACN is 9-digit with RACN exception holding ARBN; Company Name is as on register; status-code definitions; registration/deregistration dates use DD/MM/YYYY; ABN is company ABN or sentinel 0; Current Name Indicator Y denotes displayed current name, while blank historical rows carry current name and its start date.",
+      "Discovery rows 2–9: repeated ACNs demonstrate name-history grain and the current-vs-historical pattern, including ACN 000000019 and 000000028.",
+      "Validation feedback: 137 filtered records, 113 date_registered quarantines despite documented DD/MM/YYYY input, and observation examples produced from filtered current-name rows."
+    ]
+  },
+  {
+    "id": "70231d6d-4381-45b6-8cee-329d8b3dfe8f",
+    "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+    "kind": "model_usage",
+    "at": "2026-09-18T01:07:48.488963+00:00",
+    "stage": "propose_mapping",
+    "model": "gpt-5.6-terra",
+    "attempt": 4,
+    "input_tokens": 19023,
+    "output_tokens": 1878,
+    "calculated_cost_usd": null,
+    "pricing_basis": "unknown; no provider rates configured",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b208-8ccd-7262-99f8-a0531c6bb44c/run/01a0b20d-e15d-7ba2-b3dd-652c075f33e5?start_time=2026-09-18T01%3A07%3A29.245226%2B00%3A00",
+    "trace_run_id": "01a0b20d-e15d-7ba2-b3dd-652c075f33e5",
+    "response_artifact": "96ae8958f5164f62dc94423a7581ba3de0142424eccaba126b145b06a5eb3454",
+    "status": "success",
+    "wall_seconds": 19.21
+  },
+  {
+    "id": "f1460167-730a-446d-8253-fe647442304a",
+    "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+    "kind": "validation",
+    "at": "2026-09-18T01:07:48.524212+00:00",
+    "version": 2,
+    "report": {
+      "passed": true,
+      "blocking_issues": [],
+      "records": 250,
+      "observations": 556,
+      "quarantined_fields": 0,
+      "filtered_records": 137,
+      "error_examples": [],
+      "output_examples": [
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "field": "entity.legal_name",
+          "value": "BNP PARIBAS",
+          "source_fields": [
+            "Company Name"
+          ],
+          "raw_value": [
+            "BNP PARIBAS                                                                                         "
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "15d968cbf83746f0d2b4698b1d200b11350a25d637ef445d0df20cc96a8f4001"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "field": "entity.acn",
+          "value": "000000117",
+          "source_fields": [
+            "ACN"
+          ],
+          "raw_value": [
+            "000000117"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.94
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "60b2baffa106254af62f27168de6c9e0c29b1999877f8ae25f3a4307982d4fc7"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "field": "entity.abn",
+          "value": "23000000117",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "23000000117"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.93
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "0a157facce75afc4769a709539bb2fdca9edb093bf15c2c942da6c5f19263723"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "field": "entity.entity_type",
+          "value": "company",
+          "source_fields": [
+            "Type"
+          ],
+          "raw_value": [
+            "FNOS"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.86
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "e1e7e683695810059f54f13b3b7253b6771645efe4ba1c21de7674a7d67b8a1f"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "field": "entity.status",
+          "value": "active",
+          "source_fields": [
+            "Status"
+          ],
+          "raw_value": [
+            "REGD"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.87
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "c53d8490b389b3dc41985b55d4580307b9982407d382efd13645ee03fa4fc652"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "347c810dcac500287b828c182f84973eb1015587e9f7fdbd95f9446682c5f47c",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "field": "entity.legal_name",
+          "value": "MLC LIFETIME COMPANY LIMITED",
+          "source_fields": [
+            "Company Name"
+          ],
+          "raw_value": [
+            "MLC LIFETIME COMPANY LIMITED"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 28
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "41488074e4d6be90b3b4346df2a58b5fa633286016f246ca5e60f6a18cd8413a"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "347c810dcac500287b828c182f84973eb1015587e9f7fdbd95f9446682c5f47c",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "field": "entity.acn",
+          "value": "000000420",
+          "source_fields": [
+            "ACN"
+          ],
+          "raw_value": [
+            "000000420"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 28
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.94
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "d2ecd81f9b70842cf9646bf599a25c8118a41932c36784c14d4efeec8afd69be"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "347c810dcac500287b828c182f84973eb1015587e9f7fdbd95f9446682c5f47c",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "field": "entity.abn",
+          "value": "94000000420",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "94000000420"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 28
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "0c48115e2aea44c8c4b6e44903f249997752f2128a42796d949bb6745b770ad6",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.93
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "00624c2608434bcad3f9887a491957f1eebb4d0258085537214c748cc42cc94a"
+        }
+      ],
+      "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+    }
+  },
+  {
+    "id": "7d83def7-d69c-4488-99d8-098e28f7b350",
+    "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+    "kind": "model_usage",
+    "at": "2026-09-18T01:08:00.818293+00:00",
+    "stage": "semantic_critique",
+    "model": "gpt-5.6-terra",
+    "attempt": 5,
+    "input_tokens": 17457,
+    "output_tokens": 908,
+    "calculated_cost_usd": null,
+    "pricing_basis": "unknown; no provider rates configured",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b208-8ccd-7262-99f8-a0531c6bb44c/run/01a0b20e-2caf-7b03-818c-e36e844fdf0a?start_time=2026-09-18T01%3A07%3A48.527519%2B00%3A00",
+    "trace_run_id": "01a0b20e-2caf-7b03-818c-e36e844fdf0a",
+    "response_artifact": "019266d3e72c102ce0fae3d0c8fa543f522ec84a1bfe5672d3b2ebdda8428848",
+    "status": "success",
+    "wall_seconds": 12.266
+  },
+  {
+    "id": "5e1daffa-ed6b-4dfd-a802-602be44d159b",
+    "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+    "kind": "semantic_critique",
+    "at": "2026-09-18T01:08:00.821268+00:00",
+    "version": 2,
+    "acceptable": false,
+    "blocking_issues": [
+      "The stated record grain is internally inconsistent: it says \"current registered-company-name\" while the only filter is `Current Name Indicator = Y`. ASIC documents that the extract includes deregistered companies from the past year, and this filter selects the current registered name for a record irrespective of Status. The mapped `DRGD -> deregistered` also confirms non-registered-status records are intentionally in scope. The grain must instead say current legal-name row / current registered name, with all documented statuses potentially included.",
+      "`Date of Registration` is omitted because of a reported prior parsing failure rather than because the source is ambiguous. This is not inherently a semantic error in a deliberately partial mapping, but the mapping's explanation claims a DD/MM/YYYY transformation was declared while production quarantined valid DD/MM/YYYY dates. Since this field is left unmapped, it should not block acceptance of the current partial extraction; however the inconsistency must be corrected or removed before adding that field."
+    ],
+    "warnings": [
+      "The date issue above is a disclosed limitation, not a reason to require mapping an otherwise optional field. It becomes blocking only if `entity.date_registered` is re-enabled without an operationally working parser.",
+      "Mapping `Company Name` on `Current Name Indicator=Y` to `entity.legal_name` is supported. The documentation defines Company Name as appearing on the register and says Y denotes the displayed name is current. Discovery ACNs 000000019 and 000000028 demonstrate historical-name rows pointing to a distinct current company name. The mapping appropriately does not treat historical names or `Current Name` as trading names.",
+      "The `Y` filter is a sound deliberately partial choice to avoid producing historical legal names as current legal names. It does not establish one row per legal entity in a broader sense; source row locator provenance remains important, especially because the raw source's grain is name-history-oriented.",
+      "No address, service-location, trading-name, licence, branch, or reporting-group concepts are present in the supplied fields. Leaving them unmapped, including leaving Previous State of Registration unmapped rather than making it an address, is correct.",
+      "ACN suppression for Type=RACN is supported: ASIC says that column contains an ARBN for RACN. `RACN -> other` is cautious and avoids falsely calling all RACNs companies. The mapping should continue not to emit an ACN for RACN.",
+      "The status mapping is mostly appropriate: REGD to active and DRGD to deregistered follow the documented meanings. EXAD is conservatively unknown because it covers receivership/liquidation; raw codes should remain provenance where possible. Other mappings to unknown do not invent meanings.",
+      "The ABN source documents `0` when absent, and the length condition avoids that sentinel. The ontology additionally requires checksum validation. The asserted `abn` operation may satisfy this, but that is not demonstrated by source evidence; confirm operational behavior rather than relying on the 11-character guard alone.",
+      "Using the supplied publication proxy as `observed_at` is a disclosed approximation, not a source assertion of an exact register snapshot time. Output wording should remain neutral: the evidence supplies `publication_proxy`, not proof that it is CKAN resource-last-modified. UTC treatment of a timezone-naive proxy is also an ingestion convention, not source evidence.",
+      "Confidence values are clearly called uncalibrated and appear appropriately qualified. They should not be construed as measured field accuracy or entity-link confidence.",
+      "Opaque source-record hashes are acceptable given row-level raw locators and snapshot hash in outputs, but deterministic ID construction should be documented for reproducibility."
+    ],
+    "evidence_checked": [
+      "ASIC help file pp.2–4: weekly point-in-time extract; potentially stale on access; includes currently registered companies, deregistered companies for past year, and historical name data.",
+      "ASIC help file pp.7, 10–11: Company Name as on register; 9-digit ACN and RACN/ARBN exception; status definitions; date format; ABN-or-0 behavior; Current Name Indicator and historical-row Current Name logic.",
+      "Discovery rows for ACN 000000019 and 000000028: distinct historical displayed names with blank indicator and a populated current-name reference, alongside a Y current-name row.",
+      "Validation output: 137 records filtered by Y; mapped examples retain row/snapshot provenance; mapping declares Date of Registration intentionally unmapped after an earlier parser issue."
+    ]
+  },
+  {
+    "id": "542fbfc9-d509-4a9d-be17-f1ca6b4d5c99",
+    "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+    "kind": "model_usage",
+    "at": "2026-09-18T01:08:15.030806+00:00",
+    "stage": "propose_mapping",
+    "model": "gpt-5.6-terra",
+    "attempt": 6,
+    "input_tokens": 18122,
+    "output_tokens": 1589,
+    "calculated_cost_usd": null,
+    "pricing_basis": "unknown; no provider rates configured",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b208-8ccd-7262-99f8-a0531c6bb44c/run/01a0b20e-5cb8-7521-9a3f-22e44a35649d?start_time=2026-09-18T01%3A08%3A00.824630%2B00%3A00",
+    "trace_run_id": "01a0b20e-5cb8-7521-9a3f-22e44a35649d",
+    "response_artifact": "9233c00143b6356c75d3193c5dba019e1a0d7b43af79163c6b5a5a15fa2d2dc4",
+    "status": "success",
+    "wall_seconds": 14.172
+  },
+  {
+    "id": "eea56de2-f324-49c7-a224-b6fdb1d40edf",
+    "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+    "kind": "validation",
+    "at": "2026-09-18T01:08:15.065286+00:00",
+    "version": 3,
+    "report": {
+      "passed": true,
+      "blocking_issues": [],
+      "records": 250,
+      "observations": 556,
+      "quarantined_fields": 0,
+      "filtered_records": 137,
+      "error_examples": [],
+      "output_examples": [
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "field": "entity.legal_name",
+          "value": "BNP PARIBAS",
+          "source_fields": [
+            "Company Name"
+          ],
+          "raw_value": [
+            "BNP PARIBAS                                                                                         "
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "37d6fb3fd046bd7510d89cec880487a78e7959498a0742d595f9f19821f58961"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "field": "entity.acn",
+          "value": "000000117",
+          "source_fields": [
+            "ACN"
+          ],
+          "raw_value": [
+            "000000117"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.94
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "5251753b571a628c8664880dca4bae5331e1db67e4ee18c5447e063ba592af42"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "field": "entity.abn",
+          "value": "23000000117",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "23000000117"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.93
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "bc8dcf744ffa796636536fc504c6b3208066612e6e453de89c8b62d3907a70ad"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "field": "entity.entity_type",
+          "value": "company",
+          "source_fields": [
+            "Type"
+          ],
+          "raw_value": [
+            "FNOS"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.86
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "83644cf76a031829fa94a0616928ae808b9e6fc8b6f4f4cba8547d962537a516"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "ee503269ed0fd116f56917cdff00b5a5a856259de3a7ec97359a40cb645baa7b",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "field": "entity.status",
+          "value": "active",
+          "source_fields": [
+            "Status"
+          ],
+          "raw_value": [
+            "REGD"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 11
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.87
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "1c72402e70280d25cbe3c937c8bad29ca2da1b0c2960cd0dbf0398f2ac2cdc87"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "347c810dcac500287b828c182f84973eb1015587e9f7fdbd95f9446682c5f47c",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "field": "entity.legal_name",
+          "value": "MLC LIFETIME COMPANY LIMITED",
+          "source_fields": [
+            "Company Name"
+          ],
+          "raw_value": [
+            "MLC LIFETIME COMPANY LIMITED"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 28
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "89dcccef575dfc12b04b4861af41a1f04cb2fd9ea2ae5b498d4e7f633221d0b5"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "347c810dcac500287b828c182f84973eb1015587e9f7fdbd95f9446682c5f47c",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "field": "entity.acn",
+          "value": "000000420",
+          "source_fields": [
+            "ACN"
+          ],
+          "raw_value": [
+            "000000420"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 28
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.94
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "749a7e9599b7eda2c36c71b56a93dff8e8e938cb8268d9f4c589e9278b74e603"
+        },
+        {
+          "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+          "source_record_id": "347c810dcac500287b828c182f84973eb1015587e9f7fdbd95f9446682c5f47c",
+          "observed_at": "2026-09-14T14:53:34.014830+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-18T00:56:54.341936+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "field": "entity.abn",
+          "value": "94000000420",
+          "source_fields": [
+            "ABN"
+          ],
+          "raw_value": [
+            "94000000420"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "deda104897463ae7551130b28f643abedf7c98dfc246c32cc2da1800a27ad234",
+            "sheet": "csv",
+            "row": 28
+          },
+          "snapshot_id": "a035439b77148df7078b70d97679bbc2d7a3792e06edac89cbd47c75e9d3288c",
+          "config_hash": "58c408030e4559276a6fb8cdd99c07db0f90551058c50e980302e3e7dadee4a4",
+          "subject_role": "legal_entity",
+          "source_kind": "company_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.91,
+            "field_confidence": 0.93
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "id": "fa6998095591f8f370b123630174918cd875b5f4cde8042f485349f947f7fedc"
+        }
+      ],
+      "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+    }
+  },
+  {
+    "id": "3384e91f-6e96-4e9b-81eb-f70791c35303",
+    "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+    "kind": "failure",
+    "at": "2026-09-18T01:08:15.090821+00:00",
+    "node": "critique_node",
+    "error": "BudgetExceeded: Input token reservation exceeds budget"
+  }
+]

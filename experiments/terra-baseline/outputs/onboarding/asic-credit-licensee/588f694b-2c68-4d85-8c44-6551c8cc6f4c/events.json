@@ -1,0 +1,28 @@
+[
+  {
+    "id": "2f23a82b-6699-448a-b8e4-2906b767be8a",
+    "run_id": "588f694b-2c68-4d85-8c44-6551c8cc6f4c",
+    "kind": "model_usage",
+    "at": "2026-09-18T01:10:53.771591+00:00",
+    "stage": "inspect",
+    "model": "gpt-5.6-terra",
+    "attempt": 1,
+    "input_tokens": 7028,
+    "output_tokens": 718,
+    "calculated_cost_usd": null,
+    "pricing_basis": "unknown; no provider rates configured",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0b210-c46c-7ca1-a671-86b4b7f024ec/run/01a0b210-c702-7c33-b0bd-f9d6bad0cb52?start_time=2026-09-18T01%3A10%3A39.106133%2B00%3A00",
+    "trace_run_id": "01a0b210-c702-7c33-b0bd-f9d6bad0cb52",
+    "response_artifact": "d2fbbd15cbbc26f5a5bc01c2d1095ba40e6ac7850a280c7909eea14b435da2c3",
+    "status": "success",
+    "wall_seconds": 10.556
+  },
+  {
+    "id": "2c06c235-4963-4073-8adc-44af780cc715",
+    "run_id": "588f694b-2c68-4d85-8c44-6551c8cc6f4c",
+    "kind": "failure",
+    "at": "2026-09-18T01:10:53.794418+00:00",
+    "node": "inspect_node",
+    "error": "Error: '\t' expected after '\"'"
+  }
+]

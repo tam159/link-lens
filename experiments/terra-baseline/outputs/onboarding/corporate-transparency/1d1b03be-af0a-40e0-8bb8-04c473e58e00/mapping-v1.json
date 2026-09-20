@@ -1,0 +1,109 @@
+{
+  "id": "1d1b03be-af0a-40e0-8bb8-04c473e58e00:1",
+  "run_id": "1d1b03be-af0a-40e0-8bb8-04c473e58e00",
+  "version": 1,
+  "config_hash": "82a1e6882d36939ea62b9d1db19bdd8f5839445213d80297d4b1633b1dbbdb17",
+  "config": {
+    "reader": {
+      "format": "xlsx",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": "Income tax details",
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One income-tax disclosure row for a named corporate tax entity and stated income year.",
+    "subject_role": "legal_entity",
+    "source_kind": "tax_disclosure",
+    "subject_label_field": "Name",
+    "address_role": "unknown",
+    "filters": [
+      {
+        "field": "ABN",
+        "op": "nonempty",
+        "values": [],
+        "length": null
+      }
+    ],
+    "fields": [
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "digits",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "ABN",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.94,
+        "evidence": "Dataset notes explicitly say reports contain the ABN; header is “ABN”; sample row 2 has 94600082111."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Name",
+        "reason": "Retained as subject_label_field only. Dataset notes say the report contains an entity name, but supplied evidence does not establish that it is the registered legal name required by entity.legal_name."
+      },
+      {
+        "source_field": "Total income $",
+        "reason": "Tax-disclosure measure; no corresponding canonical field in the supplied ontology."
+      },
+      {
+        "source_field": "Taxable income $",
+        "reason": "Tax-disclosure measure; no corresponding canonical field in the supplied ontology."
+      },
+      {
+        "source_field": "Tax payable $",
+        "reason": "Tax-disclosure measure; no corresponding canonical field in the supplied ontology."
+      },
+      {
+        "source_field": "Income year",
+        "reason": "Disclosure-period field; no corresponding canonical field in the supplied ontology, and it is not an entity registration date."
+      },
+      {
+        "source_field": "__unnamed_7",
+        "reason": "Empty unnamed trailing column in supplied samples; no semantic header or canonical field."
+      },
+      {
+        "source_field": "__unnamed_8",
+        "reason": "Empty unnamed trailing column in supplied samples; no semantic header or canonical field."
+      },
+      {
+        "source_field": "__unnamed_9",
+        "reason": "Empty unnamed trailing column in supplied samples; no semantic header or canonical field."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.82,
+    "limitations": [
+      "Publication proxy is used because this sheet has an income year but no record-level source-statement datetime; income year is not mapped as observed_at or date_registered.",
+      "The supplied notes describe corporate tax entities and disclosure thresholds, but do not demonstrate that the Name column is a registered legal name; it remains only the raw subject label.",
+      "ABN validation is applied. No ACN is derived from the ABN suffix.",
+      "The ABN nonempty filter is based on the identifier header and samples, not on documentation of a completeness rule; authority and field scores are provisional and require human review.",
+      "Tax amounts and income year are preserved as unmapped because the assignment ontology contains no tax-measure or reporting-period fields.",
+      "The selected sheet only is mapped. The analysis notes a separate PRRT details sheet at a different grain, which requires separate onboarding."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-terra",
+  "created_at": "2026-09-18T01:06:05.480805+00:00",
+  "status": "proposed"
+}

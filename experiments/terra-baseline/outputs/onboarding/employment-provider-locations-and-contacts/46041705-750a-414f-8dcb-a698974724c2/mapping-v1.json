@@ -1,0 +1,203 @@
+{
+  "id": "46041705-750a-414f-8dcb-a698974724c2:1",
+  "run_id": "46041705-750a-414f-8dcb-a698974724c2",
+  "version": 1,
+  "config_hash": "ca5b7a49b8cbac5d92e511466c64fb98cc687ec22bcb10bc177bbeac44043e73",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "cp1252",
+      "delimiter": ",",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One provider service-site offering under a contract and Employment Service Area code.",
+    "subject_role": "service_provider",
+    "source_kind": "service_locations",
+    "subject_label_field": "SITE_NAME",
+    "address_role": "service_location",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "SITE_ADDRESS_LN"
+        ],
+        "canonical_field": "address.full",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.75,
+        "evidence": "Exact header SITE_ADDRESS_LN; row 2 sample is \"2nd Floor 22 East Row\"."
+      },
+      {
+        "source_fields": [
+          "SITE_LOCALITY_NAME"
+        ],
+        "canonical_field": "address.locality",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.9,
+        "evidence": "Exact header SITE_LOCALITY_NAME; row 2 sample is \"CANBERRA\"."
+      },
+      {
+        "source_fields": [
+          "SITE_STATE_CD"
+        ],
+        "canonical_field": "address.state",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "uppercase",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "ACT": "ACT",
+              "NSW": "NSW"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.82,
+        "evidence": "Exact header SITE_STATE_CD; preview samples include ACT (row 2) and NSW (rows 3-9)."
+      },
+      {
+        "source_fields": [
+          "SITE_POSTCODE"
+        ],
+        "canonical_field": "address.postcode",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "postcode",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.9,
+        "evidence": "Exact header SITE_POSTCODE; row 2 sample is \"2601\" and row 3 is \"2594\"."
+      },
+      {
+        "source_fields": [
+          "SITE_URL"
+        ],
+        "canonical_field": "entity.website",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "website",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.75,
+        "evidence": "Exact header SITE_URL; row 2 sample is \"www.visionaustralia.org.au\"."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "DIS_SITE_CODE",
+        "reason": "Site-like code (for example A230); no canonical site identifier exists and it is not a legal-entity identifier."
+      },
+      {
+        "source_field": "CONTRACT_NAME",
+        "reason": "Contract/program code (for example DESB or DESA); no corresponding canonical field."
+      },
+      {
+        "source_field": "LOCATION_NAME",
+        "reason": "Location label (for example CANBERRA); locality is mapped from the explicitly named SITE_LOCALITY_NAME field instead."
+      },
+      {
+        "source_field": "SITE_NAME",
+        "reason": "Retained as subject_label_field because it is a provider/site-facing label (for example Vision Australia or Job Centre Australia), not evidenced as a legal or trading name."
+      },
+      {
+        "source_field": "SITE_CONTACT_PHONE",
+        "reason": "Site contact telephone number; no telephone canonical field in the supplied ontology."
+      },
+      {
+        "source_field": "SITE_EMAIL_ADDRESS",
+        "reason": "Site email address; no email canonical field in the supplied ontology."
+      },
+      {
+        "source_field": "ESA_CD_1",
+        "reason": "Employment Service Area code; no corresponding canonical field and authoritative code meaning is not supplied."
+      },
+      {
+        "source_field": "ESA_CD_2",
+        "reason": "Additional Employment Service Area code field; preview values are whitespace and no corresponding canonical field exists."
+      },
+      {
+        "source_field": "ESA_CD_3",
+        "reason": "Additional Employment Service Area code field; preview values are whitespace and no corresponding canonical field exists."
+      },
+      {
+        "source_field": "AGENT_FREECALL_NUM",
+        "reason": "Freecall telephone number; no telephone canonical field in the supplied ontology."
+      },
+      {
+        "source_field": "PHONE_NUMBER",
+        "reason": "Telephone number; no telephone canonical field in the supplied ontology."
+      },
+      {
+        "source_field": "LATITUDE",
+        "reason": "Geographic coordinate; no latitude canonical field in the supplied ontology."
+      },
+      {
+        "source_field": "LONGITUDE",
+        "reason": "Geographic coordinate; no longitude canonical field in the supplied ontology."
+      },
+      {
+        "source_field": "__unnamed_19",
+        "reason": "Unnamed trailing column; preview samples are empty and it has no canonical meaning."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.7,
+    "limitations": [
+      "The source is a service-location dataset, not a company, business-name, or licence register; it does not establish legal-entity identity, legal name, trading-name status, entity type, status, or registration date.",
+      "SITE_NAME is retained only as a raw identity label. It is not mapped to entity.legal_name or entity.trading_name because no documentation establishes its legal or trading-name role.",
+      "One physical site may have multiple rows: preview rows 4-5 share DIS_SITE_CODE A300 and address while CONTRACT_NAME and ESA_CD_1 differ. Records should not be treated as unique locations or entities.",
+      "SITE_ADDRESS_LN is mapped to address.full as the supplied street-address text, but it excludes separately supplied locality, state, and postcode; consumers requiring a fully assembled address must combine observations downstream.",
+      "No per-record observation, effective, or current-status date is supplied. observed_at must use the source envelope publication proxy (2016-05-27T00:00:00), not a record date.",
+      "No explicit country field is supplied. Country is intentionally left unmapped rather than inferred from Australian-looking address conventions.",
+      "Only preview evidence is supplied and no documentation is available. Field and source-reliability scores are provisional and require human review.",
+      "The supplied exploration output failed before validating full-file column population and uniqueness; __unnamed_19 is nevertheless explicitly retained as unmapped based on the frozen header and preview samples."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-terra",
+  "created_at": "2026-09-18T01:11:58.285884+00:00",
+  "status": "proposed"
+}

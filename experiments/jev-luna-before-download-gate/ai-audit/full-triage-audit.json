@@ -1,0 +1,582 @@
+{
+  "kind": "triage",
+  "batch_id": "discovery-jev-luna-v1",
+  "sampling": "Census of all 50 newly ranked datasets; fresh bounded resource samples plus targeted documentation/secondary-resource checks",
+  "seed": null,
+  "threshold": null,
+  "review_type": "ai_assisted",
+  "items": [
+    {
+      "item_id": "fa0b0d71-b8b8-4af8-bc59-0b000ce0d5e4",
+      "rank": 1,
+      "title": "ASIC – Credit Licensee Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "CSV row 2: RELI CAPITAL LTD, mixed identifier 80005443292, credit licence 219612. Licence-holder business records; licence status is not entity status.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/fa0b0d71-b8b8-4af8-bc59-0b000ce0d5e4/resource/35953a01-a9a8-4609-8566-c9fa7de465d3/download/credit_lic_202609.csv"
+      ]
+    },
+    {
+      "item_id": "ab7eddce-84df-4098-bc8f-500d0d9776d1",
+      "rank": 2,
+      "title": "ASIC - Australian Financial Services Licensee Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "CSV rows 2–3: IPIB PTY LTD / 85007186003 and IMC PACIFIC PTY LTD / 89099273846. Identifiable AFS holders; mixed ABN/ACN requires length and checksum handling.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/ab7eddce-84df-4098-bc8f-500d0d9776d1/resource/d98a113d-6b50-40e6-b65f-2612efc877f4/download/afs_lic_202609.csv"
+      ]
+    },
+    {
+      "item_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+      "rank": 3,
+      "title": "ASIC - Company Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "TSV rows 2–3 share ACN 000000019 and ABN 89000000019 across LOVINI HOLDINGS and MONAKA names. Current/historic name distinction matters; rows are not separate companies.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/7b8656f9-606d-4337-af29-66b89b2eeefb/resource/5c3914e6-413e-4a2c-b890-bf8efe3eabf2/download/company_202609.csv"
+      ]
+    },
+    {
+      "item_id": "a7bbbf64-e2ef-4d96-9fb4-0aea73ada2af",
+      "rank": 4,
+      "title": "ASIC – Australian Financial Services Authorised Representative Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Follow-up raw CSV rows 5–6 identify NETWEALTH PTY LTD / ACN 119484043 and ASPIRA ADVICE SOLUTIONS PTY LTD / 627832820. Mixture of individuals and companies; representative is distinct from appointing licensee.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/a7bbbf64-e2ef-4d96-9fb4-0aea73ada2af/resource/5515dfcc-5266-44df-950d-7e359a83d514/download/afs_rep_202609.csv"
+      ]
+    },
+    {
+      "item_id": "a3b6d445-3a00-409a-8b49-53dc62b823bf",
+      "rank": 5,
+      "title": "ASIC – Credit Representative Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Follow-up CSV row 23 identifies BOQ SPECIALIST PTY LTD / 94110704464; row 24 BAYMAN PTY. LIMITED / 60003993388. Mixed individual and organisation representatives; do not merge with licence holder.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/a3b6d445-3a00-409a-8b49-53dc62b823bf/resource/999d9e92-df2c-4d6d-b580-321dcd205292/download/credit_rep_202609.csv"
+      ]
+    },
+    {
+      "item_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+      "rank": 6,
+      "title": "ASIC - Business Names Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Rows 2–3 identify Plumbing Gas and Solar and Bruce Ward Training with BN_ABN values. Business-name subjects qualify, but name/ABN ownership semantics still need explicit mapping and review.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/bc515135-4bb6-4d50-957a-3713709a76d3/resource/55ad4b1c-5eeb-44ea-8b29-d410da431be3/download/business_names_202609.csv"
+      ]
+    },
+    {
+      "item_id": "5bd7fcab-e315-42cb-8daf-50b7efc2027e",
+      "rank": 7,
+      "title": "ABN Bulk Extract",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Downloaded CSV is a resource index. Publisher bulk-extract PDF pages 3–5 defines ABN/entity/legal-name records in XML, supporting relevance through documentation. Bulk XML rows were not inspected; CSV metadata overstates shared-engine readiness.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/5bd7fcab-e315-42cb-8daf-50b7efc2027e/resource/469c8c2c-0be5-45b2-90d7-c42f637f3323/download/abn-bulk-extract-resources.csv",
+        "https://data.gov.au/data/dataset/5bd7fcab-e315-42cb-8daf-50b7efc2027e/resource/3b975e4f-af2f-4de7-a20e-6dcb3f67805c/download/abnlookupbulkextractreadme.pdf"
+      ]
+    },
+    {
+      "item_id": "a265ef83-1190-4c63-ac51-a0ca3966c666",
+      "rank": 8,
+      "title": "Victorian liquor licences split by licence type",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Both sampled official-linked CloudFront licence-category CSV URLs returned HTTP 404. Metadata is plausible, but rows were unavailable. Jev 0.94 is not verification.",
+      "resource_urls": [
+        "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/BYO_Permit.csv",
+        "https://dar6fu3d3rk1b.cloudfront.net/datasets/liqvic/Full_Club_Licence.csv"
+      ]
+    },
+    {
+      "item_id": "37390371-9da4-42d8-9304-649c50090611",
+      "rank": 9,
+      "title": "ASIC – Self-Managed Super Fund Auditor Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Follow-up row 9 has SMSF_CAPACITY_FIRM_NAME GPP Audit Pty Limited. Main subject is an individual auditor; employer firm is a secondary organisation. Auditor ABN must not be assigned to that firm.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/37390371-9da4-42d8-9304-649c50090611/resource/13b12e77-8fda-42ca-aa43-23715036836b/download/smsf_auditor_202604.csv"
+      ]
+    },
+    {
+      "item_id": "7c356598-b048-4c1e-862f-c936041e3d81",
+      "rank": 10,
+      "title": "Research and Development tax incentive",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "2022-23 Report sheet includes (UI!) THE URBAN INSTITUTE PTY LTD / 95608464535 and @HOME ARCHITECTURE PTY LTD / 53666147271. Information sheet precedes organisation-level expenditure records.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/7c356598-b048-4c1e-862f-c936041e3d81/resource/e9c059c8-a801-4068-844e-9d4ee84a1d81/download/report-of-information-about-research-and-development-tax-incentive-entities.xlsx"
+      ]
+    },
+    {
+      "item_id": "c2524c87-cea4-4636-acac-599a82048a26",
+      "rank": 11,
+      "title": "Corporate Tax Transparency",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Income-tax workbook describes entity-level disclosures and contains named companies and ABNs. Introductory sheet explains reporting scope; entity-level relevance does not settle tax-group identity or dates.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/c2524c87-cea4-4636-acac-599a82048a26/resource/491b366b-aa6f-4b1c-b39d-cebaeeb6f874/download/2023-24-corporate-report-of-entity-tax-information.xlsx"
+      ]
+    },
+    {
+      "item_id": "a5fde808-ba32-4cee-bfcb-fbb3afa56a28",
+      "rank": 12,
+      "title": "ASIC - Banned and Disqualified Organisations Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "CSV row 2 names AUSTRALIAN BUSINESS INSURANCE ADVISERS (ABIA) PTY LTD / ACN 081402379; row 3 BLACKBURNE & DIXON PTY LTD / 008876033. Banning record status is not company registration status.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/a5fde808-ba32-4cee-bfcb-fbb3afa56a28/resource/ced03961-e6f7-4263-895a-0fd1d7996043/download/bd_org_202609.csv"
+      ]
+    },
+    {
+      "item_id": "b050b242-4487-4306-abf5-07ca073e5594",
+      "rank": 13,
+      "title": "ACNC Registered Charities",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Register CSV supplies Charity_Legal_Name, ABN, address and website fields with populated organisation records. Charities are not necessarily companies; registration and status are ACNC-specific.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/b050b242-4487-4306-abf5-07ca073e5594/resource/8fb32972-24e9-4c95-885e-7140be51be8a/download/datadotgov_main.csv"
+      ]
+    },
+    {
+      "item_id": "1ca29b03-220d-4c19-b34e-c7932cd4508d",
+      "rank": 14,
+      "title": "Victorian Government Schools ABNs",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Sheet1 row 2 Alberton Primary School / 35954747085, row 3 Allansford and District Primary School / 37051817052. ABN-bearing public organisations qualify under the broad organisation criterion; this is a historical 2015 extract.",
+      "resource_urls": [
+        "http://www.education.vic.gov.au/Documents/about/research/datavic/dv183-schoolABNdetails.xlsx"
+      ]
+    },
+    {
+      "item_id": "297dfb0e-3b94-433b-be64-3bb0905e28a4",
+      "rank": 15,
+      "title": "Liquor licence premises list",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "CSV row 2 Charlestown Golf Club Ltd / licence LIQC300200019 and separate Licensee Name; row 3 Barooga Sports Club Ltd. Identifiable venues/holders, not anonymous licence totals.",
+      "resource_urls": [
+        "https://data.nsw.gov.au/data/dataset/297dfb0e-3b94-433b-be64-3bb0905e28a4/resource/bda22b68-8e4f-4028-b725-52dc0912a626/download/ebethanypremises-list-as-at-june-2020.csv"
+      ]
+    },
+    {
+      "item_id": "cfc1a18e-f4e0-4ed8-9a19-36b59b7a3d5b",
+      "rank": 16,
+      "title": "ACNC 2018 Annual Information Statement Data",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Group-member workbook row 2 Purpose Real Estate Ltd / 11616332444; row 3 G-Force Recruitment Ltd / 15006145222. Member charities and group names are separate fields; no group-to-member identity merge.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/cfc1a18e-f4e0-4ed8-9a19-36b59b7a3d5b/resource/dbba5286-8a92-4ec9-8733-04375275d93a/download/2018-ais_list-of-group-members.xlsx"
+      ]
+    },
+    {
+      "item_id": "28a94374-d516-4200-a6f8-c09e76f58cc5",
+      "rank": 17,
+      "title": "ACNC 2020 Annual Information Statement (AIS) Data",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "AIS CSV names Sydney Missionary & Bible College / 11000047950 and Integricare Limited / 11000073870, with reporting dates and websites. Organisation-year grain; repeated years are not new entities.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/28a94374-d516-4200-a6f8-c09e76f58cc5/resource/62c7b3d3-4358-4d57-b810-a36732d36e2d/download/datadotgov_ais20.csv"
+      ]
+    },
+    {
+      "item_id": "311c24f3-fc09-42e7-8362-f15a76334a75",
+      "rank": 18,
+      "title": "ACNC 2022 Annual Information Statement (AIS) Data",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "2022 AIS CSV again supplies named charities, ABNs, reporting dates and financial fields. Relevance is supported, but overlap with other ACNC years is not independent corroboration.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/311c24f3-fc09-42e7-8362-f15a76334a75/resource/cfbcf6f1-7ce5-472f-bfd3-a478e67e0366/download/datadotgov_ais22.csv"
+      ]
+    },
+    {
+      "item_id": "34b35c52-8af0-4cc1-aa0b-2278f6416d09",
+      "rank": 19,
+      "title": "ACNC 2019 Annual Information Statement Data",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "2019 AIS CSV includes ABN, charity name, other names and address fields with populated charity rows. Historic yearly returns require group and period handling.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/34b35c52-8af0-4cc1-aa0b-2278f6416d09/resource/76006467-18f2-4094-a1cb-50544fd9b7b2/download/datadotgov_ais19.csv"
+      ]
+    },
+    {
+      "item_id": "42bad3df-f2e0-4c9c-bef0-0a4328927718",
+      "rank": 20,
+      "title": "Suitable Operator Register (SOR) for Environmentally Relevant Activities (ERAs)",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Workbook identifies OVER THE TOP ROOF RESTORATIONS PTY. LTD / ACN 090444714 and $Uccess Pty Ltd / ACN 600137942, explicitly Corporation (Company). Operator registration status is source-specific.",
+      "resource_urls": [
+        "https://storagesolutiondocsprod.blob.core.windows.net/register-documents-rso/rso-register.xlsx?timestamp=2026-09-18T10:20:01+10:00"
+      ]
+    },
+    {
+      "item_id": "86cad799-2601-4f23-b02c-c4c0fc3b6aff",
+      "rank": 21,
+      "title": "ACNC 2015 Annual Information Statement Data",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Main XLSX exceeded the 30 MB audit limit. Publisher explanatory PDF page 3 explicitly defines charity ABN and formal legal-name fields for each record. Documentary support only; main 2015 rows not inspected in this fresh audit.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/86cad799-2601-4f23-b02c-c4c0fc3b6aff/resource/569b8e48-a0ad-4008-9d95-7f91b6cfa2aa/download/datadotgov_ais15.xlsx",
+        "https://data.gov.au/data/dataset/86cad799-2601-4f23-b02c-c4c0fc3b6aff/resource/14e0275f-6606-4015-b501-4c5b47ba8869/download/2015-ais-data.gov.au-explanatory-notes_v1.1.pdf"
+      ]
+    },
+    {
+      "item_id": "a1f8626c-fefb-4c4d-86ea-deaa04fb1f6e",
+      "rank": 22,
+      "title": "ACNC 2017 Annual Information Statement Data",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Main XLSX exceeded audit limit, but group-reporting workbook member sheet identifies Abundant Life Church Incorporated / 11595120337 and its PBI operator / 29146062217. Group summary and member identities must stay distinct.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/a1f8626c-fefb-4c4d-86ea-deaa04fb1f6e/resource/8d020b50-700f-4bc4-8c78-79f83d99be7a/download/datadotgov_ais17.xlsx",
+        "https://data.gov.au/data/dataset/a1f8626c-fefb-4c4d-86ea-deaa04fb1f6e/resource/8a18e71a-58d1-414f-adee-c9066560b05c/download/acnc-2017-group-ais-dataset-approved-reporting-groups.xlsx"
+      ]
+    },
+    {
+      "item_id": "d7992845-5d3b-4868-b012-71f672085412",
+      "rank": 23,
+      "title": "ACNC 2014 Annual Information Statement data",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Companion group workbook lists BOND UNIVERSITY LIMITED / 88010694121 and CAMPUS OPERATIONS PTY. LTD. / 54010929316. Main XLSX exceeded limit; positive based on actual member rows, not synthetic group IDs.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/d7992845-5d3b-4868-b012-71f672085412/resource/4d65259d-1ccf-4c78-a223-e2bd49dc5fb1/download/datadotgov_ais14.xlsx",
+        "https://data.gov.au/data/dataset/d7992845-5d3b-4868-b012-71f672085412/resource/b3b49610-7f47-41b2-9350-49b7fd8acd93/download/2014-ais-data-for-group-reporting-charities.xlsx"
+      ]
+    },
+    {
+      "item_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+      "rank": 24,
+      "title": "Employment Services Provider Locations and Contacts",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Initial collector newline parsing failed; follow-up reads raw artifact with newline-safe CSV. Rows 2–4 name Vision Australia and Job Centre Australia with locations. These are service sites, lacking strong entity identifiers.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/638f89d7-1c12-4db9-8342-abfcd7b49e95/resource/d9c69f98-f0af-4db8-b598-513e1da748ce/download/providerdetailsmay2016.csv"
+      ]
+    },
+    {
+      "item_id": "ccb9f9d1-5e77-49f7-a78d-7475c3da5362",
+      "rank": 25,
+      "title": "Junior Minerals Exploration Incentive credit allocations",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Annual workbook sheets name Alchemy Resources Limited / 17124444122 and Andromeda Metals Limited / 75061503375 alongside allocations. Entity-year monetary data, not anonymous totals.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/ccb9f9d1-5e77-49f7-a78d-7475c3da5362/resource/ddf75a39-d948-4faa-8622-a330cf36219b/download/jmei_allocation-2017-25.xlsx"
+      ]
+    },
+    {
+      "item_id": "d61374dd-1a62-4132-913d-35d90cfdac81",
+      "rank": 26,
+      "title": "Intellectual Property Longitudinal Research Data (IPLORD)",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Follow-up party_name rows identify bacoz developments pty ltd. Party/year IP statistics retain organisation identity; synthetic party IDs are not ABNs and cannot prove identity alone.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/d61374dd-1a62-4132-913d-35d90cfdac81/resource/8ff87fe0-d50e-450f-9b51-21366072d449/download/iplord_1901_2020_full_data_set.csv"
+      ]
+    },
+    {
+      "item_id": "6f1cc305-a8b2-4748-bd40-c00754ad6504",
+      "rank": 27,
+      "title": "Victorian liquor licences by location",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Location CSV contains LicenseeName, TradingAs, premises fields; OAKLAND HUNT CLUB appears as holder and trading name. Distinguish individual holders and venue names from legal entities.",
+      "resource_urls": [
+        "https://content.vic.gov.au/sites/default/files/2023-04/Geo-coded-location-as-at-31-March-2022.csv"
+      ]
+    },
+    {
+      "item_id": "8a1ad782-3d60-4c34-8cd8-f11c031947b7",
+      "rank": 28,
+      "title": "Fair Jobs Code Registers",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Certificate rows name Zauner Construction Pty Limited / 21087732607 and ELLIS AIR CONDITIONING PROPRIETARY LIMITED / 13004601790. Identifiable organisations; code certification status is not corporate status.",
+      "resource_urls": [
+        "https://fjc-vic-gov.my.salesforce-sites.com/downloadCertExport"
+      ]
+    },
+    {
+      "item_id": "cf3fb933-34a2-4200-9c6e-c806bbc58a1f",
+      "rank": 29,
+      "title": "Companies 1863 to 1959",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Historical company-register index metadata is plausible, but sampled Queensland download returned an empty resource. No company rows inspected; historical scope would also limit current usefulness.",
+      "resource_urls": [
+        "https://www.data.qld.gov.au/dataset/cf3fb933-34a2-4200-9c6e-c806bbc58a1f/resource/1cf4cc1d-0699-46c4-ba0a-884f72806ad2/download/companies-index-1863-1959-.csv"
+      ]
+    },
+    {
+      "item_id": "57d6ae20-3139-44e0-92cb-a2e706a8eba0",
+      "rank": 30,
+      "title": "Contracts ACT Report as at 31 December 2020",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "ACT Contracts 2020 CSV and JSON endpoints both returned HTTP 403. Supplier relevance is plausible from metadata, not established from inspected contract records.",
+      "resource_urls": [
+        "https://www.data.act.gov.au/api/v3/views/wp9g-3hg8/export.csv?accessType=DOWNLOAD",
+        "https://www.data.act.gov.au/api/v3/views/wp9g-3hg8/query.json?accessType=DOWNLOAD"
+      ]
+    },
+    {
+      "item_id": "9584dbb5-2d1f-4a73-9bba-e1bae966c124",
+      "rank": 31,
+      "title": "Notifiable Invoices Register",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Notifiable Invoices CSV and JSON endpoints both returned HTTP 403. Supplier records could qualify, but no rows inspected.",
+      "resource_urls": [
+        "https://www.data.act.gov.au/api/v3/views/kzmf-7uhp/export.csv?accessType=DOWNLOAD",
+        "https://www.data.act.gov.au/api/v3/views/kzmf-7uhp/query.json?accessType=DOWNLOAD"
+      ]
+    },
+    {
+      "item_id": "0e4a82b7-b1d9-47d8-8c74-3cb2ac296661",
+      "rank": 32,
+      "title": "Mount Gambier Main Street Traders",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Mount Gambier traders CSV returned HTTP 403. Metadata mentions company/owner history, but actual content could not be confirmed.",
+      "resource_urls": [
+        "https://data.sa.gov.au/data/storage/f/2014-06-10T14%3A54%3A17.368Z/commercial-street-traders-data-set.csv"
+      ]
+    },
+    {
+      "item_id": "e4a9d01b-45c0-4ac6-b6dc-6986af6e8688",
+      "rank": 33,
+      "title": "State Library of Queensland - Contract disclosure",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Both State Library contract CSV downloads returned empty resources. Claimed contract/supplier content is unverified; no empty file treated as evidence.",
+      "resource_urls": [
+        "https://www.data.qld.gov.au/dataset/e4a9d01b-45c0-4ac6-b6dc-6986af6e8688/resource/e0b86945-777a-497c-84f2-e96485115d5b/download/report-contract-disclosure-april-june-2026-v2.csv",
+        "https://www.data.qld.gov.au/dataset/e4a9d01b-45c0-4ac6-b6dc-6986af6e8688/resource/64cf8187-761d-4bab-95e8-7c2c4630ec54/download/contract-disclosure-report-january-march-2026.csv"
+      ]
+    },
+    {
+      "item_id": "fac8c9a4-03d5-44c6-9a9e-bb81085b0a44",
+      "rank": 34,
+      "title": "Business Discount Directory",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Both discount-offer and business-venue CSV downloads returned empty resources. Metadata is strongly relevant, but business rows were not inspected.",
+      "resource_urls": [
+        "https://www.data.qld.gov.au/dataset/fac8c9a4-03d5-44c6-9a9e-bb81085b0a44/resource/33159533-c2ee-4e11-902d-e2d250e2c84c/download/opendata-discount-offers-20260910170017.csv",
+        "https://www.data.qld.gov.au/dataset/fac8c9a4-03d5-44c6-9a9e-bb81085b0a44/resource/5da0fa14-33a2-4046-9f94-f96a90819b15/download/opendata-business-venues-20260903170004.csv"
+      ]
+    },
+    {
+      "item_id": "9c7bc715-c8c4-46ac-b984-50ac5f6d1231",
+      "rank": 35,
+      "title": "Companies, Rockhampton 1904-1975",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Rockhampton historical company-index CSV returned an empty resource. No actual company records inspected.",
+      "resource_urls": [
+        "https://www.data.qld.gov.au/dataset/9c7bc715-c8c4-46ac-b984-50ac5f6d1231/resource/f5370382-f7d3-450e-bd9d-7dc1fc9757f3/download/companies-rockhampton-1904-1975.csv"
+      ]
+    },
+    {
+      "item_id": "cf466291-8740-4b54-ae11-8c98c347f201",
+      "rank": 36,
+      "title": "Liquor & Gaming Licences",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "South Australian liquor/gaming licence CSV and linked documentation returned HTTP 403. Record-level business content remains unverified.",
+      "resource_urls": [
+        "https://data.sa.gov.au/data/storage/f/2013-09-03T23%3A58%3A19.892Z/l-g-licences.csv",
+        "https://data.sa.gov.au/data/storage/f/2013-05-16T03%3A45%3A07.344Z/unleashed-meta-data-template-l-g-licences.doc"
+      ]
+    },
+    {
+      "item_id": "eadadf6f-f993-45d2-b6a8-153a600da73b",
+      "rank": 37,
+      "title": "Corporate Services Division Contract Disclosure",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Both Queensland health contract-disclosure CSVs returned empty resources. Procurement descriptions alone do not verify supplier rows.",
+      "resource_urls": [
+        "https://www.data.qld.gov.au/dataset/eadadf6f-f993-45d2-b6a8-153a600da73b/resource/c03a2b39-49bb-4ada-a4eb-3cc8cd4a48b6/download/contract-disclosure-report-2023-24.csv",
+        "https://www.data.qld.gov.au/dataset/eadadf6f-f993-45d2-b6a8-153a600da73b/resource/00a42fa6-8c7e-4a52-9f6b-4f1be788744c/download/open-data-load_20250702.csv"
+      ]
+    },
+    {
+      "item_id": "31203511-887c-4d44-96af-cad2c6cd05f1",
+      "rank": 38,
+      "title": "Contracts Register",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "ACT contracts CSV and JSON returned HTTP 403. No supplier rows inspected; retain unresolved rather than count relevant by title.",
+      "resource_urls": [
+        "https://www.data.act.gov.au/api/v3/views/pfs5-8d64/export.csv?accessType=DOWNLOAD",
+        "https://www.data.act.gov.au/api/v3/views/pfs5-8d64/query.json?accessType=DOWNLOAD"
+      ]
+    },
+    {
+      "item_id": "ec471ddf-f61f-45de-bb33-724780c62427",
+      "rank": 39,
+      "title": "VostroNet (Australia) Pty Ltd - Declaration-Multiple - 22 July 2025",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "CSV delimiter parse failed; declaration PDF page 1 explicitly names VostroNet (Australia) Pty Ltd, ABN 64 602 624 215 and ACN 602 624 215. Company is the declaring subject, not incidental. Superloop affiliation must not become identity.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/ec471ddf-f61f-45de-bb33-724780c62427/resource/6e53042c-3525-4482-96e4-08c08c698246/download/blanked-for-data.gov.csv",
+        "https://data.gov.au/data/dataset/ec471ddf-f61f-45de-bb33-724780c62427/resource/bb1159a7-e7a2-4d87-83df-dbecacf60041/download/vostronet_australia_pty_ltd_21072025_14_kerr_rd_north_lakes_nominated.pdf"
+      ]
+    },
+    {
+      "item_id": "4d35cd80-2538-4705-82f3-d0d18e823d98",
+      "rank": 40,
+      "title": "WGEA Dataset",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Newest resources labelled CSV are ZIP archives; initial decoding failed and a full download exceeded the audit limit. Follow-up 2022 organisation-list CSV names Integricare / 11000073870, Morris Mcmahon and Colas with ABNs. Relevance supported by older actual rows; latest-year payload not verified.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/4d35cd80-2538-4705-82f3-d0d18e823d98/resource/380faa66-1126-4020-8b89-496821290624/download/wgea_public_dataset_2025.zip",
+        "https://data.gov.au/data/dataset/4d35cd80-2538-4705-82f3-d0d18e823d98/resource/4f716314-5de2-425b-aef2-6501c0be076f/download/wgea_public_dataset_2023.zip",
+        "https://data.gov.au/data/dataset/4d35cd80-2538-4705-82f3-d0d18e823d98/resource/a15bc1e1-d19f-4f08-965a-cab8d49b2666/download/reporting-questionnaire-201920.pdf",
+        "https://data.gov.au/data/dataset/4d35cd80-2538-4705-82f3-d0d18e823d98/resource/2b0cb5e3-05d4-4e95-b9e8-7a1493a01a81/download/2022_included_organisations_per_abn.csv"
+      ]
+    },
+    {
+      "item_id": "5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841",
+      "rank": 41,
+      "title": "IPGOD2020",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Application file alone lacks company names. Follow-up party-activity CSV row 7 identifies pizzeys patent and trade mark attorneys pty ltd / ABN 55626186356, role submitter. Submitter is not necessarily applicant/owner.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841/resource/fcc9d5c7-7585-48ac-8e14-f33042ba7eb3/download/design-application.csv",
+        "https://data.gov.au/data/dataset/5ddbf57c-94c3-4dd2-b41c-c1e90b9a3841/resource/51f6686d-de02-4e3c-a08e-014cda00c3cf/download/design-party-activity.csv"
+      ]
+    },
+    {
+      "item_id": "6fd9d178-066f-4044-9578-6cf8772c5259",
+      "rank": 42,
+      "title": "Netbay Free Wifi Pty Ltd -Declaration - 3 October 2025 -St Kilda",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Workbook Sheet1 row 2 explicitly gives Name_of_SIP Netbay Free WiFi Pty Ltd and a service area. Organisation is the declared provider; area is not registered business address.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/6fd9d178-066f-4044-9578-6cf8772c5259/resource/6dbe73c3-026f-4d87-85ba-6b89780453cc/download/netbay_free_wifi_pty_ltd_007_declaration.xlsx"
+      ]
+    },
+    {
+      "item_id": "918416ce-7f76-48eb-9210-aa0760862202",
+      "rank": 43,
+      "title": "Companion Card Business Affiliates",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Companion Card business-venue CSV returned an empty resource. Plausible business directory not verified from rows.",
+      "resource_urls": [
+        "https://www.data.qld.gov.au/dataset/918416ce-7f76-48eb-9210-aa0760862202/resource/1ddf2d1a-f762-4f16-bebf-f5520a303c1b/download/companion-card-active-business-venue-details.csv"
+      ]
+    },
+    {
+      "item_id": "f71709a8-2eeb-4592-ad1f-443f7f520186",
+      "rank": 44,
+      "title": "Voluntary Tax Transparency Code",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "List of VTTC reports sheet row 4 names ACCIONA AGUA AUSTRALIA PTY LTD / 84128531742, with repeated years and published-report links. Entity/report-year grain; parent-origin field is not a parent identity.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/f71709a8-2eeb-4592-ad1f-443f7f520186/resource/e44e9729-30f5-4764-848e-f060f5099277/download/20260831_ttc_notifications.xlsx"
+      ]
+    },
+    {
+      "item_id": "09e3797c-7409-4420-bfb1-e38a4e215b88",
+      "rank": 45,
+      "title": "Lynham Networks Pty Ltd - Declaration - Multiple _ 20 December 2024",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Spreadsheet describes project areas without legal-name column. Follow-up signed declaration PDF page 1 names Lynham Networks Pty Ltd trading as Lightning Wholesale / ABN 17 602 258 337. Evidence is a company statement, not merely an incidental mention.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/09e3797c-7409-4420-bfb1-e38a4e215b88/resource/3796cbcb-d667-4dc8-819f-fcd42cc77929/download/lhn_sip_nominated-service-area-declaration-20-dec-2024.xlsx",
+        "https://data.gov.au/data/dataset/09e3797c-7409-4420-bfb1-e38a4e215b88/resource/2da1db92-ed49-4452-8d76-460e64bbbf80/download/sip_service_area_declaration-nominated_20dec24-signed.pdf"
+      ]
+    },
+    {
+      "item_id": "3cd97d99-3c12-45f5-8727-05a93467907e",
+      "rank": 46,
+      "title": "ACT NoWaste Licences & Registrations",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "ACT NoWaste CSV and JSON both returned HTTP 403. Waste-business licence metadata is relevant-looking, but no rows inspected.",
+      "resource_urls": [
+        "https://www.data.act.gov.au/api/v3/views/fdzw-rncp/export.csv?accessType=DOWNLOAD",
+        "https://www.data.act.gov.au/api/v3/views/fdzw-rncp/query.json?accessType=DOWNLOAD"
+      ]
+    },
+    {
+      "item_id": "49017fd0-e7be-4fc0-88c8-046fc366d980",
+      "rank": 47,
+      "title": "IPGOD2022",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Application table alone lacks names; PBR party-activity follow-up row 2 identifies grasslanz technology limited, party_type organisation, role applicant. ABN blank; relevant foreign organisations need not be automatically linkable.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/49017fd0-e7be-4fc0-88c8-046fc366d980/resource/952d7cf9-8412-4205-80de-405a725a2017/download/pbr-application.csv",
+        "https://data.gov.au/data/dataset/49017fd0-e7be-4fc0-88c8-046fc366d980/resource/385d1ca3-fb91-4c58-acd6-f076744a9122/download/pbr-party-activity.csv"
+      ]
+    },
+    {
+      "item_id": "5715b850-a989-4343-a1e8-e779ec729de4",
+      "rank": 48,
+      "title": "IPGOD2021 [SUPERSEDED]",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Design party-activity follow-up row 2 identifies watson chiarella pty ltd, party_type organisation, role opposition_respondent. Historical/superseded data; role is distinct from applicant/owner.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/5715b850-a989-4343-a1e8-e779ec729de4/resource/0e89d79e-908f-4b7b-b3d7-3b614dee4b38/download/design-application.csv",
+        "https://data.gov.au/data/dataset/5715b850-a989-4343-a1e8-e779ec729de4/resource/8303e332-3bda-4a34-ae9f-c63b47a5e561/download/design-party-activity.csv"
+      ]
+    },
+    {
+      "item_id": "5b70b4e7-4171-4c60-b2e9-6461bc213ac0",
+      "rank": 49,
+      "title": "Energy Rating Data for household appliances – Non Labelled products",
+      "verdict": "unsure",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "Product rows expose brand Daikin and brand/product website, but no verified legal organisation or supplier identity in inspected fields. Brand can denote several related businesses. Under the declared identifiable-organisation criterion, this is insufficient to mark relevant or prove the entire dataset irrelevant.",
+      "resource_urls": [
+        "https://data.gov.au/data/dataset/5b70b4e7-4171-4c60-b2e9-6461bc213ac0/resource/d4e17a35-9002-4a0c-ac1c-003ece0de135/download/ac_2026_09_18.csv"
+      ]
+    },
+    {
+      "item_id": "1def6e08-bed2-4904-b16b-a2a0c533045f",
+      "rank": 50,
+      "title": "Temporary emissions licences (TEL)",
+      "verdict": "yes",
+      "reviewer": "assistant evidence audit (separate from Jev ranking and Luna inference)",
+      "evidence": "TEL Register workbook row 2 names SYNTECH RESOURCES PTY LTD as holder; later rows include TA Australia Security Agent Pty Ltd and DGR GLOBAL LIMITED. Licences/activities/locations are distinct from entity status.",
+      "resource_urls": [
+        "https://storagesolutiondocsprod.blob.core.windows.net/register-documents-tel/tel-register.xlsx?timestamp=2026-09-18T10:20:01+10:00"
+      ]
+    }
+  ],
+  "id": "c3ac0ef36472226b03e029c1b590a0fe358076866fc964c07962784a53fd31cf"
+}

@@ -1,0 +1,109 @@
+{
+  "id": "47109ded-709d-4b83-8bab-d962a9b3b341:1",
+  "run_id": "47109ded-709d-4b83-8bab-d962a9b3b341",
+  "version": 1,
+  "config_hash": "ca5aab50082084cd30d42bf220833f2e43e94ff5970ebeb2539c15d2ee7498d5",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": "\t",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One Business Name Register record for one business name in the published snapshot; it is not a legal-entity record.",
+    "subject_role": "business_name_holder",
+    "source_kind": "business_name_register",
+    "subject_label_field": "BN_NAME",
+    "address_role": "unknown",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "BN_NAME"
+        ],
+        "canonical_field": "entity.trading_name",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.96,
+        "evidence": "Help file p.7 defines BN_NAME as a name used in relation to businesses and as appearing on ASIC's Business Names register; sampled values are business-name labels."
+      },
+      {
+        "source_fields": [
+          "BN_ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "BN_ABN",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.84,
+        "evidence": "Help file p.9 explicitly defines BN_ABN as Australian Business Number; sample contains 11-digit values (e.g. 30947976159). Validation may return no value for invalid/non-ABN entries."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "REGISTER_NAME",
+        "reason": "Help file p.7 defines this as the register name; it is provenance/classification, not an available canonical entity field. Sampled value is BUSINESS NAMES."
+      },
+      {
+        "source_field": "BN_STATUS",
+        "reason": "Help file p.7 defines registration status of the business name (Registered/Cancelled); it does not establish legal-entity status. Discovery also observes Registered/Deregistered labels, so it cannot safely map to entity.status."
+      },
+      {
+        "source_field": "BN_REG_DT",
+        "reason": "Help file p.8 defines the date the business name started. It must not map to entity.date_registered, which is for the company/legal entity."
+      },
+      {
+        "source_field": "BN_CANCEL_DT",
+        "reason": "Help file p.8 defines the date the business name ceased; no canonical business-name cancellation-date field is available, and it does not prove entity deregistration."
+      },
+      {
+        "source_field": "BN_STATE_NUM",
+        "reason": "Help file p.8 defines a former state business-name registration identifier. No canonical field represents this business-name identifier; preserve raw numeric text without padding if retained outside this mapping."
+      },
+      {
+        "source_field": "BN_STATE_OF_REG",
+        "reason": "Help file p.8 defines the prior state where the business name was registered, not an entity address or legal jurisdiction; no matching canonical field is available."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.9,
+    "limitations": [
+      "ASIC documentation describes this as a point-in-time snapshot of select public Business Names Register fields (help file p.2), rather than a company register or holder register.",
+      "No business-name registration number or explicit holder/legal-entity name is supplied. BN_ABN is nullable, may be absent for multiple ABNs, and is not issued by ASIC (help file p.9); it is therefore not a guaranteed record key or complete holder identifier.",
+      "BN_NAME is mapped only as a trading name, not a legal name. The raw BN_NAME label remains the subject label.",
+      "The documentation says current registered business names plus deregistered business names for 12 months are included (help file p.2), but no row filter is applied so the snapshot's published scope is preserved.",
+      "All source-reliability and field-confidence assessments are provisional and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-terra",
+  "created_at": "2026-09-18T01:02:09.280390+00:00",
+  "status": "proposed"
+}

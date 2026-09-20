@@ -1,0 +1,50 @@
+[
+  {
+    "removed_source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+    "profiles_with_value_changes": 0,
+    "profiles_with_provenance_changes": 0,
+    "profiles_without_remaining_cross_source_support": 0,
+    "profiles_with_changed_membership_support": 0,
+    "scope": "Values recomputed with original memberships; identity support separately re-resolved without removed source."
+  },
+  {
+    "removed_source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+    "profiles_with_value_changes": 47,
+    "profiles_with_provenance_changes": 47,
+    "profiles_without_remaining_cross_source_support": 47,
+    "profiles_with_changed_membership_support": 47,
+    "scope": "Values recomputed with original memberships; identity support separately re-resolved without removed source."
+  },
+  {
+    "removed_source_id": "ab7eddce-84df-4098-bc8f-500d0d9776d1",
+    "profiles_with_value_changes": 18,
+    "profiles_with_provenance_changes": 18,
+    "profiles_without_remaining_cross_source_support": 18,
+    "profiles_with_changed_membership_support": 18,
+    "scope": "Values recomputed with original memberships; identity support separately re-resolved without removed source."
+  },
+  {
+    "removed_source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+    "profiles_with_value_changes": 35,
+    "profiles_with_provenance_changes": 35,
+    "profiles_without_remaining_cross_source_support": 35,
+    "profiles_with_changed_membership_support": 35,
+    "scope": "Values recomputed with original memberships; identity support separately re-resolved without removed source."
+  },
+  {
+    "removed_source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+    "profiles_with_value_changes": 0,
+    "profiles_with_provenance_changes": 0,
+    "profiles_without_remaining_cross_source_support": 0,
+    "profiles_with_changed_membership_support": 0,
+    "scope": "Values recomputed with original memberships; identity support separately re-resolved without removed source."
+  },
+  {
+    "removed_source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+    "profiles_with_value_changes": 0,
+    "profiles_with_provenance_changes": 0,
+    "profiles_without_remaining_cross_source_support": 0,
+    "profiles_with_changed_membership_support": 0,
+    "scope": "Values recomputed with original memberships; identity support separately re-resolved without removed source."
+  }
+]

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "4517186ef3dc3f3e6cd50df011984578d2e5633cf2beae6255fb2a2e488a894b",
+    "run_id": "46041705-750a-414f-8dcb-a698974724c2",
+    "config_hash": "b7514def97c41953dbd06d56470567e4a197ccde66975c55e6c7bc147db1870f",
+    "mapping_id": "46041705-750a-414f-8dcb-a698974724c2:2",
+    "decision": "revision_requested",
+    "reviewer": "local-user",
+    "at": "2026-09-18T05:28:40.640036+00:00",
+    "feedback": "tell me more about evidence of Mappings SITE_ADDRESS_LN with Confidence \t0.75. is it number low or acceptable?",
+    "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+  },
+  {
+    "id": "2267a42a7a8e38b533bed437abaddbc05ff4d13bcd64c482ae2676ddb8d06acd",
+    "run_id": "46041705-750a-414f-8dcb-a698974724c2",
+    "config_hash": "50f578a4e6d3000c7d17622b63804059ef65a65790f7c330145dc84221ecb3b4",
+    "mapping_id": "46041705-750a-414f-8dcb-a698974724c2:3",
+    "decision": "approved",
+    "reviewer": "local-user",
+    "at": "2026-09-18T05:32:22.513979+00:00",
+    "feedback": "",
+    "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+  }
+]

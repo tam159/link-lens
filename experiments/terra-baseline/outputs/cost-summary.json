@@ -1,0 +1,1533 @@
+{
+  "pricing_snapshot": {
+    "verified_on": "2026-09-19",
+    "source_url": "https://developers.openai.com/api/docs/pricing",
+    "cache_semantics_url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+    "currency": "USD",
+    "unit": "per 1000000 tokens",
+    "models": {
+      "gpt-5.6-sol": {
+        "standard": {
+          "short": {
+            "input": 4,
+            "cache_read": 0.4,
+            "cache_write": 5,
+            "output": 20
+          },
+          "long": {
+            "input": 8,
+            "cache_read": 0.8,
+            "cache_write": 10,
+            "output": 30
+          }
+        },
+        "batch": {
+          "short": {
+            "input": 2.0,
+            "cache_read": 0.2,
+            "cache_write": 2.5,
+            "output": 10.0
+          },
+          "long": {
+            "input": 4.0,
+            "cache_read": 0.4,
+            "cache_write": 5.0,
+            "output": 15.0
+          }
+        },
+        "flex": {
+          "short": {
+            "input": 2.0,
+            "cache_read": 0.2,
+            "cache_write": 2.5,
+            "output": 10.0
+          },
+          "long": {
+            "input": 4.0,
+            "cache_read": 0.4,
+            "cache_write": 5.0,
+            "output": 15.0
+          }
+        },
+        "fast": {
+          "short": {
+            "input": 8,
+            "cache_read": 0.8,
+            "cache_write": 10,
+            "output": 40
+          },
+          "long": {
+            "input": 16,
+            "cache_read": 1.6,
+            "cache_write": 20,
+            "output": 60
+          }
+        }
+      },
+      "gpt-5.6-terra": {
+        "standard": {
+          "short": {
+            "input": 2,
+            "cache_read": 0.2,
+            "cache_write": 2.5,
+            "output": 12
+          },
+          "long": {
+            "input": 4,
+            "cache_read": 0.4,
+            "cache_write": 5,
+            "output": 18
+          }
+        },
+        "batch": {
+          "short": {
+            "input": 1.0,
+            "cache_read": 0.1,
+            "cache_write": 1.25,
+            "output": 6.0
+          },
+          "long": {
+            "input": 2.0,
+            "cache_read": 0.2,
+            "cache_write": 2.5,
+            "output": 9.0
+          }
+        },
+        "flex": {
+          "short": {
+            "input": 1.0,
+            "cache_read": 0.1,
+            "cache_write": 1.25,
+            "output": 6.0
+          },
+          "long": {
+            "input": 2.0,
+            "cache_read": 0.2,
+            "cache_write": 2.5,
+            "output": 9.0
+          }
+        },
+        "fast": {
+          "short": {
+            "input": 4,
+            "cache_read": 0.4,
+            "cache_write": 5.0,
+            "output": 24
+          },
+          "long": {
+            "input": 8,
+            "cache_read": 0.8,
+            "cache_write": 10,
+            "output": 36
+          }
+        }
+      },
+      "gpt-5.6-luna": {
+        "standard": {
+          "short": {
+            "input": 0.2,
+            "cache_read": 0.02,
+            "cache_write": 0.25,
+            "output": 1.2
+          },
+          "long": {
+            "input": 0.4,
+            "cache_read": 0.04,
+            "cache_write": 0.5,
+            "output": 1.8
+          }
+        },
+        "batch": {
+          "short": {
+            "input": 0.1,
+            "cache_read": 0.01,
+            "cache_write": 0.125,
+            "output": 0.6
+          },
+          "long": {
+            "input": 0.2,
+            "cache_read": 0.02,
+            "cache_write": 0.25,
+            "output": 0.9
+          }
+        },
+        "flex": {
+          "short": {
+            "input": 0.1,
+            "cache_read": 0.01,
+            "cache_write": 0.125,
+            "output": 0.6
+          },
+          "long": {
+            "input": 0.2,
+            "cache_read": 0.02,
+            "cache_write": 0.25,
+            "output": 0.9
+          }
+        },
+        "fast": {
+          "short": {
+            "input": 0.4,
+            "cache_read": 0.04,
+            "cache_write": 0.5,
+            "output": 2.4
+          },
+          "long": {
+            "input": 0.8,
+            "cache_read": 0.08,
+            "cache_write": 1.0,
+            "output": 3.6
+          }
+        }
+      }
+    },
+    "notes": [
+      "Published OpenAI rates used as the user-agreed approximation for deployment costs.",
+      "Cache-write rate replaces ordinary input rate for those tokens; it is not additive.",
+      "Use per-call context, not sum of project tokens. Current measured calls have at most 20278 input tokens and use short-context pricing.",
+      "Sol promotional pricing is listed as available at least through 2026-11-21.",
+      "Regional processing uplift, taxes, negotiated rates and other charges excluded."
+    ]
+  },
+  "basis": "OpenAI Standard short-context prices used as the agreed approximation for deployment costs; no regional uplift.",
+  "calls": 52,
+  "priced_calls": 50,
+  "unpriced_calls": 2,
+  "measured_subtotal_usd": 2.0150253,
+  "complete_estimated_total_usd": null,
+  "budget_target_usd": 10,
+  "measured_subtotal_within_budget": true,
+  "budget_compliance": "Assessed on priced calls only; unpriced calls are excluded.",
+  "per_record_llm_calls": 0,
+  "per_record_llm_cost_usd": 0,
+  "per_run": [
+    {
+      "run_id": "1198c100-c65a-4558-a239-9c896c3b9849",
+      "source": "connectivity-test",
+      "calls": 1,
+      "priced_calls": 1,
+      "unpriced_calls": 0,
+      "measured_subtotal_usd": 0.000756
+    },
+    {
+      "run_id": "1b654c7d-bb65-4a9c-992e-71dc8923fbd6",
+      "source": "acnc-register",
+      "calls": 5,
+      "priced_calls": 5,
+      "unpriced_calls": 0,
+      "measured_subtotal_usd": 0.3032995
+    },
+    {
+      "run_id": "1d1b03be-af0a-40e0-8bb8-04c473e58e00",
+      "source": "corporate-transparency",
+      "calls": 5,
+      "priced_calls": 5,
+      "unpriced_calls": 0,
+      "measured_subtotal_usd": 0.1463815
+    },
+    {
+      "run_id": "1ef42db0-fb9d-4132-8e08-410cfa0e742f",
+      "source": "asic-credit-licensee",
+      "calls": 3,
+      "priced_calls": 3,
+      "unpriced_calls": 0,
+      "measured_subtotal_usd": 0.131898
+    },
+    {
+      "run_id": "2d07bca2-eeba-4f63-8b9a-505bbab46ce5",
+      "source": "asic-afs-licensee",
+      "calls": 6,
+      "priced_calls": 6,
+      "unpriced_calls": 0,
+      "measured_subtotal_usd": 0.3206895
+    },
+    {
+      "run_id": "376efc75-54b6-4a51-a9d8-6bdd22a67a5d",
+      "source": "employment-provider-locations-and-contacts",
+      "calls": 1,
+      "priced_calls": 1,
+      "unpriced_calls": 0,
+      "measured_subtotal_usd": 0.010816
+    },
+    {
+      "run_id": "46041705-750a-414f-8dcb-a698974724c2",
+      "source": "employment-provider-locations-and-contacts",
+      "calls": 7,
+      "priced_calls": 5,
+      "unpriced_calls": 2,
+      "measured_subtotal_usd": 0.143165
+    },
+    {
+      "run_id": "47109ded-709d-4b83-8bab-d962a9b3b341",
+      "source": "asic-business-names",
+      "calls": 5,
+      "priced_calls": 5,
+      "unpriced_calls": 0,
+      "measured_subtotal_usd": 0.185992
+    },
+    {
+      "run_id": "4ece70d5-3cd1-49d8-933c-130a5bc561b8",
+      "source": "asic-companies",
+      "calls": 5,
+      "priced_calls": 5,
+      "unpriced_calls": 0,
+      "measured_subtotal_usd": 0.1882364
+    },
+    {
+      "run_id": "588f694b-2c68-4d85-8c44-6551c8cc6f4c",
+      "source": "asic-credit-licensee",
+      "calls": 1,
+      "priced_calls": 1,
+      "unpriced_calls": 0,
+      "measured_subtotal_usd": 0.026121
+    },
+    {
+      "run_id": "682f2482-3946-4e43-97c1-07ab7962e567",
+      "source": "asic-afs-licensee",
+      "calls": 3,
+      "priced_calls": 3,
+      "unpriced_calls": 0,
+      "measured_subtotal_usd": 0.099966
+    },
+    {
+      "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+      "source": "asic-companies",
+      "calls": 6,
+      "priced_calls": 6,
+      "unpriced_calls": 0,
+      "measured_subtotal_usd": 0.3005884
+    },
+    {
+      "run_id": "b574474c-701a-49f2-a63c-a927b8db4287",
+      "source": "asic-companies",
+      "calls": 4,
+      "priced_calls": 4,
+      "unpriced_calls": 0,
+      "measured_subtotal_usd": 0.157116
+    }
+  ],
+  "call_details": [
+    {
+      "event_id": "05dd46ff-cf1d-4e6e-bd34-0367851515b3",
+      "run_id": "1198c100-c65a-4558-a239-9c896c3b9849",
+      "source": "connectivity-test",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 258,
+        "output_tokens": 20,
+        "total_tokens": 278,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 0
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "90cd86ad4572d30c9b222e49e9321f39349cda33af45049a96b0c435a54340bf",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.000756
+    },
+    {
+      "event_id": "7cf8306d-24d8-46d0-89c5-aa7887694572",
+      "run_id": "b574474c-701a-49f2-a63c-a927b8db4287",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 5712,
+        "output_tokens": 635,
+        "total_tokens": 6347,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 5582
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "cca7d9300788dc02912493c792d87a6466cdba84646f4b40052e98374b3b2e6a",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.021835
+    },
+    {
+      "event_id": "4b7a3cd9-0609-4ded-96fe-c59d24f8c086",
+      "run_id": "b574474c-701a-49f2-a63c-a927b8db4287",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 9937,
+        "output_tokens": 1955,
+        "total_tokens": 11892,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 9808
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 490
+        }
+      },
+      "response_artifact": "c2f9e469167b41d1e625327ca8bfa860e1bb92d491a85ea7cea139e01d57b587",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.048238
+    },
+    {
+      "event_id": "62251be4-744f-4d4d-986d-966ee4af6308",
+      "run_id": "b574474c-701a-49f2-a63c-a927b8db4287",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 10085,
+        "output_tokens": 1539,
+        "total_tokens": 11624,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 9956
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 512
+        }
+      },
+      "response_artifact": "9ada57de1d341ef1c4ddb1c9a6a1bc0ed7d72d9aef02f61ce5a18f4389ca9860",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.043616
+    },
+    {
+      "event_id": "fe0f7b11-5fc2-4103-a7bc-f39020f9d59c",
+      "run_id": "b574474c-701a-49f2-a63c-a927b8db4287",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 10547,
+        "output_tokens": 1427,
+        "total_tokens": 11974,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 10418
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 375
+        }
+      },
+      "response_artifact": "e69487c009afc92952a04ada583d018064c56c755a0bf16ec0bbc58a1608ffbd",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.043427
+    },
+    {
+      "event_id": "0b9bca92-e84a-4032-8276-200668b3d779",
+      "run_id": "47109ded-709d-4b83-8bab-d962a9b3b341",
+      "source": "asic-business-names",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 4038,
+        "output_tokens": 801,
+        "total_tokens": 4839,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 3908
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 66
+        }
+      },
+      "response_artifact": "9931e830dcd3989b39f92a1b1dddf731d2e4b5edd7cb0a61313ddd51952c25e2",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.019642
+    },
+    {
+      "event_id": "a76ccc84-ba67-4e86-9de3-8c1de5239997",
+      "run_id": "47109ded-709d-4b83-8bab-d962a9b3b341",
+      "source": "asic-business-names",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 8174,
+        "output_tokens": 974,
+        "total_tokens": 9148,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 8045
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 226
+        }
+      },
+      "response_artifact": "a095aa270b9bde8be39a1b353c968864598c90b4ef21fb5924675df4e9d77548",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0320585
+    },
+    {
+      "event_id": "699f96a6-4a8c-4ada-8a13-c129556a1679",
+      "run_id": "47109ded-709d-4b83-8bab-d962a9b3b341",
+      "source": "asic-business-names",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 12444,
+        "output_tokens": 1301,
+        "total_tokens": 13745,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 12314
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 512
+        }
+      },
+      "response_artifact": "e09a35324a29210375effe2d88afe41f0738544941a06b5457c41157d3554c24",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.046657
+    },
+    {
+      "event_id": "2d060c46-ebdd-4dea-9377-c02bc0fa73c2",
+      "run_id": "47109ded-709d-4b83-8bab-d962a9b3b341",
+      "source": "asic-business-names",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 14000,
+        "output_tokens": 928,
+        "total_tokens": 14928,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 13871
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 120
+        }
+      },
+      "response_artifact": "3dee5590e3dd5c3f5a9cec166e0b5d7ae115f91d3e8fd58697e3f85986116d3e",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0460715
+    },
+    {
+      "event_id": "344dce46-a7c4-4e02-a576-9a8f77dcdeab",
+      "run_id": "47109ded-709d-4b83-8bab-d962a9b3b341",
+      "source": "asic-business-names",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 13272,
+        "output_tokens": 704,
+        "total_tokens": 13976,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 13142
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 45
+        }
+      },
+      "response_artifact": "7bc4022c5c138b7ce21af6cbb231cb21c33aae12bd3d1f1d7ad8fcd7f37849f9",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.041563
+    },
+    {
+      "event_id": "f7a60bd0-d579-4d6e-a7ce-0f6be344516f",
+      "run_id": "2d07bca2-eeba-4f63-8b9a-505bbab46ce5",
+      "source": "asic-afs-licensee",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 6865,
+        "output_tokens": 709,
+        "total_tokens": 7574,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 6735
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 87
+        }
+      },
+      "response_artifact": "83acd7f86cf51494d60126f5cdca3608630b39103ef6fd8014320b36c729e919",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0256055
+    },
+    {
+      "event_id": "0d5a1f0d-f7a7-4f80-836b-77285374cfd4",
+      "run_id": "2d07bca2-eeba-4f63-8b9a-505bbab46ce5",
+      "source": "asic-afs-licensee",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 12369,
+        "output_tokens": 1437,
+        "total_tokens": 13806,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 12240
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 244
+        }
+      },
+      "response_artifact": "fa148778227ec1ff96cc7be621670ebf3be021d7fbf1088a9a255a96754c65c7",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.048102
+    },
+    {
+      "event_id": "5a17cd3c-788c-499e-80b9-a36aa88e05db",
+      "run_id": "2d07bca2-eeba-4f63-8b9a-505bbab46ce5",
+      "source": "asic-afs-licensee",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 17368,
+        "output_tokens": 989,
+        "total_tokens": 18357,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 17238
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "c6f0098fed044937e4bb93d88f2b0842b6dc271231f30b7ff65f9b5f14af90ec",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.055223
+    },
+    {
+      "event_id": "cd0f0b04-d0a2-4a83-9e40-98cfbb178f96",
+      "run_id": "2d07bca2-eeba-4f63-8b9a-505bbab46ce5",
+      "source": "asic-afs-licensee",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 19134,
+        "output_tokens": 1398,
+        "total_tokens": 20532,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 19005
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 109
+        }
+      },
+      "response_artifact": "d57d1c36b2c27fcd358547f7f653147a65840a5ef1a5733c42bee8c9123305b0",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0645465
+    },
+    {
+      "event_id": "83f69dc0-401c-4aec-8f62-6e301cae4666",
+      "run_id": "2d07bca2-eeba-4f63-8b9a-505bbab46ce5",
+      "source": "asic-afs-licensee",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 18298,
+        "output_tokens": 780,
+        "total_tokens": 19078,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 18168
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "496836ba19eeb1d765dfce1071207087f5cb97f4b677deadfb754cd4851facca",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.05504
+    },
+    {
+      "event_id": "44a12115-fa71-4c93-810b-22154f9040e3",
+      "run_id": "2d07bca2-eeba-4f63-8b9a-505bbab46ce5",
+      "source": "asic-afs-licensee",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 18858,
+        "output_tokens": 2091,
+        "total_tokens": 20949,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 18729
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 620
+        }
+      },
+      "response_artifact": "750227fe21ffd2f31423fe90b65f5151fb6871e47632a5ea2c409214454b2f2d",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0721725
+    },
+    {
+      "event_id": "a8b94f7a-6560-4400-90c4-011d030778a9",
+      "run_id": "1b654c7d-bb65-4a9c-992e-71dc8923fbd6",
+      "source": "acnc-register",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 4540,
+        "output_tokens": 325,
+        "total_tokens": 4865,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 4410
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 47
+        }
+      },
+      "response_artifact": "8ec0344890807b5f89b1fd667647ca950ac472cd04cc183662006637e62bd8ed",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.015185
+    },
+    {
+      "event_id": "b14f6d19-52cc-4e43-9983-d87c974fed1b",
+      "run_id": "1b654c7d-bb65-4a9c-992e-71dc8923fbd6",
+      "source": "acnc-register",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 11831,
+        "output_tokens": 3502,
+        "total_tokens": 15333,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 11702
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 503
+        }
+      },
+      "response_artifact": "e9e8be53f2fe6985d63b7568fcdc5483154c96238d28e69b5e39bb62d43ebf36",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.071537
+    },
+    {
+      "event_id": "88878c21-5e18-4ed9-9ad6-4ee7e85defed",
+      "run_id": "1b654c7d-bb65-4a9c-992e-71dc8923fbd6",
+      "source": "acnc-register",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 18781,
+        "output_tokens": 1214,
+        "total_tokens": 19995,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 18651
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 484
+        }
+      },
+      "response_artifact": "626ee3645ebe409f8a3e7bca71b5498e735456ecaeec31a5eb50e52527cdba0f",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0614555
+    },
+    {
+      "event_id": "5cddc13e-230e-4918-b8ac-6109e3fb86c4",
+      "run_id": "1b654c7d-bb65-4a9c-992e-71dc8923fbd6",
+      "source": "acnc-register",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 20278,
+        "output_tokens": 3435,
+        "total_tokens": 23713,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 20149
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 180
+        }
+      },
+      "response_artifact": "27460ba113836f720b6167f3d11820dae7c30241e675e80227b22b121ddb5e41",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0918505
+    },
+    {
+      "event_id": "cee74a9a-e56e-4a9a-9b8e-078209599d27",
+      "run_id": "1b654c7d-bb65-4a9c-992e-71dc8923fbd6",
+      "source": "acnc-register",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 19781,
+        "output_tokens": 1157,
+        "total_tokens": 20938,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 19651
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 472
+        }
+      },
+      "response_artifact": "778ad1be2d487cbc01d02b54e9021361e74a0c3ad24f4c771e407d1809c80df2",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0632715
+    },
+    {
+      "event_id": "e10f75a3-8749-477a-b946-aefa89cfcb0c",
+      "run_id": "1d1b03be-af0a-40e0-8bb8-04c473e58e00",
+      "source": "corporate-transparency",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 1677,
+        "output_tokens": 445,
+        "total_tokens": 2122,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 1547
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "84b4f5d2e3f1a78d05652af9988f15dbbd24598983e73782d8ed8331d8bf67a4",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0094675
+    },
+    {
+      "event_id": "21337745-2aaa-45c2-b2ad-d2511b9c6474",
+      "run_id": "1d1b03be-af0a-40e0-8bb8-04c473e58e00",
+      "source": "corporate-transparency",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 5713,
+        "output_tokens": 879,
+        "total_tokens": 6592,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 5584
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 248
+        }
+      },
+      "response_artifact": "6da11d0ce420726a9477d5d3dd25e2bbdce0205a113a68369d45247e21c64003",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.024766
+    },
+    {
+      "event_id": "ad3041eb-94bd-4c84-b966-89932bb26686",
+      "run_id": "1d1b03be-af0a-40e0-8bb8-04c473e58e00",
+      "source": "corporate-transparency",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 9936,
+        "output_tokens": 1146,
+        "total_tokens": 11082,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 9806
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 457
+        }
+      },
+      "response_artifact": "fc7501d3ea97249fe45233cc8322ecd020d0b7a72051d722f7365c33aefa2526",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.038527
+    },
+    {
+      "event_id": "679a86b8-3a06-468e-95b5-a199a1816ca4",
+      "run_id": "1d1b03be-af0a-40e0-8bb8-04c473e58e00",
+      "source": "corporate-transparency",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 11393,
+        "output_tokens": 863,
+        "total_tokens": 12256,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 11264
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 90
+        }
+      },
+      "response_artifact": "cf56e3ae8f56e9cf5455e1c4f3dea860da4950e3459ebca3107b0c4274ee12a5",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.038774
+    },
+    {
+      "event_id": "32be0740-ccd7-4385-b55b-788788972bf9",
+      "run_id": "1d1b03be-af0a-40e0-8bb8-04c473e58e00",
+      "source": "corporate-transparency",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 10624,
+        "output_tokens": 696,
+        "total_tokens": 11320,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 10494
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "94b6912802c2c1404fe0e4515929f33aad5e031e9dd1a54458ae3a82372da67c",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.034847
+    },
+    {
+      "event_id": "19722823-ee83-409d-9d15-c0faacbcedd2",
+      "run_id": "376efc75-54b6-4a51-a9d8-6bdd22a67a5d",
+      "source": "employment-provider-locations-and-contacts",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 1242,
+        "output_tokens": 648,
+        "total_tokens": 1890,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 1112
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "58ba9b0a3b2238201ea701435c711b4f5049726e1d96a293cbe7bdbc182d714d",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.010816
+    },
+    {
+      "event_id": "d0a89eb6-a001-4a46-a091-ed6d4ce6f385",
+      "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 5712,
+        "output_tokens": 520,
+        "total_tokens": 6232,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 5582,
+          "cache_creation": 0
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "4d34c08d04d325837298938e0748fc15cb42abef24b1e0f726e5bcd31b786671",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0076164
+    },
+    {
+      "event_id": "ecf8dc82-70a5-4575-92e4-c3f2637c149e",
+      "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 11286,
+        "output_tokens": 1736,
+        "total_tokens": 13022,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 11157
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 512
+        }
+      },
+      "response_artifact": "9e3890c2befd4622090ce1c0e347b9265b83e21331cf5ba0346674c594896b74",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0489825
+    },
+    {
+      "event_id": "cfff06d7-d603-4954-8208-8455e2127417",
+      "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 17235,
+        "output_tokens": 1013,
+        "total_tokens": 18248,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 17105
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "e2ff3a8c8a4c809bd62a8579916769346ae2370fa9f60ada9ae53d83220fd758",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0551785
+    },
+    {
+      "event_id": "70231d6d-4381-45b6-8cee-329d8b3dfe8f",
+      "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 19023,
+        "output_tokens": 1878,
+        "total_tokens": 20901,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 18894
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 333
+        }
+      },
+      "response_artifact": "96ae8958f5164f62dc94423a7581ba3de0142424eccaba126b145b06a5eb3454",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.070029
+    },
+    {
+      "event_id": "7d83def7-d69c-4488-99d8-098e28f7b350",
+      "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 17457,
+        "output_tokens": 908,
+        "total_tokens": 18365,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 17327
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "019266d3e72c102ce0fae3d0c8fa543f522ec84a1bfe5672d3b2ebdda8428848",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0544735
+    },
+    {
+      "event_id": "542fbfc9-d509-4a9d-be17-f1ca6b4d5c99",
+      "run_id": "8c5f0d6b-dab4-4ab4-a38e-3a889418d15b",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 18122,
+        "output_tokens": 1589,
+        "total_tokens": 19711,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 17993
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 78
+        }
+      },
+      "response_artifact": "9233c00143b6356c75d3193c5dba019e1a0d7b43af79163c6b5a5a15fa2d2dc4",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0643085
+    },
+    {
+      "event_id": "2f23a82b-6699-448a-b8e4-2906b767be8a",
+      "run_id": "588f694b-2c68-4d85-8c44-6551c8cc6f4c",
+      "source": "asic-credit-licensee",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 7028,
+        "output_tokens": 718,
+        "total_tokens": 7746,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 6898
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "d2fbbd15cbbc26f5a5bc01c2d1095ba40e6ac7850a280c7909eea14b435da2c3",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.026121
+    },
+    {
+      "event_id": "83724a5f-ca13-434d-8646-701c3cc21973",
+      "run_id": "682f2482-3946-4e43-97c1-07ab7962e567",
+      "source": "asic-afs-licensee",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 6865,
+        "output_tokens": 588,
+        "total_tokens": 7453,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 6735,
+          "cache_creation": 0
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "65922d639cffd82fae369fada438dea9e4b2898d50197975c489fa9fae817382",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.008663
+    },
+    {
+      "event_id": "c12ff2ec-6baa-4603-b92b-dc1f9303c19c",
+      "run_id": "682f2482-3946-4e43-97c1-07ab7962e567",
+      "source": "asic-afs-licensee",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 12251,
+        "output_tokens": 1507,
+        "total_tokens": 13758,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 12122
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 431
+        }
+      },
+      "response_artifact": "5a051c56a12ba9667bdbcf0caf2a0622070e8e2162217a539f8c850f4b35343e",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.048647
+    },
+    {
+      "event_id": "6198c74e-7bb9-4afd-83d1-6f30e539fc42",
+      "run_id": "682f2482-3946-4e43-97c1-07ab7962e567",
+      "source": "asic-afs-licensee",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 12970,
+        "output_tokens": 858,
+        "total_tokens": 13828,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 12840
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "7bcc953b80fc5623255b2c088a22bf80449867d4dab69b60c721ec82dffad6fe",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.042656
+    },
+    {
+      "event_id": "c93734fc-26bc-4c41-b8ab-adc2fe55bf1b",
+      "run_id": "46041705-750a-414f-8dcb-a698974724c2",
+      "source": "employment-provider-locations-and-contacts",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 1240,
+        "output_tokens": 623,
+        "total_tokens": 1863,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 1110
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "dff8470a628d91b326283998ae60528301ae6b77f7d59e8681c68e60b0378474",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.010511
+    },
+    {
+      "event_id": "14766ae5-800c-49ea-a7aa-3eccff36c6a5",
+      "run_id": "46041705-750a-414f-8dcb-a698974724c2",
+      "source": "employment-provider-locations-and-contacts",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 5902,
+        "output_tokens": 1626,
+        "total_tokens": 7528,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 5773
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 512
+        }
+      },
+      "response_artifact": "bfb57e4d0921f6fb38daeb8031a80160ffc7f28a268dda619a963b3e5e620342",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0342025
+    },
+    {
+      "event_id": "e10be7e5-98aa-4079-8c44-5552f54d7fa8",
+      "run_id": "46041705-750a-414f-8dcb-a698974724c2",
+      "source": "employment-provider-locations-and-contacts",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 7550,
+        "output_tokens": 1102,
+        "total_tokens": 8652,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 7420
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 323
+        }
+      },
+      "response_artifact": "bf47b8425e2a111bae9082cfd75c3148e7810bed46ceeec0c5e9adcaf4f150ec",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.032034
+    },
+    {
+      "event_id": "a63798a6-cca0-428a-8426-3364709a1722",
+      "run_id": "46041705-750a-414f-8dcb-a698974724c2",
+      "source": "employment-provider-locations-and-contacts",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 9110,
+        "output_tokens": 1287,
+        "total_tokens": 10397,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 8981
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 42
+        }
+      },
+      "response_artifact": "4024e15589cfa40f3c3727b7bb24095db0a16472ed1a7f0112f4edaa94d00095",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0381545
+    },
+    {
+      "event_id": "3c43146d-42fa-430a-b695-b8f59019aa8d",
+      "run_id": "46041705-750a-414f-8dcb-a698974724c2",
+      "source": "employment-provider-locations-and-contacts",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 7256,
+        "output_tokens": 849,
+        "total_tokens": 8105,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 7126
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 212
+        }
+      },
+      "response_artifact": "707d5c2d4325e287612b976ab15758796d7f5337379eb818f2eddb33c87bd1c1",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.028263
+    },
+    {
+      "event_id": "fb68ac0b-3e32-44b7-ad2a-d9576f266e6c",
+      "run_id": "4ece70d5-3cd1-49d8-933c-130a5bc561b8",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 5712,
+        "output_tokens": 601,
+        "total_tokens": 6313,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 5582,
+          "cache_creation": 0
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "4171b078b42422350ab3d62e836ba98304a006f35f7c0b314bd5985b9f3ef178",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0085884
+    },
+    {
+      "event_id": "6d508a0b-b006-493a-99f6-668d6d183b42",
+      "run_id": "4ece70d5-3cd1-49d8-933c-130a5bc561b8",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 10497,
+        "output_tokens": 1748,
+        "total_tokens": 12245,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 10368
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 564
+        }
+      },
+      "response_artifact": "c9e88b71544b8285c4c5f5d9000535864263df90e6f15e125b11165ed51b7979",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.047154
+    },
+    {
+      "event_id": "d22f1122-4a9a-49ba-8562-a854bdb8b091",
+      "run_id": "4ece70d5-3cd1-49d8-933c-130a5bc561b8",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 11373,
+        "output_tokens": 1097,
+        "total_tokens": 12470,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 11243
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 396
+        }
+      },
+      "response_artifact": "5bc38ea3c688b2b2b53ee2f7e4eba21c2fb94f318024349436c684fd684182dd",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0415315
+    },
+    {
+      "event_id": "0ba7c31e-e999-4c7d-b10f-cfb42a59bf1a",
+      "run_id": "4ece70d5-3cd1-49d8-933c-130a5bc561b8",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 12856,
+        "output_tokens": 1547,
+        "total_tokens": 14403,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 12727
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 130
+        }
+      },
+      "response_artifact": "371138e2e47b15819bc797479a620a38346dc3738c36dd5a91719328db1e7e78",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0506395
+    },
+    {
+      "event_id": "5317817a-3205-464e-9a28-e207483d32fc",
+      "run_id": "4ece70d5-3cd1-49d8-933c-130a5bc561b8",
+      "source": "asic-companies",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 11528,
+        "output_tokens": 964,
+        "total_tokens": 12492,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 11398
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 437
+        }
+      },
+      "response_artifact": "bcf96e1076a980a6303aab7eaddf957173e24f02f3ca35406e8db862f2ce24b5",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.040323
+    },
+    {
+      "event_id": "273fddb6-ca09-4eb2-9e14-10acb4338c5b",
+      "run_id": "1ef42db0-fb9d-4132-8e08-410cfa0e742f",
+      "source": "asic-credit-licensee",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 7051,
+        "output_tokens": 673,
+        "total_tokens": 7724,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 6921
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 0
+        }
+      },
+      "response_artifact": "516937e2a8f25c5bf1577a31a0cbf669d4a8c12f970a4467258a317983e99a65",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0256385
+    },
+    {
+      "event_id": "c1542b2a-5b46-4be8-bfb9-5107ac9617b2",
+      "run_id": "1ef42db0-fb9d-4132-8e08-410cfa0e742f",
+      "source": "asic-credit-licensee",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 13435,
+        "output_tokens": 1968,
+        "total_tokens": 15403,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 13306
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 512
+        }
+      },
+      "response_artifact": "0aa02448e353bc715420d2429e42780f708d8b82fc7364660a022d3d05762316",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.057139
+    },
+    {
+      "event_id": "0bd6399d-f596-44cd-a7df-5d8724b53d12",
+      "run_id": "1ef42db0-fb9d-4132-8e08-410cfa0e742f",
+      "source": "asic-credit-licensee",
+      "model": "gpt-5.6-terra",
+      "usage": {
+        "input_tokens": 15239,
+        "output_tokens": 924,
+        "total_tokens": 16163,
+        "input_token_details": {
+          "audio": 0,
+          "cache_read": 0,
+          "cache_creation": 15109
+        },
+        "output_token_details": {
+          "audio": 0,
+          "reasoning": 216
+        }
+      },
+      "response_artifact": "02a7932c163c96c4a166a6108415f4efc68b4096f66ae6bb1d1e29948c8f2f24",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": 0.0491205
+    },
+    {
+      "event_id": "8a631e31-707b-4cfd-8af1-3001f7084586",
+      "run_id": "46041705-750a-414f-8dcb-a698974724c2",
+      "source": "employment-provider-locations-and-contacts",
+      "model": "gpt-5.6-terra",
+      "usage": null,
+      "response_artifact": "d97437f7e221aea2357ae8a938ffa0c487ac81561b883bae25d921c7073937e4",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": null
+    },
+    {
+      "event_id": "c2250e47-7128-43b6-97e3-905d3d63313a",
+      "run_id": "46041705-750a-414f-8dcb-a698974724c2",
+      "source": "employment-provider-locations-and-contacts",
+      "model": "gpt-5.6-terra",
+      "usage": null,
+      "response_artifact": "ba612005be1256ce510f7d3f70da5fa62167abf2dd94f742214574a66eca494f",
+      "reported_model": "gpt-5.6-terra-2026-07-09",
+      "reported_service_tier": "default",
+      "estimated_standard_list_cost_usd": null
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "discovery-jev-luna-v1",
+  "experiment_id": "jev-luna-v1",
+  "triage_method": "Jev on all supported-format catalogue candidates; 0.5 rule score + 0.5 Jev probability; publisher cap 8; no audit labels supplied",
+  "jev_candidates": 213,
+  "queries": [
+    {
+      "query": "business OR company OR charity OR licence OR contract",
+      "returned": 200,
+      "total_matches": 13443
+    },
+    {
+      "query": "abn",
+      "returned": 200,
+      "total_matches": 863
+    },
+    {
+      "query": "corporate transparency",
+      "returned": 200,
+      "total_matches": 999
+    },
+    {
+      "query": "employment provider locations",
+      "returned": 200,
+      "total_matches": 2575
+    },
+    {
+      "query": "supplier register",
+      "returned": 200,
+      "total_matches": 1192
+    }
+  ],
+  "unique_records": 945,
+  "publisher_cap": 8,
+  "retrieved_at": "2026-09-19T07:34:54.522492+00:00",
+  "catalogue_artifact": "0759164892794c83bb4e3c678251ee17dbb6bc1ab98a7ed862ade915c094ef7b"
+}

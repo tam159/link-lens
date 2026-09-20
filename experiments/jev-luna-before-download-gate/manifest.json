@@ -1,0 +1,23 @@
+{
+  "scope": "Public comparison evidence; complete original archive retained locally",
+  "files": {
+    "triage-review.html": "cfd8f3dabde57a20573bb4f6fec8d039e212a5e92226203909041d23a23d82d1",
+    "discovery-batch.json": "3bcbb1f5d10e34c7b8273356861c338daabf671f2448a0cb5d3cac4c6ac3b170",
+    "measurement-summary.json": "0f1dd3a64548ec08f14bbcc1aa51870b533866282df98de3f767aafbc92551e0",
+    "README.md": "ec1f76f60c187f7e457ab602d09de5f7694979de01f24d2dc854bb27f9709341",
+    "triage-review.json": "673b9600335cd30ef5f9e238f80a7768f0d85f2196733715ef31c34282b310bf",
+    "shortlist.jsonl": "0c0fdd5e14a1406a8755d62b83adcf5b4baf4c6b260608107b3fc1e9596236b7",
+    "discovery-audit.json": "a665235fcfea8e95e8b2b0e00bb425fc7a810e3470bcbd868a32d6e183d48d3f",
+    "ai-audit/link-evidence.json": "6d0202029257fd9690a138bb765274a25c10613ffed9c6ab855f24529db3f15d",
+    "ai-audit/links-report.html": "bf9bdec94e748adc89f080cfec276f2536ffc709f5b1dd5a53ecfd11851614c9",
+    "ai-audit/current-followup.json": "2a3c1a4b3b62b5d127044ab3db5ac3fd3c8c4e001adb26ca45cd75edd50b9679",
+    "ai-audit/full-triage-summary.json": "71a94aadff385bba25025b5db8286d6360e65d5a30257b1e3342214256edb22a",
+    "ai-audit/full-triage-evidence.json": "e373f2e2c25479829a0e8c45ac2b083f6138c7e854143fef7466c96c12b80d8b",
+    "ai-audit/links-audit.json": "1da0d7c495a1ca61d79fe60688fe96e23d011a8a7d5877aaa398e34beee80708",
+    "ai-audit/links-summary.json": "20cd4e182cc6e9d00401f714baf48df878685e2d393531da37963b11d9465b1f",
+    "ai-audit/LINKS_REPORT.md": "fbc9e9afb7443e77c80f0b386b09c5da0c4f5df26092b4e5c67ff2c88cd0c9b8",
+    "ai-audit/full-triage-audit.json": "fc16747ac5f8bd9a7fa3b70c6e1b9d786f408596035ffb2fcf999e59fb79cc8a",
+    "ai-audit/full-shortlist-report.html": "2108e57029862c6c08bedb46f5573eb1e8281b651afa6bdf2e5e4a298ade4a62",
+    "ai-audit/FULL_SHORTLIST_REPORT.md": "384f120eb133a39fecbdb54913394ed3809f973dfabd98b44415f2636e93f9e1"
+  }
+}

@@ -1,0 +1,19 @@
+[
+  {
+    "id": "05dd46ff-cf1d-4e6e-bd34-0367851515b3",
+    "run_id": "1198c100-c65a-4558-a239-9c896c3b9849",
+    "kind": "model_usage",
+    "at": "2026-09-17T17:23:38.774746+00:00",
+    "stage": "connectivity",
+    "model": "gpt-5.6-terra",
+    "attempt": 1,
+    "input_tokens": 258,
+    "output_tokens": 20,
+    "calculated_cost_usd": null,
+    "pricing_basis": "unknown; no provider rates configured",
+    "trace_url": null,
+    "response_artifact": "90cd86ad4572d30c9b222e49e9321f39349cda33af45049a96b0c435a54340bf",
+    "status": "success",
+    "wall_seconds": 3.507
+  }
+]

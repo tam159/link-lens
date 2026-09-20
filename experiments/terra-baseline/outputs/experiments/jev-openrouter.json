@@ -1,0 +1,51 @@
+{
+  "tested_at": "2026-09-19T07:13:01.632759+00:00",
+  "integration": "LangChain RunnableLambda with HTTPX; custom Decisions API adapter",
+  "endpoint": "https://openrouter.ai/api/alpha/decisions",
+  "requested_model": "typesafe/jev-1.13",
+  "results": [
+    {
+      "case": "organisation_records",
+      "state": "Dataset containing one record per company, with columns ABN and company name.",
+      "elapsed_seconds": 0.617,
+      "response": {
+        "model": "typesafe/jev-1.13-20260917",
+        "answers": {
+          "relevant": {
+            "type": "noul",
+            "noul": 0.98
+          }
+        },
+        "usage": {
+          "input_tokens": 292,
+          "output_tokens": 22,
+          "cost": 1.2264e-05
+        },
+        "id": "gen-dec-1789801980-tMqXhXoiGjTqHWpHOP6A",
+        "provider": "TypeSafe"
+      }
+    },
+    {
+      "case": "aggregate_statistics",
+      "state": "Dataset containing monthly totals of vehicle registrations by year and region. No names or identifiers for businesses or organisations.",
+      "elapsed_seconds": 0.532,
+      "response": {
+        "model": "typesafe/jev-1.13-20260917",
+        "answers": {
+          "relevant": {
+            "type": "noul",
+            "noul": 0.02
+          }
+        },
+        "usage": {
+          "input_tokens": 298,
+          "output_tokens": 22,
+          "cost": 1.2516e-05
+        },
+        "id": "gen-dec-1789801981-z9pElMPjNOOUqfqeZhwm",
+        "provider": "TypeSafe"
+      }
+    }
+  ],
+  "limitation": "Connectivity and synthetic examples only; not an accuracy evaluation or production integration."
+}

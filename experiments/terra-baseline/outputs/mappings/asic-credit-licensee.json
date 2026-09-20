@@ -1,0 +1,228 @@
+{
+  "id": "1ef42db0-fb9d-4132-8e08-410cfa0e742f:1",
+  "run_id": "1ef42db0-fb9d-4132-8e08-410cfa0e742f",
+  "version": 1,
+  "config_hash": "7a576c9875d880e98e429210b874ad4744b17b60a03411aa420716cc48baf0e6",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One Credit Licence register entry/licensee record per row; CRED_LIC_NUM is a source licence-entry identifier but is not represented in the supplied canonical-field subset.",
+    "subject_role": "licence_holder",
+    "source_kind": "licence_register",
+    "subject_label_field": "CRED_LIC_NAME",
+    "address_role": "business",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "CRED_LIC_ABN_ACN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.9,
+        "evidence": "Help file p.10 defines CRED_LIC_ABN_ACN as the licensee ABN or ACN; preview row 2 contains 80005443292."
+      },
+      {
+        "source_fields": [
+          "CRED_LIC_ABN_ACN"
+        ],
+        "canonical_field": "entity.acn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "acn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.9,
+        "evidence": "Help file p.10 says this mixed field contains either ABN or ACN; ACN validation emits only valid 9-digit ACNs."
+      },
+      {
+        "source_fields": [
+          "CRED_LIC_BN"
+        ],
+        "canonical_field": "entity.trading_name",
+        "transformations": [
+          {
+            "op": "split",
+            "argument": "~",
+            "values": {}
+          },
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.82,
+        "evidence": "Help file p.12 calls CRED_LIC_BN current or previous operating/business names and specifies tilde delimiters; preview row 5 is PLANNING PARTNERS."
+      },
+      {
+        "source_fields": [
+          "CRED_LIC_LOCALITY"
+        ],
+        "canonical_field": "address.locality",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.93,
+        "evidence": "Help file p.11 defines CRED_LIC_LOCALITY as town/city from the current principal business address; preview row 2 is LEONGATHA."
+      },
+      {
+        "source_fields": [
+          "CRED_LIC_STATE"
+        ],
+        "canonical_field": "address.state",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "uppercase",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "NSW": "NSW",
+              "VIC": "VIC",
+              "QLD": "QLD",
+              "WA": "WA",
+              "SA": "SA",
+              "TAS": "TAS",
+              "ACT": "ACT",
+              "NT": "NT"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.93,
+        "evidence": "Help file p.11 defines CRED_LIC_STATE as the state from the current principal business address; preview row 2 is VIC."
+      },
+      {
+        "source_fields": [
+          "CRED_LIC_PCODE"
+        ],
+        "canonical_field": "address.postcode",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "postcode",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.9,
+        "evidence": "Help file p.12 defines CRED_LIC_PCODE as postcode from the current principal business address; preview row 2 is 3953."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "REGISTER_NAME",
+        "reason": "Identifies the source register (for example, Credit Licence), not a canonical entity or address field."
+      },
+      {
+        "source_field": "CRED_LIC_NUM",
+        "reason": "Unique credit-licensee/licence-entry number (help file p.9); no licence identifier field exists in the supplied canonical subset. Retain raw and preserve as a string."
+      },
+      {
+        "source_field": "CRED_LIC_NAME",
+        "reason": "Help file p.9 defines this as the register entry name and states it may be a person's Last name, First name or a full organisation name. It is retained as subject_label_field, but is not confidently a legal name."
+      },
+      {
+        "source_field": "CRED_LIC_START_DT",
+        "reason": "Help file p.9 defines the start date of the credit licensee/licence, not company registration date; no licence-date field exists in the subset."
+      },
+      {
+        "source_field": "CRED_LIC_END_DT",
+        "reason": "Help file p.9 defines the end date of the credit licensee/licence, not entity deregistration date; no applicable canonical field exists."
+      },
+      {
+        "source_field": "CRED_LIC_STATUS",
+        "reason": "Help file p.9 defines licence registration status (APPR/SUSP). It does not establish canonical entity status, especially not deregistration."
+      },
+      {
+        "source_field": "CRED_LIC_AFSL_NUM",
+        "reason": "AFSL licence number (help file p.10); no licence identifier field exists in the supplied canonical subset. Preserve raw as a string."
+      },
+      {
+        "source_field": "CRED_LIC_STATUS_HISTORY",
+        "reason": "Historical credit-licence suspensions, reasons, and dates (help file p.10), not canonical entity status; no matching field exists."
+      },
+      {
+        "source_field": "CRED_LIC_LAT",
+        "reason": "Latitude coordinate is present in the supplied header and preview (for example, -38.4761569), but the supplied canonical subset has no geospatial field."
+      },
+      {
+        "source_field": "CRED_LIC_LNG",
+        "reason": "Longitude coordinate is present in the supplied header and preview (for example, 145.9458605), but the supplied canonical subset has no geospatial field."
+      },
+      {
+        "source_field": "CRED_LIC_EDRS",
+        "reason": "External dispute-resolution scheme code(s) (help file p.12); no matching canonical field exists."
+      },
+      {
+        "source_field": "CRED_LIC_AUTHORISATIONS",
+        "reason": "Free-text description of authorised credit services/products (help file p.12); no matching canonical field exists."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.86,
+    "limitations": [
+      "The supplied reader is retained unchanged as required. This conflicts with help file p.3, which says the CSV is TAB-delimited; the supplied frozen preview instead has coherent comma-delimited records and the stated reader is authoritative for extraction.",
+      "CRED_LIC_NAME is preserved only as the raw subject label because the documentation explicitly permits both persons and organisations; it is not asserted as entity.legal_name.",
+      "CRED_LIC_ABN_ACN has no type discriminator. Both identifier mappings rely exclusively on their respective validators; no ACN is derived from an ABN suffix, and invalid, zero, or opposite-type values emit nothing.",
+      "CRED_LIC_BN includes current or previous operating names (help file p.12). Splitting emits the source-stated name values but does not establish their currency or registration status.",
+      "Address components are the licensee's current principal business address (help file pp.11–12), not a registered address. Documentation says null locality/state and zero postcode can indicate foreign addresses; no country field is available, so country is not asserted.",
+      "The source is a point-in-time public register snapshot (help file p.3 and dataset notes). Publication proxy is used because no per-record observation timestamp is supplied.",
+      "Source-reliability and field-confidence scores are provisional judgments requiring human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-terra",
+  "created_at": "2026-09-18T01:16:17.455222+00:00",
+  "status": "proposed",
+  "approval_status": "waiting_for_human",
+  "snapshot_id": "399fd247640b608e71c32996d4d3ac663d5c6708f5de30e50bf1dca618bb6545"
+}

@@ -1,0 +1,427 @@
+{
+  "id": "1b654c7d-bb65-4a9c-992e-71dc8923fbd6:1",
+  "run_id": "1b654c7d-bb65-4a9c-992e-71dc8923fbd6",
+  "version": 1,
+  "config_hash": "d17c2b0cb542a47604bcf90039a841b2896dbdba23e3ec641642304e1fa8f842",
+  "config": {
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One row per charity registered with the ACNC, with current Charity Register attributes.",
+    "subject_role": "legal_entity",
+    "source_kind": "charity_register",
+    "subject_label_field": "Charity_Legal_Name",
+    "address_role": "business",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.97,
+        "evidence": "ACNC user notes Dec 2024, p.2, ¶6–7: ABN is the charity's Australian Business Number and is numeric; header/sample ABN=51214424410."
+      },
+      {
+        "source_fields": [
+          "Charity_Legal_Name"
+        ],
+        "canonical_field": "entity.legal_name",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.85,
+        "evidence": "ACNC user notes Dec 2024, p.2, ¶8: formal name on legal/official documents, but alternate identifier may replace a withheld legal name; exact header Charity_Legal_Name."
+      },
+      {
+        "source_fields": [
+          "Address_Line_1",
+          "Address_Line_2",
+          "Address_Line_3"
+        ],
+        "canonical_field": "address.full",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "join",
+            "argument": ", ",
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.86,
+        "evidence": "ACNC user notes Dec 2024, p.2, ¶12–14: charity business street address uses Address line 1–3; exact headers Address_Line_1, Address_Line_2, Address_Line_3."
+      },
+      {
+        "source_fields": [
+          "Town_City"
+        ],
+        "canonical_field": "address.locality",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.94,
+        "evidence": "ACNC user notes Dec 2024, p.2, ¶13–14 lists Town/City as a business-address field; sample Town_City=Enfield."
+      },
+      {
+        "source_fields": [
+          "State"
+        ],
+        "canonical_field": "address.state",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "uppercase",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.97,
+        "evidence": "ACNC user notes Dec 2024, p.2, ¶13–14 lists State as a business-address field; samples use SA, VIC, NSW, NT, QLD, WA."
+      },
+      {
+        "source_fields": [
+          "Postcode"
+        ],
+        "canonical_field": "address.postcode",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.96,
+        "evidence": "ACNC user notes Dec 2024, p.2, ¶13–14 lists Postcode as a business-address field; sample Postcode=0820 demonstrates string preservation is required."
+      },
+      {
+        "source_fields": [
+          "Country"
+        ],
+        "canonical_field": "address.country",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.94,
+        "evidence": "ACNC user notes Dec 2024, p.2, ¶13–14 lists Country as a business-address field; sample Country=Australia."
+      },
+      {
+        "source_fields": [
+          "Charity_Website"
+        ],
+        "canonical_field": "entity.website",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "website",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.94,
+        "evidence": "ACNC user notes Dec 2024, p.2, ¶15: field contains the charity website address where supplied; samples include https://www.u3ainnernorth.org.au/ and www.spectrum3.org.au."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Other_Organisation_Names",
+        "reason": "Notes p.2 ¶10–11 say this can contain one or more trading or other names, but provide no delimiter or one-name-per-value rule; do not emit an unsplit multi-name value as a single trading name."
+      },
+      {
+        "source_field": "Address_Type",
+        "reason": "Supplied documentation defines the address as a business address (p.2 ¶12) but does not define this additional header or its possible values; address role is set from documented dataset-level meaning."
+      },
+      {
+        "source_field": "Registration_Date",
+        "reason": "Notes p.2 ¶16–17 define this as effective ACNC charity-registration date, not company registration; cannot map to entity.date_registered."
+      },
+      {
+        "source_field": "Date_Organisation_Established",
+        "reason": "Notes p.3 ¶18 define this as date the charity was established, not company registration; no matching canonical field."
+      },
+      {
+        "source_field": "Charity_Size",
+        "reason": "ACNC reporting-size category based on latest Annual Information Statement (notes p.3 ¶19–21); no matching canonical field."
+      },
+      {
+        "source_field": "Number_of_Responsible_Persons",
+        "reason": "Board/committee-member count (notes p.3 ¶22); no matching canonical field."
+      },
+      {
+        "source_field": "Financial_Year_End",
+        "reason": "Financial year-end value (notes p.3 ¶23–24); no matching canonical field."
+      },
+      {
+        "source_field": "Operates_in_ACT",
+        "reason": "Operating-location Y/blank flag (notes p.4 ¶25–26); no matching canonical field."
+      },
+      {
+        "source_field": "Operates_in_NSW",
+        "reason": "Operating-location Y/blank flag (notes p.4 ¶25–26); no matching canonical field."
+      },
+      {
+        "source_field": "Operates_in_NT",
+        "reason": "Operating-location Y/blank flag (notes p.4 ¶25–26); no matching canonical field."
+      },
+      {
+        "source_field": "Operates_in_QLD",
+        "reason": "Operating-location Y/blank flag (notes p.4 ¶25–26); no matching canonical field."
+      },
+      {
+        "source_field": "Operates_in_SA",
+        "reason": "Operating-location Y/blank flag (notes p.4 ¶25–26); no matching canonical field."
+      },
+      {
+        "source_field": "Operates_in_TAS",
+        "reason": "Operating-location Y/blank flag (notes p.4 ¶25–26); no matching canonical field."
+      },
+      {
+        "source_field": "Operates_in_VIC",
+        "reason": "Operating-location Y/blank flag (notes p.4 ¶25–26); no matching canonical field."
+      },
+      {
+        "source_field": "Operates_in_WA",
+        "reason": "Operating-location Y/blank flag (notes p.4 ¶25–26); no matching canonical field."
+      },
+      {
+        "source_field": "Operating_Countries",
+        "reason": "Comma-separated ISO 3166-1 alpha-3 operating-country codes (notes p.4 ¶27–28), not the charity business-address country and no matching canonical field."
+      },
+      {
+        "source_field": "PBI",
+        "reason": "Charity subtype Y/blank flag (notes p.5 ¶29–32); no matching canonical field."
+      },
+      {
+        "source_field": "HPC",
+        "reason": "Charity subtype Y/blank flag (notes p.5 ¶29–32); no matching canonical field."
+      },
+      {
+        "source_field": "Preventing_or_relieving_suffering_of_animals",
+        "reason": "Charity subtype Y/blank flag (notes p.5 ¶29–32); no matching canonical field."
+      },
+      {
+        "source_field": "Advancing_Culture",
+        "reason": "Charity subtype Y/blank flag (notes p.5 ¶29–32); no matching canonical field."
+      },
+      {
+        "source_field": "Advancing_Education",
+        "reason": "Charity subtype Y/blank flag (notes p.5 ¶29–32); no matching canonical field."
+      },
+      {
+        "source_field": "Advancing_Health",
+        "reason": "Charity subtype Y/blank flag (notes p.5 ¶29–32); no matching canonical field."
+      },
+      {
+        "source_field": "Promote_or_oppose_a_change_to_law__government_poll_or_prac",
+        "reason": "Charity subtype Y/blank flag (notes p.5 ¶29–32); no matching canonical field."
+      },
+      {
+        "source_field": "Advancing_natual_environment",
+        "reason": "Charity subtype Y/blank flag (notes p.5 ¶29–32); no matching canonical field."
+      },
+      {
+        "source_field": "Promoting_or_protecting_human_rights",
+        "reason": "Charity subtype Y/blank flag (notes p.5 ¶29–32); no matching canonical field."
+      },
+      {
+        "source_field": "Purposes_beneficial_to_ther_general_public_and_other_analogous",
+        "reason": "Charity subtype Y/blank flag (notes p.5 ¶29–32); no matching canonical field."
+      },
+      {
+        "source_field": "Promoting_reconciliation__mutual_respect_and_tolerance",
+        "reason": "Charity subtype Y/blank flag (notes p.5 ¶29–32); no matching canonical field."
+      },
+      {
+        "source_field": "Advancing_Religion",
+        "reason": "Charity subtype Y/blank flag (notes p.5 ¶29–32); no matching canonical field."
+      },
+      {
+        "source_field": "Advancing_social_or_public_welfare",
+        "reason": "Charity subtype Y/blank flag (notes p.5 ¶29–32); no matching canonical field."
+      },
+      {
+        "source_field": "Advancing_security_or_safety_of_Australia_or_Australian_public",
+        "reason": "Charity subtype Y/blank flag (notes p.5 ¶29–32); no matching canonical field."
+      },
+      {
+        "source_field": "Aboriginal_or_TSI",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Adults",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Aged_Persons",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Children",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Communities_Overseas",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Early_Childhood",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Ethnic_Groups",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Families",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Females",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Financially_Disadvantaged",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "LGBTIQA+",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "General_Community_in_Australia",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Males",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Migrants_Refugees_or_Asylum_Seekers",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Other_Beneficiaries",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Other_Charities",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "People_at_risk_of_homelessness",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "People_with_Chronic_Illness",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "People_with_Disabilities",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Pre_Post_Release_Offenders",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Rural_Regional_Remote_Communities",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Unemployed_Person",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Veterans_or_their_families",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Victims_of_crime",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Victims_of_Disasters",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "Youth",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "animals",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "environment",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      },
+      {
+        "source_field": "other_gender_identities",
+        "reason": "Beneficiary-group Y/blank flag (notes p.6 ¶33–34); no matching canonical field."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.9,
+    "limitations": [
+      "The source is a weekly updated subset of the ACNC Charity Register and includes only charities registered with ACNC (user notes Dec 2024, p.1 ¶2–5); it is not a general company register.",
+      "Withheld information, including an entire charity record, is excluded; blank values can mean not supplied or withheld (user notes pp.1–2).",
+      "Charity_Legal_Name can be an alternate identifier when legal name is withheld (p.2 ¶8); subject_label_field preserves the raw label and the legal-name mapping is therefore provisional.",
+      "No ACN is supplied or inferred from ABN. No entity type, company status, or company registration date is asserted.",
+      "All source-reliability and field-confidence values are provisional human-review judgements."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-5.6-terra",
+  "created_at": "2026-09-18T01:04:48.101361+00:00",
+  "status": "proposed"
+}
