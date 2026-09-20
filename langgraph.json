@@ -1,0 +1,12 @@
+{
+  "dependencies": [
+    "."
+  ],
+  "graphs": {
+    "onboard": "link_lens.agent:graph"
+  },
+  "http": {
+    "app": "link_lens.api:app"
+  },
+  "env": ".env"
+}

@@ -1,0 +1,13 @@
+.git
+.env
+.env.*
+.venv
+.codex
+artifacts
+walkthrough
+__pycache__
+.pytest_cache
+local
+experiments
+demo
+.DS_Store
