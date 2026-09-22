@@ -18,7 +18,7 @@ The six mappings are approved. AI audits are complete; the separate human eviden
 
 ## How it works
 
-[Discovery](#discovery-and-download-gate) · [Onboarding](#stateful-onboarding) · [Storage and contracts](#storage-and-runtime-contracts) · [Skip to setup](#run-locally)
+[Discovery](#discovery-and-download-gate) · [Onboarding](#stateful-onboarding) · [Entity identification](#entity-identification) · [Company profiles](#company-profiles) · [Storage and contracts](#storage-and-runtime-contracts) · [Skip to setup](#run-locally)
 
 ### Discovery and download gate
 
@@ -62,6 +62,42 @@ flowchart TD
 The node names match [agent.py](src/link_lens/agent.py). The partition box represents work inside `inspect`; it is not a separate graph node. All automatic revision paths are bounded by model-call, mapping-version, Python, time and cost budgets. Exhaustion retains a reviewable run record without authorising extraction. Feedback-driven changes require a fresh approval and another unused final slice; final-test failure does not loop against the exposed test data.
 
 For the eight-node transition diagram, node responsibilities, checkpointed state and tool interfaces, open [the engineering guide](docs/ENGINEERING.md), section **Part 2: LangGraph agent design**. It distinguishes structured model calls from graph-controlled execution and shows where evidence is stored.
+
+### Entity identification
+
+[The resolver](src/link_lens/resolution.py) links source records using exact, validated ABN or ACN values and compatible subject roles. This stage is deterministic Python: it makes no LLM calls and does not match on names alone or derive an ACN from an ABN suffix.
+
+```mermaid
+flowchart TD
+    Records["Extracted observations and record candidates"] --> Roles["Check subject roles and identifier conflicts"]
+    Roles -->|Eligible| Group["Group by exact ABN or ACN; merge compatible groups"]
+    Roles -->|Unknown ownership or conflicting IDs| Unlinked["Keep unlinked with a reason"]
+    Group --> Checks["Check cross-source support and existing entity IDs"]
+    Checks -->|Insufficient support or ambiguous membership| Unlinked
+    Checks -->|At least two sources; compatible identity| Entities["Proposed entity clusters and evidence-backed links"]
+```
+
+For example, an ASIC record and an ACNC record with the same validated ABN can support one entity cluster. Conflicting identifiers block linking; joining multiple existing entity IDs requires explicit membership review. Each link preserves the matched identifier, subject roles and exact source locators. Links remain proposed and unreviewed; their rule scores are not measured probabilities. Inspect [links](outputs/links.jsonl) and [unlinked records](outputs/unlinked.jsonl).
+
+### Company profiles
+
+[Profile assembly](src/link_lens/profiles.py) gathers claims from each entity's linked records and applies a fixed evidence policy, with no LLM calls. Competing values are ranked by field-specific source authority, then record-statement versus publication timestamp evidence, then recency. For example, the policy gives a company register priority over a charity register for legal names.
+
+```mermaid
+flowchart TD
+    Claims["Entity cluster and its source observations"] --> Fields["Group claims by canonical field"]
+    Fields --> Single["Single-valued fields: rank evidence"]
+    Single -->|Unique strongest value| Selected["Select value; retain provenance and alternatives"]
+    Single -->|Conflicting values tied on rank| Unresolved["Keep unresolved alternatives"]
+    Fields --> Names["Trading names: retain multiple values"]
+    Fields --> Addresses["Addresses: keep each source record's fields together"]
+    Selected --> Profile["Versioned profile with evidence and uncertainties"]
+    Unresolved --> Profile
+    Names --> Profile
+    Addresses --> Profile
+```
+
+Address components stay together rather than forming a synthetic address from different sources. Publication dates do not prove when a field changed, and profiles retain the uncertainty of their proposed identity links. [The pipeline](src/link_lens/pipeline.py) connects resolution and profile assembly; inspect the resulting [profiles](outputs/profiles.jsonl) or [readable dossiers](outputs/okf/index.md).
 
 ## Run locally
 

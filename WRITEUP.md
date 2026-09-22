@@ -45,7 +45,7 @@ flowchart TD
 
 **Human review is a meaningful boundary.** Agent Inbox shows the licence, snapshot/config hash, reader, mappings, evidence, before/after records, validation and uncertainties. Accept approves that exact stored config; Respond requests revision; Ignore prevents extraction. Direct mapping edits are disabled. Approval of source semantics is separate from checking individual identity links.
 
-Each automatic attempt allows at most **3 mapping versions, 12 model calls and 8 Python executions**, with token, time and cost bounds. Failed attempts and explicit recovery runs retain their evidence and costs. LangGraph checkpoints preserve workflow state; PostgreSQL separately stores config versions and decisions. Idempotent approval/extraction prevents duplicate results on resume. [Architecture and boundaries](README.md), [recovery evidence](docs/ENGINEERING.md).
+Current defaults allow at most **3 mapping versions, 20 model calls and 8 Python executions** per attempt, with **300,000 input tokens and 60,000 output tokens**, plus time and cost bounds. The preserved submission runs used the earlier limits of 12 model calls, 100,000 input tokens and 24,000 output tokens. Failed attempts and explicit recovery runs retain their evidence and costs. LangGraph checkpoints preserve workflow state; PostgreSQL separately stores config versions and decisions. Idempotent approval/extraction prevents duplicate results on resume. [Architecture and boundaries](README.md), [recovery evidence](docs/ENGINEERING.md).
 
 For implementation detail behind the workflow above, see [the engineering guide](docs/ENGINEERING.md), section **Part 2: LangGraph agent design**: node/edge diagrams, state ownership and the typed model/tool interfaces.
 
