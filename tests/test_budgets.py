@@ -7,7 +7,7 @@ from link_lens.settings import settings
 
 def test_call_limit_stops_before_network(monkeypatch):
     run = new_run({"id": "s", "slug": "s"}, {"id": "snapshot"})
-    run["model_calls"] = 12
+    run["model_calls"] = settings().max_model_calls
     store.put("runs", run["id"], run)
     monkeypatch.setattr(
         llm, "model", lambda: pytest.fail("Network model must not be created")
