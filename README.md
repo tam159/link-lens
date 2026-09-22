@@ -18,7 +18,7 @@ The six mappings are approved. AI audits are complete; the separate human eviden
 
 ## How it works
 
-[Discovery](#discovery-and-download-gate) · [Onboarding](#stateful-onboarding) · [Entity identification](#part-3-entity-identification) · [Company profiles](#part-4-company-profiles) · [Storage and contracts](#storage-and-runtime-contracts) · [Skip to setup](#run-locally)
+[Discovery](#discovery-and-download-gate) · [Onboarding](#stateful-onboarding) · [Entity identification](#entity-identification) · [Company profiles](#company-profiles) · [Storage and contracts](#storage-and-runtime-contracts) · [Skip to setup](#run-locally)
 
 ### Discovery and download gate
 
@@ -63,7 +63,7 @@ The node names match [agent.py](src/link_lens/agent.py). The partition box repre
 
 For the eight-node transition diagram, node responsibilities, checkpointed state and tool interfaces, open [the engineering guide](docs/ENGINEERING.md), section **Part 2: LangGraph agent design**. It distinguishes structured model calls from graph-controlled execution and shows where evidence is stored.
 
-### Part 3: Entity identification
+### Entity identification
 
 [The resolver](src/link_lens/resolution.py) links source records using exact, validated ABN or ACN values and compatible subject roles. This stage is deterministic Python: it makes no LLM calls and does not match on names alone or derive an ACN from an ABN suffix.
 
@@ -79,7 +79,7 @@ flowchart TD
 
 For example, an ASIC record and an ACNC record with the same validated ABN can support one entity cluster. Conflicting identifiers block linking; joining multiple existing entity IDs requires explicit membership review. Each link preserves the matched identifier, subject roles and exact source locators. Links remain proposed and unreviewed; their rule scores are not measured probabilities. Inspect [links](outputs/links.jsonl) and [unlinked records](outputs/unlinked.jsonl).
 
-### Part 4: Company profiles
+### Company profiles
 
 [Profile assembly](src/link_lens/profiles.py) gathers claims from each entity's linked records and applies a fixed evidence policy, with no LLM calls. Competing values are ranked by field-specific source authority, then record-statement versus publication timestamp evidence, then recency. For example, the policy gives a company register priority over a charity register for legal names.
 
