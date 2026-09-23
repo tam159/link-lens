@@ -18,6 +18,8 @@ services:
       context: .
       dockerfile: deploy/Dockerfile.backend
     image: link-lens-backend:local
+    # langgraph dev enables reload by default; override the image's --no-reload.
+    command: ["sh", "-c", "alembic upgrade head && langgraph dev --host 0.0.0.0 --port 2024 --no-browser --allow-blocking"]
     env_file:
       - path: .env
         required: false
@@ -29,6 +31,11 @@ services:
       LINK_LENS_API_URL: http://localhost:2024
     ports: ["127.0.0.1:2024:2024"]
     volumes:
+      - ./src:/app/src:ro
+      - ./migrations:/app/migrations:ro
+      - ./alembic.ini:/app/alembic.ini:ro
+      - ./langgraph.json:/app/langgraph.json:ro
+      - ./firmable_ontology.yaml:/app/firmable_ontology.yaml:ro
       - ./artifacts:/app/artifacts
       - checkpoints:/app/.langgraph_api
     depends_on:
@@ -45,11 +52,13 @@ services:
       context: .
       dockerfile: deploy/Dockerfile.backend
     user: root
-    command: ["uvicorn", "link_lens.sandbox:app", "--host", "0.0.0.0", "--port", "8091"]
+    command: ["uvicorn", "link_lens.sandbox:app", "--host", "0.0.0.0", "--port", "8091", "--reload", "--reload-dir", "/app/src"]
     environment:
       LINK_LENS_SANDBOX_TOKEN: ${LINK_LENS_SANDBOX_TOKEN:-local-development-only}
       SANDBOX_IMAGE: link-lens-sandbox:local
-    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+    volumes:
+      - ./src:/app/src:ro
+      - /var/run/docker.sock:/var/run/docker.sock
     ports: ["127.0.0.1:8091:8091"]
     # Trusted controller only. Never mount this socket in an execution container.
   sandbox-image:

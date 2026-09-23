@@ -74,7 +74,7 @@ def onboard(run_id: str):
     result = c.runs.create(
         thread["thread_id"],
         "onboard",
-        input={"run_id": run_id},
+        input={"run_id": run_id, "feedback": run.get("carried_feedback", "none")},
         config={"recursion_limit": 40},
     )
     show(
@@ -82,6 +82,28 @@ def onboard(run_id: str):
             "run_id": run_id,
             "thread_id": thread["thread_id"],
             "server_run_id": result["run_id"],
+        }
+    )
+
+
+@app.command()
+def recover(run_id: str, feedback: str = typer.Option(..., "--feedback")):
+    """Prepare a linked replacement without model calls; start it with onboard."""
+    from .recovery import prepare_recovery
+
+    try:
+        run = prepare_recovery(run_id, feedback)
+    except ValueError as exc:
+        raise typer.BadParameter(str(exc)) from exc
+    show(
+        {
+            "run_id": run["id"],
+            "supersedes_run_id": run["supersedes_run_id"],
+            "status": run["status"],
+            "thread_id": run.get("thread_id"),
+            "next_command": f"uv run link-lens onboard {run['id']}"
+            if not run.get("thread_id")
+            else None,
         }
     )
 
@@ -294,22 +316,20 @@ def smoke_model():
 
 
 @app.command()
-def usage():
-    receipts = [e for e in store.listing("events") if e["kind"] == "model_usage"]
+def usage(experiment_id: str | None = None):
+    """Estimate experiment costs using the same saved rates as cost-summary.json."""
+    from .pricing import collect, estimate
+
+    experiment_id = experiment_id or settings().experiment_id
+    report = estimate(collect(experiment_id))
     show(
         {
-            "calls": len(receipts),
-            "measured_input_tokens": sum(e.get("input_tokens") or 0 for e in receipts),
-            "measured_output_tokens": sum(
-                e.get("output_tokens") or 0 for e in receipts
-            ),
-            "calls_with_unknown_usage": sum(
-                e.get("input_tokens") is None for e in receipts
-            ),
-            "calculated_cost_usd": sum(e["calculated_cost_usd"] for e in receipts)
-            if receipts and all(e["calculated_cost_usd"] is not None for e in receipts)
-            else None,
-            "pricing_basis": settings().pricing_basis,
+            "experiment_id": experiment_id,
+            **{
+                k: v
+                for k, v in report.items()
+                if k not in {"pricing_snapshot", "call_details"}
+            },
         }
     )
 
