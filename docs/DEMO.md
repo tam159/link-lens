@@ -129,7 +129,7 @@ In the same terminal, read the generated ID and begin live inference:
 ```sh
 ACNC_DEMO_RUN_ID=$(uv run python -c 'import json; print(json.load(open("outputs/demo-acnc-2024/registration.json"))["id"])')
 uv run link-lens onboard "$ACNC_DEMO_RUN_ID"
-uv run link-lens runs "$ACNC_DEMO_RUN_ID"
+uv run link-lens runs --run-id "$ACNC_DEMO_RUN_ID"
 ```
 
 `onboard` returns immediately. Repeat `runs` as needed until `waiting_for_human`, or a terminal failure/budget status. Open [Agent Inbox](http://localhost:3000) (graph `onboard`, deployment `http://localhost:2024`). Match the dataset name and returned thread ID. The agent's inspection, proposal, validation and possible revision happen before the review interrupt. No guarantee that a first attempt succeeds; failed calls still consume tokens.
@@ -150,7 +150,7 @@ uv run link-lens review "$ACNC_DEMO_RUN_ID" respond --feedback "Explain how the 
 After approval, poll until `status` is **completed**:
 
 ```sh
-uv run link-lens runs "$ACNC_DEMO_RUN_ID"
+uv run link-lens runs --run-id "$ACNC_DEMO_RUN_ID"
 ```
 
 A rejection, exhausted budget or final-test failure does not authorize extraction. Saved run folders and trace URLs explain the outcome. Fix shared workflow limitations if necessary and disclose retries; do not silently edit an approved config.
