@@ -130,6 +130,8 @@ The code reads the exact `OPENAI_API_BASE` and `OPENAI_API_KEY` names above. A m
 
 Local database, sandbox and API URLs are already set in the example. Docker Compose overrides their hostnames inside containers. No API key is needed for CKAN catalogue access or the local Agent Inbox connection. Keep provider keys in `.env`, not in browser settings. If you change `.env` after starting services, recreate the backend with `docker compose up -d --force-recreate backend`.
 
+Onboarding budget defaults are 50 model calls, 10 Python executions, 9,000,000 cumulative input tokens and 2,000,000 cumulative output tokens per attempt. Configure them with `LINK_LENS_MAX_MODEL_CALLS`, `LINK_LENS_MAX_PYTHON_CALLS`, `LINK_LENS_MAX_INPUT_TOKENS` and `LINK_LENS_MAX_OUTPUT_TOKENS` in `.env`. Existing environment values override code defaults; settings are cached in each process. Changes to `settings.py` require rebuilding the Docker backend (`docker compose up -d --build backend`). A larger cumulative budget does not increase the 7,000-token completion limit per call or remove mapping-version, time and cost limits. Input reservations include the next prompt plus overhead, so a call can be blocked before recorded usage reaches the limit. Changing configuration does not automatically resume an exhausted run; preserve prior usage and recovery lineage as described in [the engineering guide](docs/ENGINEERING.md#recovering-a-requested-revision-after-its-attempt-budget-is-exhausted).
+
 ### 3. Build and start services
 
 ```sh

@@ -17,11 +17,11 @@ class Settings(BaseSettings):
     sandbox_url: str = "http://localhost:8091"
     sandbox_token: str = "local-development-only"
     api_url: str = "http://localhost:2024"
-    max_model_calls: int = 20
-    max_python_calls: int = 8
+    max_model_calls: int = 50
+    max_python_calls: int = 10
     max_mapping_versions: int = 3
-    max_input_tokens: int = 300_000
-    max_output_tokens: int = 60_000
+    max_input_tokens: int = 9_000_000
+    max_output_tokens: int = 2_000_000
     max_active_seconds: int = 900
     max_cost_usd: float = 10.0
     input_usd_per_million: float | None = None
