@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     api_url: str = "http://localhost:2024"
     max_model_calls: int = 50
     max_python_calls: int = 10
-    max_mapping_versions: int = 3
+    max_mapping_versions: int = 8
     max_input_tokens: int = 9_000_000
     max_output_tokens: int = 2_000_000
     max_active_seconds: int = 900
