@@ -19,7 +19,7 @@ def summary(experiment_id=None):
         for e in events
         if (e["kind"] == "model_usage" and e["run_id"] in ids)
         or (
-            e["kind"] == "triage_usage"
+            e["kind"] in {"triage_usage", "enhancement_usage"}
             and (not experiment_id or e.get("experiment_id") == experiment_id)
         )
     ]
@@ -87,7 +87,7 @@ def summary(experiment_id=None):
         if receipts and all(e["calculated_cost_usd"] is not None for e in receipts)
         else None,
         "billing_note": "See published_rate_estimate for agreed Azure estimates and Jev list pricing. Failed calls with missing usage remain unpriced.",
-        "per_record_llm_calls": 0,
+        "per_record_llm_calls": cost_estimate["per_record_llm_calls"],
         "human_evaluations": [evaluation.report(w["id"]) for w in worksheets],
         "ai_assisted_evaluations": [evaluation.ai_report(w["id"]) for w in worksheets],
         "ai_full_shortlist_evaluations": [

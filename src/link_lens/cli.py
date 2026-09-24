@@ -9,6 +9,7 @@ from langgraph_sdk import get_sync_client
 from . import evaluation, exports, ingestion, store
 from .contracts import SourceRequest, StrictModel
 from .settings import settings
+from .contracts import content_hash
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -199,6 +200,138 @@ def assemble(
     from .pipeline import assemble as build
 
     show(build(run_ids, minimum_profiles, cohort_pool_size, baseline_batch_id))
+
+
+@app.command()
+def enhance(
+    batch_id: str = typer.Option(..., help="Frozen approved baseline batch"),
+    output: Path = Path("outputs/local-run/enhanced-v2"),
+    retrieval: str = "hybrid",
+    reconcile: bool = True,
+    budget: float | None = None,
+    max_pairs: int | None = typer.Option(
+        None,
+        min=0,
+        help="Maximum NEW identity pair requests; cached judgments are free",
+    ),
+    preflight_only: bool = False,
+    progress: bool = True,
+):
+    """Experimental semantic resolution and profile reconciliation (paid inference)."""
+    from .enhancement import enhance as build
+    from .enhancement_contracts import EnhancementPolicy
+
+    if retrieval not in {"fuzzy", "hybrid"}:
+        raise typer.BadParameter("Use fuzzy or hybrid")
+    cfg = settings()
+    policy = EnhancementPolicy(
+        retrieval=retrieval,
+        reconcile=reconcile,
+        embedding_model=cfg.embedding_model,
+        decision_model=cfg.resolution_model,
+        explanation_model=cfg.model,
+    )
+    from .enhancement_progress import Progress
+
+    show(
+        build(
+            batch_id,
+            policy,
+            output,
+            budget,
+            max_pairs=max_pairs,
+            preflight_only=preflight_only,
+            progress=Progress(progress),
+        )
+    )
+
+
+@app.command()
+def enhance_worksheet(
+    batch_id: str = typer.Option(...),
+    output: Path = Path("outputs/local-run/enhancement-review"),
+    sample_size: int = 200,
+    seed: int = 159,
+):
+    """Create unlabelled human evaluation worksheets without model calls."""
+    from .enhancement import validate_output
+    from .enhancement_evaluation import worksheet
+
+    validate_output(output)
+    batch = store.require("batches", batch_id)
+    result = store.read_json(batch["result_artifact"])
+    packet = worksheet(result, sample_size, seed)
+    worksheet_id = "enhancement-review-" + content_hash(packet)[:40]
+    store.put(
+        "evaluations",
+        worksheet_id,
+        packet,
+        batch_id,
+        "enhancement_worksheet",
+        immutable=True,
+    )
+    exports.write_json(output / "worksheet.json", packet)
+    for split in ("development", "heldout"):
+        exports.write_json(
+            output / (split + ".json"),
+            {
+                **packet,
+                "items": [i for i in packet["items"] if i["split"] == split],
+                "records": [
+                    r
+                    for r in packet["records"]
+                    if (r["source_id"], r["source_record_id"])
+                    in {
+                        tuple(i[side])
+                        for i in packet["items"]
+                        if i["split"] == split
+                        for side in ("left", "right")
+                    }
+                ],
+                "masked_identifier_controls": [
+                    c
+                    for c in packet["masked_identifier_controls"]
+                    if c["split"] == split
+                ],
+            },
+        )
+    show(
+        {
+            "worksheet_id": worksheet_id,
+            "path": str(output / "worksheet.json"),
+            "items": len(packet["items"]),
+            "status": "human_labels_pending",
+        }
+    )
+
+
+@app.command()
+def enhance_evaluate(
+    batch_id: str = typer.Option(...),
+    labels: Path = typer.Option(
+        ...,
+        help="Combined worksheet with human labels; include both splits for leakage checks",
+    ),
+    split: str = "heldout",
+    output: Path = Path("outputs/local-run/enhancement-review/report.json"),
+):
+    """Evaluate frozen predictions against human labels, never AI audit labels."""
+    from .enhancement import validate_output
+    from .enhancement_evaluation import evaluate
+
+    validate_output(output)
+    batch = store.require("batches", batch_id)
+    result = store.read_json(batch["result_artifact"])
+    packet = json.loads(labels.read_text())
+    report = evaluate(result, packet, split)
+    evidence_id = store.json_blob(packet, "enhancement-human-labels.json")
+    report["labels_artifact"] = evidence_id
+    report_id = "enhancement-report-" + content_hash(report)[:40]
+    store.put(
+        "evaluations", report_id, report, batch_id, "enhancement_report", immutable=True
+    )
+    exports.write_json(output, report)
+    show(report)
 
 
 @app.command()

@@ -130,7 +130,7 @@ def okf_export(result, sources, root):
             {
                 "type": "Business Profile",
                 "title": name,
-                "description": "Versioned profile assembled from proposed identifier links.",
+                "description": "Versioned profile assembled from proposed identity links.",
                 "tags": ["entity", "proposed-identity"],
                 "generated": generated,
                 "status": "draft",
@@ -140,7 +140,7 @@ def okf_export(result, sources, root):
                     for sid in sorted({r[0] for r in profile["source_records"]})
                 ],
             },
-            "# Profile\n\nRule scores are uncalibrated. Review of a mapping does not verify every identity link.\n\n```json\n"
+            "# Profile\n\nIdentity scores are uncalibrated. Review of a mapping does not verify every identity link.\n\n```json\n"
             + json.dumps(profile, indent=2, ensure_ascii=False)
             + "\n```\n\n# Evidence\n\n"
             + "\n".join(links),
@@ -164,6 +164,12 @@ def okf_export(result, sources, root):
 
 
 def export(output: Path, batch_id=None, experiment_id=None):
+    if batch_id:
+        selected = store.require("batches", batch_id)
+        if selected.get("enhancement_job_id"):
+            from .enhancement import validate_output
+
+            validate_output(output)
     output.mkdir(parents=True, exist_ok=True)
     from .measurements import summary
 
@@ -235,6 +241,10 @@ def export(output: Path, batch_id=None, experiment_id=None):
     if batch_id:
         batch = store.require("batches", batch_id)
         result = store.read_json(batch["result_artifact"])
+        if "enhancement_policy" in result:
+            from .enhancement import export_enhancement
+
+            export_enhancement(result, output)
         for key in ["observations", "links", "unlinked", "profiles"]:
             jsonl(output / f"{key}.jsonl", result[key])
         write_json(output / "source-removal.json", result["source_impact"])

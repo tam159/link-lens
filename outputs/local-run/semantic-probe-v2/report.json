@@ -1,0 +1,16 @@
+{
+  "items": 22,
+  "judgments": {
+    "insufficient_evidence": 18,
+    "same_entity": 1,
+    "different": 3
+  },
+  "routes": {
+    "name_only": 6,
+    "insufficient": 16
+  },
+  "calls": 22,
+  "estimated_cost_usd": 0.005517834,
+  "priced_calls": 22,
+  "human_precision": null
+}

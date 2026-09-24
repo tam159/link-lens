@@ -302,3 +302,145 @@ All six latest runs in `outputs/current-run.json` are approved. Batch: `fa5523f0
 Evidence collection is reproducible with `uv run python scripts/collect_current_link_evidence.py`. `scripts/record_current_link_audit.py` persists the assistant's inspected, batch-specific judgments and refuses a different batch; it is not an automatic evaluator for future outputs.
 
 Part 1 was subsequently rerun with a download/reader gate, using cached catalogue/Jev scores and no new model calls. Current audit: 47 supported, 1 unsupported, 2 unresolved. Parts 2–4 are unchanged. [Evidence, scope and commands](../outputs/part1-downloadable/REPORT.md).
+
+## Experimental hybrid enhancement
+
+`enhance` runs after mapping approval and extraction. It reads an immutable batch,
+reuses its exact selected record IDs, and publishes a new experimental batch. It
+neither re-onboards sources nor modifies submission artifacts. Older batches without
+candidate metadata are reconstructed from their approved mappings/snapshots; every
+reconstructed observation must equal the frozen observation before inference starts.
+
+```sh
+# Read-only evidence coverage, no model calls:
+uv run link-lens enhance --batch-id BASELINE_BATCH_ID --preflight-only
+# Bounded paid assessment, with progress on stderr:
+uv run link-lens enhance --batch-id BASELINE_BATCH_ID --max-pairs 50
+# Lexical-only retrieval ablation; still uses Jev for identity decisions:
+uv run link-lens enhance --batch-id BASELINE_BATCH_ID --retrieval fuzzy --no-reconcile \
+  --output outputs/local-run/fuzzy-enhancement
+uv run link-lens enhance-worksheet --batch-id DERIVED_BATCH_ID
+# After a human labels the combined worksheet, evaluate one frozen split:
+uv run link-lens enhance-evaluate --batch-id DERIVED_BATCH_ID \
+  --labels outputs/local-run/enhancement-review/worksheet.json --split heldout
+```
+
+Replace placeholders with stored batch IDs. Enhancement commands without `--preflight-only` make paid calls;
+worksheet generation and evaluation do not. Provider requirements are OpenRouter
+access to the configured Jev model, an OpenAI-compatible embedding endpoint exposing
+`text-embedding-3-small`, and the configured onboarding model for conflict annotations.
+Optional `LINK_LENS_EMBEDDING_API_BASE` and `LINK_LENS_EMBEDDING_API_KEY` override the
+normal OpenAI endpoint/key. `.env.example` documents all enhancement settings.
+
+Implementation entry points:
+
+- `enhancement.py`: frozen input reconstruction, orchestration, immutable derived
+  batches, source-impact replay and separate exports.
+- `semantic_resolution.py`: labelled evidence packets, RapidFuzz name retrieval,
+  local cosine retrieval, eligibility gates and cluster construction.
+- `enhancement_models.py`: Jev, embeddings and structured conflict annotations;
+  typed contracts live in `enhancement_contracts.py`.
+- `reconciliation.py`: complete-pair equivalence groups and original-value provenance.
+- `enhancement_evaluation.py`: human worksheets and benchmark reports.
+
+Each record retrieves up to 20 candidates per other source per retrieval method.
+Policy `hybrid-evidence-2` uses initial 0.80 fuzzy and cosine retrieval floors; these
+are experimental retrieval filters, not identity confidence thresholds. Fuzzy and
+embedding sets are unioned. Embeddings default to 1,536 dimensions and batches of
+64 inputs; unchanged individual vectors from the first policy remain reusable.
+
+Assessment and admission are separate. Sparse candidates can be assessed by Jev
+and exported for human review, but matching names alone cannot create membership.
+Potential admission routes include an entity website domain, compatible full
+registered/business addresses, or an exact distinctive name plus matching locality,
+state and postcode with registered/business roles. An explicitly co-stated legal /
+trading alias can accompany that location evidence. Service-location evidence needs
+an exact distinctive name, matching full address and postcode, compatible roles,
+and clear ownership. Conflicting location components block the alternative routes.
+These combinations are experimental: neither a postcode nor industry alone suffices.
+Frequency features flag repeated names, domains and addresses.
+Jev separately judges identity, name compatibility, corroboration and ownership.
+The same-entity score and all three supporting judgments must reach 0.98, with a
+0.10 identity margin. These are versioned experimental thresholds.
+
+Exact clusters remain anchors. New attachments require direct support from an
+original anchor record. A component spanning existing IDs is deferred as a whole.
+Without an anchor, every cross-source pair must qualify; missing, failed or unqueried
+edges never establish transitive identity. Provisional IDs are deterministic at
+creation and retained by explicit record membership on subsequent derived batches.
+Passing pair decisions can still be deferred by cluster checks; inspect both exports.
+
+The default budget is $10 per stable enhancement job, six concurrent requests and
+two retries per failed request. At most 500 new identity pairs are attempted per
+invocation (`--max-pairs` overrides this); successful cached decisions do not count.
+Potential admission routes are prioritized, followed by exact names and retrieval
+scores. Remaining pairs stay pending, never classified as nonmatches. Repeating the
+same command assesses the next uncached pairs within the cumulative dollar budget.
+`--max-pairs` limits identity assessment only; embeddings and reconciliation also
+consume the shared budget. Progress reports stages, cache hits and attempts to stderr;
+`--no-progress` disables it and stdout remains the final JSON result.
+
+Job identity binds the parent artifact and policy;
+retrying the same command retains spend. Each request reserves cost under the shared
+PostgreSQL advisory lock before dispatch; interrupted/unknown attempts retain their
+reservation. Reservations are not measured bills. Successful responses cache by
+complete request, endpoint, model and protocol version. Changing evidence invalidates
+cache reuse. The provider-reported model, usage, request/response artifacts, failures
+and timing are saved. Unknown usage stays unpriced. Changing a provider behind the
+same endpoint/model alias requires a policy-version change to deliberately invalidate
+cached responses. The dollar gate is based on saved provider rate estimates, not an
+invoice guarantee.
+
+Budget exhaustion or provider failure produces explicit pending work. Re-run with
+the same parent and policy to reuse successful calls; an explicit `--budget` raises
+the cumulative ceiling without resetting historical charges. New parent batches
+create new jobs with explicit lineage. Policy v2 also creates a distinct job and budget
+from v1, while reusing unchanged embedding and profile caches. Identity prompt changes
+invalidate the old decision cache. `--no-reconcile` disables model profile work.
+No inference is silently replaced with a positive or negative label.
+
+Source-removal analysis applies the same hybrid policy and allows only identical
+cached model inputs. Removing a source can change frequency evidence and require new
+judgments: those reports are marked incomplete with unknown membership-change metrics.
+This analysis never silently spends on fresh counterfactual calls or falls back to
+exact-only resolution. Profile-value effects keep original membership fixed.
+
+The experimental export includes candidate/cluster decisions, pending work, entities,
+links, profiles, observations, selection, policy, cost receipts and comparison data.
+`review_candidates.jsonl` contains unreviewed deferred candidates and their evidence;
+`preflight.json` reports source coverage and potential lexical corroboration routes.
+Preflight does not retrieve embeddings or estimate accuracy. With no routes it warns
+that assessment may produce review candidates without additional links or profiles.
+Default destination: `outputs/local-run/enhanced-v2/`. Submission destinations and
+`experiments/` are rejected before inference. PostgreSQL stores enhanced entity
+snapshots under batch ownership; ordinary `assemble` reads only canonical `entity`
+records. Existing domain tables suffice; there is no database schema migration.
+
+### Human evaluation of enhancements
+
+The worksheet samples retrieved and outside-candidate pairs separately, records the
+sampling population, and assigns entire known/provisional entity groups to one
+split. Development/heldout convenience files accompany the combined worksheet;
+retain the combined worksheet for evaluation so leakage can be checked across both.
+For uncertain identities, a human must correct grouping before interpreting split
+independence. Same-entity human labels require common entity groups. Any record or
+entity group occurring in both splits is rejected.
+
+Use `same`, `different`, `unknown`, or leave `label` null. Every human label requires
+`reviewer`, `reviewed_at` and `evidence_notes`. Inspect raw locators and address/subject
+roles, including shared premises/domains, brands, branches and ambiguous ownership.
+Identifier-masked controls are explicitly separate from human ground truth; do not
+copy their expected identity into human labels. No evaluation labels are supplied to
+inference. Freeze the policy before heldout review; do not tune against heldout labels.
+
+Reports show labelled-benchmark retrieval recall, linkage precision/recall, additional
+correct matches, contaminating labelled pairs and a Wilson precision interval.
+Unknown/unreviewed items are excluded. These stratified benchmark metrics do not
+estimate population performance. Observed semantic precision of 99% is a target,
+not an implemented promotion switch; results remain experimental. No live enhancement
+accuracy or cost is established by mocked integration and deterministic tests.
+
+Provider references: [OpenAI embeddings](https://developers.openai.com/api/docs/guides/embeddings),
+[embedding pricing](https://developers.openai.com/api/docs/models/text-embedding-3-small),
+[Jev typed decisions](https://openrouter.ai/docs/guides/community/jev-tutorial),
+[TypeSafe confidence](https://docs.typesafe.ai/confidence).

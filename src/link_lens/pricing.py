@@ -4,6 +4,13 @@ import json
 from decimal import Decimal
 from pathlib import Path
 
+ENHANCEMENT_STAGES = {
+    "embedding",
+    "resolution",
+    "reconciliation",
+    "profile_explanation",
+}
+
 
 def rates():
     return json.loads(Path(__file__).with_name("pricing_rates.json").read_text())
@@ -56,6 +63,8 @@ def estimate(rows, snapshot=None):
             if eligible and model_rates
             else None
         )
+        if row.get("stage") in ENHANCEMENT_STAGES:
+            cost = row.get("estimated_cost_usd")
         calls.append({**row, "estimated_standard_list_cost_usd": cost})
     known = [c for c in calls if c["estimated_standard_list_cost_usd"] is not None]
     subtotal = float(
@@ -82,7 +91,7 @@ def estimate(rows, snapshot=None):
         )
     return {
         "pricing_snapshot": snapshot,
-        "basis": "OpenAI Standard short-context prices approximate Azure deployment costs; Jev uses published OpenRouter flat input pricing. No regional uplift.",
+        "basis": "OpenAI list prices approximate deployment costs; Jev uses published OpenRouter flat pricing. Enhancement estimates retain per-attempt rate provenance. No regional uplift.",
         "calls": len(calls),
         "priced_calls": len(known),
         "unpriced_calls": len(calls) - len(known),
@@ -91,8 +100,29 @@ def estimate(rows, snapshot=None):
         "budget_target_usd": 10,
         "measured_subtotal_within_budget": subtotal <= 10,
         "budget_compliance": "Assessed on priced calls only; unpriced calls are excluded.",
-        "per_record_llm_calls": 0,
-        "per_record_llm_cost_usd": 0,
+        "per_record_llm_calls": sum(
+            c.get("stage") in ENHANCEMENT_STAGES for c in calls
+        ),
+        "per_record_llm_cost_usd": (
+            sum(
+                c["estimated_standard_list_cost_usd"]
+                for c in calls
+                if c.get("stage") in ENHANCEMENT_STAGES
+            )
+            if all(
+                c["estimated_standard_list_cost_usd"] is not None
+                for c in calls
+                if c.get("stage") in ENHANCEMENT_STAGES
+            )
+            else None
+        ),
+        "per_stage": {
+            stage: {
+                "calls": sum(c.get("stage") == stage for c in calls),
+                "priced_calls": sum(c.get("stage") == stage for c in known),
+            }
+            for stage in sorted({c.get("stage") or "unknown" for c in calls})
+        },
         "per_run": by_run,
         "call_details": calls,
     }
@@ -149,6 +179,27 @@ def collect(experiment_id=None):
                 "usage": usage,
                 "response_artifact": e.get("response_artifact"),
                 "reported_cost_usd": e.get("calculated_cost_usd"),
+            }
+        )
+    for e in store.listing("events", kind="enhancement_usage"):
+        if experiment_id and e.get("experiment_id") != experiment_id:
+            continue
+        rows.append(
+            {
+                "event_id": e["id"],
+                "run_id": e["run_id"],
+                "source": "experimental batch enhancement",
+                "stage": e["stage"],
+                "model": e["model"],
+                "usage": e.get("usage"),
+                "response_artifact": e.get("response_artifact"),
+                "reported_model": e.get("reported_model"),
+                "reported_cost_usd": e.get("calculated_cost_usd"),
+                "estimated_cost_usd": e.get("estimated_cost_usd"),
+                "pricing_basis": e.get("pricing_basis"),
+                "status": e["status"],
+                "wall_seconds": e.get("wall_seconds"),
+                "budget_charge_usd": e["budget_charge_usd"],
             }
         )
     return rows
