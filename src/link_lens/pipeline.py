@@ -74,7 +74,7 @@ def assemble(
         by_run[run["id"]] = (result, rows)
         for key in combined:
             combined[key].extend(result[key])
-    existing = store.listing("entities")
+    existing = store.listing("entities", kind="entity")
     feasibility = resolve(**combined, existing_entities=existing)
     cohort = select_cohort(feasibility["entities"], minimum_profiles, baseline_entities)
     if len(cohort) < minimum_profiles:
@@ -135,6 +135,7 @@ def assemble(
         "selection_policy": "Identifier-overlap cohort followed by deterministic hash-ranked filler; not a coverage estimate.",
         "selection": selections,
         "observations": observations,
+        "candidates": candidates,
         "links": linked["links"],
         "unlinked": linked["unlinked"],
         "entities": linked["entities"],

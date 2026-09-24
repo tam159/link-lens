@@ -14,6 +14,13 @@ class Settings(BaseSettings):
     experiment_id: str = "jev-luna-v1"
     triage_model: str = "typesafe/jev-1.13"
     triage_workers: int = 6
+    embedding_model: str = "text-embedding-3-small"
+    resolution_model: str = "typesafe/jev-1.13"
+    enhancement_max_cost_usd: float = 10.0
+    enhancement_workers: int = 6
+    enhancement_max_pairs: int = 500
+    embedding_batch_size: int = 64
+    enhancement_retries: int = 2
     sandbox_url: str = "http://localhost:8091"
     sandbox_token: str = "local-development-only"
     api_url: str = "http://localhost:2024"

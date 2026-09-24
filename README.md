@@ -1,6 +1,17 @@
 # Link Lens
 
-A LangGraph agent investigates public business datasets and produces mapping configurations for human approval. One shared engine then extracts observations, links entities and generates profiles with provenance. The submitted run uses **Jev for triage and gpt-5.6-luna for onboarding**.
+A LangGraph agent investigates public business datasets and produces mapping configurations for human approval. One shared engine then extracts observations, links entities and generates profiles with provenance. The pipeline uses **Jev for triage and an LLM for onboarding**.
+
+**Models and code at a glance:**
+
+| Stage | Approach |
+|---|---|
+| Discovery | **Jev + deterministic code** for relevance ranking, download checks and source selection. |
+| Onboarding | **Agentic LangGraph workflow with an LLM + deterministic code** for dataset investigation, mapping proposals and validation; human approval precedes deterministic extraction. |
+| Entity identification | **Deterministic exact ABN/ACN matching** by default. Optional `enhance` adds fuzzy retrieval, an **embedding model and Jev** assessments, with deterministic evidence and cluster checks. |
+| Company profiles | **Deterministic evidence selection** by default. Optional `enhance` adds **Jev** claim-equivalence judgments and an **LLM** for conflict annotations; original source values and provenance are retained. |
+
+Model names are configurable. The optional enhancement is experimental and exported separately from the saved submission; embeddings retrieve identity candidates, rather than generate profile values.
 
 **[Explore the live evidence viewer →](https://tam159.github.io/link-lens/)** Browse business profiles, explore their connections and inspect supporting evidence directly in your browser—no setup required. The viewer presents the saved submission snapshot.
 
@@ -65,7 +76,7 @@ For the eight-node transition diagram, node responsibilities, checkpointed state
 
 ### Entity identification
 
-[The resolver](src/link_lens/resolution.py) links source records using exact, validated ABN or ACN values and compatible subject roles. This stage is deterministic Python: it makes no LLM calls and does not match on names alone or derive an ACN from an ABN suffix.
+The default `assemble` path uses [the exact resolver](src/link_lens/resolution.py) to link source records using exact, validated ABN or ACN values and compatible subject roles. This stage is deterministic Python: it makes no LLM calls and does not match on names alone or derive an ACN from an ABN suffix.
 
 ```mermaid
 flowchart TD
@@ -79,9 +90,25 @@ flowchart TD
 
 For example, an ASIC record and an ACNC record with the same validated ABN can support one entity cluster. Conflicting identifiers block linking; joining multiple existing entity IDs requires explicit membership review. Each link preserves the matched identifier, subject roles and exact source locators. Links remain proposed and unreviewed; their rule scores are not measured probabilities. Inspect [links](outputs/links.jsonl) and [unlinked records](outputs/unlinked.jsonl).
 
+An opt-in **experimental hybrid resolver** adds fuzzy-name and `text-embedding-3-small` candidate retrieval, followed by Jev identity judgments. It assesses sparse candidates for review, while automatic links require compatible names, independent corroboration, clear ownership, and consistent cluster membership. Supported corroboration includes full addresses, website domains, and constrained combinations of distinctive names and location evidence; service locations require additional ownership checks. It can create provisional companies without ABN/ACN. Conflicting identifiers and ambiguous joins remain deferred; similarity alone cannot create a link. Its initial 0.98 model-score gate is uncalibrated and human precision is not yet measured.
+
+```mermaid
+flowchart TD
+    Frozen["Frozen approved batch"] --> Exact["Exact identifier baseline"]
+    Frozen --> Retrieve["Fuzzy names and embedding candidates"]
+    Retrieve --> Jev["Jev: identity, corroboration and ownership"]
+    Jev --> Gate["Evidence gates and cluster consistency"]
+    Gate -->|Supported| Semantic["Provisional semantic memberships"]
+    Gate -->|Ambiguous or pending| Deferred["Retain reviewable decisions"]
+    Exact --> Profiles["Evidence-aware profiles"]
+    Semantic --> Profiles
+```
+
+Run `uv run link-lens enhance --batch-id BATCH_ID` to create a separate derived batch and export to `outputs/local-run/enhanced-v2/`. Use `--preflight-only` for a free evidence-coverage check, or `--max-pairs 50` for a bounded first assessment. Progress appears on stderr and deferred review candidates are exported separately. This command makes paid calls; it preserves the original selection and submission. See [experimental enhancement operations](docs/ENGINEERING.md#experimental-hybrid-enhancement) for configuration, caching, budget recovery and evaluation.
+
 ### Company profiles
 
-[Profile assembly](src/link_lens/profiles.py) gathers claims from each entity's linked records and applies a fixed evidence policy, with no LLM calls. Competing values are ranked by field-specific source authority, then record-statement versus publication timestamp evidence, then recency. For example, the policy gives a company register priority over a charity register for legal names.
+Default [profile assembly](src/link_lens/profiles.py) gathers claims from each entity's linked records and applies a fixed evidence policy, with no LLM calls. Competing values are ranked by field-specific source authority, then record-statement versus publication timestamp evidence, then recency. For example, the policy gives a company register priority over a charity register for legal names.
 
 ```mermaid
 flowchart TD
@@ -98,6 +125,8 @@ flowchart TD
 ```
 
 Address components stay together rather than forming a synthetic address from different sources. Publication dates do not prove when a field changed, and profiles retain the uncertainty of their proposed identity links. [The pipeline](src/link_lens/pipeline.py) connects resolution and profile assembly; inspect the resulting [profiles](outputs/profiles.jsonl) or [readable dossiers](outputs/okf/index.md).
+
+The optional enhancement pass uses Jev to identify equivalent representations while preserving every source value. A representative comes from an existing observation under the authority/time policy. The configured LLM can annotate unresolved conflicts with validated observation citations; possible renames or moves remain inferences. Address bundles are retained intact. Semantic profiles and all model scores remain explicitly provisional. General narrative company summaries are not generated.
 
 ## Run locally
 
