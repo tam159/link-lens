@@ -9,4 +9,4 @@ User-supplied screenshots, retained without image edits. These illustrate the UI
 | [okf-business-profile.png](okf-business-profile.png) | Business dossier with field confidence and raw provenance | Terra export; visible generated timestamp is 18 September 2026 |
 | [okf-data-source.png](okf-data-source.png) | ASIC publisher, licence and citing evidence | Same historical Terra export; source connections differ in the final Luna cohort |
 
-All four are embedded in [the illustrated demo](../DEMO.md). The mapping-detail image is also used in the [root README](../../README.md). Screenshots contain local demo URLs and public source evidence; screenshot links and artifact IDs should not be treated as current navigation endpoints.
+All four are embedded in [the illustrated demo](../DEMO.md). Both Agent Inbox images are also embedded in the [root README](../../README.md#stateful-onboarding). Screenshots contain local demo URLs and public source evidence; screenshot links and artifact IDs should not be treated as current navigation endpoints.

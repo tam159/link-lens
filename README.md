@@ -14,8 +14,6 @@ A LangGraph agent investigates public business datasets and produces mapping con
 
 **Flexible ontology:** Link Lens now supports reusable new concepts instead of a fixed target list. An LLM proposes and critiques additions from discovery evidence and documentation; deterministic code validates types, scope, dependencies and additive compatibility. Mappings pin an immutable ontology hash and still require human approval. The submitted ontology has 59 concepts, with 24 additions contributing to profiles. [How ontology evolution works](#experimental-ontology-evolution).
 
-Model names are configurable. The final approach includes bounded hybrid enhancement; embeddings retrieve candidates and do not generate profile values. It added no identity links in this run, and human evidence evaluation remains pending.
-
 **[Explore the live evidence viewer →](https://tam159.github.io/link-lens/)** Browse business profiles, explore their connections and inspect supporting evidence directly in your browser—no setup required. The viewer presents the saved submission snapshot.
 
 **Choose a starting point:** [How it works](#how-it-works) · [Run locally](#run-locally) · [Read the write-up](WRITEUP.md) · [Inspect saved results](outputs/README.md) · [Follow the illustrated demo](docs/DEMO.md)
@@ -74,6 +72,14 @@ flowchart TD
 ```
 
 The node names match [agent.py](src/link_lens/agent.py). The partition box represents work inside `inspect`; it is not a separate graph node. All automatic revision paths are bounded by model-call, mapping-version, Python, time and cost budgets. Exhaustion retains a reviewable run record without authorising extraction. Feedback-driven changes require a fresh approval and another unused final slice; final-test failure does not loop against the exposed test data.
+
+Agent Inbox makes the human review step visible. The queue lists source mappings awaiting a decision; opening one shows the proposed fields, confidence, evidence and review controls.
+
+![Agent Inbox queue showing source mappings awaiting human review](docs/images/agent-inbox-all-reviews.png)
+
+![Mapping review showing source-to-canonical fields, evidence and response controls](docs/images/agent-inbox-review-details.png)
+
+**Accept** approves the exact config and ontology hash, **Respond** requests a revision, and **Ignore** defers extraction. These screenshots show an earlier review session; their queue state and mapping versions are historical. All six submitted mappings are now approved. See [current approvals](outputs/approval-manifest.json) and the [illustrated demo](docs/DEMO.md).
 
 For the eight-node transition diagram, node responsibilities, checkpointed state and tool interfaces, open [the engineering guide](docs/ENGINEERING.md), section **Part 2: LangGraph agent design**. It distinguishes structured model calls from graph-controlled execution and shows where evidence is stored.
 
