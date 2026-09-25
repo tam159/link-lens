@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - outputs/okf/viewer.html
+      - outputs/submission-manifest.json
       - .github/workflows/pages.yml
   workflow_dispatch:
 
@@ -37,6 +38,13 @@ jobs:
         run: |
           set -euo pipefail
           test -s outputs/okf/viewer.html
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          manifest = json.loads(Path("outputs/submission-manifest.json").read_text())
+          actual = hashlib.sha256(Path("outputs/okf/viewer.html").read_bytes()).hexdigest()
+          assert actual == manifest["viewer_sha256"], "Viewer differs from promoted submission"
+          PY
           mkdir -p "$RUNNER_TEMP/link-lens-pages"
           cp outputs/okf/viewer.html "$RUNNER_TEMP/link-lens-pages/index.html"
 

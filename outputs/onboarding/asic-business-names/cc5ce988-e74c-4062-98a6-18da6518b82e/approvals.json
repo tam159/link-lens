@@ -1,0 +1,13 @@
+[
+  {
+    "id": "bc6e71311adcc41b0107cbca814887e4139aad9cf450599c60fbbfe0983fdbb8",
+    "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+    "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+    "mapping_id": "cc5ce988-e74c-4062-98a6-18da6518b82e:1",
+    "decision": "approved",
+    "reviewer": "local-user",
+    "at": "2026-09-24T15:40:45.253012+00:00",
+    "feedback": "",
+    "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+  }
+]

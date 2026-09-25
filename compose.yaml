@@ -29,6 +29,9 @@ services:
       LINK_LENS_SANDBOX_URL: http://sandbox-controller:8091
       LINK_LENS_SANDBOX_TOKEN: ${LINK_LENS_SANDBOX_TOKEN:-local-development-only}
       LINK_LENS_API_URL: http://localhost:2024
+      LINK_LENS_MODEL: ${LINK_LENS_MODEL:-gpt-6-luna}
+      LINK_LENS_EXPERIMENT_ID: ${LINK_LENS_EXPERIMENT_ID:-jev-gpt6-luna-ontology-v1}
+      LINK_LENS_MAX_COST_USD: ${LINK_LENS_MAX_COST_USD:-10}
     ports: ["127.0.0.1:2024:2024"]
     volumes:
       - ./src:/app/src:ro

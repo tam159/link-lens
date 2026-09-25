@@ -1,0 +1,780 @@
+{
+  "published_rate_estimate": {
+    "pricing_snapshot": {
+      "verified_on": "2026-09-19",
+      "source_url": "https://developers.openai.com/api/docs/pricing",
+      "cache_semantics_url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+      "currency": "USD",
+      "unit": "per 1000000 tokens",
+      "models": {
+        "gpt-5.6-sol": {
+          "standard": {
+            "short": {
+              "input": 4,
+              "cache_read": 0.4,
+              "cache_write": 5,
+              "output": 20
+            },
+            "long": {
+              "input": 8,
+              "cache_read": 0.8,
+              "cache_write": 10,
+              "output": 30
+            }
+          },
+          "batch": {
+            "short": {
+              "input": 2.0,
+              "cache_read": 0.2,
+              "cache_write": 2.5,
+              "output": 10.0
+            },
+            "long": {
+              "input": 4.0,
+              "cache_read": 0.4,
+              "cache_write": 5.0,
+              "output": 15.0
+            }
+          },
+          "flex": {
+            "short": {
+              "input": 2.0,
+              "cache_read": 0.2,
+              "cache_write": 2.5,
+              "output": 10.0
+            },
+            "long": {
+              "input": 4.0,
+              "cache_read": 0.4,
+              "cache_write": 5.0,
+              "output": 15.0
+            }
+          },
+          "fast": {
+            "short": {
+              "input": 8,
+              "cache_read": 0.8,
+              "cache_write": 10,
+              "output": 40
+            },
+            "long": {
+              "input": 16,
+              "cache_read": 1.6,
+              "cache_write": 20,
+              "output": 60
+            }
+          }
+        },
+        "gpt-5.6-terra": {
+          "standard": {
+            "short": {
+              "input": 2,
+              "cache_read": 0.2,
+              "cache_write": 2.5,
+              "output": 12
+            },
+            "long": {
+              "input": 4,
+              "cache_read": 0.4,
+              "cache_write": 5,
+              "output": 18
+            }
+          },
+          "batch": {
+            "short": {
+              "input": 1.0,
+              "cache_read": 0.1,
+              "cache_write": 1.25,
+              "output": 6.0
+            },
+            "long": {
+              "input": 2.0,
+              "cache_read": 0.2,
+              "cache_write": 2.5,
+              "output": 9.0
+            }
+          },
+          "flex": {
+            "short": {
+              "input": 1.0,
+              "cache_read": 0.1,
+              "cache_write": 1.25,
+              "output": 6.0
+            },
+            "long": {
+              "input": 2.0,
+              "cache_read": 0.2,
+              "cache_write": 2.5,
+              "output": 9.0
+            }
+          },
+          "fast": {
+            "short": {
+              "input": 4,
+              "cache_read": 0.4,
+              "cache_write": 5.0,
+              "output": 24
+            },
+            "long": {
+              "input": 8,
+              "cache_read": 0.8,
+              "cache_write": 10,
+              "output": 36
+            }
+          }
+        },
+        "gpt-5.6-luna": {
+          "standard": {
+            "short": {
+              "input": 0.2,
+              "cache_read": 0.02,
+              "cache_write": 0.25,
+              "output": 1.2
+            },
+            "long": {
+              "input": 0.4,
+              "cache_read": 0.04,
+              "cache_write": 0.5,
+              "output": 1.8
+            }
+          },
+          "batch": {
+            "short": {
+              "input": 0.1,
+              "cache_read": 0.01,
+              "cache_write": 0.125,
+              "output": 0.6
+            },
+            "long": {
+              "input": 0.2,
+              "cache_read": 0.02,
+              "cache_write": 0.25,
+              "output": 0.9
+            }
+          },
+          "flex": {
+            "short": {
+              "input": 0.1,
+              "cache_read": 0.01,
+              "cache_write": 0.125,
+              "output": 0.6
+            },
+            "long": {
+              "input": 0.2,
+              "cache_read": 0.02,
+              "cache_write": 0.25,
+              "output": 0.9
+            }
+          },
+          "fast": {
+            "short": {
+              "input": 0.4,
+              "cache_read": 0.04,
+              "cache_write": 0.5,
+              "output": 2.4
+            },
+            "long": {
+              "input": 0.8,
+              "cache_read": 0.08,
+              "cache_write": 1.0,
+              "output": 3.6
+            }
+          }
+        },
+        "typesafe/jev-1.13": {
+          "source_url": "https://openrouter.ai/typesafe/jev-1.13",
+          "verified_on": "2026-09-19",
+          "cache_policy": "Flat input-token rate; no separate cache tier advertised",
+          "standard": {
+            "short": {
+              "input": 0.042,
+              "cache_read": 0.042,
+              "cache_write": 0.042,
+              "output": 0
+            }
+          }
+        },
+        "text-embedding-3-small": {
+          "source_url": "https://developers.openai.com/api/docs/models/text-embedding-3-small",
+          "verified_on": "2026-09-24",
+          "standard": {
+            "short": {
+              "input": 0.02,
+              "output": 0,
+              "cache_read": 0.02,
+              "cache_write": 0.02
+            }
+          }
+        },
+        "gpt-6-luna": {
+          "verified_on": "2026-09-24",
+          "source_url": "https://developers.openai.com/api/docs/pricing",
+          "short_context_max_tokens": 272000,
+          "standard": {
+            "short": {
+              "input": 0.1,
+              "cache_read": 0.01,
+              "cache_write": 0.125,
+              "output": 0.5
+            },
+            "long": {
+              "input": 0.2,
+              "cache_read": 0.02,
+              "cache_write": 0.25,
+              "output": 0.75
+            }
+          }
+        }
+      },
+      "notes": [
+        "Published OpenAI rates used as the user-agreed approximation for deployment costs.",
+        "Cache-write rate replaces ordinary input rate for those tokens; it is not additive.",
+        "Use per-call context, not sum of project tokens. Current measured calls have at most 20278 input tokens and use short-context pricing.",
+        "Sol promotional pricing is listed as available at least through 2026-11-21.",
+        "Regional processing uplift, taxes, negotiated rates and other charges excluded."
+      ]
+    },
+    "basis": "OpenAI list prices approximate deployment costs; Jev uses published OpenRouter flat pricing. Enhancement estimates retain per-attempt rate provenance. No regional uplift.",
+    "calls": 266,
+    "priced_calls": 262,
+    "unpriced_calls": 4,
+    "measured_subtotal_usd": 0.202974742,
+    "complete_estimated_total_usd": null,
+    "budget_target_usd": 10,
+    "measured_subtotal_within_budget": true,
+    "budget_compliance": "Assessed on priced calls only; unpriced calls are excluded.",
+    "per_record_llm_calls": 0,
+    "per_record_llm_cost_usd": 0,
+    "per_stage": {
+      "connectivity": {
+        "calls": 2,
+        "priced_calls": 1
+      },
+      "inspect": {
+        "calls": 6,
+        "priced_calls": 6
+      },
+      "ontology_consolidate": {
+        "calls": 2,
+        "priced_calls": 2
+      },
+      "ontology_critique": {
+        "calls": 2,
+        "priced_calls": 2
+      },
+      "ontology_repair": {
+        "calls": 2,
+        "priced_calls": 2
+      },
+      "ontology_source": {
+        "calls": 12,
+        "priced_calls": 12
+      },
+      "propose_mapping": {
+        "calls": 19,
+        "priced_calls": 17
+      },
+      "semantic_critique": {
+        "calls": 10,
+        "priced_calls": 9
+      },
+      "triage": {
+        "calls": 211,
+        "priced_calls": 211
+      }
+    },
+    "per_run": [
+      {
+        "run_id": "073d08af-4746-4a79-aebb-fd1ffc41be54",
+        "source": "acnc-register",
+        "calls": 10,
+        "priced_calls": 10,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.040809925
+      },
+      {
+        "run_id": "140cbad0-cc07-441c-9389-69c2dff41ddf",
+        "source": "acnc-register",
+        "calls": 2,
+        "priced_calls": 2,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.00816525
+      },
+      {
+        "run_id": "263f87db-d0c9-4206-ae78-29a478ee183c",
+        "source": "connectivity-test",
+        "calls": 1,
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 3.6e-05
+      },
+      {
+        "run_id": "31311d91-51e9-4901-bfb9-28caf3c9e6ed",
+        "source": "connectivity-test",
+        "calls": 1,
+        "priced_calls": 0,
+        "unpriced_calls": 1,
+        "measured_subtotal_usd": 0.0
+      },
+      {
+        "run_id": "45fe9b0d-853e-4bef-9c41-73d41d6e3582",
+        "source": "asic-companies",
+        "calls": 3,
+        "priced_calls": 3,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.0097812
+      },
+      {
+        "run_id": "8e286c80-fb1f-4266-ab6e-fd6c58cbf779",
+        "source": "asic-business-names",
+        "calls": 3,
+        "priced_calls": 2,
+        "unpriced_calls": 1,
+        "measured_subtotal_usd": 0.002821125
+      },
+      {
+        "run_id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+        "source": "corporate-transparency",
+        "calls": 3,
+        "priced_calls": 3,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.00439605
+      },
+      {
+        "run_id": "b9bfc513-6cf5-47b6-8515-e27c890a5c08",
+        "source": "acnc-register",
+        "calls": 2,
+        "priced_calls": 1,
+        "unpriced_calls": 1,
+        "measured_subtotal_usd": 0.004487325
+      },
+      {
+        "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+        "source": "asic-business-names",
+        "calls": 2,
+        "priced_calls": 2,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.004345125
+      },
+      {
+        "run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+        "source": "asic-companies",
+        "calls": 2,
+        "priced_calls": 1,
+        "unpriced_calls": 1,
+        "measured_subtotal_usd": 0.000969175
+      },
+      {
+        "run_id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a",
+        "source": "employment-provider-locations-and-contacts",
+        "calls": 3,
+        "priced_calls": 3,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.004626925
+      },
+      {
+        "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+        "source": "catalogue triage",
+        "calls": 211,
+        "priced_calls": 211,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.007951692
+      },
+      {
+        "run_id": "ee6281be-3189-4e01-84e6-91abcbadccfe",
+        "source": "asic-afs-licensee",
+        "calls": 5,
+        "priced_calls": 5,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.01347605
+      },
+      {
+        "run_id": "ontology-0e730312a84a5479990336584ccb4faeea7691a3",
+        "source": "ontology-evolution",
+        "calls": 9,
+        "priced_calls": 9,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.04905165
+      },
+      {
+        "run_id": "ontology-9c5f74cb6510f4b2e483d372200eac3766db6d03",
+        "source": "ontology-evolution",
+        "calls": 8,
+        "priced_calls": 8,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.043818975
+      },
+      {
+        "run_id": "ontology-cc0891bfd24985ab337ba6886af9df37a5e45203",
+        "source": "ontology-evolution",
+        "calls": 1,
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.008238275
+      }
+    ]
+  },
+  "generated_at": "2026-09-24T15:47:56.776823+00:00",
+  "experiment_id": "jev-gpt6-luna-ontology-v1",
+  "catalogue_records": 945,
+  "shortlist_rows": 50,
+  "runs": [
+    {
+      "run_id": "31311d91-51e9-4901-bfb9-28caf3c9e6ed",
+      "source": "connectivity-test",
+      "status": "failed",
+      "mapping_attempts": 0,
+      "model_calls": 1,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "calls_with_unknown_usage": 1,
+      "calculated_cost_usd": null,
+      "measured_model_wall_seconds": 1.963,
+      "python_calls": 0,
+      "active_seconds": 1.963,
+      "active_seconds_basis": "Model calls plus sandbox only; lower bound excluding other node overhead.",
+      "instrumented_graph_steps": null,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": "Chat Completions rejected reasoning with tools; subsequent Responses preflight passed"
+    },
+    {
+      "run_id": "263f87db-d0c9-4206-ae78-29a478ee183c",
+      "source": "connectivity-test",
+      "status": "connectivity_passed",
+      "mapping_attempts": 0,
+      "model_calls": 1,
+      "input_tokens": 255,
+      "output_tokens": 21,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 7.95e-05,
+      "measured_model_wall_seconds": 2.537,
+      "python_calls": 0,
+      "active_seconds": 2.537,
+      "active_seconds_basis": "Model calls plus sandbox only; lower bound excluding other node overhead.",
+      "instrumented_graph_steps": null,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "073d08af-4746-4a79-aebb-fd1ffc41be54",
+      "source": "acnc-register",
+      "status": "needs_review",
+      "mapping_attempts": 8,
+      "model_calls": 10,
+      "input_tokens": 169560,
+      "output_tokens": 39296,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.071862,
+      "measured_model_wall_seconds": 220.575,
+      "python_calls": 1,
+      "active_seconds": 231.20606952204253,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 15,
+      "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0d406-6dfe-7cd0-81ee-8e90aed85b08/run/01a0d409-fb17-74c3-a3dd-a5376101c1a3?start_time=2026-09-24T15%3A30%3A19.031306%2B00%3A00",
+      "supersedes_run_id": null,
+      "failure": "Maximum mapping versions reached; no extraction authorised"
+    },
+    {
+      "run_id": "ee6281be-3189-4e01-84e6-91abcbadccfe",
+      "source": "asic-afs-licensee",
+      "status": "completed",
+      "mapping_attempts": 2,
+      "model_calls": 5,
+      "input_tokens": 78221,
+      "output_tokens": 7430,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.02512775,
+      "measured_model_wall_seconds": 49.247,
+      "python_calls": 1,
+      "active_seconds": 82.66316391401051,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 13,
+      "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0d406-6e0e-7282-ad37-aa6380413fca/run/01a0d40a-c6c2-7df0-960e-e5b1dd7fe3ba?start_time=2026-09-24T15%3A31%3A11.171004%2B00%3A00",
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "8e286c80-fb1f-4266-ab6e-fd6c58cbf779",
+      "source": "asic-business-names",
+      "status": "failed",
+      "mapping_attempts": 2,
+      "model_calls": 3,
+      "input_tokens": 16526,
+      "output_tokens": 1524,
+      "calls_with_unknown_usage": 1,
+      "calculated_cost_usd": null,
+      "measured_model_wall_seconds": 12.216999999999999,
+      "python_calls": 1,
+      "active_seconds": 13.467012045024603,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 5,
+      "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0d406-6e1d-7f81-ae0e-e7d3c24b83b7/run/01a0d40b-042b-7800-ad86-99c105234d18?start_time=2026-09-24T15%3A31%3A26.891459%2B00%3A00",
+      "supersedes_run_id": null,
+      "failure": "OpenAIRateLimitError: Error code: 429 - {'error': {'message': 'Your requests to gpt-6-luna for gpt-6-luna in swedencentral have exceeded rate limit.', 'type': 'too_many_requests', 'param': None, 'code': 'rate_limit_exceeded'}}"
+    },
+    {
+      "run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+      "source": "asic-companies",
+      "status": "failed",
+      "mapping_attempts": 1,
+      "model_calls": 2,
+      "input_tokens": 5764,
+      "output_tokens": 504,
+      "calls_with_unknown_usage": 1,
+      "calculated_cost_usd": null,
+      "measured_model_wall_seconds": 6.425,
+      "python_calls": 1,
+      "active_seconds": 7.569996166974306,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 4,
+      "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0d406-6e2b-7682-a297-cc98e8845387/run/01a0d40b-0eab-73f0-9f19-26b97c19171e?start_time=2026-09-24T15%3A31%3A29.579656%2B00%3A00",
+      "supersedes_run_id": null,
+      "failure": "OpenAIRateLimitError: Error code: 429 - {'error': {'message': 'Your requests to gpt-6-luna for gpt-6-luna in swedencentral have exceeded rate limit.', 'type': 'too_many_requests', 'param': None, 'code': 'rate_limit_exceeded'}}"
+    },
+    {
+      "run_id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+      "source": "corporate-transparency",
+      "status": "completed",
+      "mapping_attempts": 1,
+      "model_calls": 3,
+      "input_tokens": 20104,
+      "output_tokens": 3786,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.007865500000000001,
+      "measured_model_wall_seconds": 27.115,
+      "python_calls": 0,
+      "active_seconds": 29.24784930299211,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 10,
+      "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0d406-6e3b-7eb0-9edc-786d3fc79b88/run/01a0d40b-3f61-7852-b196-0c6d7cca97a8?start_time=2026-09-24T15%3A31%3A42.049835%2B00%3A00",
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a",
+      "source": "employment-provider-locations-and-contacts",
+      "status": "completed",
+      "mapping_attempts": 1,
+      "model_calls": 3,
+      "input_tokens": 22911,
+      "output_tokens": 3546,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.00838725,
+      "measured_model_wall_seconds": 24.531,
+      "python_calls": 1,
+      "active_seconds": 36.635727055989264,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 10,
+      "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0d406-6e49-74a1-8378-5cc40e693d37/run/01a0d40b-b31f-7510-8f73-152a45363440?start_time=2026-09-24T15%3A32%3A11.679596%2B00%3A00",
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "ontology-9c5f74cb6510f4b2e483d372200eac3766db6d03",
+      "source": "ontology-evolution",
+      "status": "rejected",
+      "mapping_attempts": 0,
+      "model_calls": 8,
+      "input_tokens": 149203,
+      "output_tokens": 50390,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.07509325,
+      "measured_model_wall_seconds": 240.731,
+      "python_calls": 0,
+      "active_seconds": 240.731,
+      "active_seconds_basis": "Model calls plus sandbox only; lower bound excluding other node overhead.",
+      "instrumented_graph_steps": null,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "ontology-0e730312a84a5479990336584ccb4faeea7691a3",
+      "source": "ontology-evolution",
+      "status": "rejected",
+      "mapping_attempts": 0,
+      "model_calls": 9,
+      "input_tokens": 197979,
+      "output_tokens": 48668,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.08599575,
+      "measured_model_wall_seconds": 224.815,
+      "python_calls": 0,
+      "active_seconds": 224.815,
+      "active_seconds_basis": "Model calls plus sandbox only; lower bound excluding other node overhead.",
+      "instrumented_graph_steps": null,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "ontology-cc0891bfd24985ab337ba6886af9df37a5e45203",
+      "source": "ontology-evolution",
+      "status": "validated",
+      "mapping_attempts": 0,
+      "model_calls": 1,
+      "input_tokens": 49709,
+      "output_tokens": 4056,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.01546925,
+      "measured_model_wall_seconds": 24.519,
+      "python_calls": 0,
+      "active_seconds": 24.519,
+      "active_seconds_basis": "Model calls plus sandbox only; lower bound excluding other node overhead.",
+      "instrumented_graph_steps": null,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "b9bfc513-6cf5-47b6-8515-e27c890a5c08",
+      "source": "acnc-register",
+      "status": "failed",
+      "mapping_attempts": 1,
+      "model_calls": 2,
+      "input_tokens": 22093,
+      "output_tokens": 3458,
+      "calls_with_unknown_usage": 1,
+      "calculated_cost_usd": null,
+      "measured_model_wall_seconds": 19.739,
+      "python_calls": 0,
+      "active_seconds": 20.246747051001876,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 5,
+      "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0d40b-1829-77d0-a70e-68174ac25f6d/run/01a0d40c-1186-7320-9ece-95c7b5e30277?start_time=2026-09-24T15%3A32%3A35.846939%2B00%3A00",
+      "supersedes_run_id": "073d08af-4746-4a79-aebb-fd1ffc41be54",
+      "failure": "OpenAIRateLimitError: Error code: 429 - {'error': {'message': 'Your requests to gpt-6-luna for gpt-6-luna in swedencentral have exceeded rate limit.', 'type': 'too_many_requests', 'param': None, 'code': 'rate_limit_exceeded'}}"
+    },
+    {
+      "run_id": "140cbad0-cc07-441c-9389-69c2dff41ddf",
+      "source": "acnc-register",
+      "status": "completed",
+      "mapping_attempts": 1,
+      "model_calls": 2,
+      "input_tokens": 42563,
+      "output_tokens": 5703,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.014918,
+      "measured_model_wall_seconds": 35.403999999999996,
+      "python_calls": 0,
+      "active_seconds": 54.04098552299547,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 9,
+      "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0d40e-772a-7b30-a494-e7edba7f6479/run/01a0d40e-cf0e-7132-91f1-21475b36a86c?start_time=2026-09-24T15%3A35%3A35.438558%2B00%3A00",
+      "supersedes_run_id": "b9bfc513-6cf5-47b6-8515-e27c890a5c08",
+      "failure": null
+    },
+    {
+      "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+      "source": "asic-business-names",
+      "status": "completed",
+      "mapping_attempts": 1,
+      "model_calls": 2,
+      "input_tokens": 25662,
+      "output_tokens": 2288,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.0081315,
+      "measured_model_wall_seconds": 19.009999999999998,
+      "python_calls": 0,
+      "active_seconds": 22.806408137999824,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 9,
+      "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0d40f-3b01-7ea3-a642-5acdaea529c6/run/01a0d40f-6e62-7812-8a0e-cd52a98fd138?start_time=2026-09-24T15%3A36%3A16.226072%2B00%3A00",
+      "supersedes_run_id": "8e286c80-fb1f-4266-ab6e-fd6c58cbf779",
+      "failure": null
+    },
+    {
+      "run_id": "45fe9b0d-853e-4bef-9c41-73d41d6e3582",
+      "source": "asic-companies",
+      "status": "completed",
+      "mapping_attempts": 2,
+      "model_calls": 3,
+      "input_tokens": 45525,
+      "output_tokens": 8201,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.017532,
+      "measured_model_wall_seconds": 57.408,
+      "python_calls": 0,
+      "active_seconds": 66.67442082199705,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 10,
+      "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0d40f-c41f-7a00-97f4-2e5ce20bfe7e/run/01a0d410-65ef-7752-a1d0-153820ca1d9a?start_time=2026-09-24T15%3A37%3A19.599300%2B00%3A00",
+      "supersedes_run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+      "failure": null
+    }
+  ],
+  "total_model_calls_including_failures": 266,
+  "total_measured_input_tokens": 1035401,
+  "total_measured_output_tokens": 183513,
+  "total_calculated_cost_usd": null,
+  "billing_note": "See published_rate_estimate for agreed Azure estimates and Jev list pricing. Failed calls with missing usage remain unpriced.",
+  "per_record_llm_calls": 0,
+  "human_evaluations": [
+    {
+      "worksheet_id": "fe7fdfbe11559a3b26d01eb85b8eb86835b8ef0007396aace55c2eb965713167",
+      "kind": "triage",
+      "sampling": "Seeded simple random sample without replacement",
+      "seed": 159,
+      "threshold": null,
+      "sample_size": 20,
+      "submitted_responses": 0,
+      "unreviewed_responses": 0,
+      "evaluation_note": "Only evidence-reviewed labels count. Unreviewed selections remain unresolved.",
+      "correct_or_relevant": 0,
+      "incorrect_or_irrelevant": 0,
+      "unresolved": 20,
+      "reviewed_resolved": 0,
+      "precision_on_resolved": null,
+      "false_positive_rate_on_resolved": null,
+      "confirmed_fraction_of_full_sample": 0.0,
+      "status": "incomplete; unknowns are not counted as correct"
+    }
+  ],
+  "ai_assisted_evaluations": [
+    {
+      "worksheet_id": "fe7fdfbe11559a3b26d01eb85b8eb86835b8ef0007396aace55c2eb965713167",
+      "kind": "triage",
+      "review_type": "ai_assisted",
+      "sample_size": 20,
+      "sampling": "Seeded simple random sample without replacement",
+      "seed": 159,
+      "threshold": null,
+      "assessed": 0,
+      "supported": 0,
+      "not_supported": 0,
+      "unresolved": 20,
+      "resolved_denominator": 0,
+      "support_fraction_on_resolved": null,
+      "negative_fraction_on_resolved": null,
+      "human_requirement_satisfied": false,
+      "limitation": "Assistant evidence audit; not human ground truth or measured human precision. Shared source errors and selection bias remain possible."
+    }
+  ],
+  "ai_full_shortlist_evaluations": [],
+  "ai_all_link_evaluations": [],
+  "pipeline_batches": [
+    {
+      "id": "f7fa2df9-2d40-4031-b357-b006c07a7525",
+      "baseline_batch_id": null,
+      "result_artifact": "a42ddc74ea2b12b296e365477e99ff36b2c24c6c71dbe4db379500bf1a10f219",
+      "run_ids": [
+        "140cbad0-cc07-441c-9389-69c2dff41ddf",
+        "ee6281be-3189-4e01-84e6-91abcbadccfe",
+        "cc5ce988-e74c-4062-98a6-18da6518b82e",
+        "45fe9b0d-853e-4bef-9c41-73d41d6e3582",
+        "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+        "d8894b1e-de5a-484e-87d4-0813c35f9f9a"
+      ],
+      "created_at": "2026-09-24T15:47:55.441709+00:00",
+      "counts": {
+        "observations": 79840,
+        "links": 61,
+        "unlinked": 5879,
+        "profiles": 60
+      },
+      "evaluation_status": "human_labels_pending"
+    }
+  ]
+}

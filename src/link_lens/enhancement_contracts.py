@@ -5,7 +5,7 @@ from pydantic import Field, model_validator
 from .contracts import StrictModel
 
 VERSION = "hybrid-evidence-2"
-EMBEDDING_VERSION = "hybrid-evidence-1"
+EMBEDDING_VERSION = "hybrid-evidence-2"
 Ref = tuple[str, str]
 
 
@@ -18,7 +18,7 @@ class EnhancementPolicy(StrictModel):
     embedding_model: str = "text-embedding-3-small"
     dimensions: int = Field(default=1536, ge=1, le=1536)
     decision_model: str = "typesafe/jev-1.13"
-    explanation_model: str = "gpt-5.6-luna"
+    explanation_model: str = "gpt-6-luna"
     reconcile: bool = True
     fuzzy_floor: float = Field(default=0.80, ge=0, le=1)
     embedding_floor: float = Field(default=0.80, ge=-1, le=1)

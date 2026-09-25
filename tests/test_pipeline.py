@@ -43,6 +43,7 @@ def test_fifty_profiles_require_exact_approved_configs(tmp_path, spec, snapshot)
         )
         store.put("snapshots", snap["id"], snap)
         run = new_run({"id": source, "slug": source}, snap)
+        spec.ontology_hash = run["ontology_hash"]
         mapping = {
             "id": source + "-mapping",
             "config": spec.model_dump(),

@@ -1,0 +1,14 @@
+{
+  "version": "hybrid-evidence-2",
+  "retrieval": "hybrid",
+  "top_k": 20,
+  "threshold": 0.98,
+  "margin": 0.1,
+  "embedding_model": "text-embedding-3-small",
+  "dimensions": 1536,
+  "decision_model": "typesafe/jev-1.13",
+  "explanation_model": "gpt-6-luna",
+  "reconcile": true,
+  "fuzzy_floor": 0.8,
+  "embedding_floor": 0.8
+}

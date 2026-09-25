@@ -18,6 +18,7 @@ from .contracts import (
     content_hash,
 )
 from .settings import settings
+from .ontology import resolve
 from .readers import read_records, partition, inspect_resource
 from .extraction import validate, extract
 from .llm import call, BudgetExceeded
@@ -231,7 +232,9 @@ def proposal_context(run, snapshot, source, include_prior_critique=True):
         "reader": pack["reader"],
         "headers": pack["headers"],
         "discovery_records": examples,
-        "ontology": settings().ontology_path.read_text(),
+        "ontology": resolve(run.get("ontology_hash")),
+        "ontology_hash": run.get("ontology_hash"),
+        "extension_semantics": "Set ontology_hash to the supplied hash. New non-entity/address concepts require group names shared by related fields in the same source row. Include required companions (e.g. period and currency). indicator_categories takes source column to category values and an explicit truth marker argument. Typed numeric operations accept plain decimals only. Do not infer legal ownership from a site contact. Only registered concepts may be mapped.",
         "trusted_engine_semantics": {
             "abn": "Formatting removal then EXACTLY 11 digits and ABN checksum. Missing/0 -> no observation. Valid 9-digit ACN -> no observation, never converted.",
             "acn": "Formatting removal then EXACTLY 9 digits and ACN checksum. Missing/0 -> no observation. Valid 11-digit ABN -> no observation, never suffix-derived.",
@@ -288,6 +291,12 @@ def propose_node(state):
     )
     try:
         spec = call(run["id"], MappingSpec, prompt, "propose_mapping")
+        if spec.ontology_hash is None and run.get("ontology_hash"):
+            spec = MappingSpec.model_validate(
+                {**spec.model_dump(), "ontology_hash": run["ontology_hash"]}
+            )
+        if spec.ontology_hash != run.get("ontology_hash"):
+            raise ValueError("Mapping must use the run pinned ontology_hash")
     except ValueError as exc:
         update(
             store.require("runs", run["id"]),
@@ -375,6 +384,7 @@ def review_markdown(run, snapshot, source, mapping):
     lines = [
         f"# Mapping review: {source['metadata']['title']}",
         f"Config version **{mapping['version']}**, hash `{mapping['config_hash']}`.",
+        f"Ontology: `{spec.ontology_hash or 'legacy v0.1'}`.",
         f"Licence: {snapshot['licence']}. Source snapshot: `{snapshot['sha256']}`.",
         f"Grain: {spec.record_grain}. Subject: **{spec.subject_role}**.",
         f"Reader: `{json.dumps(spec.reader.model_dump())}`.",
@@ -554,6 +564,8 @@ def extract_node(state):
     if (
         approval["decision"] != "approved"
         or approval["config_hash"] != mapping["config_hash"]
+        or content_hash(mapping["config"]) != mapping["config_hash"]
+        or mapping["config"].get("ontology_hash") != run.get("ontology_hash")
     ):
         raise ValueError("Exact mapping approval is required")
     pack = store.read_json(run["partitions_artifact"])

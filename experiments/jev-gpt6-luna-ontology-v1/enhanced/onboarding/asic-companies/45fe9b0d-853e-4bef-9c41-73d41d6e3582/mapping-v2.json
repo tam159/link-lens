@@ -1,0 +1,347 @@
+{
+  "id": "45fe9b0d-853e-4bef-9c41-73d41d6e3582:2",
+  "run_id": "45fe9b0d-853e-4bef-9c41-73d41d6e3582",
+  "version": 2,
+  "config_hash": "66cc567369cfe465e62d7c276144eb9c1e445463b99959a7606a1fa8e0b2c92b",
+  "config": {
+    "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": "\t",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One row per ASIC company-register name record, including current or historical names associated with a company identifier; not one row per unique company.",
+    "subject_role": "legal_entity",
+    "source_kind": "company_register",
+    "subject_label_field": "Company Name",
+    "address_role": "unknown",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "Company Name"
+        ],
+        "canonical_field": "entity.legal_name",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "Current Name Indicator",
+            "op": "in",
+            "values": [
+              "Y"
+            ],
+            "length": null
+          }
+        ],
+        "confidence": 0.94,
+        "evidence": "ASIC Company Dataset Help File, p. 7 (PDF p. 8): “Company Name” is the name as it appears on the register. The field list and sample on p. 3 (PDF p. 4) distinguish current-name records using Current Name Indicator=Y; sample rows show Company Name on the current-name row."
+      },
+      {
+        "source_fields": [
+          "ACN"
+        ],
+        "canonical_field": "entity.acn",
+        "transformations": [
+          {
+            "op": "acn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "Type",
+            "op": "not_in",
+            "values": [
+              "RACN"
+            ],
+            "length": null
+          }
+        ],
+        "confidence": 0.99,
+        "evidence": "ASIC Company Dataset Help File, p. 7 (PDF p. 8): ACN is a 9-digit numerical text field, including leading zeros; explicitly warns that Type=RACN rows contain an ARBN instead, so those rows are excluded. Sample header and values on p. 3 (PDF p. 4)."
+      },
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ASIC Company Dataset Help File, p. 10 (PDF p. 11): ABN is the company's ABN; when the company has no ABN the field shows 0. Sample header and 11-digit values on p. 3 (PDF p. 4). The validator operation handles formatting/checksum and zero sentinel."
+      },
+      {
+        "source_fields": [
+          "Type"
+        ],
+        "canonical_field": "entity.asic_company_type",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "APTY": "APTY",
+              "APUB": "APUB",
+              "FNOS": "FNOS",
+              "RACN": "RACN"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ASIC Company Dataset Help File, p. 7 (PDF p. 8): Type specifies the type of company and documents APTY, APUB, FNOS and RACN. Sample header/value on p. 3 (PDF p. 4)."
+      },
+      {
+        "source_fields": [
+          "Class"
+        ],
+        "canonical_field": "entity.asic_company_class",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "LMSH": "LMSH",
+              "LMGT": "LMGT",
+              "LMSG": "LMSG",
+              "NLIA": "NLIA",
+              "UNLM": "UNLM",
+              "NONE": "NONE"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ASIC Company Dataset Help File, pp. 7–8 (PDF pp. 8–9): Class specifies company liability class and documents LMSH, LMGT, LMSG, NLIA, UNLM and NONE. Sample header/value on p. 3 (PDF p. 4)."
+      },
+      {
+        "source_fields": [
+          "Sub Class"
+        ],
+        "canonical_field": "entity.asic_company_sub_class",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "EXPT": "EXPT",
+              "HUNT": "HUNT",
+              "LISN": "LISN",
+              "LISS": "LISS",
+              "LIST": "LIST",
+              "NEXT": "NEXT",
+              "NLTD": "NLTD",
+              "NONE": "NONE",
+              "PNPC": "PNPC",
+              "PROP": "PROP",
+              "PSTC": "PSTC",
+              "PUBF": "PUBF",
+              "RACA": "RACA",
+              "RACO": "RACO",
+              "STFI": "STFI",
+              "ULSN": "ULSN",
+              "ULSS": "ULSS",
+              "ULST": "ULST"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ASIC Company Dataset Help File, pp. 8–9 (PDF pp. 9–10): Sub Class specifies the subclass and lists the mapped codes. Sample header/value on p. 3 (PDF p. 4)."
+      },
+      {
+        "source_fields": [
+          "Status"
+        ],
+        "canonical_field": "entity.asic_register_status",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "DRGD": "DRGD",
+              "EXAD": "EXAD",
+              "NOAC": "NOAC",
+              "NRGD": "NRGD",
+              "PROV": "PROV",
+              "REGD": "REGD",
+              "SOFF": "SOFF",
+              "DISS": "DISS",
+              "DIV3": "DIV3",
+              "PEND": "PEND",
+              "CNCL": "CNCL"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ASIC Company Dataset Help File, pp. 9–10 (PDF pp. 10–11): Status is the company-register status code; documents DRGD, EXAD, NOAC, NRGD, PROV, REGD, SOFF, DISS, DIV3, PEND and CNCL. Sample header/value on p. 3 (PDF p. 4). Raw code retained, not translated to broader status."
+      },
+      {
+        "source_fields": [
+          "Date of Registration"
+        ],
+        "canonical_field": "entity.date_registered",
+        "transformations": [
+          {
+            "op": "date",
+            "argument": "%d/%m/%Y",
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ASIC Company Dataset Help File, p. 10 (PDF p. 11): “Date of Registration” is the date on which a company was registered, format DD/MM/YYYY. Example value 08/01/1990 on p. 3 (PDF p. 4)."
+      },
+      {
+        "source_fields": [
+          "Date of Deregistration"
+        ],
+        "canonical_field": "registration.company_deregistration_date",
+        "group": "company_register_registration",
+        "transformations": [
+          {
+            "op": "date",
+            "argument": "%d/%m/%Y",
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ASIC Company Dataset Help File, p. 10 (PDF p. 11): “Date of Deregistration” is the date the company was deregistered, format DD/MM/YYYY; change note on p. 12 (PDF p. 13) says added to dictionary March 2025. Dataset notes say available from 11 March 2025."
+      },
+      {
+        "source_fields": [
+          "Previous State of Registration"
+        ],
+        "canonical_field": "registration.original_state",
+        "group": "company_register_registration",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ASIC Company Dataset Help File, p. 10 (PDF p. 11): field is the state in which the company was originally registered, abbreviated (example VIC). Sample value NSW on p. 3 (PDF p. 4)."
+      },
+      {
+        "source_fields": [
+          "State Registration number"
+        ],
+        "canonical_field": "registration.state_registration_number",
+        "group": "company_register_registration",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ASIC Company Dataset Help File, p. 10 (PDF p. 11): number assigned when originally registered by the State; format varies by state. Sample header and value 46869041 on p. 3 (PDF p. 4); preserve as string."
+      },
+      {
+        "source_fields": [
+          "Current Name Start Date"
+        ],
+        "canonical_field": "registration.current_name_start_date",
+        "group": "company_register_registration",
+        "transformations": [
+          {
+            "op": "date",
+            "argument": "%d/%m/%Y",
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "Current Name Indicator",
+            "op": "not_in",
+            "values": [
+              "Y"
+            ],
+            "length": null
+          },
+          {
+            "field": "Current Name Start Date",
+            "op": "nonempty",
+            "values": [],
+            "length": null
+          }
+        ],
+        "confidence": 0.96,
+        "evidence": "ASIC Company Dataset Help File, p. 10 (PDF p. 11): Current Name Start Date is the start date for the current registered company name, format DD/MM/YYYY. p. 11 (PDF p. 12) specifies it is shown when Current Name Indicator is null; sample historical-name record on p. 3 (PDF p. 4) has a date while the Y row is blank."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Modified since last report",
+        "reason": "Dataset-record modification flag, not an entity attribute; no matching ontology concept."
+      },
+      {
+        "source_field": "Current Name Indicator",
+        "reason": "Control flag identifying current-name versus historical-name rows; no matching ontology concept. Used only to condition name/date mappings."
+      },
+      {
+        "source_field": "Current Name",
+        "reason": "Documentation describes a conditional current-name companion value on historical name records; not a trading name. Mapping it to legal_name would duplicate that canonical target, and no separate historical-name concept is available."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.96,
+    "limitations": [
+      "The source envelope supplies the publication proxy timestamp and licence; this is a weekly snapshot proxy, not row-level change time. The dataset notes warn it may be stale versus ASIC Connect.",
+      "Rows include historical company-name records and deregistered companies from the past year; preserve source-row provenance and do not treat each name record as a distinct entity.",
+      "ACN is excluded for Type=RACN because the documented field value is an ARBN in those cases; identifiers are validated, not inferred from ABN suffixes.",
+      "Current Name is left unmapped rather than treated as a trading name or as a second legal_name mapping. Current-name legal_name claims are limited to rows with Current Name Indicator=Y.",
+      "Company registration/deregistration claims remain distinct from the current-name start date and from any broader entity-status interpretation.",
+      "Authority and field confidence scores are provisional and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-6-luna",
+  "created_at": "2026-09-24T15:37:19.527219+00:00",
+  "status": "proposed"
+}

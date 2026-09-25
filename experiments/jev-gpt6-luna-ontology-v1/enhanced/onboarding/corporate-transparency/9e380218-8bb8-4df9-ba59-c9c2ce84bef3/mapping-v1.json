@@ -1,0 +1,109 @@
+{
+  "id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3:1",
+  "run_id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+  "version": 1,
+  "config_hash": "e791390fb47c87e1403c8fa2ff52d1db5bb7df1d3a1c77e28b2a388dbfebf636",
+  "config": {
+    "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+    "reader": {
+      "format": "xlsx",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": "Income tax details",
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One corporate tax entity's income tax disclosure for one income year in the Income tax details sheet.",
+    "subject_role": "legal_entity",
+    "source_kind": "tax_disclosure",
+    "subject_label_field": "Name",
+    "address_role": "unknown",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.95,
+        "evidence": "Source dataset_notes describes the reported field as ABN. Exact header: “ABN”; sample values include “94600082111” (row 2) and “83114980880” (row 3). Apply checksum validation; do not derive an ACN."
+      },
+      {
+        "source_fields": [
+          "Income year"
+        ],
+        "canonical_field": "financial_period.reporting_period",
+        "group": "tax_reporting_period",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "Exact header: “Income year”; sample value “2023-24” (row 2). The dataset is organized by income year; ontology definition retains labels such as 2023-24."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Name",
+        "reason": "Retained as the raw subject label via subject_label_field. The documentation and header do not establish this label as the registered legal name, so it is not mapped to entity.legal_name."
+      },
+      {
+        "source_field": "Total income $",
+        "reason": "Financial amount has no matching registered ontology concept; do not infer currency or add a target."
+      },
+      {
+        "source_field": "Taxable income $",
+        "reason": "Financial amount has no matching registered ontology concept; blank values must not be interpreted as zero."
+      },
+      {
+        "source_field": "Tax payable $",
+        "reason": "Financial amount has no matching registered ontology concept; blank values must not be interpreted as zero."
+      },
+      {
+        "source_field": "__unnamed_7",
+        "reason": "Unnamed source column; preview cells are blank and no meaning is documented."
+      },
+      {
+        "source_field": "__unnamed_8",
+        "reason": "Unnamed source column; preview cells are blank and no meaning is documented."
+      },
+      {
+        "source_field": "__unnamed_9",
+        "reason": "Unnamed source column; preview cells are blank and no meaning is documented."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.88,
+    "limitations": [
+      "Publication timestamp is an envelope-supplied proxy, not evidence of when an individual row or claim changed.",
+      "The supplied documentation says the report names corporate tax entities but does not establish that Name is their registered legal name; the raw label is retained without that assertion.",
+      "Rows are entity-by-income-year disclosures, not evidence of economic or accounting group membership; do not infer corporate groups.",
+      "Income and tax amounts are not mapped because this ontology has no suitable financial-amount concepts and no currency should be inferred. Blank taxable-income or tax-payable cells are not zero claims.",
+      "No row filter is justified by the supplied notes or preview. Eligibility thresholds vary by income year and entity category, and are not encoded as filters.",
+      "The supplied documentation is limited to dataset_notes; no page-numbered report documentation was provided."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-6-luna",
+  "created_at": "2026-09-24T15:31:42.013410+00:00",
+  "status": "proposed"
+}

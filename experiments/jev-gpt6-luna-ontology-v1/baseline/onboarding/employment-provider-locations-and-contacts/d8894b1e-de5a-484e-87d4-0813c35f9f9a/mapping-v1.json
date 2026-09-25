@@ -1,0 +1,301 @@
+{
+  "id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a:1",
+  "run_id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a",
+  "version": 1,
+  "config_hash": "05b0269c8deeec4a9f736999097befb7dc77ca16d2f4e6b2f5eeeaa329097b2a",
+  "config": {
+    "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+    "reader": {
+      "format": "csv",
+      "encoding": "cp1252",
+      "delimiter": ",",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One employment-services service-location record per recorded contract association, potentially repeating a physical site across contracts.",
+    "subject_role": "service_provider",
+    "source_kind": "service_locations",
+    "subject_label_field": "SITE_NAME",
+    "address_role": "service_location",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "DIS_SITE_CODE"
+        ],
+        "canonical_field": "service_location.code",
+        "group": "service_location_record",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.97,
+        "evidence": "Exact header DIS_SITE_CODE; discovery sample A230 and A290 are site codes, consistent with ontology source identifier for a service location."
+      },
+      {
+        "source_fields": [
+          "CONTRACT_NAME"
+        ],
+        "canonical_field": "service_location.contract_name",
+        "group": "service_location_record",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.95,
+        "evidence": "Exact header CONTRACT_NAME; samples DESB and DESA match a contract label, not an asserted legal relationship."
+      },
+      {
+        "source_fields": [
+          "LOCATION_NAME"
+        ],
+        "canonical_field": "service_location.name",
+        "group": "service_location_record",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.9,
+        "evidence": "Exact header LOCATION_NAME; samples CANBERRA, YOUNG and WAGGA WAGGA are location labels."
+      },
+      {
+        "source_fields": [
+          "SITE_ADDRESS_LN"
+        ],
+        "canonical_field": "service_location.address_line",
+        "group": "service_location_record",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.96,
+        "evidence": "Exact header SITE_ADDRESS_LN; samples '2nd Floor 22 East Row' and '2B Campbell Street' are premises/street address lines."
+      },
+      {
+        "source_fields": [
+          "SITE_URL"
+        ],
+        "canonical_field": "service_location.website",
+        "group": "service_location_record",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.93,
+        "evidence": "Exact header SITE_URL; sample www.visionaustralia.org.au is a URL explicitly recorded for the site."
+      },
+      {
+        "source_fields": [
+          "LATITUDE"
+        ],
+        "canonical_field": "service_location.latitude",
+        "group": "service_location_record",
+        "transformations": [
+          {
+            "op": "decimal",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.96,
+        "evidence": "Exact header LATITUDE; sample -35.2791945 is a plain decimal coordinate within the ontology latitude range."
+      },
+      {
+        "source_fields": [
+          "LONGITUDE"
+        ],
+        "canonical_field": "service_location.longitude",
+        "group": "service_location_record",
+        "transformations": [
+          {
+            "op": "decimal",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.96,
+        "evidence": "Exact header LONGITUDE; sample 149.1306937 is a plain decimal coordinate within the ontology longitude range."
+      },
+      {
+        "source_fields": [
+          "AGENT_FREECALL_NUM"
+        ],
+        "canonical_field": "service_location.agent_freecall_phone",
+        "group": "service_location_record",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.95,
+        "evidence": "Exact header AGENT_FREECALL_NUM; sample 1800466046 is explicitly identified as an agent free-call number."
+      },
+      {
+        "source_fields": [
+          "SITE_CONTACT_PHONE"
+        ],
+        "canonical_field": "contact.phone",
+        "group": "site_contact",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.96,
+        "evidence": "Exact header SITE_CONTACT_PHONE; sample 61325800 is explicitly identified as a site contact phone."
+      },
+      {
+        "source_fields": [
+          "SITE_EMAIL_ADDRESS"
+        ],
+        "canonical_field": "contact.email",
+        "group": "site_contact",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.95,
+        "evidence": "Exact header SITE_EMAIL_ADDRESS; sample kal.perera@visionaustralia.org is an email recorded for a site contact."
+      },
+      {
+        "source_fields": [
+          "SITE_LOCALITY_NAME"
+        ],
+        "canonical_field": "address.locality",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.93,
+        "evidence": "Exact header SITE_LOCALITY_NAME; sample CANBERRA identifies the service-location locality."
+      },
+      {
+        "source_fields": [
+          "SITE_STATE_CD"
+        ],
+        "canonical_field": "address.state",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "NSW": "NSW",
+              "VIC": "VIC",
+              "QLD": "QLD",
+              "WA": "WA",
+              "SA": "SA",
+              "TAS": "TAS",
+              "ACT": "ACT",
+              "NT": "NT"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.94,
+        "evidence": "Exact header SITE_STATE_CD; samples ACT and NSW are ontology state abbreviations and refer to service-location addresses."
+      },
+      {
+        "source_fields": [
+          "SITE_POSTCODE"
+        ],
+        "canonical_field": "address.postcode",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.94,
+        "evidence": "Exact header SITE_POSTCODE; samples 2601 and 2594 are postcodes associated with service locations."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "SITE_NAME",
+        "reason": "Retained as the raw subject label via subject_label_field; the dataset does not establish that it is a legal name or trading name."
+      },
+      {
+        "source_field": "ESA_CD_1",
+        "reason": "Opaque ESA code; no supplied code definitions or matching ontology field."
+      },
+      {
+        "source_field": "ESA_CD_2",
+        "reason": "Opaque ESA code; no supplied code definitions or matching ontology field."
+      },
+      {
+        "source_field": "ESA_CD_3",
+        "reason": "Opaque ESA code; no supplied code definitions or matching ontology field."
+      },
+      {
+        "source_field": "PHONE_NUMBER",
+        "reason": "Generic phone number header does not establish whether this is a contact phone, site line, or another telephone role."
+      },
+      {
+        "source_field": "__unnamed_19",
+        "reason": "Unnamed trailing column; sample cells are empty, and no meaning can be established."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.77,
+    "limitations": [
+      "No documentation was supplied; field interpretations rely on exact headers and the shown sample values only.",
+      "SITE_NAME is preserved only as the raw subject label and is not asserted to be a legal entity name or trading name.",
+      "The source describes provider locations but supplies no ABN/ACN or authoritative legal-holder evidence; service_provider role does not assert incorporation or ownership.",
+      "Rows may repeat a physical location across contracts; grouping and identity resolution beyond the supplied site code are not inferred.",
+      "SITE_LOCALITY_NAME, SITE_STATE_CD and SITE_POSTCODE are mapped as service-location address attributes, not registered addresses.",
+      "PHONE_NUMBER, ESA_CD_1, ESA_CD_2 and ESA_CD_3 remain unmapped because their specific meaning is not established.",
+      "The trailing unnamed column is preserved in the unmapped inventory; shown sample values are blank.",
+      "Publication proxy 2016-05-27 is supplied by the source envelope and is not a claim that individual rows changed on that date."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-6-luna",
+  "created_at": "2026-09-24T15:32:11.604881+00:00",
+  "status": "proposed"
+}

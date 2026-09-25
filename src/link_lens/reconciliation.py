@@ -42,6 +42,8 @@ def reconcile_profiles(observations, entities, inference, policy):
         groups = defaultdict(list)
         for ref in entity["records"]:
             for o in by_record[tuple(ref)]:
+                if o.get("group_id"):
+                    continue  # Scoped bundles remain intact; never reconcile across subjects/periods.
                 groups[
                     (
                         o["field"],

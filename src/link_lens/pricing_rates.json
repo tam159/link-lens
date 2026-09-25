@@ -203,6 +203,25 @@
           "cache_write": 0.02
         }
       }
+    },
+    "gpt-6-luna": {
+      "verified_on": "2026-09-24",
+      "source_url": "https://developers.openai.com/api/docs/pricing",
+      "short_context_max_tokens": 272000,
+      "standard": {
+        "short": {
+          "input": 0.1,
+          "cache_read": 0.01,
+          "cache_write": 0.125,
+          "output": 0.5
+        },
+        "long": {
+          "input": 0.2,
+          "cache_read": 0.02,
+          "cache_write": 0.25,
+          "output": 0.75
+        }
+      }
     }
   },
   "notes": [

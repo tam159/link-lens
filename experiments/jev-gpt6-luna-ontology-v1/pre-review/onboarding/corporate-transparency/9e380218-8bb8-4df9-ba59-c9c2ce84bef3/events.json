@@ -1,0 +1,50 @@
+[
+  {
+    "id": "9351004e-3f6e-4f11-841e-fd3a595e3db5",
+    "run_id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+    "kind": "model_usage",
+    "at": "2026-09-24T15:13:39.727142+00:00",
+    "stage": "inspect",
+    "prompt_sha256": "deaecc4ad5b110a904616b01f66213d0213bff916539823998ce3942c708b393",
+    "prompt_version": "onboarding-3-luna-feedback",
+    "model": "gpt-6-luna",
+    "experiment_id": "jev-gpt6-luna-ontology-v1",
+    "attempt": 1,
+    "input_tokens": 1729,
+    "output_tokens": 206,
+    "calculated_cost_usd": 0.00058675,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": null,
+    "response_artifact": "0a35032b99572c00adebed43d768d9fc1bed89453f935b7214d307ecc4e2b4b5",
+    "status": "success",
+    "wall_seconds": 2.834,
+    "reservation_id": "84063032-e4ce-4d3a-adba-d99caeedda8d"
+  },
+  {
+    "id": "962aec57-d5f1-41bc-b858-98b01cc13d67",
+    "run_id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+    "kind": "inspect",
+    "at": "2026-09-24T15:13:39.856194+00:00",
+    "partition_counts": {
+      "discovery": 2533,
+      "validation": 822,
+      "final": 843
+    },
+    "reader": {
+      "format": "xlsx",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": "Income tax details",
+      "header_row": 1,
+      "json_records_path": []
+    }
+  },
+  {
+    "id": "48017e20-55ea-4412-aad1-0a1113a50357",
+    "run_id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+    "kind": "node_execution",
+    "at": "2026-09-24T15:13:39.860225+00:00",
+    "node": "inspect_node",
+    "wall_seconds": 3.1295
+  }
+]

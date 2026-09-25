@@ -431,9 +431,15 @@ def smoke_model():
         {"id": "connectivity-test", "slug": "connectivity-test"},
         {"id": "connectivity-test"},
     )
-    result = call(
-        run["id"], Smoke, "Return result = tool calling works.", "connectivity"
-    )
+    try:
+        result = call(
+            run["id"], Smoke, "Return result = tool calling works.", "connectivity"
+        )
+    except Exception as exc:
+        failed = store.require("runs", run["id"])
+        failed.update(status="failed", error=type(exc).__name__)
+        store.put("runs", run["id"], failed, run["source_id"], "connectivity")
+        raise
     updated = store.require("runs", run["id"])
     updated["status"] = "connectivity_passed"
     store.put("runs", run["id"], updated, run["source_id"], "connectivity")
@@ -479,3 +485,77 @@ def thaw(path: Path = Path("demo/frozen.zip")):
     from .frozen import thaw as restore
 
     show(restore(path))
+
+
+ontology_app = typer.Typer(help="Versioned discovery-only ontology evolution")
+app.add_typer(ontology_app, name="ontology")
+
+
+@ontology_app.command("prepare")
+def ontology_prepare(run_id: list[str] = typer.Option(...)):
+    """Inspect/freeze new runs without starting mapping inference or a graph thread."""
+    from .agent import inspect_node
+
+    for rid in run_id:
+        run = store.require("runs", rid)
+        if run.get("thread_id") or run.get("mapping_id"):
+            raise typer.BadParameter("Use new runs before mapping/thread creation")
+        for _ in range(3):
+            result = inspect_node({"run_id": rid})
+            if result["route"] != "inspect":
+                break
+        show({"run_id": rid, "status": store.require("runs", rid)["status"]})
+
+
+@ontology_app.command("propose")
+def ontology_propose(
+    run_id: list[str] = typer.Option(...), activate_experimental: bool = False
+):
+    from .ontology_workflow import propose
+
+    show(propose(run_id, activate_experimental))
+
+
+@ontology_app.command("show")
+def ontology_show(ontology_hash: str):
+    from .ontology import resolve
+
+    show(resolve(ontology_hash))
+
+
+@ontology_app.command("diff")
+def ontology_diff(parent_hash: str, ontology_hash: str):
+    from .ontology import resolve
+
+    parent, child = resolve(parent_hash), resolve(ontology_hash)
+    show(
+        {
+            "added": {
+                k: v
+                for k, v in child["concepts"].items()
+                if k not in parent["concepts"]
+            },
+            "changed": [
+                k
+                for k in parent["concepts"]
+                if child["concepts"].get(k) != parent["concepts"][k]
+            ],
+        }
+    )
+
+
+@ontology_app.command("promote")
+def ontology_promote(ontology_hash: str, reviewer: str = typer.Option(...)):
+    """Record explicit human promotion; does not approve mappings or rewrite outputs."""
+    from .ontology import activate
+
+    if not reviewer.strip():
+        raise typer.BadParameter("Reviewer required")
+    show(activate(ontology_hash, settings().experiment_id, reviewer))
+
+
+@ontology_app.command("budget")
+def ontology_budget():
+    from .budget import summary
+
+    show(summary(settings().experiment_id))

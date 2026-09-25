@@ -1,0 +1,17 @@
+{
+  "deterministic_tests": {
+    "command": "LINK_LENS_EXPERIMENT_ID=jev-luna-v1 uv run pytest -q",
+    "passed": 105,
+    "skipped": 4,
+    "output": "........................................................................ [ 66%]\n...............................ssss..                                    [100%]\n105 passed, 4 skipped in 6.99s\n"
+  },
+  "lint": {
+    "command": "uv run ruff check src/link_lens tests scripts/report_ontology_experiment.py --exclude _vendor --select F",
+    "result": "All checks passed!"
+  },
+  "whitespace": {
+    "command": "git diff --check",
+    "result": "passed"
+  },
+  "archive_restore_scope": "Isolated test fixtures; no full live archive restore claimed"
+}

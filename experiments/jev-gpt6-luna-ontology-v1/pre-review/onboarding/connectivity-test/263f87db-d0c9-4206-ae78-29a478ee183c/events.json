@@ -1,0 +1,23 @@
+[
+  {
+    "id": "c753d7ed-868b-4a0d-8503-e4643596d86e",
+    "run_id": "263f87db-d0c9-4206-ae78-29a478ee183c",
+    "kind": "model_usage",
+    "at": "2026-09-24T15:10:55.443534+00:00",
+    "stage": "connectivity",
+    "prompt_sha256": "c2dc0e8d43d48b73485a4b9bcf52d825d90b19b889b5faa71ee45c74a306bdc3",
+    "prompt_version": "onboarding-3-luna-feedback",
+    "model": "gpt-6-luna",
+    "experiment_id": "jev-gpt6-luna-ontology-v1",
+    "attempt": 1,
+    "input_tokens": 255,
+    "output_tokens": 21,
+    "calculated_cost_usd": 7.95e-05,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": null,
+    "response_artifact": "c6fca79e8dcc7af109ae10bef26cb34470836e18eb564ca02105ebce5212fda5",
+    "status": "success",
+    "wall_seconds": 2.537,
+    "reservation_id": "2e73fbb8-c489-477c-9b00-8b6734c1c033"
+  }
+]

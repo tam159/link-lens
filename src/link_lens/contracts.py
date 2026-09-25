@@ -3,25 +3,11 @@
 import hashlib
 import json
 from typing import Any, Literal
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_serializer, model_validator
 
-FIELDS = {
-    "entity.legal_name",
-    "entity.trading_name",
-    "entity.abn",
-    "entity.acn",
-    "entity.nzbn",
-    "entity.entity_type",
-    "entity.status",
-    "entity.website",
-    "entity.industry_code",
-    "entity.date_registered",
-    "address.full",
-    "address.locality",
-    "address.state",
-    "address.postcode",
-    "address.country",
-}
+from .ontology import legacy, resolve
+
+FIELDS = set(legacy()["concepts"])
 
 
 def content_hash(value: Any) -> str:
@@ -59,6 +45,10 @@ class Operation(StrictModel):
         "constant",
         "postcode",
         "website",
+        "integer",
+        "decimal",
+        "boolean",
+        "indicator_categories",
     ]
     argument: str | None = Field(
         default=None,
@@ -77,23 +67,11 @@ class Operation(StrictModel):
 
 class FieldMapping(StrictModel):
     source_fields: list[str]
-    canonical_field: Literal[
-        "entity.legal_name",
-        "entity.trading_name",
-        "entity.abn",
-        "entity.acn",
-        "entity.nzbn",
-        "entity.entity_type",
-        "entity.status",
-        "entity.website",
-        "entity.industry_code",
-        "entity.date_registered",
-        "address.full",
-        "address.locality",
-        "address.state",
-        "address.postcode",
-        "address.country",
-    ]
+    canonical_field: str = Field(pattern=r"^[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*$")
+    group: str | None = Field(
+        default=None,
+        description="MUST be null for entity/address scope, including new entity/address fields. For contact/service_location/licence/registration/financial_period scope, supply a group name shared only by same-scope fields in this row.",
+    )
     transformations: list[Operation] = Field(min_length=1)
     when: list[Condition] = Field(default_factory=list)
     confidence: float = Field(ge=0, le=1)
@@ -101,11 +79,23 @@ class FieldMapping(StrictModel):
 
     @model_validator(mode="after")
     def target(self):
-        if self.canonical_field not in FIELDS:
-            raise ValueError("Unknown ontology field")
+        for op in self.transformations:
+            if op.op == "indicator_categories" and set(op.values) != set(
+                self.source_fields
+            ):
+                raise ValueError(
+                    "Indicator categories must account for each named source column"
+                )
         if not self.source_fields and self.transformations[0].op != "constant":
             raise ValueError("A field requires source_fields or an explicit constant")
         return self
+
+    @model_serializer(mode="wrap")
+    def serialize(self, handler):
+        value = handler(self)
+        if self.group is None:
+            value.pop("group", None)
+        return value
 
 
 class ReaderSpec(StrictModel):
@@ -123,6 +113,7 @@ class UnmappedField(StrictModel):
 
 
 class MappingSpec(StrictModel):
+    ontology_hash: str | None = Field(default=None, pattern="^[a-f0-9]{64}$")
     reader: ReaderSpec
     record_grain: str = Field(min_length=10)
     subject_role: Literal[
@@ -162,7 +153,32 @@ class MappingSpec(StrictModel):
 
     @model_validator(mode="after")
     def coherent(self):
-        targets = [f.canonical_field for f in self.fields]
+        concepts = resolve(self.ontology_hash)["concepts"]
+        for field in self.fields:
+            if field.canonical_field not in concepts:
+                raise ValueError("Unknown ontology field")
+            concept = concepts[field.canonical_field]
+            if concept["scope"] not in {"entity", "address"} and not field.group:
+                raise ValueError(
+                    f"{field.canonical_field} has scope {concept['scope']}; group must be a nonempty name"
+                )
+            if field.group and concept["scope"] in {"entity", "address"}:
+                raise ValueError(
+                    f"{field.canonical_field} has scope {concept['scope']}; group MUST be null"
+                )
+            companions = {
+                f.canonical_field for f in self.fields if f.group == field.group
+            }
+            if not set(concept["requires"]).issubset(companions):
+                raise ValueError("Missing required companion fields")
+        scopes = {}
+        for field in self.fields:
+            if field.group:
+                scope = concepts[field.canonical_field]["scope"]
+                if field.group in scopes and scopes[field.group] != scope:
+                    raise ValueError("A group cannot mix subject scopes")
+                scopes[field.group] = scope
+        targets = [(f.canonical_field, f.group) for f in self.fields]
         if len(targets) != len(set(targets)):
             raise ValueError("Duplicate canonical mapping")
         mapped = {s for f in self.fields for s in f.source_fields}
@@ -180,6 +196,13 @@ class MappingSpec(StrictModel):
         ):
             raise ValueError("Record timestamp policy requires its source field")
         return self
+
+    @model_serializer(mode="wrap")
+    def serialize(self, handler):
+        value = handler(self)
+        if self.ontology_hash is None:
+            value.pop("ontology_hash", None)
+        return value
 
 
 class SemanticReview(StrictModel):

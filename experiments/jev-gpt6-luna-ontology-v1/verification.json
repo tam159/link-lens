@@ -1,0 +1,30 @@
+{
+  "baseline": {
+    "observation_ids_have_identical_content": true,
+    "all_observations_pinned_to_ontology": true,
+    "profile_observation_references_resolve": true,
+    "groups_have_single_source_record_and_scope": true,
+    "observation_groups": 7970,
+    "okf": {
+      "concepts": 1676,
+      "edges": 3220,
+      "bytes": 9396101,
+      "broken_links": 0,
+      "viewer_artifact": "79f7ed5e276b1311fda8546eb6d31884cb32ab94f9024f881d8cef611ea171f5"
+    }
+  },
+  "enhanced": {
+    "observation_ids_have_identical_content": true,
+    "all_observations_pinned_to_ontology": true,
+    "profile_observation_references_resolve": true,
+    "groups_have_single_source_record_and_scope": true,
+    "observation_groups": 7970,
+    "okf": {
+      "concepts": 1676,
+      "edges": 3220,
+      "bytes": 9410867,
+      "broken_links": 0,
+      "viewer_artifact": "882fb1a7f99c28207a4ec012e8b3ce591ba603a1a217a2dc3ca37ec5037931a6"
+    }
+  }
+}

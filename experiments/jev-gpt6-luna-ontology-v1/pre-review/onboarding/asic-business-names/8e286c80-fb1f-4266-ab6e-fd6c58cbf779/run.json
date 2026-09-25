@@ -1,0 +1,30 @@
+{
+  "id": "8e286c80-fb1f-4266-ab6e-fd6c58cbf779",
+  "experiment_id": "jev-gpt6-luna-ontology-v1",
+  "model": "gpt-6-luna",
+  "ontology_hash": "f66f63b3568165bc0e555f6532955e741a3847b4e2b2ee2bb39bb31df98edc35",
+  "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+  "source_slug": "asic-business-names",
+  "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+  "status": "inspected",
+  "created_at": "2026-09-24T15:13:21.897002+00:00",
+  "model_calls": 1,
+  "python_calls": 0,
+  "version": 0,
+  "input_tokens": 4108,
+  "output_tokens": 454,
+  "active_seconds": 4.919683333020657,
+  "calculated_cost_usd": 0.0013675,
+  "pricing_basis": "unknown; no provider rates configured",
+  "reader_attempts": 1,
+  "usage_has_estimates": false,
+  "analysis_artifact": "8f9f1ec5e6ccf8284bd92b08020d961431b6cc209a994ff70940e40e9f4b326f",
+  "partitions_artifact": "002c6b6a45fd5e71be7acdba4be7cedc48e050a031c6a8ee2aa36021f73fdd27",
+  "partition_counts": {
+    "discovery": 3026,
+    "validation": 968,
+    "final": 1006
+  },
+  "final_cursor": 0,
+  "timing_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once."
+}

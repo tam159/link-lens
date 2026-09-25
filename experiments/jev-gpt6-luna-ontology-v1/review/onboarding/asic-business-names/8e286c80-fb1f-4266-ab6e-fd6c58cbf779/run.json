@@ -1,0 +1,40 @@
+{
+  "id": "8e286c80-fb1f-4266-ab6e-fd6c58cbf779",
+  "experiment_id": "jev-gpt6-luna-ontology-v1",
+  "model": "gpt-6-luna",
+  "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+  "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+  "source_slug": "asic-business-names",
+  "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+  "status": "failed",
+  "created_at": "2026-09-24T15:13:21.897002+00:00",
+  "model_calls": 3,
+  "python_calls": 1,
+  "version": 2,
+  "input_tokens": 32819,
+  "output_tokens": 17524,
+  "active_seconds": 13.467012045024603,
+  "calculated_cost_usd": 0.02134775,
+  "pricing_basis": "unknown; no provider rates configured",
+  "reader_attempts": 1,
+  "usage_has_estimates": true,
+  "analysis_artifact": "8f9f1ec5e6ccf8284bd92b08020d961431b6cc209a994ff70940e40e9f4b326f",
+  "partitions_artifact": "002c6b6a45fd5e71be7acdba4be7cedc48e050a031c6a8ee2aa36021f73fdd27",
+  "partition_counts": {
+    "discovery": 3026,
+    "validation": 968,
+    "final": 1006
+  },
+  "final_cursor": 0,
+  "timing_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+  "ontology_proposal_id": "ontology-cc0891bfd24985ab337ba6886af9df37a5e45203",
+  "thread_id": "01a0d406-6e1a-79b3-b589-d32927c55ba6",
+  "exploration_artifact": "2076c5d67ee96decf7cb8187c8b9371246e36c2c43f8180ae79e86dfc8dc72b8",
+  "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0d406-6e1d-7f81-ae0e-e7d3c24b83b7/run/01a0d40b-042b-7800-ad86-99c105234d18?start_time=2026-09-24T15%3A31%3A26.891459%2B00%3A00",
+  "validation": {
+    "blocking_issues": [
+      "Structured response failed validation: 1 validation error for MappingSpec\n  Value error, registration.registered_business_name has scope registration; group must be a nonempty name [type=value_error, input_value={'ontology_hash': '4a02fa...le differ on cadence.']}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"
+    ]
+  },
+  "error": "OpenAIRateLimitError: Error code: 429 - {'error': {'message': 'Your requests to gpt-6-luna for gpt-6-luna in swedencentral have exceeded rate limit.', 'type': 'too_many_requests', 'param': None, 'code': 'rate_limit_exceeded'}}"
+}

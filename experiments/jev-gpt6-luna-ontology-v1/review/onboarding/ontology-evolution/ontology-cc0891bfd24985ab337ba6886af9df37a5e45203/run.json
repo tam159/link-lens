@@ -1,0 +1,17 @@
+{
+  "id": "ontology-cc0891bfd24985ab337ba6886af9df37a5e45203",
+  "experiment_id": "jev-gpt6-luna-ontology-v1",
+  "model": "gpt-6-luna",
+  "prompt_version": "ontology-evolution-3",
+  "source_id": "ontology",
+  "source_slug": "ontology-evolution",
+  "status": "validated",
+  "version": 0,
+  "model_calls": 1,
+  "python_calls": 0,
+  "input_tokens": 49709,
+  "output_tokens": 4056,
+  "active_seconds": 24.519,
+  "calculated_cost_usd": 0.01546925,
+  "usage_has_estimates": false
+}

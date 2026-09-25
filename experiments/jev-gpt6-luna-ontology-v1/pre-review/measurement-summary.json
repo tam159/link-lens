@@ -1,0 +1,611 @@
+{
+  "published_rate_estimate": {
+    "pricing_snapshot": {
+      "verified_on": "2026-09-19",
+      "source_url": "https://developers.openai.com/api/docs/pricing",
+      "cache_semantics_url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+      "currency": "USD",
+      "unit": "per 1000000 tokens",
+      "models": {
+        "gpt-5.6-sol": {
+          "standard": {
+            "short": {
+              "input": 4,
+              "cache_read": 0.4,
+              "cache_write": 5,
+              "output": 20
+            },
+            "long": {
+              "input": 8,
+              "cache_read": 0.8,
+              "cache_write": 10,
+              "output": 30
+            }
+          },
+          "batch": {
+            "short": {
+              "input": 2.0,
+              "cache_read": 0.2,
+              "cache_write": 2.5,
+              "output": 10.0
+            },
+            "long": {
+              "input": 4.0,
+              "cache_read": 0.4,
+              "cache_write": 5.0,
+              "output": 15.0
+            }
+          },
+          "flex": {
+            "short": {
+              "input": 2.0,
+              "cache_read": 0.2,
+              "cache_write": 2.5,
+              "output": 10.0
+            },
+            "long": {
+              "input": 4.0,
+              "cache_read": 0.4,
+              "cache_write": 5.0,
+              "output": 15.0
+            }
+          },
+          "fast": {
+            "short": {
+              "input": 8,
+              "cache_read": 0.8,
+              "cache_write": 10,
+              "output": 40
+            },
+            "long": {
+              "input": 16,
+              "cache_read": 1.6,
+              "cache_write": 20,
+              "output": 60
+            }
+          }
+        },
+        "gpt-5.6-terra": {
+          "standard": {
+            "short": {
+              "input": 2,
+              "cache_read": 0.2,
+              "cache_write": 2.5,
+              "output": 12
+            },
+            "long": {
+              "input": 4,
+              "cache_read": 0.4,
+              "cache_write": 5,
+              "output": 18
+            }
+          },
+          "batch": {
+            "short": {
+              "input": 1.0,
+              "cache_read": 0.1,
+              "cache_write": 1.25,
+              "output": 6.0
+            },
+            "long": {
+              "input": 2.0,
+              "cache_read": 0.2,
+              "cache_write": 2.5,
+              "output": 9.0
+            }
+          },
+          "flex": {
+            "short": {
+              "input": 1.0,
+              "cache_read": 0.1,
+              "cache_write": 1.25,
+              "output": 6.0
+            },
+            "long": {
+              "input": 2.0,
+              "cache_read": 0.2,
+              "cache_write": 2.5,
+              "output": 9.0
+            }
+          },
+          "fast": {
+            "short": {
+              "input": 4,
+              "cache_read": 0.4,
+              "cache_write": 5.0,
+              "output": 24
+            },
+            "long": {
+              "input": 8,
+              "cache_read": 0.8,
+              "cache_write": 10,
+              "output": 36
+            }
+          }
+        },
+        "gpt-5.6-luna": {
+          "standard": {
+            "short": {
+              "input": 0.2,
+              "cache_read": 0.02,
+              "cache_write": 0.25,
+              "output": 1.2
+            },
+            "long": {
+              "input": 0.4,
+              "cache_read": 0.04,
+              "cache_write": 0.5,
+              "output": 1.8
+            }
+          },
+          "batch": {
+            "short": {
+              "input": 0.1,
+              "cache_read": 0.01,
+              "cache_write": 0.125,
+              "output": 0.6
+            },
+            "long": {
+              "input": 0.2,
+              "cache_read": 0.02,
+              "cache_write": 0.25,
+              "output": 0.9
+            }
+          },
+          "flex": {
+            "short": {
+              "input": 0.1,
+              "cache_read": 0.01,
+              "cache_write": 0.125,
+              "output": 0.6
+            },
+            "long": {
+              "input": 0.2,
+              "cache_read": 0.02,
+              "cache_write": 0.25,
+              "output": 0.9
+            }
+          },
+          "fast": {
+            "short": {
+              "input": 0.4,
+              "cache_read": 0.04,
+              "cache_write": 0.5,
+              "output": 2.4
+            },
+            "long": {
+              "input": 0.8,
+              "cache_read": 0.08,
+              "cache_write": 1.0,
+              "output": 3.6
+            }
+          }
+        },
+        "typesafe/jev-1.13": {
+          "source_url": "https://openrouter.ai/typesafe/jev-1.13",
+          "verified_on": "2026-09-19",
+          "cache_policy": "Flat input-token rate; no separate cache tier advertised",
+          "standard": {
+            "short": {
+              "input": 0.042,
+              "cache_read": 0.042,
+              "cache_write": 0.042,
+              "output": 0
+            }
+          }
+        },
+        "text-embedding-3-small": {
+          "source_url": "https://developers.openai.com/api/docs/models/text-embedding-3-small",
+          "verified_on": "2026-09-24",
+          "standard": {
+            "short": {
+              "input": 0.02,
+              "output": 0,
+              "cache_read": 0.02,
+              "cache_write": 0.02
+            }
+          }
+        },
+        "gpt-6-luna": {
+          "verified_on": "2026-09-24",
+          "source_url": "https://developers.openai.com/api/docs/pricing",
+          "short_context_max_tokens": 272000,
+          "standard": {
+            "short": {
+              "input": 0.1,
+              "cache_read": 0.01,
+              "cache_write": 0.125,
+              "output": 0.5
+            },
+            "long": {
+              "input": 0.2,
+              "cache_read": 0.02,
+              "cache_write": 0.25,
+              "output": 0.75
+            }
+          }
+        }
+      },
+      "notes": [
+        "Published OpenAI rates used as the user-agreed approximation for deployment costs.",
+        "Cache-write rate replaces ordinary input rate for those tokens; it is not additive.",
+        "Use per-call context, not sum of project tokens. Current measured calls have at most 20278 input tokens and use short-context pricing.",
+        "Sol promotional pricing is listed as available at least through 2026-11-21.",
+        "Regional processing uplift, taxes, negotiated rates and other charges excluded."
+      ]
+    },
+    "basis": "OpenAI list prices approximate deployment costs; Jev uses published OpenRouter flat pricing. Enhancement estimates retain per-attempt rate provenance. No regional uplift.",
+    "calls": 233,
+    "priced_calls": 232,
+    "unpriced_calls": 1,
+    "measured_subtotal_usd": 0.072075417,
+    "complete_estimated_total_usd": null,
+    "budget_target_usd": 10,
+    "measured_subtotal_within_budget": true,
+    "budget_compliance": "Assessed on priced calls only; unpriced calls are excluded.",
+    "per_record_llm_calls": 0,
+    "per_record_llm_cost_usd": 0,
+    "per_stage": {
+      "connectivity": {
+        "calls": 2,
+        "priced_calls": 1
+      },
+      "inspect": {
+        "calls": 6,
+        "priced_calls": 6
+      },
+      "ontology_consolidate": {
+        "calls": 1,
+        "priced_calls": 1
+      },
+      "ontology_repair": {
+        "calls": 1,
+        "priced_calls": 1
+      },
+      "ontology_source": {
+        "calls": 12,
+        "priced_calls": 12
+      },
+      "triage": {
+        "calls": 211,
+        "priced_calls": 211
+      }
+    },
+    "per_run": [
+      {
+        "run_id": "073d08af-4746-4a79-aebb-fd1ffc41be54",
+        "source": "acnc-register",
+        "calls": 1,
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.0008998
+      },
+      {
+        "run_id": "263f87db-d0c9-4206-ae78-29a478ee183c",
+        "source": "connectivity-test",
+        "calls": 1,
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 3.6e-05
+      },
+      {
+        "run_id": "31311d91-51e9-4901-bfb9-28caf3c9e6ed",
+        "source": "connectivity-test",
+        "calls": 1,
+        "priced_calls": 0,
+        "unpriced_calls": 1,
+        "measured_subtotal_usd": 0.0
+      },
+      {
+        "run_id": "8e286c80-fb1f-4266-ab6e-fd6c58cbf779",
+        "source": "asic-business-names",
+        "calls": 1,
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.000737175
+      },
+      {
+        "run_id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+        "source": "corporate-transparency",
+        "calls": 1,
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.0003158
+      },
+      {
+        "run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+        "source": "asic-companies",
+        "calls": 1,
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.000969175
+      },
+      {
+        "run_id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a",
+        "source": "employment-provider-locations-and-contacts",
+        "calls": 1,
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.000399675
+      },
+      {
+        "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+        "source": "catalogue triage",
+        "calls": 211,
+        "priced_calls": 211,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.007951692
+      },
+      {
+        "run_id": "ee6281be-3189-4e01-84e6-91abcbadccfe",
+        "source": "asic-afs-licensee",
+        "calls": 1,
+        "priced_calls": 1,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.0011363
+      },
+      {
+        "run_id": "ontology-0e730312a84a5479990336584ccb4faeea7691a3",
+        "source": "ontology-evolution",
+        "calls": 6,
+        "priced_calls": 6,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.015810825
+      },
+      {
+        "run_id": "ontology-9c5f74cb6510f4b2e483d372200eac3766db6d03",
+        "source": "ontology-evolution",
+        "calls": 8,
+        "priced_calls": 8,
+        "unpriced_calls": 0,
+        "measured_subtotal_usd": 0.043818975
+      }
+    ]
+  },
+  "generated_at": "2026-09-24T15:22:08.588545+00:00",
+  "experiment_id": "jev-gpt6-luna-ontology-v1",
+  "catalogue_records": 945,
+  "shortlist_rows": 50,
+  "runs": [
+    {
+      "run_id": "31311d91-51e9-4901-bfb9-28caf3c9e6ed",
+      "source": "connectivity-test",
+      "status": "failed",
+      "mapping_attempts": 0,
+      "model_calls": 1,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "calls_with_unknown_usage": 1,
+      "calculated_cost_usd": null,
+      "measured_model_wall_seconds": 1.963,
+      "python_calls": 0,
+      "active_seconds": 1.963,
+      "active_seconds_basis": "Model calls plus sandbox only; lower bound excluding other node overhead.",
+      "instrumented_graph_steps": null,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": "Chat Completions rejected reasoning with tools; subsequent Responses preflight passed"
+    },
+    {
+      "run_id": "263f87db-d0c9-4206-ae78-29a478ee183c",
+      "source": "connectivity-test",
+      "status": "connectivity_passed",
+      "mapping_attempts": 0,
+      "model_calls": 1,
+      "input_tokens": 255,
+      "output_tokens": 21,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 7.95e-05,
+      "measured_model_wall_seconds": 2.537,
+      "python_calls": 0,
+      "active_seconds": 2.537,
+      "active_seconds_basis": "Model calls plus sandbox only; lower bound excluding other node overhead.",
+      "instrumented_graph_steps": null,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "073d08af-4746-4a79-aebb-fd1ffc41be54",
+      "source": "acnc-register",
+      "status": "inspected",
+      "mapping_attempts": 0,
+      "model_calls": 1,
+      "input_tokens": 4585,
+      "output_tokens": 660,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.00164125,
+      "measured_model_wall_seconds": 8.046,
+      "python_calls": 0,
+      "active_seconds": 8.420679500035476,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 1,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "ee6281be-3189-4e01-84e6-91abcbadccfe",
+      "source": "asic-afs-licensee",
+      "status": "inspected",
+      "mapping_attempts": 0,
+      "model_calls": 1,
+      "input_tokens": 6917,
+      "output_tokens": 550,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.00214175,
+      "measured_model_wall_seconds": 4.769,
+      "python_calls": 0,
+      "active_seconds": 5.058858208998572,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 1,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "8e286c80-fb1f-4266-ab6e-fd6c58cbf779",
+      "source": "asic-business-names",
+      "status": "inspected",
+      "mapping_attempts": 0,
+      "model_calls": 1,
+      "input_tokens": 4108,
+      "output_tokens": 454,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.0013675,
+      "measured_model_wall_seconds": 4.699,
+      "python_calls": 0,
+      "active_seconds": 4.919683333020657,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 1,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+      "source": "asic-companies",
+      "status": "inspected",
+      "mapping_attempts": 0,
+      "model_calls": 1,
+      "input_tokens": 5764,
+      "output_tokens": 504,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.001819,
+      "measured_model_wall_seconds": 5.3,
+      "python_calls": 0,
+      "active_seconds": 5.516997165977955,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 1,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+      "source": "corporate-transparency",
+      "status": "inspected",
+      "mapping_attempts": 0,
+      "model_calls": 1,
+      "input_tokens": 1729,
+      "output_tokens": 206,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.00058675,
+      "measured_model_wall_seconds": 2.834,
+      "python_calls": 0,
+      "active_seconds": 3.1295120419817977,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 1,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a",
+      "source": "employment-provider-locations-and-contacts",
+      "status": "inspected",
+      "mapping_attempts": 0,
+      "model_calls": 1,
+      "input_tokens": 1292,
+      "output_tokens": 483,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.00068525,
+      "measured_model_wall_seconds": 4.181,
+      "python_calls": 0,
+      "active_seconds": 4.466282291978132,
+      "active_seconds_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once.",
+      "instrumented_graph_steps": 1,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "ontology-9c5f74cb6510f4b2e483d372200eac3766db6d03",
+      "source": "ontology-evolution",
+      "status": "rejected",
+      "mapping_attempts": 0,
+      "model_calls": 8,
+      "input_tokens": 149203,
+      "output_tokens": 50390,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.07509325,
+      "measured_model_wall_seconds": 240.731,
+      "python_calls": 0,
+      "active_seconds": 240.731,
+      "active_seconds_basis": "Model calls plus sandbox only; lower bound excluding other node overhead.",
+      "instrumented_graph_steps": null,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": null
+    },
+    {
+      "run_id": "ontology-0e730312a84a5479990336584ccb4faeea7691a3",
+      "source": "ontology-evolution",
+      "status": "proposing",
+      "mapping_attempts": 0,
+      "model_calls": 6,
+      "input_tokens": 44617,
+      "output_tokens": 20507,
+      "calls_with_unknown_usage": 0,
+      "calculated_cost_usd": 0.026534500000000003,
+      "measured_model_wall_seconds": 106.484,
+      "python_calls": 0,
+      "active_seconds": 106.48400000000001,
+      "active_seconds_basis": "Model calls plus sandbox only; lower bound excluding other node overhead.",
+      "instrumented_graph_steps": null,
+      "trace_url": null,
+      "supersedes_run_id": null,
+      "failure": null
+    }
+  ],
+  "total_model_calls_including_failures": 233,
+  "total_measured_input_tokens": 407796,
+  "total_measured_output_tokens": 78417,
+  "total_calculated_cost_usd": null,
+  "billing_note": "See published_rate_estimate for agreed Azure estimates and Jev list pricing. Failed calls with missing usage remain unpriced.",
+  "per_record_llm_calls": 0,
+  "human_evaluations": [
+    {
+      "worksheet_id": "fe7fdfbe11559a3b26d01eb85b8eb86835b8ef0007396aace55c2eb965713167",
+      "kind": "triage",
+      "sampling": "Seeded simple random sample without replacement",
+      "seed": 159,
+      "threshold": null,
+      "sample_size": 20,
+      "submitted_responses": 0,
+      "unreviewed_responses": 0,
+      "evaluation_note": "Only evidence-reviewed labels count. Unreviewed selections remain unresolved.",
+      "correct_or_relevant": 0,
+      "incorrect_or_irrelevant": 0,
+      "unresolved": 20,
+      "reviewed_resolved": 0,
+      "precision_on_resolved": null,
+      "false_positive_rate_on_resolved": null,
+      "confirmed_fraction_of_full_sample": 0.0,
+      "status": "incomplete; unknowns are not counted as correct"
+    }
+  ],
+  "ai_assisted_evaluations": [
+    {
+      "worksheet_id": "fe7fdfbe11559a3b26d01eb85b8eb86835b8ef0007396aace55c2eb965713167",
+      "kind": "triage",
+      "review_type": "ai_assisted",
+      "sample_size": 20,
+      "sampling": "Seeded simple random sample without replacement",
+      "seed": 159,
+      "threshold": null,
+      "assessed": 0,
+      "supported": 0,
+      "not_supported": 0,
+      "unresolved": 20,
+      "resolved_denominator": 0,
+      "support_fraction_on_resolved": null,
+      "negative_fraction_on_resolved": null,
+      "human_requirement_satisfied": false,
+      "limitation": "Assistant evidence audit; not human ground truth or measured human precision. Shared source errors and selection bias remain possible."
+    }
+  ],
+  "ai_full_shortlist_evaluations": [],
+  "ai_all_link_evaluations": [],
+  "pipeline_batches": []
+}

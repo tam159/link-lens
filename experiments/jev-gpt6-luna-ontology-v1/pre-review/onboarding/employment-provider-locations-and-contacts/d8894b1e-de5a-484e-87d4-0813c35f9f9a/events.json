@@ -1,0 +1,50 @@
+[
+  {
+    "id": "e9900c2c-e566-494f-9840-c02d025d9b8b",
+    "run_id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a",
+    "kind": "model_usage",
+    "at": "2026-09-24T15:13:46.725466+00:00",
+    "stage": "inspect",
+    "prompt_sha256": "e7b3ce13f2db00124eefa0a5e7cb104c234b56705bdd66da49e6a36d1ebb5064",
+    "prompt_version": "onboarding-3-luna-feedback",
+    "model": "gpt-6-luna",
+    "experiment_id": "jev-gpt6-luna-ontology-v1",
+    "attempt": 1,
+    "input_tokens": 1292,
+    "output_tokens": 483,
+    "calculated_cost_usd": 0.00068525,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": null,
+    "response_artifact": "78ee2af09965abf316b5d61bd71716f96e8469f2a461a9d97257af26109229c2",
+    "status": "success",
+    "wall_seconds": 4.181,
+    "reservation_id": "0814fb48-dd0a-4288-916f-ab984e8a48d1"
+  },
+  {
+    "id": "0c9a2db9-a916-4ec5-beb6-a3f3b7e47bbd",
+    "run_id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a",
+    "kind": "inspect",
+    "at": "2026-09-24T15:13:46.798628+00:00",
+    "partition_counts": {
+      "discovery": 3039,
+      "validation": 978,
+      "final": 983
+    },
+    "reader": {
+      "format": "csv",
+      "encoding": "cp1252",
+      "delimiter": ",",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    }
+  },
+  {
+    "id": "96c1aaf9-011b-446e-8cee-be7357097bb4",
+    "run_id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a",
+    "kind": "node_execution",
+    "at": "2026-09-24T15:13:46.804377+00:00",
+    "node": "inspect_node",
+    "wall_seconds": 4.4663
+  }
+]

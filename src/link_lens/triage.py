@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 from langchain_core.runnables import RunnableLambda
 from langsmith import get_current_run_tree
 
-from . import store
+from . import store, budget
 from .settings import settings
 
 ENDPOINT = "https://openrouter.ai/api/alpha/decisions"
@@ -55,6 +55,14 @@ def classify_dataset(dataset, discovery_id):
     cached = store.get("batches", key)
     if cached:
         return cached
+    reservation_id = budget.reserve(
+        cfg.experiment_id,
+        discovery_id,
+        "triage",
+        cfg.triage_model,
+        len(json.dumps(payload).encode()) + 2048,
+        7000,
+    )
     started = time.monotonic()
     receipt = {
         "experiment_id": cfg.experiment_id,
@@ -117,6 +125,13 @@ def classify_dataset(dataset, discovery_id):
         raise
     finally:
         receipt["wall_seconds"] = round(time.monotonic() - started, 3)
+        budget.settle(
+            reservation_id,
+            receipt["input_tokens"],
+            receipt["output_tokens"],
+            receipt["calculated_cost_usd"],
+        )
+        receipt["reservation_id"] = reservation_id
         store.event(discovery_id, "triage_usage", receipt)
 
 

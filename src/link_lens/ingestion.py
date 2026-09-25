@@ -326,10 +326,13 @@ def register(request: SourceRequest):
 
 
 def new_run(source, snapshot):
+    from .ontology import active_hash
+
     run = {
         "id": str(uuid.uuid4()),
         "experiment_id": settings().experiment_id,
         "model": settings().model,
+        "ontology_hash": active_hash(settings().experiment_id),
         "source_id": source["id"],
         "source_slug": source["slug"],
         "snapshot_id": snapshot["id"],

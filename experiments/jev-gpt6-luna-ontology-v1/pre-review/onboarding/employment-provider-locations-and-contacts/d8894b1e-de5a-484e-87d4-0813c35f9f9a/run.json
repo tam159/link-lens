@@ -1,0 +1,30 @@
+{
+  "id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a",
+  "experiment_id": "jev-gpt6-luna-ontology-v1",
+  "model": "gpt-6-luna",
+  "ontology_hash": "f66f63b3568165bc0e555f6532955e741a3847b4e2b2ee2bb39bb31df98edc35",
+  "source_id": "638f89d7-1c12-4db9-8342-abfcd7b49e95",
+  "source_slug": "employment-provider-locations-and-contacts",
+  "snapshot_id": "6db5393d177fbca86b33c90f4e593bd2ecb860a740dbdf21f56bf8d9dc2fa359",
+  "status": "inspected",
+  "created_at": "2026-09-24T15:13:42.331613+00:00",
+  "model_calls": 1,
+  "python_calls": 0,
+  "version": 0,
+  "input_tokens": 1292,
+  "output_tokens": 483,
+  "active_seconds": 4.466282291978132,
+  "calculated_cost_usd": 0.00068525,
+  "pricing_basis": "unknown; no provider rates configured",
+  "reader_attempts": 1,
+  "usage_has_estimates": false,
+  "analysis_artifact": "2acc43ad14d4f81fbf680bb360c6d062dd4e07d973e8395c73c9994abe556b36",
+  "partitions_artifact": "c3ba6b270f5809bfb9615c6f0824381b7055a6d34ee5cce13c95b0d4c1344bba",
+  "partition_counts": {
+    "discovery": 3039,
+    "validation": 978,
+    "final": 983
+  },
+  "final_cursor": 0,
+  "timing_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once."
+}

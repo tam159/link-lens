@@ -1,0 +1,26 @@
+{
+  "id": "ontology-0e730312a84a5479990336584ccb4faeea7691a3",
+  "ontology_hash": null,
+  "proposal_artifact": "d098c551d8edc1c54d6c0aa9e2a7e0252186f891faecda9a581afdf0ea91e8e8",
+  "run_ids": [
+    "073d08af-4746-4a79-aebb-fd1ffc41be54",
+    "ee6281be-3189-4e01-84e6-91abcbadccfe",
+    "8e286c80-fb1f-4266-ab6e-fd6c58cbf779",
+    "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+    "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+    "d8894b1e-de5a-484e-87d4-0813c35f9f9a"
+  ],
+  "status": "rejected",
+  "parent_hash": "f66f63b3568165bc0e555f6532955e741a3847b4e2b2ee2bb39bb31df98edc35",
+  "source_run_ids": {
+    "source_1": "073d08af-4746-4a79-aebb-fd1ffc41be54",
+    "source_2": "ee6281be-3189-4e01-84e6-91abcbadccfe",
+    "source_3": "8e286c80-fb1f-4266-ab6e-fd6c58cbf779",
+    "source_4": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+    "source_5": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+    "source_6": "d8894b1e-de5a-484e-87d4-0813c35f9f9a"
+  },
+  "supersedes_proposal_ids": [
+    "ontology-9c5f74cb6510f4b2e483d372200eac3766db6d03"
+  ]
+}

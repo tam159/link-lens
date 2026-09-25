@@ -698,8 +698,9 @@ def test_postcode_only_and_generic_name_are_not_alternative_identity():
     assert not retrieve(records)[0].features["admission_routes"]
 
 
-def test_cached_v1_embeddings_are_reused_by_v2_batcher(monkeypatch):
+def test_current_single_embeddings_are_reused_by_batcher(monkeypatch):
     from link_lens.contracts import content_hash
+    from link_lens.enhancement_contracts import EMBEDDING_VERSION
     from link_lens.semantic_resolution import evidence_text
     from link_lens import enhancement_models
 
@@ -708,11 +709,11 @@ def test_cached_v1_embeddings_are_reused_by_v2_batcher(monkeypatch):
     policy = EnhancementPolicy(dimensions=2)
     engine = Inference("cache-job", "test", policy)
     evidence = evidence_text(next(iter(records_from(*data(2)).values())))
-    assert evidence["serialization_version"] == "hybrid-evidence-1"
+    assert evidence["serialization_version"] == EMBEDDING_VERSION
     endpoint, payload = engine.embedding_request(evidence)
     key = "enhance-cache-" + content_hash(
         {
-            "version": "hybrid-evidence-1",
+            "version": EMBEDDING_VERSION,
             "model": policy.embedding_model,
             "endpoint": endpoint,
             "stage": "embedding",

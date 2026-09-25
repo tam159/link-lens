@@ -1,0 +1,30 @@
+{
+  "id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+  "experiment_id": "jev-gpt6-luna-ontology-v1",
+  "model": "gpt-6-luna",
+  "ontology_hash": "f66f63b3568165bc0e555f6532955e741a3847b4e2b2ee2bb39bb31df98edc35",
+  "source_id": "c2524c87-cea4-4636-acac-599a82048a26",
+  "source_slug": "corporate-transparency",
+  "snapshot_id": "7f0f0031650e96d0b1e08eb2fb489dec1a181aa464eae44845ec2de99ac06bf2",
+  "status": "inspected",
+  "created_at": "2026-09-24T15:13:36.725318+00:00",
+  "model_calls": 1,
+  "python_calls": 0,
+  "version": 0,
+  "input_tokens": 1729,
+  "output_tokens": 206,
+  "active_seconds": 3.1295120419817977,
+  "calculated_cost_usd": 0.00058675,
+  "pricing_basis": "unknown; no provider rates configured",
+  "reader_attempts": 1,
+  "usage_has_estimates": false,
+  "analysis_artifact": "45b71b9417ae1049d861d40f13649ed653e4dc47d9cb86d0f3a8c534a59febfc",
+  "partitions_artifact": "48e828431df1ac305a4e6427b837d3b679905e18390fce1ca60bf84d1c87bed2",
+  "partition_counts": {
+    "discovery": 2533,
+    "validation": 822,
+    "final": 843
+  },
+  "final_cursor": 0,
+  "timing_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once."
+}

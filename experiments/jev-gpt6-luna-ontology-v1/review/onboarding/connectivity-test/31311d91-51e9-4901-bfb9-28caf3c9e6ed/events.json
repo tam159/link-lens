@@ -1,0 +1,23 @@
+[
+  {
+    "id": "17a9a863-9483-4bd6-b339-fd46fd93b3f0",
+    "run_id": "31311d91-51e9-4901-bfb9-28caf3c9e6ed",
+    "kind": "model_usage",
+    "at": "2026-09-24T15:10:03.685998+00:00",
+    "stage": "connectivity",
+    "prompt_sha256": "c2dc0e8d43d48b73485a4b9bcf52d825d90b19b889b5faa71ee45c74a306bdc3",
+    "prompt_version": "onboarding-3-luna-feedback",
+    "model": "gpt-6-luna",
+    "experiment_id": "jev-gpt6-luna-ontology-v1",
+    "attempt": 1,
+    "input_tokens": null,
+    "output_tokens": null,
+    "calculated_cost_usd": null,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": null,
+    "status": "error",
+    "error": "OpenAIInvalidRequestError: Error code: 400 - {'error': {'message': \"Function tools with reasoning_effort are not supported for gpt-6-luna in /v1/chat/completions. To use function tools, use /v1/responses or set reasoning_effort to 'none'.\", 'type': 'invalid_request_error', 'param': 'reasoning_effort', 'code': None}}",
+    "wall_seconds": 1.963,
+    "reservation_id": "ed67048b-b641-4593-a577-b74555021ccb"
+  }
+]

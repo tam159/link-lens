@@ -53,7 +53,7 @@ Service startup and provider setup live in README. Default local ports: Inbox 30
 
 ## Contracts to preserve
 
-- The submitted approach uses Jev for Part 1 and `gpt-5.6-luna` for Part 2. Model names are configurable and provider access is deployment-specific. Do not silently change models during a comparison.
+- The submitted approach uses Jev for discovery/identity, `gpt-6-luna` for ontology/onboarding/conflict annotations, and `text-embedding-3-small` for hybrid retrieval. The promoted ontology seeds new experiments; legacy mappings retain frozen v0.1. Model names are configurable and provider access is deployment-specific. Do not silently change models during a comparison.
 - Part 1 combines deterministic and Jev relevance signals with download/readability checks. A successful download is evidence of availability, not proof of business relevance. Audit labels must not influence the frozen ranking being evaluated.
 - One onboarding graph investigates and revises mappings. Exploration Python runs only through the sandbox. Approved extraction uses the shared declarative engine, never generated Python or unrestricted expressions embedded in configs.
 - Keep discovery, validation feedback and held-out final records separate. Freeze reader/partition decisions before inference; never expose reserved records to exploration. A failed final test does not authorise repeated tuning against that same test set.

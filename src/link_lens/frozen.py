@@ -60,8 +60,13 @@ def thaw(path: Path):
         if sum(i.file_size for i in source.infolist()) > 750_000_000:
             raise ValueError("Evidence archive exceeds local demo size limit")
         data = json.loads(source.read("application.json"))
-        if data["format"] != "link-lens-evidence-1" or set(data["tables"]) != set(
-            store.TABLES
+        if (
+            data["format"] != "link-lens-evidence-1"
+            or not set(data["tables"]).issubset(store.TABLES)
+            or not (
+                set(store.TABLES)
+                - {"ontologies", "ontology_events", "budget_reservations"}
+            ).issubset(data["tables"])
         ):
             raise ValueError("Unsupported evidence format")
         # Verify all content and conflicts before writing domain records.

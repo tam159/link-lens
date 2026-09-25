@@ -1,17 +1,20 @@
 # Link Lens
 
-A LangGraph agent investigates public business datasets and produces mapping configurations for human approval. One shared engine then extracts observations, links entities and generates profiles with provenance. The pipeline uses **Jev for triage and an LLM for onboarding**.
+A LangGraph agent investigates public business datasets and produces mapping configurations for human approval. One shared engine then extracts observations, links entities and generates profiles with provenance. The submitted pipeline uses **Jev for triage and identity judgments, GPT-6 Luna for ontology evolution and onboarding, and an embedding model for candidate retrieval**.
 
 **Models and code at a glance:**
 
 | Stage | Approach |
 |---|---|
 | Discovery | **Jev + deterministic code** for relevance ranking, download checks and source selection. |
+| Ontology evolution | **LLM proposals and semantic critique + deterministic validation** of evidence, additive definitions, types and subject scope; versioned activation and explicit human promotion. |
 | Onboarding | **Agentic LangGraph workflow with an LLM + deterministic code** for dataset investigation, mapping proposals and validation; human approval precedes deterministic extraction. |
-| Entity identification | **Deterministic exact ABN/ACN matching** by default. Optional `enhance` adds fuzzy retrieval, an **embedding model and Jev** assessments, with deterministic evidence and cluster checks. |
-| Company profiles | **Deterministic evidence selection** by default. Optional `enhance` adds **Jev** claim-equivalence judgments and an **LLM** for conflict annotations; original source values and provenance are retained. |
+| Entity identification | **Deterministic exact ABN/ACN matching** by default. The submitted `enhance` stage adds fuzzy retrieval, an **embedding model and Jev** assessments, with deterministic evidence and cluster checks. |
+| Company profiles | **Deterministic evidence selection** by default. The submitted `enhance` stage adds **Jev** claim-equivalence judgments and an **LLM** for conflict annotations; original source values and provenance are retained. |
 
-Model names are configurable. The optional enhancement is experimental and exported separately from the saved submission; embeddings retrieve identity candidates, rather than generate profile values.
+**Flexible ontology:** Link Lens now supports reusable new concepts instead of a fixed target list. An LLM proposes and critiques additions from discovery evidence and documentation; deterministic code validates types, scope, dependencies and additive compatibility. Mappings pin an immutable ontology hash and still require human approval. The submitted ontology has 59 concepts, with 24 additions contributing to profiles. [How ontology evolution works](#experimental-ontology-evolution).
+
+Model names are configurable. The final approach includes bounded hybrid enhancement; embeddings retrieve candidates and do not generate profile values. It added no identity links in this run, and human evidence evaluation remains pending.
 
 **[Explore the live evidence viewer →](https://tam159.github.io/link-lens/)** Browse business profiles, explore their connections and inspect supporting evidence directly in your browser—no setup required. The viewer presents the saved submission snapshot.
 
@@ -22,10 +25,10 @@ Model names are configurable. The optional enhancement is experimental and expor
 No credentials, Docker or database are needed to read the submitted outputs:
 
 - [Results and evaluation](outputs/README.md): completion status, counts, approvals and measurements.
-- [OKF viewer](outputs/okf/viewer.html): open this file in a browser to explore the 52 profiles. It loads CDN libraries; use [Markdown dossiers](outputs/okf/index.md) or [screenshots](docs/DEMO.md) offline.
+- [OKF viewer](outputs/okf/viewer.html): open this file in a browser to explore the 60 profiles. It loads CDN libraries; use [Markdown dossiers](outputs/okf/index.md) or [screenshots](docs/DEMO.md) offline.
 - [Write-up](WRITEUP.md): design decisions, evaluation, costs, source challenges and scale considerations.
 
-The six mappings are approved. AI audits are complete; the separate human evidence checks remain pending. Saved files do **not** populate a fresh database or recreate live Inbox threads.
+The six mappings and submission promotion are approved. Human dataset/link evidence checks remain pending; historical AI audits have not been reused for the new evidence. Saved files do **not** populate a fresh database or recreate live Inbox threads.
 
 ## How it works
 
@@ -90,7 +93,7 @@ flowchart TD
 
 For example, an ASIC record and an ACNC record with the same validated ABN can support one entity cluster. Conflicting identifiers block linking; joining multiple existing entity IDs requires explicit membership review. Each link preserves the matched identifier, subject roles and exact source locators. Links remain proposed and unreviewed; their rule scores are not measured probabilities. Inspect [links](outputs/links.jsonl) and [unlinked records](outputs/unlinked.jsonl).
 
-An opt-in **experimental hybrid resolver** adds fuzzy-name and `text-embedding-3-small` candidate retrieval, followed by Jev identity judgments. It assesses sparse candidates for review, while automatic links require compatible names, independent corroboration, clear ownership, and consistent cluster membership. Supported corroboration includes full addresses, website domains, and constrained combinations of distinctive names and location evidence; service locations require additional ownership checks. It can create provisional companies without ABN/ACN. Conflicting identifiers and ambiguous joins remain deferred; similarity alone cannot create a link. Its initial 0.98 model-score gate is uncalibrated and human precision is not yet measured.
+The submitted **bounded hybrid resolver** adds fuzzy-name and `text-embedding-3-small` candidate retrieval, followed by Jev identity judgments. It assesses sparse candidates for review, while automatic links require compatible names, independent corroboration, clear ownership, and consistent cluster membership. Supported corroboration includes full addresses, website domains, and constrained combinations of distinctive names and location evidence; service locations require additional ownership checks. It can create provisional companies without ABN/ACN. Conflicting identifiers and ambiguous joins remain deferred; similarity alone cannot create a link. Its initial 0.98 model-score gate is uncalibrated and human precision is not yet measured.
 
 ```mermaid
 flowchart TD
@@ -151,7 +154,7 @@ Edit the copied [.env.example](.env.example) values in **`.env`**, which is igno
 | `OPENROUTER_API_KEY` | Part 1 live Jev triage | Your OpenRouter API key with access to `typesafe/jev-1.13` |
 | `OPENAI_API_BASE` | Part 2 live onboarding | Your Azure/OpenAI-compatible v1 endpoint, e.g. `https://YOUR-RESOURCE.openai.azure.com/openai/v1/` |
 | `OPENAI_API_KEY` | Part 2 live onboarding | The key for that endpoint |
-| `LINK_LENS_MODEL` | Part 2 live onboarding | Model/deployment name accepted by your endpoint; defaults to `gpt-5.6-luna` |
+| `LINK_LENS_MODEL` | Part 2 live onboarding | Model/deployment name accepted by your endpoint; defaults to `gpt-6-luna` |
 | `LANGCHAIN_API_KEY` | Optional LangSmith traces | Your LangSmith key; set `LANGCHAIN_TRACING_V2=true` to enable tracing |
 | `LANGCHAIN_ENDPOINT`, `LANGCHAIN_PROJECT` | Optional LangSmith traces | Your workspace endpoint and desired project name |
 
@@ -159,7 +162,7 @@ The code reads the exact `OPENAI_API_BASE` and `OPENAI_API_KEY` names above. A m
 
 Local database, sandbox and API URLs are already set in the example. Docker Compose overrides their hostnames inside containers. No API key is needed for CKAN catalogue access or the local Agent Inbox connection. Keep provider keys in `.env`, not in browser settings. If you change `.env` after starting services, recreate the backend with `docker compose up -d --force-recreate backend`.
 
-Onboarding budget defaults are 50 model calls, 10 Python executions, 9,000,000 cumulative input tokens and 2,000,000 cumulative output tokens per attempt. Configure them with `LINK_LENS_MAX_MODEL_CALLS`, `LINK_LENS_MAX_PYTHON_CALLS`, `LINK_LENS_MAX_INPUT_TOKENS` and `LINK_LENS_MAX_OUTPUT_TOKENS` in `.env`. Existing environment values override code defaults; settings are cached in each process. Changes to `settings.py` require rebuilding the Docker backend (`docker compose up -d --build backend`). A larger cumulative budget does not increase the 7,000-token completion limit per call or remove mapping-version, time and cost limits. Input reservations include the next prompt plus overhead, so a call can be blocked before recorded usage reaches the limit. Changing configuration does not automatically resume an exhausted run; preserve prior usage and recovery lineage as described in [the engineering guide](docs/ENGINEERING.md#recovering-a-requested-revision-after-its-attempt-budget-is-exhausted).
+Onboarding budget defaults are 50 model calls, 10 Python executions, 9,000,000 cumulative input tokens and 2,000,000 cumulative output tokens per attempt. Configure them with `LINK_LENS_MAX_MODEL_CALLS`, `LINK_LENS_MAX_PYTHON_CALLS`, `LINK_LENS_MAX_INPUT_TOKENS` and `LINK_LENS_MAX_OUTPUT_TOKENS` in `.env`. Existing environment values override code defaults; settings are cached in each process. Mounted Python changes reload automatically; recreate the backend after changing environment settings. Mapping proposals reserve up to 16,000 output tokens (`LINK_LENS_MAPPING_MAX_OUTPUT_TOKENS`); other onboarding calls retain 7,000. Ontology proposal calls reserve up to 24,000. Cumulative token, mapping-version, time and cost limits still apply. Input reservations include the next prompt plus overhead, so a call can be blocked before recorded usage reaches the limit. Changing configuration does not automatically resume an exhausted run; preserve prior usage and recovery lineage as described in [the engineering guide](docs/ENGINEERING.md#recovering-a-requested-revision-after-its-attempt-budget-is-exhausted).
 
 ### 3. Build and start services
 
@@ -270,7 +273,7 @@ Open the linked file, then use the named section. These direct file links also w
 |---|---|---|
 | Present saved results with screenshots | [Demo guide](docs/DEMO.md) | Start at the top; no model credentials needed. |
 | Onboard a seventh source and check its contribution | [Demo guide](docs/DEMO.md) | **Live seventh-source demo** — requires the six-source database evidence and live model credentials. |
-| Recheck downloads using saved Jev decisions | [Part 1 report](outputs/part1-downloadable/REPORT.md) | **Repeat the Part 1 operation** — requires the saved discovery record in the database. |
+| Recheck downloads using saved Jev decisions | [Part 1 report](experiments/jev-luna-v1-submission/outputs/part1-downloadable/REPORT.md) | **Repeat the Part 1 operation** — requires the saved discovery record in the database. |
 | Export or restore a database archive | [Demo guide](docs/DEMO.md) | **Optional: restore a frozen demo** — restoration requires an existing local ZIP and a separate empty database. ZIPs are not included in Git. |
 
 The demo guide covers presentation and optional workflows; the setup and six-source pipeline commands remain above.
@@ -303,7 +306,7 @@ The sandbox receives supplied discovery samples and documentation, not access to
 - PostgreSQL: independently versioned application evidence, mappings, decisions and results. Alembic manages tables. JSON payloads preserve detailed evidence; owner and kind indexes support the small demonstration workload.
 - SHA-256 artifact volume: immutable bytes, referenced by registered IDs. Exports are replaceable presentations, not the authoritative store.
 
-A snapshot identifies its exact downloaded bytes, resource ID, licence and retrieval metadata. A source record locator is the snapshot hash, sheet or JSON array path, and logical row index. A CSV locator counts CSV records, not physical newline characters inside quoted text. A mapping hash covers its entire typed configuration. An observation includes its config/engine version, raw value, locator and required ontology envelope.
+A snapshot identifies its exact downloaded bytes, resource ID, licence and retrieval metadata. A source record locator is the snapshot hash, sheet or JSON array path, and logical row index. A CSV locator counts CSV records, not physical newline characters inside quoted text. A mapping hash covers its entire typed configuration. New mappings also pin an immutable ontology hash; legacy mappings resolve against packaged v0.1 without changing their approval hashes. An observation includes its config/engine version, raw value, locator and required ontology envelope.
 
 ### Review contract
 
@@ -321,9 +324,9 @@ Execution containers have no network, repository, credentials or Docker socket. 
 
 ### Experiment and model boundaries
 
-`jev-luna-v1` is the final submission configuration. Jev calls OpenRouter's `/api/alpha/decisions` through a LangChain RunnableLambda. Only supported-format catalogue candidates receive calls; state includes bounded metadata, never audit labels or held-out source records. The equal-weight blend is a declared ranking policy, not a calibrated probability. A separate deterministic GET/reader gate verifies bounded downloadability before selection. Jev responses, request hashes, timing, usage and cost are saved; a matching successful request within an experiment is reused on discovery retry.
+`jev-gpt6-luna-ontology-v1` is the final submission configuration; its exact batch and ontology are recorded in [the submission manifest](outputs/submission-manifest.json). Jev calls OpenRouter's `/api/alpha/decisions` through a LangChain RunnableLambda. Only supported-format catalogue candidates receive calls; state includes bounded metadata, never audit labels or held-out source records. The equal-weight blend is a declared ranking policy, not a calibrated probability. A separate deterministic GET/reader gate verifies bounded downloadability before selection. Jev responses, request hashes, timing, usage and cost are saved; a matching successful request within an experiment is reused on discovery retry.
 
-Part 2 pins `gpt-5.6-luna` on each new run. Fresh configs require fresh Inbox approval. Existing Terra evidence is preserved in `experiments/terra-baseline/`, with checksummed comparison artifacts; optional database archives are retained locally. Scoped reports do not sum old and new costs. The comparison records catalogue and snapshot differences and avoids claiming a controlled model-only benchmark.
+Part 2 pins the configured model (default `gpt-6-luna`) on each new run. Previous submission runs retain `gpt-5.6-luna` and are preserved in [the earlier submission](experiments/jev-luna-v1-submission/outputs/README.md). Fresh configs require fresh Inbox approval. Existing Terra evidence is preserved in `experiments/terra-baseline/`, with checksummed comparison artifacts; optional database archives are retained locally. Scoped reports do not sum old and new costs. The comparison records catalogue and snapshot differences and avoids claiming a controlled model-only benchmark.
 
 ## Troubleshooting and shutdown
 
@@ -353,7 +356,7 @@ uv run ruff check src/link_lens tests --exclude _vendor --select F
 RUN_DOCKER_TESTS=1 uv run pytest tests/test_sandbox_integration.py -q
 ```
 
-The recorded suite result is **48 passed, four integration tests skipped**; earlier Docker checks are documented in [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
+The recorded suite result is **106 passed, four integration tests skipped**; earlier Docker checks are documented in [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
 
 ## Documentation and code
 
@@ -368,3 +371,22 @@ The recorded suite result is **48 passed, four integration tests skipped**; earl
 | [docs/THIRD_PARTY.md](docs/THIRD_PARTY.md) | Component and data attribution |
 
 Implementation is in `src/link_lens/`: `agent.py` orchestrates onboarding; `ingestion.py`, `triage.py` and `downloadability.py` handle discovery/acquisition; `contracts.py`, `readers.py` and `extraction.py` implement shared mapping execution; `resolution.py` and `profiles.py` build entities; `store.py`, `evaluation.py` and `exports.py` retain and present evidence. Service definitions are in `compose.yaml` and `deploy/`; database migrations are in `migrations/`.
+
+
+### Experimental ontology evolution
+
+New source concepts are proposed by the configured LLM, checked deterministically,
+then critiqued before experimental activation. An explicit cross-source job separates
+missing concepts from missed existing mappings, unsupported meanings and export noise.
+It reads discovery data and documentation only. Source contacts, licences, registrations
+and financial periods remain scoped groups, including their provenance and required
+companion values. Mapping approval remains a separate human action.
+
+See [ontology workflow and experiment budget](docs/ENGINEERING.md#experimental-ontology-evolution)
+for commands. The shared `LINK_LENS_MAX_COST_USD` cap covers discovery, ontology,
+onboarding and enhancement together; the enhancement job limit is an additional cap.
+New GPT-6 Luna structured-output calls use Responses. Existing model records and
+previous submission outputs remain preserved under `experiments/jev-luna-v1-submission/`. The promoted `firmable_ontology.yaml` seeds new experiments; existing runs keep their pinned versions.
+
+The [six-source ontology experiment report](experiments/jev-gpt6-luna-ontology-v1/README.md)
+preserves separate baseline/enhanced exports and measured concept contributions. The promoted results are in `outputs/`, including costs and pending human evaluations. Large evidence JSONL files use checksummed lossless gzip; the viewer remains a standalone HTML page.

@@ -1,0 +1,188 @@
+{
+  "id": "cc5ce988-e74c-4062-98a6-18da6518b82e:1",
+  "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+  "version": 1,
+  "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+  "config": {
+    "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": "\t",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One ASIC Business Names Register entry per row in a point-in-time snapshot.",
+    "subject_role": "unknown",
+    "source_kind": "business_name_register",
+    "subject_label_field": "BN_NAME",
+    "address_role": "unknown",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "BN_NAME"
+        ],
+        "canonical_field": "registration.registered_business_name",
+        "group": "business_name_registration",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ASIC Help File p. 8 data dictionary defines BN_NAME as the Business Name as it appears on ASIC's Business Names register; preview row 2 has BN_NAME “  ATTENTION TO D'TILE”."
+      },
+      {
+        "source_fields": [
+          "BN_STATUS"
+        ],
+        "canonical_field": "registration.business_name_status",
+        "group": "business_name_registration",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "Registered": "Registered",
+              "Cancelled": "Cancelled",
+              "Deregistered": "Deregistered"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.96,
+        "evidence": "ASIC Help File p. 8 defines BN_STATUS as registration status and documents Registered and Cancelled; preview row 4 supplies exact value “Deregistered”. Retain source labels, including the observed undocumented label."
+      },
+      {
+        "source_fields": [
+          "BN_REG_DT"
+        ],
+        "canonical_field": "registration.business_name_registration_date",
+        "group": "business_name_registration",
+        "transformations": [
+          {
+            "op": "date",
+            "argument": "%d/%m/%Y",
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ASIC Help File p. 9 dictionary: BN_REG_DT is the date the Business Name started; date format DD/MM/YYYY. Preview row 2: 18/11/2020."
+      },
+      {
+        "source_fields": [
+          "BN_CANCEL_DT"
+        ],
+        "canonical_field": "registration.business_name_cancellation_date",
+        "group": "business_name_registration",
+        "transformations": [
+          {
+            "op": "date",
+            "argument": "%d/%m/%Y",
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ASIC Help File p. 9 dictionary: BN_CANCEL_DT is the date the Business Name ceased and is populated if cancelled; date format DD/MM/YYYY. Preview row 4: 27/01/2026."
+      },
+      {
+        "source_fields": [
+          "BN_STATE_NUM"
+        ],
+        "canonical_field": "registration.former_state_number",
+        "group": "business_name_registration",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ASIC Help File p. 9 defines BN_STATE_NUM as the Former State Number allocated by a previous state/territory regulator before 28 May 2012; preview row 5: “B2167404E”."
+      },
+      {
+        "source_fields": [
+          "BN_STATE_OF_REG"
+        ],
+        "canonical_field": "registration.previous_state_of_registration",
+        "group": "business_name_registration",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "ACT": "ACT",
+              "NSW": "NSW",
+              "NT": "NT",
+              "QLD": "QLD",
+              "SA": "SA",
+              "TAS": "TAS",
+              "VIC": "VIC",
+              "WA": "WA"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ASIC Help File p. 9 defines BN_STATE_OF_REG as previous state of registration and lists ACT, NSW, NT, QLD, SA, TAS, VIC, WA; preview row 5: “VIC”."
+      },
+      {
+        "source_fields": [
+          "BN_ABN"
+        ],
+        "canonical_field": "registration.business_name_abn",
+        "group": "business_name_registration",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "ASIC Help File p. 10 dictionary identifies BN_ABN as the ABN shown for a Business Name register entry and notes it can be NULL when suppressed or otherwise unavailable; preview row 2: “36817347826”."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "REGISTER_NAME",
+        "reason": "The column identifies the register name (“BUSINESS NAMES” in preview) but the supplied ontology has no registered concept for a register title; do not treat it as entity identity or infer another canonical field."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.82,
+    "limitations": [
+      "Business-name register records are not necessarily legal entities and the source does not establish ownership of the business name or the displayed BN_ABN; subject role is unknown and the ABN is retained only as an entry-level registration claim.",
+      "BN_STATUS preview includes “Deregistered”, while the data dictionary describes Registered and Cancelled; the source label is preserved without translating it into legal-entity status.",
+      "BN_STATE_NUM and BN_STATE_OF_REG describe historical registration by a previous state/territory regulator, not current branch or service locations.",
+      "Publication timestamp is a source-envelope proxy for observation time, not a row-level change time; dataset notes and help file differ on update cadence.",
+      "BN_RENEW_DT was removed in April 2025 and is not present in the supplied columns."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-6-luna",
+  "created_at": "2026-09-24T15:36:16.180125+00:00",
+  "status": "proposed"
+}

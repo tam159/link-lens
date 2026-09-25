@@ -34,7 +34,7 @@ def prepare_recovery(run_id, feedback):
     cursor = max(
         r.get("final_cursor", 0)
         for r in store.listing("runs")
-        if r["snapshot_id"] == old["snapshot_id"]
+        if r.get("snapshot_id") == old["snapshot_id"]
     )
     pack = store.read_json(old["partitions_artifact"])
     if cursor >= len(pack["partitions"]["final"]):
@@ -43,7 +43,10 @@ def prepare_recovery(run_id, feedback):
         store.require("sources", old["source_id"]),
         store.require("snapshots", old["snapshot_id"]),
     )
+    run.pop("ontology_hash", None)
     for field in (
+        "ontology_hash",
+        "ontology_proposal_id",
         "analysis_artifact",
         "partitions_artifact",
         "partition_counts",

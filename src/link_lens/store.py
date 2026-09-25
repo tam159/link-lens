@@ -25,6 +25,9 @@ metadata = MetaData()
 # by domain contracts; keeping complete evidence as JSON avoids lossy flattening.
 TABLES = {}
 for name in [
+    "ontologies",
+    "ontology_events",
+    "budget_reservations",
     "sources",
     "snapshots",
     "runs",

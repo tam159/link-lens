@@ -1,0 +1,23 @@
+[
+  {
+    "id": "d68a838f-29ac-4668-9ad5-1f84454140a6",
+    "run_id": "ontology-cc0891bfd24985ab337ba6886af9df37a5e45203",
+    "kind": "model_usage",
+    "at": "2026-09-24T15:25:50.978279+00:00",
+    "stage": "ontology_critique",
+    "prompt_sha256": "452a8eebf4687a2317539f5b08bc541d4d64ce29e25d79dc81d6da81235e372d",
+    "prompt_version": "ontology-evolution-3",
+    "model": "gpt-6-luna",
+    "experiment_id": "jev-gpt6-luna-ontology-v1",
+    "attempt": 1,
+    "input_tokens": 49709,
+    "output_tokens": 4056,
+    "calculated_cost_usd": 0.01546925,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": null,
+    "response_artifact": "c5ab0df2445bd5493fd55138f813541833408cb26ac13db75515e563143185ea",
+    "status": "success",
+    "wall_seconds": 24.519,
+    "reservation_id": "6d28f798-b2d5-40f0-a8a9-2aa351ab01e8"
+  }
+]

@@ -47,7 +47,7 @@ def summary(experiment_id=None):
                 if calls and all(e["calculated_cost_usd"] is not None for e in calls)
                 else None,
                 "measured_model_wall_seconds": sum(e["wall_seconds"] for e in calls),
-                "python_calls": run["python_calls"],
+                "python_calls": run.get("python_calls", 0),
                 "active_seconds": run["active_seconds"],
                 "active_seconds_basis": run.get(
                     "timing_basis",

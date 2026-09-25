@@ -18,6 +18,8 @@ def approved_result(run, all_pool=False, cohort_pool_size=None):
     if (
         approval["decision"] != "approved"
         or approval["config_hash"] != mapping["config_hash"]
+        or content_hash(mapping["config"]) != mapping["config_hash"]
+        or mapping["config"].get("ontology_hash") != run.get("ontology_hash")
     ):
         raise ValueError("Stale or missing mapping approval")
     snapshot = store.require("snapshots", run["snapshot_id"])

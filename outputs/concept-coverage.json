@@ -1,0 +1,1061 @@
+{
+  "entity.legal_name": {
+    "new_concept": false,
+    "scope": "entity",
+    "type": "string",
+    "mapped_sources": [
+      "asic-companies"
+    ],
+    "baseline": {
+      "observations": 625,
+      "profiles_receiving_evidence": 20,
+      "cited_observations": 20
+    },
+    "enhanced": {
+      "observations": 625,
+      "profiles_receiving_evidence": 20,
+      "cited_observations": 20
+    }
+  },
+  "entity.trading_name": {
+    "new_concept": false,
+    "scope": "entity",
+    "type": "string",
+    "mapped_sources": [],
+    "baseline": {
+      "observations": 0,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 0,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "entity.abn": {
+    "new_concept": false,
+    "scope": "entity",
+    "type": "string",
+    "mapped_sources": [
+      "acnc-register",
+      "asic-afs-licensee",
+      "asic-companies",
+      "corporate-transparency"
+    ],
+    "baseline": {
+      "observations": 3854,
+      "profiles_receiving_evidence": 60,
+      "cited_observations": 121
+    },
+    "enhanced": {
+      "observations": 3854,
+      "profiles_receiving_evidence": 60,
+      "cited_observations": 121
+    }
+  },
+  "entity.acn": {
+    "new_concept": false,
+    "scope": "entity",
+    "type": "string",
+    "mapped_sources": [
+      "asic-afs-licensee",
+      "asic-companies"
+    ],
+    "baseline": {
+      "observations": 1028,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    },
+    "enhanced": {
+      "observations": 1028,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    }
+  },
+  "entity.nzbn": {
+    "new_concept": false,
+    "scope": "entity",
+    "type": "string",
+    "mapped_sources": [],
+    "baseline": {
+      "observations": 0,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 0,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "entity.entity_type": {
+    "new_concept": false,
+    "scope": "entity",
+    "type": "enum",
+    "mapped_sources": [],
+    "baseline": {
+      "observations": 0,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 0,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "entity.status": {
+    "new_concept": false,
+    "scope": "entity",
+    "type": "enum",
+    "mapped_sources": [],
+    "baseline": {
+      "observations": 0,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 0,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "entity.website": {
+    "new_concept": false,
+    "scope": "entity",
+    "type": "string",
+    "mapped_sources": [
+      "acnc-register"
+    ],
+    "baseline": {
+      "observations": 665,
+      "profiles_receiving_evidence": 11,
+      "cited_observations": 11
+    },
+    "enhanced": {
+      "observations": 665,
+      "profiles_receiving_evidence": 11,
+      "cited_observations": 11
+    }
+  },
+  "entity.industry_code": {
+    "new_concept": false,
+    "scope": "entity",
+    "type": "string",
+    "mapped_sources": [],
+    "baseline": {
+      "observations": 0,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 0,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "entity.date_registered": {
+    "new_concept": false,
+    "scope": "entity",
+    "type": "date",
+    "mapped_sources": [
+      "asic-companies"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    }
+  },
+  "address.full": {
+    "new_concept": false,
+    "scope": "address",
+    "type": "string",
+    "mapped_sources": [],
+    "baseline": {
+      "observations": 0,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 0,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "address.locality": {
+    "new_concept": false,
+    "scope": "address",
+    "type": "string",
+    "mapped_sources": [
+      "acnc-register",
+      "asic-afs-licensee",
+      "employment-provider-locations-and-contacts"
+    ],
+    "baseline": {
+      "observations": 2911,
+      "profiles_receiving_evidence": 40,
+      "cited_observations": 42
+    },
+    "enhanced": {
+      "observations": 2911,
+      "profiles_receiving_evidence": 40,
+      "cited_observations": 42
+    }
+  },
+  "address.state": {
+    "new_concept": false,
+    "scope": "address",
+    "type": "enum",
+    "mapped_sources": [
+      "acnc-register",
+      "asic-afs-licensee",
+      "employment-provider-locations-and-contacts"
+    ],
+    "baseline": {
+      "observations": 2909,
+      "profiles_receiving_evidence": 40,
+      "cited_observations": 42
+    },
+    "enhanced": {
+      "observations": 2909,
+      "profiles_receiving_evidence": 40,
+      "cited_observations": 42
+    }
+  },
+  "address.postcode": {
+    "new_concept": false,
+    "scope": "address",
+    "type": "string",
+    "mapped_sources": [
+      "acnc-register",
+      "asic-afs-licensee",
+      "employment-provider-locations-and-contacts"
+    ],
+    "baseline": {
+      "observations": 2914,
+      "profiles_receiving_evidence": 40,
+      "cited_observations": 42
+    },
+    "enhanced": {
+      "observations": 2914,
+      "profiles_receiving_evidence": 40,
+      "cited_observations": 42
+    }
+  },
+  "address.country": {
+    "new_concept": false,
+    "scope": "address",
+    "type": "string",
+    "mapped_sources": [
+      "acnc-register",
+      "asic-afs-licensee"
+    ],
+    "baseline": {
+      "observations": 1873,
+      "profiles_receiving_evidence": 40,
+      "cited_observations": 41
+    },
+    "enhanced": {
+      "observations": 1873,
+      "profiles_receiving_evidence": 40,
+      "cited_observations": 41
+    }
+  },
+  "address.type": {
+    "new_concept": true,
+    "scope": "address",
+    "type": "enum",
+    "mapped_sources": [
+      "acnc-register"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 13
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 13
+    }
+  },
+  "address.line_1": {
+    "new_concept": true,
+    "scope": "address",
+    "type": "string",
+    "mapped_sources": [
+      "acnc-register"
+    ],
+    "baseline": {
+      "observations": 919,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 13
+    },
+    "enhanced": {
+      "observations": 919,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 13
+    }
+  },
+  "address.line_2": {
+    "new_concept": true,
+    "scope": "address",
+    "type": "string",
+    "mapped_sources": [
+      "acnc-register"
+    ],
+    "baseline": {
+      "observations": 97,
+      "profiles_receiving_evidence": 1,
+      "cited_observations": 1
+    },
+    "enhanced": {
+      "observations": 97,
+      "profiles_receiving_evidence": 1,
+      "cited_observations": 1
+    }
+  },
+  "address.line_3": {
+    "new_concept": true,
+    "scope": "address",
+    "type": "string",
+    "mapped_sources": [
+      "acnc-register"
+    ],
+    "baseline": {
+      "observations": 21,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 21,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "registration.acnc_date_registered": {
+    "new_concept": true,
+    "scope": "registration",
+    "type": "date",
+    "mapped_sources": [
+      "acnc-register"
+    ],
+    "baseline": {
+      "observations": 994,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 13
+    },
+    "enhanced": {
+      "observations": 994,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 13
+    }
+  },
+  "entity.date_established": {
+    "new_concept": true,
+    "scope": "entity",
+    "type": "date",
+    "mapped_sources": [
+      "acnc-register"
+    ],
+    "baseline": {
+      "observations": 957,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 13
+    },
+    "enhanced": {
+      "observations": 957,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 13
+    }
+  },
+  "entity.charity_size": {
+    "new_concept": true,
+    "scope": "entity",
+    "type": "enum",
+    "mapped_sources": [
+      "acnc-register"
+    ],
+    "baseline": {
+      "observations": 933,
+      "profiles_receiving_evidence": 12,
+      "cited_observations": 12
+    },
+    "enhanced": {
+      "observations": 933,
+      "profiles_receiving_evidence": 12,
+      "cited_observations": 12
+    }
+  },
+  "entity.responsible_person_count": {
+    "new_concept": true,
+    "scope": "entity",
+    "type": "integer",
+    "mapped_sources": [
+      "acnc-register"
+    ],
+    "baseline": {
+      "observations": 998,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 13
+    },
+    "enhanced": {
+      "observations": 998,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 13
+    }
+  },
+  "financial_period.year_end": {
+    "new_concept": true,
+    "scope": "financial_period",
+    "type": "string",
+    "mapped_sources": [
+      "acnc-register"
+    ],
+    "baseline": {
+      "observations": 999,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 13
+    },
+    "enhanced": {
+      "observations": 999,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 13
+    }
+  },
+  "entity.operating_region": {
+    "new_concept": true,
+    "scope": "entity",
+    "type": "enum",
+    "mapped_sources": [
+      "acnc-register"
+    ],
+    "baseline": {
+      "observations": 987,
+      "profiles_receiving_evidence": 9,
+      "cited_observations": 18
+    },
+    "enhanced": {
+      "observations": 987,
+      "profiles_receiving_evidence": 9,
+      "cited_observations": 18
+    }
+  },
+  "entity.operating_country": {
+    "new_concept": true,
+    "scope": "entity",
+    "type": "string",
+    "mapped_sources": [],
+    "baseline": {
+      "observations": 0,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 0,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "entity.charity_subtype": {
+    "new_concept": true,
+    "scope": "entity",
+    "type": "enum",
+    "mapped_sources": [
+      "acnc-register"
+    ],
+    "baseline": {
+      "observations": 1427,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 18
+    },
+    "enhanced": {
+      "observations": 1427,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 18
+    }
+  },
+  "entity.charity_beneficiary_category": {
+    "new_concept": true,
+    "scope": "entity",
+    "type": "enum",
+    "mapped_sources": [
+      "acnc-register"
+    ],
+    "baseline": {
+      "observations": 6162,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 59
+    },
+    "enhanced": {
+      "observations": 6162,
+      "profiles_receiving_evidence": 13,
+      "cited_observations": 59
+    }
+  },
+  "licence.number": {
+    "new_concept": true,
+    "scope": "licence",
+    "type": "string",
+    "mapped_sources": [
+      "asic-afs-licensee"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 29,
+      "cited_observations": 29
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 29,
+      "cited_observations": 29
+    }
+  },
+  "licence.register_entry_name": {
+    "new_concept": true,
+    "scope": "licence",
+    "type": "string",
+    "mapped_sources": [
+      "asic-afs-licensee"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 29,
+      "cited_observations": 29
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 29,
+      "cited_observations": 29
+    }
+  },
+  "licence.start_date": {
+    "new_concept": true,
+    "scope": "licence",
+    "type": "date",
+    "mapped_sources": [
+      "asic-afs-licensee"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 29,
+      "cited_observations": 29
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 29,
+      "cited_observations": 29
+    }
+  },
+  "licence.pre_fsr_reference": {
+    "new_concept": true,
+    "scope": "licence",
+    "type": "string",
+    "mapped_sources": [
+      "asic-afs-licensee"
+    ],
+    "baseline": {
+      "observations": 205,
+      "profiles_receiving_evidence": 7,
+      "cited_observations": 8
+    },
+    "enhanced": {
+      "observations": 205,
+      "profiles_receiving_evidence": 7,
+      "cited_observations": 8
+    }
+  },
+  "licence.authorisation_condition": {
+    "new_concept": true,
+    "scope": "licence",
+    "type": "string",
+    "mapped_sources": [
+      "asic-afs-licensee"
+    ],
+    "baseline": {
+      "observations": 23151,
+      "profiles_receiving_evidence": 29,
+      "cited_observations": 648
+    },
+    "enhanced": {
+      "observations": 23151,
+      "profiles_receiving_evidence": 29,
+      "cited_observations": 648
+    }
+  },
+  "registration.registered_business_name": {
+    "new_concept": true,
+    "scope": "registration",
+    "type": "string",
+    "mapped_sources": [
+      "asic-business-names"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "registration.business_name_status": {
+    "new_concept": true,
+    "scope": "registration",
+    "type": "enum",
+    "mapped_sources": [
+      "asic-business-names"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "registration.business_name_registration_date": {
+    "new_concept": true,
+    "scope": "registration",
+    "type": "date",
+    "mapped_sources": [
+      "asic-business-names"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "registration.business_name_cancellation_date": {
+    "new_concept": true,
+    "scope": "registration",
+    "type": "date",
+    "mapped_sources": [
+      "asic-business-names"
+    ],
+    "baseline": {
+      "observations": 113,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 113,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "registration.former_state_number": {
+    "new_concept": true,
+    "scope": "registration",
+    "type": "string",
+    "mapped_sources": [
+      "asic-business-names"
+    ],
+    "baseline": {
+      "observations": 196,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 196,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "registration.previous_state_of_registration": {
+    "new_concept": true,
+    "scope": "registration",
+    "type": "enum",
+    "mapped_sources": [
+      "asic-business-names"
+    ],
+    "baseline": {
+      "observations": 196,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 196,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "registration.business_name_abn": {
+    "new_concept": true,
+    "scope": "registration",
+    "type": "string",
+    "mapped_sources": [
+      "asic-business-names"
+    ],
+    "baseline": {
+      "observations": 764,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 764,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "entity.asic_company_type": {
+    "new_concept": true,
+    "scope": "entity",
+    "type": "enum",
+    "mapped_sources": [
+      "asic-companies"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    }
+  },
+  "entity.asic_company_class": {
+    "new_concept": true,
+    "scope": "entity",
+    "type": "enum",
+    "mapped_sources": [
+      "asic-companies"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    }
+  },
+  "entity.asic_company_sub_class": {
+    "new_concept": true,
+    "scope": "entity",
+    "type": "enum",
+    "mapped_sources": [
+      "asic-companies"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    }
+  },
+  "entity.asic_register_status": {
+    "new_concept": true,
+    "scope": "entity",
+    "type": "enum",
+    "mapped_sources": [
+      "asic-companies"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    }
+  },
+  "registration.original_state": {
+    "new_concept": true,
+    "scope": "registration",
+    "type": "string",
+    "mapped_sources": [
+      "asic-companies"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    }
+  },
+  "registration.state_registration_number": {
+    "new_concept": true,
+    "scope": "registration",
+    "type": "string",
+    "mapped_sources": [
+      "asic-companies"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 38,
+      "cited_observations": 38
+    }
+  },
+  "registration.company_deregistration_date": {
+    "new_concept": true,
+    "scope": "registration",
+    "type": "date",
+    "mapped_sources": [
+      "asic-companies"
+    ],
+    "baseline": {
+      "observations": 23,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 23,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "registration.current_name_start_date": {
+    "new_concept": true,
+    "scope": "registration",
+    "type": "date",
+    "mapped_sources": [
+      "asic-companies"
+    ],
+    "baseline": {
+      "observations": 345,
+      "profiles_receiving_evidence": 17,
+      "cited_observations": 17
+    },
+    "enhanced": {
+      "observations": 345,
+      "profiles_receiving_evidence": 17,
+      "cited_observations": 17
+    }
+  },
+  "financial_period.reporting_period": {
+    "new_concept": true,
+    "scope": "financial_period",
+    "type": "string",
+    "mapped_sources": [
+      "corporate-transparency"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 41,
+      "cited_observations": 41
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 41,
+      "cited_observations": 41
+    }
+  },
+  "service_location.code": {
+    "new_concept": true,
+    "scope": "service_location",
+    "type": "string",
+    "mapped_sources": [
+      "employment-provider-locations-and-contacts"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "service_location.contract_name": {
+    "new_concept": true,
+    "scope": "service_location",
+    "type": "string",
+    "mapped_sources": [
+      "employment-provider-locations-and-contacts"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "service_location.name": {
+    "new_concept": true,
+    "scope": "service_location",
+    "type": "string",
+    "mapped_sources": [
+      "employment-provider-locations-and-contacts"
+    ],
+    "baseline": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 1000,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "service_location.address_line": {
+    "new_concept": true,
+    "scope": "service_location",
+    "type": "string",
+    "mapped_sources": [
+      "employment-provider-locations-and-contacts"
+    ],
+    "baseline": {
+      "observations": 999,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 999,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "service_location.website": {
+    "new_concept": true,
+    "scope": "service_location",
+    "type": "string",
+    "mapped_sources": [
+      "employment-provider-locations-and-contacts"
+    ],
+    "baseline": {
+      "observations": 579,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 579,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "service_location.latitude": {
+    "new_concept": true,
+    "scope": "service_location",
+    "type": "decimal",
+    "mapped_sources": [
+      "employment-provider-locations-and-contacts"
+    ],
+    "baseline": {
+      "observations": 989,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 989,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "service_location.longitude": {
+    "new_concept": true,
+    "scope": "service_location",
+    "type": "decimal",
+    "mapped_sources": [
+      "employment-provider-locations-and-contacts"
+    ],
+    "baseline": {
+      "observations": 990,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 990,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "service_location.agent_freecall_phone": {
+    "new_concept": true,
+    "scope": "service_location",
+    "type": "string",
+    "mapped_sources": [
+      "employment-provider-locations-and-contacts"
+    ],
+    "baseline": {
+      "observations": 317,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 317,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "contact.phone": {
+    "new_concept": true,
+    "scope": "contact",
+    "type": "string",
+    "mapped_sources": [
+      "employment-provider-locations-and-contacts"
+    ],
+    "baseline": {
+      "observations": 973,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 973,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  },
+  "contact.email": {
+    "new_concept": true,
+    "scope": "contact",
+    "type": "string",
+    "mapped_sources": [
+      "employment-provider-locations-and-contacts"
+    ],
+    "baseline": {
+      "observations": 727,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    },
+    "enhanced": {
+      "observations": 727,
+      "profiles_receiving_evidence": 0,
+      "cited_observations": 0
+    }
+  }
+}

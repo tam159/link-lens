@@ -90,11 +90,14 @@ def assemble_profiles(observations, entities):
     for entity in entities:
         fields = defaultdict(list)
         addresses = []
+        scoped = defaultdict(list)
         for ref in entity["records"]:
             claims = by_record[tuple(ref)]
             address = {}
             for o in claims:
-                if o["field"].startswith("address."):
+                if o.get("group_id"):
+                    scoped[o["group_id"]].append(o)
+                elif o["field"].startswith("address."):
                     address[o["field"]] = field_result([o])
                 else:
                     fields[o["field"]].append(o)
@@ -114,7 +117,11 @@ def assemble_profiles(observations, entities):
             "status": "profile_from_proposed_links",
             "policy_version": POLICY_VERSION,
             "fields": {
-                field: field_result(claims, field == "entity.trading_name")
+                field: field_result(
+                    claims,
+                    field == "entity.trading_name"
+                    or claims[0].get("cardinality") == "many",
+                )
                 for field, claims in sorted(fields.items())
             },
             "source_records": entity["records"],
@@ -123,6 +130,29 @@ def assemble_profiles(observations, entities):
                 "Confidence components are uncalibrated.",
             ],
         }
+        if scoped:
+            profile["groups"] = []
+            for group_id, observations_in_group in sorted(scoped.items()):
+                first = observations_in_group[0]
+                grouped_fields = defaultdict(list)
+                for observation in observations_in_group:
+                    grouped_fields[observation["field"]].append(observation)
+                profile["groups"].append(
+                    {
+                        "id": group_id,
+                        "scope": first["scope"],
+                        "source_id": first["source_id"],
+                        "source_record_id": first["source_record_id"],
+                        "ontology_hash": first["ontology_hash"],
+                        "fields": {
+                            key: field_result(
+                                values, values[0].get("cardinality") == "many"
+                            )
+                            for key, values in sorted(grouped_fields.items())
+                        },
+                        "decision": "Keep scoped source claims together; no cross-record winner or ownership inference.",
+                    }
+                )
         if addresses:
             profile["addresses"] = addresses
         profile["profile_version"] = content_hash(profile)
@@ -131,20 +161,26 @@ def assemble_profiles(observations, entities):
 
 
 def values_only(profile):
+    def field_values(value):
+        if "value" in value:
+            return {"value": value["value"]}
+        return {
+            "values": [
+                option["value"]
+                for option in value.get("values", value.get("alternatives", []))
+            ],
+            "status": value["status"],
+        }
+
     return {
-        "fields": {
-            k: (
-                {"value": v["value"]}
-                if "value" in v
-                else {
-                    "values": [
-                        x["value"] for x in v.get("values", v.get("alternatives", []))
-                    ],
-                    "status": v["status"],
-                }
-            )
-            for k, v in profile["fields"].items()
-        },
+        "fields": {k: field_values(v) for k, v in profile["fields"].items()},
+        "groups": [
+            {
+                "id": g["id"],
+                "fields": {k: field_values(v) for k, v in g["fields"].items()},
+            }
+            for g in profile.get("groups", [])
+        ],
         "addresses": [
             {
                 "role": a["role"],
@@ -180,6 +216,8 @@ def impact(observations, candidates, entities, profiles):
                 ),
                 "profiles_with_provenance_changes": sum(
                     p["fields"] != baseline[p["canonical_entity_key"]]["fields"]
+                    or p.get("groups")
+                    != baseline[p["canonical_entity_key"]].get("groups")
                     or p.get("addresses")
                     != baseline[p["canonical_entity_key"]].get("addresses")
                     for p in fixed

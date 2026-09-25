@@ -127,101 +127,17 @@ The implementation uses bounded in-memory source samples, JSON payload tables an
 7. Date transformations initially allowed DD/MM/YYYY as a string argument, although Python requires `%d/%m/%Y`. The shared typed operation now describes and validates strptime directives.
 8. The seventh source initially selected tab despite a coherent comma-delimited preview. A shared pre-partition reader-repair loop and explicit preference for actual-resource evidence were added. The later run reached review in three model calls; this is not an untouched holdout experiment.
 
-### Inbox resume and checkpoint recovery
-
-The first real ACNC Accept failed before any graph node ran: Agent Server passed a null `goto` into LangGraph's command branch. More seriously, runtime-inmem 0.34.1 registered temporary serializer dictionaries over the shared checkpoint dictionaries in its periodic flush registry. Thread metadata survived but checkpoints did not. Earlier in-process checks did not establish disk durability.
-
-`runtime_compat.py` normalizes resume commands to an empty `goto` list and re-registers the actual shared checkpoint dictionaries after saver construction. This is a narrow compatibility guard for the locked versions, not a custom graph checkpointer. A graph entry route can reconstruct a pending review from its immutable PostgreSQL mapping/packet without another inference or altered config. The user's ACNC acceptance is recovered only against the same config they reviewed. Pending other mappings remain unapproved.
-
-### Final real-data processing
-
-After all human approvals, the initial 5,000-row pools yielded only 23 cross-source entities. The same approved configs processed up to 25,000 rows of the same immutable snapshots for cohort selection, without changing or exposing inference holdouts. The final six-source sample has 1,000 rows each: 20,851 observations, 50 links, 5,535 unlinked candidates and 50 profiles. Expansion is explicitly recorded in the batch, not hidden as representative sampling. Human labels remain pending.
-
-### Initial Jev + Luna rerun (historical, before download gate)
-
-The initial Jev approach used Jev on 213 supported-format candidates out of 945 catalogue records. 943 catalogue IDs match the baseline; two changed in each direction. The computed shortlist retains 28 baseline entries and replaces 22. All six portfolio snapshots have the same hashes as the baseline. The independent new census supports 36 entries, leaves 14 unresolved and confirms no negatives; more unknowns prevent interpreting that as perfect or improved precision.
-
-Initial Luna failures are retained: Companies duplicated/conflicted unmapped columns; Business Names exhausted revisions over subject ownership; AFS omitted a required critique response field, then a later attempt mishandled the International country sentinel and received speculative critique demands. Shared feedback now names conflicting/duplicate columns, describes dictionary-shaped exploration input, explains engine-emitted envelopes and record/role semantics, and retries malformed critique output at most once. Fresh bounded runs supersede failed attempts; all remain in the experiment ledger. These improvements mean the before/after comparison is not model-only. No final-test feedback was used for the retries, no mappings were hand-edited, and review/abstention requirements were not weakened.
-
-Five successful mappings reached review before the final AFS retry. See the generated overview for current state, rather than treating this historical progress note as a live counter.
-
-### Review recovery
-
-The reviewer sent the Companies-specific revision request to all six sources. Companies v3 and Business Names v2 subsequently received actual Accept decisions and extracted. Four other attempts exhausted their original bounds. `scripts/recover_review_revisions.py` creates explicitly linked replacement attempts only after a recorded user revision request; it preserves immutable partitions, generated config context, and the maximum consumed final-slice cursor for that snapshot. Each fresh attempt is still bounded; aggregate experiment costs include predecessors. Replacement configs require another exact-hash human approval. This is disclosed assisted recovery, not a first-pass success claim.
-
-A second review pass approved ATO and Employment. ACNC and AFS received review-note summaries as Respond messages, again requesting revision rather than approval. Two explicitly linked replacement attempts were created with consumed final cursors retained. The review guide now distinguishes reading reminders from revision instructions and identifies the Accept action. These additional calls remain part of the current experiment, not omitted as user wait.
-
-### Completed Jev + Luna batch
-
-All six final mappings are user-approved. Batch `fa5523f0-7d5a-41d2-af42-59e6362e3046`: 20,838 observations, 52 links, 5,543 unlinked records, 52 profiles. AI audits cover all 50 shortlisted datasets (47 supported, 1 unsupported, 2 unresolved after the download-gate revision) and all 52 links (52 supported). Human evaluation remains incomplete. OKF has 539 documents, 962 edges and no broken internal links. Earlier progress/failed-attempt notes are historical; [the overview](../outputs/README.md) is the final status entry point.
-
-Presentation references: [illustrated demo](DEMO.md), [workflow and storage diagrams](../README.md), and [screenshot capture context](images/README.md). The initial Jev shortlist figures above describe the preserved pre-gate run; the current shortlist retains 26 Terra entries and replaces 24.
-
-
 ## Verification evidence
 
-**Current approach:** Jev triage + Luna onboarding, completed batch and AI audits. [Live status](../outputs/README.md) and [comparison](../outputs/COMPARISON.md) supersede prior measured outcomes below. Historical examples and acceptance results below describe the preserved Terra baseline unless explicitly dated as the new run.
+The promoted expanded-ontology run passed **106 deterministic tests; four gated integrations skipped**. Tests cover immutable ontology versions, legacy replay, exact approvals, held-out separation, scoped grouping, missing financial values, concurrent budget reservations, interruption receipts, cache isolation and archive fixtures. Ruff F and export/link checks passed. [Recorded checks](../outputs/checks.json).
 
-Status after mapping approvals; human evaluation labels pending. This list distinguishes tested implementation from pending real-data deliverables.
+The six approved mappings yield 60 profiles and 61 links, with 79,840 observation occurrences / 79,113 unique claims. Both OKF exports have 1,676 documents, 3,220 citation edges and no broken internal links. Human evidence review remains pending; saved mapping approvals do not measure link precision.
 
-| Check | Evidence / status |
-|---|---|
-| Services start | Compose backend, frontend, PostgreSQL and broker built and running; HTTP health and Inbox document return 200 |
-| Model connectivity | Live structured-output smoke call; 258 input / 20 output tokens recorded |
-| Discovery | 945 unique catalogue records, 50 ranked rows; six selected datasets are in the generated shortlist |
-| Six agent configs | Seven reviewable configs including the extra source; runtime-generated version history and receipts in outputs |
-| Genuine live revision | Business Names, ACNC, ATO, Employment and Companies reached v2; earlier proposals and critiques retained |
-| Deliberately invalid proposal | Deterministic graph test injects missing column, runs real validation, revises, interrupts and resumes |
-| Reader repair | Deterministic graph test fails a quoted CSV with tab reader, corrects before partition freeze |
-| Seventh-source transfer | Corrected Credit Licensees run reached review; first delimiter failure and intervening shared workflow improvement disclosed |
-| Persistent review state | Original in-process check was insufficient. After fixing runtime flush registration, seven threads verified after an actual backend restart; six pending reviews and one completed state preserved. |
-| Approval/rejection/idempotency | Deterministic tests bind exact hash, reject edits/stale hashes, prevent rejected extraction, and avoid duplicate approvals/observations |
-| Actual human approval across restart | ACNC user approval completed: 1,000 rows / 5,998 observations. After compatibility fix, actual backend restart preserved the completed state and six pending review checkpoints. |
-| Sandbox boundary | Docker tests verify UID, no key/socket/repository, blocked internet/database connections |
-| Sandbox limits | Real timeout kills at 60 seconds and removes container; bounded console; cgroups verify 1 CPU / 1 GiB / 64 PIDs; root write blocked |
-| Parsing | Tests cover TSV, quoted CR records, introductory Excel sheet, numeric IDs, leading zeros, missing values and late legacy encoding |
-| Linking | Exact ID, conflicting ID, same-name abstention, reporting-group separation, repeated records and stable internal IDs tested |
-| Profiles/removal/OKF | 50 synthetic entities through pipeline in an isolated test DB; conflict/provenance/removal and exact OKF serialization/internal links tested |
-| Frozen evidence | Actual 25.6 MB archive restored into fresh temporary SQLite: 44,004 records, six approved configs, 50 real profiles and valid OKF re-export with empty model credentials. |
-| Actual human precision | Not met: 70 all-Yes responses were submitted without evidence review, as disclosed by the user. Preserved as unreviewed; both metrics remain unknown. |
-| Actual 50 profiles | Delivered: 50 real profiles, 20,851 observations and 50 links; OKF 661 concepts / 1,210 edges / zero broken internal links. |
-| UI visual interaction | Upstream pinned Inbox built; protocol and HTTP verified. No available browser automation surface for a click-through check |
-| Cost | All calls retained, including failures. Azure billing rates unknown, so no dollar total or under-$10 claim |
-
-Run deterministic checks with `uv run pytest -q`. Docker tests require `RUN_DOCKER_TESTS=1`; the timeout test takes one minute. Live inference is opt-in through CLI commands.
-
-Latest deterministic check: 32 passed, 4 Docker-only tests skipped by default. Docker isolation, bounded-output, cgroup limits and timeout checks were run separately.
-
-
-AI-assisted audit (18 September 2026): all 20 triage items and 50 raw link pairs assessed, with per-item reasoning, resource URLs and snapshot/row references in `outputs/ai-audit/`. Results: 17 relevant / 1 irrelevant / 2 unresolved datasets; 50 supported links. AI labels have a separate storage namespace and report, and the human import command rejects AI-tagged packets. This does **not** close the manual-evaluation acceptance requirement. The all-Yes human selections remain unreviewed; no application accuracy metric counts them.
-
-
-19 September: AI-only triage coverage extended to all 50 original ranked datasets: 39 relevant, 5 irrelevant, 6 unresolved. Stored as a separate `ai_census` evaluation, with `ai_label` decisions and full evidence under `experiments/terra-baseline/outputs/ai-audit/`. The required 20-item human worksheet and 50-item link worksheet are unchanged, unreviewed and excluded from human accuracy claims. Expanded census does not close the manual-evaluation requirement.
-
-### Jev + Luna initial checks (historical progress, 19 September 2026)
-
-- 945 catalogue records retrieved; 213 Jev decisions succeeded, producing 50 ranked rows with all six portfolio sources included. New audit: 36 supported, zero confirmed negatives, 14 unresolved.
-- Luna tool-calling connectivity test succeeded with measured usage.
-- Fresh Luna configs require new approval; failed attempts and bounded retries remain in their own experiment ledger. Old approvals are not reused.
-- Deterministic suite: 41 passed, four Docker integration tests skipped in this rerun (previous Docker results remain historical).
-- Fresh profile/link outputs and all-link evidence audit are pending current mapping approvals. The previous 50/50 link audit does not satisfy the new run's check.
-
-### Completed Jev + Luna batch
-
-All six final mappings are user-approved. Batch `fa5523f0-7d5a-41d2-af42-59e6362e3046`: 20,838 observations, 52 links, 5,543 unlinked records, 52 profiles. AI audits cover all 50 shortlisted datasets (36 supported, 14 unresolved) and all 52 links (52 supported). Human evaluation remains incomplete. OKF has 539 documents, 962 edges and no broken internal links. Earlier progress/failed-attempt notes are historical; [the overview](../outputs/README.md) is the final status entry point.
-
-Final verification: 42 deterministic tests passed, four integration tests skipped; lint passed. All six exact config hashes match stored user approvals. All 52 output link IDs have individual AI judgments. At that verification point, all 798 original baseline archive file hashes were unchanged. The full original archive is now retained locally; the public comparison subset has its own manifest. The current frozen archive contains 534 entries and 527,302,038 uncompressed bytes; every blob hash was verified. The loader's finite limit was raised from 500 MB to 750 MB to accommodate both experiments and their retained audit/failure evidence.
-
-Actual current-archive restore verified in a fresh temporary SQLite database: 84,550 stored records restored, including 20,838 observations, 52 links, 5,543 unlinked records and 52 profiles. Live PostgreSQL was unchanged. The frozen archive restores evidence for browsing, not resumable LangGraph workflow checkpoints.
-
-### Part 1 download gate verification
-
-48 deterministic tests passed, four integration tests skipped. The gate rejects HTTP-200 empty/HTML bodies, ZIP-as-CSV and resource-index CSVs; tests verify rank-preserving replacement, publisher-bound insufficient-candidate failure, public-host checks and discovery revision pointers. Live final revision checked 93 candidates, selected 50 readable resources, and retained all six portfolio sources. AI census: 47 supported / 1 unsupported / 2 unresolved; human review pending. Downstream observation/link/profile/selection/removal files match their saved pre-rerun SHA-256 hashes.
-
+Earlier runtime/checkpoint repairs, Terra/Luna audits, Docker checks and live archive restore measurements are preserved in the [historical engineering guide](../experiments/jev-luna-v1-submission/docs/ENGINEERING.md). They do not establish a live restore or human evaluation for this expanded experiment.
 
 ## Operations and recovery
 
-The selected submission configuration is `jev-luna-v1`. Its outputs are in `outputs/`.
+The selected submission configuration is `jev-gpt6-luna-ontology-v1`. Exact promoted run, batch, ontology and snapshot IDs are in `outputs/submission-manifest.json`. Its outputs are in `outputs/`.
 The previous deterministic + Terra run remains in `experiments/terra-baseline/`;
 `manifest.json` hashes its archived files. Do not overwrite that archive or reuse its approvals.
 
@@ -240,7 +156,7 @@ uv run link-lens runs
 uv run link-lens onboard RUN_ID
 ```
 
-`.env` needs `OPENROUTER_API_KEY` for Jev and the existing Azure `OPENAI_API_KEY` / `OPENAI_API_BASE` for Luna. Defaults are `LINK_LENS_MODEL=gpt-5.6-luna` and `LINK_LENS_EXPERIMENT_ID=jev-luna-v1`. Optional LangSmith settings apply. No secrets are written to reports. Onboard each new portfolio run ID once; the portfolio command skips existing runs in the same experiment. To start a separate experiment, choose a new experiment ID consistently in host and backend environments before starting.
+`.env` needs `OPENROUTER_API_KEY` for Jev and the existing Azure `OPENAI_API_KEY` / `OPENAI_API_BASE` for Luna. New defaults are `LINK_LENS_MODEL=gpt-6-luna` and `LINK_LENS_EXPERIMENT_ID=jev-gpt6-luna-ontology-v1`; existing `.env` settings override them. Optional LangSmith settings apply. No secrets are written to reports. Onboard each new portfolio run ID once; the portfolio command skips existing runs in the same experiment. To start a separate experiment, choose a new experiment ID consistently in host and backend environments before starting.
 
 Discovery scores all supported-format candidates using Jev. The combined rank is 50% existing rule score + 50% Jev relevance. Publisher cap: eight; shortlist: fifty. This is a disclosed heuristic, not a calibrated relevance probability. There is no audit-label feedback into ranking. Saved successful decisions are reused on retry; failed calls retain usage receipts and cannot silently become successful scores.
 
@@ -252,18 +168,15 @@ A run at `needs_review` or `failed` has not passed the workflow and is not ready
 
 ### After all six current configs are accepted
 
+The submitted runs have already completed. For an independent rerun, select explicit completed run IDs, assemble, then enhance in a separate output directory:
+
 ```sh
-# Refresh progress/cost reports without model calls:
-uv run python scripts/report_current_experiment.py
-# Assemble only after checking the six desired current runs are completed:
-uv run python scripts/finish_current_experiment.py
+uv run link-lens assemble RUN_1 RUN_2 RUN_3 RUN_4 RUN_5 RUN_6 --cohort-pool-size 25000
+uv run link-lens export --batch-id BASELINE_BATCH_ID --output outputs/local-run/new-run/baseline
+uv run link-lens enhance --batch-id BASELINE_BATCH_ID --retrieval hybrid --reconcile --output outputs/local-run/new-run/enhanced
 ```
 
-The finish command uses the latest run for each portfolio source, verifies every one is completed, assembles with a 25,000-row pool, and exports the new results. It does not accept reviews. It reuses an already assembled batch with identical run IDs. It then creates the 20-dataset and 50-link human worksheets. Actual evidence review remains separate: the assistant must inspect all 50 shortlist datasets and every proposed link, save individual evidence/verdicts and update the comparison. Never import AI judgments as human labels.
-
-Expected final files: shortlist, six approved mappings, observations, links, unlinked queue, profiles, source-removal results, OKF, costs, measurements, full AI audits and the before/after comparison. The current run is complete: 52 links/profiles, all-link AI census finished. Human labels remain incomplete.
-
-The seventh-source guide now uses the current Luna batch and six run IDs. Its saved-prefix recheck found three overlaps with the current 52 profiles. Live seventh-source inference and contribution remain a future demo.
+The old `report_current_experiment.py`, `finish_current_experiment.py` and authored audit scripts describe earlier experiments. Do not run them against the promoted submission. Mapping approval, evidence evaluation and submission promotion are separate decisions. No archived labels approve new evidence.
 
 ### Recovering a requested revision after its attempt budget is exhausted
 
@@ -290,18 +203,16 @@ When the user has actually requested a revision, a stopped attempt can be replac
 
 ```sh
 uv run python scripts/recover_review_revisions.py EXHAUSTED_RUN_ID
-uv run python scripts/report_current_experiment.py
+uv run link-lens usage
 ```
 
 The script requires a recorded revision request, preserves the frozen partitions and consumed final-test cursor, links `supersedes_run_id`, and carries forward the generated configuration and semantic critique. It does not approve anything. Repeated execution returns the existing replacement instead of launching duplicates. Original token/version bounds are not increased; the new bounded attempt and all prior costs remain visible. The latest interrupted review needs a fresh Accept decision.
 
 ### Completed run and saved demonstration
 
-All six latest runs in `outputs/current-run.json` are approved. Batch: `fa5523f0-7d5a-41d2-af42-59e6362e3046`. The pipeline yields 52 links/profiles, including two additional matches from filler. All 52 were inspected in the AI census. Open `outputs/okf/viewer.html`; use `demo/jev-luna-v1.zip` for frozen database evidence. Human evaluation remains explicitly incomplete.
+All six runs in `outputs/current-run.json` are approved. The selected enhanced batch contains 60 profiles and 61 links. Open `outputs/okf/viewer.html` or the published Pages site. Human evidence evaluation remains pending. Historical database ZIPs reproduce earlier experiments, not this submission; full new-experiment archive restoration is unverified.
 
-Evidence collection is reproducible with `uv run python scripts/collect_current_link_evidence.py`. `scripts/record_current_link_audit.py` persists the assistant's inspected, batch-specific judgments and refuses a different batch; it is not an automatic evaluator for future outputs.
-
-Part 1 was subsequently rerun with a download/reader gate, using cached catalogue/Jev scores and no new model calls. Current audit: 47 supported, 1 unsupported, 2 unresolved. Parts 2–4 are unchanged. [Evidence, scope and commands](../outputs/part1-downloadable/REPORT.md).
+The [experiment archive](../experiments/jev-gpt6-luna-ontology-v1/README.md) preserves deterministic and enhanced exports. [The previous submission](../experiments/jev-luna-v1-submission/outputs/README.md) retains its original counts, approvals, audits and checksums. Large JSONL exports are losslessly compressed with SHA-256 manifests; the viewer is uncompressed HTML. The promotion manifest records the exact approved viewer hash.
 
 ## Experimental hybrid enhancement
 
@@ -370,7 +281,7 @@ edges never establish transitive identity. Provisional IDs are deterministic at
 creation and retained by explicit record membership on subsequent derived batches.
 Passing pair decisions can still be deferred by cluster checks; inspect both exports.
 
-The default budget is $10 per stable enhancement job, six concurrent requests and
+The default enhancement limit is $10 per stable job, additionally bounded by the shared experiment cap, six concurrent requests and
 two retries per failed request. At most 500 new identity pairs are attempted per
 invocation (`--max-pairs` overrides this); successful cached decisions do not count.
 Potential admission routes are prioritized, followed by exact names and retrieval
@@ -393,7 +304,7 @@ invoice guarantee.
 
 Budget exhaustion or provider failure produces explicit pending work. Re-run with
 the same parent and policy to reuse successful calls; an explicit `--budget` raises
-the cumulative ceiling without resetting historical charges. New parent batches
+the job ceiling without resetting historical charges; the shared experiment cap still applies. New parent batches
 create new jobs with explicit lineage. Policy v2 also creates a distinct job and budget
 from v1, while reusing unchanged embedding and profile caches. Identity prompt changes
 invalidate the old decision cache. `--no-reconcile` disables model profile work.
@@ -437,10 +348,96 @@ Reports show labelled-benchmark retrieval recall, linkage precision/recall, addi
 correct matches, contaminating labelled pairs and a Wilson precision interval.
 Unknown/unreviewed items are excluded. These stratified benchmark metrics do not
 estimate population performance. Observed semantic precision of 99% is a target,
-not an implemented promotion switch; results remain experimental. No live enhancement
-accuracy or cost is established by mocked integration and deterministic tests.
+not an automatic promotion switch. The user explicitly promoted the bounded run into the submission. Its live cost and contribution measurements are in [the results](../outputs/README.md); human accuracy remains unmeasured.
 
 Provider references: [OpenAI embeddings](https://developers.openai.com/api/docs/guides/embeddings),
 [embedding pricing](https://developers.openai.com/api/docs/models/text-embedding-3-small),
 [Jev typed decisions](https://openrouter.ai/docs/guides/community/jev-tutorial),
 [TypeSafe confidence](https://docs.typesafe.ai/confidence).
+
+
+## Experimental ontology evolution
+
+Run `uv run alembic upgrade head` before using the registry. New tables store immutable
+ontology documents, proposal/activation evidence and experiment-wide API reservations.
+The packaged v0.1 ontology preserves old mappings and approval hashes. The promoted root `firmable_ontology.yaml` seeds a new experiment when no active version exists; an existing experiment pin always takes precedence. New mappings
+include `ontology_hash`; changing its meaning requires a new mapping and approval.
+Experimental additions cannot redefine or remove a parent concept.
+
+Use the same environment in the host CLI and backend, without overwriting `.env`:
+
+```sh
+export LINK_LENS_EXPERIMENT_ID=jev-gpt6-luna-ontology-v1
+export LINK_LENS_MODEL=gpt-6-luna
+export LINK_LENS_MAX_COST_USD=10
+docker compose up -d backend
+```
+
+After discovery and registration, prepare each selected run before starting its graph:
+
+```sh
+uv run link-lens ontology prepare --run-id RUN_1 --run-id RUN_2
+uv run link-lens ontology propose --run-id RUN_1 --run-id RUN_2 --activate-experimental
+uv run link-lens ontology show ONTOLOGY_HASH
+uv run link-lens ontology diff PARENT_HASH ONTOLOGY_HASH
+uv run link-lens ontology budget
+uv run link-lens onboard RUN_1
+```
+
+Repeat `--run-id` for all six sources. `prepare` performs paid reader inference and
+freezes partitions; it does not propose mappings. `propose` reads only discovery
+records and publisher documentation. It makes at most one source proposal each,
+one consolidation, at most one structural repair, and a critique deciding each concept individually. Successful responses
+are cached by complete evidence, model, prompt and schema. A failed API attempt stays
+in the ledger. A rejected job remains rejected; do not silently loop against it.
+
+The proposal artifact records one disposition per source header: `existing_target`,
+`new_concept`, `insufficient_evidence`, or `non_domain_metadata`. Literal evidence
+quotes must exist in the input. The model receives short source aliases bound to stored run IDs by the engine. Semantic critique remains an AI judgment, not human
+validation. Rejected concepts and concepts depending on rejected companions remain unmapped; independently accepted additions can activate together. Successful activation updates only selected unstarted runs and the
+experiment's ontology pointer. It never rewrites the submitted YAML or accepts a mapping.
+`ontology promote HASH --reviewer NAME` records a human decision on that exact version;
+it does not publish artifacts or approve source mappings.
+
+Definitions specify type, scope, cardinality, numeric bounds and required companion
+concepts. Scoped fields use a mapping `group` name; the engine derives group identity
+from source/record/group, preserving each row's bundle. Financial claims require their
+period and currency when declared as companions; absent values quarantine dependent
+claims. Decimal values remain exact JSON strings, integers/booleans use JSON scalar
+types, and all retain raw values. `indicator_categories` takes named source columns,
+a column-to-category `values` mapping and an exact truth marker in `argument`.
+Blank input never becomes zero. Generated Python is not an extraction mechanism.
+Scoped groups are exported intact and excluded from cross-record reconciliation
+and the identity judge's observation payload. They are not additional identifier-linking
+rules. Unlinked source claims remain visible. Embedding cache keys retain ontology
+hashes, while provider input excludes those hashes and serialization metadata so
+that shared cache metadata cannot influence semantic similarity. This serialization
+uses `hybrid-evidence-2`; older vectors and their paid-call receipts are retained.
+
+The shared ledger reserves conservative model cost before every request, under the
+existing database advisory lock. It includes Jev discovery, ontology, onboarding,
+embedding, Jev enhancement and LLM explanations, including failed/retried attempts.
+Unknown usage retains its reservation. Completed calls use reported cost when present,
+otherwise conservative token rates. `LINK_LENS_PRICING_MULTIPLIER` defaults to 1.0;
+set it to the provider's documented uplift, e.g. 1.1 for applicable regional processing.
+The $10 cap is an estimate, not an invoice guarantee. Existing call/token/time limits
+and the enhancement job cap still apply. An exhausted shared budget stops new calls;
+creating another job in the same experiment does not reset it.
+
+After exact mapping approvals, assemble and export a deterministic batch, then run
+`enhance --batch-id BATCH_ID --retrieval hybrid --reconcile` with the same experiment
+and model environment. Preserve baseline and enhanced exports in separate directories.
+Reports include ontology snapshots, proposals, usage and budget state. Human mapping
+reviews and human evaluation worksheets must not be replaced by AI approvals.
+
+Once both exports exist, measure concept emission, profile contribution and evidence
+consistency without making model calls or changing the submission:
+
+```sh
+uv run python scripts/report_ontology_experiment.py --root experiments/jev-gpt6-luna-ontology-v1
+```
+
+The report compares the preserved submission, new deterministic assembly and enhanced
+assembly separately. It checks observation bindings, profile citations, scoped bundles,
+OKF links and identical baseline/enhancement selections. Results and remaining human
+evaluation work are recorded in the [experiment report](../experiments/jev-gpt6-luna-ontology-v1/README.md).

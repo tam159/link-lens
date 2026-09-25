@@ -1,0 +1,15 @@
+{
+  "id": "ontology-9c5f74cb6510f4b2e483d372200eac3766db6d03",
+  "ontology_hash": null,
+  "proposal_artifact": "d01633af9aec6d0e6c1ee0136d36b6fdc657971d5dbf20547f6c7ffa69700cb8",
+  "run_ids": [
+    "073d08af-4746-4a79-aebb-fd1ffc41be54",
+    "ee6281be-3189-4e01-84e6-91abcbadccfe",
+    "8e286c80-fb1f-4266-ab6e-fd6c58cbf779",
+    "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+    "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+    "d8894b1e-de5a-484e-87d4-0813c35f9f9a"
+  ],
+  "status": "rejected",
+  "parent_hash": "f66f63b3568165bc0e555f6532955e741a3847b4e2b2ee2bb39bb31df98edc35"
+}

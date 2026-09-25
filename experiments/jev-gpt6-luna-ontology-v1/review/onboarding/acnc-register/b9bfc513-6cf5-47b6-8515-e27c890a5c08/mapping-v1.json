@@ -1,0 +1,494 @@
+{
+  "id": "b9bfc513-6cf5-47b6-8515-e27c890a5c08:1",
+  "run_id": "b9bfc513-6cf5-47b6-8515-e27c890a5c08",
+  "version": 1,
+  "config_hash": "615e784c7907a8dcef093f87510fc7ea3ac032ff486571ab27fd3db0367309bb",
+  "config": {
+    "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": ",",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    },
+    "record_grain": "One ACNC Registered Charities CSV record for a charity, with charity attributes, a business address, and wide operating-region, subtype, and beneficiary indicators.",
+    "subject_role": "legal_entity",
+    "source_kind": "charity_register",
+    "subject_label_field": "Charity_Legal_Name",
+    "address_role": "business",
+    "filters": [],
+    "fields": [
+      {
+        "source_fields": [
+          "ABN"
+        ],
+        "canonical_field": "entity.abn",
+        "transformations": [
+          {
+            "op": "abn",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.99,
+        "evidence": "ACNC user guide PDF p. 2 §6: “This is a charity’s Australian Business Number (ABN).” Header ABN; supplied sample 97830467530."
+      },
+      {
+        "source_fields": [
+          "Address_Type"
+        ],
+        "canonical_field": "address.type",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "Business": "Business"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.94,
+        "evidence": "Header Address_Type; supplied rows show “Business”. Ontology defines the address category; ACNC user guide PDF p. 2 §§12–14 describes the charity business address."
+      },
+      {
+        "source_fields": [
+          "Address_Line_1"
+        ],
+        "canonical_field": "address.line_1",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.97,
+        "evidence": "ACNC user guide PDF p. 2 §§12–14 lists Address line 1 among business-address fields. Header Address_Line_1; sample “L 15 216 St Georges Tce”."
+      },
+      {
+        "source_fields": [
+          "Address_Line_2"
+        ],
+        "canonical_field": "address.line_2",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.97,
+        "evidence": "ACNC user guide PDF p. 2 §§12–14 lists Address line 2 among business-address fields. Header Address_Line_2; supplied sample blank."
+      },
+      {
+        "source_fields": [
+          "Address_Line_3"
+        ],
+        "canonical_field": "address.line_3",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.97,
+        "evidence": "ACNC user guide PDF p. 2 §§12–14 lists Address line 3 among business-address fields and notes it is blank for many charities. Header Address_Line_3; supplied sample blank."
+      },
+      {
+        "source_fields": [
+          "Town_City"
+        ],
+        "canonical_field": "address.locality",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.96,
+        "evidence": "ACNC user guide PDF p. 2 §§13–14 lists Town/City among business-address fields. Header Town_City; sample “Perth”."
+      },
+      {
+        "source_fields": [
+          "State"
+        ],
+        "canonical_field": "address.state",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "ACT": "ACT",
+              "NSW": "NSW",
+              "NT": "NT",
+              "QLD": "QLD",
+              "SA": "SA",
+              "TAS": "TAS",
+              "VIC": "VIC",
+              "WA": "WA"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.95,
+        "evidence": "ACNC user guide PDF p. 2 §§13–14 lists State among business-address fields. Header State; sample “WA”."
+      },
+      {
+        "source_fields": [
+          "Postcode"
+        ],
+        "canonical_field": "address.postcode",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.96,
+        "evidence": "ACNC user guide PDF p. 2 §§13–14 lists Postcode among business-address fields. Header Postcode; sample “6000”."
+      },
+      {
+        "source_fields": [
+          "Country"
+        ],
+        "canonical_field": "address.country",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.95,
+        "evidence": "ACNC user guide PDF p. 2 §§13–14 lists Country among business-address fields. Header Country; sample “Australia”."
+      },
+      {
+        "source_fields": [
+          "Charity_Website"
+        ],
+        "canonical_field": "entity.website",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "website",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.93,
+        "evidence": "ACNC user guide PDF p. 2 §15: website address where supplied. Header Charity_Website; sample “www.nwrl.org.au”. Some source values may not parse as websites and will be quarantined rather than reinterpreted."
+      },
+      {
+        "source_fields": [
+          "Registration_Date"
+        ],
+        "canonical_field": "registration.acnc_date_registered",
+        "group": "acnc_registration",
+        "transformations": [
+          {
+            "op": "date",
+            "argument": "%d/%m/%Y",
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "ACNC user guide PDF p. 2 §§16–17: effective date of ACNC registration, including a 3 December 2012 convention for certain pre-ACNC tax-concession charities. Header Registration_Date; sample “13/11/2024”. Not mapped as entity/company registration."
+      },
+      {
+        "source_fields": [
+          "Date_Organisation_Established"
+        ],
+        "canonical_field": "entity.date_established",
+        "transformations": [
+          {
+            "op": "date",
+            "argument": "%d/%m/%Y",
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.98,
+        "evidence": "ACNC user guide PDF p. 3 §18: date the charity was established, which may precede registration. Header Date_Organisation_Established; sample “25/06/2024”."
+      },
+      {
+        "source_fields": [
+          "Charity_Size"
+        ],
+        "canonical_field": "entity.charity_size",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          },
+          {
+            "op": "enum",
+            "argument": null,
+            "values": {
+              "Small": "Small",
+              "Medium": "Medium",
+              "Large": "Large"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.95,
+        "evidence": "ACNC user guide PDF p. 3 §§19–21: size categories Small, Medium, Large based on the latest Annual Information Statement. Header Charity_Size; sample “Large”."
+      },
+      {
+        "source_fields": [
+          "Number_of_Responsible_Persons"
+        ],
+        "canonical_field": "entity.responsible_person_count",
+        "transformations": [
+          {
+            "op": "integer",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [
+          {
+            "field": "Number_of_Responsible_Persons",
+            "op": "not_in",
+            "values": [
+              "0"
+            ],
+            "length": null
+          }
+        ],
+        "confidence": 0.95,
+        "evidence": "ACNC user guide PDF p. 3 §22: number of board or committee members; zero explicitly means the charity has not supplied this information. Header Number_of_Responsible_Persons; sample “2”. Excludes exact zero sentinel."
+      },
+      {
+        "source_fields": [
+          "Financial_Year_End"
+        ],
+        "canonical_field": "financial_period.year_end",
+        "group": "charity_financial_period",
+        "transformations": [
+          {
+            "op": "trim",
+            "argument": null,
+            "values": {}
+          }
+        ],
+        "when": [],
+        "confidence": 0.95,
+        "evidence": "ACNC user guide PDF p. 3 §§23–24: reported financial year end, which may differ from 30 June. Header Financial_Year_End; sample “30-Jun”."
+      },
+      {
+        "source_fields": [
+          "Operates_in_ACT",
+          "Operates_in_NSW",
+          "Operates_in_NT",
+          "Operates_in_QLD",
+          "Operates_in_SA",
+          "Operates_in_TAS",
+          "Operates_in_VIC",
+          "Operates_in_WA"
+        ],
+        "canonical_field": "entity.operating_region",
+        "transformations": [
+          {
+            "op": "indicator_categories",
+            "argument": "Y",
+            "values": {
+              "Operates_in_ACT": "ACT",
+              "Operates_in_NSW": "NSW",
+              "Operates_in_NT": "NT",
+              "Operates_in_QLD": "QLD",
+              "Operates_in_SA": "SA",
+              "Operates_in_TAS": "TAS",
+              "Operates_in_VIC": "VIC",
+              "Operates_in_WA": "WA"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.96,
+        "evidence": "ACNC user guide PDF p. 4 §§25–26 lists the eight Australian state/territory indicators and says Y marks a reported operating region; otherwise blank. Headers Operates_in_ACT through Operates_in_WA; sample Operates_in_VIC “Y”."
+      },
+      {
+        "source_fields": [
+          "PBI",
+          "HPC",
+          "Preventing_or_relieving_suffering_of_animals",
+          "Advancing_Culture",
+          "Advancing_Education",
+          "Advancing_Health",
+          "Promote_or_oppose_a_change_to_law__government_poll_or_prac",
+          "Advancing_natual_environment",
+          "Promoting_or_protecting_human_rights",
+          "Purposes_beneficial_to_ther_general_public_and_other_analogous",
+          "Promoting_reconciliation__mutual_respect_and_tolerance",
+          "Advancing_Religion",
+          "Advancing_social_or_public_welfare",
+          "Advancing_security_or_safety_of_Australia_or_Australian_public"
+        ],
+        "canonical_field": "entity.charity_subtype",
+        "transformations": [
+          {
+            "op": "indicator_categories",
+            "argument": "Y",
+            "values": {
+              "PBI": "PBI",
+              "HPC": "HPC",
+              "Preventing_or_relieving_suffering_of_animals": "Preventing or relieving suffering of animals",
+              "Advancing_Culture": "Advancing Culture",
+              "Advancing_Education": "Advancing Education",
+              "Advancing_Health": "Advancing Health",
+              "Promote_or_oppose_a_change_to_law__government_poll_or_prac": "Promote or oppose a change to law, government poll or practice",
+              "Advancing_natual_environment": "Advancing natural environment",
+              "Promoting_or_protecting_human_rights": "Promoting or protecting human rights",
+              "Purposes_beneficial_to_ther_general_public_and_other_analogous": "Purposes beneficial to the general public and other analogous",
+              "Promoting_reconciliation__mutual_respect_and_tolerance": "Promoting reconciliation, mutual respect and tolerance",
+              "Advancing_Religion": "Advancing Religion",
+              "Advancing_social_or_public_welfare": "Advancing social or public welfare",
+              "Advancing_security_or_safety_of_Australia_or_Australian_public": "Advancing security or safety of Australia or Australian public"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.94,
+        "evidence": "ACNC user guide PDF p. 5 §§29–32 lists the 14 charity subtypes and says a registered subtype is marked Y. Headers are the listed subtype fields; supplied sample PBI “Y”. Category labels follow the documented categories despite source-header spelling variants."
+      },
+      {
+        "source_fields": [
+          "Aboriginal_or_TSI",
+          "Adults",
+          "Aged_Persons",
+          "Children",
+          "Communities_Overseas",
+          "Early_Childhood",
+          "Ethnic_Groups",
+          "Families",
+          "Females",
+          "Financially_Disadvantaged",
+          "LGBTIQA+",
+          "General_Community_in_Australia",
+          "Males",
+          "Migrants_Refugees_or_Asylum_Seekers",
+          "Other_Beneficiaries",
+          "Other_Charities",
+          "People_at_risk_of_homelessness",
+          "People_with_Chronic_Illness",
+          "People_with_Disabilities",
+          "Pre_Post_Release_Offenders",
+          "Rural_Regional_Remote_Communities",
+          "Unemployed_Person",
+          "Veterans_or_their_families",
+          "Victims_of_crime",
+          "Victims_of_Disasters",
+          "Youth",
+          "animals",
+          "environment",
+          "other_gender_identities"
+        ],
+        "canonical_field": "entity.charity_beneficiary_category",
+        "transformations": [
+          {
+            "op": "indicator_categories",
+            "argument": "Y",
+            "values": {
+              "Aboriginal_or_TSI": "Aboriginal or TSI",
+              "Adults": "Adults",
+              "Aged_Persons": "Aged Persons",
+              "Children": "Children",
+              "Communities_Overseas": "Communities Overseas",
+              "Early_Childhood": "Early Childhood",
+              "Ethnic_Groups": "Ethnic Groups",
+              "Families": "Families",
+              "Females": "Females",
+              "Financially_Disadvantaged": "Financially Disadvantaged",
+              "LGBTIQA+": "LGBTIQA+",
+              "General_Community_in_Australia": "General Community in Australia",
+              "Males": "Males",
+              "Migrants_Refugees_or_Asylum_Seekers": "Migrants Refugees or Asylum Seekers",
+              "Other_Beneficiaries": "Other Beneficiaries",
+              "Other_Charities": "Other Charities",
+              "People_at_risk_of_homelessness": "People at risk of homelessness",
+              "People_with_Chronic_Illness": "People with Chronic Illness",
+              "People_with_Disabilities": "People with Disabilities",
+              "Pre_Post_Release_Offenders": "Pre Post Release Offenders",
+              "Rural_Regional_Remote_Communities": "Rural Regional Remote Communities",
+              "Unemployed_Person": "Unemployed Person",
+              "Veterans_or_their_families": "Veterans or their families",
+              "Victims_of_crime": "Victims of crime",
+              "Victims_of_Disasters": "Victims of Disasters",
+              "Youth": "Youth",
+              "animals": "Animals",
+              "environment": "Environment",
+              "other_gender_identities": "Other gender identities"
+            }
+          }
+        ],
+        "when": [],
+        "confidence": 0.94,
+        "evidence": "ACNC user guide PDF p. 6 §§33–34 lists beneficiary categories and says a reported beneficiary is marked Y; otherwise blank. Headers include Aboriginal_or_TSI, Families, animals, environment, other_gender_identities; supplied sample Families “Y”."
+      }
+    ],
+    "unmapped_fields": [
+      {
+        "source_field": "Charity_Legal_Name",
+        "reason": "ACNC user guide PDF p. 2 §§8–9 says this is ordinarily the formal/legal name, but explicitly says that when the legal name is withheld ACNC may substitute an alternate identifier. No discriminator is supplied to identify those rows safely. Retain the raw value via subject_label_field only; do not assert entity.legal_name."
+      },
+      {
+        "source_field": "Other_Organisation_Names",
+        "reason": "ACNC user guide PDF p. 2 §§10–11 says values may be one or more trading names or other names and can differ from the legal name; the source does not establish each value as a trading name."
+      },
+      {
+        "source_field": "Operating_Countries",
+        "reason": "The guide describes ISO alpha-3 codes for overseas locations (PDF p. 4 §§27–28), but supplied samples include AUS. With no documented discriminator for this anomalous value or supported interpretation, leave the column unmapped rather than assert an overseas-country claim."
+      }
+    ],
+    "observed_at_field": null,
+    "observed_at_format": null,
+    "timestamp_policy": "publication_proxy",
+    "source_reliability": 0.96,
+    "limitations": [
+      "Charity_Legal_Name is retained as the raw subject label, not mapped to entity.legal_name, because the guide permits alternate identifiers when a legal name is withheld and the supplied data has no safe discriminator.",
+      "Other_Organisation_Names is left unmapped because it mixes trading names and other names without establishing which a value represents.",
+      "Operating_Countries is left unmapped because supplied examples include AUS despite the guide's overseas-location description; no unsupported country meaning is asserted.",
+      "ACNC registration date is mapped only to registration.acnc_date_registered, not entity.date_registered; organisation establishment date is a distinct claim.",
+      "Number_of_Responsible_Persons equal to 0 is documented as a non-response sentinel and excluded; blank indicator fields are not treated as negative claims.",
+      "No entity type, entity status, company registration date, or ownership claim is inferred. AUS is not treated as evidence of overseas operation.",
+      "The source is updated weekly; publication timestamp is a proxy, not a row-change timestamp. Withholding or delayed updates can affect apparent completeness and freshness.",
+      "The user guide describes a legacy column sequence; mapping follows frozen reader headers and supplied samples. Website values not accepted by the website transform should be quarantined, not reinterpreted.",
+      "Exploration script in supplied discovery material failed, so full-sample duplicate-ABN and row-grain checks were not completed. All authority and field scores are provisional and require human review."
+    ]
+  },
+  "generated_by": "runtime_agent",
+  "model": "gpt-6-luna",
+  "created_at": "2026-09-24T15:32:35.631903+00:00",
+  "status": "proposed"
+}

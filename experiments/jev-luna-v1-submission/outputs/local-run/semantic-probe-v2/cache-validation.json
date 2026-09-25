@@ -1,0 +1,27 @@
+{
+  "policy": {
+    "version": "hybrid-evidence-2",
+    "retrieval": "hybrid",
+    "top_k": 20,
+    "threshold": 0.98,
+    "margin": 0.1,
+    "embedding_model": "text-embedding-3-small",
+    "dimensions": 1536,
+    "decision_model": "typesafe/jev-1.13",
+    "explanation_model": "gpt-5.6-luna",
+    "reconcile": true,
+    "fuzzy_floor": 0.8,
+    "embedding_floor": 0.8
+  },
+  "named_records": 5644,
+  "cached_embeddings": 5644,
+  "missing_embeddings": 0,
+  "paid_calls": 0,
+  "candidate_pairs": 373009,
+  "potential_route_pairs": 0,
+  "methods": {
+    "embedding": 371560,
+    "fuzzy": 991,
+    "embedding,fuzzy": 458
+  }
+}

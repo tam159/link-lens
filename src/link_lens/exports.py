@@ -109,7 +109,7 @@ def okf_export(result, sources, root):
                 root / "evidence" / f"{oid}.md",
                 {
                     "type": "Field Observation",
-                    "title": obs["field"] + ": " + obs["value"],
+                    "title": obs["field"] + ": " + str(obs["value"]),
                     "description": "A source claim, not independent proof of identity.",
                     "generated": generated,
                     "tags": ["evidence"],
@@ -198,6 +198,24 @@ def export(output: Path, batch_id=None, experiment_id=None):
         runs = [
             r for r in runs if r.get("experiment_id", "terra-baseline") == experiment_id
         ]
+    from .ontology import resolve
+    from .budget import summary as budget_summary
+
+    if experiment_id:
+        write_json(output / "budget.json", budget_summary(experiment_id))
+    for ontology_hash in sorted(
+        {r["ontology_hash"] for r in runs if r.get("ontology_hash")}
+    ):
+        write_json(
+            output / "ontologies" / (ontology_hash + ".json"), resolve(ontology_hash)
+        )
+    selected_run_ids = {r["id"] for r in runs}
+    for proposal in store.listing("ontology_events", kind="proposal"):
+        if selected_run_ids.intersection(proposal.get("run_ids", [])):
+            write_json(
+                output / "ontology-proposals" / (proposal["id"] + ".json"),
+                {**proposal, **store.read_json(proposal["proposal_artifact"])},
+            )
     for run in runs:
         folder = output / "onboarding" / run["source_slug"] / run["id"]
         write_json(folder / "run.json", run)
@@ -234,6 +252,24 @@ def export(output: Path, batch_id=None, experiment_id=None):
                 "snapshot_id": run["snapshot_id"],
             },
         )
+    coverage = []
+    for slug, run in chosen.items():
+        config = store.require("mappings", run["mapping_id"])["config"]
+        coverage.append(
+            {
+                "source": slug,
+                "run_id": run["id"],
+                "approval_status": run["status"],
+                "ontology_hash": config.get("ontology_hash"),
+                "mapped_source_fields": sorted(
+                    {s for f in config["fields"] for s in f["source_fields"]}
+                ),
+                "targets": sorted({f["canonical_field"] for f in config["fields"]}),
+                "unmapped_fields": config["unmapped_fields"],
+                "emitted_observations": None,
+                "profiles_receiving_evidence": None,
+            }
+        )
     report = {
         "runs": len(runs),
         "approved": sum(r["status"] == "completed" for r in runs),
@@ -251,5 +287,28 @@ def export(output: Path, batch_id=None, experiment_id=None):
         write_json(output / "selection.json", result["selection"])
         sources = [store.require("sources", r["source_id"]) for r in runs]
         report["okf"] = okf_export(result, sources, output / "okf")
+        for row in coverage:
+            sid = store.require("runs", row["run_id"])["source_id"]
+            row["emitted_observations"] = sum(
+                o["source_id"] == sid for o in result["observations"]
+            )
+
+            def has_claim(value):
+                if isinstance(value, dict):
+                    if "raw_locator" in value and value.get("source_id") == sid:
+                        return True
+                    return any(has_claim(v) for v in value.values())
+                return isinstance(value, list) and any(has_claim(v) for v in value)
+
+            row["profiles_receiving_evidence"] = sum(
+                has_claim(p) for p in result["profiles"]
+            )
+    write_json(
+        output / "ontology-coverage.json",
+        {
+            "basis": "Mapped columns are not correctness measurements; absent extraction/profile counts remain unknown",
+            "sources": coverage,
+        },
+    )
     write_json(output / "export-manifest.json", report)
     return report

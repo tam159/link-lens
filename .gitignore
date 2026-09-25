@@ -33,3 +33,7 @@ frontend/.next/
 # Locally generated database bundles; saved submission outputs remain versioned
 /demo/*.zip
 /experiments/**/*.zip
+
+# Full local reruns are preserved locally; curated submission evidence is in outputs/
+# and experiments/. Large JSONL exports there use checksummed lossless gzip.
+/outputs/local-run/jev-gpt6-luna-ontology-v1/

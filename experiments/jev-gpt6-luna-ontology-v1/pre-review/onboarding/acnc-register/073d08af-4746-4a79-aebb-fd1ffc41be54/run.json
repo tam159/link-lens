@@ -1,0 +1,30 @@
+{
+  "id": "073d08af-4746-4a79-aebb-fd1ffc41be54",
+  "experiment_id": "jev-gpt6-luna-ontology-v1",
+  "model": "gpt-6-luna",
+  "ontology_hash": "f66f63b3568165bc0e555f6532955e741a3847b4e2b2ee2bb39bb31df98edc35",
+  "source_id": "b050b242-4487-4306-abf5-07ca073e5594",
+  "source_slug": "acnc-register",
+  "snapshot_id": "9d7eae78a75d6811729080941fe365a9b6caba863f07e2bb90c96202de90d999",
+  "status": "inspected",
+  "created_at": "2026-09-24T15:13:04.003793+00:00",
+  "model_calls": 1,
+  "python_calls": 0,
+  "version": 0,
+  "input_tokens": 4585,
+  "output_tokens": 660,
+  "active_seconds": 8.420679500035476,
+  "calculated_cost_usd": 0.00164125,
+  "pricing_basis": "unknown; no provider rates configured",
+  "reader_attempts": 1,
+  "usage_has_estimates": false,
+  "analysis_artifact": "f63714781087541241f29a8b04754ac15db39eb09433a253583dd9ea79bc24ae",
+  "partitions_artifact": "3004cafaf9cb77a545c09caae9a7f33f693a0903d1e5f0ed74856ecc6f2b4e13",
+  "partition_counts": {
+    "discovery": 3015,
+    "validation": 1008,
+    "final": 977
+  },
+  "final_cursor": 0,
+  "timing_basis": "Node wall time, excluding human wait and run queue; includes model and sandbox time once."
+}

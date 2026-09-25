@@ -1,9 +1,7 @@
 import re
 from datetime import datetime, timezone
-from functools import lru_cache
-import yaml
 from .contracts import MappingSpec, content_hash
-from .settings import settings
+from .ontology import resolve, scalar
 
 ENGINE_VERSION = "extractor-1"
 
@@ -42,6 +40,17 @@ def condition(row, rule):
 
 
 def operation(value, op):
+    if op.op in {"integer", "decimal", "boolean"}:
+        return scalar(value, {"type": op.op}) if value is not None else None
+    if op.op == "indicator_categories":
+        if not isinstance(value, dict):
+            raise ValueError("Indicator collection requires named columns")
+        truth = op.argument or "Y"
+        return [
+            category
+            for column, category in op.values.items()
+            if str(value.get(column, "")).strip() == truth
+        ]
     if op.op == "constant":
         return op.argument
     if value is None:
@@ -107,11 +116,6 @@ def operation(value, op):
     raise ValueError("Unsupported operation")
 
 
-@lru_cache
-def ontology():
-    return yaml.safe_load(settings().ontology_path.read_text())
-
-
 def timestamp(raw, fmt=None):
     value = (
         datetime.strptime(raw, fmt)
@@ -130,6 +134,7 @@ def extract(spec: MappingSpec, rows, snapshot):
     skipped = []
     candidates = []
     digest = content_hash(spec)
+    concepts = resolve(spec.ontology_hash)["concepts"]
     for row in rows:
         values = row["values"]
         ref = {"source_id": snapshot["source_id"], "source_record_id": row["record_id"]}
@@ -174,6 +179,8 @@ def extract(spec: MappingSpec, rows, snapshot):
                 continue
             raw = [values.get(s, "") for s in field.source_fields]
             value = raw[0] if len(raw) == 1 else raw
+            if field.transformations[0].op == "indicator_categories":
+                value = dict(zip(field.source_fields, raw))
             try:
                 for op in field.transformations:
                     if value is None:
@@ -184,10 +191,12 @@ def extract(spec: MappingSpec, rows, snapshot):
                     if v is None or v == "":
                         continue
                     group, key = field.canonical_field.split(".")
-                    contract = ontology()[group][key]
+                    contract = concepts[field.canonical_field]
+                    if spec.ontology_hash:
+                        v = scalar(v, contract)
                     if contract["type"] == "enum" and v not in contract["values"]:
                         raise ValueError("Value outside ontology enum")
-                    if not isinstance(v, str):
+                    if not spec.ontology_hash and not isinstance(v, str):
                         raise ValueError("Canonical scalar must be a string")
                     if key == "abn" and not valid_abn(v):
                         raise ValueError("ABN target requires checksum validation")
@@ -224,6 +233,18 @@ def extract(spec: MappingSpec, rows, snapshot):
                         "confidence_kind": "uncalibrated mapping/source judgements",
                         "derivation_level": "L1",
                     }
+                    if spec.ontology_hash:
+                        observation.update(
+                            ontology_hash=spec.ontology_hash,
+                            value_type=contract["type"],
+                            cardinality=contract["cardinality"],
+                        )
+                    if field.group:
+                        observation["scope"] = contract["scope"]
+                        observation["group_id"] = content_hash(
+                            {**ref, "group": field.group}
+                        )
+                        observation["group_name"] = field.group
                     observation["id"] = content_hash(observation)
                     observations.append(observation)
             except (ValueError, TypeError) as exc:
@@ -236,6 +257,34 @@ def extract(spec: MappingSpec, rows, snapshot):
                         "reason": str(exc),
                     }
                 )
+    # Resolve required companions to a fixed point; a quarantined companion cannot
+    # make a dependent claim appear valid through a transitive requirement.
+    while True:
+        present = {}
+        for observation in observations:
+            present.setdefault(
+                (observation["source_record_id"], observation.get("group_id")), set()
+            ).add(observation["field"])
+        retained = []
+        for observation in observations:
+            required = set(concepts[observation["field"]]["requires"])
+            if not required.issubset(
+                present[(observation["source_record_id"], observation.get("group_id"))]
+            ):
+                issues.append(
+                    {
+                        "source_id": observation["source_id"],
+                        "source_record_id": observation["source_record_id"],
+                        "kind": "field_quarantine",
+                        "field": observation["field"],
+                        "reason": "Missing required companion value",
+                    }
+                )
+            else:
+                retained.append(observation)
+        if len(retained) == len(observations):
+            break
+        observations = retained
     return {
         "observations": observations,
         "issues": issues,

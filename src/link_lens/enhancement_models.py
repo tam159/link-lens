@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 from sqlalchemy import func, select
 from langchain_core.messages import HumanMessage, SystemMessage
 
-from . import store
+from . import store, budget as experiment_budget
 from .contracts import content_hash
 from .enhancement_contracts import (
     ConflictAnnotation,
@@ -140,11 +140,11 @@ class Inference:
 
     def cache_key(self, stage, name, payload, endpoint=""):
         # Preserve existing embedding/reconciliation receipts across policy upgrades.
-        version = (
-            EMBEDDING_VERSION
-            if stage in {"embedding", "reconciliation", "profile_explanation"}
-            else self.policy.version
-        )
+        version = self.policy.version
+        if stage == "embedding":
+            version = EMBEDDING_VERSION
+        elif stage in {"reconciliation", "profile_explanation"}:
+            version = "hybrid-evidence-1"
         return "enhance-cache-" + content_hash(
             {
                 "version": version,
@@ -216,11 +216,24 @@ class Inference:
                     raise PendingInference(
                         "Enhancement dollar budget exhausted; pending"
                     )
+                try:
+                    reservation_id = experiment_budget.reserve(
+                        self.experiment_id,
+                        self.owner,
+                        stage,
+                        name,
+                        reserved_input,
+                        max_output,
+                        locked=True,
+                    )
+                except experiment_budget.BudgetExceeded as exc:
+                    raise PendingInference(str(exc)) from exc
                 event = store.event(
                     self.owner,
                     "enhancement_usage",
                     {
                         "experiment_id": self.experiment_id,
+                        "reservation_id": reservation_id,
                         "stage": stage,
                         "model": name,
                         "prompt_version": VERSION,
@@ -286,7 +299,11 @@ class Inference:
                     measured_rate = (
                         tiers["short"]
                         if input_tokens
-                        <= (32000 if name.startswith("typesafe/") else 20278)
+                        <= (
+                            32000
+                            if name.startswith("typesafe/")
+                            else (272000 if name == "gpt-6-luna" else 20278)
+                        )
                         else tiers.get("long")
                     )
                     if measured_rate:
@@ -349,6 +366,14 @@ class Inference:
                     else:
                         self.stats["estimated_cost_usd"] += event["estimated_cost_usd"]
                 with store.model_budget_lock():
+                    experiment_budget.settle(
+                        reservation_id,
+                        event["input_tokens"],
+                        event["output_tokens"],
+                        event["calculated_cost_usd"],
+                        locked=True,
+                    )
+                    event["reservation_id"] = reservation_id
                     store.put(
                         "events", event["id"], event, self.owner, "enhancement_usage"
                     )
@@ -421,7 +446,17 @@ class Inference:
         return base.rstrip("/") + "/embeddings", {
             "model": self.policy.embedding_model,
             "dimensions": self.policy.dimensions,
-            "input": json.dumps(evidence, sort_keys=True, ensure_ascii=False),
+            "input": json.dumps(
+                {
+                    k: v
+                    for k, v in evidence.items()
+                    if k not in {"ontology_hashes", "serialization_version"}
+                },
+                sort_keys=True,
+                ensure_ascii=False,
+            ),
+            # Cache metadata must not become semantic similarity evidence.
+            "_ontology_hashes": evidence.get("ontology_hashes", []),
             "encoding_format": "float",
         }
 
@@ -433,7 +468,7 @@ class Inference:
         response = httpx.post(
             endpoint,
             headers={"Authorization": "Bearer " + key},
-            json=payload,
+            json={k: v for k, v in payload.items() if not k.startswith("_")},
             timeout=60,
         )
         response.raise_for_status()
@@ -547,6 +582,7 @@ class Inference:
             payload = {
                 **entries[0]["payload"],
                 "input": [e["payload"]["input"] for e in entries],
+                "_ontology_hashes": [e["payload"]["_ontology_hashes"] for e in entries],
             }
 
             def parse(raw):

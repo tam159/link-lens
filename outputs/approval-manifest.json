@@ -1,0 +1,437 @@
+{
+  "experiment_id": "jev-gpt6-luna-ontology-v1",
+  "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+  "status": "approved_and_extracted",
+  "mappings": [
+    {
+      "source": "acnc-register",
+      "run_id": "140cbad0-cc07-441c-9389-69c2dff41ddf",
+      "thread_id": "01a0d40e-7725-7592-b640-61deff75afa0",
+      "mapping_id": "140cbad0-cc07-441c-9389-69c2dff41ddf:1",
+      "config_hash": "50458da734fb0fba17ee484a3f474b694505cb4218282290cc020d54eb36d3b8",
+      "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+      "review_url": "http://localhost:2024/api/artifacts/d69a5aca7a77af5f08ed65814223bc4bb2ccf3fa0ab4eed16537695825dfd95f",
+      "review_file": "review/onboarding/acnc-register/140cbad0-cc07-441c-9389-69c2dff41ddf/review.md",
+      "mapping_file": "review/mappings/acnc-register.json",
+      "baseline_mapped_columns": 11,
+      "mapped_columns": 66,
+      "unmapped_columns": 3,
+      "added_source_columns": [
+        "Aboriginal_or_TSI",
+        "Address_Type",
+        "Adults",
+        "Advancing_Culture",
+        "Advancing_Education",
+        "Advancing_Health",
+        "Advancing_Religion",
+        "Advancing_natual_environment",
+        "Advancing_security_or_safety_of_Australia_or_Australian_public",
+        "Advancing_social_or_public_welfare",
+        "Aged_Persons",
+        "Charity_Size",
+        "Children",
+        "Communities_Overseas",
+        "Date_Organisation_Established",
+        "Early_Childhood",
+        "Ethnic_Groups",
+        "Families",
+        "Females",
+        "Financial_Year_End",
+        "Financially_Disadvantaged",
+        "General_Community_in_Australia",
+        "HPC",
+        "LGBTIQA+",
+        "Males",
+        "Migrants_Refugees_or_Asylum_Seekers",
+        "Number_of_Responsible_Persons",
+        "Operates_in_ACT",
+        "Operates_in_NSW",
+        "Operates_in_NT",
+        "Operates_in_QLD",
+        "Operates_in_SA",
+        "Operates_in_TAS",
+        "Operates_in_VIC",
+        "Operates_in_WA",
+        "Other_Beneficiaries",
+        "Other_Charities",
+        "PBI",
+        "People_at_risk_of_homelessness",
+        "People_with_Chronic_Illness",
+        "People_with_Disabilities",
+        "Pre_Post_Release_Offenders",
+        "Preventing_or_relieving_suffering_of_animals",
+        "Promote_or_oppose_a_change_to_law__government_poll_or_prac",
+        "Promoting_or_protecting_human_rights",
+        "Promoting_reconciliation__mutual_respect_and_tolerance",
+        "Purposes_beneficial_to_ther_general_public_and_other_analogous",
+        "Registration_Date",
+        "Rural_Regional_Remote_Communities",
+        "Unemployed_Person",
+        "Veterans_or_their_families",
+        "Victims_of_Disasters",
+        "Victims_of_crime",
+        "Youth",
+        "animals",
+        "environment",
+        "other_gender_identities"
+      ],
+      "removed_source_columns": [
+        "Charity_Legal_Name",
+        "Other_Organisation_Names"
+      ],
+      "targets": 18,
+      "final_validation_passed": true,
+      "same_bytes_as_baseline": false,
+      "limitations": [
+        "Charity_Legal_Name is retained as the raw subject label and intentionally not mapped to entity.legal_name because the source permits alternate identifiers when the legal name is withheld and supplies no safe discriminator.",
+        "Other_Organisation_Names is unmapped because its values mix trading names and other names without a source distinction.",
+        "Operating_Countries is unmapped because supplied values include AUS although the guide describes overseas operating-country codes; no overseas interpretation is asserted.",
+        "ACNC registration date is mapped only to registration.acnc_date_registered; organisation establishment is a distinct date and neither is asserted as company registration.",
+        "Number_of_Responsible_Persons value 0 is excluded as a documented non-response sentinel. Blank indicator cells are not interpreted as negative claims.",
+        "No entity type, entity status, company registration, or ownership is inferred. No entity type is inferred from name suffixes.",
+        "The source is updated weekly. The envelope publication timestamp is a proxy, not a row-change timestamp; withholding and update timing may affect completeness or freshness.",
+        "The user guide describes a legacy column sequence; mapping uses only frozen reader headers and supplied sample evidence. Website values that are not recognized by the website transform, including Instagram in validation, are not reinterpreted.",
+        "Supplied exploration code failed before duplicate-ABN and full-sample grain checks; therefore duplicate-key and row-grain assumptions have not been independently verified. All authority and field scores are provisional judgments requiring human review."
+      ],
+      "unmapped_fields": [
+        {
+          "source_field": "Charity_Legal_Name",
+          "reason": "ACNC user guide, PDF p. 2 \u00a7\u00a78\u20139, says this field is ordinarily the formal/legal name but explicitly permits ACNC to substitute an alternate identifier when the charity\u2019s legal name is withheld. No usable discriminator is provided for those rows. Retain the raw subject label through subject_label_field, but do not make an unconditional entity.legal_name claim."
+        },
+        {
+          "source_field": "Other_Organisation_Names",
+          "reason": "ACNC user guide, PDF p. 2 \u00a7\u00a710\u201311, says values may be trading names or other names, potentially unlike the legal name. The source does not distinguish these alternatives per value, so do not assert trading-name status."
+        },
+        {
+          "source_field": "Operating_Countries",
+          "reason": "ACNC user guide, PDF p. 4 \u00a7\u00a727\u201328, describes ISO alpha-3 codes for overseas operation, but supplied sample rows include AUS. With no supported discriminator or alternative meaning, leave unmapped; do not assert overseas meaning for AUS."
+        }
+      ],
+      "status": "completed",
+      "approval": {
+        "id": "ae649c6dff194817e5bcc24897b0d8de21af83e43dc2f274bbc4a509a3648492",
+        "run_id": "140cbad0-cc07-441c-9389-69c2dff41ddf",
+        "config_hash": "50458da734fb0fba17ee484a3f474b694505cb4218282290cc020d54eb36d3b8",
+        "mapping_id": "140cbad0-cc07-441c-9389-69c2dff41ddf:1",
+        "decision": "approved",
+        "reviewer": "local-user",
+        "at": "2026-09-24T15:40:52.250084+00:00",
+        "feedback": "",
+        "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+      }
+    },
+    {
+      "source": "asic-afs-licensee",
+      "run_id": "ee6281be-3189-4e01-84e6-91abcbadccfe",
+      "thread_id": "01a0d406-6e0b-74b3-910c-f8bec3ab6950",
+      "mapping_id": "ee6281be-3189-4e01-84e6-91abcbadccfe:2",
+      "config_hash": "b127ceac8f80341f51ab51f246baf91954a50938d2da8cd5a5fc4cf05929aa13",
+      "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+      "review_url": "http://localhost:2024/api/artifacts/4e3cb429780073849f64d2edd754b218fd0b5bab9c9b9d5331bb5d4f8f7c60b8",
+      "review_file": "review/onboarding/asic-afs-licensee/ee6281be-3189-4e01-84e6-91abcbadccfe/review.md",
+      "mapping_file": "review/mappings/asic-afs-licensee.json",
+      "baseline_mapped_columns": 4,
+      "mapped_columns": 10,
+      "unmapped_columns": 1,
+      "added_source_columns": [
+        "AFS_LIC_ABN_ACN",
+        "AFS_LIC_CONDITION",
+        "AFS_LIC_NAME",
+        "AFS_LIC_NUM",
+        "AFS_LIC_PRE_FSR",
+        "AFS_LIC_START_DT"
+      ],
+      "removed_source_columns": [],
+      "targets": 11,
+      "final_validation_passed": true,
+      "same_bytes_as_baseline": false,
+      "limitations": [
+        "Dataset documentation describes a point-in-time snapshot of current licensees (Help File p.3), but there is no row-level status field or filter; this does not establish entity deregistration or a historical status claim.",
+        "AFS_LIC_NAME may be a person's displayed name or an organisation's register-entry name (Help File p.8); retained as licence.register_entry_name and subject label, not asserted to be a legal name or company type.",
+        "AFS_LIC_ABN_ACN is a mixed ABN/ACN column (Help File p.8); checksum validators independently emit only a valid identifier of the corresponding type. No ACN is inferred from an ABN suffix and no legal form is inferred.",
+        "AFS_LIC_START_DT is a licence start date, not company registration date.",
+        "AFS_LIC_PRE_FSR and AFS_LIC_CONDITION are split only on documented tilde separators; embedded quotation/comma structures are retained as raw text and not semantically parsed.",
+        "Principal business address fields are components, not a complete street address. Help File pp.9-10 notes blank fields can mean the provided address could not be validated; International is omitted as a placeholder country claim.",
+        "The source envelope supplies the publication timestamp and licence. publication_proxy labels the snapshot time, not a row-change time."
+      ],
+      "unmapped_fields": [
+        {
+          "source_field": "REGISTER_NAME",
+          "reason": "Help File p.8 defines this as the name of the register for the record (sample value AFS Licence); no registered ontology concept represents register metadata."
+        }
+      ],
+      "status": "completed",
+      "approval": {
+        "id": "934098a7883c8ed618250e1523011765963ff01cf90f862b1aacd2243c00105f",
+        "run_id": "ee6281be-3189-4e01-84e6-91abcbadccfe",
+        "config_hash": "b127ceac8f80341f51ab51f246baf91954a50938d2da8cd5a5fc4cf05929aa13",
+        "mapping_id": "ee6281be-3189-4e01-84e6-91abcbadccfe:2",
+        "decision": "approved",
+        "reviewer": "local-user",
+        "at": "2026-09-24T15:43:28.182858+00:00",
+        "feedback": "",
+        "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+      }
+    },
+    {
+      "source": "asic-business-names",
+      "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+      "thread_id": "01a0d40f-3afd-7bc3-9114-2b07b99b3e8c",
+      "mapping_id": "cc5ce988-e74c-4062-98a6-18da6518b82e:1",
+      "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+      "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+      "review_url": "http://localhost:2024/api/artifacts/43f043edf149228f1d84c85b06e5dcf349ad462c8bde64fcda2965f49b42c9db",
+      "review_file": "review/onboarding/asic-business-names/cc5ce988-e74c-4062-98a6-18da6518b82e/review.md",
+      "mapping_file": "review/mappings/asic-business-names.json",
+      "baseline_mapped_columns": 1,
+      "mapped_columns": 7,
+      "unmapped_columns": 1,
+      "added_source_columns": [
+        "BN_ABN",
+        "BN_CANCEL_DT",
+        "BN_REG_DT",
+        "BN_STATE_NUM",
+        "BN_STATE_OF_REG",
+        "BN_STATUS"
+      ],
+      "removed_source_columns": [],
+      "targets": 7,
+      "final_validation_passed": true,
+      "same_bytes_as_baseline": false,
+      "limitations": [
+        "Business-name register records are not necessarily legal entities and the source does not establish ownership of the business name or the displayed BN_ABN; subject role is unknown and the ABN is retained only as an entry-level registration claim.",
+        "BN_STATUS preview includes \u201cDeregistered\u201d, while the data dictionary describes Registered and Cancelled; the source label is preserved without translating it into legal-entity status.",
+        "BN_STATE_NUM and BN_STATE_OF_REG describe historical registration by a previous state/territory regulator, not current branch or service locations.",
+        "Publication timestamp is a source-envelope proxy for observation time, not a row-level change time; dataset notes and help file differ on update cadence.",
+        "BN_RENEW_DT was removed in April 2025 and is not present in the supplied columns."
+      ],
+      "unmapped_fields": [
+        {
+          "source_field": "REGISTER_NAME",
+          "reason": "The column identifies the register name (\u201cBUSINESS NAMES\u201d in preview) but the supplied ontology has no registered concept for a register title; do not treat it as entity identity or infer another canonical field."
+        }
+      ],
+      "status": "completed",
+      "approval": {
+        "id": "bc6e71311adcc41b0107cbca814887e4139aad9cf450599c60fbbfe0983fdbb8",
+        "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+        "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+        "mapping_id": "cc5ce988-e74c-4062-98a6-18da6518b82e:1",
+        "decision": "approved",
+        "reviewer": "local-user",
+        "at": "2026-09-24T15:40:45.253012+00:00",
+        "feedback": "",
+        "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+      }
+    },
+    {
+      "source": "asic-companies",
+      "run_id": "45fe9b0d-853e-4bef-9c41-73d41d6e3582",
+      "thread_id": "01a0d40f-c41b-78f3-886b-f35f1f58a9ef",
+      "mapping_id": "45fe9b0d-853e-4bef-9c41-73d41d6e3582:2",
+      "config_hash": "66cc567369cfe465e62d7c276144eb9c1e445463b99959a7606a1fa8e0b2c92b",
+      "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+      "review_url": "http://localhost:2024/api/artifacts/c49741c06b151dd6682a60f5b127e67541d7065bc2f966b7bbd18e5ef6e779b7",
+      "review_file": "review/onboarding/asic-companies/45fe9b0d-853e-4bef-9c41-73d41d6e3582/review.md",
+      "mapping_file": "review/mappings/asic-companies.json",
+      "baseline_mapped_columns": 6,
+      "mapped_columns": 12,
+      "unmapped_columns": 3,
+      "added_source_columns": [
+        "Class",
+        "Current Name Start Date",
+        "Date of Deregistration",
+        "Previous State of Registration",
+        "State Registration number",
+        "Sub Class"
+      ],
+      "removed_source_columns": [],
+      "targets": 12,
+      "final_validation_passed": true,
+      "same_bytes_as_baseline": false,
+      "limitations": [
+        "The source envelope supplies the publication proxy timestamp and licence; this is a weekly snapshot proxy, not row-level change time. The dataset notes warn it may be stale versus ASIC Connect.",
+        "Rows include historical company-name records and deregistered companies from the past year; preserve source-row provenance and do not treat each name record as a distinct entity.",
+        "ACN is excluded for Type=RACN because the documented field value is an ARBN in those cases; identifiers are validated, not inferred from ABN suffixes.",
+        "Current Name is left unmapped rather than treated as a trading name or as a second legal_name mapping. Current-name legal_name claims are limited to rows with Current Name Indicator=Y.",
+        "Company registration/deregistration claims remain distinct from the current-name start date and from any broader entity-status interpretation.",
+        "Authority and field confidence scores are provisional and require human review."
+      ],
+      "unmapped_fields": [
+        {
+          "source_field": "Modified since last report",
+          "reason": "Dataset-record modification flag, not an entity attribute; no matching ontology concept."
+        },
+        {
+          "source_field": "Current Name Indicator",
+          "reason": "Control flag identifying current-name versus historical-name rows; no matching ontology concept. Used only to condition name/date mappings."
+        },
+        {
+          "source_field": "Current Name",
+          "reason": "Documentation describes a conditional current-name companion value on historical name records; not a trading name. Mapping it to legal_name would duplicate that canonical target, and no separate historical-name concept is available."
+        }
+      ],
+      "status": "completed",
+      "approval": {
+        "id": "805d9a160e5a4725347f725439f4d878652f7333f4f0043b30c921cb994422a3",
+        "run_id": "45fe9b0d-853e-4bef-9c41-73d41d6e3582",
+        "config_hash": "66cc567369cfe465e62d7c276144eb9c1e445463b99959a7606a1fa8e0b2c92b",
+        "mapping_id": "45fe9b0d-853e-4bef-9c41-73d41d6e3582:2",
+        "decision": "approved",
+        "reviewer": "local-user",
+        "at": "2026-09-24T15:40:28.635862+00:00",
+        "feedback": "",
+        "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+      }
+    },
+    {
+      "source": "corporate-transparency",
+      "run_id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+      "thread_id": "01a0d406-6e37-74a0-81ac-2322963c1a9f",
+      "mapping_id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3:1",
+      "config_hash": "e791390fb47c87e1403c8fa2ff52d1db5bb7df1d3a1c77e28b2a388dbfebf636",
+      "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+      "review_url": "http://localhost:2024/api/artifacts/04229e9e931d269ff6dbaf6300ca4c6e287e59b8277cd7ab0b5ae5afe74bb7a3",
+      "review_file": "review/onboarding/corporate-transparency/9e380218-8bb8-4df9-ba59-c9c2ce84bef3/review.md",
+      "mapping_file": "review/mappings/corporate-transparency.json",
+      "baseline_mapped_columns": 1,
+      "mapped_columns": 2,
+      "unmapped_columns": 7,
+      "added_source_columns": [
+        "Income year"
+      ],
+      "removed_source_columns": [],
+      "targets": 2,
+      "final_validation_passed": true,
+      "same_bytes_as_baseline": true,
+      "limitations": [
+        "Publication timestamp is an envelope-supplied proxy, not evidence of when an individual row or claim changed.",
+        "The supplied documentation says the report names corporate tax entities but does not establish that Name is their registered legal name; the raw label is retained without that assertion.",
+        "Rows are entity-by-income-year disclosures, not evidence of economic or accounting group membership; do not infer corporate groups.",
+        "Income and tax amounts are not mapped because this ontology has no suitable financial-amount concepts and no currency should be inferred. Blank taxable-income or tax-payable cells are not zero claims.",
+        "No row filter is justified by the supplied notes or preview. Eligibility thresholds vary by income year and entity category, and are not encoded as filters.",
+        "The supplied documentation is limited to dataset_notes; no page-numbered report documentation was provided."
+      ],
+      "unmapped_fields": [
+        {
+          "source_field": "Name",
+          "reason": "Retained as the raw subject label via subject_label_field. The documentation and header do not establish this label as the registered legal name, so it is not mapped to entity.legal_name."
+        },
+        {
+          "source_field": "Total income $",
+          "reason": "Financial amount has no matching registered ontology concept; do not infer currency or add a target."
+        },
+        {
+          "source_field": "Taxable income $",
+          "reason": "Financial amount has no matching registered ontology concept; blank values must not be interpreted as zero."
+        },
+        {
+          "source_field": "Tax payable $",
+          "reason": "Financial amount has no matching registered ontology concept; blank values must not be interpreted as zero."
+        },
+        {
+          "source_field": "__unnamed_7",
+          "reason": "Unnamed source column; preview cells are blank and no meaning is documented."
+        },
+        {
+          "source_field": "__unnamed_8",
+          "reason": "Unnamed source column; preview cells are blank and no meaning is documented."
+        },
+        {
+          "source_field": "__unnamed_9",
+          "reason": "Unnamed source column; preview cells are blank and no meaning is documented."
+        }
+      ],
+      "status": "completed",
+      "approval": {
+        "id": "91db7a77942cd534c256fc183c23f1b5ef974b4c7ff4103470eecf139d3b624e",
+        "run_id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+        "config_hash": "e791390fb47c87e1403c8fa2ff52d1db5bb7df1d3a1c77e28b2a388dbfebf636",
+        "mapping_id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3:1",
+        "decision": "approved",
+        "reviewer": "local-user",
+        "at": "2026-09-24T15:43:19.582828+00:00",
+        "feedback": "",
+        "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+      }
+    },
+    {
+      "source": "employment-provider-locations-and-contacts",
+      "run_id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a",
+      "thread_id": "01a0d406-6e47-7013-a22c-2b51f346f7dd",
+      "mapping_id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a:1",
+      "config_hash": "05b0269c8deeec4a9f736999097befb7dc77ca16d2f4e6b2f5eeeaa329097b2a",
+      "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+      "review_url": "http://localhost:2024/api/artifacts/f279fc6715f40b42bb4fa7477e7bf89a9292d788955fa99e5610c90d8e53edac",
+      "review_file": "review/onboarding/employment-provider-locations-and-contacts/d8894b1e-de5a-484e-87d4-0813c35f9f9a/review.md",
+      "mapping_file": "review/mappings/employment-provider-locations-and-contacts.json",
+      "baseline_mapped_columns": 4,
+      "mapped_columns": 13,
+      "unmapped_columns": 6,
+      "added_source_columns": [
+        "AGENT_FREECALL_NUM",
+        "CONTRACT_NAME",
+        "DIS_SITE_CODE",
+        "LATITUDE",
+        "LOCATION_NAME",
+        "LONGITUDE",
+        "SITE_CONTACT_PHONE",
+        "SITE_EMAIL_ADDRESS",
+        "SITE_URL"
+      ],
+      "removed_source_columns": [],
+      "targets": 13,
+      "final_validation_passed": true,
+      "same_bytes_as_baseline": true,
+      "limitations": [
+        "No documentation was supplied; field interpretations rely on exact headers and the shown sample values only.",
+        "SITE_NAME is preserved only as the raw subject label and is not asserted to be a legal entity name or trading name.",
+        "The source describes provider locations but supplies no ABN/ACN or authoritative legal-holder evidence; service_provider role does not assert incorporation or ownership.",
+        "Rows may repeat a physical location across contracts; grouping and identity resolution beyond the supplied site code are not inferred.",
+        "SITE_LOCALITY_NAME, SITE_STATE_CD and SITE_POSTCODE are mapped as service-location address attributes, not registered addresses.",
+        "PHONE_NUMBER, ESA_CD_1, ESA_CD_2 and ESA_CD_3 remain unmapped because their specific meaning is not established.",
+        "The trailing unnamed column is preserved in the unmapped inventory; shown sample values are blank.",
+        "Publication proxy 2016-05-27 is supplied by the source envelope and is not a claim that individual rows changed on that date."
+      ],
+      "unmapped_fields": [
+        {
+          "source_field": "SITE_NAME",
+          "reason": "Retained as the raw subject label via subject_label_field; the dataset does not establish that it is a legal name or trading name."
+        },
+        {
+          "source_field": "ESA_CD_1",
+          "reason": "Opaque ESA code; no supplied code definitions or matching ontology field."
+        },
+        {
+          "source_field": "ESA_CD_2",
+          "reason": "Opaque ESA code; no supplied code definitions or matching ontology field."
+        },
+        {
+          "source_field": "ESA_CD_3",
+          "reason": "Opaque ESA code; no supplied code definitions or matching ontology field."
+        },
+        {
+          "source_field": "PHONE_NUMBER",
+          "reason": "Generic phone number header does not establish whether this is a contact phone, site line, or another telephone role."
+        },
+        {
+          "source_field": "__unnamed_19",
+          "reason": "Unnamed trailing column; sample cells are empty, and no meaning can be established."
+        }
+      ],
+      "status": "completed",
+      "approval": {
+        "id": "fae9d53559349f12ad9109698d85afc60b8e1184694c6c4c39ce9417f84614a1",
+        "run_id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a",
+        "config_hash": "05b0269c8deeec4a9f736999097befb7dc77ca16d2f4e6b2f5eeeaa329097b2a",
+        "mapping_id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a:1",
+        "decision": "approved",
+        "reviewer": "local-user",
+        "at": "2026-09-24T15:41:48.768769+00:00",
+        "feedback": "",
+        "identity_basis": "configured local single-user identity, not authenticated multi-user identity"
+      }
+    }
+  ],
+  "verified_at": "2026-09-24T15:49:02.207406+00:00"
+}

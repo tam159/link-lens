@@ -1,0 +1,123 @@
+{
+  "records": 6000,
+  "sources": {
+    "b050b242-4487-4306-abf5-07ca073e5594": {
+      "records": 1000,
+      "named_records": 996,
+      "fields": {
+        "address.line_1": 919,
+        "entity.charity_beneficiary_category": 958,
+        "address.country": 878,
+        "financial_period.year_end": 999,
+        "address.type": 1000,
+        "entity.charity_subtype": 932,
+        "entity.website": 665,
+        "registration.acnc_date_registered": 994,
+        "address.postcode": 919,
+        "entity.abn": 992,
+        "address.state": 914,
+        "entity.responsible_person_count": 998,
+        "entity.date_established": 957,
+        "address.locality": 916,
+        "entity.operating_region": 780,
+        "entity.charity_size": 933,
+        "address.line_2": 97,
+        "address.line_3": 21
+      },
+      "address_roles": {
+        "business": 1000
+      }
+    },
+    "ab7eddce-84df-4098-bc8f-500d0d9776d1": {
+      "records": 1000,
+      "named_records": 1000,
+      "fields": {
+        "licence.authorisation_condition": 1000,
+        "licence.start_date": 1000,
+        "licence.register_entry_name": 1000,
+        "address.country": 995,
+        "licence.number": 1000,
+        "address.postcode": 995,
+        "entity.abn": 972,
+        "address.state": 995,
+        "address.locality": 995,
+        "licence.pre_fsr_reference": 183,
+        "entity.acn": 28
+      },
+      "address_roles": {
+        "business": 995
+      }
+    },
+    "bc515135-4bb6-4d50-957a-3713709a76d3": {
+      "records": 1000,
+      "named_records": 1000,
+      "fields": {
+        "registration.registered_business_name": 1000,
+        "registration.business_name_registration_date": 1000,
+        "registration.business_name_status": 1000,
+        "registration.business_name_abn": 764,
+        "registration.former_state_number": 196,
+        "registration.previous_state_of_registration": 196,
+        "registration.business_name_cancellation_date": 113
+      },
+      "address_roles": {}
+    },
+    "7b8656f9-606d-4337-af29-66b89b2eeefb": {
+      "records": 1000,
+      "named_records": 1000,
+      "fields": {
+        "entity.asic_register_status": 1000,
+        "registration.state_registration_number": 1000,
+        "entity.date_registered": 1000,
+        "registration.original_state": 1000,
+        "registration.current_name_start_date": 345,
+        "entity.asic_company_sub_class": 1000,
+        "entity.abn": 897,
+        "entity.asic_company_type": 1000,
+        "entity.asic_company_class": 1000,
+        "entity.acn": 1000,
+        "entity.legal_name": 625,
+        "registration.company_deregistration_date": 23
+      },
+      "address_roles": {}
+    },
+    "c2524c87-cea4-4636-acac-599a82048a26": {
+      "records": 1000,
+      "named_records": 1000,
+      "fields": {
+        "entity.abn": 993,
+        "financial_period.reporting_period": 1000
+      },
+      "address_roles": {}
+    },
+    "638f89d7-1c12-4db9-8342-abfcd7b49e95": {
+      "records": 1000,
+      "named_records": 1000,
+      "fields": {
+        "service_location.code": 1000,
+        "service_location.address_line": 999,
+        "service_location.latitude": 989,
+        "address.postcode": 1000,
+        "service_location.longitude": 990,
+        "contact.phone": 973,
+        "service_location.contract_name": 1000,
+        "service_location.name": 1000,
+        "address.state": 1000,
+        "address.locality": 1000,
+        "contact.email": 727,
+        "service_location.website": 579,
+        "service_location.agent_freecall_phone": 317
+      },
+      "address_roles": {
+        "service_location": 1000
+      }
+    }
+  },
+  "lexical_candidate_pairs": 1472,
+  "assessable_lexical_pairs": 756,
+  "potential_admission_routes": {
+    "distinctive_name_and_location": 2
+  },
+  "warnings": [],
+  "scope": "Read-only lexical feasibility scan before embeddings; potential routes are not verified matches and semantic retrieval may find additional candidates."
+}

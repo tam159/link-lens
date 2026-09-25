@@ -1,0 +1,4062 @@
+[
+  {
+    "event_id": "17a9a863-9483-4bd6-b339-fd46fd93b3f0",
+    "run_id": "31311d91-51e9-4901-bfb9-28caf3c9e6ed",
+    "source": "connectivity-test",
+    "stage": "connectivity",
+    "model": "gpt-6-luna",
+    "usage": null,
+    "response_artifact": null,
+    "reported_model": null,
+    "reported_service_tier": null
+  },
+  {
+    "event_id": "c753d7ed-868b-4a0d-8503-e4643596d86e",
+    "run_id": "263f87db-d0c9-4206-ae78-29a478ee183c",
+    "source": "connectivity-test",
+    "stage": "connectivity",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 255,
+      "output_tokens": 21,
+      "total_tokens": 276,
+      "input_token_details": {
+        "cache_creation": 0,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 0
+      }
+    },
+    "response_artifact": "c6fca79e8dcc7af109ae10bef26cb34470836e18eb564ca02105ebce5212fda5",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "589d0adc-e5b0-4a4e-a964-425a9e88f658",
+    "run_id": "073d08af-4746-4a79-aebb-fd1ffc41be54",
+    "source": "acnc-register",
+    "stage": "inspect",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 4585,
+      "output_tokens": 660,
+      "total_tokens": 5245,
+      "input_token_details": {
+        "cache_creation": 4452,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 0
+      }
+    },
+    "response_artifact": "404925eee12e9c638899c6ae4fb4ce5851d356af95e02c69cb8bd64b6b15c77e",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "ac78b7b9-7e7c-43e5-a881-57b24d2c7f84",
+    "run_id": "ee6281be-3189-4e01-84e6-91abcbadccfe",
+    "source": "asic-afs-licensee",
+    "stage": "inspect",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 6917,
+      "output_tokens": 550,
+      "total_tokens": 7467,
+      "input_token_details": {
+        "cache_creation": 6784,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 0
+      }
+    },
+    "response_artifact": "fce058980daa0e6879ca4de38f6c64d33b019d14a10e60f15e2b112e16a4b390",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "bc098846-a7c0-40b3-9a32-4adc14dfe497",
+    "run_id": "8e286c80-fb1f-4266-ab6e-fd6c58cbf779",
+    "source": "asic-business-names",
+    "stage": "inspect",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 4108,
+      "output_tokens": 454,
+      "total_tokens": 4562,
+      "input_token_details": {
+        "cache_creation": 3975,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 0
+      }
+    },
+    "response_artifact": "ad66e620752f5e20b6f382d4fc1b32731b08b6a9ba1cd810f18d11e7037d4fdb",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "719b0f1f-7222-4111-8eb8-6fc52a9db2ed",
+    "run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+    "source": "asic-companies",
+    "stage": "inspect",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 5764,
+      "output_tokens": 504,
+      "total_tokens": 6268,
+      "input_token_details": {
+        "cache_creation": 5631,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 0
+      }
+    },
+    "response_artifact": "6ce110bb74b031e191926c8fdea960d5a5a4715dd01037cd77ebe9d336867a7a",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "9351004e-3f6e-4f11-841e-fd3a595e3db5",
+    "run_id": "9e380218-8bb8-4df9-ba59-c9c2ce84bef3",
+    "source": "corporate-transparency",
+    "stage": "inspect",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 1729,
+      "output_tokens": 206,
+      "total_tokens": 1935,
+      "input_token_details": {
+        "cache_creation": 1596,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 0
+      }
+    },
+    "response_artifact": "0a35032b99572c00adebed43d768d9fc1bed89453f935b7214d307ecc4e2b4b5",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "e9900c2c-e566-494f-9840-c02d025d9b8b",
+    "run_id": "d8894b1e-de5a-484e-87d4-0813c35f9f9a",
+    "source": "employment-provider-locations-and-contacts",
+    "stage": "inspect",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 1292,
+      "output_tokens": 483,
+      "total_tokens": 1775,
+      "input_token_details": {
+        "cache_creation": 1159,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 0
+      }
+    },
+    "response_artifact": "78ee2af09965abf316b5d61bd71716f96e8469f2a461a9d97257af26109229c2",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "a74d2407-3bcc-4a7c-a5f6-ce46ce48bfb3",
+    "run_id": "ontology-9c5f74cb6510f4b2e483d372200eac3766db6d03",
+    "source": "ontology-evolution",
+    "stage": "ontology_source",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 11015,
+      "output_tokens": 8275,
+      "total_tokens": 19290,
+      "input_token_details": {
+        "cache_creation": 10883,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 1501
+      }
+    },
+    "response_artifact": "a80ae98c306e04bc020a4cebc82bc989fb2c6d82bb3a7910f5f82732eaab587f",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "14ab56f1-5d4e-467c-954e-841813864c73",
+    "run_id": "ontology-9c5f74cb6510f4b2e483d372200eac3766db6d03",
+    "source": "ontology-evolution",
+    "stage": "ontology_source",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 10469,
+      "output_tokens": 2549,
+      "total_tokens": 13018,
+      "input_token_details": {
+        "cache_creation": 10337,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 1178
+      }
+    },
+    "response_artifact": "01c56020e728b581ce9c67c0902b839236bd6b7fb2034e0b10d52e49608dcab5",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "c6c952b3-f8d3-41cc-970e-0ad8415c1e8a",
+    "run_id": "ontology-9c5f74cb6510f4b2e483d372200eac3766db6d03",
+    "source": "ontology-evolution",
+    "stage": "ontology_source",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 6568,
+      "output_tokens": 2456,
+      "total_tokens": 9024,
+      "input_token_details": {
+        "cache_creation": 6436,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 1224
+      }
+    },
+    "response_artifact": "2c6f4cfbe0822e0604a76e4d681e26ba735c875606e14064d9c03680a0f3fb20",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "8230a3cd-8b52-4bda-9cbd-86b836f205cc",
+    "run_id": "ontology-9c5f74cb6510f4b2e483d372200eac3766db6d03",
+    "source": "ontology-evolution",
+    "stage": "ontology_source",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 8556,
+      "output_tokens": 3448,
+      "total_tokens": 12004,
+      "input_token_details": {
+        "cache_creation": 8424,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 1451
+      }
+    },
+    "response_artifact": "af224f49beafa0256a8b598453bc6e966a776728eff1257858b7f8c535053da0",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "33f92401-4ad3-47d0-90ca-11bce5f28cdb",
+    "run_id": "ontology-9c5f74cb6510f4b2e483d372200eac3766db6d03",
+    "source": "ontology-evolution",
+    "stage": "ontology_source",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 3560,
+      "output_tokens": 2054,
+      "total_tokens": 5614,
+      "input_token_details": {
+        "cache_creation": 3428,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 902
+      }
+    },
+    "response_artifact": "22095db72293e02b415bf40ffb0e0e0f3959fbe44a614e99fa2f7790dde7f317",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "a752a849-20af-4374-b6e0-8ce525d2f58f",
+    "run_id": "ontology-9c5f74cb6510f4b2e483d372200eac3766db6d03",
+    "source": "ontology-evolution",
+    "stage": "ontology_source",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 4377,
+      "output_tokens": 3631,
+      "total_tokens": 8008,
+      "input_token_details": {
+        "cache_creation": 4245,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 1253
+      }
+    },
+    "response_artifact": "5dfd216cb28ebcad4e9492ca1f923cef259e15681adf9c458a167837bcb98ba6",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "33e78fef-ea2d-4a62-ac04-a9d1f7253846",
+    "run_id": "ontology-9c5f74cb6510f4b2e483d372200eac3766db6d03",
+    "source": "ontology-evolution",
+    "stage": "ontology_consolidate",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 53304,
+      "output_tokens": 13694,
+      "total_tokens": 66998,
+      "input_token_details": {
+        "cache_creation": 53172,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 756
+      }
+    },
+    "response_artifact": "4cd2916b0c2ac0471af86adb17e54d14673c13104f526d65d730b7dc3bb3c1e0",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "b9739502-eeca-487b-99d3-a0a041aa67c1",
+    "run_id": "ontology-9c5f74cb6510f4b2e483d372200eac3766db6d03",
+    "source": "ontology-evolution",
+    "stage": "ontology_repair",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 51354,
+      "output_tokens": 14283,
+      "total_tokens": 65637,
+      "input_token_details": {
+        "cache_creation": 51222,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 969
+      }
+    },
+    "response_artifact": "1f10b5e0894786b699ee1fdb8cbb4dcb8a24350b14a242114b4633a811fca507",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "0ec6a101-8596-4418-ac68-e28cd04fa386",
+    "run_id": "ontology-0e730312a84a5479990336584ccb4faeea7691a3",
+    "source": "ontology-evolution",
+    "stage": "ontology_source",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 11030,
+      "output_tokens": 7492,
+      "total_tokens": 18522,
+      "input_token_details": {
+        "cache_creation": 10898,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 1034
+      }
+    },
+    "response_artifact": "f6e69555b169389b87c96e303a849e8d612117bef87540e0e5d219aaae64fb9c",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "02d554ca-798b-40f4-a749-f2118d6273f8",
+    "run_id": "ontology-0e730312a84a5479990336584ccb4faeea7691a3",
+    "source": "ontology-evolution",
+    "stage": "ontology_source",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 10482,
+      "output_tokens": 2371,
+      "total_tokens": 12853,
+      "input_token_details": {
+        "cache_creation": 10350,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 1028
+      }
+    },
+    "response_artifact": "c84c2f76d77b947de69bb94c9928cb01f0c4615334bfcea3f5a7bc75a70cdb3a",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "b4664ee4-9de0-4944-bf5a-78f9ed3bd165",
+    "run_id": "ontology-0e730312a84a5479990336584ccb4faeea7691a3",
+    "source": "ontology-evolution",
+    "stage": "ontology_source",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 6580,
+      "output_tokens": 2450,
+      "total_tokens": 9030,
+      "input_token_details": {
+        "cache_creation": 6448,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 1270
+      }
+    },
+    "response_artifact": "398480074d2e00c6c808cc66f66e228f535f16165fbf4c1c98ad14f1c526c67a",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "e9cc8277-7bd8-4cb2-a805-98a9da47558e",
+    "run_id": "ontology-0e730312a84a5479990336584ccb4faeea7691a3",
+    "source": "ontology-evolution",
+    "stage": "ontology_source",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 8566,
+      "output_tokens": 3437,
+      "total_tokens": 12003,
+      "input_token_details": {
+        "cache_creation": 8434,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 1490
+      }
+    },
+    "response_artifact": "52a3dd91a0e0d34f15170ce4cb2dc3998eac30cbb8b6cbc8181dbbdac61f7856",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "683fa62a-89c3-4585-a2fe-5ab5a9ed707f",
+    "run_id": "ontology-0e730312a84a5479990336584ccb4faeea7691a3",
+    "source": "ontology-evolution",
+    "stage": "ontology_source",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 3573,
+      "output_tokens": 2013,
+      "total_tokens": 5586,
+      "input_token_details": {
+        "cache_creation": 3441,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 973
+      }
+    },
+    "response_artifact": "255c6e3e6a12be7c18edb5f8173279ddea335dfcef64947a3fb5cd1601973851",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "943fb494-e7c7-478c-94a4-a428675b0d18",
+    "run_id": "ontology-0e730312a84a5479990336584ccb4faeea7691a3",
+    "source": "ontology-evolution",
+    "stage": "ontology_source",
+    "model": "gpt-6-luna",
+    "usage": {
+      "input_tokens": 4386,
+      "output_tokens": 2744,
+      "total_tokens": 7130,
+      "input_token_details": {
+        "cache_creation": 4254,
+        "cache_read": 0
+      },
+      "output_token_details": {
+        "reasoning": 666
+      }
+    },
+    "response_artifact": "c5f284f0ba9ca3e36242194005f35b845fe5d9c44ecdfbc2d2c31dcd6dc344f1",
+    "reported_model": "gpt-6-luna",
+    "reported_service_tier": "default"
+  },
+  {
+    "event_id": "b887ba40-3133-4015-897d-ce0f6c3bd0b7",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1185,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "386d301a911959c26003d7c5a2001413ecce57033e11b6a573c22d59dc1cc5f9",
+    "reported_cost_usd": 4.977e-05
+  },
+  {
+    "event_id": "0110e050-d87d-4e8b-ad91-a383800c7bfe",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 836,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "4451b1948f81d1c2046b4bae683e9d75a3009a0b60e170353ccdf1f23f40ad6c",
+    "reported_cost_usd": 3.5112e-05
+  },
+  {
+    "event_id": "732018ae-f40b-47a8-bc55-2c9e0913b06c",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 649,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "47acddc7f435f38b32e370b0c5d6eadac16818530c78343934f228a76513c608",
+    "reported_cost_usd": 2.7258e-05
+  },
+  {
+    "event_id": "150835bc-9a4f-4586-9221-277a15bd1c34",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 748,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "5a835654314eeeef6ff52ed80a617411350587030481a32afbafb110927669b6",
+    "reported_cost_usd": 3.1416e-05
+  },
+  {
+    "event_id": "977b5fa0-212a-4778-a933-8fb5c3038429",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 835,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "43d3fd303f2d75a268fa732b5a69a1f69c50d6324d0d8b399aae785be280c620",
+    "reported_cost_usd": 3.507e-05
+  },
+  {
+    "event_id": "e9d695d3-6129-4486-bedf-2c865850fcee",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 541,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "0bd88d9eeb8a427c75eda39ddb0ee5d232ecc9f919389509a1ea35991061e919",
+    "reported_cost_usd": 2.2722e-05
+  },
+  {
+    "event_id": "a9a07d41-0ac5-41c8-933f-c41eb9973d4f",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 473,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "433f6122b21961917a1da57536c447603b72d8321e990f8919afdbbc549e99c9",
+    "reported_cost_usd": 1.9866e-05
+  },
+  {
+    "event_id": "1b30b2a1-61c1-4e31-bf84-6d579b05194c",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 516,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "89c37b0ff8e680920d61d63cf2e5217bf631d35db15fab5f7d4442ba7de90392",
+    "reported_cost_usd": 2.1672e-05
+  },
+  {
+    "event_id": "7b2815c0-6484-4478-bd69-2a0cc3d25a0f",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1064,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "86995a053cc9dcec9429b69a09b5851288a2d75e0bea5c639775211ff30033b4",
+    "reported_cost_usd": 4.4688e-05
+  },
+  {
+    "event_id": "3cb29c3d-2ad0-41c4-85f4-57f8243a500b",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 707,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "26b23bb27db3fe6c43c12033fb88904279d015604159342593b22dd1b8c063bf",
+    "reported_cost_usd": 2.9694e-05
+  },
+  {
+    "event_id": "fd4ca811-011e-4d8b-8d35-d9bdc1f03158",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 919,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "1df222b211237b65e88043f0d0d87512e46ff4e26d3ff873d160eb56ac6d7e59",
+    "reported_cost_usd": 3.8598e-05
+  },
+  {
+    "event_id": "c2a7b9b6-7185-4269-a686-7e26fa53126a",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 559,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "95d496db6f38dbd71a563745f9a669eb1881375aeef332472cf436845abb76fb",
+    "reported_cost_usd": 2.3478e-05
+  },
+  {
+    "event_id": "02fb524c-be44-4c02-b2d9-a37e64694fe7",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 915,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "15346793c2a3ab5488558cb265022a62d0ab93eea205e30abf17a309f410912e",
+    "reported_cost_usd": 3.843e-05
+  },
+  {
+    "event_id": "fca402e5-f83c-4d6a-b528-2cdf8a19027b",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1165,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "731bbd7a5a249f15b56487b6529e87cccb91e85b346bdbc05e9ce3c4c23f12ba",
+    "reported_cost_usd": 4.893e-05
+  },
+  {
+    "event_id": "66db7c84-896b-4109-8b28-3a59857719e4",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 687,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "8dcb99c95f9adf43ab5441e206adf1f4cb575fb8160e15b8b3730fbe1d6652ce",
+    "reported_cost_usd": 2.8854e-05
+  },
+  {
+    "event_id": "aac905ab-d819-4807-91f7-58b0f797e034",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 735,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "7de14423e8c7cb0e4069e21a7c5e65086cc6cf14e736b6b129f33cfe9733b7d6",
+    "reported_cost_usd": 3.087e-05
+  },
+  {
+    "event_id": "3f523916-c6c7-4363-a317-ead48b8e928b",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1195,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "8780757a9f83994721abdbd7046ac37a7cef4d99317f8248ceacb185d3a9863c",
+    "reported_cost_usd": 5.019e-05
+  },
+  {
+    "event_id": "5b953ce9-179b-416e-99c6-b7b91dcaa85e",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 767,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "23ce1ef429499d348de9f2f9443628a1f5eb4e02b1daf44ba8d2234a42929049",
+    "reported_cost_usd": 3.2214e-05
+  },
+  {
+    "event_id": "396880c3-86ca-4fe5-9316-b45ff09cba1f",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1142,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "c24990e6653f831ea5372dc4cf181f0d10ebfbed0709bc6089a08b591d0d6b54",
+    "reported_cost_usd": 4.7964e-05
+  },
+  {
+    "event_id": "d1f23556-fb75-4f69-8718-a31628ecd75a",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1212,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "0f0f40c7b1371fcf7254f87171ed3acb6eaa6b4e5ee931c3c7a6b49d9b711fdd",
+    "reported_cost_usd": 5.0904e-05
+  },
+  {
+    "event_id": "8d594e5d-852d-40ec-9a20-a38046ad1121",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1293,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "9407c87e3c0b36f225606780e9f21d75eb8fe0ba9392b114eddad13db57739ac",
+    "reported_cost_usd": 5.4306e-05
+  },
+  {
+    "event_id": "3f069f64-0fd6-4501-ade7-ca6c79ec4117",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 823,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "6952ef109cb305063b45124811fe2cd8f524d9ae66ce2ed8930b633483200b2a",
+    "reported_cost_usd": 3.4566e-05
+  },
+  {
+    "event_id": "66372f29-568b-4cb7-aa88-92dca630057a",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 566,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "dd1412cd3746326af5a0176f0844b59ae62538e39f151188eee7f47f56958dc2",
+    "reported_cost_usd": 2.3772e-05
+  },
+  {
+    "event_id": "bed4d0d0-c159-4c16-afa3-c06c36f44932",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1277,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "608b171630839437b7483c11d01b83b5eacf5c8f57fb44fce0da8dcd2d3fb554",
+    "reported_cost_usd": 5.3634e-05
+  },
+  {
+    "event_id": "e64cad68-bdf8-479e-bf58-9a45198f4ccc",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1225,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "0fe2a45fe07ab132c1bef5a3659e0af1cd3402bd5daa125daff50152e02641e9",
+    "reported_cost_usd": 5.145e-05
+  },
+  {
+    "event_id": "faddfca2-9fe2-4960-a2ab-935ecacf1645",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1128,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "d8cbc52262a05a7c83f67e63489fc23a3b5cf57a2322896488a64e41c5aa01ac",
+    "reported_cost_usd": 4.7376e-05
+  },
+  {
+    "event_id": "a32661db-6fd5-4885-b5ca-e88f2ff806a0",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1408,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "915e9506916d69a4be7573aee90c5031dc1fb855ac81d5d28ad6cd5c444415f6",
+    "reported_cost_usd": 5.9136e-05
+  },
+  {
+    "event_id": "8f0b810a-6523-4a2d-a9fa-ebc75f056d9b",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1207,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "b0cf7d610a7c62b2054e15c06673f3f132758da86b97838b71ffb747e5396643",
+    "reported_cost_usd": 5.0694e-05
+  },
+  {
+    "event_id": "1c89e567-2bd1-479e-8b63-885e6f6fd8a9",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1234,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "afa22e6801c8224dbc0fa7ba0d11aaa4cde84c437058288b425bb434c4f93443",
+    "reported_cost_usd": 5.1828e-05
+  },
+  {
+    "event_id": "b45dd3ba-a6e2-4597-983f-4f04d046cc1d",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 448,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "07a73aae432e38f312898951867545e79ab116602031d9f9e53362fe8ac3c755",
+    "reported_cost_usd": 1.8816e-05
+  },
+  {
+    "event_id": "d48bc25a-3e80-4444-997e-7260c17e1da9",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 537,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "4df49ebc6af15baba2f61df26716bda52d86a87eb5cda6c34e9660e71e9d7172",
+    "reported_cost_usd": 2.2554e-05
+  },
+  {
+    "event_id": "76648391-10af-4c5d-918b-9823e854ca84",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 645,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "d384e4156ebbc23fe04f5acb5567520e303599a1ac74edb2ae716bc892b1db4a",
+    "reported_cost_usd": 2.709e-05
+  },
+  {
+    "event_id": "8fff1ab6-b3db-4273-9ea2-2c2976bfc135",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1159,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "d2b56654aba3abb7dab0e691bc07e6c418544a942163103ed535dd1e36bf7490",
+    "reported_cost_usd": 4.8678e-05
+  },
+  {
+    "event_id": "0de4b9d4-8bce-4191-8a9a-590aa49efb6a",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1539,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "5e6448560880626468b97a1cbc7aeb2ae3af97baaf6519a442090cc9d21c0c45",
+    "reported_cost_usd": 6.4638e-05
+  },
+  {
+    "event_id": "2d7641bf-dab8-47ac-a145-abef81c5f05e",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 468,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "7c9ac9515ee466863df57b42dc0a59b1a8f935f740404e46dccff95e1aef4be9",
+    "reported_cost_usd": 1.9656e-05
+  },
+  {
+    "event_id": "a5a9ffa7-2012-4fcd-b773-1d278f435a36",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1759,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "1f92dc55e2897b38756a7dec9a11b937e0a78f9e5f595038142f99b780a10d47",
+    "reported_cost_usd": 7.3878e-05
+  },
+  {
+    "event_id": "d0e970c0-317b-40d7-81e5-577dabe137d9",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 448,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "9b6db3a7686ad6a205958278c8e1cad07b3f8cf0845b038f49cf613ef532e950",
+    "reported_cost_usd": 1.8816e-05
+  },
+  {
+    "event_id": "28011b23-f5ed-4915-bd9d-b591681c1a5c",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 522,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "201e3387d1d564d271b663aa3cb69c396dcd01475afda7b7231f01ca73b3e0dd",
+    "reported_cost_usd": 2.1924e-05
+  },
+  {
+    "event_id": "71df445e-8fd4-4c14-9550-9375ea41d445",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 3311,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "836d479b635a167975fdeea359bbf076d3a24bba727fb249b3dd68f6711f727f",
+    "reported_cost_usd": 0.000139062
+  },
+  {
+    "event_id": "ee779bd1-4d04-4e43-9ce5-97f0cf8ea40d",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 437,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "b785bbe9aa3ae3aac3d9758e5945cf825cd7131fc4180513876a982499a21e86",
+    "reported_cost_usd": 1.8354e-05
+  },
+  {
+    "event_id": "2ff68186-c885-4481-9ebc-f31df4a498ac",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 806,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "7102b1f9200e465dceccd571d51ecc78a2aed9aaf9f84c7a243f1493c5c46eeb",
+    "reported_cost_usd": 3.3852e-05
+  },
+  {
+    "event_id": "feb0b0f8-4b5e-4027-9a5c-05c68afc275f",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 469,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "f0caec8d6fe1b295596c603e67316459fa095a58a6056a7634050964ca9f2f92",
+    "reported_cost_usd": 1.9698e-05
+  },
+  {
+    "event_id": "5801af1a-87fa-4f3e-8585-9c4f48d04128",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 2894,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "b0434b5d4a1dfc1cadb21bcec5128dd637ca15fe80552e3e4bd95a37d1cfe3d3",
+    "reported_cost_usd": 0.000121548
+  },
+  {
+    "event_id": "81d86f4f-6a85-440c-ae9e-8225e5d716bf",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 639,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "6b7e1e70f890f8a9059dfceef3e16d1675bb587f5446779134dd28c066270cce",
+    "reported_cost_usd": 2.6838e-05
+  },
+  {
+    "event_id": "801bc8d9-db95-4020-9a7a-d382a00294b1",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 525,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "fa4fb0c0c9f95093e4180eaf62e5861aaec59af52020120c0d9caf170639ec98",
+    "reported_cost_usd": 2.205e-05
+  },
+  {
+    "event_id": "ebc25f4f-4539-45d4-8deb-76f849eceb5f",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 504,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "ea1f0205e70e498692740ca949b5295d7976fcf752ec2df0cb563c1d7943ce79",
+    "reported_cost_usd": 2.1168e-05
+  },
+  {
+    "event_id": "97a5faa1-b0fe-4252-8e26-3c163ba7ad9d",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 2076,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "74788e8848abed72be4f58c38d37d2ac9308158db493400b7fd86c7d2717ae4a",
+    "reported_cost_usd": 8.7192e-05
+  },
+  {
+    "event_id": "c27b37b1-84bf-4bcd-8a6b-3e1699f1273a",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1212,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "153cd9c1d0b1195fd20548d40a2fe1c7aac2241eb66ea7b0517d6cc01feca6b8",
+    "reported_cost_usd": 5.0904e-05
+  },
+  {
+    "event_id": "bf450163-ae45-4fb7-a744-225d470f8ea4",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 952,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "6d191273428533a12b9c1aa3ab64dd9bf159500430fdc02567be7d0c48ed6a9a",
+    "reported_cost_usd": 3.9984e-05
+  },
+  {
+    "event_id": "516a02fa-66cc-4f5d-a74a-eaad259bd7db",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 798,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "d9d0b73235838ce6a7215fac3c109211fa27caba64a3cdd75a274337a211ca0e",
+    "reported_cost_usd": 3.3516e-05
+  },
+  {
+    "event_id": "be94c430-56fc-4301-b5de-26ee23c0c1f4",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1208,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "f64858664756f814d81de27b64b4e2a17db263e2f1855f7238aa766912054277",
+    "reported_cost_usd": 5.0736e-05
+  },
+  {
+    "event_id": "46549df4-aac6-4135-a9ae-c3b839ef6607",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 2647,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "67ff49ed086a4e24a5cefc1b7010d41ec9f5867b22404aa2ac9548a7abbd57ee",
+    "reported_cost_usd": 0.000111174
+  },
+  {
+    "event_id": "bfb88105-2c82-4fa0-90e3-1eaf5c8327dd",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 851,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "3ad3783a1e163258e8d0513c450f23b1c1c311349fdd754b4808bea6d4b43378",
+    "reported_cost_usd": 3.5742e-05
+  },
+  {
+    "event_id": "fd111a74-a835-44cd-bafd-8dedacae0ba4",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 465,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "9f574b89a0cdd1a94bf09f37425b4426f81dc3bcbc71fa6732f8c94e911f870c",
+    "reported_cost_usd": 1.953e-05
+  },
+  {
+    "event_id": "0ee307e6-2ae4-44f1-8fbf-af3f791b34dd",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 546,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "94ad463085dc7b430fb48ef1c8b88b96c807b2e8224e4e1252981655626dbec0",
+    "reported_cost_usd": 2.2932e-05
+  },
+  {
+    "event_id": "758821c8-fb06-45c7-8bbb-168e2e3ad9f6",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 2503,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "6d194724bf0e2e7c394d3d7a56350310624fb7eb3e99d51c39aa56d3cc52cd53",
+    "reported_cost_usd": 0.000105126
+  },
+  {
+    "event_id": "e2f19998-57fe-413f-9964-9faba05d2bc9",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 534,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "5f5d733d4318521e459484db4b21e1e8fe40d76cb485f987ff1f03a414f1a8d5",
+    "reported_cost_usd": 2.2428e-05
+  },
+  {
+    "event_id": "2de77acd-e1d9-4c3c-8a23-496c871b5ac3",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 445,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "8bb8fdbf51e075f06c59cf8c050ab914951d68bd6e9123eb48aba2231c019f03",
+    "reported_cost_usd": 1.869e-05
+  },
+  {
+    "event_id": "b3278c31-7651-4aba-b851-63c38245e855",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 447,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "cf32e1d34acf894b25d602a18d50ba78b7ae5371284e373a79479d1f4604cf16",
+    "reported_cost_usd": 1.8774e-05
+  },
+  {
+    "event_id": "5c085d6c-f032-40c7-8a52-9f0f888b75e4",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 531,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "30d3695f51e7c491489328b0ee8d5966eb15283eb072c546c9f2f82f8f471740",
+    "reported_cost_usd": 2.2302e-05
+  },
+  {
+    "event_id": "17c5683a-0ef8-48b8-a00f-f80a292d39db",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 604,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "7a9094b0472cb2c768566d0c80b58e00b48142a9d35b55f4df1f0a0f0029f184",
+    "reported_cost_usd": 2.5368e-05
+  },
+  {
+    "event_id": "3526dc74-2b44-46d6-8e33-04943e217bc5",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 574,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "6936fd7e040331d490cf235f21b1604c870877725bd557d0fc4996bb1abcda5b",
+    "reported_cost_usd": 2.4108e-05
+  },
+  {
+    "event_id": "a17180ce-888b-4bad-85a8-bbf9ee5d87ee",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 542,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "23444ead1321d7eddd911bdaa319ba9cd0927a13454481f3081872f0c09ae347",
+    "reported_cost_usd": 2.2764e-05
+  },
+  {
+    "event_id": "52ce0ac8-0e2c-4f1e-9304-e808175b263f",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 501,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "e2ad0d0feed185dc3c6237b4eaf416ad671705c03cd6c294316382c076997bc1",
+    "reported_cost_usd": 2.1042e-05
+  },
+  {
+    "event_id": "1a39bb1a-677f-4f81-a914-28d8a79c1a0b",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 494,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "3fb4fdb3d324d2c6170c4500cfa99869c3c11eb924d97b0c070b7c463717f42a",
+    "reported_cost_usd": 2.0748e-05
+  },
+  {
+    "event_id": "ae4c6d47-9eaa-470d-a5b3-9f0807f99a4d",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 542,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "19fd8ee5a1a0194c772eee55d8a429a32e84a48f3337038b174eca8e08880087",
+    "reported_cost_usd": 2.2764e-05
+  },
+  {
+    "event_id": "eaeb65ac-e6ba-48f7-b2b5-28af7560a8ef",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 540,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "67ac860a45b9b4183cf0463d6c51bb524ebfb49cf981ddb6d60cf7072271fd2f",
+    "reported_cost_usd": 2.268e-05
+  },
+  {
+    "event_id": "55954ac9-afc1-4c20-a774-e6c407a84889",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 584,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "6bb9ce93e2964fb3038fc3eb336f1bf21aa47a2cde162b70cfeffef6af0b6df3",
+    "reported_cost_usd": 2.4528e-05
+  },
+  {
+    "event_id": "e11f65fe-eced-4d45-999b-32c96045f147",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 470,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "e533e9ccc8ed304209d2575ce9fb35fe6df9e2949f228a99e429db14f739734e",
+    "reported_cost_usd": 1.974e-05
+  },
+  {
+    "event_id": "46b9d54c-062e-42d0-99c3-3e716ad81331",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 784,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "9aa8bb393d3248caa4c05cd22e55f0edf44017b5a5f90dc4005253ce81362732",
+    "reported_cost_usd": 3.2928e-05
+  },
+  {
+    "event_id": "e24c7173-ab88-4a3d-8805-4b8b0c6745e1",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 469,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "351addaca0bb12d41ec1183094363bab2d47cef438f3a62eb87b5a547341699f",
+    "reported_cost_usd": 1.9698e-05
+  },
+  {
+    "event_id": "786d6e56-92f8-4389-b095-6deda7cc3211",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 455,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "9b841465feaf70651ef1962d8e69f44c8ddd99e03ded57f4e98bf880bd0e7018",
+    "reported_cost_usd": 1.911e-05
+  },
+  {
+    "event_id": "58eba6ca-e342-4328-bf66-4ebc5724adff",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 469,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "b20ff116159a9817b95bc0dc3a255f52fb1beb6024a0618b67b3174912923725",
+    "reported_cost_usd": 1.9698e-05
+  },
+  {
+    "event_id": "94d2acf8-ee46-493c-b5db-76c0c3c07ab3",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 460,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "281b66baf146f0b335a0d05825649a42afff8ac8d7dd9f24111721a08fa9f1bf",
+    "reported_cost_usd": 1.932e-05
+  },
+  {
+    "event_id": "a04a11aa-dd66-4ee9-a3cb-fcbc91c84ef9",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1000,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "fed776612386291b21d8d1d87213c9f3b94dbada80362b26563f3258099eaab1",
+    "reported_cost_usd": 4.2e-05
+  },
+  {
+    "event_id": "ba52c9e5-ad48-4860-a07f-b86d81896d03",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 424,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "365e022031ee34a830413b1699875d08ba08159770d0a9a639328697af19e583",
+    "reported_cost_usd": 1.7808e-05
+  },
+  {
+    "event_id": "7d4a53f6-460b-4ac8-b5f8-d39e63f2015d",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 2677,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "16ab32ad3d70e7918cd832e3f5e7c742989571592e051169d06421f146c954ad",
+    "reported_cost_usd": 0.000112434
+  },
+  {
+    "event_id": "bdbe92fc-d9ed-425e-8b3b-622246724404",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 439,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "2e74ee688cfb8f53f844443d07cac60c42af78427662f973ec12ad80756f79b5",
+    "reported_cost_usd": 1.8438e-05
+  },
+  {
+    "event_id": "88fa19f1-c7ab-4d71-9649-e477c654c304",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 435,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "a1cfa4be0412f5101f08c0ea9fdb2f7bedefd39c0202147397451d292859a39c",
+    "reported_cost_usd": 1.827e-05
+  },
+  {
+    "event_id": "efc68407-0114-4e93-a493-38044c63ccf1",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 2651,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "cc49caf31ec24eb8bfb66b483dcacbdc3f8ae74269968e03abd8830b6b2c59bc",
+    "reported_cost_usd": 0.000111342
+  },
+  {
+    "event_id": "bfe93ba5-de51-4aa7-91a9-caa466c70bee",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 488,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "d28d70b8db942eb6b2351b4605a197626b14c36092049bd873a05ed75921ef59",
+    "reported_cost_usd": 2.0496e-05
+  },
+  {
+    "event_id": "27e1110d-e574-4f76-b67e-8748b0e58507",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 835,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "c2f32607650e9fbb5e14199b41e75d9f78092ae267f66a5616a7b04801769d8d",
+    "reported_cost_usd": 3.507e-05
+  },
+  {
+    "event_id": "e66b77bf-b167-4f67-8f47-a9af9b07c566",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 745,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "792fe79d52cbe9651856fba59de463c5ad33e176923090f0a431c3095b4d92bd",
+    "reported_cost_usd": 3.129e-05
+  },
+  {
+    "event_id": "f9850085-ba11-4c6f-ab1d-36ffb2287375",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1055,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "dd62562d5c00891a8333bac3e2b91ef929af4adc60c749ac09486943f5ad1a20",
+    "reported_cost_usd": 4.431e-05
+  },
+  {
+    "event_id": "fd7106c0-67bd-48e5-8456-c5ee12348493",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 948,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "6566d73d9d73f1c8c76f83812aee06063402b34e23fe52df5507ae3e60f99c45",
+    "reported_cost_usd": 3.9816e-05
+  },
+  {
+    "event_id": "11f1297b-8a3a-42d7-b50b-00a4e7dc6396",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 462,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "d108b9bb0c68191239c888c32b6565518099de3ffae6a5cab5d443d1d53d369b",
+    "reported_cost_usd": 1.9404e-05
+  },
+  {
+    "event_id": "9a2effa5-1908-437d-b1b9-98625e50f1c8",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 930,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "ee3187c0cb96edd6935e27e7ef9bcb4241ab4f012bccf40f2ca2f492843720ed",
+    "reported_cost_usd": 3.906e-05
+  },
+  {
+    "event_id": "30dfd256-729f-4ead-997c-839a223595b4",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 443,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "9372e4394bb458a8f0fab84b2d1f03615dbc52fb5878d7b1d2e4735bcee71793",
+    "reported_cost_usd": 1.8606e-05
+  },
+  {
+    "event_id": "36649178-3f00-4a16-91e3-da9207a5a804",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 451,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "1ed37e961e062e5a37094fc61b5da63e3d1c49f26ae2fbe538c8956f3233ff58",
+    "reported_cost_usd": 1.8942e-05
+  },
+  {
+    "event_id": "ef52ed16-d423-4302-b196-9279fb26a766",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 623,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "7a4499540b67d093b39e810a4d34bb64e519499a0fa209ab967073ce68978bc7",
+    "reported_cost_usd": 2.6166e-05
+  },
+  {
+    "event_id": "2b81782d-9fe5-4999-ad89-59dc3066fe45",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 473,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "185eb611e78204d2fdca520488cd7baa969b5e4de55c7dc15ab6cfa4fc89e2e7",
+    "reported_cost_usd": 1.9866e-05
+  },
+  {
+    "event_id": "df73cb14-303e-4019-b163-15bafd3a5e8f",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 514,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "3880c5b26f9860a5c3a22cbdb70b8f532f73ae95b74aeeb823cb78039193c7ff",
+    "reported_cost_usd": 2.1588e-05
+  },
+  {
+    "event_id": "45c1559c-323a-40c4-ba5a-fced74b1f400",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 710,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "e275176d4e707385411dc6d5446b813adbe6a3ffa06b5d6b3b4d2061ec4a14f9",
+    "reported_cost_usd": 2.982e-05
+  },
+  {
+    "event_id": "b36d30cb-4a1e-4ca6-ab02-36ed3391c9f3",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1299,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "f65863dee3bcb2efcca78b17ca9c44fcf8819e198bd683eab7e3ec59238f0a16",
+    "reported_cost_usd": 5.4558e-05
+  },
+  {
+    "event_id": "55f70bbe-8c97-4200-873f-8557f3b8386d",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 544,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "9b95082c33bf162cb219861d168061006862ee0218a6ddc355e15c1dd0d827c0",
+    "reported_cost_usd": 2.2848e-05
+  },
+  {
+    "event_id": "c4159846-f4a3-4c7f-ab83-dd4f740d6cb2",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 476,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "b9ece395c4e43d19761f3af83239ff17bf92d1fdeee0c8b728e0ffcb0f4d8c07",
+    "reported_cost_usd": 1.9992e-05
+  },
+  {
+    "event_id": "b6efced8-efd5-4706-9c72-4dd879249741",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 721,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "fa9b5b59296248c8c5fa1fe9e7f1e6be9811b533d0a37d77de864345e85b9ea0",
+    "reported_cost_usd": 3.0282e-05
+  },
+  {
+    "event_id": "9cc68a4a-2ba2-4361-b700-a14ffbdd7586",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 470,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "c4c3a73a315458969bfa9fd44535a79d7058ba17ac8090ff5565e38b1d8ea718",
+    "reported_cost_usd": 1.974e-05
+  },
+  {
+    "event_id": "99da3df6-7907-4395-8ad9-140449d9b5a9",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1741,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "1f1a6f4d5e913f3850deddb5167c815a18a3bc49538bdefa54485ef3c5423dde",
+    "reported_cost_usd": 7.3122e-05
+  },
+  {
+    "event_id": "83dc2224-dfbd-4a8c-a358-dc437f8fed6f",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 589,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "5e40117d0f9a26e259611780c4b5a5679825802c5a82b62caee1faf61a739ef7",
+    "reported_cost_usd": 2.4738e-05
+  },
+  {
+    "event_id": "170ea481-1a17-4878-9df0-2be3f2b285f1",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 486,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "5ace5fd3b144eb1a49b30284be2972087d910ee628d23e2d1d6bd626ac8f94cb",
+    "reported_cost_usd": 2.0412e-05
+  },
+  {
+    "event_id": "356bf006-8f6a-4c30-829a-20cc4155386a",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 971,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "60c8cb9ccf0ec12f6b1e229f7a52cd5fdfc9df92a15be79bd89cea829f783542",
+    "reported_cost_usd": 4.0782e-05
+  },
+  {
+    "event_id": "8094b699-9314-403c-a7df-96152e3b3403",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1360,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "0ecdc63077d40c9f7396ffe02f3e08dfc1300c7300a2b496ad2a4d5bfe3db275",
+    "reported_cost_usd": 5.712e-05
+  },
+  {
+    "event_id": "7b109062-4bf7-4e1b-ac4b-11fee1a1aebf",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1277,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "0193d087be8108a24d3a5cea929a34fcd61c57792f5982261419a97f1d3cc2a8",
+    "reported_cost_usd": 5.3634e-05
+  },
+  {
+    "event_id": "1ea15ce6-6394-40fb-b4b8-675c11b42535",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1026,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "354e2117b9607cdb54213cc03f55ec8b105487e74e1d1c252408b2e55ad42058",
+    "reported_cost_usd": 4.3092e-05
+  },
+  {
+    "event_id": "c0e2a6e0-6a74-4b88-80db-229b051c9f1a",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1249,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "1ab55353a8605d06bc42913a3b18f5fc9574cc9301d37cf6f735ef7785b191b9",
+    "reported_cost_usd": 5.2458e-05
+  },
+  {
+    "event_id": "2387beae-3925-4060-9dcc-9fff7fc259e9",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1218,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "4e93ea8784de26cc9e27abcc5fbcda325d382ea13d0c080cced2fc17f7e2c7fb",
+    "reported_cost_usd": 5.1156e-05
+  },
+  {
+    "event_id": "3622a661-5260-421e-a884-b8294c5d1444",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1098,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "14aea3d716f4755a017236fb74016e1a5b36529fd019918308f47e3f0d4a0856",
+    "reported_cost_usd": 4.6116e-05
+  },
+  {
+    "event_id": "67b53bf1-8e50-4047-9d47-001e8694b214",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1099,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "a752b4518d6a47a5572d631f25edf19ee38270f1a9c58cae4d82c233a60f0cae",
+    "reported_cost_usd": 4.6158e-05
+  },
+  {
+    "event_id": "40ae6807-5430-41d5-9ea2-8b36e72b5b4e",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 836,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "c1eabe418551bf019ad6305bc9a43d80a43cb98b9703fd2659ffb27b977a8aad",
+    "reported_cost_usd": 3.5112e-05
+  },
+  {
+    "event_id": "ee09d680-3637-4ff1-aac3-55d1a47c814e",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 505,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "4317d09fd8fa9f9a680fae13b8465a7ad23a2f76683d6193e3b612e38f63f495",
+    "reported_cost_usd": 2.121e-05
+  },
+  {
+    "event_id": "2e45ca1c-5be0-42a1-9352-d071dfbb0e82",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 613,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "26ab857e75724da1a68f68e2936940eeb7b0c010537067e20f12e9732e6b3fe5",
+    "reported_cost_usd": 2.5746e-05
+  },
+  {
+    "event_id": "629c20b1-733b-410a-84e8-219b1d2fb2d1",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1069,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "cb9e8f71821e67d1a0b2ed572ab6d8a33010d75934f143f4ac69c47bcc0d9340",
+    "reported_cost_usd": 4.4898e-05
+  },
+  {
+    "event_id": "bf7ed5de-f68f-4a7a-88e4-58a5fb492056",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 603,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "340e45dd76f12f7b3bb715e9721cca38f394107c1aedf6f7399371c004c75971",
+    "reported_cost_usd": 2.5326e-05
+  },
+  {
+    "event_id": "568b437b-44a0-4b23-8288-a8437c3303c4",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 604,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "8b25ac48c0ed7df8770904a3c656267bd27abaf67cfe195e65a519d3a0bafe4c",
+    "reported_cost_usd": 2.5368e-05
+  },
+  {
+    "event_id": "d87d3b29-dd5b-486b-85fb-7f60d9608741",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 643,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "9f5bbb71ca853f1540905428625497636edd3f269ff41ddb3f68677f11b90342",
+    "reported_cost_usd": 2.7006e-05
+  },
+  {
+    "event_id": "07c247fd-3c45-449b-9311-c870340301b9",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 632,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "c9ec41e3594672745e6378606185f0f2e4d2c93b90fa01a81040c6f725aec438",
+    "reported_cost_usd": 2.6544e-05
+  },
+  {
+    "event_id": "ffc632fc-d724-4c5a-a06d-140ef1d4cfd1",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 644,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "cddef5d27cbc191e8407b5de1e26543a57e871e509aa8abd40c512c71bde8797",
+    "reported_cost_usd": 2.7048e-05
+  },
+  {
+    "event_id": "1524c916-49ff-4c8f-9e4a-ea84741f16fd",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 658,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "6397e552d8396583f49d2ab5cd1e504e9d59294800610d2dd15f3d7b7b4e96af",
+    "reported_cost_usd": 2.7636e-05
+  },
+  {
+    "event_id": "2fb053f0-5ea0-4de7-a545-f455ba16ba5c",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 640,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "c94f80cc6fdc8b7533fb8fa0c46b955fbe07374a4da3d4ea0a830ee558169caf",
+    "reported_cost_usd": 2.688e-05
+  },
+  {
+    "event_id": "92dfee53-f011-4d5a-9576-0a92046e5d99",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 642,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "a229611dc9ab6d5e973eac292481722e4b62fb59bb74488bee6495e448251d16",
+    "reported_cost_usd": 2.6964e-05
+  },
+  {
+    "event_id": "91e7866a-9f34-425a-bb78-03fa787a867b",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 641,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "db0cea9e1f67f5bcb0430867ac53e0af28fdf09a801b53b23758503785529520",
+    "reported_cost_usd": 2.6922e-05
+  },
+  {
+    "event_id": "36d5922d-6576-4afb-a524-2bbc8c6345b5",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 655,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "5128ce1f51cdc4785959ccf2c9e9deb039e66dfb9ab92db2ed983888f24ed2f1",
+    "reported_cost_usd": 2.751e-05
+  },
+  {
+    "event_id": "531bf421-957f-4a5f-8f83-48df207a45db",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 840,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "31644bd3590cad3b73594d7f1c99e0785bc950df9ce646f8957726e77c0e60cc",
+    "reported_cost_usd": 3.528e-05
+  },
+  {
+    "event_id": "166528d1-f4e9-4182-a061-be60fac7478c",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 815,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "5e2a33105b665349a5d02f6b910d7c070c68a9dc9baa987a87a9fce0bf9eb009",
+    "reported_cost_usd": 3.423e-05
+  },
+  {
+    "event_id": "77f9a85d-7306-4ceb-915c-b080dc673da5",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 826,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "053dbd0357251e1c9a95661b409dd8caa08031c5814212425e99a1a14312ef19",
+    "reported_cost_usd": 3.4692e-05
+  },
+  {
+    "event_id": "793e3e20-e711-4e42-937f-d4215edb2dec",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 829,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "6324f5ac59176c8d64f995e7f90c24053e427854065f652098fb35786de16971",
+    "reported_cost_usd": 3.4818e-05
+  },
+  {
+    "event_id": "a632884e-8fc8-418c-bc26-06b729202d89",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 800,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "6e4a6a8c22e11166b7e31ec71202829525f042bf1fb4b8534c525493f71d2b18",
+    "reported_cost_usd": 3.36e-05
+  },
+  {
+    "event_id": "5fde1dd1-a456-4dee-99b1-bdb202d75b67",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 837,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "63983a25679e5bc0a25e22058f1e6ce96ac4f171707e442f69dd75a3135952e1",
+    "reported_cost_usd": 3.5154e-05
+  },
+  {
+    "event_id": "1e22d2e4-2629-4edf-8d20-f636f45a600f",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1983,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "59d298dc836d0c38ccbc412780e62cfb36fe59457315734408035a4b91000012",
+    "reported_cost_usd": 8.3286e-05
+  },
+  {
+    "event_id": "827266f6-0a90-45df-ab87-b330bcdbe81d",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1071,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "8d8a5af1fb626ae65700c040327e1e73b6082b9b1a9064fa216275e31bcaaee4",
+    "reported_cost_usd": 4.4982e-05
+  },
+  {
+    "event_id": "4e44ac97-ff4d-49dc-abe1-456ea3c9bfce",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 597,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "7d674af96e44714e5b47ce318e870df2579abd5adf610d16a5b030a0a283b06e",
+    "reported_cost_usd": 2.5074e-05
+  },
+  {
+    "event_id": "095ccf00-b4e3-45ec-8f72-3c95ff93cbeb",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1263,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "b07495b7f372da9714151bdafe2a925bd4524d872e0af6e0d57175d24de072c3",
+    "reported_cost_usd": 5.3046e-05
+  },
+  {
+    "event_id": "867b3cd3-5cf3-499b-86d5-2cf0460f9b0f",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 554,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "825e750dbf928069d88a34bff0c4f04eba39f68093856f0c246d44b8bbd5165c",
+    "reported_cost_usd": 2.3268e-05
+  },
+  {
+    "event_id": "4cabccc3-1445-4198-9695-53a41f619ee4",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 564,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "2a8d003762841f204d252c24a83ecc395ae7b9f2251217ed72b72cac4e998a42",
+    "reported_cost_usd": 2.3688e-05
+  },
+  {
+    "event_id": "e5e6156e-95a0-48b6-a09e-e4fd2097f42e",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 682,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "2cfb3f27c4d6a5bc32d1b1faedfdb7a57334bb433a90d4a3d6ef642e8d1bdcc0",
+    "reported_cost_usd": 2.8644e-05
+  },
+  {
+    "event_id": "69a60bd1-7037-4aac-9389-d0e8c56a7810",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 588,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "c9f1d5ff43500687e3dcc4b9e66d40d42cafac45280527778f2bea0f4e733ff4",
+    "reported_cost_usd": 2.4696e-05
+  },
+  {
+    "event_id": "9e42f22a-ba93-4edb-abb6-9b3b0ec4214c",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 639,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "b83385956c98366b46bdd280fdb849f95ac3f145b91d87585bf4f239b61f5511",
+    "reported_cost_usd": 2.6838e-05
+  },
+  {
+    "event_id": "6aba8901-141c-4415-a0ab-264aa4b75179",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 632,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "a5d772d0c058d332081ef2ccab91313481405384c21426a17735f8e647d93e9d",
+    "reported_cost_usd": 2.6544e-05
+  },
+  {
+    "event_id": "2798df64-8454-4513-b3f3-1196ca6b8331",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 519,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "f4ba33831f0624e9b352549e17a68f2cf3607fd2597a545d9d31a76e020e17cf",
+    "reported_cost_usd": 2.1798e-05
+  },
+  {
+    "event_id": "e6fd854d-5b91-4050-bef6-7d5ef10f3614",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 595,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "8bd9f4c28a6dbd7e0c74a995bc178c0da8b714cc2a848f3fe0cf10d1ce2a04ae",
+    "reported_cost_usd": 2.499e-05
+  },
+  {
+    "event_id": "5a4faa82-dec4-4c5c-814b-ac8f01586909",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 609,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "7990e45daac9eb8ee709708c09c5f8f7b3daa8ef0b0afab5252c844ab7f53aed",
+    "reported_cost_usd": 2.5578e-05
+  },
+  {
+    "event_id": "a04bf816-4982-421b-afff-508deee04251",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 777,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "6187d82b3448b8081e18a7e70d6329eaa20d94ea12a8ea0222e141f07ac9e981",
+    "reported_cost_usd": 3.2634e-05
+  },
+  {
+    "event_id": "9af746ee-12a3-4222-931d-14fded77b65f",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 735,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "7f7b8414aa1522ed072a69be3e3249fa104b532246972fabcb5a3f940703cdf1",
+    "reported_cost_usd": 3.087e-05
+  },
+  {
+    "event_id": "793b3bf3-67b3-4a24-9bb7-774a7771f327",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 694,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "fd9e9e5ed531d6056c613fac0375235b01189c33221d87dbbc4cfa4a7dc3ab65",
+    "reported_cost_usd": 2.9148e-05
+  },
+  {
+    "event_id": "1e3094f4-3168-402d-b70f-4dca2d59e74b",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 660,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "372451823acd6e5db7cf6e63f52e9c11d42bbacf77914668c81eee8736b0906f",
+    "reported_cost_usd": 2.772e-05
+  },
+  {
+    "event_id": "d54dc613-4a73-4339-b6ba-dcd9cb67477b",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 653,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "0f12306dce158531a7bf452d69c280f4a06c58cded33fc58e758acc542ba627d",
+    "reported_cost_usd": 2.7426e-05
+  },
+  {
+    "event_id": "5541d461-fcde-4e02-8041-8c22e9f5c01d",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 703,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "b596399d6985d5f3065193b5ca028a1e60cae79d619bda652b29efe8678335c2",
+    "reported_cost_usd": 2.9526e-05
+  },
+  {
+    "event_id": "0d2868cc-01c5-4c09-980d-5b84b748bc77",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 692,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "aad40a3aa2f1663dcce23c2034a5fa45fc811e46ab0df71c5857fd83d3ed42e2",
+    "reported_cost_usd": 2.9064e-05
+  },
+  {
+    "event_id": "94d44ac6-ad86-4877-9726-20bd46830dd6",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 615,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "5b982162b420fad23a90129ff392bf8551feeab809183895c86df536dbb30d49",
+    "reported_cost_usd": 2.583e-05
+  },
+  {
+    "event_id": "d5e3c430-b532-4177-b3d2-9c915022e664",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 624,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "03cbdcad7de7e584c40525779782896e59da425e817a49a72e3f6b8e564a7220",
+    "reported_cost_usd": 2.6208e-05
+  },
+  {
+    "event_id": "7a2b17f1-3480-4ddb-b808-d987a006bb3d",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 569,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "f0b97c7b536c143d72c6871d219943eba033fa01ec044dca36ccad1e78b56f45",
+    "reported_cost_usd": 2.3898e-05
+  },
+  {
+    "event_id": "f61e3b1b-5eea-464c-80c8-2bec71558561",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 740,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "9c246c46840d95cc81ee07b43d9cc99eed3d2f5848de788191ca4736792cbdc9",
+    "reported_cost_usd": 3.108e-05
+  },
+  {
+    "event_id": "a0391f36-52f4-4ee3-a509-54de8c54ca1b",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 967,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "ad1fd4de1d4b34f8d50d7b9f0b9d66e45072c755269fe955b62484cabdcdcbe6",
+    "reported_cost_usd": 4.0614e-05
+  },
+  {
+    "event_id": "fa5baae8-764b-4330-8c92-413fd431e234",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 733,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "ca8c8afb0ddf966764545de91284e8d73bbd4d0bfea30a9127b8ef1818640cd0",
+    "reported_cost_usd": 3.0786e-05
+  },
+  {
+    "event_id": "86a28d6b-4a97-43ef-bbba-f15c813d0c8f",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 812,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "18a070186c9d8b26bde2ba5619792b1e7e9fbb140d12d3ab3bdaf2a330e0989b",
+    "reported_cost_usd": 3.4104e-05
+  },
+  {
+    "event_id": "ea009316-0e1d-46ff-96ee-a31fc4522841",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 815,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "caa338e57b0fc2c45c9e42ae90912dab99ef41a3f9a8be1086d29d5f3dbb1efb",
+    "reported_cost_usd": 3.423e-05
+  },
+  {
+    "event_id": "b7a366b4-9792-4c26-911c-c677055f720b",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 750,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "1a4e7edec79b16f8a1fd397560cd04bf9a88c7fa5bd92890b682c98e1251852d",
+    "reported_cost_usd": 3.15e-05
+  },
+  {
+    "event_id": "94c8ab5e-d2be-4932-b4c0-3f520095614a",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 631,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "0e65b2224d28b52ff3c50d21ed009a9ffa181d023a472391b3f93dd101057394",
+    "reported_cost_usd": 2.6502e-05
+  },
+  {
+    "event_id": "6ea38d10-25c1-47fb-bb25-1bb98bda3bf2",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 785,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "a0319ceacd1e8a035f50a19d32084ceb50731ea67ed4a12cc12332c9c7f129c8",
+    "reported_cost_usd": 3.297e-05
+  },
+  {
+    "event_id": "71222deb-a5f6-491b-abcf-44c6535754f4",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 791,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "107cc81a368cbf643f6461745118db68b7835dddd481995006211eceff4c25f8",
+    "reported_cost_usd": 3.3222e-05
+  },
+  {
+    "event_id": "9a66438f-8630-4933-8364-dff8a0a530b7",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 804,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "551b5418632167aef2a33b9eb9699c6f56b821f2b3e32315f37e9be71ec1411d",
+    "reported_cost_usd": 3.3768e-05
+  },
+  {
+    "event_id": "5989892c-1608-4612-9fe3-3f54d7c10d27",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 781,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "a0cda9dd68578541a5acacda99d6bd86307c5aac2eafe360c09c1bb393b3561f",
+    "reported_cost_usd": 3.2802e-05
+  },
+  {
+    "event_id": "2792a2d8-fc98-405a-8be9-f92a3887a51a",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 786,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "9e7b857f7ee833019686fd9b931324db46200d460eb985abbb510fadd943d48c",
+    "reported_cost_usd": 3.3012e-05
+  },
+  {
+    "event_id": "8996f349-d8cb-4316-a451-be311d4ce82b",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 810,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "e21186da5e45e52f643d8fde7d786ae6aa9c11b0ba65a9f4e49e3e4533867f20",
+    "reported_cost_usd": 3.402e-05
+  },
+  {
+    "event_id": "89c23f0a-e9a0-4624-b152-ce6af0586f6a",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 709,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "5a857db6e807de31e51134fd4702b801bff631b15be2579f9c0426e5ee173310",
+    "reported_cost_usd": 2.9778e-05
+  },
+  {
+    "event_id": "e6b2eddd-9824-4b6f-b4ca-885ee5c9ba41",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 682,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "0b25e667ba75df86b19e50fe9d31141f001cc896f046a2e7dbac3ab04dfee667",
+    "reported_cost_usd": 2.8644e-05
+  },
+  {
+    "event_id": "ced7a7fb-a5c6-4f0d-b965-e032f7d0a074",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 823,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "e23c87c79cecf2926209d951b4da54cde8a22040669631a8f7782e49710ab624",
+    "reported_cost_usd": 3.4566e-05
+  },
+  {
+    "event_id": "59f5741b-5fc7-4134-8736-0621fabf4c6c",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 670,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "526add0f58129f06caa976cc99855cd17466f0f88c362daf86cca30a75934c12",
+    "reported_cost_usd": 2.814e-05
+  },
+  {
+    "event_id": "569f9310-7d22-4338-b151-2a562fb5a60e",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 650,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "fd58bd005cf54a13733a708c1f4035dd05a87765307d66cf9da613da13c2719b",
+    "reported_cost_usd": 2.73e-05
+  },
+  {
+    "event_id": "f5fb85cc-9621-42a4-aa9d-7c1a92c16be5",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 699,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "3d7e23ce6c06c5fc5e18c01d6e69082624150e3f60474012d87d03e6f7a60cb0",
+    "reported_cost_usd": 2.9358e-05
+  },
+  {
+    "event_id": "76693913-b443-4372-ab47-1cd239b998cf",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 655,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "d5511239371e4846a2cee91896314231a9bd1fc45e894eccec6e91cb604ff488",
+    "reported_cost_usd": 2.751e-05
+  },
+  {
+    "event_id": "c416bba3-d09a-45e9-b574-0012d041209d",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1641,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "5b1a3178f9180fe2a5ad3504c55a2086e230f07624172fda49bf4f7ea4c1c040",
+    "reported_cost_usd": 6.8922e-05
+  },
+  {
+    "event_id": "d0294b87-0b55-4846-8514-bb555a830a3a",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 573,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "17ea39e4d27d88eb4662d3b3b86990f676107518d74d1548bd41600c953db9fa",
+    "reported_cost_usd": 2.4066e-05
+  },
+  {
+    "event_id": "aa54229c-27dc-4405-9afa-b88076cfbe80",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 834,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "8ae98b5744fca2976925a54e8b1bf6cdc1aec39306d065ab6e42cc60d10563f1",
+    "reported_cost_usd": 3.5028e-05
+  },
+  {
+    "event_id": "41cd6c48-8dc0-4625-911f-feea548af1d5",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1045,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "59cdd57311b8f92665f70b221829de8b598a2c05feab59f8fd13440114a6d17f",
+    "reported_cost_usd": 4.389e-05
+  },
+  {
+    "event_id": "bcde3bcf-1d73-488f-8137-21bf6c0fe67a",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1082,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "5bac2f7c3b99e1d5b9bf658444af48ec332a6eed94237158f1d7f54dc7455615",
+    "reported_cost_usd": 4.5444e-05
+  },
+  {
+    "event_id": "84b019e4-6e2c-4b32-ab20-d0452004f18d",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 985,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "2b4f5ada70e8ee3580a15684221daadfcc448918219122a7d7f7e9a240a34138",
+    "reported_cost_usd": 4.137e-05
+  },
+  {
+    "event_id": "2183bdbf-68ad-47a1-b146-66a462808888",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 630,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "9b29096ac45c3fca7e4d3fd9ad0f747c81f6eae71d8d2920b77cb1be47ac36f7",
+    "reported_cost_usd": 2.646e-05
+  },
+  {
+    "event_id": "6f9fc051-bcf1-4a5c-9031-0c408d2478fa",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1336,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "99d3fa125ed105ad2fbaab02e5b95500191b342d33b66e384a04ed0172df111e",
+    "reported_cost_usd": 5.6112e-05
+  },
+  {
+    "event_id": "aa9a6f5b-56c1-4266-964a-9aecb98effac",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1335,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "ae3c8e8a9d70a05951abd42843bba1e004c78ece1e61045dadc3ca9f7a8e2d6b",
+    "reported_cost_usd": 5.607e-05
+  },
+  {
+    "event_id": "7da6610c-74d8-4127-a4cb-133fcd37b055",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1399,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "c6549d746b7c5e3bf94efd2ec846f027a1787a8859bfc5cf7ed53a04ef308087",
+    "reported_cost_usd": 5.8758e-05
+  },
+  {
+    "event_id": "74421afc-5a32-4f71-954b-f74dad6a68bf",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 443,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "8895cc354183c4db7f634d829499576f895394d10858b4f2f2031975d522300e",
+    "reported_cost_usd": 1.8606e-05
+  },
+  {
+    "event_id": "07e22a2c-c7d7-4407-b99e-2c4d9983959c",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 682,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "2c2a226c702d5799906c692b24a752587e2539a16efaf01c2024d9a7f55f8536",
+    "reported_cost_usd": 2.8644e-05
+  },
+  {
+    "event_id": "4e0e8beb-ee1c-435d-a96e-118497759c06",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1233,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "78e4217a1eb94b5073c0c4c8ed2ab96e977a9845ea7012aa55cdb2967a604cb9",
+    "reported_cost_usd": 5.1786e-05
+  },
+  {
+    "event_id": "3ce3c0a8-ebac-43c0-9b18-952dd549bb5f",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 517,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "2112e81045069ce70f16cb7c9ca53466e277a652b14bfc8724d664ad49b6b693",
+    "reported_cost_usd": 2.1714e-05
+  },
+  {
+    "event_id": "fef78494-a02f-406b-a796-ae8d8c6d17bd",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 521,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "388aa68256497c6ce7c1ee63b64238c74d7bc3bf2b1f67a220cc7cfaea85e475",
+    "reported_cost_usd": 2.1882e-05
+  },
+  {
+    "event_id": "d84abe6f-2a3e-40f5-9823-84b904b211dc",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 842,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "b54cd175e7dc83a82295e3f0a67d150386eb1cb71859c518063518f5856e31c0",
+    "reported_cost_usd": 3.5364e-05
+  },
+  {
+    "event_id": "04c21c64-8964-4116-841e-9b4a6af32def",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 632,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "8d15d5058fcae4654b0cee0e042176a558cf8c857cb1051e6909eae7222497ba",
+    "reported_cost_usd": 2.6544e-05
+  },
+  {
+    "event_id": "e52ac124-7701-4d1d-b92d-a253eeb31adb",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 689,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "e7960120e7eddaa06b61edc69a17460a172817b331d5bc934389ad2bdcbc95ce",
+    "reported_cost_usd": 2.8938e-05
+  },
+  {
+    "event_id": "5e9db14b-1e06-41bb-b4e0-379852e2356b",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 760,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "49599d757b8889c496c8c2fa2d7d65ab7cef9ec8b92b4fcf2a77df54208486e1",
+    "reported_cost_usd": 3.192e-05
+  },
+  {
+    "event_id": "3281df66-bd7d-43e5-83d0-69edc21dc8d5",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 791,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "cf3bc0cf615394faee30b5d16eceb741cfc752be28bdf0e82525f3d0ed9dfe1b",
+    "reported_cost_usd": 3.3222e-05
+  },
+  {
+    "event_id": "9a338734-79a8-4b28-8837-2ba700f71bda",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 536,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "5791af5b7f029f781862f7c829bed229002c9ac845481251d99a018eb84e8495",
+    "reported_cost_usd": 2.2512e-05
+  },
+  {
+    "event_id": "883046c1-5a3c-4ae3-a894-33a72d4c9017",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1825,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "c489f1fb85582eaa1c87f4e4a9603b27435ea39272de1f0dcb7a06f682c2631d",
+    "reported_cost_usd": 7.665e-05
+  },
+  {
+    "event_id": "80aafa9f-c4a9-4235-b6cd-adbfe8e5b67a",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 669,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "e22b19856dbe287316537cde3f739c99c6cd76d420548ba93e3b2ab9a316c8fd",
+    "reported_cost_usd": 2.8098e-05
+  },
+  {
+    "event_id": "fb8d69ea-c1be-4464-87ce-10bd3c98dbdc",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 739,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "3b0a9d999f123deb4f0ef6715a6e35db6a1b556dcbe298b3749779434b98767f",
+    "reported_cost_usd": 3.1038e-05
+  },
+  {
+    "event_id": "56913789-b85c-40b5-a67f-45c7e4e9a91c",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 804,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "a099f2c7225657ad46feb04201331c4892f446359cf707020794469ffd349b06",
+    "reported_cost_usd": 3.3768e-05
+  },
+  {
+    "event_id": "1b41920c-9d5d-4f25-957b-a9de93cd89bb",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 2169,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "061b6a676c9b73555f80734b4928e50f5e2fb2e26de634f059344732fa48845e",
+    "reported_cost_usd": 9.1098e-05
+  },
+  {
+    "event_id": "98628996-51d0-4320-8372-8fe36001b2ff",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 2333,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "5ae0f0d4f9f602c84cf3a7cfbb1ff75a3ef288c953fdad240067d2bc815b0838",
+    "reported_cost_usd": 9.7986e-05
+  },
+  {
+    "event_id": "46a69928-d62a-4cc2-b325-c20b00ad9641",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 2658,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "12225cc12dd2da86d98c004610346123d2fd6e1cd3cd2cf1e07242b27cd62c8b",
+    "reported_cost_usd": 0.000111636
+  },
+  {
+    "event_id": "8df2747d-4935-4119-81bb-72384fbcd7ac",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1774,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "e4d01d22c5c25d12816ea156237a4ca93fbe6c5ff4e0fae6aae91a3becf6cc33",
+    "reported_cost_usd": 7.4508e-05
+  },
+  {
+    "event_id": "ab4f2ff8-7f77-42e4-b15b-f851a5be87b7",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 964,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "467023989201d200b680dd5b3263b902df0020727ac80bed4ad35884cd555868",
+    "reported_cost_usd": 4.0488e-05
+  },
+  {
+    "event_id": "169baf15-772c-46f5-941e-8c269d54b3d8",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 2687,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "4c614fad110c5b3c74c87f71dab852380b62910f42e53f332e927585192ae71b",
+    "reported_cost_usd": 0.000112854
+  },
+  {
+    "event_id": "885132c2-f141-471f-ad36-73c5f907e6ad",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1698,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "3283d255ebaa434754bbc774c96b11fd6af2274dbcf1e85a153c9a204de7434a",
+    "reported_cost_usd": 7.1316e-05
+  },
+  {
+    "event_id": "b697b433-584f-41d2-b207-982f7c48102c",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 626,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "a2aa993cceeac17a605f930a10047d6e0fe0bcfdfc1dd674f3421f140c161a7d",
+    "reported_cost_usd": 2.6292e-05
+  },
+  {
+    "event_id": "df519429-b204-449e-b6dc-5daac0ce2b94",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1592,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "4903d2f8bc86929fed5ce7f385843692f85336cca9b5ac821d5e2e0819825f1a",
+    "reported_cost_usd": 6.6864e-05
+  },
+  {
+    "event_id": "721f984d-7016-4aa4-94c7-8a6cb5f51ff7",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 676,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "e0ef1ddaffbd51f60be20e36887ecfc7d0c7d3ff77c720e0b600a6ba3710819e",
+    "reported_cost_usd": 2.8392e-05
+  },
+  {
+    "event_id": "7e02de12-6c19-4ef1-afbe-d933e8d61ec7",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1684,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "790bb1722a0e9f709ee7595f8f4a2fa3b668afd6ca7acb1376afbf51f71a01e6",
+    "reported_cost_usd": 7.0728e-05
+  },
+  {
+    "event_id": "48e4915a-a941-44e6-a6a1-1e93c6038e59",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 1278,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "3741d37a9e78542b80e1647601e5e38953fd50ad918d61afe934e2be86da7828",
+    "reported_cost_usd": 5.3676e-05
+  },
+  {
+    "event_id": "da6a71c5-5245-43e1-b901-67e32ac5ea7d",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 664,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "d7ca792d0286f7ecd8e37f2f91ee951c808dca1dd02a8adb92fe330b4f0c9aae",
+    "reported_cost_usd": 2.7888e-05
+  },
+  {
+    "event_id": "9705ec6e-697c-4b64-b414-97c4ba1fe73e",
+    "run_id": "discovery-jev-gpt6-luna-ontology-v1",
+    "source": "catalogue triage",
+    "stage": "triage",
+    "model": "typesafe/jev-1.13",
+    "usage": {
+      "input_tokens": 786,
+      "output_tokens": 22,
+      "input_token_details": {
+        "cache_read": 0,
+        "cache_creation": 0
+      }
+    },
+    "response_artifact": "8aadd12de9014196157fd89d3a6a1b08a52ea66417a95a7d0fb133d8b90574cc",
+    "reported_cost_usd": 3.3012e-05
+  }
+]

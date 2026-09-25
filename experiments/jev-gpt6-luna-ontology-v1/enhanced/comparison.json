@@ -1,0 +1,49 @@
+{
+  "status": "experimental_human_labels_pending",
+  "selection_hash": "74a08514164e6c80df27aa50d4cb563c921328191eb7277bffbb1fe84d45a640",
+  "variants": {
+    "exact": {
+      "links": 61,
+      "profiles": 60,
+      "linked_records": 121
+    },
+    "fuzzy_jev": {
+      "links": 61,
+      "profiles": 60,
+      "linked_records": 121
+    },
+    "hybrid_jev": {
+      "links": 61,
+      "profiles": 60,
+      "linked_records": 121
+    }
+  },
+  "additional_correct_links": null,
+  "semantic_precision": null,
+  "benchmark_recall": null,
+  "cluster_contamination": null,
+  "target_precision": 0.99,
+  "existing_profiles_with_value_changes": 0,
+  "new_profiles": 0,
+  "removed_profiles": 0,
+  "deferred_candidate_pairs": 555,
+  "pending_candidate_pairs": 81745,
+  "population_recall": null,
+  "note": "Counts are not accuracy. Same frozen selection; lexical ablation reuses identical evidence judgments. Source sampling favors identifier overlap.",
+  "retrieval": {
+    "records": 6000,
+    "embedded_records": 5996,
+    "candidate_pairs": 169628,
+    "records_with_candidates": 5147,
+    "decision_statuses": {
+      "deferred": 555,
+      "blocked": 87328,
+      "pending": 81745
+    },
+    "model_assessed_pairs": 500,
+    "review_candidates": 2,
+    "note": "Retrieval coverage is not recall; audit outside candidates."
+  },
+  "review_candidates": 2,
+  "elapsed_seconds": 512.507
+}

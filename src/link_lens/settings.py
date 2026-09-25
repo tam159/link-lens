@@ -1,5 +1,6 @@
 from functools import lru_cache
 from pathlib import Path
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -10,8 +11,8 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+psycopg://linklens:linklens@localhost:5439/linklens"
     artifact_dir: Path = Path("artifacts")
     ontology_path: Path = Path("firmable_ontology.yaml")
-    model: str = "gpt-5.6-luna"
-    experiment_id: str = "jev-luna-v1"
+    model: str = "gpt-6-luna"
+    experiment_id: str = "jev-gpt6-luna-ontology-v1"
     triage_model: str = "typesafe/jev-1.13"
     triage_workers: int = 6
     embedding_model: str = "text-embedding-3-small"
@@ -26,13 +27,15 @@ class Settings(BaseSettings):
     api_url: str = "http://localhost:2024"
     max_model_calls: int = 50
     max_python_calls: int = 10
+    mapping_max_output_tokens: int = Field(default=16000, ge=7000, le=32000)
     max_mapping_versions: int = 8
     max_input_tokens: int = 9_000_000
     max_output_tokens: int = 2_000_000
     max_active_seconds: int = 900
-    max_cost_usd: float = 10.0
+    max_cost_usd: float = Field(default=10.0, ge=0, allow_inf_nan=False)
     input_usd_per_million: float | None = None
     output_usd_per_million: float | None = None
+    pricing_multiplier: float = 1.0
     pricing_basis: str = "unknown; no provider rates configured"
     sample_pool_size: int = 5000
     csv_prefix_bytes: int = 8_388_608

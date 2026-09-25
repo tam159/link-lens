@@ -90,6 +90,19 @@ def records_from(observations, candidates):
 def evidence_text(record):
     # Label is explicitly not promoted to a legal-name observation.
     return {
+        **(
+            {
+                "ontology_hashes": sorted(
+                    {
+                        o["ontology_hash"]
+                        for o in record["observations"]
+                        if o.get("ontology_hash")
+                    }
+                )
+            }
+            if any(o.get("ontology_hash") for o in record["observations"])
+            else {}
+        ),
         "serialization_version": EMBEDDING_VERSION,
         "subject_role": record["subject_role"],
         "source_label": record.get("label"),

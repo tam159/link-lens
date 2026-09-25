@@ -1,0 +1,920 @@
+[
+  {
+    "id": "bf53f9db-c2db-4169-9b23-9ea4c430b5ee",
+    "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+    "kind": "node_execution",
+    "at": "2026-09-24T15:36:04.090541+00:00",
+    "node": "inspect_node",
+    "wall_seconds": 0.0041
+  },
+  {
+    "id": "98c814de-bda7-47b6-9925-3b77222bceba",
+    "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+    "kind": "node_execution",
+    "at": "2026-09-24T15:36:04.098228+00:00",
+    "node": "explore_node",
+    "wall_seconds": 0.0026
+  },
+  {
+    "id": "a96ffabf-68bd-457a-aaba-ca5303c68d07",
+    "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+    "kind": "model_usage",
+    "at": "2026-09-24T15:36:16.179289+00:00",
+    "stage": "propose_mapping",
+    "prompt_sha256": "14ba1e393503bb7ed23ff6537ec4f873f6cf05a550dd4071c62863d6890d58d5",
+    "prompt_version": "onboarding-4-ontology",
+    "model": "gpt-6-luna",
+    "experiment_id": "jev-gpt6-luna-ontology-v1",
+    "attempt": 1,
+    "input_tokens": 12571,
+    "output_tokens": 1544,
+    "calculated_cost_usd": 0.00430075,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0d40f-3b01-7ea3-a642-5acdaea529c6/run/01a0d40f-3f04-7a91-80b5-664bd4f598d8?start_time=2026-09-24T15%3A36%3A04.100397%2B00%3A00",
+    "trace_run_id": "01a0d40f-3f04-7a91-80b5-664bd4f598d8",
+    "response_artifact": "368757e4324c6a02e45b5100b542d098c212b7eb88c15c2172f4e6f9bbf94475",
+    "status": "success",
+    "wall_seconds": 11.958,
+    "reservation_id": "24a0c053-cf62-45a5-855d-85df4ee1df56"
+  },
+  {
+    "id": "e51c92a3-8d75-491b-934d-a70451044dbe",
+    "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+    "kind": "node_execution",
+    "at": "2026-09-24T15:36:16.183335+00:00",
+    "node": "propose_node",
+    "wall_seconds": 12.0815
+  },
+  {
+    "id": "db1101cb-0e20-4f89-b2fc-3cc9070af78f",
+    "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+    "kind": "validation",
+    "at": "2026-09-24T15:36:16.220901+00:00",
+    "version": 1,
+    "report": {
+      "passed": true,
+      "blocking_issues": [],
+      "records": 250,
+      "observations": 1068,
+      "quarantined_fields": 0,
+      "filtered_records": 0,
+      "error_examples": [],
+      "output_examples": [
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "5a29d0a4bb92f6780ad6e0bdc124ca888ebf68a0577e6be841e8e8e976f0626a",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.registered_business_name",
+          "value": "A MAX SERVICES GROUP",
+          "source_fields": [
+            "BN_NAME"
+          ],
+          "raw_value": [
+            " A MAX SERVICES GROUP"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 13
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.99
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "string",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "af0c65493ac0fd0489ba0cfecfda78bf9b88dc4d3f72b51047ed04f3eacdab4f",
+          "group_name": "business_name_registration",
+          "id": "3c5aec59bd6ee0e4d5633b2c51b673dfc02b5d0cd53e0d637807ca6af896dc02"
+        },
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "5a29d0a4bb92f6780ad6e0bdc124ca888ebf68a0577e6be841e8e8e976f0626a",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.business_name_status",
+          "value": "Registered",
+          "source_fields": [
+            "BN_STATUS"
+          ],
+          "raw_value": [
+            "Registered"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 13
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "enum",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "af0c65493ac0fd0489ba0cfecfda78bf9b88dc4d3f72b51047ed04f3eacdab4f",
+          "group_name": "business_name_registration",
+          "id": "ee95819953474c6a10b319251fab216ceac4ce1451dcf456ff3d752e9fb9333d"
+        },
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "5a29d0a4bb92f6780ad6e0bdc124ca888ebf68a0577e6be841e8e8e976f0626a",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.business_name_registration_date",
+          "value": "2024-08-29",
+          "source_fields": [
+            "BN_REG_DT"
+          ],
+          "raw_value": [
+            "29/08/2024"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 13
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.99
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "date",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "af0c65493ac0fd0489ba0cfecfda78bf9b88dc4d3f72b51047ed04f3eacdab4f",
+          "group_name": "business_name_registration",
+          "id": "130734982d29c4b88ab3a02aaed6cbd66e74cf6dd8956cf0d3c3b0f46bbf8d2d"
+        },
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "5a29d0a4bb92f6780ad6e0bdc124ca888ebf68a0577e6be841e8e8e976f0626a",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.business_name_abn",
+          "value": "82670937363",
+          "source_fields": [
+            "BN_ABN"
+          ],
+          "raw_value": [
+            "82670937363"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 13
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "string",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "af0c65493ac0fd0489ba0cfecfda78bf9b88dc4d3f72b51047ed04f3eacdab4f",
+          "group_name": "business_name_registration",
+          "id": "72d5ed9e2577916f3c144cb0f7b293948fc9d80ba7875953b4d5c13cc58b4a85"
+        },
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "5880700f491c19c4298f8ca78788d6c8643ad253af0795ffac7a7a3e42cdc676",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.registered_business_name",
+          "value": "Amor&Life",
+          "source_fields": [
+            "BN_NAME"
+          ],
+          "raw_value": [
+            " Amor&Life"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 21
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.99
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "string",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "f970aeca490a1b996c1287b128755533e8826428864556b2bc4f73bf78b27e71",
+          "group_name": "business_name_registration",
+          "id": "174ab0651393e2604c1c1fe21fdf774e27dffc352cc0fa681e8b95eabcbf751d"
+        },
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "5880700f491c19c4298f8ca78788d6c8643ad253af0795ffac7a7a3e42cdc676",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.business_name_status",
+          "value": "Registered",
+          "source_fields": [
+            "BN_STATUS"
+          ],
+          "raw_value": [
+            "Registered"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 21
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "enum",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "f970aeca490a1b996c1287b128755533e8826428864556b2bc4f73bf78b27e71",
+          "group_name": "business_name_registration",
+          "id": "0d76a03b154389930f8d45f9104f459b0bf5397c6302a37039eee6cc6a755a73"
+        },
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "5880700f491c19c4298f8ca78788d6c8643ad253af0795ffac7a7a3e42cdc676",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.business_name_registration_date",
+          "value": "2020-09-02",
+          "source_fields": [
+            "BN_REG_DT"
+          ],
+          "raw_value": [
+            "02/09/2020"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 21
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.99
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "date",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "f970aeca490a1b996c1287b128755533e8826428864556b2bc4f73bf78b27e71",
+          "group_name": "business_name_registration",
+          "id": "c79e8f4103dbc5dfed667449462f29f3547fd76544d1d20695ee8727bb4ce0a6"
+        },
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "5880700f491c19c4298f8ca78788d6c8643ad253af0795ffac7a7a3e42cdc676",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.business_name_abn",
+          "value": "35901422490",
+          "source_fields": [
+            "BN_ABN"
+          ],
+          "raw_value": [
+            "35901422490"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 21
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "string",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "f970aeca490a1b996c1287b128755533e8826428864556b2bc4f73bf78b27e71",
+          "group_name": "business_name_registration",
+          "id": "0a7f90fe84b10a059de426372d76efe4ce0df9a8a705733256e807d558b88882"
+        }
+      ],
+      "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+    }
+  },
+  {
+    "id": "f83c36e3-58ca-4b12-9885-ce66d333fe3a",
+    "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+    "kind": "node_execution",
+    "at": "2026-09-24T15:36:16.224445+00:00",
+    "node": "validate_node",
+    "wall_seconds": 0.0372
+  },
+  {
+    "id": "e7b4fbb6-b08d-4c4f-aaf5-a640b903a515",
+    "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+    "kind": "model_usage",
+    "at": "2026-09-24T15:36:23.375155+00:00",
+    "stage": "semantic_critique",
+    "prompt_sha256": "5f793ebb74207f7efefd8aee26044fc333352ab97c0fbabd66a873da70a8bd21",
+    "prompt_version": "onboarding-4-ontology",
+    "model": "gpt-6-luna",
+    "experiment_id": "jev-gpt6-luna-ontology-v1",
+    "attempt": 2,
+    "input_tokens": 13091,
+    "output_tokens": 744,
+    "calculated_cost_usd": 0.00383075,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0d40f-3b01-7ea3-a642-5acdaea529c6/run/01a0d40f-6e62-7812-8a0e-cd52a98fd138?start_time=2026-09-24T15%3A36%3A16.226072%2B00%3A00",
+    "trace_run_id": "01a0d40f-6e62-7812-8a0e-cd52a98fd138",
+    "response_artifact": "9b4fad0edeab0fec43d9b9cc5d5b63c4cd5f495d68cdcda06e78316f5082dd7c",
+    "status": "success",
+    "wall_seconds": 7.052,
+    "reservation_id": "ad981b57-dd89-431d-88b8-99364f35de12"
+  },
+  {
+    "id": "1019ef2b-84e2-4182-849b-83a0845b994b",
+    "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+    "kind": "semantic_critique",
+    "at": "2026-09-24T15:36:23.381173+00:00",
+    "version": 1,
+    "acceptable": true,
+    "blocking_issues": [],
+    "warnings": [
+      "BN_STATUS documentation lists Registered and Cancelled, while discovery rows include Deregistered. The mapping explicitly preserves that observed source label and discloses the discrepancy; do not interpret it as legal-entity status.",
+      "The attempted exploration script failed because its variable `records` was undefined. Assessment therefore relies on the supplied raw discovery rows, source documentation, and the separate validation report rather than that script's summaries.",
+      "BN_ABN is correctly retained as an entry-level string claim without asserting that it identifies or belongs to a legal entity; its blank/suppression and checksum semantics remain a limitation of this partial mapping."
+    ],
+    "evidence_checked": [
+      "ASIC Business Names Help File: purpose and snapshot contents, including current registrations and deregistered names retained for 12 months.",
+      "ASIC data dictionary descriptions and formats for BN_NAME, BN_STATUS, BN_REG_DT, BN_CANCEL_DT, BN_STATE_NUM, BN_STATE_OF_REG, and BN_ABN.",
+      "Raw discovery rows showing leading whitespace in BN_NAME, Registered and Deregistered statuses, DD/MM/YYYY dates, historical state fields, and present/blank BN_ABN values.",
+      "Ontology definitions distinguishing registration-level business-name claims from entity identity/status and defining the mapped registration concepts.",
+      "Mapping configuration: subject_role unknown; BN_NAME mapped to registration.registered_business_name; source status preserved with explicit enum mappings; historical state fields kept registration-scoped; REGISTER_NAME left unmapped.",
+      "Engine semantics for provenance, identifier linking, and publication-proxy timestamps; validator report with 250 validation records and no parse/type errors."
+    ]
+  },
+  {
+    "id": "4ecaef36-5f8e-459f-bdf5-b1f9c074cc6f",
+    "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+    "kind": "node_execution",
+    "at": "2026-09-24T15:36:23.383899+00:00",
+    "node": "critique_node",
+    "wall_seconds": 7.1558
+  },
+  {
+    "id": "406a6153-d771-4f31-9a7e-e098ff46fd38",
+    "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+    "kind": "final_validation",
+    "at": "2026-09-24T15:36:23.413538+00:00",
+    "version": 1,
+    "report": {
+      "passed": true,
+      "blocking_issues": [],
+      "records": 100,
+      "observations": 428,
+      "quarantined_fields": 0,
+      "filtered_records": 0,
+      "error_examples": [],
+      "output_examples": [
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "c95e0509ff76bcff735bf21f890942e0dbad2064a221bfb7b57a627d69829d25",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.registered_business_name",
+          "value": "7-Eleven 2061 E",
+          "source_fields": [
+            "BN_NAME"
+          ],
+          "raw_value": [
+            " 7-Eleven 2061 E"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 467
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.99
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "string",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "a8c09955317d12969ec7348b0f5cfdd6ef89b512337bf6af5c5c3ef50aa2d83c",
+          "group_name": "business_name_registration",
+          "id": "e81a5a49215431e3d955c6a8ec201f4e70f1c73a5a959ba5ecfd633f945e8c4d"
+        },
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "c95e0509ff76bcff735bf21f890942e0dbad2064a221bfb7b57a627d69829d25",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.business_name_status",
+          "value": "Registered",
+          "source_fields": [
+            "BN_STATUS"
+          ],
+          "raw_value": [
+            "Registered"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 467
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "enum",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "a8c09955317d12969ec7348b0f5cfdd6ef89b512337bf6af5c5c3ef50aa2d83c",
+          "group_name": "business_name_registration",
+          "id": "30897c767487c4869af4e92e6a2f90ffca9d55b1ec74aa668e8d42b202d835ad"
+        },
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "c95e0509ff76bcff735bf21f890942e0dbad2064a221bfb7b57a627d69829d25",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.business_name_registration_date",
+          "value": "2017-01-24",
+          "source_fields": [
+            "BN_REG_DT"
+          ],
+          "raw_value": [
+            "24/01/2017"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 467
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.99
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "date",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "a8c09955317d12969ec7348b0f5cfdd6ef89b512337bf6af5c5c3ef50aa2d83c",
+          "group_name": "business_name_registration",
+          "id": "967b0c0f8109e1511e2b579614e8cc77fc666f82d57490afae17bb3200d40116"
+        },
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "c95e0509ff76bcff735bf21f890942e0dbad2064a221bfb7b57a627d69829d25",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.business_name_abn",
+          "value": "67612909252",
+          "source_fields": [
+            "BN_ABN"
+          ],
+          "raw_value": [
+            "67612909252"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 467
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "string",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "a8c09955317d12969ec7348b0f5cfdd6ef89b512337bf6af5c5c3ef50aa2d83c",
+          "group_name": "business_name_registration",
+          "id": "a9263445e595f65cfffd5ee9d4a3897d224d5e1a1f9119ee1fbc636f58ba8b3b"
+        },
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "31bc1baa1cb98e8bdcba629de51f2e39b49103a360b5012cc822d55c051cb935",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.registered_business_name",
+          "value": "All Pumps and Irrigation Repairs",
+          "source_fields": [
+            "BN_NAME"
+          ],
+          "raw_value": [
+            " All Pumps and Irrigation Repairs"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 478
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.99
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "string",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "37f7d62b53184b035c34585fc115ae5ddbf6b3a390a6d1f5b7595dccd12569f9",
+          "group_name": "business_name_registration",
+          "id": "6d1c5b140bfd77393a1a103c67df17603873a115c7d5cf6916b8d2841f1e19b5"
+        },
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "31bc1baa1cb98e8bdcba629de51f2e39b49103a360b5012cc822d55c051cb935",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.business_name_status",
+          "value": "Registered",
+          "source_fields": [
+            "BN_STATUS"
+          ],
+          "raw_value": [
+            "Registered"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 478
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.96
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "enum",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "37f7d62b53184b035c34585fc115ae5ddbf6b3a390a6d1f5b7595dccd12569f9",
+          "group_name": "business_name_registration",
+          "id": "3de4edc1e5e372ec77d48a6a24d3fd75780f5182df1cf84456d9e5076d355063"
+        },
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "31bc1baa1cb98e8bdcba629de51f2e39b49103a360b5012cc822d55c051cb935",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.business_name_registration_date",
+          "value": "2013-08-14",
+          "source_fields": [
+            "BN_REG_DT"
+          ],
+          "raw_value": [
+            "14/08/2013"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 478
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.99
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "date",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "37f7d62b53184b035c34585fc115ae5ddbf6b3a390a6d1f5b7595dccd12569f9",
+          "group_name": "business_name_registration",
+          "id": "00815372b44cf6e6259731379300d92aaa22e9e840641df769f55811580be075"
+        },
+        {
+          "source_id": "bc515135-4bb6-4d50-957a-3713709a76d3",
+          "source_record_id": "31bc1baa1cb98e8bdcba629de51f2e39b49103a360b5012cc822d55c051cb935",
+          "observed_at": "2026-09-22T20:35:53.157792+00:00",
+          "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+          "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+          "ingested_at": "2026-09-23T14:44:44.525251+00:00",
+          "licence": "Creative Commons Attribution 3.0 Australia",
+          "extractor_version": "extractor-1:a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "field": "registration.business_name_abn",
+          "value": "25856694170",
+          "source_fields": [
+            "BN_ABN"
+          ],
+          "raw_value": [
+            "25856694170"
+          ],
+          "raw_locator": {
+            "snapshot_sha": "5e0b998acfbe89481d1421ae87d0238e8584d7b7b61b68942debda3fe44ca78b",
+            "sheet": "csv",
+            "row": 478
+          },
+          "snapshot_id": "a5f5022e673f371727b058968c4c64d2e839b9a5bc94d32a4e899edd9e6c9a1b",
+          "config_hash": "a95b3a4fa656edc61265adde19eaabd64a95d6c35f4d8579f0689fca14c1dd34",
+          "subject_role": "unknown",
+          "source_kind": "business_name_register",
+          "address_role": "unknown",
+          "confidence": {
+            "source_reliability": 0.82,
+            "field_confidence": 0.98
+          },
+          "confidence_kind": "uncalibrated mapping/source judgements",
+          "derivation_level": "L1",
+          "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+          "value_type": "string",
+          "cardinality": "one",
+          "scope": "registration",
+          "group_id": "37f7d62b53184b035c34585fc115ae5ddbf6b3a390a6d1f5b7595dccd12569f9",
+          "group_name": "business_name_registration",
+          "id": "cdf14c44ff291436e6ba82f0662fd5972a20ee86c28c2ebbcf1dd7c5bc63213f"
+        }
+      ],
+      "quality_note": "Parse/type validation is not semantic ground truth or measured link precision."
+    },
+    "record_ids": [
+      "c95e0509ff76bcff735bf21f890942e0dbad2064a221bfb7b57a627d69829d25",
+      "31bc1baa1cb98e8bdcba629de51f2e39b49103a360b5012cc822d55c051cb935",
+      "70a374ad712a9ab2e18cfa08b862a75ebd87d4e41536868f4eafe65f05120fad",
+      "88541a80cf039fa6552215eede18ef3514c3c30e730953e3af195df8e16986bf",
+      "42edf7905036687357c136b34bd4f82cd69aa9ec3dfd3bdf956e241752a99eaf",
+      "6dea33c85dd28edc1890980c5f4e54dbed061943d91fe9e56fad0cebd00b7aea",
+      "fc91d2c5c43c8dcb8b5fbc13ce71cdf4aa0528dcbb1679f7c09c7ed20350004a",
+      "dd0b6083cacbd10be453f094ef8150d2ec1e02ae0307ac30137555e891f6f31a",
+      "1efe4e9d87397b022f980c4671b3dfaba580562400126e8bd2c51c85de926d2b",
+      "85c9fdf707a84e635a94b0e1caa4ab846ee7de6e79cb40e2183b3d083ade5b5d",
+      "bbfaa1e744fbe63794ea180496e0831b2b259bcf64e1e7ae9c881a292c912891",
+      "a62e8d3dec47f21cbf00e80b0c2aabe5da6b96e8f07ddcd591b59126cf62cf46",
+      "1f325c8837f6807ab3a5605fa9afc74af30c0e35839596fbf086ac484ba17641",
+      "a5c1e048c0a52b8417bb5fd3f331280dcb685a7b721b9aeb3e6bd1f8bfd47d0a",
+      "b46ac7ae95a7bf4f6aeab2becfd11b143cd5a1afd067afd8dd49114600165b83",
+      "d3d75a0895f98064fe97e7f2deaf562161f27cdab3682a9b73cdfea72c57179a",
+      "f0a54a14628c66bf0bba4f20ef551a7e9b8786be8735545cd3f64d29e193a8f3",
+      "578db7448043e13880247dd2bcc3f99ba121c25036c1406303debd2a0358113d",
+      "c1916cb2c4caea42179f023de4bd0f27876414dec35144e72e2ec6b5723ac528",
+      "1e5f41a92b3fd801bc84706f2884f71c62d797fdb305cc8e00ed6ff167d13832",
+      "8d73349cc6c379439261469548e84e2530e6c224cd0638500aaa315c702c0784",
+      "f15edadd61c77adf0220611067d765d54c854ce95feab1411812db5b497300b4",
+      "a759fe81bcef859fa79216404daddd1a155065e65459ed2a937502ed6749eb4d",
+      "c0df758e28f7aa33fc050ab565ca0c588788144e3a1d853c9c6098ee3614a01c",
+      "4894d6d739d60b6ab1f425e0f6b3e2817da83112b78e6dec4e4cd07cd6c1a3e7",
+      "11e071870431e0f1eb957276a531a0dddda067510c511633b55afc0160fbfbe5",
+      "43422db0e8a4d2bed5aa0218771a27467e01e1cd79af9055125ce08f312785c4",
+      "467be200f717207f688ee0e0c3ce97853e9663e83e1818f66a52dcddd5c7f6da",
+      "f7aea76aab7e5ceba0ffc48509f1b6aaf419ed74ea1ade4233514d254a40c727",
+      "dbe1f645dffff04a2e34887b6467e9131f9c6460817cab2dda80f87d735148e4",
+      "2fa78aa28fec70c1dc5b39295f3f383273e28abb6bbdb27d2f085ea1cf45c788",
+      "585c8308caa9643169c7267ee270cba7b5955648f44e6a7b8ad756a63b7d30ea",
+      "ec3d0bd3de03cf19e226949d19833218616d04fa7cd4790209ecbab407d20c1a",
+      "f532e0f592694e5cb5c4f82955d3278059dc8e0b94166361d22aa1448704d6f2",
+      "d533f6c7df299d06ed3069a079a3e5cffc0e593886669ef1107c3011dfb6fca0",
+      "05137544ea56a2d7215b8c82392fe4e638a8d74360ce02e7bfcc2390cdcfc598",
+      "afa27b9ff8a3b38857f4cce577aa58728e3518cf61efcb6291c1f49d71559aae",
+      "9ece0069bcfa2247b2a3752dc716a327ada6f9c6f12c014f41772121e7b0fdce",
+      "60f01dcc3dbbe452b64d279355dfeba188510e3c180175ef77a66f4d8551f827",
+      "bc126395d40b7b249faca8f2eaf913fa3dbadaa534e7197612c113d0cbee0f82",
+      "b2ec64cd59e47eee01122f006be85f603cab920017f4f44da22b2a2cfde3546a",
+      "d3edb37527266e02695fb3ac6a346fc7e9f85e4e4882575f92dbd0e9d24ed61a",
+      "7c23a8c5422e75d0e15209ae86f8a6444ac7c1c3cef9f9de3271d49e30582dfd",
+      "c000c2f80af6107304a53a07f59ec5349499edb47ff4fcb99c03dfe300960dbe",
+      "8abcc515aed1c471a1cb9a097e1a3006a5424a65ace3a78f00ebb0652070307a",
+      "d562dc44dbefad66e612c57458ee4c56f515beb83c208c773db0c499211dd85e",
+      "90dc6f130e75070de52d9a3461325fa5b64099c32ede538a985516e999b61024",
+      "41c33d08a6060145a6ce33d7c8c8d92ca4e7347677274de792670eb53c9a4f77",
+      "74d14b6865a434031b1e607e1b38e32867000b700074a6ac669f5d90907c317f",
+      "9290f338d84052a4d51de63d56f04e764789a8d28e526ce2a0dceeda255286c9",
+      "1a837f6e96b1ebccc07f183ffd0be010ebbba30ff5614f0d2cf5e9ee1ddae126",
+      "1f6d156c097cf1ae7ee4635e0c498f93dab8e551f8321b181632edd52bfd005d",
+      "d1fdaf02ada78b62ad0c7f391c8b2813c5833536dc8ff88bca686e99856b94fc",
+      "a05fabc1fd325a6cdbd031a0407a11305102eb66b9d6130ccbe0b0000848ad0b",
+      "88247320ebe78bd05f6c57a9840dfff8d3f0084f2dedac3d261132af205b1a71",
+      "87f4c8a05964fb38418741b7345c43ce2e271889a68e8aa417ba0c7a7f9aa2f3",
+      "ca4c1c1226aa441e685699d1d88ea6bb1dc5c24b8079d1eeb51907684e6129f5",
+      "a4046005b6a2a9781c5ddd6dce2cebcbfa75b92bb6fd8faf13de03af6f8ceb73",
+      "6be7fbaf1a287c45e1e38bcaae6f4e8c134f4014bb1a5fa008640e997dc20c57",
+      "20d22ee71d1ce492acc2ca391ca1f2702e9f8826815d91c7a5b591c323b108ca",
+      "2570f9f19091bef05cdd4142e1ba06aa411617a1821cb3c59b185687e870e761",
+      "e4dae315ee3bf449af62cc2310a359e32531e33f08bd592f53d39bdd11605c4e",
+      "30d630545230902ec0f2c4e1e532a5e1e689b1fd8fbf63929c2ce8d11893ed27",
+      "13eeff489e0cbdef3b6edb03daefdaef36d04c53950b8f7a1e4145f22fce69fd",
+      "9b2d6544c963f41193cd3b4d5c6e7ec9907882c9e6ecf254c6a1d4c03e07cba9",
+      "b1041381eb3b01140dd367ef26b75afec6712e9cd129cfa4049b5575c26ff213",
+      "b050de4253cb1a4052eaa6e5ba6ee06984e918c0415d3c27a01fd8469ef0b973",
+      "a7fa1feccc8a41d5f1ae1b9b059908aaafd539708187c86d0fcfdf172bc9be1e",
+      "9d4653bd963ee7583e742a05e1a7ccc72a9b9e2b0140a9bd9266dfd24ced0801",
+      "a3342e8a92a1d135b148aafb39f80b0ecc9e5cfafadb333019296215e98cc7d2",
+      "fa0cdfe0fa1c374d523ee77b44fc5ab93217baffdd660bfcb54e4b6c8436a0f3",
+      "75d5d92fefb5c2fe96764f586ef5345c7c349654c7d506f6a82d56dff9e60462",
+      "3285c06da2630165366cbbb6e575e67f2067be28b90d4b34d37eb9c3bb950591",
+      "51cb21843790bc7cc315552b8073294748b99a0a2d6c3fe45cb6b053a4987e20",
+      "6919fe8cf665db7df6011c313ddb57d79fb25373e4e63003842ca8fdb2d0ff20",
+      "8fd9d38fc924458253df0bd07bff194081644dd12c524c8889bd81ec969a81f2",
+      "76004abb3e9c9fa47f87e29aea522150f5bf201cfe59e3b867e6e85ecce1be6e",
+      "a858e5db2561f7c1d13abb9108df6e786b6523d643fcfddccb898d0607915d61",
+      "3bbcffac64dbcf6868cf5bf47d380a7f1184544d2c9b7318e80701f5fbeee254",
+      "354ed0be902dfe70893fc55c2cd45652da011e7f98fb456f747fb244d09e35c1",
+      "95f45ffb3d040ed068baff27f9cb910ef7b53d91c75076e634a4142018c487fd",
+      "5138d3883c0b318f4e870a3761baed607ef7ddee8662a2701c8c7f40ca5ea51d",
+      "fec7f574c3a1d5055943605f9db31cb0393a28bf725baf3826cd176333ec252f",
+      "adeeecdeba5904a03f825416869e6bdfc946ab8a9210c771cd06a7db738ca421",
+      "459ca257333cb2cfcfd4d33d1239cb0e2e4860f0c17a4134aa1a4c640897f20a",
+      "b15372d740c5cb3f5acd6e157ce5f47ba3b52525a06ce7730f53dd17e34a01c7",
+      "ff7b16a4740686525a3dce8760f74a0652f227db008c38e9be6a213e14319b19",
+      "5fe72952a4f78b09a06c9cc018e0cfc19befde249c070b29e68b583d36582e1d",
+      "2f110c8f0333609f6cee0fbb0fc98f4b833b4a1f80f348017053322d393c9d56",
+      "961a7899ca7387c35e615e8186962c01410ee2883c3a34a7308495438f2b8545",
+      "164bb984a5942ef1f4b95030420499933e2a1b57d67e02eda19b426c7b6a4855",
+      "d90b705eba83e31a63cadfcf65e560a4e3c12783a0deddfac1543c4d1da37e21",
+      "9acfd8a2dcbb4fb879a480cbe7539317e0f42f6df5b20e0fc36e2bc46b4c87bc",
+      "79e182ade9c287be8797ce0370679498f4a3bc69470114bc2e9933bbea70e759",
+      "01a0c7817248b5c616c840fe79d12594d043e203e31becc56335020bee4a6177",
+      "84fce5d86c7e8722883c48bbc0f3a4bb49698df98c9fb567486d74dbc6de8928",
+      "b46bbed93640fa6992fd92be3a36e2c08fd15339e7e67e01ddd9fad1ade9286d",
+      "5638cff5a0cf8571454b9d3287cb273f535793157eacd71c9c31e39b1b82a563",
+      "1d829e75b2d68617bebc6475036276ba3dabbc726c3d35aee9290427dedc7dc2",
+      "a7517fd679269d73375cc00a7e36beb4337c6e32630c42b1e5fed0c1f2b05ae4"
+    ]
+  },
+  {
+    "id": "13d88ce9-198d-4b5e-ab5c-213a3b937c86",
+    "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+    "kind": "node_execution",
+    "at": "2026-09-24T15:36:23.432646+00:00",
+    "node": "final_node",
+    "wall_seconds": 0.0446
+  },
+  {
+    "id": "2725b446-d328-4e30-9d0e-fde8e2a065c5",
+    "run_id": "cc5ce988-e74c-4062-98a6-18da6518b82e",
+    "kind": "node_execution",
+    "at": "2026-09-24T15:36:23.438594+00:00",
+    "node": "review_node",
+    "wall_seconds": 0.0024
+  }
+]

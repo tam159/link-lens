@@ -1,0 +1,20 @@
+{
+  "id": "263f87db-d0c9-4206-ae78-29a478ee183c",
+  "experiment_id": "jev-gpt6-luna-ontology-v1",
+  "model": "gpt-6-luna",
+  "ontology_hash": "f66f63b3568165bc0e555f6532955e741a3847b4e2b2ee2bb39bb31df98edc35",
+  "source_id": "connectivity-test",
+  "source_slug": "connectivity-test",
+  "snapshot_id": "connectivity-test",
+  "status": "connectivity_passed",
+  "created_at": "2026-09-24T15:10:52.586420+00:00",
+  "model_calls": 1,
+  "python_calls": 0,
+  "version": 0,
+  "input_tokens": 255,
+  "output_tokens": 21,
+  "active_seconds": 2.537,
+  "calculated_cost_usd": 7.95e-05,
+  "pricing_basis": "unknown; no provider rates configured",
+  "usage_has_estimates": false
+}

@@ -54,6 +54,24 @@ def frozen_candidates(result):
 
 
 def evaluate_pairs(records, comparisons, inference, policy):
+    def identity_evidence(record):
+        # Licence, site, contact and reporting-period claims describe other
+        # subjects. Do not expose them as company-identity evidence to the judge.
+        # Preserve the ontology binding even when a record has only scoped claims.
+        return {
+            **record,
+            "ontology_hashes": sorted(
+                {
+                    o["ontology_hash"]
+                    for o in record["observations"]
+                    if o.get("ontology_hash")
+                }
+            ),
+            "observations": [
+                o for o in record["observations"] if not o.get("group_id")
+            ],
+        }
+
     def judge(comp):
         reason = hard_block(records[comp.left], records[comp.right])
         if reason:
@@ -71,8 +89,8 @@ def evaluate_pairs(records, comparisons, inference, policy):
         try:
             judgment, artifact = inference.identity(
                 {
-                    "left": records[comp.left],
-                    "right": records[comp.right],
+                    "left": identity_evidence(records[comp.left]),
+                    "right": identity_evidence(records[comp.right]),
                     "features": comp.features,
                 }
             )

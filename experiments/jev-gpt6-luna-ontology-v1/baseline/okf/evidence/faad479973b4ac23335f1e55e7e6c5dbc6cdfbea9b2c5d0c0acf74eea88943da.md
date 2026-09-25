@@ -1,0 +1,58 @@
+---
+type: Field Observation
+title: 'registration.state_registration_number: 10496703'
+description: A source claim, not independent proof of identity.
+generated:
+  by: process:link-lens-exporter-1
+  at: '2026-09-24T15:48:00.429373+00:00'
+tags:
+- evidence
+sources:
+- resource: ../sources/7b8656f9-606d-4337-af29-66b89b2eeefb.md
+---
+
+[Source](../sources/7b8656f9-606d-4337-af29-66b89b2eeefb.md)
+
+```json
+{
+  "source_id": "7b8656f9-606d-4337-af29-66b89b2eeefb",
+  "source_record_id": "052569f354e0f757c0c8e460bae5f48ac48f76e5357494a4e087a0cf5e9eecee",
+  "observed_at": "2026-09-21T14:56:01.988918+00:00",
+  "observed_at_basis": "CKAN resource last_modified; publication proxy, not a field change timestamp",
+  "timezone_assumption": "UTC assumed for timezone-naive source timestamp",
+  "ingested_at": "2026-09-23T14:44:38.379457+00:00",
+  "licence": "Creative Commons Attribution 3.0 Australia",
+  "extractor_version": "extractor-1:66cc567369cfe465e62d7c276144eb9c1e445463b99959a7606a1fa8e0b2c92b",
+  "field": "registration.state_registration_number",
+  "value": "10496703",
+  "source_fields": [
+    "State Registration number"
+  ],
+  "raw_value": [
+    "10496703  "
+  ],
+  "raw_locator": {
+    "snapshot_sha": "85dc8773e5691a3be87991e3249651097fbb9c8be025487b84f57827c63e1b24",
+    "sheet": "csv",
+    "row": 12633
+  },
+  "snapshot_id": "f056f393e486e56451330e23140bdf23bc91a823d571c5be8f50e2203f28b827",
+  "config_hash": "66cc567369cfe465e62d7c276144eb9c1e445463b99959a7606a1fa8e0b2c92b",
+  "subject_role": "legal_entity",
+  "source_kind": "company_register",
+  "address_role": "unknown",
+  "confidence": {
+    "source_reliability": 0.96,
+    "field_confidence": 0.99
+  },
+  "confidence_kind": "uncalibrated mapping/source judgements",
+  "derivation_level": "L1",
+  "ontology_hash": "4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227",
+  "value_type": "string",
+  "cardinality": "one",
+  "scope": "registration",
+  "group_id": "bb88c7c5851a8424cee4aaa52f7b89d55ea6f89b68db95bb7754bc6a2f65dc75",
+  "group_name": "company_register_registration",
+  "id": "faad479973b4ac23335f1e55e7e6c5dbc6cdfbea9b2c5d0c0acf74eea88943da"
+}
+```

@@ -1,0 +1,112 @@
+[
+  {
+    "id": "719b0f1f-7222-4111-8eb8-6fc52a9db2ed",
+    "run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+    "kind": "model_usage",
+    "at": "2026-09-24T15:13:34.114527+00:00",
+    "stage": "inspect",
+    "prompt_sha256": "4864eff0d1c003bb834f706b4eb2590638bb9c3cebd6e908f7fd9b92902ec7ff",
+    "prompt_version": "onboarding-3-luna-feedback",
+    "model": "gpt-6-luna",
+    "experiment_id": "jev-gpt6-luna-ontology-v1",
+    "attempt": 1,
+    "input_tokens": 5764,
+    "output_tokens": 504,
+    "calculated_cost_usd": 0.001819,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": null,
+    "response_artifact": "6ce110bb74b031e191926c8fdea960d5a5a4715dd01037cd77ebe9d336867a7a",
+    "status": "success",
+    "wall_seconds": 5.3,
+    "reservation_id": "0909c609-a80e-4978-aa91-8cba6290dd49"
+  },
+  {
+    "id": "13826887-2785-4e3a-a122-f4ea31f70c92",
+    "run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+    "kind": "inspect",
+    "at": "2026-09-24T15:13:34.164921+00:00",
+    "partition_counts": {
+      "discovery": 2977,
+      "validation": 1053,
+      "final": 970
+    },
+    "reader": {
+      "format": "csv",
+      "encoding": "utf-8-sig",
+      "delimiter": "\t",
+      "sheet": null,
+      "header_row": 1,
+      "json_records_path": []
+    }
+  },
+  {
+    "id": "5373e5a4-40c0-44ee-8f9b-e865aa0b1209",
+    "run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+    "kind": "node_execution",
+    "at": "2026-09-24T15:13:34.170659+00:00",
+    "node": "inspect_node",
+    "wall_seconds": 5.517
+  },
+  {
+    "id": "3226e3f5-23c1-4689-8df0-62ff2ebf5334",
+    "run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+    "kind": "node_execution",
+    "at": "2026-09-24T15:31:28.775158+00:00",
+    "node": "inspect_node",
+    "wall_seconds": 0.002
+  },
+  {
+    "id": "f304f2c8-c9c1-464a-b40a-f133dda2b0a0",
+    "run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+    "kind": "exploration",
+    "at": "2026-09-24T15:31:29.574345+00:00",
+    "artifact_id": "4e5f18f152bce22a378dc413ebc2757e61bbc09b2f6e2f97b5b510029dcc1be9",
+    "exit_code": 1
+  },
+  {
+    "id": "1f70aea0-d5f5-472a-91b7-663f73045a5b",
+    "run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+    "kind": "node_execution",
+    "at": "2026-09-24T15:31:29.577387+00:00",
+    "node": "explore_node",
+    "wall_seconds": 0.7987
+  },
+  {
+    "id": "c214b292-1c4a-48e1-bcfc-9f37d5ede75a",
+    "run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+    "kind": "model_usage",
+    "at": "2026-09-24T15:31:30.829481+00:00",
+    "stage": "propose_mapping",
+    "prompt_sha256": "8272304940e565dbfe3d8d9daf95a551810bfc47475040d0265c6071bfed80c8",
+    "prompt_version": "onboarding-4-ontology",
+    "model": "gpt-6-luna",
+    "experiment_id": "jev-gpt6-luna-ontology-v1",
+    "attempt": 2,
+    "input_tokens": null,
+    "output_tokens": null,
+    "calculated_cost_usd": null,
+    "pricing_basis": "Conservative input reservation at max(input, cache-write) published rate; exact cache-aware estimate exported separately",
+    "trace_url": "https://smith.langchain.com/o/aed48a45-cf8f-5ef4-a1b3-11b8c0bc2137/projects/p/efcced63-046f-4a18-8505-e38fcd4a38b5/trace/01a0d406-6e2b-7682-a297-cc98e8845387/run/01a0d40b-0eab-73f0-9f19-26b97c19171e?start_time=2026-09-24T15%3A31%3A29.579656%2B00%3A00",
+    "trace_run_id": "01a0d40b-0eab-73f0-9f19-26b97c19171e",
+    "status": "error",
+    "error": "OpenAIRateLimitError: Error code: 429 - {'error': {'message': 'Your requests to gpt-6-luna for gpt-6-luna in swedencentral have exceeded rate limit.', 'type': 'too_many_requests', 'param': None, 'code': 'rate_limit_exceeded'}}",
+    "wall_seconds": 1.125,
+    "reservation_id": "e0a0b2ee-f0c9-4f43-b6dc-024ef347189e"
+  },
+  {
+    "id": "6e2a4783-466a-4d0d-af48-3b69aeb603ac",
+    "run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+    "kind": "failure",
+    "at": "2026-09-24T15:31:30.831609+00:00",
+    "node": "propose_node",
+    "error": "OpenAIRateLimitError: Error code: 429 - {'error': {'message': 'Your requests to gpt-6-luna for gpt-6-luna in swedencentral have exceeded rate limit.', 'type': 'too_many_requests', 'param': None, 'code': 'rate_limit_exceeded'}}"
+  },
+  {
+    "id": "ac6bf821-2b5b-40e0-ba1f-9fb01b45a3cd",
+    "run_id": "d6992f81-fc06-41d4-a4df-3c01d4f36f95",
+    "kind": "node_execution",
+    "at": "2026-09-24T15:31:30.832953+00:00",
+    "node": "propose_node",
+    "wall_seconds": 1.2523
+  }
+]

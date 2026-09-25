@@ -55,7 +55,11 @@ def estimate(rows, snapshot=None):
             usage
             and isinstance(usage.get("input_tokens"), int)
             and usage["input_tokens"]
-            <= (32000 if row["model"].startswith("typesafe/") else 20278)
+            <= (
+                32000
+                if row["model"].startswith("typesafe/")
+                else (272000 if row["model"] == "gpt-6-luna" else 20278)
+            )
         )
         model_rates = snapshot["models"].get(row["model"])
         cost = (
@@ -200,6 +204,33 @@ def collect(experiment_id=None):
                 "status": e["status"],
                 "wall_seconds": e.get("wall_seconds"),
                 "budget_charge_usd": e["budget_charge_usd"],
+            }
+        )
+    # A process can stop after reserving spend but before writing its receipt.
+    # Such attempts remain unknown usage, and must not disappear from exports.
+    receipted = {
+        event["reservation_id"]
+        for event in store.listing("events")
+        if event.get("reservation_id")
+    }
+    for reservation in store.listing("budget_reservations"):
+        if (
+            reservation["id"] in receipted
+            or reservation.get("stage") == "legacy_attempts"
+            or (experiment_id and reservation["experiment_id"] != experiment_id)
+        ):
+            continue
+        rows.append(
+            {
+                "event_id": None,
+                "reservation_id": reservation["id"],
+                "run_id": reservation["owner"],
+                "source": "API attempt without a usage receipt",
+                "stage": reservation["stage"],
+                "model": reservation["model"],
+                "usage": None,
+                "status": "receipt_missing",
+                "budget_charge_usd": reservation["charge_usd"],
             }
         )
     return rows

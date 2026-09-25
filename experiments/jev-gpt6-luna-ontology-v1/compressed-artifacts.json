@@ -1,0 +1,100 @@
+[
+  {
+    "path": "baseline/observations.jsonl.gz",
+    "uncompressed_path": "baseline/observations.jsonl",
+    "uncompressed_bytes": 175318651,
+    "uncompressed_sha256": "54f850343ba3b6b7a9ec79e1297032de20db707da3c4bc106ec13073fdd0f940",
+    "gzip_sha256": "8a3a62b41fb3d48ded10d62d14f87316f39816aa976124cfe9fefbcce2c48979"
+  },
+  {
+    "path": "enhanced/observations.jsonl.gz",
+    "uncompressed_path": "enhanced/observations.jsonl",
+    "uncompressed_bytes": 175318651,
+    "uncompressed_sha256": "54f850343ba3b6b7a9ec79e1297032de20db707da3c4bc106ec13073fdd0f940",
+    "gzip_sha256": "8a3a62b41fb3d48ded10d62d14f87316f39816aa976124cfe9fefbcce2c48979"
+  },
+  {
+    "path": "enhanced/candidate_decisions.jsonl.gz",
+    "uncompressed_path": "enhanced/candidate_decisions.jsonl",
+    "uncompressed_bytes": 209356131,
+    "uncompressed_sha256": "92f4f9a7c4485fbe766652af0f04420c9392f1a280d32798c8125196ba576a9e",
+    "gzip_sha256": "cecf7cfb7fb6f3c096a740566f051f63bb61e0a62634f9e86f5c3542ca2db3c1"
+  },
+  {
+    "path": "enhanced/onboarding/employment-provider-locations-and-contacts/d8894b1e-de5a-484e-87d4-0813c35f9f9a/observations.jsonl.gz",
+    "uncompressed_path": "enhanced/onboarding/employment-provider-locations-and-contacts/d8894b1e-de5a-484e-87d4-0813c35f9f9a/observations.jsonl",
+    "uncompressed_bytes": 18669206,
+    "uncompressed_sha256": "0af370487cd51db75f4511b17f77544d47f354d25cd0471b610b92b20aa156af",
+    "gzip_sha256": "ab2e1a34a7ffccd06848c750e7c63390a330205f8d15ce418c75bebde9b74732"
+  },
+  {
+    "path": "enhanced/onboarding/asic-afs-licensee/ee6281be-3189-4e01-84e6-91abcbadccfe/observations.jsonl.gz",
+    "uncompressed_path": "enhanced/onboarding/asic-afs-licensee/ee6281be-3189-4e01-84e6-91abcbadccfe/observations.jsonl",
+    "uncompressed_bytes": 103562264,
+    "uncompressed_sha256": "2c084be4623a16b3f57bfba147ac78ae71040044b65ebf6d465fe66735a7b7fd",
+    "gzip_sha256": "1a99e017758bbf0339b90e16c157f638b03841d0ef03366145d684892055333a"
+  },
+  {
+    "path": "enhanced/onboarding/acnc-register/140cbad0-cc07-441c-9389-69c2dff41ddf/observations.jsonl.gz",
+    "uncompressed_path": "enhanced/onboarding/acnc-register/140cbad0-cc07-441c-9389-69c2dff41ddf/observations.jsonl",
+    "uncompressed_bytes": 36272283,
+    "uncompressed_sha256": "d6e4a63c1c6b9b273d74f94684cac18487e45c094049712996630253c24fbf43",
+    "gzip_sha256": "be3fffecbf81a8ee2c4fe2375f0c2210b33a82904c86d126fc697b6917d8d1f1"
+  },
+  {
+    "path": "enhanced/onboarding/asic-companies/45fe9b0d-853e-4bef-9c41-73d41d6e3582/observations.jsonl.gz",
+    "uncompressed_path": "enhanced/onboarding/asic-companies/45fe9b0d-853e-4bef-9c41-73d41d6e3582/observations.jsonl",
+    "uncompressed_bytes": 14771750,
+    "uncompressed_sha256": "fe01fcbe88922596f1805eedaa289e38414f7bf378513786939989b1f39133b4",
+    "gzip_sha256": "dc1c85f584d916d421e88411f16705b6136a8ca3626db54cdd3656d1e71326ba"
+  },
+  {
+    "path": "baseline/onboarding/employment-provider-locations-and-contacts/d8894b1e-de5a-484e-87d4-0813c35f9f9a/observations.jsonl.gz",
+    "uncompressed_path": "baseline/onboarding/employment-provider-locations-and-contacts/d8894b1e-de5a-484e-87d4-0813c35f9f9a/observations.jsonl",
+    "uncompressed_bytes": 18669206,
+    "uncompressed_sha256": "0af370487cd51db75f4511b17f77544d47f354d25cd0471b610b92b20aa156af",
+    "gzip_sha256": "ab2e1a34a7ffccd06848c750e7c63390a330205f8d15ce418c75bebde9b74732"
+  },
+  {
+    "path": "baseline/onboarding/asic-afs-licensee/ee6281be-3189-4e01-84e6-91abcbadccfe/observations.jsonl.gz",
+    "uncompressed_path": "baseline/onboarding/asic-afs-licensee/ee6281be-3189-4e01-84e6-91abcbadccfe/observations.jsonl",
+    "uncompressed_bytes": 103562264,
+    "uncompressed_sha256": "2c084be4623a16b3f57bfba147ac78ae71040044b65ebf6d465fe66735a7b7fd",
+    "gzip_sha256": "1a99e017758bbf0339b90e16c157f638b03841d0ef03366145d684892055333a"
+  },
+  {
+    "path": "baseline/onboarding/acnc-register/140cbad0-cc07-441c-9389-69c2dff41ddf/observations.jsonl.gz",
+    "uncompressed_path": "baseline/onboarding/acnc-register/140cbad0-cc07-441c-9389-69c2dff41ddf/observations.jsonl",
+    "uncompressed_bytes": 36272283,
+    "uncompressed_sha256": "d6e4a63c1c6b9b273d74f94684cac18487e45c094049712996630253c24fbf43",
+    "gzip_sha256": "be3fffecbf81a8ee2c4fe2375f0c2210b33a82904c86d126fc697b6917d8d1f1"
+  },
+  {
+    "path": "baseline/onboarding/asic-companies/45fe9b0d-853e-4bef-9c41-73d41d6e3582/observations.jsonl.gz",
+    "uncompressed_path": "baseline/onboarding/asic-companies/45fe9b0d-853e-4bef-9c41-73d41d6e3582/observations.jsonl",
+    "uncompressed_bytes": 14771750,
+    "uncompressed_sha256": "fe01fcbe88922596f1805eedaa289e38414f7bf378513786939989b1f39133b4",
+    "gzip_sha256": "dc1c85f584d916d421e88411f16705b6136a8ca3626db54cdd3656d1e71326ba"
+  },
+  {
+    "path": "enhancement-review/worksheet.json.gz",
+    "uncompressed_path": "enhancement-review/worksheet.json",
+    "uncompressed_bytes": 222778274,
+    "uncompressed_sha256": "5296e16d08819e3cf3cef374630cb430e811f39640768f62a7d0e78d1bffbca2",
+    "gzip_sha256": "8589d86ce75580fc43d9d354f6ec2c4c71e894159a3b68badea0a5a574afa9ac"
+  },
+  {
+    "path": "enhancement-review/development.json.gz",
+    "uncompressed_path": "enhancement-review/development.json",
+    "uncompressed_bytes": 18089849,
+    "uncompressed_sha256": "6276e227c29c822fa81ec7b91c234f4e10875a0de65c7e0179a70963387cea8f",
+    "gzip_sha256": "e998b1111e10a6a3a45d3df1022b27ddaa1d190a8cb70902b5f6ae4b45aab874"
+  },
+  {
+    "path": "enhancement-review/heldout.json.gz",
+    "uncompressed_path": "enhancement-review/heldout.json",
+    "uncompressed_bytes": 19613041,
+    "uncompressed_sha256": "df6fb4fd1ddc10a948367e0e19b1d9f9e7d493c49a149a663a97bdf620cf724d",
+    "gzip_sha256": "8edd8051a2afea4f348a08ad155b6d97a03e1912a52c55a5015981e5e137faa3"
+  }
+]

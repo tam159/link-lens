@@ -1,0 +1,197 @@
+{
+  "version": "0.1",
+  "parent_hash": null,
+  "concepts": {
+    "entity.legal_name": {
+      "name": "entity.legal_name",
+      "definition": "As registered. Not the trading name.",
+      "type": "string",
+      "scope": "entity",
+      "cardinality": "one",
+      "values": [],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    },
+    "entity.trading_name": {
+      "name": "entity.trading_name",
+      "definition": "May be multiple. Emit one observation each.",
+      "type": "string",
+      "scope": "entity",
+      "cardinality": "many",
+      "values": [],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    },
+    "entity.abn": {
+      "name": "entity.abn",
+      "definition": "Australian Business Number. Has a checksum — validate it, do not just length-check.",
+      "type": "string",
+      "scope": "entity",
+      "cardinality": "one",
+      "values": [],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    },
+    "entity.acn": {
+      "name": "entity.acn",
+      "definition": "Australian Company Number. Also checksummed. The last 9 digits of an ABN are often the ACN, but not always.",
+      "type": "string",
+      "scope": "entity",
+      "cardinality": "one",
+      "values": [],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    },
+    "entity.nzbn": {
+      "name": "entity.nzbn",
+      "definition": "New Zealand Business Number, if you happen to hit an NZ source.",
+      "type": "string",
+      "scope": "entity",
+      "cardinality": "one",
+      "values": [],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    },
+    "entity.entity_type": {
+      "name": "entity.entity_type",
+      "definition": "Default to unknown. Guessing here causes downstream harm.",
+      "type": "enum",
+      "scope": "entity",
+      "cardinality": "one",
+      "values": [
+        "company",
+        "sole_trader",
+        "partnership",
+        "trust",
+        "incorporated_association",
+        "government",
+        "other",
+        "unknown"
+      ],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    },
+    "entity.status": {
+      "name": "entity.status",
+      "definition": "Canonical entity.status source claim.",
+      "type": "enum",
+      "scope": "entity",
+      "cardinality": "one",
+      "values": [
+        "active",
+        "deregistered",
+        "in_liquidation",
+        "suspended",
+        "unknown"
+      ],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    },
+    "entity.website": {
+      "name": "entity.website",
+      "definition": "Canonical entity.website source claim.",
+      "type": "string",
+      "scope": "entity",
+      "cardinality": "one",
+      "values": [],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    },
+    "entity.industry_code": {
+      "name": "entity.industry_code",
+      "definition": "ANZSIC where available. Record the raw source value too.",
+      "type": "string",
+      "scope": "entity",
+      "cardinality": "one",
+      "values": [],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    },
+    "entity.date_registered": {
+      "name": "entity.date_registered",
+      "definition": "Canonical entity.date_registered source claim.",
+      "type": "date",
+      "scope": "entity",
+      "cardinality": "one",
+      "values": [],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    },
+    "address.full": {
+      "name": "address.full",
+      "definition": "Canonical address.full source claim.",
+      "type": "string",
+      "scope": "address",
+      "cardinality": "one",
+      "values": [],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    },
+    "address.locality": {
+      "name": "address.locality",
+      "definition": "Canonical address.locality source claim.",
+      "type": "string",
+      "scope": "address",
+      "cardinality": "one",
+      "values": [],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    },
+    "address.state": {
+      "name": "address.state",
+      "definition": "Canonical address.state source claim.",
+      "type": "enum",
+      "scope": "address",
+      "cardinality": "one",
+      "values": [
+        "NSW",
+        "VIC",
+        "QLD",
+        "WA",
+        "SA",
+        "TAS",
+        "ACT",
+        "NT",
+        "NZ",
+        "OTHER"
+      ],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    },
+    "address.postcode": {
+      "name": "address.postcode",
+      "definition": "Canonical address.postcode source claim.",
+      "type": "string",
+      "scope": "address",
+      "cardinality": "one",
+      "values": [],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    },
+    "address.country": {
+      "name": "address.country",
+      "definition": "Canonical address.country source claim.",
+      "type": "string",
+      "scope": "address",
+      "cardinality": "one",
+      "values": [],
+      "requires": [],
+      "minimum": null,
+      "maximum": null
+    }
+  }
+}
