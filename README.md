@@ -14,8 +14,6 @@ A LangGraph agent investigates public business datasets and produces mapping con
 
 **Flexible ontology:** Link Lens now supports reusable new concepts instead of a fixed target list. An LLM proposes and critiques additions from discovery evidence and documentation; deterministic code validates types, scope, dependencies and additive compatibility. Mappings pin an immutable ontology hash and still require human approval. The submitted ontology has 59 concepts, with 24 additions contributing to profiles. [How ontology evolution works](#experimental-ontology-evolution).
 
-Model names are configurable. The final approach includes bounded hybrid enhancement; embeddings retrieve candidates and do not generate profile values. It added no identity links in this run, and human evidence evaluation remains pending.
-
 **[Explore the live evidence viewer →](https://tam159.github.io/link-lens/)** Browse business profiles, explore their connections and inspect supporting evidence directly in your browser—no setup required. The viewer presents the saved submission snapshot.
 
 **Choose a starting point:** [How it works](#how-it-works) · [Run locally](#run-locally) · [Read the write-up](WRITEUP.md) · [Inspect saved results](outputs/README.md) · [Follow the illustrated demo](docs/DEMO.md)
