@@ -12,7 +12,7 @@ A LangGraph agent investigates public business datasets and produces mapping con
 | Entity identification | **Deterministic exact ABN/ACN matching** by default. The submitted `enhance` stage adds fuzzy retrieval, an **embedding model and Jev** assessments, with deterministic evidence and cluster checks. |
 | Company profiles | **Deterministic evidence selection** by default. The submitted `enhance` stage adds **Jev** claim-equivalence judgments and an **LLM** for conflict annotations; original source values and provenance are retained. |
 
-**Flexible ontology:** Link Lens now supports reusable new concepts instead of a fixed target list. An LLM proposes and critiques additions from discovery evidence and documentation; deterministic code validates types, scope, dependencies and additive compatibility. Mappings pin an immutable ontology hash and still require human approval. The submitted ontology has 59 concepts, with 24 additions contributing to profiles. [How ontology evolution works](#experimental-ontology-evolution).
+**Flexible ontology:** Link Lens now supports reusable new concepts instead of a fixed target list. An LLM proposes and critiques additions from discovery evidence and documentation; deterministic code validates types, scope, dependencies and additive compatibility. Mappings pin an immutable ontology hash and still require human approval. The submitted ontology has 59 concepts, with 24 additions contributing to profiles. [How ontology evolution works](#ontology-evolution).
 
 **[Explore the live evidence viewer →](https://tam159.github.io/link-lens/)** Browse business profiles, explore their connections and inspect supporting evidence directly in your browser—no setup required. The viewer presents the saved submission snapshot.
 
@@ -30,9 +30,17 @@ The six mappings and submission promotion are approved. Human dataset/link evide
 
 ## How it works
 
-[Discovery](#discovery-and-download-gate) · [Onboarding](#stateful-onboarding) · [Entity identification](#entity-identification) · [Company profiles](#company-profiles) · [Storage and contracts](#storage-and-runtime-contracts) · [Skip to setup](#run-locally)
+[Discovery](#discovery-and-download-gate) · [Ontology evolution](#ontology-evolution) · [Onboarding](#stateful-onboarding) · [Entity identification](#entity-identification) · [Company profiles](#company-profiles) · [Storage and contracts](#storage-and-runtime-contracts) · [Skip to setup](#run-locally)
+
+The overview below follows the five stages of the submitted pipeline. Each column is a stage; the rows separate model judgments, deterministic code, human decisions and stored evidence. Each stage section below opens with a detailed diagram; the runtime architecture is under [Storage and runtime contracts](#storage-and-runtime-contracts).
+
+![Five stages end to end: model judgments, deterministic code, human decisions and stored evidence per stage](docs/images/diagrams/submission-stages.png)
+
+The diagrams in this README were drawn from the source at the commit that added them and saved as static images; boxes marked `SRC` were traced to specific files and line ranges. The counts in the cards are those of the saved submission.
 
 ### Discovery and download gate
+
+![Stage 1: catalogue retrieval, rule score and Jev relevance, equal-weight ranking, download preflight and shortlist](docs/images/diagrams/stage-1-discovery.png)
 
 ```mermaid
 flowchart LR
@@ -50,7 +58,23 @@ Availability is checked before shortlisting. Semantic relevance is evaluated aft
 
 `downloadability.py` performs bounded GETs and parser preflights in rank order, with four workers and the existing eight-per-publisher cap. It retains URLs, status/error, sample hashes and reader evidence; tries up to twelve supported resources per dataset; and rejects HTML, empty files, unsupported ZIP payloads and resource-index CSVs. CSV is a 1 MiB prefix; XLSX/JSON must fit 100 MB. Public external publisher hosting is checked as well as government hosting; private destinations are blocked. HTTPS is attempted for legacy HTTP links. Failure means unavailable under this policy at this time, not permanently unavailable. The current-discovery pointer preserves the original discovery record and old evaluation IDs. Semantic evaluation remains separate from download checks.
 
+### Ontology evolution
+
+![Stage 2: per-source proposals, consolidation, deterministic checks, critique, registration and separate human promotion](docs/images/diagrams/stage-2-ontology.png)
+
+Before any mapping is proposed, the ontology can grow to cover concepts the new sources need. The stage runs once across the prepared source runs:
+
+1. **Freeze evidence.** Each run is inspected and partitioned without starting a mapping. The model later sees only headers, the reader, eight discovery rows, publisher documentation and dataset notes; validation and held-out final rows are excluded.
+2. **Propose and consolidate.** GPT-6 Luna gives every source header one disposition: an existing concept, a new concept, insufficient evidence or non-domain metadata. A second call deduplicates the proposals across sources.
+3. **Check deterministically.** Code verifies that every header is covered exactly once, each evidence quote appears in the supplied input, new concepts have source evidence, existing concepts are unchanged (additive only) and required companion concepts share the same scope. One repair attempt is allowed.
+4. **Critique.** A separate Luna call decides on each new concept independently; only the kept subset is re-checked and released.
+5. **Register and activate.** The ontology is stored under its content hash with its parent hash and activated experimentally, and the prepared runs pin that hash. A proposal with no valid concepts is stored as rejected.
+
+Promotion is a separate, explicit human action that records a reviewer; it does not approve mappings or rewrite outputs. See [scope, commands and budget](#experimental-ontology-evolution).
+
 ### Stateful onboarding
+
+![Stage 3: onboarding agent graph with revision loops, final-slice test and Agent Inbox review](docs/images/diagrams/stage-3-onboarding.png)
 
 ```mermaid
 flowchart TD
@@ -85,6 +109,8 @@ For the eight-node transition diagram, node responsibilities, checkpointed state
 
 ### Entity identification
 
+![Stage 4: exact identifier resolver and the hybrid enhancement path with embeddings, Jev judgments and evidence gates](docs/images/diagrams/stage-4-identity.png)
+
 The default `assemble` path uses [the exact resolver](src/link_lens/resolution.py) to link source records using exact, validated ABN or ACN values and compatible subject roles. This stage is deterministic Python: it makes no LLM calls and does not match on names alone or derive an ACN from an ABN suffix.
 
 ```mermaid
@@ -116,6 +142,8 @@ flowchart TD
 Run `uv run link-lens enhance --batch-id BATCH_ID` to create a separate derived batch and export to `outputs/local-run/enhanced-v2/`. Use `--preflight-only` for a free evidence-coverage check, or `--max-pairs 50` for a bounded first assessment. Progress appears on stderr and deferred review candidates are exported separately. This command makes paid calls; it preserves the original selection and submission. See [experimental enhancement operations](docs/ENGINEERING.md#experimental-hybrid-enhancement) for configuration, caching, budget recovery and evaluation.
 
 ### Company profiles
+
+![Stage 5: evidence ranking per field, unresolved ties, bundles kept together and the enhancement pass](docs/images/diagrams/stage-5-profiles.png)
 
 Default [profile assembly](src/link_lens/profiles.py) gathers claims from each entity's linked records and applies a fixed evidence policy, with no LLM calls. Competing values are ranked by field-specific source authority, then record-statement versus publication timestamp evidence, then recency. For example, the policy gives a company register priority over a charity register for legal names.
 
@@ -288,6 +316,8 @@ The demo guide covers presentation and optional workflows; the setup and six-sou
 
 ### Evidence and presentation
 
+![Runtime architecture: reviewer, Agent Inbox, CLI, LangGraph backend, sandbox, evidence stores and exports](docs/images/diagrams/runtime-architecture.png)
+
 ```mermaid
 flowchart LR
     Inbox["Agent Inbox"] <-->|Thread and resume API| Graph["LangGraph backend"]
@@ -380,6 +410,8 @@ Implementation is in `src/link_lens/`: `agent.py` orchestrates onboarding; `inge
 
 
 ### Experimental ontology evolution
+
+For the stage diagram and a short walkthrough, see [Ontology evolution](#ontology-evolution) above. This section covers scope, commands and budget.
 
 New source concepts are proposed by the configured LLM, checked deterministically,
 then critiqued before experimental activation. An explicit cross-source job separates

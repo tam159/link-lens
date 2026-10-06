@@ -1,0 +1,6 @@
+# GitHub language statistics should reflect the Python application, not
+# generated reports/viewers or third-party assets.
+*.html linguist-generated
+src/link_lens/_vendor/** linguist-vendored
+.agents/** linguist-vendored
+.claude/** linguist-vendored

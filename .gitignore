@@ -22,6 +22,7 @@ artifacts/
 .coverage
 *.sqlite
 .codex/
+.archify/
 frontend/node_modules/
 frontend/.next/
 
