@@ -14,11 +14,7 @@ def freeze(path: Path):
     with (
         store.engine()
         .connect()
-        .execution_options(
-            isolation_level="REPEATABLE READ"
-            if store.engine().dialect.name == "postgresql"
-            else "SERIALIZABLE"
-        ) as connection
+        .execution_options(isolation_level="REPEATABLE READ") as connection
     ):
         for name, table in store.TABLES.items():
             records[name] = [

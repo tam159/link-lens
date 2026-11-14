@@ -339,7 +339,7 @@ The sandbox receives supplied discovery samples and documentation, not access to
 ### Three stores
 
 - LangGraph development checkpointer: `run_id`, `route`, `feedback`, execution position and pending interrupt; Compose volume `checkpoints`.
-- PostgreSQL: independently versioned application evidence, mappings, decisions and results. Alembic manages tables. JSON payloads preserve detailed evidence; owner and kind indexes support the small demonstration workload.
+- PostgreSQL: independently versioned application evidence, mappings, decisions and results. Alembic manages tables, which live in the `legacy` schema while the [production plan](docs/PRODUCTION_PLAN.md) moves each domain to typed tables. JSON payloads preserve detailed evidence; owner and kind indexes support the small demonstration workload.
 - SHA-256 artifact volume: immutable bytes, referenced by registered IDs. Exports are replaceable presentations, not the authoritative store.
 
 A snapshot identifies its exact downloaded bytes, resource ID, licence and retrieval metadata. A source record locator is the snapshot hash, sheet or JSON array path, and logical row index. A CSV locator counts CSV records, not physical newline characters inside quoted text. A mapping hash covers its entire typed configuration. New mappings also pin an immutable ontology hash; legacy mappings resolve against packaged v0.1 without changing their approval hashes. An observation includes its config/engine version, raw value, locator and required ontology envelope.
@@ -386,11 +386,13 @@ docker compose up -d
 ## Verification
 
 ```sh
-uv run pytest -q                 # deterministic; no model credentials required
+uv run pytest -q                 # deterministic; no model credentials; database tests need Docker
 uv run ruff check src/link_lens tests --exclude _vendor --select F
 # Requires Docker, the built sandbox image and running sandbox controller:
 RUN_DOCKER_TESTS=1 uv run pytest tests/test_sandbox_integration.py -q
 ```
+
+Database tests run on PostgreSQL built by `alembic upgrade head`, in a throwaway `pgvector/pgvector:pg17-trixie` container that the test session starts on first use and removes afterwards. Set `LINK_LENS_TEST_DATABASE_URL` to use an existing server instead; the tests create and drop their own `linklens_test_*` databases there and never use the database named in the URL. Tests that do not touch the store need neither.
 
 The recorded suite result is **106 passed, four integration tests skipped**; earlier Docker checks are documented in [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
 

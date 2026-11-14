@@ -6,7 +6,6 @@ from datetime import UTC, datetime
 from functools import lru_cache
 
 from sqlalchemy import (
-    JSON,
     Column,
     DateTime,
     MetaData,
@@ -15,14 +14,16 @@ from sqlalchemy import (
     create_engine,
     select,
 )
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.dialects.postgresql import insert as pg_insert
-from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 
 from .settings import settings
 
 metadata = MetaData()
 # Each domain has a distinct table and indexed ownership keys. Payloads are validated
 # by domain contracts; keeping complete evidence as JSON avoids lossy flattening.
+# These generic tables live in the `legacy` schema while each domain moves to typed
+# tables. Alembic migrations own the DDL; this metadata is only used to build queries.
 TABLES = {}
 for name in [
     "ontologies",
@@ -49,8 +50,9 @@ for name in [
         Column("id", String(128), primary_key=True),
         Column("owner_id", String(128), nullable=False, index=True),
         Column("kind", String(80), nullable=False, index=True),
-        Column("payload", JSON, nullable=False),
+        Column("payload", JSONB, nullable=False),
         Column("created_at", DateTime(timezone=True), nullable=False),
+        schema="legacy",
     )
 
 
@@ -69,8 +71,7 @@ def put(table, key, payload, owner="", kind="", *, immutable=False):
         old = get(table, key)
         if old is not None and old != payload:
             raise ValueError(f"Immutable {table}/{key} already exists")
-    factory = sqlite_insert if engine().dialect.name == "sqlite" else pg_insert
-    query = factory(t).values(
+    query = pg_insert(t).values(
         id=key,
         owner_id=owner,
         kind=kind,
@@ -171,36 +172,25 @@ def event(run_id, kind, payload):
 
 
 from contextlib import contextmanager
-from threading import Lock
-
-_local_model_lock = Lock()
 
 
 @contextmanager
 def model_budget_lock():
     """Serialize reservations across local backend workers, including smoke calls."""
-    if engine().dialect.name == "postgresql":
-        from sqlalchemy import text
+    from sqlalchemy import text
 
-        with (
-            engine()
-            .connect()
-            .execution_options(isolation_level="AUTOCOMMIT") as connection
-        ):
-            connection.execute(
-                text("SELECT pg_advisory_lock(hashtext('link-lens-model-budget'))")
-            )
-            try:
-                yield
-            finally:
-                connection.execute(
-                    text(
-                        "SELECT pg_advisory_unlock(hashtext('link-lens-model-budget'))"
-                    )
-                )
-    else:
-        with _local_model_lock:
+    with (
+        engine().connect().execution_options(isolation_level="AUTOCOMMIT") as connection
+    ):
+        connection.execute(
+            text("SELECT pg_advisory_lock(hashtext('link-lens-model-budget'))")
+        )
+        try:
             yield
+        finally:
+            connection.execute(
+                text("SELECT pg_advisory_unlock(hashtext('link-lens-model-budget'))")
+            )
 
 
 def current_discovery(experiment_id=None):

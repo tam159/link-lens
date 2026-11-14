@@ -1,7 +1,9 @@
 name: link-lens
 services:
   postgres:
-    image: postgres:17
+    # Debian trixie build: the same glibc as the postgres:17 image that created
+    # existing data volumes, so text indexes keep their collation version.
+    image: pgvector/pgvector:pg17-trixie
     environment:
       POSTGRES_DB: linklens
       POSTGRES_USER: linklens
