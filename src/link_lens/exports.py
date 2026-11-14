@@ -210,7 +210,9 @@ def export(output: Path, batch_id=None, experiment_id=None):
             output / "ontologies" / (ontology_hash + ".json"), resolve(ontology_hash)
         )
     selected_run_ids = {r["id"] for r in runs}
-    for proposal in store.listing("ontology_events", kind="proposal"):
+    from .ontology import proposals
+
+    for proposal in proposals():
         if selected_run_ids.intersection(proposal.get("run_ids", [])):
             write_json(
                 output / "ontology-proposals" / (proposal["id"] + ".json"),

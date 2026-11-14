@@ -4,7 +4,56 @@ import hashlib
 import json
 import zipfile
 from pathlib import Path
+
+from sqlalchemy import text
+
 from . import store
+from .db import ontology as ontology_registry
+
+# Typed tables in the archive, in insertion order. Format 1 archives hold only
+# the generic tables; their ontology rows are copied into the registry on restore.
+TYPED = ontology_registry.TABLES
+FORMATS = ("link-lens-evidence-1", "link-lens-evidence-2")
+
+
+def qualified(table):
+    return f"{table.schema}.{table.name}"
+
+
+def restore_typed(connection, typed):
+    """Insert archived typed rows. Existing rows must be identical."""
+    restored = 0
+    for table in TYPED:
+        rows = typed.get(qualified(table)) or []
+        if not rows:
+            continue
+        name, rows = qualified(table), {"rows": json.dumps(rows)}
+        source = f"jsonb_populate_recordset(NULL::{name}, CAST(:rows AS jsonb))"
+        restored += connection.execute(
+            text(
+                f"INSERT INTO {name} OVERRIDING SYSTEM VALUE "
+                f"SELECT * FROM {source} ON CONFLICT DO NOTHING"
+            ),
+            rows,
+        ).rowcount
+        different = connection.execute(
+            text(
+                f"SELECT count(*) FROM {source} AS archived WHERE NOT EXISTS "
+                f"(SELECT 1 FROM {name} AS stored WHERE stored = archived)"
+            ),
+            rows,
+        ).scalar_one()
+        if different:
+            raise ValueError("Restore requires an empty database or identical records")
+        if "id" in table.c and table.c.id.type.python_type is int:
+            # Restored rows keep their IDs; move the identity sequence past them.
+            connection.execute(
+                text(
+                    f"SELECT setval(pg_get_serial_sequence('{name}', 'id'), "
+                    f"(SELECT max(id) FROM {name}))"
+                )
+            )
+    return restored
 
 
 def freeze(path: Path):
@@ -26,15 +75,24 @@ def freeze(path: Path):
                 }
                 for r in connection.execute(select(table))
             ]
+        typed = {
+            qualified(table): list(
+                connection.execute(
+                    text(f"SELECT to_jsonb(t) FROM {qualified(table)} AS t ORDER BY t")
+                ).scalars()
+            )
+            for table in TYPED
+        }
     path.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(path, "w", compression=zipfile.ZIP_DEFLATED) as out:
         out.writestr(
             "application.json",
             json.dumps(
                 {
-                    "format": "link-lens-evidence-1",
+                    "format": FORMATS[-1],
                     "created_at": store.now(),
                     "tables": records,
+                    "typed": typed,
                 },
                 ensure_ascii=False,
             ),
@@ -57,7 +115,7 @@ def thaw(path: Path):
             raise ValueError("Evidence archive exceeds local demo size limit")
         data = json.loads(source.read("application.json"))
         if (
-            data["format"] != "link-lens-evidence-1"
+            data["format"] not in FORMATS
             or not set(data["tables"]).issubset(store.TABLES)
             or not (
                 set(store.TABLES)
@@ -78,6 +136,10 @@ def thaw(path: Path):
             payload = source.read("blobs/" + key)
             if hashlib.sha256(payload).hexdigest() != key:
                 raise ValueError("Artifact hash mismatch")
+        # Typed rows restore in one transaction and fail before anything else is
+        # written if the database already holds different rows.
+        with store.engine().begin() as connection:
+            typed = restore_typed(connection, data.get("typed") or {})
         for artifact in data["tables"]["artifacts"]:
             meta = artifact["payload"]
             store.blob(
@@ -93,7 +155,12 @@ def thaw(path: Path):
                     row["kind"],
                     immutable=True,
                 )
+    if data["format"] == FORMATS[0]:
+        from . import backfill
+
+        backfill.ontology()
     return {
         "restored": sum(len(rows) for rows in data["tables"].values()),
+        "typed": typed,
         "workflow_resume": "not restored; frozen evidence is read-only demonstration material",
     }
