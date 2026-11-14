@@ -141,6 +141,40 @@ The selected submission configuration is `jev-gpt6-luna-ontology-v1`. Exact prom
 The previous deterministic + Terra run remains in `experiments/terra-baseline/`;
 `manifest.json` hashes its archived files. Do not overwrite that archive or reuse its approvals.
 
+### Database layout, migrations and the baseline
+
+This is Phase 0 of the [production plan](PRODUCTION_PLAN.md). The application still reads and writes the same 17 generic tables through `store.py`; only their location and column type changed.
+
+- **Layout.** Migrations `0003` to `0008` enable `vector` and `pg_trgm`, create the schemas `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops`, `access`, `serving` and `legacy`, move the 17 tables into `legacy`, and convert `payload` from `json` to `jsonb`. The eight new schemas other than `legacy` are empty until their phase.
+- **Image.** Compose uses `pgvector/pgvector:pg17-trixie`. The plain `pg17` tag is a Debian bookworm build (glibc 2.36); a data volume created by `postgres:17` on Debian trixie (glibc 2.41) would report a collation version mismatch under it.
+- **Helpers.** The `sha256` domain stores a digest as 32 bytes; `link_lens.db.Sha256` presents it to Python as the usual 64-character hex string. `forbid_update()` is the trigger function for append-only tables. `link_lens.db.copy_insert` loads rows with `COPY` into a staging table followed by `INSERT ... ON CONFLICT DO NOTHING`, so a repeated load inserts nothing.
+- **Roles.** `linklens_migrator` owns the schemas, `linklens_pipeline` reads and writes the core schemas and `legacy`, and `linklens_product` reads `serving`. They are `NOLOGIN` groups without passwords; the local stack still connects as the `linklens` superuser. `DELETE` is not granted by default.
+- **Migrations are explicit SQL.** `migrations/env.py` has no metadata and does not autogenerate. Each migration runs in its own transaction. `alembic downgrade base` drops the tables and is only for an empty database; on a database with data, downgrade to `0002`.
+- **jsonb and key order.** `jsonb` keeps every value but reorders object keys. Stored IDs and hashes are computed with sorted keys and do not change. Files regenerated from payloads (for example `mapping-v1.json`, `run.json`, `events.json`, `cost-usage.json`) list the same values with keys in a different order. OKF pages are rendered from artifacts and are unaffected.
+
+The migration baseline records what the store holds, so each later migration and backfill can be checked against it. It is read-only and works on both layouts:
+
+```sh
+uv run python scripts/migration_baseline.py --check outputs/local-run/migration-baseline.json
+```
+
+`outputs/local-run/migration-baseline.json` was written from the local database on 2026-11-14, before migration. It holds row counts and ID digests per table, kind and owner, counts per experiment and batch, and digests over ontology hashes, mapping `config_hash` values, observation IDs, source record IDs and profile versions.
+
+Moving an existing database to this layout rewrites every table under an exclusive lock, so stop the backend first. The backend also runs `alembic upgrade head` when it starts, so take the backup before starting a backend that has these migrations.
+
+```sh
+docker compose stop backend
+docker exec link-lens-postgres-1 pg_dump -U linklens -d linklens -Fc > ../linklens-before-phase0.dump
+docker compose up -d postgres     # recreates the container on the pgvector image; the volume is kept
+uv run alembic upgrade head
+uv run python scripts/migration_baseline.py --check outputs/local-run/migration-baseline.json
+docker compose up -d backend
+```
+
+The check must report `0 difference(s)`. To go back, stop the backend, run `uv run alembic downgrade 0002` and check out the previous code; the baseline check passes on that layout too.
+
+Measured on 2026-11-14 on a restored copy of the local database (434,994 rows, 374,335 observations): upgrade about 6 seconds and downgrade about 8 seconds with `fsync` off, zero baseline differences in both directions, identical rows read through the old and new `store.py`, identical output from `link-lens usage`, `runs`, `ontology show`, `ontology diff`, `ontology budget` and `evaluation-report`, and an export of the submission batch with the same 1,747 files and values. This was a rehearsal on a copy; it is not a record that the local database itself was migrated.
+
 ### Reproduce discovery and onboarding
 
 Compose mounts local `src/` read-only into the backend and sandbox controller. LangGraph's development server and Uvicorn automatically reload Python changes, so routine code edits do not require an image rebuild. The backend also mounts migrations, Alembic configuration, graph configuration and the ontology. These mounts apply only to the trusted services; agent execution containers still receive no repository mount.

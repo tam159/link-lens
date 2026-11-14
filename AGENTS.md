@@ -47,7 +47,7 @@ uv run pytest -q
 uv run ruff check src/link_lens tests --exclude _vendor --select F
 ```
 
-Run relevant tests first and broader checks when the change warrants them. Deterministic tests use isolated fixtures; live model and Docker integrations are separate. Documentation-only edits need link/command consistency checks, not a paid pipeline rerun. Consult `tests/test_sandbox_integration.py` before enabling `RUN_DOCKER_TESTS=1`.
+Run relevant tests first and broader checks when the change warrants them. Deterministic tests use isolated fixtures; those that touch the store run on PostgreSQL in a throwaway container (Docker required, see README **Verification**). Live model and Docker integrations are separate. Documentation-only edits need link/command consistency checks, not a paid pipeline rerun. Consult `tests/test_sandbox_integration.py` before enabling `RUN_DOCKER_TESTS=1`.
 
 Service startup and provider setup live in README. Default local ports: Inbox 3000, backend 2024, PostgreSQL 5439, sandbox controller 8091. The graph ID is `onboard`. The development server supplies the graph checkpointer; PostgreSQL stores application evidence separately. Frozen application archives do not recreate LangGraph threads/checkpoints.
 
