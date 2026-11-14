@@ -119,7 +119,11 @@ def recover(run_id: str, feedback: str = typer.Option(..., "--feedback")):
 @app.command()
 def portfolio(start: bool = False):
     """Register the six only if present in the computed shortlist. --start spends API tokens."""
-    shortlist = store.require("batches", "discovery")["shortlist"]
+    # The configured experiment's discovery, not whichever experiment ran last.
+    shortlist = (
+        store.current_discovery(settings().experiment_id)
+        or store.require("batches", "discovery")
+    )["shortlist"]
     by_slug = {r["slug"]: r for r in shortlist}
     missing = set(ingestion.PORTFOLIO) - set(by_slug)
     if missing:
@@ -621,6 +625,14 @@ def backfill_spine():
     show(backfill.evidence_spine())
 
 
+@backfill_app.command("identity-ops")
+def backfill_identity_ops():
+    """Copy batches, caches, model calls, events, evaluations and identity results."""
+    from . import backfill
+
+    show(backfill.identity_and_operations())
+
+
 source_app = typer.Typer(help="Refresh facts and drift checks for sources.")
 app.add_typer(source_app, name="source")
 
@@ -662,3 +674,46 @@ def source_drift(source_id: str, snapshot_id: str | None = None):
     show({"source_id": source_id, **result})
     if result["blocking"]:
         raise typer.Exit(EXIT_BLOCKED)
+
+
+def main():
+    """Console entry point: run the command and log how it ended.
+
+    Typer sets the exit code: 0, 2 for a wrong call, or the code a command chose.
+    A command that raises is logged with its error type and exits 1.
+    """
+    import logging
+    import sys
+    import time
+
+    from . import logs
+
+    logs.configure()
+    started = time.monotonic()
+    command = " ".join(a for a in sys.argv[1:3] if not a.startswith("-"))
+
+    def seconds():
+        return round(time.monotonic() - started, 3)
+
+    try:
+        app()
+    except SystemExit as stop:
+        code = stop.code if isinstance(stop.code, int) else int(stop.code is not None)
+        logs.event(
+            "command.finished",
+            logging.INFO if code == 0 else logging.WARNING,
+            command=command,
+            exit_code=code,
+            seconds=seconds(),
+        )
+        raise
+    except Exception as error:
+        logs.event(
+            "command.failed",
+            logging.ERROR,
+            command=command,
+            exit_code=1,
+            seconds=seconds(),
+            **logs.error_fields(error),
+        )
+        raise

@@ -253,7 +253,9 @@ class RecordTable:
         inserted = connection.execute(
             insert(self.table)
             .values(**values, **self.columns(connection, owner, payload))
-            .on_conflict_do_nothing()
+            # Only a concurrent insert of the same key is ignored; any other
+            # uniqueness rule the record breaks is an error.
+            .on_conflict_do_nothing(index_elements=["id"])
         ).rowcount
         if inserted:
             self.after_insert(connection, key, payload)

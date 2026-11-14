@@ -5,9 +5,9 @@ Each backfill is idempotent and verifies its own result before committing.
 
 from sqlalchemy import func, select
 
-from . import blobs, store
+from . import blobs, logs, store
 from . import ontology as ontologies
-from .db import catalog, copy_insert, evidence, onboarding
+from .db import catalog, copy_insert, evidence, onboarding, ops
 from .db import ontology as registry
 from .db.records import same
 
@@ -186,9 +186,9 @@ def _legacy(connection, name, where=None):
     ).all()
 
 
-def _copy_records(name, rows):
+def _copy_records(name, rows, target=None):
     """Copy generic rows into a record table and verify each copy."""
-    target = store.RECORDS[name]
+    target = target or store.RECORDS[name]
     with store.engine().begin() as connection:
         before = {key for key, *_ in target.records(connection)}
         for row in rows:
@@ -214,12 +214,14 @@ def _copy_records(name, rows):
                 row.created_at,
             ):
                 raise ValueError(f"{name}/{row.id} does not read back as stored")
-        return {
+        result = {
             "legacy": len(rows),
             "copied": len(copies.keys() - before),
             "typed": len(copies),
             "not_in_typed_column": target.unresolved(connection),
         }
+    logs.event("backfill.table", table=name, **result)
+    return result
 
 
 def evidence_spine(chunk=20000):
@@ -339,5 +341,77 @@ def evidence_spine(chunk=20000):
         }
         report["source_records"] = connection.execute(
             select(func.count()).select_from(evidence.source_record)
+        ).scalar_one()
+    return report
+
+
+def identity_and_operations():
+    """Copy batches, caches, model calls, events, evaluations and identity results.
+
+    Batches go first because entities, memberships, links, profiles and
+    worksheets reference them. Idempotent, and verifies that every copied record
+    reads back exactly as its legacy row.
+    """
+    report = {}
+    with store.engine().connect() as connection:
+        legacy = {
+            name: _legacy(connection, name)
+            for name in (
+                "batches",
+                "budget_reservations",
+                "events",
+                "evaluations",
+                "entities",
+                "memberships",
+                "links",
+                "profiles",
+            )
+        }
+        caches = _legacy(
+            connection,
+            "ontology_events",
+            store.TABLES["ontology_events"].c.kind == "model_cache",
+        )
+
+    # The store's batches table held three kinds of record, now three tables.
+    parts = {
+        "batches": (ops.batches, []),
+        "triage_decisions": (ops.triage_decisions, []),
+        "model_cache": (ops.model_caches, list(caches)),
+    }
+    names = {
+        ops.batches: "batches",
+        ops.triage_decisions: "triage_decisions",
+        ops.model_caches: "model_cache",
+    }
+    for row in legacy["batches"]:
+        parts[names[ops.batch_table(row.id, row.kind)]][1].append(row)
+    # A batch may build on an earlier one; legacy rows are already in time order.
+    for name, (target, rows) in parts.items():
+        report[name] = _copy_records(name, rows, target)
+    for name in (
+        "budget_reservations",
+        "events",
+        "evaluations",
+        "entities",
+        "memberships",
+        "links",
+        "profiles",
+    ):
+        report[name] = _copy_records(name, legacy[name])
+    from .db import identity
+
+    with store.engine().connect() as connection:
+        for name, table in (
+            ("profile_fields", identity.profile_field),
+            ("profile_addresses", identity.profile_address),
+        ):
+            report[name] = connection.execute(
+                select(func.count()).select_from(table)
+            ).scalar_one()
+        report["profile_fields_citing_an_observation"] = connection.execute(
+            select(func.count())
+            .select_from(identity.profile_field)
+            .where(identity.profile_field.c.observation_id.is_not(None))
         ).scalar_one()
     return report

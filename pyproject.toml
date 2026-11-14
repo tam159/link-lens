@@ -46,7 +46,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project.scripts]
-link-lens = "link_lens.cli:app"
+link-lens = "link_lens.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/link_lens"]

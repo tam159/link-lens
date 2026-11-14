@@ -241,15 +241,29 @@ RECORD_TABLES = {
     "runs": "onboarding.run",
     "mappings": "onboarding.mapping",
     "approvals": "onboarding.approval",
+    "entities": "identity.entity",
+    "memberships": "identity.membership",
+    "links": "identity.link",
+    "profiles": "identity.profile",
+    "evaluations": "ops.evaluation",
+    "events": "ops.event",
+    "budget_reservations": "ops.model_call",
 }
+# The store's batches table is three typed tables; the model cache also holds
+# the ontology job's cached responses, which were never batches.
+BATCHES = """
+    SELECT id, kind, owner_id, '' AS payload_md5 FROM ops.batch
+    UNION ALL SELECT id, kind, owner_id, '' FROM ops.triage_decision
+    UNION ALL SELECT id, kind, owner_id, '' FROM ops.model_cache WHERE kind <> 'model_cache'
+"""
 
 
 def collect_typed(connection):
     """The baseline figures that the typed schemas can answer.
 
-    Covers ontology versions, artifacts, sources, snapshots, runs, mappings,
-    approvals, source records and observations. Batches are still generic rows,
-    so a batch's runs come from `legacy.batches`.
+    Covers every table except the legacy ontology history, whose content is in
+    the ontology registry. Payload digests are not computed, because typed rows
+    are not stored as one JSON text.
     """
 
     def query(sql):
@@ -266,6 +280,7 @@ def collect_typed(connection):
         )
         for name, table in RECORD_TABLES.items()
     }
+    tables["batches"] = grouped(query(BATCHES))
     tables["artifacts"] = grouped(
         query(
             "SELECT sha256_hex(sha256) AS id, '' AS kind, '' AS owner_id, "
@@ -292,8 +307,19 @@ def collect_typed(connection):
         "ids": digest(r.id for r in observations),
     }
     batches = query(
-        "SELECT id, payload->'run_ids' AS run_ids FROM legacy.batches "
-        "WHERE kind IN ('pipeline', 'enhancement')"
+        "SELECT id, kind, experiment_id AS experiment, baseline_batch_id, run_ids, "
+        "counts FROM ops.batch WHERE kind IN ('pipeline', 'enhancement')"
+    )
+    reservations = query(
+        "SELECT coalesce(experiment_id, owner_id) AS experiment FROM ops.model_call"
+    )
+    memberships = query(
+        "SELECT id, owner_id AS batch_id, entity_id FROM identity.membership"
+    )
+    links = query("SELECT id, owner_id AS batch_id FROM identity.link")
+    profiles = query(
+        "SELECT id, owner_id AS batch_id, sha256_hex(profile_version) AS version "
+        "FROM identity.profile"
     )
 
     run_of_config = {m.config_hash: m.run_id for m in mappings}
@@ -310,24 +336,42 @@ def collect_typed(connection):
         }
 
     experiments = {}
-    for name in set(experiment_of.values()):
+    names = set(experiment_of.values()) | {r.experiment for r in reservations}
+    names |= {b.experiment for b in batches if b.experiment}
+    for name in names:
         run_ids = [r.id for r in runs if r.experiment == name]
         experiments[name] = {
             "runs": dict(Counter(r.kind for r in runs if r.experiment == name)),
             "mappings": summary(m.config_hash for m in mappings if m.run_id in run_ids),
             "approvals": summary(a.id for a in approvals if a.run_id in run_ids),
             **evidence(run_ids),
+            "budget_reservations": sum(r.experiment == name for r in reservations),
+        }
+    batch_summaries = {}
+    for batch in batches:
+        run_ids = batch.run_ids or []
+        own = [m for m in memberships if m.batch_id == batch.id]
+        batch_summaries[batch.id] = {
+            "kind": batch.kind,
+            "experiments": sorted(
+                {experiment_of.get(r, UNSET) for r in run_ids}
+                | ({batch.experiment} if batch.experiment else set())
+            ),
+            "baseline_batch_id": batch.baseline_batch_id,
+            "stored_counts": batch.counts,
+            "runs": summary(run_ids),
+            **evidence(run_ids),
+            "memberships": summary(m.id for m in own),
+            "entities": summary({m.entity_id for m in own}),
+            "links": summary(r.id for r in links if r.batch_id == batch.id),
+            "profile_versions": summary(
+                f"{p.id}:{p.version}" for p in profiles if p.batch_id == batch.id
+            ),
         }
     return {
         "tables": tables,
         "experiments": experiments,
-        "batches": {
-            batch.id: {
-                "runs": summary(batch.run_ids or []),
-                **evidence(batch.run_ids or []),
-            }
-            for batch in batches
-        },
+        "batches": batch_summaries,
         "observations_by_config_hash": {
             config: summary(ids) for config, ids in by_config.items()
         },
@@ -348,6 +392,7 @@ def collect_typed(connection):
                     "FROM evidence.source_record"
                 )
             ),
+            "profile_versions": summary(f"{p.id}:{p.version}" for p in profiles),
         },
     }
 

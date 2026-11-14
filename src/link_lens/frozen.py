@@ -170,9 +170,11 @@ def thaw(path: Path):
                 "runs", [r for r in data["tables"]["runs"] if r["kind"] == "ontology"]
             )
             backfill.ontology()
-        for name, rows in data["tables"].items():
+        # Batches go before what they own, so each row finds its batch.
+        ordered = ["batches"] + [n for n in data["tables"] if n != "batches"]
+        for name in ordered:
             if name not in first and name != "artifacts":
-                restore_rows(name, rows)
+                restore_rows(name, data["tables"].get(name, []))
         # A run may supersede one restored after it; a second pass links them.
         restore_superseding = [
             row
