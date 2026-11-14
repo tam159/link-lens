@@ -7,6 +7,8 @@ autogeneration. The database URL comes from, in order: a connection passed in
 """
 
 from alembic import context
+from alembic.runtime.migration import MigrationContext
+from alembic.script import ScriptDirectory
 from sqlalchemy import create_engine
 from sqlalchemy.pool import NullPool
 
@@ -21,11 +23,14 @@ def run(connection):
     )
     with context.begin_transaction():
         context.run_migrations()
-    # Serving views are defined by SQL files, not by migrations; refresh them
-    # whenever the schema they read from is in place.
+    # Serving views are defined by SQL files, not by migrations. The files
+    # describe the newest schema, so the views are refreshed only when the
+    # database is at the head revision; a downgrade leaves them dropped.
     from link_lens import serving
 
-    serving.apply(connection)
+    head = ScriptDirectory.from_config(config).get_current_head()
+    if MigrationContext.configure(connection).get_current_revision() == head:
+        serving.apply(connection)
     connection.commit()
 
 

@@ -252,3 +252,21 @@ def test_roles_have_only_their_privileges(database):
             connection, "linklens_pipeline", "CREATE TABLE ops.other (id int)"
         )
         connection.rollback()
+
+
+def test_each_recent_migration_steps_down_and_up_again(empty_database):
+    """A partial downgrade leaves the serving views dropped; head restores them."""
+    from link_lens import serving
+
+    engine = create_engine(empty_database, poolclass=NullPool)
+    migrate(empty_database)
+    views = "SELECT viewname FROM pg_views WHERE schemaname = 'serving'"
+    with engine.connect() as connection:
+        assert sorted(scalars(connection, views)) == sorted(serving.MODELS)
+    for revision in ("-1", "0018", "0017"):
+        migrate(empty_database, revision, "downgrade")
+        with engine.connect() as connection:
+            assert scalars(connection, views) == []
+        migrate(empty_database)
+        with engine.connect() as connection:
+            assert sorted(scalars(connection, views)) == sorted(serving.MODELS)
