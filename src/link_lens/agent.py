@@ -574,8 +574,7 @@ def extract_node(state):
         key=lambda r: (r["locator"]["sheet"], r["locator"]["row"]),
     )[:1000]
     result = extract(MappingSpec.model_validate(mapping["config"]), rows, snapshot)
-    for o in result["observations"]:
-        store.put("observations", o["id"], o, run["id"], "observation", immutable=True)
+    store.put_observations(result["observations"])
     artifact = store.json_blob(result, "extraction.json")
     update(
         run,

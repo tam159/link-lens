@@ -1,7 +1,14 @@
-"""PostgreSQL is authoritative; blobs are immutable and addressed by SHA-256."""
+"""PostgreSQL is authoritative; blobs are immutable and addressed by SHA-256.
+
+This module is the store facade: callers read and write one JSON record per key
+in a named table. Tables whose domain has moved to typed schemas are served from
+those schemas and return the same records; the rest are still the generic tables
+in `legacy`.
+"""
 
 import hashlib
 import json
+from contextlib import contextmanager
 from datetime import UTC, datetime
 from functools import lru_cache
 
@@ -13,10 +20,13 @@ from sqlalchemy import (
     Table,
     create_engine,
     select,
+    text,
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 
+from . import blobs
+from .db import catalog, evidence, is_sha256, onboarding
 from .settings import settings
 
 metadata = MetaData()
@@ -65,7 +75,62 @@ def engine():
     return create_engine(settings().database_url, pool_pre_ping=True)
 
 
-def put(table, key, payload, owner="", kind="", *, immutable=False):
+# Tables served from typed schemas. Each keeps the record it was given exactly.
+RECORDS = {
+    "sources": catalog.sources,
+    "snapshots": catalog.snapshots,
+    "runs": onboarding.runs,
+    "mappings": onboarding.mappings,
+    "approvals": onboarding.approvals,
+}
+TYPED = ("artifacts", *RECORDS, "observations")
+
+
+def _root_hash():
+    """The packaged ontology, which mappings without an ontology_hash use."""
+    from . import ontology
+
+    return ontology.digest(ontology.legacy())
+
+
+def _prepare_mappings():
+    from . import ontology
+    from .contracts import content_hash
+
+    # Mapping fields are indexed by concept, so the packaged ontology must be
+    # registered before a mapping that relies on it is stored.
+    ontology.register(ontology.legacy())
+    onboarding.mappings.content_hash = content_hash
+    onboarding.mappings.root_hash = _root_hash()
+
+
+def put(table, key, payload, owner="", kind="", *, immutable=False, created_at=None):
+    if table == "observations":
+        if payload.get("id") != key:
+            raise ValueError("An observation is stored under its own id")
+        put_observations([payload])
+        return payload
+    if table == "artifacts":
+        with engine().begin() as connection:
+            uri = catalog.artifact_uri(connection, key) or "local:" + blobs.relative(
+                key
+            )
+            catalog.put_artifact(connection, payload, uri, created_at)
+        return payload
+    if table in RECORDS:
+        if table == "mappings":
+            _prepare_mappings()
+        with engine().begin() as connection:
+            RECORDS[table].put(
+                connection, key, payload, owner, kind, immutable, created_at
+            )
+            if table == "sources" and kind == "registered":
+                # A registered source will receive observations of its own.
+                connection.execute(
+                    text("SELECT evidence.ensure_source_partitions(:source)"),
+                    {"source": key},
+                )
+        return payload
     t = TABLES[table]
     if immutable:
         old = get(table, key)
@@ -76,7 +141,7 @@ def put(table, key, payload, owner="", kind="", *, immutable=False):
         owner_id=owner,
         kind=kind,
         payload=payload,
-        created_at=datetime.now(UTC),
+        created_at=created_at or datetime.now(UTC),
     )
     query = (
         query.on_conflict_do_nothing(index_elements=["id"])
@@ -91,8 +156,29 @@ def put(table, key, payload, owner="", kind="", *, immutable=False):
     return payload
 
 
+def put_observations(observations):
+    """Store observations in bulk. Returns how many were not stored already."""
+    from . import ontology
+
+    observations = list(observations)
+    if not observations:
+        return 0
+    ontology.register(ontology.legacy())
+    with engine().begin() as connection:
+        return evidence.insert_observations(connection, observations, _root_hash())
+
+
 def get(table, key):
     with engine().connect() as connection:
+        if table == "observations":
+            found = (
+                list(evidence.observations(connection, [key])) if is_sha256(key) else []
+            )
+            return found[0] if found else None
+        if table == "artifacts":
+            return catalog.get_artifact(connection, key) if is_sha256(key) else None
+        if table in RECORDS:
+            return RECORDS[table].get(connection, key)
         return connection.execute(
             select(TABLES[table].c.payload).where(TABLES[table].c.id == key)
         ).scalar_one_or_none()
@@ -105,25 +191,67 @@ def require(table, key):
     return value
 
 
+@contextmanager
+def _reading(connection):
+    if connection is not None:
+        yield connection
+    else:
+        with engine().connect() as opened:
+            yield opened
+
+
+def records(table, owner=None, kind=None, connection=None):
+    """Records of a table as {id, owner_id, kind, payload}, in listing order."""
+    with _reading(connection) as connection:
+        if table == "observations":
+            # An observation belongs to its source record, not to whoever stored
+            # it first, so the generic owner is no longer kept.
+            if owner is not None:
+                raise ValueError("Observations cannot be listed by owner")
+            rows = (
+                (o["id"], "", "observation", o, None)
+                for o in evidence.observations(connection)
+                if kind in (None, "observation")
+            )
+        elif table == "artifacts":
+            rows = (
+                r
+                for r in catalog.artifact_records(connection)
+                if owner in (None, "") and kind in (None, "")
+            )
+        elif table in RECORDS:
+            rows = RECORDS[table].records(connection, owner, kind)
+        else:
+            t = TABLES[table]
+            query = select(t.c.id, t.c.owner_id, t.c.kind, t.c.payload, t.c.created_at)
+            query = query.order_by(t.c.created_at, t.c.id)
+            if owner is not None:
+                query = query.where(t.c.owner_id == owner)
+            if kind is not None:
+                query = query.where(t.c.kind == kind)
+            rows = connection.execute(query)
+        for key, row_owner, row_kind, payload, _ in rows:
+            yield {
+                "id": key,
+                "owner_id": row_owner,
+                "kind": row_kind,
+                "payload": payload,
+            }
+
+
 def listing(table, owner=None, kind=None):
-    t = TABLES[table]
-    query = select(t.c.payload).order_by(t.c.created_at, t.c.id)
-    if owner is not None:
-        query = query.where(t.c.owner_id == owner)
-    if kind is not None:
-        query = query.where(t.c.kind == kind)
-    with engine().connect() as connection:
-        return list(connection.execute(query).scalars())
+    return [record["payload"] for record in records(table, owner, kind)]
 
 
 def blob(data: bytes, media_type="application/json", name="artifact"):
     sha = hashlib.sha256(data).hexdigest()
-    path = settings().artifact_dir / "blobs" / sha[:2] / sha
-    path.parent.mkdir(parents=True, exist_ok=True)
-    if not path.exists():
-        temp = path.with_suffix(".tmp")
-        temp.write_bytes(data)
-        temp.replace(path)
+    with engine().connect() as connection:
+        uri = catalog.artifact_uri(connection, sha)
+    if uri is None:
+        uri = blobs.put(sha, data)
+    elif uri.startswith("local:"):
+        # Registered locally: make sure the bytes are in this artifact directory.
+        blobs.stores()["local"].put(sha, data)
     record = {
         "id": sha,
         "sha256": sha,
@@ -132,19 +260,19 @@ def blob(data: bytes, media_type="application/json", name="artifact"):
         "name": name,
     }
     # Content deduplication may reuse an earlier display name; content is the identity.
-    if get("artifacts", sha) is None:
-        put("artifacts", sha, record, immutable=True)
+    with engine().begin() as connection:
+        catalog.put_artifact(connection, record, uri)
     return sha
 
 
 def blob_path(key):
-    require("artifacts", key)
-    if len(key) != 64 or any(c not in "0123456789abcdef" for c in key):
-        raise ValueError("Invalid artifact ID")
-    path = settings().artifact_dir / "blobs" / key[:2] / key
-    if not path.is_file():
-        raise FileNotFoundError(key)
-    return path
+    if not is_sha256(key):
+        raise KeyError(f"artifacts/{key} not found")
+    with engine().connect() as connection:
+        uri = catalog.artifact_uri(connection, key)
+    if uri is None:
+        raise KeyError(f"artifacts/{key} not found")
+    return blobs.path(uri, key)
 
 
 def json_blob(value, name="artifact.json"):
@@ -169,9 +297,6 @@ def event(run_id, kind, payload):
     }
     put("events", value["id"], value, run_id, kind)
     return value
-
-
-from contextlib import contextmanager
 
 
 @contextmanager

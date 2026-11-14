@@ -57,24 +57,17 @@ def restore_typed(connection, typed):
 
 
 def freeze(path: Path):
-    records = {name: [] for name in store.TABLES}
-    from sqlalchemy import select
-
     with (
         store.engine()
         .connect()
         .execution_options(isolation_level="REPEATABLE READ") as connection
     ):
-        for name, table in store.TABLES.items():
-            records[name] = [
-                {
-                    "id": r.id,
-                    "owner_id": r.owner_id,
-                    "kind": r.kind,
-                    "payload": r.payload,
-                }
-                for r in connection.execute(select(table))
-            ]
+        # Records come through the store, so a table reads the same whether it is
+        # still generic or already served from typed schemas.
+        records = {
+            name: list(store.records(name, connection=connection))
+            for name in store.TABLES
+        }
         typed = {
             qualified(table): list(
                 connection.execute(
@@ -107,6 +100,24 @@ def freeze(path: Path):
     }
 
 
+def restore_rows(name, rows):
+    """Write archived records of one table through the store."""
+    if name == "observations":
+        payloads = [row["payload"] for row in rows]
+        for start in range(0, len(payloads), 20000):
+            store.put_observations(payloads[start : start + 20000])
+        return
+    for row in rows:
+        store.put(
+            name,
+            row["id"],
+            row["payload"],
+            row["owner_id"],
+            row["kind"],
+            immutable=True,
+        )
+
+
 def thaw(path: Path):
     with zipfile.ZipFile(path) as source:
         # The two-experiment demo includes both baselines, audits and failed attempts
@@ -125,8 +136,9 @@ def thaw(path: Path):
             raise ValueError("Unsupported evidence format")
         # Verify all content and conflicts before writing domain records.
         for name, rows in data["tables"].items():
+            existing = {r["id"]: r["payload"] for r in store.records(name)}
             for row in rows:
-                old = store.get(name, row["id"])
+                old = existing.get(row["id"])
                 if old is not None and old != row["payload"]:
                     raise ValueError(
                         "Restore requires an empty database or identical records"
@@ -145,20 +157,30 @@ def thaw(path: Path):
             store.blob(
                 source.read("blobs/" + artifact["id"]), meta["media_type"], meta["name"]
             )
-        for name, rows in data["tables"].items():
-            for row in rows:
-                store.put(
-                    name,
-                    row["id"],
-                    row["payload"],
-                    row["owner_id"],
-                    row["kind"],
-                    immutable=True,
-                )
-    if data["format"] == FORMATS[0]:
-        from . import backfill
+        # Ontology versions come first: runs and mapping configs reference them.
+        # A first-format archive has them only as generic rows, which the
+        # backfill copies into the registry together with their proposal jobs.
+        first = ("ontologies", "ontology_events")
+        for name in first:
+            restore_rows(name, data["tables"].get(name, []))
+        if data["format"] == FORMATS[0]:
+            from . import backfill
 
-        backfill.ontology()
+            restore_rows(
+                "runs", [r for r in data["tables"]["runs"] if r["kind"] == "ontology"]
+            )
+            backfill.ontology()
+        for name, rows in data["tables"].items():
+            if name not in first and name != "artifacts":
+                restore_rows(name, rows)
+        # A run may supersede one restored after it; a second pass links them.
+        restore_superseding = [
+            row
+            for row in data["tables"].get("runs", [])
+            if row["payload"].get("supersedes_run_id")
+        ]
+        for row in restore_superseding:
+            store.put("runs", row["id"], row["payload"], row["owner_id"], row["kind"])
     return {
         "restored": sum(len(rows) for rows in data["tables"].values()),
         "typed": typed,

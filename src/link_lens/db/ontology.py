@@ -258,6 +258,18 @@ def version(connection, key):
     return None if row is None else dict(row._mapping)
 
 
+def concept_ids(connection, key):
+    """Concept IDs of a version by name."""
+    return {
+        row.name: row.concept_id
+        for row in connection.execute(
+            select(version_concept.c.name, version_concept.c.concept_id).where(
+                version_concept.c.version_hash == key
+            )
+        )
+    }
+
+
 def version_hashes(connection):
     return list(
         connection.execute(

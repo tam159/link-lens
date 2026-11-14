@@ -33,14 +33,9 @@ def ontology():
             .where(events.c.kind != "model_cache")
             .order_by(events.c.created_at, events.c.id)
         ).all()
-        jobs = {
-            row.id: row.payload
-            for row in connection.execute(
-                select(store.TABLES["runs"].c.id, store.TABLES["runs"].c.payload).where(
-                    store.TABLES["runs"].c.kind == "ontology"
-                )
-            )
-        }
+
+    # Proposal jobs are runs; the store serves them wherever runs are kept.
+    jobs = {job["id"]: job for job in store.listing("runs", kind="ontology")}
 
     # The packaged v0.1 ontology is the root of every version, stored or not.
     root = ontologies.digest(ontologies.legacy())

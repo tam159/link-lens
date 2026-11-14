@@ -1,5 +1,6 @@
 from functools import lru_cache
 from pathlib import Path
+from typing import Literal
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -10,6 +11,12 @@ class Settings(BaseSettings):
     )
     database_url: str = "postgresql+psycopg://linklens:linklens@localhost:5439/linklens"
     artifact_dir: Path = Path("artifacts")
+    # "local" keeps artifact bytes under artifact_dir; "s3" writes new ones to an
+    # S3-compatible bucket and reads them through a cache under artifact_dir.
+    artifact_store: Literal["local", "s3"] = "local"
+    artifact_bucket: str | None = None
+    artifact_prefix: str = ""
+    artifact_endpoint_url: str | None = None
     ontology_path: Path = Path("firmable_ontology.yaml")
     model: str = "gpt-6-luna"
     experiment_id: str = "jev-gpt6-luna-ontology-v1"

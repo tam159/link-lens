@@ -139,7 +139,8 @@ def test_every_registry_table_is_append_only():
             connection.execute(
                 text(
                     "SELECT tgrelid::regclass::text FROM pg_trigger "
-                    "WHERE tgname = 'forbid_update'"
+                    "WHERE tgname = 'forbid_update' "
+                    "AND tgrelid::regclass::text LIKE 'ontology.%'"
                 )
             ).scalars()
         )
@@ -680,7 +681,9 @@ def test_backfill_refuses_a_pointer_that_disagrees_with_the_history(monkeypatch)
     assert count(registry.ontology_version) == 0  # nothing is kept from a failed run
 
 
-def test_first_archive_format_restores_into_the_registry(tmp_path, monkeypatch):
+def test_first_archive_format_restores_into_the_registry(
+    tmp_path, monkeypatch, clear_store
+):
     from link_lens.frozen import freeze, thaw
 
     key, records, _ = legacy_store(monkeypatch)
@@ -699,9 +702,7 @@ def test_first_archive_format_restores_into_the_registry(tmp_path, monkeypatch):
             for name in source.namelist():
                 if name.startswith("blobs/"):
                     target.writestr(name, source.read(name))
-    for table in store.TABLES.values():
-        with store.engine().begin() as connection:
-            connection.execute(table.delete())
+    clear_store()
     thaw(first)
     assert ontology.resolve(key) == rich()
     assert ontology.active_hash("experiment") == key
@@ -709,9 +710,7 @@ def test_first_archive_format_restores_into_the_registry(tmp_path, monkeypatch):
 
     # The current format carries the registry rows themselves.
     freeze(current)
-    for table in reversed(registry.TABLES + list(store.TABLES.values())):
-        with store.engine().begin() as connection:
-            connection.execute(table.delete())
+    clear_store()
     assert thaw(current)["typed"] == sum(
         1
         for _ in json.loads(zipfile.ZipFile(current).read("application.json"))[

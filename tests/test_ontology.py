@@ -396,18 +396,14 @@ def test_global_reservations_concurrency_and_unknown_usage(monkeypatch):
     assert attempt("retry")
 
 
-def test_archive_registry_roundtrip(tmp_path):
+def test_archive_registry_roundtrip(tmp_path, clear_store):
     from link_lens.frozen import freeze, thaw
 
     key = extension()
     ontology.activate(key, "test")
     path = tmp_path / "evidence.zip"
     freeze(path)
-    from link_lens.db import ontology as registry
-
-    for table in reversed(registry.TABLES + list(store.TABLES.values())):
-        with store.engine().begin() as connection:
-            connection.execute(table.delete())
+    clear_store()
     with pytest.raises(KeyError):
         ontology.resolve(key)
     thaw(path)

@@ -146,15 +146,7 @@ def assemble(
         "source_impact": impact(observations, candidates, linked["entities"], profiles),
     }
     result_id = store.json_blob(result, "pipeline-results.json")
-    for observation in observations:
-        store.put(
-            "observations",
-            observation["id"],
-            observation,
-            observation["source_id"],
-            "observation",
-            immutable=True,
-        )
+    store.put_observations(observations)
     for entity in linked["entities"]:
         store.put("entities", entity["id"], entity, kind="entity")
     for ref, entity_id in linked["membership"].items():

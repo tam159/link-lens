@@ -157,6 +157,13 @@ def empty_database(postgres_server):
 
 
 @pytest.fixture
+def clear_store(isolated_store, postgres_server):
+    """Empty every table, as a restore into a new database would find them."""
+    store.engine()
+    return postgres_server.reset
+
+
+@pytest.fixture
 def database(isolated_store):
     """Engine on the migrated test database, for tests that use SQL directly."""
     return store.engine()
