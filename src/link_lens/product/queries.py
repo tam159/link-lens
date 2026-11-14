@@ -403,16 +403,22 @@ def get_evidence(connection, principal, release, observation_id):
 
 
 def list_links(connection, principal, release, entity_id):
-    """Identity links behind an entity. A link is a proposal until it is reviewed."""
+    """Identity links behind an entity. A link is a proposal until it is reviewed.
+
+    A link quotes both of its records, so a key sees it only when both of their
+    sources are in its scope.
+    """
     get_entity(connection, principal, release, entity_id)
+    first, parameters = in_scope(principal, "a_source_id")
+    second, _ = in_scope(principal, "b_source_id")
     rows = connection.execute(
         text(
             "SELECT link_id, entity_id, rule, rule_version, score, score_kind, threshold, "
             "status, human_review_status, a_source_id, a_record_id, b_source_id, b_record_id, "
-            "evidence FROM serving.link WHERE release_id = :release AND entity_id = :entity "
-            "ORDER BY link_id"
+            "evidence FROM serving.link WHERE release_id = :release AND entity_id = :entity"
+            f"{first}{second} ORDER BY link_id"
         ),
-        {"release": release["release_id"], "entity": entity_id},
+        {"release": release["release_id"], "entity": entity_id, **parameters},
     ).mappings()
     return [
         {

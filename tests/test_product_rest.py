@@ -423,6 +423,12 @@ def test_a_scoped_key_cannot_reach_other_sources_by_any_route(released, api, hea
         ).status_code
         == 200
     )
+    # A link quotes labels and locators of both records, so it is shown only
+    # to a key that may see both sources.
+    links = f"/v1/entities/{entity_id}/links"
+    assert len(api.get(links, headers=headers).json()) == 1
+    assert api.get(links, headers=scoped).json() == []
+
     assert api.get("/v1/okf/sources/source-b.md", headers=scoped).status_code == 404
     assert [
         e["name"] for e in api.get("/v1/okf/sources", headers=scoped).json()["entries"]
