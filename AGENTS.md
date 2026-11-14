@@ -36,6 +36,7 @@ Application code is in `src/link_lens/`:
 | `measurements.py`, `pricing.py`, `pricing_rates.json` | Usage, pricing basis and cost calculations |
 | `exports.py`, `_vendor/okf/` | Generated JSONL/CSV/OKF and viewer; retain vendor attribution |
 | `releases.py`, `okf/`, `serving/` | Human-recorded releases, the OKF renderer, index, virtual tree and bundle, and the serving read models as one `SELECT` per SQL file |
+| `product/`, `interfaces/rest.py` | The read-only product service: API keys and tiers, limits, the query layer over `serving`, response models and the REST routes |
 | `sandbox.py`, `runtime_compat.py` | Restricted Python execution and pinned runtime compatibility fixes |
 
 `migrations/` contains Alembic migrations; `tests/` contains deterministic tests and explicitly gated integrations. `compose.yaml`, `deploy/` and `langgraph.json` define local services. Read scripts before executing them: several `scripts/` files have top-level side effects, fixed experiment IDs or authored audit judgments. They are not all reusable library functions.
@@ -53,7 +54,7 @@ uv run ruff check src/link_lens tests --exclude _vendor --select F
 
 Run relevant tests first and broader checks when the change warrants them. Deterministic tests use isolated fixtures; those that touch the store run on PostgreSQL in a throwaway container (Docker required, see README **Verification**). Live model and Docker integrations are separate. Documentation-only edits need link/command consistency checks, not a paid pipeline rerun. Consult `tests/test_sandbox_integration.py` before enabling `RUN_DOCKER_TESTS=1`.
 
-Service startup and provider setup live in README. Default local ports: Inbox 3000, backend 2024, PostgreSQL 5439, sandbox controller 8091. The graph ID is `onboard`. The development server supplies the graph checkpointer; PostgreSQL stores application evidence separately. Frozen application archives do not recreate LangGraph threads/checkpoints.
+Service startup and provider setup live in README. Default local ports: Inbox 3000, backend 2024, PostgreSQL 5439, sandbox controller 8091, product service 8100. The graph ID is `onboard`. The development server supplies the graph checkpointer; PostgreSQL stores application evidence separately. Frozen application archives do not recreate LangGraph threads/checkpoints.
 
 ## Contracts to preserve
 
@@ -71,6 +72,7 @@ Service startup and provider setup live in README. Default local ports: Inbox 30
 - Sources, snapshots, runs, mappings, approvals and observations live in typed tables behind `store.py` and must read back exactly as written. Snapshots, mapping configs, mappings, approvals, source records and observations are append-only; write observations with `store.put_observations`.
 - Write each pipeline step as a function with explicit IDs that returns a small result record and writes nothing new when repeated. No table gets one partition per source. CLI exit codes: 0 done, 1 failed, 2 called wrongly, 3 ran and found something that blocks the next step. `docs/PRODUCTION_PLAN.md` section 4 lists these rules.
 - A release is recorded by a person with `link-lens release create`; no pipeline step, test fixture aside, creates one. A serving read model is one `SELECT` in `src/link_lens/serving/`; change the file, not the view. OKF pages come from `okf/render.py` only.
+- The product service only reads, as `linklens_product`, from `serving`; it never reads a core schema. Tiers, clients and keys are created by a person with `link-lens access`; a key is shown once and never logged or stored. Every answer carries status, provenance, alternatives, score kind, timestamp basis and licence, and a key limited to some sources must not reach another source's observations, evidence or links by any route.
 - PostgreSQL and immutable artifacts are authoritative; OKF is a generated view. Serve artifacts by registered ID, not arbitrary filesystem paths. Version schema changes with Alembic.
 - AI audits, human mapping approvals and human evidence evaluations are different activities. Unknown/unreviewed labels are not correct answers. An AI audit cannot complete the assignment's human evaluation requirement.
 - Include all model attempts in usage. Missing usage is unknown, not zero. State estimated pricing basis and priced-call coverage; do not present a partial subtotal as the complete bill. Per-record processing is deterministic unless explicitly changed.

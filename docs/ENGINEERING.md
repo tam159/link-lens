@@ -206,6 +206,24 @@ uv run link-lens release export outputs/local-run/release-1
 
 On 2026-11-14 the local database moved from `0017` to `0018`. No release has been created on it. On a restored copy, a release of the submission batch produced the same 60 entity pages, 1,610 evidence pages and 6 source pages as `outputs/okf`, apart from link paths, key order and the generation time, with no broken link.
 
+The product service (migration `0019`, Phase 5) is what a paying client calls. It is a separate process from the backend and only reads.
+
+- **Access.** A tier is a row in `access.tier`: calls a minute, calls a month, interfaces, toolsets, sources, release lag and history depth. A client belongs to a tier and holds keys. A key is `ll_<prefix>_<secret>`; the prefix and the SHA-256 of the secret are stored, and the key is printed once by `link-lens access key create`. Creating tiers, clients and keys is a person's action.
+- **A call.** `product/auth.py` turns `Authorization: Bearer` into a principal, `product/limits.py` refuses a call over the rate or the monthly quota and counts the others, and `product/queries.py` answers from `serving` for one release. Every query runs as `linklens_product`, which can read `serving` and the access tables and can write only usage counts.
+- **Release and scope.** A key reads the latest release its tier allows (`release_lag`), or an older one with `?release=` within `history_depth`. A key limited to some sources sees only their sources, observations, evidence pages and links between them. Profiles are answered whole.
+- **REST.** `interfaces/rest.py` holds the routes under `/v1`; the route table is in the [plan](PRODUCTION_PLAN.md#phase-5-access-product-service-and-rest) and at `/openapi.json`. Errors are problem details, lists use keyset cursors, every answer names its release in `X-LinkLens-Release`, and `Accept: text/markdown` on an entity returns its OKF page.
+- **Limits of this build.** The rate limit is held in the process, so it is right for one instance only. The local service logs in with the local user and sets its role per transaction.
+
+```sh
+docker compose up -d product          # http://localhost:8100, /health needs no key
+uv run link-lens access tier set starter --rate-per-minute 60 --monthly-quota 10000 --interface rest
+uv run link-lens access client create "Example client" --tier starter
+uv run link-lens access key create CLIENT_ID --label first
+uv run link-lens access usage
+```
+
+On 2026-11-14 the local database moved from `0018` to `0019`. No tier, client or key has been created on it. On a restored copy with a rehearsal release, all 60 profiles answered over REST matched the stored profiles, and every route answered in under 35 ms.
+
 The migration baseline records what the store holds, so each later migration and backfill can be checked against it. It is read-only and works on both layouts:
 
 ```sh

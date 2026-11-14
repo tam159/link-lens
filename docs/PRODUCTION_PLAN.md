@@ -1,6 +1,6 @@
 # Production implementation plan
 
-Status: **Phases 0 to 4 are implemented and applied to the local database (2026-11-14). No release has been created there yet; that is the owner's action. Phases 5 to 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
+Status: **Phases 0 to 5 are implemented and applied to the local database (2026-11-14). No release, tier, client or key has been created there yet; those are the owner's actions. Phases 6 to 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
 
 Facts about the current store were measured on the local database on 2026-11-14 (experiment `jev-gpt6-luna-ontology-v1` plus earlier experiments in the same database).
 
@@ -687,8 +687,8 @@ uv run link-lens release export outputs/local-run/release-1
 ```sql
 CREATE TABLE access.tier (
   id text PRIMARY KEY, monthly_quota bigint, rate_per_minute int NOT NULL,
-  interfaces text[] NOT NULL,                        -- rest, mcp, graphql
-  toolsets text[] NOT NULL,                          -- data, files
+  interfaces text[] NOT NULL,                        -- rest, mcp, graphql (checked)
+  toolsets text[] NOT NULL,                          -- data, files (checked)
   source_scope text[],                               -- null = all sources
   bundle_downloads boolean NOT NULL DEFAULT false,
   release_lag int NOT NULL DEFAULT 0,                -- 0 = latest, 1 = previous
@@ -696,12 +696,12 @@ CREATE TABLE access.tier (
 );
 CREATE TABLE access.client (
   id uuid PRIMARY KEY, name text NOT NULL, tier_id text NOT NULL REFERENCES access.tier,
-  status text NOT NULL, created_at timestamptz NOT NULL
+  status text NOT NULL, created_at timestamptz NOT NULL   -- active or suspended
 );
 CREATE TABLE access.api_key (
   id uuid PRIMARY KEY, client_id uuid NOT NULL REFERENCES access.client,
   prefix text NOT NULL UNIQUE, key_hash sha256 NOT NULL, label text,
-  created_at timestamptz NOT NULL, expires_at timestamptz, revoked_at timestamptz, last_used_at timestamptz
+  created_at timestamptz NOT NULL, expires_at timestamptz, revoked_at timestamptz
 );
 CREATE TABLE access.api_usage (
   key_id uuid REFERENCES access.api_key, day date, interface text, calls bigint NOT NULL DEFAULT 0,
@@ -721,31 +721,42 @@ Example tiers. Names and numbers are placeholders for the owner to set.
 | Freshness | Previous release | Latest release | Latest, with release notices |
 | History | Current release only | Last three releases | All releases |
 
+Differences from the first sketch:
+
+- **No `last_used_at` on a key.** Writing it on every call would turn each read into an update of the key row. `access.api_usage` already has a row per key, day and interface, so the day a key was last used is its latest row there. `link-lens access usage` reports calls per key, interface and month.
+- **The product role is set per transaction, not per login.** The local service connects with the one local login and starts every transaction with `SET LOCAL ROLE linklens_product`, so every query has that role's rights and no other. A test expects a permission error on each core schema. In production the service should log in as a role that is only a member of `linklens_product`; that belongs to phase 9 with the other role questions.
+- **Concept names are checked against `serving.concept`, not a JSON Schema file.** The JSON Schema generator needs the `ontology` dependency group, which is not in the runtime image. The list of concept names of the release's ontology is the same set as the schema's enum, and a response naming any other concept is refused before it is sent.
+- **Profiles are answered whole; scope applies to sources, observations, evidence, links and the OKF tree.** This is the handling the risk table proposed. A scoped key sees a profile's selected values with their provenance (source, record and locator), on the REST route and on the entity's OKF page, but cannot open an observation, a source or an evidence page of a source outside its scope. An identity link quotes the labels and locators of both of its records, so a key sees a link only when both sources are in its scope. The plan did not say this for links; it is the stricter reading of "cannot read sources outside its scope through any route".
+- **Serving views carry the exact stored record.** `serving.profile` and `serving.observation` have a `document` column that rebuilds the profile or observation as the pipeline wrote it, so the tree and the REST interface read only `serving`. `okf/tree.py` no longer reads core tables. Two small SQL functions (`serving.iso_utc`, `serving.json_float`) print a timestamp and a number as the pipeline does.
+- **`serving.profile_field` has `value` and `value_text`.** A profile value may be a number. `value` is the value as stored and is what a client receives; `value_text` is the same value when it is text and is what search matches.
+- **Four indexes were added** for the queries a client makes: `evidence.observation (id)` for evidence by ID, `identity.profile_field (concept_name, value)` for identifier search, a trigram index on legal names, and one on the state of a profile address.
+- **A multi-valued field has its provenance on each value.** The REST field then has `provenance: []` at the top and the evidence inside `values`, as the stored profile has.
+
 Tasks:
 
-- [ ] **Key handling.** Format `ll_<prefix>_<secret>` with a random secret of at least 32 bytes. Store the prefix and the SHA-256 of the secret; show the key once at creation; compare in constant time. Keys are never logged.
-- [ ] **CLI:** `link-lens access tier set`, `client create`, `key create`, `key revoke`, `usage`.
-- [ ] **Auth step** in `product/auth.py`: `Authorization: Bearer` to principal (client, tier, scope). Written so a second resolver for OAuth tokens can be added without touching the interfaces.
-- [ ] **Limits** in `product/limits.py`: per-minute token bucket per key in process; monthly quota from `api_usage`. Responses use 401, 403 and 429 with `Retry-After`.
-- [ ] **Query layer** in `product/queries.py`: `search_entities`, `get_entity`, `get_profile`, `list_observations`, `get_evidence`, `list_links`, `list_sources`, `describe_concepts`, `list_releases`, plus the tree functions. Every function takes the principal and a release, and applies source scope, release lag and history depth.
-- [ ] **Response models** in `product/models.py`. Evidence fields are required, not optional: status, provenance, alternatives, score kind, timestamp basis, licence. Concept names are checked against the JSON Schema generated from the release's ontology.
-- [ ] **ASGI app** `link_lens.product.app:app`, run with uvicorn as a new compose service `product`, using the `linklens_product` database role. It is not mounted in `langgraph.json`. The existing internal routes stay where they are.
-- [ ] **REST interface:**
+- [x] **Key handling** ([product/keys.py](../src/link_lens/product/keys.py)). Format `ll_<prefix>_<secret>` with a random secret of 32 bytes. The prefix and the SHA-256 of the secret are stored; the key is shown once at creation; the comparison is constant-time. Keys are never logged.
+- [x] **CLI:** `link-lens access tier set`, `client create`, `key create`, `key revoke`, `usage`.
+- [x] **Auth step** in [product/auth.py](../src/link_lens/product/auth.py): `Authorization: Bearer` to a principal (client, tier, scope, limits). Resolvers are a list; an OAuth resolver is one more entry and touches no interface. Unknown, expired and revoked keys and suspended clients get 401; an interface the tier does not include gets 403.
+- [x] **Limits** in [product/limits.py](../src/link_lens/product/limits.py): a per-minute token bucket per key in process; a monthly quota per client from `api_usage`. Both answer 429 with `Retry-After`. A call is counted in its own transaction, so it stands even when the query that follows fails.
+- [x] **Query layer** in [product/queries.py](../src/link_lens/product/queries.py): `search_entities`, `get_entity`, `get_profile`, `list_observations`, `get_evidence`, `list_links`, `list_sources`, `get_source`, `describe_concepts`, `list_releases`, plus the tree functions. Every function takes the principal and a release, and applies source scope, release lag and history depth.
+- [x] **Response models** in [product/models.py](../src/link_lens/product/models.py). Evidence fields are required, not optional: status, provenance, alternatives, score kind, timestamp basis, licence. Concept names are checked against the release's ontology.
+- [x] **ASGI app** `link_lens.product.app:app`, run with uvicorn as the compose service `product` on port 8100, with the `linklens_product` role. It is not mounted in `langgraph.json`. The existing internal routes stay where they are.
+- [x] **REST interface** ([interfaces/rest.py](../src/link_lens/interfaces/rest.py)):
 
 | Route | Returns |
 |---|---|
 | `GET /v1/entities?name=&abn=&acn=&state=&type=&cursor=&limit=` | Matching entities |
 | `GET /v1/entities/{id}` | Entity, identifiers, `okf_path` |
-| `GET /v1/entities/{id}/profile` | Profile fields with evidence; `ETag` is `profile_version` |
+| `GET /v1/entities/{id}/profile` | Profile fields with evidence; `ETag` is `profile_version`, and `If-None-Match` answers 304 |
 | `GET /v1/entities/{id}/observations?concept=&source=` | Source claims |
 | `GET /v1/entities/{id}/links` | Identity links and their status |
 | `GET /v1/observations/{id}` | One claim with record locator, snapshot, source, licence |
 | `GET /v1/sources`, `GET /v1/sources/{id}` | Sources and licences |
 | `GET /v1/ontology/concepts?scope=` | Concepts of the release's ontology |
 | `GET /v1/releases`, `GET /v1/releases/current` | Releases visible to the key |
-| `GET /v1/okf/{path}` | One OKF page as Markdown, or a folder listing |
+| `GET /v1/okf`, `GET /v1/okf/{path}` | One OKF page as Markdown, or a folder listing |
 
-- [ ] **Conventions:** keyset cursors; `?release=` to address an older release; `X-LinkLens-Release` on every response; `Accept: text/markdown` on entity routes returns the OKF page; errors as problem details JSON; OpenAPI published at `/openapi.json`.
+- [x] **Conventions:** keyset cursors; `?release=` to address an older release; `X-LinkLens-Release` on every response; `Accept: text/markdown` on entity routes returns the OKF page; errors as problem details JSON; OpenAPI published at `/openapi.json`.
 
 Done when:
 
@@ -753,6 +764,27 @@ Done when:
 - A request with a key from one tier cannot read sources outside its scope through any route.
 - The product role cannot read core schemas directly (checked by a test that expects a permission error).
 - `GET /v1/entities/{id}/profile` returns the same values, statuses and provenance IDs as the stored profile for a sample of entities.
+
+Results on 2026-11-14:
+
+- **Contract tests.** [tests/test_product_rest.py](../tests/test_product_rest.py) has 14 tests over every route: missing, malformed, unknown, expired and revoked keys, a suspended client, an interface outside the tier, search and paging, scope, release lag, history depth, the rate limit and its refill, the monthly quota, problem details, `ETag`, Markdown answers and the CLI.
+- **Scope.** A key limited to one source is tried against every route: listings omit the other sources, their observations, source pages and evidence pages answer 404, the same as a path that does not exist, and links to their records are not listed.
+- **Permissions.** As `linklens_product`, a select on a table of `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `legacy` fails with a permission error, and so does a write to a tier or a key and a delete of usage.
+- **Same profile.** On a restored copy of the local database with a rehearsal release of the submission batch, all 60 profiles answered over REST had the same values, statuses and provenance as the stored profiles (392 fields). The serving `document` equalled the stored record for 60 of 60 profiles and 149,349 of 149,349 observations of the release.
+- **Rehearsal found two faults, both fixed and covered by a test.** Numeric field values were answered as null (13 of 60 profiles), and an entity's observation listing read every claim of the release (up to 4.2 seconds). The listing now looks claims up by the records the profile names.
+- **Time on the copy, per call:** profile 6 ms median and 14 ms at most; observations 18 and 32 ms; links 7 and 11 ms; evidence 7 and 31 ms; an OKF entity page 8 and 15 ms; sources, concepts and releases about 6 ms. These are 60 entities and one release on a laptop, not a load test.
+- **Local database.** Migrated from `0018` to `0019`. Both baseline checks reported zero differences. The `product` service answers `/health` and refuses a call without a key. No tier, client, key or release exists there; creating them is the owner's action.
+- **Tests.** 200 passed, 4 skipped.
+- **Not verified:** search and listing times at real scale, since the local data has 60 entities; the rate limit across more than one instance, which is in process by design until phase 9; the service logging in as its own role; interface parity with MCP and GraphQL, which do not exist yet.
+
+To try the service on the local database, after a release exists (see phase 4):
+
+```sh
+uv run link-lens access tier set starter --rate-per-minute 60 --monthly-quota 10000 --interface rest
+uv run link-lens access client create "Example client" --tier starter
+uv run link-lens access key create CLIENT_ID --label first
+curl -H "Authorization: Bearer KEY" http://localhost:8100/v1/entities
+```
 
 ## Phase 6: MCP server
 
@@ -884,12 +916,13 @@ No verification step needs a model call or a new human review.
 | Lenient record tables | `source`, `snapshot`, `run`, `mapping` and `approval` (and since phase 3 the identity and operations tables) accept any record the store is given, so their typed columns are nullable and a reference that does not resolve is kept as JSON instead of failing | Report unresolved values with `link-lens backfill spine`; add `NOT NULL` and strict references when the store facade is retired and writers use the repositories directly |
 | Shared memory in Docker | Parallel joins over the typed tables failed with Docker's 64 MB default | Compose sets `shm_size: 256mb`; lookups use array parameters instead of long `IN` lists; size it again for production |
 | Roles on managed PostgreSQL | Migration `0008` creates roles and changes owners, which the local superuser may do. A managed service's admin user is not a superuser and needs membership in `linklens_migrator` first. | Settle in Phase 9 with the chosen provider |
-| Source coverage tiers and profiles | A profile combines several sources. A client limited to some sources could still see values selected from others. | Decide between selling profiles whole or filtering fields and provenance by scope. Start with whole profiles, and apply scope to observations, evidence and bundles. |
+| Source coverage tiers and profiles | A profile combines several sources. A client limited to some sources still sees values selected from others, with their provenance (source, record and locator). | Built in phase 5 as proposed: profiles are answered whole, and scope applies to sources, observations, evidence, links and the OKF tree. Owner decides whether fields and provenance should also be filtered by scope before the first scoped tier is sold. |
 | Hash storage | `bytea` halves key size but is less readable in ad hoc SQL | Use the `sha256` domain with hex views and helper functions; revisit if it slows development |
 | Observation partitioning | 32 hash partitions on `source_id` suit thousands of sources, but one very large source makes its partition much bigger than the others, and all partitions grow with every refresh | Split a hot partition in two (modulus 64, same remainder and remainder plus 32), or sub-partition it by hash of `id`. Revisit the count before the first source above about 100 million observations. |
 | `okf_grep` at scale | Free regex over all pages would be slow | Require a path prefix, back it with trigram indexes on `okf_line`, cap matches |
 | Index design | Nested by-name indexes for millions of entities need tuning | Test on synthetic data in phase 4 before fixing the path scheme |
 | Rate limiting in process | Not correct across several instances | Acceptable for one instance; shared store is a phase 9 task |
+| Product service login | The local service logs in with the one local user and sets the product role per transaction. A fault that skipped that step would run with more rights. | In phase 9 give the service its own login that is only a member of `linklens_product` |
 | MCP and OAuth | Some MCP clients accept only OAuth for remote servers | Keys first, as decided; the auth step is written for a second resolver |
 | MCP SDK and Strawberry versions | Both libraries change often | Pin versions; read the current documentation before coding |
 | Agent runtime licence | The development server is not for production | Decide in phase 9 before any production deployment |

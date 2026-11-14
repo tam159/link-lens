@@ -177,7 +177,7 @@ uv sync --frozen
 if [ ! -f .env ]; then cp .env.example .env; fi
 ```
 
-A first Docker build may exceed ten minutes; subsequent starts reuse images. The supplied setup uses local ports 3000, 2024, 5439 and 8091.
+A first Docker build may exceed ten minutes; subsequent starts reuse images. The supplied setup uses local ports 3000, 2024, 5439 and 8091, and 8100 for the read-only product service described in the [production plan](docs/PRODUCTION_PLAN.md#phase-5-access-product-service-and-rest).
 
 ### 2. Fill in `.env`
 
