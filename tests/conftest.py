@@ -15,6 +15,7 @@ from pathlib import Path
 import pytest
 from alembic import command
 from alembic.config import Config
+from alembic.script import ScriptDirectory
 from link_lens import store
 from link_lens.settings import settings
 from sqlalchemy import create_engine, text
@@ -36,9 +37,18 @@ SCHEMAS = (
 )
 
 
-def migrate(url, revision="head", direction="upgrade"):
+def alembic_config():
     config = Config(str(ROOT / "alembic.ini"))
     config.set_main_option("script_location", str(ROOT / "migrations"))
+    return config
+
+
+def head_revision():
+    return ScriptDirectory.from_config(alembic_config()).get_current_head()
+
+
+def migrate(url, revision="head", direction="upgrade"):
+    config = alembic_config()
     config.set_main_option("sqlalchemy.url", url.replace("%", "%%"))
     getattr(command, direction)(config, revision)
 

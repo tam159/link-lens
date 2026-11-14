@@ -3,7 +3,7 @@
 import json
 
 import pytest
-from conftest import SCHEMAS, migrate
+from conftest import SCHEMAS, head_revision, migrate
 from link_lens import store
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import DBAPIError
@@ -56,7 +56,7 @@ def test_upgrade_and_downgrade_round_trip_on_empty_database(empty_database):
     migrate(empty_database)
     with engine.connect() as connection:
         assert scalars(connection, "SELECT version_num FROM alembic_version") == [
-            "0008"
+            head_revision()
         ]
     migrate(empty_database, "base", "downgrade")
     with engine.connect() as connection:
