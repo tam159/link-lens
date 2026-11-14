@@ -161,7 +161,9 @@ The evidence spine (migrations `0010` to `0012`, Phase 2) moves artifacts, sourc
 - **Exact records.** A source, snapshot, run, mapping or approval reads back exactly as it was written. A field sits in its typed column when the value is present and well formed, and in the row's JSON column otherwise. A reference column is filled only when the row it points at exists, so no foreign key dangles; `link-lens backfill spine` reports values that stayed outside their column.
 - **Observations.** `evidence.observation` references its source record, concept and mapping config. Licence, snapshot, locator, roles and source reliability are read through those references instead of being copied onto each row, and each observation still reads back exactly as the extractor produced it. `store.put_observations` loads them with `COPY`; an observation that is already stored is skipped. The legacy `owner_id` of an observation (whichever run or source stored it first) is not kept.
 - **Mapping configs.** A config is stored once in `onboarding.mapping_config` under its content hash, and `onboarding.mapping` references it, because two runs may propose the same config. `onboarding.mapping_field` indexes each config's fields by concept.
-- **Partitions.** Source records and observations are partitioned by source. Registering a source calls `evidence.ensure_source_partitions`; other sources use the default partitions.
+- **Partitions.** Source records and observations are each 32 hash partitions on `source_id` (migration `0013`). The count does not grow with the number of sources; a source's rows stay in one partition and the two tables stay aligned.
+- **Refresh facts.** `catalog.source_refresh` stores each source's intended cadence and last check; the view `catalog.source_state` adds the latest snapshot, when the bytes last changed and the approved mapping in force. `link-lens source state`, `source cadence SOURCE --days N` and `source drift SOURCE` read, set and check them. `drift.detect` compares a snapshot's header with the approved mapping and is not scheduled anywhere.
+- **Exit codes.** 0 the command did its work, 1 it failed, 2 it was called wrongly, 3 it ran and found something that blocks the next step (a failed gate check, blocking drift).
 - **Artifacts.** `blobs.py` writes bytes to the local artifact directory or, with `LINK_LENS_ARTIFACT_STORE=s3`, to an S3-compatible bucket read through a local cache. `catalog.artifact.uri` records where each artifact is. The S3 backend is tested with a stand-in client only, not against a real bucket.
 - **Archives.** `freeze` reads records through the store, so an archive has the same shape whether a table is generic or typed.
 
@@ -172,7 +174,7 @@ uv run python scripts/migration_baseline.py --typed --check outputs/local-run/mi
 
 `backfill spine` copies in dependency order, is idempotent, and verifies that every copied record reads back exactly as its legacy row. The `--typed` check computes counts and digests per table, experiment, batch and mapping config from the typed schemas and compares them with the baseline.
 
-On 2026-11-14 the local database moved from `0009` to `0012` and was backfilled in 58 seconds: 26,610 artifacts, 949 sources, 12 snapshots, 73 runs, 107 mappings in 107 configs with 602 mapping fields, 52 approvals, 23,101 source records and 374,335 observations. No observation needed its JSON column. Eleven runs name a pseudo-source (`ontology`, `connectivity-test`) and eight a snapshot that was never stored; those values stay in the run's JSON column. Both baseline checks reported zero differences, a second backfill copied nothing, and `evidence.observation` takes 223 MB where `legacy.observations` takes 722 MB. Before that, on a restored copy, eight CLI commands printed the same bytes as before and an export of the submission batch produced the same 1,747 files with equal values.
+On 2026-11-14 the local database moved from `0009` to `0012` and was backfilled in 58 seconds: 26,610 artifacts, 949 sources, 12 snapshots, 73 runs, 107 mappings in 107 configs with 602 mapping fields, 52 approvals, 23,101 source records and 374,335 observations. No observation needed its JSON column. Eleven runs name a pseudo-source (`ontology`, `connectivity-test`) and eight a snapshot that was never stored; those values stay in the run's JSON column. Both baseline checks reported zero differences, a second backfill copied nothing, and `evidence.observation` takes 223 MB where `legacy.observations` takes 722 MB. The same day the two evidence tables were rebuilt as hash partitions (`0013`, 8 seconds) and the refresh table and view were added (`0014`); both baseline checks again reported zero differences. Before that, on a restored copy, eight CLI commands printed the same bytes as before and an export of the submission batch produced the same 1,747 files with equal values.
 
 The migration baseline records what the store holds, so each later migration and backfill can be checked against it. It is read-only and works on both layouts:
 
@@ -469,12 +471,13 @@ uv run link-lens ontology promote ONTOLOGY_HASH --reviewer NAME
 uv run link-lens ontology export ONTOLOGY_HASH --format linkml --output firmable_ontology.linkml.yaml
 ```
 
-`ontology gate` writes one `ontology.gate_report` row per check and exits 1 if any fails.
+`ontology gate` writes one `ontology.gate_report` row per check and exits 3 if any fails.
 The checks are: the rows rebuild the hash and equal the stored artifact; the LinkML export
 passes `linkml-lint` and generates SHACL and JSON Schema; the version is additive against
-its parent. Three more are recorded as `unknown` for now: SHACL validation of stored
-observations and the impact report wait for typed observations, and the optional Open
-Ontologies check is not configured. `unknown` does not block; the results are stored with
+its parent. Since Phase 2 a sample of stored observations is validated against the generated SHACL
+shapes, and an impact report counts the mapping configs and observations that use each
+concept a version adds. The optional Open Ontologies check is not configured and is
+recorded as `unknown`. `unknown` does not block; the results are stored with
 the promotion and printed for the reviewer. Without the `ontology` dependency group the
 LinkML check is `unknown` too. The promotion recorded on 2026-09-25 predates the gate and
 has no gate run.

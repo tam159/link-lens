@@ -76,7 +76,7 @@ flowchart LR
 | Schema | Tables | Replaces |
 |---|---|---|
 | `ontology` | `ontology_version`, `concept`, `concept_value`, `concept_requires`, `version_concept`, `version_evidence`, `proposal`, `proposal_run`, `disposition`, `concept_decision`, `activation`, `gate_report` | `ontologies`, `ontology_events`, the JSON blob |
-| `catalog` | `source`, `snapshot`, `artifact` | `sources`, `snapshots`, `artifacts` |
+| `catalog` | `source`, `snapshot`, `artifact`, `source_refresh`, view `source_state` | `sources`, `snapshots`, `artifacts` |
 | `onboarding` | `run`, `mapping_config`, `mapping`, `mapping_field`, `approval` | `runs`, `mappings`, `approvals` |
 | `evidence` | `source_record`, `observation` | `observations` |
 | `identity` | `entity`, `entity_identifier`, `membership`, `link`, `profile`, `profile_field`, `profile_address` | `entities`, `memberships`, `links`, `profiles` |
@@ -414,6 +414,10 @@ Tasks:
 - [x] **Turn on gate checks 3 and 4** from phase 1. The gate validates up to 25 stored observations per concept against the generated SHACL shapes, and reports the mapping configs and observations that use each concept a version adds.
 - [x] **Archive format.** [frozen.py](../src/link_lens/frozen.py) reads and restores records through the store, so format 2 carries the typed tables as the same records, and format 1 archives still restore.
 - [x] **Typed baseline check.** `scripts/migration_baseline.py --typed --check FILE` computes counts and digests from the typed schemas and compares them with the baseline.
+- [x] **Hash partitions** (migration `0013`, added after the owner's constraints of 2026-11-14): `source_record` and `observation` are rebuilt as 32 hash partitions on `source_id`; rows are copied and counted before the list-partitioned tables are dropped. `evidence.ensure_source_partitions` is gone.
+- [x] **Source refresh facts** (migration `0014`, [sources.py](../src/link_lens/sources.py)). `catalog.source_refresh` stores what cannot be derived: the intended cadence and when the publisher was last checked. The view `catalog.source_state` adds what the other tables already say: the latest snapshot and when the bytes last changed, and the approved mapping in force, which is the most recent approved config among the source's runs. Registering a source records the check whether or not the bytes changed. `link-lens source state` and `link-lens source cadence SOURCE --days N` read and set them.
+  - *Resolution of a conflict:* the constraint asks for last changed and the approved mapping on the source registry. Storing them would duplicate facts that snapshots and approvals already hold and could drift from them, so they are derived in the view instead. An orchestrator reads one relation either way.
+- [x] **Drift detection** ([drift.py](../src/link_lens/drift.py)). `drift.compare` takes a mapping config, a snapshot's format and its headers; `drift.detect` reads a stored snapshot's header with the approved reader first. Both return `unchanged`, or `changed` with reasons, each marked as blocking or not: a column the mapping uses is missing, the format differs or the reader cannot open the file (blocking); a new column or a removed unused column (not blocking). `link-lens source drift SOURCE` runs it by hand and exits 3 when the result blocks. It is not wired into any schedule.
 
 Done when:
 
@@ -440,7 +444,22 @@ Results on 2026-11-14:
 - **Unchanged output.** On a restored copy, eight CLI commands printed the same bytes with Phase 1 code before the migration and Phase 2 code after it, and an export of the submission batch produced the same 1,747 files with equal values (25 JSON files differ in key order only).
 - **Gate.** On the promoted version, 1,400 sampled observations of 56 concepts validated against the generated shapes with no violation.
 - **Tests.** 158 passed, 4 skipped. Three existing tests changed: one edited a stored snapshot, which is now refused, and builds it once instead; the baseline test now writes legacy rows directly; one gate test expects the impact check to pass.
-- **Not verified:** the S3 backend against a real bucket (it is tested with a stand-in client); `freeze` and `thaw` on the full local database (tested on fixtures only); a live onboarding run with a paid model call.
+- **Hash partitions.** On the local database the rebuild took 8 seconds; all 374,335 observations and 23,101 source records are present in 7 of the 32 partitions (8 sources); both baseline checks again reported zero differences. A downgrade and a second upgrade were rehearsed on a copy first.
+- **Refresh facts and drift.** The six registered sources each report their latest snapshot, the date its bytes changed and an approved mapping in force, which is the mapping of the promoted run in every case. The drift check reports `unchanged` for all six against their latest snapshot. No cadence is set and no check time is recorded yet; those start when sources are next registered or scheduled.
+- **Tests.** 165 passed, 4 skipped after these additions.
+- **Not verified:** the S3 backend against a real bucket (it is tested with a stand-in client); `freeze` and `thaw` on the full local database (tested on fixtures only); a live onboarding run with a paid model call; registering a real source after the refresh hook was added (tested with a stubbed download).
+
+How the seven constraints stand after this phase:
+
+| Constraint | State |
+|---|---|
+| Partitioning for thousands of sources | Done: 32 hash partitions, migration `0013` |
+| Refresh facts on the source registry | Done: `catalog.source_refresh` and `catalog.source_state`, migration `0014` |
+| Drift detection as a library function | Done: `drift.compare` and `drift.detect` |
+| Steps are functions with explicit parameters | New steps follow it (`sources.record_check(source_id)`, `drift.detect(snapshot_id, config_hash)`, `backfill.*`, `ontology_gate.run(hash)`). Existing steps `ingestion.register`, the graph nodes and `pipeline.assemble` already take their IDs but also read `settings().experiment_id`; that is a setting, and stays. `store.current_discovery()` without an experiment reads a shared pointer row; phase 3 gives discovery an explicit ID when batches are typed. |
+| Steps are idempotent | Holds for every write added so far: content-hash keys, `ON CONFLICT DO NOTHING`, and updates that are skipped when nothing changes. |
+| Serving SQL in one directory | Phase 4 |
+| Structured logs and clear exit codes | Exit codes are defined in [cli.py](../src/link_lens/cli.py): 0 done, 1 failed, 2 called wrongly, 3 ran and found something that blocks the next step (a failed gate check, blocking drift). Structured logs are not built yet; they come with the event and model-call tables in phase 3. |
 
 ## Phase 3: Identity, profiles and operations
 

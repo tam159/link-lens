@@ -25,6 +25,7 @@ Application code is in `src/link_lens/`:
 |---|---|
 | `cli.py`, `api.py`, `settings.py` | CLI, application routes and environment settings |
 | `ingestion.py`, `triage.py`, `downloadability.py` | CKAN discovery, Jev relevance ranking, download/reader preflight and registration |
+| `sources.py`, `drift.py` | Refresh facts per source (cadence, last check, last change, approved mapping) and the drift check of a snapshot against its approved mapping |
 | `agent.py`, `llm.py` | Bounded LangGraph onboarding, model calls, validation, critique and Inbox interrupts |
 | `contracts.py`, `readers.py`, `extraction.py` | Typed mapping contract, shared readers and declarative extraction |
 | `resolution.py`, `profiles.py`, `pipeline.py` | Deterministic linking, profile decisions and assembly |
@@ -66,6 +67,7 @@ Service startup and provider setup live in README. Default local ports: Inbox 30
 - Link on validated identifiers with compatible subject roles. Never derive ACN from an ABN suffix, merge on name alone, or ignore conflicting identifiers/ownership ambiguity. Preserve source records and versioned membership decisions.
 - Preserve raw values, exact source locators, timestamp policy, separate confidence dimensions, alternatives and cohesive address bundles. Uncalibrated scores are rule/model scores, not measured probabilities. Missing defensible timestamps require quarantine rather than invented dates.
 - Sources, snapshots, runs, mappings, approvals and observations live in typed tables behind `store.py` and must read back exactly as written. Snapshots, mapping configs, mappings, approvals, source records and observations are append-only; write observations with `store.put_observations`.
+- Write each pipeline step as a function with explicit IDs that returns a small result record and writes nothing new when repeated. No table gets one partition per source. CLI exit codes: 0 done, 1 failed, 2 called wrongly, 3 ran and found something that blocks the next step. `docs/PRODUCTION_PLAN.md` section 4 lists these rules.
 - PostgreSQL and immutable artifacts are authoritative; OKF is a generated view. Serve artifacts by registered ID, not arbitrary filesystem paths. Version schema changes with Alembic.
 - AI audits, human mapping approvals and human evidence evaluations are different activities. Unknown/unreviewed labels are not correct answers. An AI audit cannot complete the assignment's human evaluation requirement.
 - Include all model attempts in usage. Missing usage is unknown, not zero. State estimated pricing basis and priced-call coverage; do not present a partial subtotal as the complete bill. Per-record processing is deterministic unless explicitly changed.

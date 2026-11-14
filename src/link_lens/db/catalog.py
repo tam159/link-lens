@@ -1,6 +1,15 @@
 """Repository for the `catalog` schema: artifacts, sources and snapshots."""
 
-from sqlalchemy import BigInteger, Column, DateTime, MetaData, Table, Text, select
+from sqlalchemy import (
+    BigInteger,
+    Column,
+    DateTime,
+    Interval,
+    MetaData,
+    Table,
+    Text,
+    select,
+)
 from sqlalchemy.dialects.postgresql import JSONB, insert
 
 from .records import Field, RecordTable, parse_time
@@ -52,6 +61,16 @@ snapshot = Table(
     Column("inspection", JSONB(none_as_null=True)),
     Column("extra", JSONB),
     Column("created_at", timestamp),
+)
+
+
+source_refresh = Table(
+    "source_refresh",
+    metadata,
+    Column("source_id", Text, primary_key=True),
+    Column("cadence", Interval),
+    Column("last_checked_at", timestamp),
+    Column("updated_at", timestamp),
 )
 
 

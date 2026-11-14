@@ -750,7 +750,7 @@ def test_cli_exports_gates_and_blocks_promotion(monkeypatch, tmp_path):
     assert refused.exit_code == 2 and "gate" in refused.output
 
     stub_gate(monkeypatch, linkml="fail")
-    assert runner.invoke(app, ["ontology", "gate", key]).exit_code == 1
+    assert runner.invoke(app, ["ontology", "gate", key]).exit_code == 3
     assert runner.invoke(app, promote).exit_code == 2
     stub_gate(monkeypatch, impact="unknown")
     gated = runner.invoke(app, ["ontology", "gate", key])

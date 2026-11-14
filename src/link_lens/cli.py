@@ -14,6 +14,13 @@ from .contracts import content_hash
 app = typer.Typer(no_args_is_help=True)
 
 
+# Exit codes, so an orchestrator can tell what happened without reading output:
+# 0 the command did its work; 1 it failed; 2 it was called wrongly (Typer's own
+# code); 3 it ran and found something that blocks the next step, such as a failed
+# gate check or a snapshot the approved mapping cannot read.
+EXIT_BLOCKED = 3
+
+
 def show(value):
     typer.echo(json.dumps(value, indent=2, ensure_ascii=False, default=str))
 
@@ -565,13 +572,13 @@ def ontology_export_command(
 
 @ontology_app.command("gate")
 def ontology_gate_command(ontology_hash: str):
-    """Run and record the promotion checks. Exits 1 if a check fails."""
+    """Run and record the promotion checks. Exits 3 if a check fails."""
     from . import ontology_gate
 
     report = ontology_gate.run(ontology_hash)
     show(report)
     if report["blocks_promotion"]:
-        raise typer.Exit(1)
+        raise typer.Exit(EXIT_BLOCKED)
 
 
 @ontology_app.command("promote")
@@ -612,3 +619,46 @@ def backfill_spine():
     from . import backfill
 
     show(backfill.evidence_spine())
+
+
+source_app = typer.Typer(help="Refresh facts and drift checks for sources.")
+app.add_typer(source_app, name="source")
+
+
+@source_app.command("state")
+def source_state(source_id: str | None = None, kind: str | None = None):
+    """Cadence, last check, last change and approved mapping, per source."""
+    from . import sources
+
+    show(sources.state(source_id, kind))
+
+
+@source_app.command("cadence")
+def source_cadence(source_id: str, days: float | None = typer.Option(None, "--days")):
+    """Set how often a source should be checked. Without --days, clear it."""
+    from . import sources
+
+    try:
+        show(sources.set_cadence(source_id, days))
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+
+
+@source_app.command("drift")
+def source_drift(source_id: str, snapshot_id: str | None = None):
+    """Compare a snapshot with the source's approved mapping. Exits 3 if it blocks.
+
+    Uses the source's latest snapshot unless one is named.
+    """
+    from . import drift, sources
+
+    facts = sources.state(source_id)[0]
+    if not facts["approved_config_hash"]:
+        raise typer.BadParameter("The source has no approved mapping")
+    snapshot_id = snapshot_id or facts["latest_snapshot_id"]
+    if not snapshot_id:
+        raise typer.BadParameter("The source has no snapshot")
+    result = drift.detect(snapshot_id, facts["approved_config_hash"])
+    show({"source_id": source_id, **result})
+    if result["blocking"]:
+        raise typer.Exit(EXIT_BLOCKED)
