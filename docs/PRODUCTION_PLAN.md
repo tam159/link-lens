@@ -1,6 +1,6 @@
 # Production implementation plan
 
-Status: **Phase 0 is implemented in code and rehearsed on a copy of the local database; the local database itself has not been migrated. Phases 1 to 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
+Status: **Phase 0 is implemented and the local database was migrated to it on 2026-11-14. Phases 1 to 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
 
 Facts about the current store were measured on the local database on 2026-11-14 (experiment `jev-gpt6-luna-ontology-v1` plus earlier experiments in the same database).
 
@@ -159,8 +159,8 @@ Results on 2026-11-14:
 
 - **Tests.** 123 passed, 4 skipped, 1 failed on PostgreSQL. Before Phase 0 the suite was 105 passed, 4 skipped, 1 failed on SQLite; the 18 new tests cover the migrations, roles, helpers and the baseline. The one failure, `test_triage.py::test_decision_cached_with_receipt_and_experiment_isolation`, also fails on `main`: it expects the experiment `jev-luna-v1`, and the default experiment is now `jev-gpt6-luna-ontology-v1`. It is not a database failure and is left for a separate fix.
 - **Baseline.** Written from the local database before migration; a second run reported zero differences. Totals: 374,335 observations, 23,101 source records, 107 mapping config hashes, 2 ontology hashes, 614 profile versions.
-- **Application against `legacy`.** Verified on a restored copy of the local database, not on the local database itself. After `alembic upgrade head` the baseline check reported zero differences; all 434,994 rows read identically through the old and new `store.py`; six read-only CLI commands gave identical output; an export of the submission batch produced the same 1,747 files with the same values. A downgrade to `0002` and a second upgrade also left zero differences.
-- **Not done:** the local `linklens` database is still at revision `0002` on `postgres:17`. The cutover steps are in the [engineering guide](ENGINEERING.md), section **Database layout, migrations and the baseline**. Until then, code from this branch cannot use that database.
+- **Application against `legacy`, rehearsal.** Verified first on a restored copy of the local database. After `alembic upgrade head` the baseline check reported zero differences; all 434,994 rows read identically through the old and new `store.py`; six read-only CLI commands gave identical output; an export of the submission batch produced the same 1,747 files with the same values. A downgrade to `0002` and a second upgrade also left zero differences.
+- **Local database cutover.** After the owner's approval, the local `linklens` database was migrated with the steps in the [engineering guide](ENGINEERING.md), section **Database layout, migrations and the baseline**: backend stopped with no runs active, fresh `pg_dump` taken, PostgreSQL recreated on `pgvector/pgvector:pg17-trixie` with the same volume (17.7 to 17.12, collation version 2.41 unchanged), `alembic upgrade head` from `0002` to `0008` in 8 seconds. The baseline check reported zero differences before and after the backend restarted. The backend, Agent Inbox and sandbox controller answered their health checks, and the backend returned the 73 runs and the 60 profiles of the submission baseline batch from `legacy`.
 
 ## Phase 1: Ontology registry and gate
 

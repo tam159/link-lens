@@ -173,7 +173,7 @@ docker compose up -d backend
 
 The check must report `0 difference(s)`. To go back, stop the backend, run `uv run alembic downgrade 0002` and check out the previous code; the baseline check passes on that layout too.
 
-Measured on 2026-11-14 on a restored copy of the local database (434,994 rows, 374,335 observations): upgrade about 6 seconds and downgrade about 8 seconds with `fsync` off, zero baseline differences in both directions, identical rows read through the old and new `store.py`, identical output from `link-lens usage`, `runs`, `ontology show`, `ontology diff`, `ontology budget` and `evaluation-report`, and an export of the submission batch with the same 1,747 files and values. This was a rehearsal on a copy; it is not a record that the local database itself was migrated.
+Measured on 2026-11-14 on a restored copy of the local database (434,994 rows, 374,335 observations): upgrade about 6 seconds and downgrade about 8 seconds with `fsync` off, zero baseline differences in both directions, identical rows read through the old and new `store.py`, identical output from `link-lens usage`, `runs`, `ontology show`, `ontology diff`, `ontology budget` and `evaluation-report`, and an export of the submission batch with the same 1,747 files and values. The local database itself was then migrated the same day with the steps above: `0002` to `0008` in 8 seconds on PostgreSQL 17.12, zero baseline differences before and after the backend restart, and healthy backend, Agent Inbox and sandbox controller. No model call was made.
 
 ### Reproduce discovery and onboarding
 
