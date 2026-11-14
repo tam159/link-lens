@@ -604,3 +604,11 @@ def backfill_ontology():
     from . import backfill
 
     show(backfill.ontology())
+
+
+@backfill_app.command("spine")
+def backfill_spine():
+    """Copy artifacts, sources, snapshots, runs, mappings, approvals and observations."""
+    from . import backfill
+
+    show(backfill.evidence_spine())

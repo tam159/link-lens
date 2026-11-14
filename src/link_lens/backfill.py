@@ -3,11 +3,13 @@
 Each backfill is idempotent and verifies its own result before committing.
 """
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, text
 
-from . import store
+from . import blobs, store
 from . import ontology as ontologies
+from .db import catalog, copy_insert, evidence, onboarding
 from .db import ontology as registry
+from .db.records import same
 
 
 def ontology():
@@ -174,3 +176,176 @@ def ontology():
             },
             "ontology_hashes": registry.version_hashes(connection),
         }
+
+
+def _legacy(connection, name, where=None):
+    table = store.TABLES[name]
+    statement = select(table).order_by(table.c.created_at, table.c.id)
+    return connection.execute(
+        statement if where is None else statement.where(where)
+    ).all()
+
+
+def _copy_records(name, rows):
+    """Copy generic rows into a record table and verify each copy."""
+    target = store.RECORDS[name]
+    with store.engine().begin() as connection:
+        before = {key for key, *_ in target.records(connection)}
+        for row in rows:
+            if row.id not in before:
+                target.put(
+                    connection,
+                    row.id,
+                    row.payload,
+                    row.owner_id,
+                    row.kind,
+                    created_at=row.created_at,
+                )
+        copies = {key: rest for key, *rest in target.records(connection)}
+        for row in rows:
+            # A row copied by an earlier run may have changed since if its table
+            # is mutable; only what this run copied must equal its source.
+            if row.id in before and not target.append_only:
+                continue
+            owner, kind, payload, created_at = copies[row.id]
+            if not same(payload, row.payload) or (owner, kind, created_at) != (
+                row.owner_id,
+                row.kind,
+                row.created_at,
+            ):
+                raise ValueError(f"{name}/{row.id} does not read back as stored")
+        return {
+            "legacy": len(rows),
+            "copied": len(copies.keys() - before),
+            "typed": len(copies),
+            "not_in_typed_column": target.unresolved(connection),
+        }
+
+
+def evidence_spine(chunk=20000):
+    """Copy artifacts, sources, snapshots, runs, mappings, approvals and observations.
+
+    Runs in dependency order, is idempotent, and verifies that every copied
+    record reads back from the typed tables exactly as the legacy row holds it.
+    `not_in_typed_column` counts values a typed column could not hold, such as a
+    run's source that is not a registered source.
+    """
+    report = {}
+    with store.engine().connect() as connection:
+        artifacts = _legacy(connection, "artifacts")
+        legacy_rows = {
+            name: _legacy(connection, name)
+            for name in ("sources", "snapshots", "runs", "mappings", "approvals")
+        }
+
+    with store.engine().begin() as connection:
+        inserted = copy_insert(
+            connection,
+            catalog.artifact,
+            (
+                {
+                    "sha256": row.id,
+                    "uri": "local:" + blobs.relative(row.id),
+                    "media_type": row.payload["media_type"],
+                    "size": row.payload["size"],
+                    "name": row.payload["name"],
+                    "created_at": row.created_at,
+                }
+                for row in artifacts
+            ),
+        )
+        copies = {
+            key: payload
+            for key, _, _, payload, _ in catalog.artifact_records(connection)
+        }
+        for row in artifacts:
+            if not same(copies[row.id], row.payload):
+                raise ValueError(f"artifacts/{row.id} does not read back as stored")
+        report["artifacts"] = {
+            "legacy": len(artifacts),
+            "copied": inserted,
+            "typed": len(copies),
+        }
+
+    # A run may supersede an earlier run; copy the superseded ones first.
+    runs, placed, waiting = [], set(), list(legacy_rows["runs"])
+    while waiting:
+        ready = [
+            row
+            for row in waiting
+            if row.payload.get("supersedes_run_id") not in {r.id for r in waiting}
+            or row.payload.get("supersedes_run_id") == row.id
+        ] or waiting
+        runs.extend(ready)
+        placed.update(row.id for row in ready)
+        waiting = [row for row in waiting if row.id not in placed]
+    legacy_rows["runs"] = runs
+
+    store._prepare_mappings()
+    for name in ("sources", "snapshots", "runs", "mappings", "approvals"):
+        report[name] = _copy_records(name, legacy_rows[name])
+    with store.engine().connect() as connection:
+        report["mapping_configs"] = connection.execute(
+            select(func.count()).select_from(onboarding.mapping_config)
+        ).scalar_one()
+        report["mapping_fields"] = connection.execute(
+            select(func.count()).select_from(onboarding.mapping_field)
+        ).scalar_one()
+
+    legacy = store.TABLES["observations"]
+    root = store._root_hash()
+    with store.engine().begin() as connection:
+        for source in connection.execute(
+            select(legacy.c.payload["source_id"].astext).distinct()
+        ).scalars():
+            connection.execute(
+                text("SELECT evidence.ensure_source_partitions(:source)"),
+                {"source": source},
+            )
+    total = copied = with_extra = 0
+    extra_keys, last = {}, ""
+    while True:
+        with store.engine().begin() as connection:
+            rows = connection.execute(
+                select(legacy.c.id, legacy.c.payload)
+                .where(legacy.c.id > last)
+                .order_by(legacy.c.id)
+                .limit(chunk)
+            ).all()
+            if not rows:
+                break
+            last = rows[-1].id
+            total += len(rows)
+            copied += evidence.insert_observations(
+                connection, [row.payload for row in rows], root
+            )
+            typed = {
+                o["id"]: o
+                for o in evidence.observations(connection, [row.id for row in rows])
+            }
+            for row in rows:
+                if row.id not in typed or not same(typed[row.id], row.payload):
+                    raise ValueError(
+                        f"observations/{row.id} does not read back as stored"
+                    )
+            for row in connection.execute(
+                select(evidence.observation.c.extra).where(
+                    evidence.among(evidence.observation.c.id, [row.id for row in rows]),
+                    evidence.observation.c.extra != {},
+                )
+            ):
+                with_extra += 1
+                for key in row.extra:
+                    extra_keys[key] = extra_keys.get(key, 0) + 1
+    with store.engine().connect() as connection:
+        report["observations"] = {
+            "legacy": total,
+            "copied": copied,
+            "typed": evidence.count(connection),
+            "kept_outside_columns": with_extra,
+            "keys_kept_outside_columns": extra_keys,
+        }
+        report["source_records"] = connection.execute(
+            select(func.count()).select_from(evidence.source_record)
+        ).scalar_one()
+    return report

@@ -4,6 +4,9 @@ services:
     # Debian trixie build: the same glibc as the postgres:17 image that created
     # existing data volumes, so text indexes keep their collation version.
     image: pgvector/pgvector:pg17-trixie
+    # Parallel joins over the typed tables need more shared memory than Docker's
+    # 64 MB default.
+    shm_size: 256mb
     environment:
       POSTGRES_DB: linklens
       POSTGRES_USER: linklens

@@ -178,6 +178,7 @@ class RecordTable:
         counts = {}
         for row in connection.execute(self.statement()).mappings():
             for field in self.fields:
-                if field.key in row[self.extra] and row[field.column] is None:
+                held_as_json = row[self.extra].get(field.key) is not None
+                if held_as_json and row[field.column] is None:
                     counts[field.key] = counts.get(field.key, 0) + 1
         return counts

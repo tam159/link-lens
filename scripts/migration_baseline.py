@@ -6,9 +6,13 @@ generic tables (`public` before migration 0005, `legacy` after it).
     uv run python scripts/migration_baseline.py
     uv run python scripts/migration_baseline.py --check outputs/local-run/migration-baseline.json
 
+    uv run python scripts/migration_baseline.py --typed --check outputs/local-run/migration-baseline.json
+
 The first form writes `outputs/local-run/migration-baseline.json` and refuses to
 replace an existing file without `--force`. The second recomputes the baseline and
 compares it with a saved one; `generated_at` and `environment` are not compared.
+The third computes the same figures from the typed schemas, for the domains that
+have moved, and compares only those with the saved baseline.
 
 A digest is the SHA-256 of the values sorted by code point and joined by newlines.
 `payloads` digests `id:md5(payload::jsonb::text)`, PostgreSQL's canonical jsonb
@@ -231,15 +235,139 @@ def collect(connection):
     }
 
 
-def baseline(database_url):
+RECORD_TABLES = {
+    "sources": "catalog.source",
+    "snapshots": "catalog.snapshot",
+    "runs": "onboarding.run",
+    "mappings": "onboarding.mapping",
+    "approvals": "onboarding.approval",
+}
+
+
+def collect_typed(connection):
+    """The baseline figures that the typed schemas can answer.
+
+    Covers ontology versions, artifacts, sources, snapshots, runs, mappings,
+    approvals, source records and observations. Batches are still generic rows,
+    so a batch's runs come from `legacy.batches`.
+    """
+
+    def query(sql):
+        return connection.execute(text(sql)).all()
+
+    def grouped(rows):
+        summary = table_summary(rows)
+        del summary["payloads"]  # typed rows are not stored as one JSON text
+        return summary
+
+    tables = {
+        name: grouped(
+            query(f"SELECT id, kind, owner_id, '' AS payload_md5 FROM {table}")
+        )
+        for name, table in RECORD_TABLES.items()
+    }
+    tables["artifacts"] = grouped(
+        query(
+            "SELECT sha256_hex(sha256) AS id, '' AS kind, '' AS owner_id, "
+            "'' AS payload_md5 FROM catalog.artifact"
+        )
+    )
+    runs = query(
+        "SELECT id, kind, coalesce(experiment_id, '{unset}') AS experiment "
+        "FROM onboarding.run".format(unset=UNSET)
+    )
+    experiment_of = {r.id: r.experiment for r in runs}
+    mappings = query(
+        "SELECT id, owner_id AS run_id, sha256_hex(config_hash) AS config_hash "
+        "FROM onboarding.mapping"
+    )
+    approvals = query("SELECT id, owner_id AS run_id FROM onboarding.approval")
+    observations = query(
+        "SELECT sha256_hex(id) AS id, sha256_hex(config_hash) AS config_hash, "
+        "source_id || ':' || sha256_hex(record_id) AS record "
+        "FROM evidence.observation"
+    )
+    tables["observations"] = {
+        "rows": len(observations),
+        "ids": digest(r.id for r in observations),
+    }
+    batches = query(
+        "SELECT id, payload->'run_ids' AS run_ids FROM legacy.batches "
+        "WHERE kind IN ('pipeline', 'enhancement')"
+    )
+
+    run_of_config = {m.config_hash: m.run_id for m in mappings}
+    by_run, by_config = defaultdict(list), defaultdict(list)
+    for row in observations:
+        by_run[run_of_config.get(row.config_hash)].append(row)
+        by_config[row.config_hash].append(row.id)
+
+    def evidence(run_ids):
+        rows = [row for run_id in run_ids for row in by_run.get(run_id, [])]
+        return {
+            "observations": summary(r.id for r in rows),
+            "source_records": summary({r.record for r in rows}),
+        }
+
+    experiments = {}
+    for name in set(experiment_of.values()):
+        run_ids = [r.id for r in runs if r.experiment == name]
+        experiments[name] = {
+            "runs": dict(Counter(r.kind for r in runs if r.experiment == name)),
+            "mappings": summary(m.config_hash for m in mappings if m.run_id in run_ids),
+            "approvals": summary(a.id for a in approvals if a.run_id in run_ids),
+            **evidence(run_ids),
+        }
+    return {
+        "tables": tables,
+        "experiments": experiments,
+        "batches": {
+            batch.id: {
+                "runs": summary(batch.run_ids or []),
+                **evidence(batch.run_ids or []),
+            }
+            for batch in batches
+        },
+        "observations_by_config_hash": {
+            config: summary(ids) for config, ids in by_config.items()
+        },
+        "digests": {
+            "ontology_hashes": summary(
+                r.id
+                for r in query(
+                    "SELECT sha256_hex(hash) AS id FROM ontology.ontology_version"
+                )
+            ),
+            "config_hashes": summary(m.config_hash for m in mappings),
+            "observation_ids": summary(r.id for r in observations),
+            "observations_without_mapping": summary(r.id for r in by_run[None]),
+            "record_ids": summary(
+                r.record
+                for r in query(
+                    "SELECT source_id || ':' || sha256_hex(id) AS record "
+                    "FROM evidence.source_record"
+                )
+            ),
+        },
+    }
+
+
+def baseline(database_url, typed=False):
     engine = create_engine(database_url, poolclass=NullPool)
     try:
         with engine.connect().execution_options(
             isolation_level="REPEATABLE READ", postgresql_readonly=True
         ) as connection:
-            return collect(connection)
+            return (collect_typed if typed else collect)(connection)
     finally:
         engine.dispose()
+
+
+def covered(saved, current):
+    """The part of a saved baseline that `current` has figures for."""
+    if isinstance(saved, dict) and isinstance(current, dict):
+        return {k: covered(saved[k], current[k]) for k in current if k in saved}
+    return saved
 
 
 def comparable(value):
@@ -264,10 +392,17 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--check", type=Path, help="compare with a saved baseline")
+    parser.add_argument(
+        "--typed",
+        action="store_true",
+        help="compute from the typed schemas; needs --check",
+    )
     parser.add_argument("--force", action="store_true", help="replace --output")
     parser.add_argument("--database-url", help="default: LINK_LENS_DATABASE_URL")
     args = parser.parse_args(argv)
 
+    if args.typed and not args.check:
+        parser.error("--typed compares with a saved baseline; add --check FILE")
     if not args.check and args.output.exists() and not args.force:
         parser.error(f"{args.output} exists; use --check to compare or --force")
     url = args.database_url
@@ -275,10 +410,22 @@ def main(argv=None):
         from link_lens.settings import settings
 
         url = settings().database_url
-    current = baseline(url)
+    current = baseline(url, args.typed)
 
     if args.check:
         saved = json.loads(args.check.read_text())
+        if args.typed:
+            saved = covered(saved, current)
+            # A batch or experiment the typed schemas do not know is a difference.
+            for section in ("experiments", "batches", "observations_by_config_hash"):
+                current[section] = {
+                    **{k: None for k in json.loads(args.check.read_text())[section]},
+                    **current[section],
+                }
+                saved[section] = {
+                    **{k: None for k in current[section]},
+                    **saved[section],
+                }
         found = differences(comparable(saved), comparable(current))
         for line in found[:50]:
             print(line)

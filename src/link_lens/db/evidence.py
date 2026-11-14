@@ -18,9 +18,10 @@ from sqlalchemy import (
     Table,
     Text,
     and_,
+    any_,
     func,
+    literal,
     select,
-    tuple_,
 )
 from sqlalchemy.dialects.postgresql import JSONB
 
@@ -70,6 +71,11 @@ observation = Table(
     Column("extra", JSONB),
 )
 OBSERVATION_COLUMNS = [c.name for c in observation.columns]
+
+
+def among(column, values):
+    """`column = ANY(array)`: one array parameter, however many values."""
+    return column == any_(literal(list(values), ARRAY(column.type)))
 
 
 def stored_value(value):
@@ -181,7 +187,7 @@ def observations(connection, ids=None):
     """Stored observations as the extractor produced them, in ID order."""
     statement = _statement().order_by(observation.c.id)
     if ids is not None:
-        statement = statement.where(observation.c.id.in_(list(ids)))
+        statement = statement.where(among(observation.c.id, ids))
     for row in (
         connection.execution_options(stream_results=True).execute(statement).mappings()
     ):
@@ -219,7 +225,7 @@ def insert_observations(connection, items, root_hash):
         row.config_hash: row
         for row in connection.execute(
             select(config).where(
-                config.c.config_hash.in_({i["config_hash"] for i in items})
+                among(config.c.config_hash, {i["config_hash"] for i in items})
             )
         )
     }
@@ -328,13 +334,11 @@ def insert_observations(connection, items, root_hash):
     # A record already stored may belong to another snapshot with the same bytes;
     # what is derived must come from the stored record, not from this load.
     stored_records = {}
-    keys = list(records)
-    for start in range(0, len(keys), 5000):
+    for source in {source for source, _ in records}:
         for row in connection.execute(
             select(source_record).where(
-                tuple_(source_record.c.source_id, source_record.c.id).in_(
-                    keys[start : start + 5000]
-                )
+                source_record.c.source_id == source,
+                among(source_record.c.id, [k for s, k in records if s == source]),
             )
         ):
             stored_records[row.source_id, row.id] = row

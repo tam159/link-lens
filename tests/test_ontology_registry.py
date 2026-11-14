@@ -219,7 +219,7 @@ def test_promotion_needs_a_gate_run_without_failures(monkeypatch):
         ontology.activate(key, "experiment", "reviewer")
 
 
-def test_gate_checks_digest_and_additivity_and_leaves_later_checks_unknown(monkeypatch):
+def test_gate_without_linkml_still_checks_digest_additivity_and_impact(monkeypatch):
     import sys
 
     monkeypatch.setitem(sys.modules, "linkml", None)  # as if the group is not installed
@@ -230,7 +230,7 @@ def test_gate_checks_digest_and_additivity_and_leaves_later_checks_unknown(monke
         "linkml": "unknown",
         "additive": "pass",
         "shacl_observations": "unknown",
-        "impact": "unknown",
+        "impact": "pass",
         "open_ontologies": "unknown",
     }
     additive = next(c for c in report["checks"] if c["check"] == "additive")["detail"]
