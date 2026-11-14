@@ -9,6 +9,7 @@ sources, observations, evidence and the OKF tree.
 
 import base64
 import binascii
+import json
 
 from sqlalchemy import text
 
@@ -40,10 +41,22 @@ def decode(cursor):
         ) from error
 
 
-def page(rows, limit, key):
-    """Rows of one page and the cursor for the next, from `limit + 1` rows."""
+def page(rows, limit, key, budget=None):
+    """Rows of one page and the cursor for the next, from `limit + 1` rows.
+
+    `budget` is the most characters of JSON a page may hold. A page always has
+    its first row, and the rows left out come with the next cursor.
+    """
     more = len(rows) > limit
     rows = rows[:limit]
+    if budget is not None:
+        kept, size = [], 0
+        for row in rows:
+            size += len(json.dumps(dict(row), default=str))
+            if kept and size > budget:
+                break
+            kept.append(row)
+        more, rows = more or len(kept) < len(rows), kept
     return rows, encode(key(rows[-1])) if more and rows else None
 
 
@@ -142,6 +155,7 @@ def search_entities(
     type=None,
     cursor=None,
     limit=None,
+    budget=None,
 ):
     """Entities of a release, by any of name, ABN, ACN, state and entity type."""
     limit = bound(limit)
@@ -181,7 +195,7 @@ def search_entities(
         .mappings()
         .all()
     )
-    rows, following = page(rows, limit, lambda row: row["entity_id"])
+    rows, following = page(rows, limit, lambda row: row["entity_id"], budget)
     return {"entities": [entity(row) for row in rows], "next_cursor": following}
 
 
@@ -405,6 +419,7 @@ def list_observations(
     source=None,
     cursor=None,
     limit=None,
+    budget=None,
 ):
     """Source claims about an entity, from the sources this key may see."""
     limit = bound(limit)
@@ -458,7 +473,7 @@ def list_observations(
         .all()
     )
     rows, following = page(
-        rows, limit, lambda r: f"{r['source_id']}:{r['observation_id']}"
+        rows, limit, lambda r: f"{r['source_id']}:{r['observation_id']}", budget
     )
     return {"observations": [dict(row) for row in rows], "next_cursor": following}
 

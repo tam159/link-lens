@@ -33,6 +33,7 @@ from ..settings import settings
 INTERFACE = "mcp"
 PROBLEM = "application/problem+json"
 ENTITIES, OBSERVATIONS, ENTRIES, PAGES, MATCHES, LINES = 20, 25, 100, 50, 50, 400
+BUDGET = 20_000  # characters of JSON in one page of a list; the rest is a cursor away
 READ_ONLY = types.ToolAnnotations(
     read_only_hint=True,
     destructive_hint=False,
@@ -134,7 +135,9 @@ def data(model, key=None, concepts=True):
 @data(models.EntityList, concepts=False)
 def search_entities(connection, principal, release, **arguments):
     arguments.setdefault("limit", ENTITIES)
-    return queries.search_entities(connection, principal, release, **arguments)
+    return queries.search_entities(
+        connection, principal, release, budget=BUDGET, **arguments
+    )
 
 
 @data(models.ProfileSummary)
@@ -146,7 +149,7 @@ def get_profile(connection, principal, release, entity_id):
 def list_observations(connection, principal, release, entity_id, **arguments):
     arguments.setdefault("limit", OBSERVATIONS)
     return queries.list_observations(
-        connection, principal, release, entity_id, **arguments
+        connection, principal, release, entity_id, budget=BUDGET, **arguments
     )
 
 
@@ -246,8 +249,8 @@ TOOLS = [
         "state (such as NSW) and entity type. Identifiers match exactly, digits "
         "only. With no argument it lists every entity. Returns `entities` with "
         "`entity_id`, `display_name`, `identifiers`, `status` and `okf_path` (the "
-        f"entity's page for okf_read), {ENTITIES} a page, and `next_cursor` when "
-        "there are more. Use the `entity_id` with get_profile.",
+        f"entity's page for okf_read), at most {ENTITIES} a page, and `next_cursor` "
+        "when there are more. Use the `entity_id` with get_profile.",
         schema(
             {
                 "name": {"type": "string", "description": "Part of the name."},
@@ -295,7 +298,8 @@ TOOLS = [
         "`value`, `raw_value` as published, `source_id`, `observed_at` with "
         "`timestamp_basis` (`record`: the source states the date; `snapshot`: the "
         "date the dataset was published, which does not say when the value "
-        f"changed) and `licence`. {OBSERVATIONS} a page, with `next_cursor`.",
+        f"changed) and `licence`. At most {OBSERVATIONS} a page, fewer when the "
+        "values are long, with `next_cursor`.",
         schema(
             {
                 "entity_id": {"type": "string"},

@@ -201,7 +201,10 @@ async def test_file_tools_walk_the_same_release(released):  # noqa: F811
             "ontology/",
             "sources/",
         ]
-        assert "/entities/  (" in text_of(root) and "/index.md" in text_of(root)
+        assert "/entities/  (50 entries)" in text_of(root)
+        # The evidence folder has no index; it reports the pages beneath it.
+        assert "/evidence/  (200 entries)" in text_of(root)
+        assert "/index.md" in text_of(root)
 
         found = await session.call_tool("search_entities", {"limit": 1})
         entity = found.structured_content["entities"][0]
@@ -318,6 +321,18 @@ async def test_results_are_bounded_and_say_how_to_continue(released):  # noqa: F
             refused = await session.call_tool(name, arguments)
             assert refused.is_error and problem in text_of(refused), text_of(refused)
             assert refused.structured_content["error"]["status"] == 400
+
+
+def test_a_page_holds_what_fits_and_points_at_the_rest():
+    rows = [{"id": f"{n:02}", "value": "x" * 100} for n in range(10)]
+    kept, cursor = queries.page(rows, 9, lambda row: row["id"], budget=400)
+    assert [row["id"] for row in kept] == ["00", "01", "02"]
+    assert queries.decode(cursor) == "02"
+    # A row larger than the whole budget is still answered, alone.
+    kept, cursor = queries.page(rows, 9, lambda row: row["id"], budget=10)
+    assert [row["id"] for row in kept] == ["00"] and queries.decode(cursor) == "00"
+    kept, cursor = queries.page(rows[:3], 9, lambda row: row["id"], budget=10_000)
+    assert len(kept) == 3 and cursor is None
 
 
 def test_a_claim_with_many_values_lists_the_first_and_counts_the_rest():

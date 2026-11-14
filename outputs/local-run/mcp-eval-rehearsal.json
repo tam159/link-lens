@@ -1,0 +1,289 @@
+{
+  "release": 1,
+  "agent": "scripted plans, no model",
+  "tools": {
+    "data": [
+      "describe_concepts",
+      "get_evidence",
+      "get_profile",
+      "list_observations",
+      "search_entities"
+    ],
+    "files": [
+      "okf_find",
+      "okf_grep",
+      "okf_ls",
+      "okf_read"
+    ]
+  },
+  "subject": {
+    "abn": "11000614577",
+    "entity_id": "00fcbdec-ef20-5dd3-bdbf-c9c99c030df3",
+    "word": "SCHOLASTIC"
+  },
+  "tasks": [
+    {
+      "task": "Find a company by its ABN",
+      "agree": true,
+      "data": {
+        "answer": {
+          "entity_id": "00fcbdec-ef20-5dd3-bdbf-c9c99c030df3",
+          "name": "SCHOLASTIC AUSTRALIA PTY LIMITED"
+        },
+        "calls": 1,
+        "error": null
+      },
+      "files": {
+        "answer": {
+          "entity_id": "00fcbdec-ef20-5dd3-bdbf-c9c99c030df3",
+          "name": "SCHOLASTIC AUSTRALIA PTY LIMITED"
+        },
+        "calls": 2,
+        "error": null
+      }
+    },
+    {
+      "task": "Find companies by part of a name",
+      "agree": true,
+      "data": {
+        "answer": {
+          "entities": [
+            "00fcbdec-ef20-5dd3-bdbf-c9c99c030df3"
+          ]
+        },
+        "calls": 1,
+        "error": null
+      },
+      "files": {
+        "answer": {
+          "entities": [
+            "00fcbdec-ef20-5dd3-bdbf-c9c99c030df3"
+          ]
+        },
+        "calls": 1,
+        "error": null
+      }
+    },
+    {
+      "task": "Cite the source of its legal name",
+      "agree": true,
+      "data": {
+        "answer": {
+          "value": "SCHOLASTIC AUSTRALIA PTY LIMITED",
+          "cited": [
+            {
+              "observation_id": "7abc2a8255f710f305d598fa374f419adc391dc2bd1d3419020909319a96e1a3",
+              "source": "ASIC - Company Dataset",
+              "licence": "Creative Commons Attribution 3.0 Australia",
+              "row": 12158
+            }
+          ]
+        },
+        "calls": 2,
+        "error": null
+      },
+      "files": {
+        "answer": {
+          "value": "SCHOLASTIC AUSTRALIA PTY LIMITED",
+          "cited": [
+            {
+              "observation_id": "7abc2a8255f710f305d598fa374f419adc391dc2bd1d3419020909319a96e1a3",
+              "source": "ASIC - Company Dataset",
+              "licence": "Creative Commons Attribution 3.0 Australia",
+              "row": 12158
+            }
+          ]
+        },
+        "calls": 4,
+        "error": null
+      }
+    },
+    {
+      "task": "List the licence of each source",
+      "agree": true,
+      "data": {
+        "answer": {
+          "licences": [
+            [
+              "7b8656f9-606d-4337-af29-66b89b2eeefb",
+              "Creative Commons Attribution 3.0 Australia"
+            ],
+            [
+              "c2524c87-cea4-4636-acac-599a82048a26",
+              "Creative Commons Attribution 3.0 Australia"
+            ]
+          ]
+        },
+        "calls": 1,
+        "error": null
+      },
+      "files": {
+        "answer": {
+          "licences": [
+            [
+              "7b8656f9-606d-4337-af29-66b89b2eeefb",
+              "Creative Commons Attribution 3.0 Australia"
+            ],
+            [
+              "c2524c87-cea4-4636-acac-599a82048a26",
+              "Creative Commons Attribution 3.0 Australia"
+            ]
+          ]
+        },
+        "calls": 4,
+        "error": null
+      }
+    },
+    {
+      "task": "Explain a field that is not settled",
+      "agree": true,
+      "data": {
+        "answer": {
+          "concept": "entity.abn",
+          "status": "selected",
+          "decision": "Field-specific publisher role, then statement-vs-publication evidence, then most recent timestamp.",
+          "values": 0
+        },
+        "calls": 1,
+        "error": null
+      },
+      "files": {
+        "answer": {
+          "concept": "entity.abn",
+          "status": "selected",
+          "decision": "Field-specific publisher role, then statement-vs-publication evidence, then most recent timestamp.",
+          "values": 0
+        },
+        "calls": 2,
+        "error": null
+      }
+    },
+    {
+      "task": "State the profile's status and caveats",
+      "agree": true,
+      "data": {
+        "answer": {
+          "status": "profile_from_proposed_links",
+          "profile_version": "7ac098a20a1ad5a531df47e662e2cc8a80a855c47abd1947221298bd1e3b090a",
+          "uncertainties": [
+            "Identity links are rule proposals; manual precision is measured separately.",
+            "Confidence components are uncalibrated."
+          ]
+        },
+        "calls": 1,
+        "error": null
+      },
+      "files": {
+        "answer": {
+          "status": "profile_from_proposed_links",
+          "profile_version": "7ac098a20a1ad5a531df47e662e2cc8a80a855c47abd1947221298bd1e3b090a",
+          "uncertainties": [
+            "Identity links are rule proposals; manual precision is measured separately.",
+            "Confidence components are uncalibrated."
+          ]
+        },
+        "calls": 2,
+        "error": null
+      }
+    },
+    {
+      "task": "Give the state of each address",
+      "agree": true,
+      "data": {
+        "answer": {
+          "addresses": []
+        },
+        "calls": 1,
+        "error": null
+      },
+      "files": {
+        "answer": {
+          "addresses": []
+        },
+        "calls": 2,
+        "error": null
+      }
+    },
+    {
+      "task": "Say what a concept means",
+      "agree": true,
+      "data": {
+        "answer": {
+          "definition": "Australian Business Number. Has a checksum — validate it, do not just length-check.",
+          "datatype": "string",
+          "cardinality": "one"
+        },
+        "calls": 1,
+        "error": null
+      },
+      "files": {
+        "answer": {
+          "definition": "Australian Business Number. Has a checksum — validate it, do not just length-check.",
+          "datatype": "string",
+          "cardinality": "one"
+        },
+        "calls": 1,
+        "error": null
+      }
+    },
+    {
+      "task": "Give the raw value behind its ABN",
+      "agree": true,
+      "data": {
+        "answer": {
+          "observation_id": "804214ec61b32a3dac9d5746c3b3a37cd37ef80300890575ab14c2f37a5b8ef6",
+          "raw_value": [
+            "11000614577"
+          ],
+          "source_fields": [
+            "ABN"
+          ],
+          "row": 3269
+        },
+        "calls": 2,
+        "error": null
+      },
+      "files": {
+        "answer": {
+          "observation_id": "804214ec61b32a3dac9d5746c3b3a37cd37ef80300890575ab14c2f37a5b8ef6",
+          "raw_value": [
+            "11000614577"
+          ],
+          "source_fields": [
+            "ABN"
+          ],
+          "row": 3269
+        },
+        "calls": 3,
+        "error": null
+      }
+    },
+    {
+      "task": "Count the entities of the release",
+      "agree": true,
+      "data": {
+        "answer": {
+          "entities": 60
+        },
+        "calls": 1,
+        "error": null
+      },
+      "files": {
+        "answer": {
+          "entities": 60
+        },
+        "calls": 1,
+        "error": null
+      }
+    }
+  ],
+  "summary": {
+    "tasks": 10,
+    "agreed": 10,
+    "calls": {
+      "data": 12,
+      "files": 22
+    }
+  },
+  "url": "http://localhost:8101"
+}

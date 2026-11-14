@@ -83,7 +83,11 @@ def evidence_path(observation_id):
 
 
 def unsettled(fields):
-    """The first field that is not simply selected, else the first field."""
+    """The first field by name that is not simply selected, else the first field.
+
+    By name, because the two styles list a profile's fields in different orders.
+    """
+    fields = sorted(fields)
     for name, status in fields:
         if status != "selected":
             return name
@@ -359,9 +363,15 @@ async def evaluate(connect, abn=None, sleep=asyncio.sleep):
             "files": sorted(t.name for t in (await files.list_tools()).tools),
         }
         data, files = Agent(data, sleep), Agent(files, sleep)
-        found, _ = await data.call("search_entities", **({"abn": abn} if abn else {}))
+        # The subject is an entity with a name and an ABN: the one asked for, or
+        # the first of the release.
+        found, _ = await data.call(
+            "search_entities", limit=100, **({"abn": abn} if abn else {})
+        )
         entity = next(
-            e for e in found["entities"] if e["identifiers"].get("entity.abn")
+            e
+            for e in found["entities"]
+            if e["identifiers"].get("entity.abn") and e["display_name"]
         )
         words = re.findall(r"[A-Za-z]{4,}", entity["display_name"] or "")
         subject = {

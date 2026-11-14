@@ -46,12 +46,16 @@ def ls(connection, release_id, path="/", sources=None, cursor=None, limit=PAGE_L
     rows = connection.execute(
         text(
             f"""
-            SELECT name, bool_or(is_folder) AS is_folder, max(entry_count) AS entry_count,
+            SELECT name, bool_or(is_folder) AS is_folder,
+                   -- A folder holds what its index says, or the pages beneath it
+                   -- when it has no index, as the evidence folder has none.
+                   GREATEST(coalesce(max(entry_count), 0),
+                            count(*) FILTER (WHERE entry_count IS NULL))::int AS entry_count,
                    min(title) AS title
             FROM (
                 SELECT split_part(substr(path, :start), '/', 1) AS name,
                        position('/' IN substr(path, :start)) > 0 AS is_folder,
-                       1 AS entry_count, title
+                       NULL::int AS entry_count, title
                 FROM serving.okf_page
                 WHERE release_id = :release AND path LIKE :pattern {scope}
                 UNION ALL
