@@ -4,19 +4,23 @@ Read-only, separate from the pipeline and the review tools, and connected as
 the product database role. It is not mounted in `langgraph.json`.
 """
 
+import hmac
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, PlainTextResponse
 from starlette.exceptions import HTTPException
 
+from .. import logs
 from ..interfaces import mcp_server, rest
-from . import Problem
+from ..settings import settings
+from . import Problem, observe
 
 
 @asynccontextmanager
 async def lifespan(app):
+    logs.configure()
     async with mcp_server.running():
         yield
 
@@ -30,6 +34,7 @@ app = FastAPI(
         "its status, provenance, alternatives, score kind, timestamp basis and licence."
     ),
 )
+app.add_middleware(observe.Observe)
 app.include_router(rest.router)
 app.router.routes.extend(mcp_server.routes)
 PROBLEM = "application/problem+json"
@@ -68,3 +73,15 @@ async def http_problem(request: Request, error: HTTPException):
 def health():
     """Whether the service is up. No key needed; says nothing about data."""
     return {"status": "ok"}
+
+
+@app.get("/metrics", include_in_schema=False)
+def metrics(request: Request):
+    """Request counts and latency for a scraper that holds the metrics token."""
+    token = settings().metrics_token
+    given = request.headers.get("authorization", "")
+    if not token or not hmac.compare_digest(given, "Bearer " + token):
+        return problem(404, "Not Found")
+    return PlainTextResponse(
+        observe.metrics.render(), media_type="text/plain; version=0.0.4"
+    )

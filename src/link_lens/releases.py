@@ -5,6 +5,9 @@ and builds the OKF page, line and index rows for it in one transaction. A
 release never changes afterwards, and creating another does not touch it.
 """
 
+import hashlib
+import json
+
 from sqlalchemy import select, text
 
 from . import logs, ontology, store
@@ -71,6 +74,50 @@ def show(release_id=None):
             {"release": found["release_id"]},
         ).scalar_one()
     return {**found, "pages": dict(map(tuple, pages)), "index_pages": folders}
+
+
+def digest(release_id=None):
+    """A fingerprint of what a release serves, to compare two environments.
+
+    It covers the batch, the ontology version, every entity with its profile
+    version, and every page path. Two databases that give the same digest for a
+    release serve the same profiles and the same tree for it.
+    """
+    with store.engine().connect() as connection:
+        release = get(connection, release_id)
+        keys = {"release": release["release_id"]}
+        profiles = connection.execute(
+            text(
+                "SELECT entity_id, profile_version FROM serving.profile "
+                "WHERE release_id = :release ORDER BY entity_id"
+            ),
+            keys,
+        ).all()
+        pages = (
+            connection.execute(
+                text(
+                    "SELECT path FROM serving.okf_page WHERE release_id = :release ORDER BY path"
+                ),
+                keys,
+            )
+            .scalars()
+            .all()
+        )
+    stated = {
+        "batch_id": release["batch_id"],
+        "ontology_hash": release["ontology_hash"],
+        "profiles": [list(row) for row in profiles],
+        "pages": pages,
+    }
+    encoded = json.dumps(stated, sort_keys=True, separators=(",", ":")).encode()
+    return {
+        "release_id": release["release_id"],
+        "batch_id": release["batch_id"],
+        "ontology_hash": release["ontology_hash"],
+        "profiles": len(profiles),
+        "pages": len(pages),
+        "digest": hashlib.sha256(encoded).hexdigest(),
+    }
 
 
 def claim_lines(fields, suffix=""):

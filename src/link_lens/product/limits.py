@@ -1,8 +1,10 @@
-"""Limits per key: a rate per minute in this process, a quota per month in the database.
+"""Limits per key: a rate per minute and a quota per month.
 
-The rate limit is a token bucket held in memory, which is correct for one
-instance of the service. Usage is counted per key, day and interface; the
-monthly quota is the client's total across its keys.
+The rate limit is a token bucket. `DatabaseLimiter` keeps each key's bucket in
+PostgreSQL, so every instance of the service draws on the same one;
+`RateLimiter` keeps it in memory, which is correct for one instance. Usage is
+counted per key, day and interface; the monthly quota is the client's total
+across its keys.
 """
 
 import math
@@ -12,16 +14,17 @@ from datetime import UTC, datetime
 
 from sqlalchemy import text
 
+from ..settings import settings
 from . import Problem
 
 
 class RateLimiter:
-    """A token bucket per key: `per_minute` tokens, refilled evenly."""
+    """A token bucket per key in this process: `per_minute` tokens, refilled evenly."""
 
     def __init__(self, clock=time.monotonic):
         self.clock, self.buckets, self.lock = clock, {}, threading.Lock()
 
-    def take(self, key, per_minute):
+    def take(self, connection, key, per_minute):
         """Take one token. Returns None, or the seconds until one is available."""
         now = self.clock()
         with self.lock:
@@ -34,7 +37,58 @@ class RateLimiter:
             return None
 
 
-limiter = RateLimiter()
+# Tokens the bucket holds now: what it held, refilled for the time since.
+REFILLED = (
+    "LEAST(:rate, bucket.tokens + GREATEST(extract(epoch FROM "
+    "(COALESCE(CAST(:at AS timestamptz), clock_timestamp()) - bucket.updated_at)), 0) "
+    "* :rate / 60.0)"
+)
+TAKE = f"""
+    INSERT INTO access.rate_bucket AS bucket (key_id, tokens, updated_at)
+    VALUES (CAST(:key AS uuid), :rate - 1,
+            COALESCE(CAST(:at AS timestamptz), clock_timestamp()))
+    ON CONFLICT (key_id) DO UPDATE
+    SET tokens = {REFILLED} - 1,
+        updated_at = COALESCE(CAST(:at AS timestamptz), clock_timestamp())
+    WHERE {REFILLED} >= 1
+    RETURNING tokens
+"""
+WAIT = f"""
+    SELECT (1 - {REFILLED}) * 60.0 / :rate
+    FROM access.rate_bucket AS bucket WHERE key_id = CAST(:key AS uuid)
+"""
+
+
+class DatabaseLimiter:
+    """A token bucket per key in PostgreSQL, shared by every instance.
+
+    One statement refills and takes, so two instances cannot both take the last
+    token. Time is the database's own unless a clock is given, as tests do.
+    """
+
+    def __init__(self, clock=None):
+        self.clock = clock
+
+    def take(self, connection, key, per_minute):
+        at = None
+        if self.clock is not None:
+            at = datetime.fromtimestamp(self.clock(), UTC)
+        parameters = {"key": key, "rate": float(per_minute), "at": at}
+        if connection.execute(text(TAKE), parameters).first() is not None:
+            return None
+        return float(connection.execute(text(WAIT), parameters).scalar_one())
+
+
+# Set to a limiter to override the configured one, as tests do.
+limiter = None
+_configured = {}
+
+
+def configured():
+    kind = settings().rate_limit_store
+    if kind not in _configured:
+        _configured[kind] = DatabaseLimiter() if kind == "database" else RateLimiter()
+    return _configured[kind]
 
 
 def seconds_to_next_month(now):
@@ -49,7 +103,9 @@ def seconds_to_next_month(now):
 
 def enforce(connection, principal, interface, now=None):
     """Refuse a call that is over a limit; otherwise count it."""
-    wait = limiter.take(principal.key_id, principal.rate_per_minute)
+    wait = (limiter or configured()).take(
+        connection, principal.key_id, principal.rate_per_minute
+    )
     if wait is not None:
         raise Problem(
             429,

@@ -46,6 +46,7 @@ class Call:
 
 
 def call(
+    request: Request,
     response: Response,
     authorization: Annotated[str | None, Header()] = None,
     release: Annotated[
@@ -55,8 +56,9 @@ def call(
 ):
     # Counting the call is committed on its own, so it stands even if the
     # request then fails.
-    with db.session() as connection:
+    with db.writer() as connection:
         principal = auth.authenticate(connection, authorization, INTERFACE)
+        request.state.principal = principal  # for the request log, never the key
         limits.enforce(connection, principal, INTERFACE)
     with db.session() as connection:
         chosen = queries.resolve_release(connection, principal, release)

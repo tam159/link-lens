@@ -1,6 +1,7 @@
 from functools import lru_cache
 from pathlib import Path
 from typing import Literal
+
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -26,6 +27,17 @@ class Settings(BaseSettings):
     # gave it. A bundle in S3 gets a link signed by S3 instead.
     link_secret: str | None = None
     link_ttl_seconds: int = 300
+    # The product service. It authenticates, limits and counts on the primary,
+    # where a revoked key stops at once, and reads data from the replica when
+    # one is given. Both default to database_url. In production each is a login
+    # that is only a member of linklens_product.
+    product_database_url: str | None = None
+    product_replica_url: str | None = None
+    # "database" keeps each key's token bucket in PostgreSQL, right for any
+    # number of instances; "memory" keeps it in the process, right for one.
+    rate_limit_store: Literal["database", "memory"] = "database"
+    # /metrics answers only to this bearer token; unset, there is no /metrics.
+    metrics_token: str | None = None
     ontology_path: Path = Path("firmable_ontology.yaml")
     model: str = "gpt-6-luna"
     experiment_id: str = "jev-gpt6-luna-ontology-v1"

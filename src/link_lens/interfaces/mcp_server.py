@@ -460,7 +460,7 @@ def run(tool, principal, arguments):
     """Count the call, then answer it. Runs in a worker thread."""
     try:
         # Counting is committed on its own, so it stands if the call then fails.
-        with db.session() as connection:
+        with db.writer() as connection:
             limits.enforce(connection, principal, INTERFACE)
         errors = sorted(VALIDATORS[tool.name].iter_errors(arguments), key=str)
         if errors:
@@ -492,6 +492,7 @@ def build(name, toolsets):
 
     async def call_tool(ctx, params):
         principal = ctx.request.state.principal
+        ctx.request.state.tool = params.name  # for the request log
         tool = shown(principal, toolsets).get(params.name)
         if tool is None:
             raise MCPError(types.INVALID_PARAMS, f"Unknown tool: {params.name}")
@@ -523,7 +524,7 @@ def refusal(problem):
 
 
 def principal_for(authorization, toolsets):
-    with db.session() as connection:
+    with db.writer() as connection:
         principal = auth.authenticate(connection, authorization, INTERFACE)
     if not principal.toolsets & frozenset(toolsets):
         raise Problem(

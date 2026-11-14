@@ -76,11 +76,15 @@ class S3BlobStore:
         self.client().put_object(Bucket=self.bucket, Key=self.key(sha), Body=data)
         return self.uri(sha)
 
+    def fetch(self, uri):
+        """The bytes at a URI, straight from the bucket."""
+        bucket, _, key = uri.removeprefix("s3://").partition("/")
+        return self.client().get_object(Bucket=bucket, Key=key)["Body"].read()
+
     def path(self, uri, sha):
         path = self.cache / relative(sha)
         if not path.is_file():
-            bucket, _, key = uri.removeprefix("s3://").partition("/")
-            data = self.client().get_object(Bucket=bucket, Key=key)["Body"].read()
+            data = self.fetch(uri)
             if hashlib.sha256(data).hexdigest() != sha:
                 raise ValueError(f"Artifact {sha} does not match its hash in {uri}")
             path.parent.mkdir(parents=True, exist_ok=True)

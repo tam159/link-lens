@@ -263,10 +263,12 @@ def test_each_recent_migration_steps_down_and_up_again(empty_database):
     views = "SELECT viewname FROM pg_views WHERE schemaname = 'serving'"
     with engine.connect() as connection:
         assert sorted(scalars(connection, views)) == sorted(serving.MODELS)
-    for revision in ("-1", "0018", "0017"):
+    for revision, dropped in (("-1", False), ("0019", True), ("0017", True)):
         migrate(empty_database, revision, "downgrade")
         with engine.connect() as connection:
-            assert scalars(connection, views) == []
+            # A migration that a view reads from drops the views on its way down.
+            left = scalars(connection, views)
+            assert left == [] if dropped else sorted(left) == sorted(serving.MODELS)
         migrate(empty_database)
         with engine.connect() as connection:
             assert sorted(scalars(connection, views)) == sorted(serving.MODELS)

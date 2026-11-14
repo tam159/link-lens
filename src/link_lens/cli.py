@@ -7,9 +7,8 @@ import typer
 from langgraph_sdk import get_sync_client
 
 from . import evaluation, exports, ingestion, store
-from .contracts import SourceRequest, StrictModel
+from .contracts import SourceRequest, StrictModel, content_hash
 from .settings import settings
-from .contracts import content_hash
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -804,6 +803,35 @@ def release_export(output: Path, release_id: int | None = None):
 
     written = bundle.write(release_id, output)
     show({**written, **exports.check_bundle(output)})
+
+
+@release_app.command("digest")
+def release_digest(release_id: int | None = typer.Argument(None)):
+    """A fingerprint of what a release serves, to compare two environments."""
+    from . import releases
+
+    show(releases.digest(release_id))
+
+
+artifacts_app = typer.Typer(help="Artifact bytes and where they are stored.")
+app.add_typer(artifacts_app, name="artifacts")
+
+
+@artifacts_app.command("migrate")
+def artifacts_migrate(
+    limit: int | None = typer.Option(None, "--limit", help="Move at most this many."),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Check, copy nothing."),
+):
+    """Copy local artifacts to the configured object store, verifying each hash."""
+    from . import artifacts
+
+    try:
+        moved = artifacts.migrate(limit, dry_run)
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+    show(moved)
+    if moved["missing"] or moved["mismatched"]:
+        raise typer.Exit(EXIT_BLOCKED)
 
 
 scope_app = typer.Typer(help="Named bundle scopes: bounded lists of entities.")
