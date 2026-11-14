@@ -240,7 +240,11 @@ def test_roles_have_only_their_privileges(database):
         assert allowed(connection, "linklens_pipeline", write.format("ops"))
         assert allowed(connection, "linklens_pipeline", read.format("ops"))
         assert not allowed(connection, "linklens_pipeline", "DELETE FROM ops.probe")
-        assert not allowed(connection, "linklens_pipeline", read.format("serving"))
+        # The pipeline builds a release's OKF rows in serving but never edits them.
+        assert allowed(connection, "linklens_pipeline", read.format("serving"))
+        assert not allowed(
+            connection, "linklens_pipeline", "UPDATE serving.probe SET note = 'y'"
+        )
         assert allowed(connection, "linklens_product", read.format("serving"))
         assert not allowed(connection, "linklens_product", write.format("serving"))
         assert not allowed(connection, "linklens_product", read.format("ops"))

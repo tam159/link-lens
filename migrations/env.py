@@ -21,6 +21,12 @@ def run(connection):
     )
     with context.begin_transaction():
         context.run_migrations()
+    # Serving views are defined by SQL files, not by migrations; refresh them
+    # whenever the schema they read from is in place.
+    from link_lens import serving
+
+    serving.apply(connection)
+    connection.commit()
 
 
 supplied = config.attributes.get("connection")

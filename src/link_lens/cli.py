@@ -676,6 +676,59 @@ def source_drift(source_id: str, snapshot_id: str | None = None):
         raise typer.Exit(EXIT_BLOCKED)
 
 
+release_app = typer.Typer(help="Releases: what clients see, recorded by a person.")
+app.add_typer(release_app, name="release")
+
+
+@release_app.command("create")
+def release_create(
+    batch_id: str = typer.Option(..., "--batch-id"),
+    reviewer: str = typer.Option(..., "--reviewer"),
+    notes: str | None = typer.Option(None, "--notes"),
+):
+    """Record a release of a batch and build its OKF tree. Never run by a pipeline."""
+    from . import releases
+
+    try:
+        show(releases.create(batch_id, reviewer, notes))
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+
+
+@release_app.command("list")
+def release_list():
+    from . import releases
+
+    show(releases.listing())
+
+
+@release_app.command("show")
+def release_show(release_id: int | None = None):
+    """A release and the pages built for it. Without an ID, the latest release."""
+    from . import releases
+
+    show(releases.show(release_id))
+
+
+@release_app.command("export")
+def release_export(output: Path, release_id: int | None = None):
+    """Write a release's OKF tree to a folder and check its links."""
+    from . import exports
+    from .okf import bundle
+
+    written = bundle.write(release_id, output)
+    show({**written, **exports.check_bundle(output)})
+
+
+@app.command("serving-apply")
+def serving_apply():
+    """Create or refresh the serving views from their SQL files."""
+    from . import serving
+
+    with store.engine().begin() as connection:
+        show({"changed": serving.apply(connection)})
+
+
 def main():
     """Console entry point: run the command and log how it ended.
 

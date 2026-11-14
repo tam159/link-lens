@@ -32,9 +32,8 @@ def test_okf_matches_profiles_with_no_broken_links(tmp_path, spec, snapshot):
     root = tmp_path / "okf"
     stats = okf_export({"observations": obs, "profiles": profiles}, sources, root)
     assert stats["broken_links"] == 0
-    dossier = (
-        root / "entities" / f"{profiles[0]['canonical_entity_key']}.md"
-    ).read_text()
+    key = profiles[0]["canonical_entity_key"]
+    dossier = (root / "entities" / key[:2] / f"{key}.md").read_text()
     serialized = dossier.split("```json\n")[1].split("\n```")[0]
     assert json.loads(serialized) == profiles[0]
     assert store.blob_path(stats["viewer_artifact"]).exists()
