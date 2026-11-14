@@ -5,7 +5,10 @@ SELECT release.id AS release_id,
        field.position,
        field.concept_name AS concept,
        field.status,
-       field.value,
+       -- The value as the profile states it, which may be a number. `value_text`
+       -- is the same value when it is text, and is what search matches on.
+       field.detail -> 'value' AS value,
+       field.value AS value_text,
        field.detail -> 'values' AS "values",
        field.observation_source_id,
        sha256_hex(field.observation_id) AS observation_id,

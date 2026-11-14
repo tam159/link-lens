@@ -127,7 +127,7 @@ def entity(row):
 
 FIELD_MATCH = (
     " AND EXISTS (SELECT 1 FROM serving.profile_field AS f WHERE f.release_id = e.release_id "
-    "AND f.entity_id = e.entity_id AND f.concept = '{concept}' AND f.value = :{name})"
+    "AND f.entity_id = e.entity_id AND f.concept = '{concept}' AND f.value_text = :{name})"
 )
 
 
@@ -289,28 +289,49 @@ def list_observations(
     limit=None,
 ):
     """Source claims about an entity, from the sources this key may see."""
-    get_entity(connection, principal, release, entity_id)
     limit = bound(limit)
-    scope, parameters = in_scope(principal)
+    records = connection.execute(
+        text(
+            "SELECT source_records FROM serving.profile "
+            "WHERE release_id = :release AND entity_id = :entity"
+        ),
+        {"release": release["release_id"], "entity": entity_id},
+    ).first()
+    if records is None:
+        raise not_found(f"Entity {entity_id}")
+    # The entity's records are named by its profile; looking observations up by
+    # record reads a few index entries instead of every claim of the release.
+    wanted = [
+        pair
+        for pair in records.source_records or []
+        if (principal.sources is None or pair[0] in principal.sources)
+        and (source is None or pair[0] == source)
+        and is_sha256(pair[1])
+    ]
     after_source, _, after_id = decode(cursor).rpartition(":")
     sql = (
         f"SELECT {OBSERVATION} FROM serving.observation WHERE release_id = :release "
-        "AND entity_id = :entity AND (source_id, observation_id) > (:after_source, :after_id)"
-        + scope
+        # The two array conditions are what the indexes and partition pruning
+        # use, and the pair condition keeps a record of one source from matching
+        # a record of the same key in another.
+        "AND source_id = ANY (CAST(:sources AS text[])) "
+        "AND record_key = ANY (CAST(:keys AS bytea[])) "
+        "AND (source_id, record_id) IN "
+        "(SELECT * FROM unnest(CAST(:sources AS text[]), CAST(:records AS text[]))) "
+        "AND (source_id, observation_id) > (:after_source, :after_id)"
     )
-    parameters.update(
-        release=release["release_id"],
-        entity=entity_id,
-        after_source=after_source,
-        after_id=after_id,
-        limit=limit + 1,
-    )
+    parameters = {
+        "release": release["release_id"],
+        "sources": [pair[0] for pair in wanted],
+        "records": [pair[1] for pair in wanted],
+        "keys": [bytes.fromhex(pair[1]) for pair in wanted],
+        "after_source": after_source,
+        "after_id": after_id,
+        "limit": limit + 1,
+    }
     if concept:
         sql += " AND concept = :concept"
         parameters["concept"] = concept
-    if source:
-        sql += " AND source_id = :source"
-        parameters["source"] = source
     rows = (
         connection.execute(
             text(sql + " ORDER BY source_id, observation_id LIMIT :limit"), parameters

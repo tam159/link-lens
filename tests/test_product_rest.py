@@ -1,6 +1,7 @@
 """Contract tests for the product service: access, limits, every REST route."""
 
 import json
+from copy import deepcopy
 from datetime import UTC, datetime
 
 import pytest
@@ -728,3 +729,25 @@ def test_cli_manages_tiers_clients_keys_and_usage(released, api):
     assert api.get("/v1/sources", headers=headers).status_code == 401
     assert runner.invoke(cli, ["access", "key", "revoke", "unknown"]).exit_code == 2
     assert created["key"] not in runner.invoke(cli, ["access", "usage"]).output
+
+
+def test_a_numeric_profile_value_is_answered_as_a_number(released, api, headers):
+    profile = deepcopy(store.listing("profiles", owner=released["batch_id"])[0])
+    entity_id = "entity-with-a-number"
+    profile["canonical_entity_key"] = entity_id
+    profile["fields"]["entity.abn"]["value"] = 41
+    store.put(
+        "profiles",
+        f"{released['batch_id']}:{entity_id}",
+        profile,
+        owner=released["batch_id"],
+    )
+
+    answer = api.get(f"/v1/entities/{entity_id}/profile", headers=headers).json()
+    values = {field["concept"]: field["value"] for field in answer["fields"]}
+    assert values["entity.abn"] == 41
+    assert values["entity.legal_name"] == profile["fields"]["entity.legal_name"]["value"]
+
+    # Search matches the text of a value, and a number has no text to match.
+    found = api.get("/v1/entities", params={"abn": "41"}, headers=headers).json()
+    assert entity_id not in [entity["entity_id"] for entity in found["entities"]]
