@@ -4,15 +4,25 @@ Read-only, separate from the pipeline and the review tools, and connected as
 the product database role. It is not mounted in `langgraph.json`.
 """
 
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException
 
-from ..interfaces import rest
+from ..interfaces import mcp_server, rest
 from . import Problem
 
+
+@asynccontextmanager
+async def lifespan(app):
+    async with mcp_server.running():
+        yield
+
+
 app = FastAPI(
+    lifespan=lifespan,
     title="Link Lens",
     version="1",
     description=(
@@ -21,6 +31,7 @@ app = FastAPI(
     ),
 )
 app.include_router(rest.router)
+app.router.routes.extend(mcp_server.routes)
 PROBLEM = "application/problem+json"
 
 

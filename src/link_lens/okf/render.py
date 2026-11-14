@@ -122,6 +122,8 @@ def render_entity(profile, claims, generated_at):
             "generated": generated(generated_at),
             "status": "draft",
             "profile_version": profile["profile_version"],
+            # The ID the data tools and REST take, so a reader can switch style.
+            "entity_id": profile["canonical_entity_key"],
             "sources": [
                 {"resource": link(page, source_path(source))}
                 for source in sorted({r[0] for r in profile["source_records"]})
@@ -145,6 +147,7 @@ def render_evidence(observation, generated_at):
             "description": "A source claim, not independent proof of identity.",
             "generated": generated(generated_at),
             "tags": ["evidence"],
+            "observation_id": observation["id"],
             "sources": [{"resource": source}],
         },
         "[Source](" + source + ")\n\n```json\n" + dump(observation) + "\n```",

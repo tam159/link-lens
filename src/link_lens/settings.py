@@ -17,6 +17,9 @@ class Settings(BaseSettings):
     artifact_bucket: str | None = None
     artifact_prefix: str = ""
     artifact_endpoint_url: str | None = None
+    # Host names the MCP endpoints answer to, such as "data.example.com". Empty
+    # leaves the Host header to the proxy in front; every call needs a key either way.
+    mcp_allowed_hosts: list[str] = []
     ontology_path: Path = Path("firmable_ontology.yaml")
     model: str = "gpt-6-luna"
     experiment_id: str = "jev-gpt6-luna-ontology-v1"

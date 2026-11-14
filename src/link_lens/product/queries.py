@@ -270,6 +270,124 @@ def get_profile(connection, principal, release, entity_id):
     }
 
 
+SHOWN = 10  # values or alternatives of one claim that a profile summary lists
+CONFIDENCE_KIND = "uncalibrated mapping/source judgements"
+
+
+def cite(entry):
+    """What identifies a piece of evidence, without repeating the claim it backs."""
+    return {
+        "observation_id": entry.get("id"),
+        "source_id": entry.get("source_id"),
+        "observed_at": entry.get("observed_at"),
+        "observed_at_basis": entry.get("observed_at_basis"),
+    }
+
+
+def option(entry):
+    return {
+        "value": entry.get("value"),
+        "confidence": entry.get("confidence"),
+        "evidence": [cite(e) for e in entry.get("provenance") or []],
+    }
+
+
+def claim(concept, field):
+    """A profile field with its evidence cited by ID instead of quoted."""
+    values, alternatives = field.get("values"), field.get("alternatives") or []
+    return {
+        "concept": concept,
+        "status": field.get("status"),
+        "value": field.get("value"),
+        "values": None if values is None else [option(v) for v in values[:SHOWN]],
+        "values_total": None if values is None else len(values),
+        "decision": field.get("decision"),
+        "temporal_caveat": field.get("temporal_caveat"),
+        "confidence": field.get("confidence"),
+        "confidence_kind": CONFIDENCE_KIND,
+        "evidence": [cite(e) for e in field.get("provenance") or []],
+        "alternatives": [option(a) for a in alternatives[:SHOWN]],
+        "alternatives_total": len(alternatives),
+    }
+
+
+def cited_sources(claims):
+    for item in claims:
+        for entry in item["evidence"]:
+            yield entry["source_id"]
+        for chosen in (item["values"] or []) + item["alternatives"]:
+            for entry in chosen["evidence"]:
+                yield entry["source_id"]
+
+
+def get_profile_summary(connection, principal, release, entity_id):
+    """A profile sized for an agent: every claim, its evidence cited by ID.
+
+    The values, statuses, decisions and alternatives are those of `get_profile`.
+    What is left out is the copy of each observation that a profile quotes
+    (raw locator, record, repeated value); `get_evidence` returns it for an ID.
+    A claim with many values lists the first `SHOWN` and says how many there are.
+    """
+    profile = get_profile(connection, principal, release, entity_id)
+    fields = [claim(field["concept"], field) for field in profile["fields"]]
+    addresses = [
+        {
+            "role": address["role"],
+            "source_id": address["source_id"],
+            "record_id": address["record_id"],
+            "fields": [claim(name, f) for name, f in (address["fields"] or {}).items()],
+        }
+        for address in profile["addresses"]
+    ]
+    groups = [
+        {
+            "group_id": group.get("id"),
+            "scope": group.get("scope"),
+            "source_id": group.get("source_id"),
+            "record_id": group.get("source_record_id"),
+            "decision": group.get("decision"),
+            "fields": [
+                claim(name, f) for name, f in (group.get("fields") or {}).items()
+            ],
+        }
+        for group in profile["groups"]
+    ]
+    parts = addresses + groups
+    cited = set(cited_sources(fields + [f for part in parts for f in part["fields"]]))
+    cited |= {part["source_id"] for part in parts if part["source_id"]}
+    rows = connection.execute(
+        text(
+            "SELECT source_id, title, licence, licence_title, licence_url "
+            "FROM serving.source WHERE release_id = :release "
+            "AND source_id = ANY (CAST(:sources AS text[])) ORDER BY source_id"
+        ),
+        {"release": release["release_id"], "sources": sorted(cited)},
+    ).mappings()
+    return {
+        "entity_id": profile["entity_id"],
+        "profile_version": profile["profile_version"],
+        "status": profile["status"],
+        "uncertainties": profile["uncertainties"],
+        "fields": fields,
+        "addresses": addresses,
+        "groups": groups,
+        # A licence is owed for every source a value came from, whatever the
+        # key's scope. The title of a source outside the scope is not given.
+        "sources": [
+            {
+                "source_id": row["source_id"],
+                "title": row["title"]
+                if principal.sources is None or row["source_id"] in principal.sources
+                else None,
+                "licence": row["licence"] or row["licence_title"] or "unknown",
+                "licence_url": row["licence_url"],
+            }
+            for row in rows
+        ],
+        "okf_path": profile["okf_path"],
+    }
+
+
 OBSERVATION = (
     "observation_id, source_id, record_id, entity_id, concept, value, raw_value, "
     "source_fields, group_name, field_confidence, source_reliability, confidence_kind, "

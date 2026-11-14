@@ -90,6 +90,7 @@ def entity_lines(profile):
         "title: " + render.profile_title(profile),
         "status: draft",
         "profile_version: " + profile["profile_version"],
+        "entity_id: " + profile["canonical_entity_key"],
     ]
     lines += claim_lines(profile.get("fields") or {})
     for address in profile.get("addresses") or []:
@@ -190,6 +191,7 @@ def build(connection, release):
                 ["evidence"],
                 [
                     "type: Field Observation",
+                    f"observation_id: {row.id}",
                     f"{row.name}: {row.value}",
                     f"source: {row.source_id}",
                 ],

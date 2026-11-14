@@ -85,6 +85,71 @@ class Profile(Model):
     okf_path: str
 
 
+class Citation(Model):
+    observation_id: str
+    source_id: str
+    observed_at: str | None
+    observed_at_basis: str | None
+
+
+class Option(Model):
+    value: Any
+    confidence: dict[str, Any] | None
+    evidence: list[Citation]
+
+
+class Claim(Model):
+    concept: Concept
+    status: str
+    value: Any
+    values: list[Option] | None
+    values_total: int | None
+    decision: str | None
+    temporal_caveat: str | None
+    confidence: dict[str, Any] | None
+    confidence_kind: str
+    evidence: list[Citation]
+    alternatives: list[Option]
+    alternatives_total: int
+
+
+class ClaimSet(Model):
+    """Claims that one source record makes together: an address or a group."""
+
+    source_id: str | None
+    record_id: str | None
+    fields: list[Claim]
+
+
+class AddressSummary(ClaimSet):
+    role: str | None
+
+
+class GroupSummary(ClaimSet):
+    group_id: str | None
+    scope: str | None
+    decision: str | None
+
+
+class CitedSource(Model):
+    source_id: str
+    title: str | None
+    licence: str
+    licence_url: str | None
+
+
+class ProfileSummary(Model):
+    entity_id: str
+    profile_version: str
+    status: str
+    uncertainties: list[Any]
+    fields: list[Claim]
+    addresses: list[AddressSummary]
+    groups: list[GroupSummary]
+    sources: list[CitedSource]
+    okf_path: str
+
+
 class Observation(Model):
     observation_id: str
     source_id: str
