@@ -100,8 +100,13 @@ def escape(value):
     return value.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
 
 
-def render_page(connection, release, page):
-    """The text of one stored page."""
+def render_page(connection, release, page, cache=None):
+    """The text of one stored page.
+
+    `cache` is a dict a caller may share between pages of one release, so the
+    ontology document is read once for many concept pages.
+    """
+    cache = {} if cache is None else cache
     at = release["released_at"]
     if page.type == "Business Profile":
         profile = identity.profile
@@ -127,17 +132,22 @@ def render_page(connection, release, page):
         ).all()
         return render.render_entity(payload, [tuple(c) for c in claims], at)
     if page.type == "Field Observation":
-        found = list(evidence.observations(connection, [page.observation_id]))
+        found = list(
+            evidence.observations(
+                connection, [page.observation_id], page.observation_source_id
+            )
+        )
         return render.render_evidence(found[0], at)
     if page.type == "Public Data Source":
         return render.render_source(catalog.sources.get(connection, page.source_id), at)
-    document = registry.document(connection, release["ontology_hash"])
+    if "ontology" not in cache:
+        cache["ontology"] = registry.document(connection, release["ontology_hash"])
     return render.render_concept(
-        document["concepts"][page.concept_name], release["ontology_hash"], at
+        cache["ontology"]["concepts"][page.concept_name], release["ontology_hash"], at
     )
 
 
-def page_text(connection, release, path, sources=None):
+def page_text(connection, release, path, sources=None, cache=None):
     scope, parameters = visible(sources)
     release_id = release["release_id"]
     if path == render.ROOT_INDEX or path.endswith("/index.md"):
@@ -155,14 +165,15 @@ def page_text(connection, release, path, sources=None):
         return index.page(parent, [index.Row(*row) for row in rows])
     page = connection.execute(
         text(
-            "SELECT type, entity_id, source_id, sha256_hex(observation_id) AS observation_id, "
-            f"concept_name FROM serving.okf_page WHERE release_id = :release AND path = :path {scope}"
+            "SELECT type, entity_id, source_id, observation_source_id, "
+            "sha256_hex(observation_id) AS observation_id, concept_name "
+            f"FROM serving.okf_page WHERE release_id = :release AND path = :path {scope}"
         ),
         {"release": release_id, "path": path, **parameters},
     ).first()
     if page is None:
         raise KeyError(f"{path} not found")
-    return render_page(connection, release, page)
+    return render_page(connection, release, page, cache)
 
 
 def read(connection, release_id, path, sources=None, offset=0, limit=None):
@@ -186,6 +197,23 @@ def read(connection, release_id, path, sources=None, offset=0, limit=None):
     }
 
 
+FIND = (
+    "SELECT path, type, title, description, tags, status, entity_id, source_id "
+    "FROM serving.okf_page WHERE release_id = :release AND path LIKE :pattern "
+    "AND path > :cursor "
+    "AND (CAST(:type AS text) IS NULL OR type = :type) "
+    "AND (CAST(:status AS text) IS NULL OR status = :status) "
+    "AND (CAST(:tags AS text[]) IS NULL OR tags @> :tags) {scope} "
+    "ORDER BY path LIMIT :limit"
+)
+GREP = (
+    "SELECT path, line_no, line FROM serving.okf_line "
+    "WHERE release_id = :release AND path LIKE :pattern AND line ~ :expression "
+    "AND (path, line_no) > (:after_path, :after_line) {scope} "
+    "ORDER BY path, line_no LIMIT :limit"
+)
+
+
 def find(
     connection,
     release_id,
@@ -201,15 +229,7 @@ def find(
     path, limit = folder(path), bound(limit)
     scope, parameters = visible(sources)
     rows = connection.execute(
-        text(
-            "SELECT path, type, title, description, tags, status, entity_id, source_id "
-            "FROM serving.okf_page WHERE release_id = :release AND path LIKE :pattern "
-            "AND path > :cursor "
-            "AND (CAST(:type AS text) IS NULL OR type = :type) "
-            "AND (CAST(:status AS text) IS NULL OR status = :status) "
-            f"AND (CAST(:tags AS text[]) IS NULL OR tags @> :tags) {scope} "
-            "ORDER BY path LIMIT :limit"
-        ),
+        text(FIND.format(scope=scope)),
         {
             "release": release_id,
             "pattern": escape("/" if path == "/" else path + "/") + "%",
@@ -241,12 +261,7 @@ def grep(connection, release_id, pattern, path, sources=None, cursor=None, limit
     scope, parameters = visible(sources)
     after_path, _, after_line = (cursor or ":0").rpartition(":")
     rows = connection.execute(
-        text(
-            "SELECT path, line_no, line FROM serving.okf_line "
-            "WHERE release_id = :release AND path LIKE :pattern AND line ~ :expression "
-            f"AND (path, line_no) > (:after_path, :after_line) {scope} "
-            "ORDER BY path, line_no LIMIT :limit"
-        ),
+        text(GREP.format(scope=scope)),
         {
             "release": release_id,
             "pattern": escape(path + "/") + "%",

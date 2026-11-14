@@ -183,14 +183,20 @@ def _statement():
     )
 
 
-def observations(connection, ids=None):
-    """Stored observations as the extractor produced them, in ID order."""
+def observations(connection, ids=None, source_id=None):
+    """Stored observations as the extractor produced them, in ID order.
+
+    Naming the source of the wanted IDs lets the lookup read one partition.
+    """
     statement = _statement().order_by(observation.c.id)
+    if source_id is not None:
+        statement = statement.where(observation.c.source_id == source_id)
     if ids is not None:
         statement = statement.where(among(observation.c.id, ids))
-    for row in (
-        connection.execution_options(stream_results=True).execute(statement).mappings()
-    ):
+    else:
+        # Everything: stream it instead of holding the whole table in memory.
+        connection = connection.execution_options(stream_results=True)
+    for row in connection.execute(statement).mappings():
         yield payload(row)
 
 

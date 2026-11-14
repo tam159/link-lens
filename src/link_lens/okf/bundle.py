@@ -35,8 +35,9 @@ def write(release_id, root, sources=None):
             parameters,
         ).scalars()
         paths += [render.index_path(parent) for parent in folders]
+        cache = {}
         for path in paths:
             target = root / path.lstrip("/")
             target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_text(tree.page_text(connection, release, path, sources))
+            target.write_text(tree.page_text(connection, release, path, sources, cache))
     return {**release, "files": len(paths), "root": str(root)}

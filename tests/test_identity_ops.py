@@ -49,7 +49,15 @@ def assembled(spec, snapshot, sources=("source-a", "source-b")):
     runs = []
     for source in sources:
         snap = {**snapshot, "id": source + "-snapshot", "source_id": source}
-        store.put("sources", source, {"id": source, "metadata": {"title": "Fixture"}})
+        store.put(
+            "sources",
+            source,
+            {
+                "id": source,
+                "portal": "https://data.gov.au/data",
+                "metadata": {"title": "Fixture", "license_title": "CC BY"},
+            },
+        )
         store.put("snapshots", snap["id"], snap)
         run = new_run({"id": source, "slug": source}, snap)
         spec.ontology_hash = run["ontology_hash"]
