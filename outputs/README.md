@@ -6,6 +6,8 @@
 
 All six generated mappings were human-approved. The submission contains **60 profiles, 61 proposed links and 79,840 observation occurrences (79,113 unique claims)**. Four sources contribute to profiles. The ontology has **59 concepts**, including 44 additions: 43 additions emit observations and 24 contribute to linked profiles. Mapping approval and submission promotion are complete; **human evidence evaluation remains pending**. No previous AI audit is presented as an audit of these new records.
 
+> **Status of the production data model, 15 November 2026.** The submission below is unchanged: same batch, same profiles, same files. Since it was promoted, the store behind it moved to typed PostgreSQL tables and gained a read-only product service (REST, MCP, bundles); see the [production plan](../docs/PRODUCTION_PLAN.md). Every migration was checked against [a baseline of this data](local-run/migration-baseline.json) with zero differences. No release of this batch has been recorded for clients yet, and no new model call, mapping approval or human evaluation was made for that work. A restore of the database into an empty environment was rehearsed on a copy; the restore of this experiment from its frozen archive, noted under Delivery, is still not demonstrated.
+
 ## 1. Completeness against the assignment
 
 | Part | Delivered | Remaining limit |

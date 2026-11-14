@@ -339,7 +339,7 @@ The sandbox receives supplied discovery samples and documentation, not access to
 ### Three stores
 
 - LangGraph development checkpointer: `run_id`, `route`, `feedback`, execution position and pending interrupt; Compose volume `checkpoints`.
-- PostgreSQL: independently versioned application evidence, mappings, decisions and results. Alembic manages tables, which live in the `legacy` schema while the [production plan](docs/PRODUCTION_PLAN.md) moves each domain to typed tables. JSON payloads preserve detailed evidence; owner and kind indexes support the small demonstration workload.
+- PostgreSQL: independently versioned application evidence, mappings, decisions and results. Alembic manages tables. Since the [production plan](docs/PRODUCTION_PLAN.md) the records live in typed tables in the schemas `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `access`, behind the same store functions, and read back exactly as written. The earlier generic tables remain, read-only, in the `legacy` schema until they are archived. What a client sees is read from views in the `serving` schema, each defined by one SQL file.
 - SHA-256 artifact volume: immutable bytes, referenced by registered IDs. Exports are replaceable presentations, not the authoritative store.
 
 A snapshot identifies its exact downloaded bytes, resource ID, licence and retrieval metadata. A source record locator is the snapshot hash, sheet or JSON array path, and logical row index. A CSV locator counts CSV records, not physical newline characters inside quoted text. A mapping hash covers its entire typed configuration. New mappings also pin an immutable ontology hash; legacy mappings resolve against packaged v0.1 without changing their approval hashes. An observation includes its config/engine version, raw value, locator and required ontology envelope.
@@ -357,6 +357,8 @@ Execution containers have no network, repository, credentials or Docker socket. 
 ### Interfaces
 
 `langgraph.json` exposes graph ID `onboard` and the standard thread/run/resume API. Application routes: `POST /api/sources`, `GET /api/runs`, `GET /api/runs/{id}`, `GET /api/profiles?batch_id=…`, `POST /api/evaluations`, `GET /api/artifacts/{registered_sha256}`. See `uv run link-lens --help` for reproducible commands. There is no arbitrary path serving endpoint.
+
+A second, read-only service answers clients: the product service on port 8100 (`docker compose up -d product`). It reads only the `serving` views of a release that a person recorded with `link-lens release create`, and needs an API key created with `link-lens access`. It offers REST under `/v1`, an MCP server at `/mcp` with data tools and file tools over the same release, bundle downloads and a graph viewer per entity. The contracts are in [docs/api](docs/api/); the [production plan](docs/PRODUCTION_PLAN.md) and the [engineering guide](docs/ENGINEERING.md) describe how it is built and run. None of this changes the submitted results below `outputs/`.
 
 ### Experiment and model boundaries
 

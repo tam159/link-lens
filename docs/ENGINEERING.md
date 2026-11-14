@@ -238,7 +238,47 @@ uv run link-lens access tier set professional --rate-per-minute 300 --interface 
 LINK_LENS_API_KEY=KEY uv run python scripts/mcp_agent_eval.py --url http://localhost:8100
 ```
 
-The service image must contain the `mcp` package: after pulling this change, run `docker compose build backend` and `docker compose up -d --no-deps product`.
+The service image must contain the `mcp` package: after pulling this change, run, from the repository root, `docker compose build backend` and `docker compose up -d --no-deps product`.
+
+Bundles and the per-entity viewer (migration `0020`, Phase 8) give real files of a release.
+
+- **Scope.** A named scope such as `demo` is a list of at most 500 entities that a person sets with `link-lens release scope set`. `client:<client id>` is everything that client's tier may see.
+- **Bundle.** `link-lens release bundle [RELEASE] --scope SCOPE` writes the files through the tree's renderer, checks every link, adds the vendored viewer and a `manifest.json` with each file's hash, and stores one gzip tar as an artifact. The same release and scope always make the same archive, so building again adds nothing. `release create` builds every scope marked to follow a release, after the release is committed; a bundle that fails is reported and can be built again.
+- **Download.** `GET /v1/bundles/{release}` gives a key whose tier includes bundles a link to its client's bundle that expires in five minutes. The link is signed by S3 when the bundle is there, otherwise by the product service with `LINK_LENS_LINK_SECRET`.
+- **Viewer.** `GET /v1/entities/{id}/viewer` returns the graph of one entity, its evidence and its sources as one HTML page, kept by profile version.
+- **Generated OKF is not committed.** New OKF folders under `outputs/` are ignored. `outputs/okf` stays as submitted. `tests/fixtures/okf_bundle` is a small bundle that a test compares with the renderer; write it again with `UPDATE_FIXTURES=1 uv run pytest tests/test_fixture_bundle.py` when a change to a page is meant.
+
+```sh
+uv run link-lens release scope set demo --reviewer NAME --entity ENTITY_ID --entity ENTITY_ID
+uv run link-lens release bundle --scope demo
+uv run link-lens release bundle --scope client:CLIENT_ID
+uv run link-lens release bundles
+```
+
+Running as a service (migration `0021`, Phase 9). What needs a hosting provider is not done; the [plan](PRODUCTION_PLAN.md#phase-9-production-infrastructure-and-cutover) lists it.
+
+- **Primary and replica.** Give the product service `LINK_LENS_PRODUCT_DATABASE_URL` and `LINK_LENS_PRODUCT_REPLICA_URL`. It reads the key, applies limits and counts the call on the primary, and reads data from the replica. Each URL should be a login that is only a member of `linklens_product`; create it by hand, since a password does not belong in a migration: `CREATE ROLE linklens_product_service LOGIN PASSWORD '...' IN ROLE linklens_product`.
+- **Limits across instances.** Each key's bucket is a row in `access.rate_bucket`, so any number of instances share it. `LINK_LENS_RATE_LIMIT_STORE=memory` keeps it in the process, for a single instance.
+- **Logs and metrics.** Each request is one JSON line on standard error with `request_id`, route, status, `ms`, `key_prefix`, `client_id` and `tier`; the ID is also the `X-Request-ID` response header, and one sent by the caller is kept. Set `LINK_LENS_METRICS_TOKEN` to open `/metrics` to a scraper that sends it as a bearer token. `deploy/alerts.yml` holds Prometheus rules for error rate, slow answers and silence.
+- **Artifacts to object storage.** With `LINK_LENS_ARTIFACT_STORE=s3` and a bucket, `link-lens artifacts migrate --dry-run` reads every local artifact and checks its hash; without `--dry-run` it copies each, checks the stored bytes and records the new location. It deletes nothing and can be run again. Exit code 3 means an artifact was missing or did not match.
+- **Published contracts.** `docs/api/openapi.json` and `docs/api/mcp-tools.json` are what clients build against. A test fails when the code differs; `UPDATE_CONTRACTS=1 uv run pytest tests/test_production.py` writes them again when the change is meant.
+
+Restoring into an empty environment and checking it serves the same release:
+
+```sh
+# On the source: note what the release serves, then dump.
+uv run link-lens release digest
+pg_dump -U linklens -d linklens -Fc -f linklens.dump
+
+# On the target: the three roles first, then the data, then any newer migrations.
+psql -c "CREATE ROLE linklens_migrator NOLOGIN" -c "CREATE ROLE linklens_pipeline NOLOGIN" -c "CREATE ROLE linklens_product NOLOGIN"
+createdb linklens && pg_restore -d linklens linklens.dump
+uv run alembic upgrade head
+uv run python scripts/migration_baseline.py --typed --check outputs/local-run/migration-baseline.json
+uv run link-lens release digest      # must print the same digest
+```
+
+Artifact bytes are not in the dump: copy the artifact directory, or point both environments at the same bucket. On 2026-11-15 these steps were run on a copy of the local database with a rehearsal release: the digest and all 60 profile versions were the same after the restore. The same day the local database moved from `0019` to `0021`; nothing has been created in the new tables.
 
 The migration baseline records what the store holds, so each later migration and backfill can be checked against it. It is read-only and works on both layouts:
 

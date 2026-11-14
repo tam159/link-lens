@@ -1,6 +1,6 @@
 # Production implementation plan
 
-Status: **Phases 0 to 6 are implemented and applied to the local database (2026-11-14). No release, tier, client or key has been created there yet; those are the owner's actions. Phase 7 is deferred; phases 8 and 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
+Status: **Phases 0 to 6 and 8 are implemented and applied to the local database (2026-11-15). Phase 9 is implemented as far as it can be without a hosting provider: what needs a provider, a sign-in system or an agreed date is listed there as open. Phase 7 is deferred. No release, tier, client, key or bundle scope has been created on the local database; those are the owner's actions.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
 
 Facts about the current store were measured on the local database on 2026-11-14 (experiment `jev-gpt6-luna-ontology-v1` plus earlier experiments in the same database).
 
@@ -883,44 +883,98 @@ Done when:
 
 **Goal:** real files for demos and for clients who want them, without a manual export step.
 
+```sql
+CREATE TABLE ops.bundle_scope (                      -- set by a person, replaceable
+  name text PRIMARY KEY, entity_ids text[] NOT NULL, -- 1 to 500 entities
+  on_release boolean NOT NULL DEFAULT true,          -- built when a release is created
+  set_by text NOT NULL, set_at timestamptz NOT NULL
+);
+CREATE TABLE ops.release_bundle (                    -- append-only
+  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  release_id bigint NOT NULL REFERENCES ops.release,
+  scope text NOT NULL,                               -- a scope name, or client:<id>
+  client_id uuid REFERENCES access.client,
+  source_scope text[],                               -- null = every source
+  entity_count int NOT NULL, file_count int NOT NULL, size_bytes bigint NOT NULL,
+  artifact_sha sha256 NOT NULL REFERENCES catalog.artifact, manifest_sha sha256 NOT NULL,
+  created_at timestamptz NOT NULL, UNIQUE (release_id, scope, manifest_sha)
+);
+```
+
+Differences from the first sketch:
+
+- **"Queues" means "builds after the release is committed".** There is no job queue yet. `release create` commits the release and then builds the bundle of every scope marked `on_release`, in the same command. A bundle that fails is reported and does not undo the release. The build is one function with explicit IDs, so an orchestrator can call it later.
+- **A bundle is the same bytes whenever it is built.** Files are written in path order with the release's time, so the same release and scope always give the same archive and the same manifest hash, and building again adds no row. A scope whose list changed gives a new row; the old one stays.
+- **Index pages of a named scope list only that scope.** Entity, evidence, source and concept pages are the tree's own bytes. A demo bundle's index pages are built for its entities, or their links would point at pages the bundle does not hold.
+- **A scoped client's bundle keeps whole entity pages.** As decided in phase 5, a profile is answered whole. Its page therefore links to evidence pages the bundle leaves out. The link check counts those links instead of failing on them; a link to anything else that is missing still fails.
+- **The download link depends on the store.** A bundle in S3 gets a link signed by S3. A bundle in the local artifact directory gets a link signed by the product service (`LINK_LENS_LINK_SECRET`), which serves the file itself. Either expires after `LINK_LENS_LINK_TTL_SECONDS`, 300 by default, and needs no key.
+- **Only the client's own bundle is served.** `GET /v1/bundles/{release}` returns the bundle built for the calling key's client. If the tier was narrowed after the bundle was built, the answer is 409 until a new one is built. A named scope such as `demo` is for the owner and is not served by the API.
+- **A bundle is built in memory and on local disk before it is stored.** That suits the local data and a demo scope. A whole-dataset bundle of millions of pages needs a streamed upload; see the risk table.
+
 Tasks:
 
-- [ ] **Bundle job.** `link-lens release bundle RELEASE --scope demo|client:<id>` writes a folder through the shared renderer, runs `check_bundle`, generates `viewer.html` with the vendored generator, and stores a compressed archive with a manifest hash in object storage. Release creation queues the configured bundles.
-- [ ] **Demo scope** is a named, bounded list of entities chosen by the owner. A whole-dataset bundle is produced only on request.
-- [ ] **`GET /v1/bundles/{release}`** returns a short-lived download link for keys whose tier allows bundles, limited to the client's source scope.
-- [ ] **`GET /v1/entities/{id}/viewer`** builds a small folder for one entity, its evidence and its sources, runs the unchanged generator, and returns the HTML. Cache by `profile_version`.
-- [ ] **Stop committing generated OKF for new runs.** The submitted `outputs/okf` stays in git as historical evidence. Keep a small fixture bundle for tests.
-- [ ] **Preserve the vendored OKF attribution** and licence headers.
+- [x] **Bundle job.** `link-lens release bundle [RELEASE] --scope demo|client:<id>` ([bundles.py](../src/link_lens/bundles.py)) writes a folder through the shared renderer, runs `check_bundle`, generates `viewer.html` with the vendored generator, and stores a gzip tar with a `manifest.json` (every file with its hash) as an artifact. `link-lens release bundles` lists them. Release creation builds the scopes that follow a release.
+- [x] **Demo scope** is a named, bounded list of entities chosen by the owner: `link-lens release scope set demo --entity ID ... --reviewer NAME`, at most 500. A whole-dataset bundle is produced only on request, with `--scope client:<id>`.
+- [x] **`GET /v1/bundles/{release}`** returns a short-lived download link for keys whose tier allows bundles, limited to the client's source scope.
+- [x] **`GET /v1/entities/{id}/viewer`** builds a small folder for one entity, its evidence and its sources, runs the unchanged generator, and returns the HTML. It is kept by `profile_version` in the process (128 entries) and that version is the `ETag`.
+- [x] **Stop committing generated OKF for new runs.** `.gitignore` covers OKF folders of new runs and releases. The submitted `outputs/okf` stays in git as historical evidence. A small bundle is kept in [tests/fixtures/okf_bundle](../tests/fixtures/okf_bundle) and a test fails when the renderer stops writing those bytes.
+- [x] **Preserve the vendored OKF attribution** and licence headers. Nothing under `_vendor/okf` changed; a test checks that a bundle's viewer still starts with the vendor's licence header.
 
 Done when:
 
 - Creating a release produces the demo bundle with no manual command, and the bundle's page bytes equal `okf_read` for the same paths.
 - The per-entity viewer opens for a sample of entities and shows the same evidence edges as the full viewer.
 
+Results on 2026-11-15, on a restored copy of the local database:
+
+- **Demo bundle.** With a demo scope of ten entities, `release create` made the release and its demo bundle in 1.6 seconds: 321 files, 234 KB. All 298 pages other than index pages equal `okf_read` for the same paths, and every hash in the manifest matches its file.
+- **Client bundles.** A client with every source: 60 entities, 1,759 files, 1.7 MB, built in 7 seconds. A client limited to one source: 1,029 files, with 722 links to evidence left out counted. Built again, each gave the same archive and no new row.
+- **Download.** Over HTTP, a key got a link, and the link alone returned the archive with the recorded hash. With the bundle moved to an S3-compatible store (MinIO), the link was signed by the store, worked, and returned 403 without its signature.
+- **Viewer.** The viewer of each of the 60 entities drew exactly the edges the full viewer draws among the same pages. First build 101 ms at the median and 238 ms at most; 4 ms when kept. The page is 158 KB at the median.
+- **Local database.** Migrated to `0020` with phase 9's `0021`; see there.
+- **Tests.** Eight new tests in [tests/test_bundles.py](../tests/test_bundles.py) and [tests/test_fixture_bundle.py](../tests/test_fixture_bundle.py).
+- **Found in rehearsal and fixed:** stepping one migration down failed, because the serving views were applied again from files that describe the newest schema. They are now applied only at the head revision, and a test steps recent migrations down and up.
+- **Not verified:** a whole-dataset bundle at real scale; the viewer in a browser by a person (its graph data was compared, not its rendering).
+
 ## Phase 9: Production infrastructure and cutover
 
 **Goal:** run the system as a service and retire the legacy tables.
 
+This phase is done as far as it can be on one machine. Three things in it are not engineering choices and stay open: which provider hosts the database and the bucket, how reviewers sign in, and when the legacy tables are dropped. What follows says what is built, what was verified locally, and what waits.
+
 Tasks:
 
-- [ ] **Managed PostgreSQL** with `vector` and `pg_trgm`, point-in-time recovery, and a read replica for the product service.
-- [ ] **Object storage** for artifacts and bundles, using the backend added in phase 2. Migrate existing blobs by SHA-256 and verify each hash after copy.
-- [ ] **Agent runtime.** The LangGraph development server is for local development. Choose the licensed platform or a self-hosted graph with a PostgreSQL checkpointer, then re-test the review interrupt and resume flow and remove the compatibility guard in `runtime_compat.py` if it is no longer needed.
-- [ ] **Reviewer sign-in.** Mapping approvals, ontology promotion and release creation record an authenticated user instead of a configured name.
-- [ ] **Secrets and configuration.** New settings documented in `.env.example` with placeholders only.
-- [ ] **Observability.** Structured logs with request ID and key prefix, never the key; metrics per interface and tier; alerts on error rate and latency.
-- [ ] **Rate limiting across instances.** Move the per-minute bucket to a shared store before running more than one product instance.
-- [ ] **CI.** Tests on PostgreSQL, migration up and down on an empty database, lint, OpenAPI and GraphQL schema drift checks, generated ontology artifact drift check.
-- [ ] **Sandbox.** The sandbox controller keeps its current isolation rules. A production multi-tenant sandbox is out of scope here and needs its own design.
-- [ ] **Cutover.** Restore a copy of the data, run all migrations and backfills, compare with the baseline, then switch.
-- [ ] **Retire `legacy`.** After an agreed period, archive it with `freeze`, verify the archive, and drop the schema in a final migration.
-- [ ] **Documentation.** Update the owning documents: storage and architecture in [README.md](../README.md), operations and recovery in [ENGINEERING.md](ENGINEERING.md), results status in [outputs/README.md](../outputs/README.md). Keep historical numbers and screenshots as they are.
+- [ ] **Managed PostgreSQL** with `vector` and `pg_trgm`, point-in-time recovery, and a read replica for the product service. **Not provisioned; needs a provider.** Ready in code: the product service takes `LINK_LENS_PRODUCT_DATABASE_URL` (primary) and `LINK_LENS_PRODUCT_REPLICA_URL`. It authenticates, limits and counts on the primary, so a revoked key or a spent quota takes effect at once, and reads data from the replica. Verified on a local streaming replica, with the service logged in as a role that is only a member of `linklens_product`.
+- [ ] **Object storage** for artifacts and bundles. **No bucket provisioned; the move has not been run.** Built: `link-lens artifacts migrate` ([artifacts.py](../src/link_lens/artifacts.py)) copies each local artifact to the configured bucket, checks its hash before and after the copy, and only then records the new location. It deletes nothing, skips what is already moved, and exits 3 if any artifact is missing or does not match. Migration `0021` lets an artifact's `uri` change; every other column stays append-only.
+- [ ] **Agent runtime.** **Open; a licence decision for the owner.** Nothing changed: the LangGraph development server still runs the onboarding graph locally, and the guard in `runtime_compat.py` is still in place.
+- [ ] **Reviewer sign-in.** **Not built; needs a choice of identity provider.** Approvals, promotion, release creation and bundle scopes still record a configured name.
+- [x] **Secrets and configuration.** New settings are in `.env.example` with placeholders only.
+- [x] **Observability** ([product/observe.py](../src/link_lens/product/observe.py)). Every request gets an ID, returned as `X-Request-ID`, and one JSON log line with the route as declared, status, time, key prefix, client and tier, and the tool for an MCP call. The key is never logged. `/metrics` gives request counts and a latency histogram per interface, tier and status to a scraper that holds `LINK_LENS_METRICS_TOKEN`. Alert rules for error rate and latency are in [deploy/alerts.yml](../deploy/alerts.yml); they have not been loaded into a Prometheus.
+- [x] **Rate limiting across instances.** Each key's token bucket is a row in `access.rate_bucket`, refilled and taken in one statement, so two instances cannot both take the last token. This is the default; `LINK_LENS_RATE_LIMIT_STORE=memory` keeps the in-process bucket.
+- [x] **CI.** The workflow runs tests on PostgreSQL, migrates an empty database up and down (one step and all the way), lints, checks the published REST and MCP contracts in [docs/api](api/) against the code, checks the kept OKF bundle against the renderer, and lints the generated ontology schema. GraphQL has no check because phase 7 is deferred.
+- [x] **Sandbox.** Unchanged. A production multi-tenant sandbox is out of scope here and needs its own design.
+- [ ] **Cutover.** **Rehearsed, not done.** The steps were run on a copy: restore, all migrations, baseline check, release digest. The switch to a production environment waits for that environment.
+- [ ] **Retire `legacy`.** **Not done, and not to be done by a migration in this chain.** The compose backend runs `alembic upgrade head` when it starts, so a drop migration would delete the tables on the next restart. Nothing writes `legacy` since phase 3. What still reads it: the backfill commands, `scripts/migration_baseline.py`, the store's fallback for the two ontology history tables, and the restore of first-format archives. Retirement is: point those at the registry or remove them, archive with `freeze`, verify the archive, then add the drop migration.
+- [x] **Documentation.** Storage and architecture in [README.md](../README.md), operations and recovery in [ENGINEERING.md](ENGINEERING.md), status in [outputs/README.md](../outputs/README.md). Historical numbers and screenshots are unchanged.
 
 Done when:
 
-- A restore from backup into an empty environment serves the same release with the same profile versions.
-- The product service runs on the replica with the read-only role.
-- No code path reads or writes `legacy`.
+- A restore from backup into an empty environment serves the same release with the same profile versions. **Met on a local copy.**
+- The product service runs on the replica with the read-only role. **Met on a local streaming replica, not on a managed service.**
+- No code path reads or writes `legacy`. **Not met: nothing writes it, but the readers listed above remain.**
+
+Results on 2026-11-15:
+
+- **Restore.** A dump of the copy, with a rehearsal release, was restored into an empty database. `link-lens release digest` gave the same digest on both (60 profiles, 1,735 pages), the product service on the restored database answered the same profile version for all 60 entities, and the bundle link returned the same archive. The legacy baseline check reported zero differences on the restored database.
+- **Replica.** Two product instances ran against a primary and a streaming replica in throwaway containers, logged in as a role that is only a member of `linklens_product`, with the pipeline's database URL set to an address that does not exist. All 60 profiles, a bundle link and a viewer were served.
+- **Shared limit.** A key with five calls a minute made nine calls, alternating between the two instances: exactly five were answered. A test takes 24 tokens at once from 12 threads and two limiters and grants exactly as many as the bucket holds.
+- **Logs and metrics.** Each request produced one log line with its ID and key prefix; no key appeared in either instance's log. `/metrics` answered the scraper's token and nothing else.
+- **Artifacts.** A dry run over the real artifact directory read all 26,610 artifacts, 5.4 GB, in 9 seconds: none missing, none different from its hash. A real move of 300 of them to MinIO verified each after the copy and recorded the new location; a second run moved nothing. Nothing was written to the real artifact directory.
+- **Local database.** Backed up, then migrated from `0019` to `0021`. Both baseline checks reported zero differences. Backend, Agent Inbox, sandbox controller and product service are healthy. Nothing was created in the new tables.
+- **Tests.** 229 passed, 4 skipped. Nine new tests are in [tests/test_production.py](../tests/test_production.py).
+- **Not verified:** a managed PostgreSQL service, its extensions and point-in-time recovery; a real cloud bucket and the full artifact move; the alert rules in a Prometheus; replica lag under load; more than two instances.
+
+Note for later baseline checks: building a bundle stores an archive as an artifact, so the artifact count in `migration-baseline.json` grows by one for each bundle built. That is a real addition, not a migration fault.
 
 ## 16. Verification strategy
 
@@ -946,7 +1000,7 @@ No verification step needs a model call or a new human review.
 |---|---|---|
 | Tests need PostgreSQL | Deterministic tests no longer run without a database | Use a container started by the test session; keep pure logic tests database-free |
 | `jsonb` key order | Files regenerated from legacy payloads list the same values with keys in a different order, so a regenerated `outputs/` shows key-order diffs and new file hashes. OKF pages come from artifacts and are unaffected. | Keep the submitted files as they are. Compare regenerated JSON by value, or write exports with sorted keys if byte-stable output is wanted. |
-| Backend migrates on start | The compose backend runs `alembic upgrade head` when it starts, so starting it on new code migrates the database it points at | Back up before starting a backend that carries new migrations; consider a separate migration step before Phase 9 |
+| Backend migrates on start | The compose backend runs `alembic upgrade head` when it starts, so starting it on new code migrates the database it points at | Back up before starting a backend that carries new migrations. In production run migrations as their own step, as the migrator role, and start services afterwards. |
 | Events are not partitioned | `ops.event` is one table; the plan sketched partitions by time | Rebuild as time partitions when volume calls for it, together with a step that creates partitions ahead |
 | Format-1 archives and the read-only legacy schema | Restoring a first-format archive writes its ontology rows to `legacy` before copying them to the registry, which the pipeline role may no longer do | Restore such archives as the migrator, or convert them once to the current format |
 | Lenient record tables | `source`, `snapshot`, `run`, `mapping` and `approval` (and since phase 3 the identity and operations tables) accept any record the store is given, so their typed columns are nullable and a reference that does not resolve is kept as JSON instead of failing | Report unresolved values with `link-lens backfill spine`; add `NOT NULL` and strict references when the store facade is retired and writers use the repositories directly |
@@ -958,8 +1012,11 @@ No verification step needs a model call or a new human review.
 | `okf_grep` at scale | Free regex over all pages would be slow | Require a path prefix, back it with trigram indexes on `okf_line`, cap matches |
 | `okf_ls` at scale | Listing a folder reads every page beneath it to find its entries, so the root of a release with millions of pages would be slow. Measured only on 100,000 synthetic pages in phase 4. An agent lists the root first. | Store folder entries when a release is built, or list distinct names with an index skip scan. Do it before a release of more than about a million pages. |
 | Index design | Nested by-name indexes for millions of entities need tuning | Test on synthetic data in phase 4 before fixing the path scheme |
-| Rate limiting in process | Not correct across several instances | Acceptable for one instance; shared store is a phase 9 task |
-| Product service login | The local service logs in with the one local user and sets the product role per transaction. A fault that skipped that step would run with more rights. | In phase 9 give the service its own login that is only a member of `linklens_product` |
+| Rate limiting in process | Not correct across several instances | Done in phase 9: the bucket is a row per key in PostgreSQL by default. It adds one small write to the primary per call; move it to a cache if that write becomes the limit. |
+| Product service login | The local service logs in with the one local user and sets the product role per transaction. A fault that skipped that step would run with more rights. | Supported since phase 9 (`LINK_LENS_PRODUCT_DATABASE_URL`) and rehearsed with such a login. Create that login in the production database; passwords do not belong in a migration. |
+| Bundle size | A bundle is built on local disk and held in memory before it is stored | Fine for a demo scope and the local data. Stream the archive to the bucket before building a whole-dataset bundle of millions of pages. |
+| Bundle jobs | Bundles that follow a release are built inside `release create`, one after another | Fine for a few named scopes. Hand the same function to the orchestrator when there are many clients. |
+| Dropping `legacy` | The backend migrates on start, so a drop migration takes effect at the next restart | Add the drop migration only after the archive is verified and the remaining readers are gone, as the last step of phase 9 |
 | MCP and OAuth | Some MCP clients accept only OAuth for remote servers | Keys first, as decided; the auth step is written for a second resolver |
 | MCP tool choice by a model | The evaluation runs written plans, so it does not measure whether a model picks the right tool from the descriptions | Owner runs the ten tasks with a model once paid calls are allowed; adjust descriptions from what it gets wrong |
 | MCP calls that are not tool calls | Listing tools and discovery are authenticated but not counted or rate-limited | Acceptable for one instance; add a request rate limit with the shared limiter in phase 9 |
