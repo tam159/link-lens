@@ -1,6 +1,6 @@
 # Production implementation plan
 
-Status: **Phases 0 to 3 are implemented and applied to the local database (2026-11-14). Phases 4 to 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
+Status: **Phases 0 to 4 are implemented and applied to the local database (2026-11-14). No release has been created there yet; that is the owner's action. Phases 5 to 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
 
 Facts about the current store were measured on the local database on 2026-11-14 (experiment `jev-gpt6-luna-ontology-v1` plus earlier experiments in the same database).
 
@@ -82,7 +82,7 @@ flowchart LR
 | `identity` | `entity`, view `entity_identifier`, `membership`, `link`, `profile`, `profile_field`, `profile_address` | `entities`, `memberships`, `links`, `profiles` |
 | `ops` | `batch`, `release` (phase 4), `event`, `model_call`, `model_cache`, `triage_decision`, `evaluation`, `embedding` | `batches`, `events`, `budget_reservations`, `evaluations`, cached responses in `ontology_events` |
 | `access` | `tier`, `client`, `api_key`, `api_usage` | New |
-| `serving` | Read models only (views and per-release tables) | New |
+| `serving` | Read models only: views defined by SQL files, and per-release OKF tables | New |
 | `legacy` | The 17 current tables, read-only after each cutover | — |
 
 Proposed package layout:
@@ -458,7 +458,7 @@ How the seven constraints stand after this phase:
 | Drift detection as a library function | Done: `drift.compare` and `drift.detect` |
 | Steps are functions with explicit parameters | New steps follow it (`sources.record_check(source_id)`, `drift.detect(snapshot_id, config_hash)`, `backfill.*`, `ontology_gate.run(hash)`). Existing steps `ingestion.register`, the graph nodes and `pipeline.assemble` already take their IDs but also read `settings().experiment_id`; that is a setting, and stays. `store.current_discovery()` without an experiment reads a shared pointer row; since phase 3 `link-lens portfolio` asks for the configured experiment's discovery, and the shared row is only a fallback. |
 | Steps are idempotent | Holds for every write added so far: content-hash keys, `ON CONFLICT DO NOTHING`, and updates that are skipped when nothing changes. |
-| Serving SQL in one directory | Phase 4 |
+| Serving SQL in one directory | Done in phase 4: `src/link_lens/serving/`, one commented `SELECT` per file |
 | Structured logs and clear exit codes | Exit codes are defined in [cli.py](../src/link_lens/cli.py): 0 done, 1 failed, 2 called wrongly, 3 ran and found something that blocks the next step (a failed gate check, blocking drift). Structured logs were added in phase 3. |
 
 ## Phase 3: Identity, profiles and operations
@@ -590,15 +590,15 @@ CREATE TABLE ops.release (                           -- append-only
   batch_id text NOT NULL REFERENCES ops.batch,
   ontology_hash sha256 NOT NULL REFERENCES ontology.ontology_version,
   released_by text NOT NULL, released_at timestamptz NOT NULL DEFAULT now(),
-  notes text, bundle_artifact sha256
+  notes text
 );
 ```
 
-Serving read models. Every row carries `release_id`, and the query layer always binds one.
+Serving read models. Every row carries `release_id`, and the query layer always binds one. Each view is one commented `SELECT` in [src/link_lens/serving/](../src/link_lens/serving/), named after its file.
 
 | Read model | Content | Kind |
 |---|---|---|
-| `serving.release` | Releases with batch and ontology hash | View |
+| `serving.release`, `serving.current_release` | Releases with batch and ontology hash; the latest one | View |
 | `serving.entity` | Entities in the release, identifiers, display name | View |
 | `serving.profile`, `serving.profile_field`, `serving.profile_address` | Profile values with status, alternatives and the selected observation | View |
 | `serving.observation` | Observations from mappings approved in the release's runs, including unlinked records | View |
@@ -609,13 +609,14 @@ Serving read models. Every row carries `release_id`, and the query layer always 
 | `serving.okf_line` | Searchable lines per page: frontmatter and `field: value` claims | Table per release, trigram and full-text indexes |
 | `serving.okf_index` | Index folders: parent path, entry label, target path, entry count | Table per release |
 
-The three `okf_*` tables are built once when a release is created. A release never changes, so they never need refreshing. They are partitioned by `release_id` and dropped when a release leaves the retention window.
+The three `okf_*` tables are built once when a release is created. A release never changes, so they never need refreshing. They are partitioned by `release_id`, one partition per release, and can be dropped when a release leaves the retention window.
 
 OKF path scheme:
 
 ```text
 /index.md
 /ontology/index.md
+/ontology/{scope}/index.md
 /ontology/{scope}/{name}.md
 /sources/index.md
 /sources/{source_id}.md
@@ -628,20 +629,30 @@ OKF path scheme:
 /evidence/{id[:2]}/{id}.md
 ```
 
+Differences from the first sketch:
+
+- **Views are defined by files, not by migrations.** The owner's constraint is one `SELECT` per file, ready to become a dbt model. If a migration also held each view, the definition would live twice. `serving.apply` creates each view from its file and stores the file's digest on the view; `migrations/env.py` calls it after every upgrade, and `link-lens serving-apply` calls it by hand. Migration `0018` drops all serving views on downgrade.
+- **No `bundle_artifact` on a release.** A release rejects updates, so a bundle built later cannot be attached to it. Phase 8 records bundles in their own table.
+- **`current_*` views are one view.** `serving.current_release` names the latest release. Every read model carries `release_id`, so "current" for any of them is a join with that view. A separate current view per derived table would add nothing.
+- **Evidence pages are the cited observations.** A release has a page for each observation that a profile cites, as the submitted OKF has. Every other observation of the release, linked or not, is in `serving.observation`, not in the tree.
+- **JSON in a page has a fixed key order.** Profiles and observations are stored as typed rows, so the order the old exporter happened to write is gone. Pages put a short list of keys first (`value`, `status`, `decision`, …) and the rest alphabetically. The values are identical.
+- **Index folders exist only when they have entries,** and a folder with too many is split at the first character where its names differ, so no index holds a single sub-folder. Names that are identical are paged by number. Sources and ontology scopes are split the same way.
+- **The first release is not created by this phase.** Recording one is the owner's action.
+
 Tasks:
 
-- [ ] **`current_*` views** per derived table that select the batch named by the latest release (moved here from phase 3).
-- [ ] **`link-lens release create --batch-id … --reviewer …`** inserts the release row and builds the `okf_*` tables. It is a human action and is never triggered by a pipeline run. `release list` and `release show` report state.
-- [ ] **Serving views** as above, owned by the migrator role, selectable by `linklens_product` only.
-- [ ] **Split the renderer out of `exports.py`.** `okf/render.py` holds pure functions: `render_entity`, `render_evidence`, `render_source`, `render_concept`, `render_index`. Use the release time for `generated.at` so output is deterministic.
-- [ ] **Change links to the new path scheme** and keep `check_bundle` as the broken-link test.
-- [ ] **Index builder.** An index page lists at most 200 entries. A larger folder is split one level deeper (for example `by-name/k/` into `by-name/k/ki/`). Every index page links only one level down.
-- [ ] **Virtual tree functions** in `okf/tree.py`, all taking a release and a scope:
+- [x] **`current_*` views.** One view, `serving.current_release`; see above.
+- [x] **`link-lens release create --batch-id … --reviewer …`** ([releases.py](../src/link_lens/releases.py)) inserts the release row and builds the `okf_*` tables in one transaction. It is a human action and is never triggered by a pipeline run. `release list` and `release show` report state. The ontology version is the one the batch's runs were onboarded under.
+- [x] **Serving views** as above, owned by the migrator role. `linklens_product` can select them and the `okf_*` tables and nothing else; the pipeline role can insert the `okf_*` rows but not change them.
+- [x] **Split the renderer out of `exports.py`.** [okf/render.py](../src/link_lens/okf/render.py) holds pure functions: `render_entity`, `render_evidence`, `render_source`, `render_concept`, `render_index`. A release's pages are stamped with the release time, so output is deterministic.
+- [x] **Change links to the new path scheme** and keep `check_bundle` as the broken-link test. `link-lens export` uses the same renderer and paths, stamped with the batch's time.
+- [x] **Index builder** ([okf/index.py](../src/link_lens/okf/index.py)). An index page lists at most 200 entries. A larger folder is split one level deeper. Every index page links only one level down.
+- [x] **Virtual tree functions** in [okf/tree.py](../src/link_lens/okf/tree.py), all taking a release and, optionally, the sources a caller may see:
   - `ls(path, cursor)` returns entries of a folder, paged.
-  - `read(path, offset, limit)` renders one page.
+  - `read(path, offset, limit)` renders one page, or some of its lines.
   - `find(path, type, tags, status, cursor)` filters `okf_page`.
-  - `grep(pattern, path, cursor)` searches `okf_line` under a path prefix and returns path and line. A path prefix is required.
-- [ ] **Keep the file exporter** as a caller of the same renderer, writing to a directory for bundles (phase 8).
+  - `grep(pattern, path, cursor)` searches `okf_line` under a path prefix and returns path and line. A folder below the root is required.
+- [x] **Keep the file exporter** as a caller of the same renderer: [okf/bundle.py](../src/link_lens/okf/bundle.py) writes a release to a directory, and `link-lens release export` checks its links.
 
 Done when:
 
@@ -650,6 +661,24 @@ Done when:
 - No index page exceeds 200 entries on a synthetic set of 100,000 entities.
 - `grep` and `find` use indexes (checked with `EXPLAIN`) and return within an agreed time on that synthetic set.
 - Creating a second release does not change any result for the first.
+
+Results on 2026-11-14:
+
+- **Same documents.** On a restored copy, a release of the submission batch (`enhance-34e9…-b43a78b6b4c9`) was created in 1 second and written to a folder in 6 seconds. All 60 entity pages, 1,610 evidence pages and 6 source pages have the same frontmatter, the same JSON values, the same link targets and the same surrounding text as `outputs/okf`, apart from link paths, key order and `generated.at`. The bundle has zero broken links. It also has what the submitted OKF did not: 59 concept pages and the new index folders, 1,757 files in all.
+- **Tree equals bundle.** A test reads every file of a fixture bundle back through `tree.read` and compares the bytes; a second write of the same release produces the same bytes.
+- **Index limit.** On 100,450 synthetic entities, 1,500 sources and 300 concepts the largest index page has exactly 200 entries, every entity is reachable by name, and the build takes under a second.
+- **Indexes and time.** On a synthetic release of 100,000 pages and 400,000 lines, `find` and `grep` plan no sequential scan. The agreed time is one second per call; measured were 3 ms for `find`, 5 to 6 ms for `grep` and 3 ms for `ls`.
+- **Second release.** A test compares everything a client can ask of release 1 before and after release 2 is created; nothing changes. On the copy, release 1 was exported again after release 2 existed and the folders were identical.
+- **Local database.** Migrated from `0017` to `0018`; the eleven serving views are in place and owned by the migrator role. Both baseline checks reported zero differences. No release exists there yet.
+- **Tests.** 186 passed, 4 skipped. The 11 new tests cover the above and the product role's access. One fixture gained the `portal` that real sources have.
+- **Not verified:** the tree at real scale beyond the synthetic set, since the local data has 60 entities; the HTML viewer for a release bundle, which phase 8 builds.
+
+To record the first release on the local database:
+
+```sh
+uv run link-lens release create --batch-id enhance-34e9caf2bcdb38ab9d4c9872ecd80fb6cfad1e8e0a959f3e-b43a78b6b4c9 --reviewer YOUR_NAME
+uv run link-lens release export outputs/local-run/release-1
+```
 
 ## Phase 5: Access, product service and REST
 

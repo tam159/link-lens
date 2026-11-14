@@ -35,6 +35,7 @@ Application code is in `src/link_lens/`:
 | `evaluation.py`, `review_ui.py` | Separate human/AI evaluation records and review worksheets |
 | `measurements.py`, `pricing.py`, `pricing_rates.json` | Usage, pricing basis and cost calculations |
 | `exports.py`, `_vendor/okf/` | Generated JSONL/CSV/OKF and viewer; retain vendor attribution |
+| `releases.py`, `okf/`, `serving/` | Human-recorded releases, the OKF renderer, index, virtual tree and bundle, and the serving read models as one `SELECT` per SQL file |
 | `sandbox.py`, `runtime_compat.py` | Restricted Python execution and pinned runtime compatibility fixes |
 
 `migrations/` contains Alembic migrations; `tests/` contains deterministic tests and explicitly gated integrations. `compose.yaml`, `deploy/` and `langgraph.json` define local services. Read scripts before executing them: several `scripts/` files have top-level side effects, fixed experiment IDs or authored audit judgments. They are not all reusable library functions.
@@ -69,6 +70,7 @@ Service startup and provider setup live in README. Default local ports: Inbox 30
 - Every domain lives in typed tables behind `store.py`; nothing writes `legacy`. Write a batch and what it owns with `store.put_many`, batch first. A settled model call never changes.
 - Sources, snapshots, runs, mappings, approvals and observations live in typed tables behind `store.py` and must read back exactly as written. Snapshots, mapping configs, mappings, approvals, source records and observations are append-only; write observations with `store.put_observations`.
 - Write each pipeline step as a function with explicit IDs that returns a small result record and writes nothing new when repeated. No table gets one partition per source. CLI exit codes: 0 done, 1 failed, 2 called wrongly, 3 ran and found something that blocks the next step. `docs/PRODUCTION_PLAN.md` section 4 lists these rules.
+- A release is recorded by a person with `link-lens release create`; no pipeline step, test fixture aside, creates one. A serving read model is one `SELECT` in `src/link_lens/serving/`; change the file, not the view. OKF pages come from `okf/render.py` only.
 - PostgreSQL and immutable artifacts are authoritative; OKF is a generated view. Serve artifacts by registered ID, not arbitrary filesystem paths. Version schema changes with Alembic.
 - AI audits, human mapping approvals and human evidence evaluations are different activities. Unknown/unreviewed labels are not correct answers. An AI audit cannot complete the assignment's human evaluation requirement.
 - Include all model attempts in usage. Missing usage is unknown, not zero. State estimated pricing basis and priced-call coverage; do not present a partial subtotal as the complete bill. Per-record processing is deterministic unless explicitly changed.

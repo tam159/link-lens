@@ -190,6 +190,22 @@ uv run link-lens backfill identity-ops
 
 On 2026-11-14 the local database moved from `0014` to `0017` and was backfilled in 69 seconds: 26 batches, 1,067 triage decisions, 18,395 cached responses, 1,002 model calls, 9,178 events, 411 evaluations, 298 entities, 1,235 memberships, 621 links and 614 profiles with 3,465 fields. Both baseline checks reported zero differences. On a restored copy, re-running `assemble` for the promoted batch reproduced all 60 profile versions without a model call, and the reports and export matched the previous code's output.
 
+Releases and the OKF tree (migration `0018`, Phase 4) are what a client sees.
+
+- **Release.** `link-lens release create --batch-id BATCH --reviewer NAME` records that a batch, under the ontology its runs were onboarded with, is released, and builds that release's OKF page, line and index rows in the same transaction. It is a human action; no pipeline step calls it. A release never changes, and a later release does not touch an earlier one. `release list` and `release show` report them.
+- **Serving views.** Each read model is one commented `SELECT` in `src/link_lens/serving/`. `serving.apply` creates a view per file and runs after every `alembic upgrade`; `link-lens serving-apply` runs it by hand. Every view carries `release_id`. The `linklens_product` role can read `serving` and nothing else.
+- **Pages.** `okf/render.py` renders an entity, evidence, source, concept or index page from records, with no clock and no store, so a page of a release is the same bytes every time. Pages are not stored: `okf/tree.py` renders one when it is read.
+- **Tree.** `tree.ls`, `read`, `find` and `grep` take a release and, optionally, the sources a caller may see. `grep` searches each page's frontmatter and its claims written as `concept: value`, and needs a folder below the root. An index page lists at most 200 entries; a larger folder is split by the next character of its names.
+- **Bundle.** `link-lens release export DIR` writes a release's tree to a folder with the same functions and checks every link. `link-lens export` for a batch uses the same renderer and paths.
+
+```sh
+uv run link-lens release create --batch-id BATCH_ID --reviewer NAME
+uv run link-lens release show
+uv run link-lens release export outputs/local-run/release-1
+```
+
+On 2026-11-14 the local database moved from `0017` to `0018`. No release has been created on it. On a restored copy, a release of the submission batch produced the same 60 entity pages, 1,610 evidence pages and 6 source pages as `outputs/okf`, apart from link paths, key order and the generation time, with no broken link.
+
 The migration baseline records what the store holds, so each later migration and backfill can be checked against it. It is read-only and works on both layouts:
 
 ```sh
