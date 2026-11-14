@@ -1,6 +1,6 @@
 # Production implementation plan
 
-Status: **Phases 0, 1 and 2 are implemented and applied to the local database (2026-11-14). Phases 3 to 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
+Status: **Phases 0 to 3 are implemented and applied to the local database (2026-11-14). Phases 4 to 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
 
 Facts about the current store were measured on the local database on 2026-11-14 (experiment `jev-gpt6-luna-ontology-v1` plus earlier experiments in the same database).
 
@@ -79,8 +79,8 @@ flowchart LR
 | `catalog` | `source`, `snapshot`, `artifact`, `source_refresh`, view `source_state` | `sources`, `snapshots`, `artifacts` |
 | `onboarding` | `run`, `mapping_config`, `mapping`, `mapping_field`, `approval` | `runs`, `mappings`, `approvals` |
 | `evidence` | `source_record`, `observation` | `observations` |
-| `identity` | `entity`, `entity_identifier`, `membership`, `link`, `profile`, `profile_field`, `profile_address` | `entities`, `memberships`, `links`, `profiles` |
-| `ops` | `batch`, `release`, `event`, `model_call`, `model_cache`, `triage_decision`, `evaluation`, `embedding` | `batches`, `events`, `budget_reservations`, `evaluations` |
+| `identity` | `entity`, view `entity_identifier`, `membership`, `link`, `profile`, `profile_field`, `profile_address` | `entities`, `memberships`, `links`, `profiles` |
+| `ops` | `batch`, `release` (phase 4), `event`, `model_call`, `model_cache`, `triage_decision`, `evaluation`, `embedding` | `batches`, `events`, `budget_reservations`, `evaluations`, cached responses in `ontology_events` |
 | `access` | `tier`, `client`, `api_key`, `api_usage` | New |
 | `serving` | Read models only (views and per-release tables) | New |
 | `legacy` | The 17 current tables, read-only after each cutover | — |
@@ -456,101 +456,112 @@ How the seven constraints stand after this phase:
 | Partitioning for thousands of sources | Done: 32 hash partitions, migration `0013` |
 | Refresh facts on the source registry | Done: `catalog.source_refresh` and `catalog.source_state`, migration `0014` |
 | Drift detection as a library function | Done: `drift.compare` and `drift.detect` |
-| Steps are functions with explicit parameters | New steps follow it (`sources.record_check(source_id)`, `drift.detect(snapshot_id, config_hash)`, `backfill.*`, `ontology_gate.run(hash)`). Existing steps `ingestion.register`, the graph nodes and `pipeline.assemble` already take their IDs but also read `settings().experiment_id`; that is a setting, and stays. `store.current_discovery()` without an experiment reads a shared pointer row; phase 3 gives discovery an explicit ID when batches are typed. |
+| Steps are functions with explicit parameters | New steps follow it (`sources.record_check(source_id)`, `drift.detect(snapshot_id, config_hash)`, `backfill.*`, `ontology_gate.run(hash)`). Existing steps `ingestion.register`, the graph nodes and `pipeline.assemble` already take their IDs but also read `settings().experiment_id`; that is a setting, and stays. `store.current_discovery()` without an experiment reads a shared pointer row; since phase 3 `link-lens portfolio` asks for the configured experiment's discovery, and the shared row is only a fallback. |
 | Steps are idempotent | Holds for every write added so far: content-hash keys, `ON CONFLICT DO NOTHING`, and updates that are skipped when nothing changes. |
 | Serving SQL in one directory | Phase 4 |
-| Structured logs and clear exit codes | Exit codes are defined in [cli.py](../src/link_lens/cli.py): 0 done, 1 failed, 2 called wrongly, 3 ran and found something that blocks the next step (a failed gate check, blocking drift). Structured logs are not built yet; they come with the event and model-call tables in phase 3. |
+| Structured logs and clear exit codes | Exit codes are defined in [cli.py](../src/link_lens/cli.py): 0 done, 1 failed, 2 called wrongly, 3 ran and found something that blocks the next step (a failed gate check, blocking drift). Structured logs were added in phase 3. |
 
 ## Phase 3: Identity, profiles and operations
 
 **Goal:** derived results and operational records are typed, versioned by batch, and queryable.
 
-Schema sketch:
+Schema as built (migrations [0015](../migrations/versions/0015_ops.py), [0016](../migrations/versions/0016_identity.py) and [0017](../migrations/versions/0017_legacy_read_only.py) hold the full DDL). Every table below except `profile_field`, `profile_address` and `embedding` starts with the store's `id`, `owner_id` and `kind`, and ends with `extra jsonb` and `created_at`, as the phase 2 record tables do.
 
 ```sql
-CREATE TABLE ops.batch (
-  id text PRIMARY KEY, kind text NOT NULL,           -- pipeline | enhancement | discovery
-  experiment_id text NOT NULL, baseline_batch_id text REFERENCES ops.batch,
-  run_ids text[], counts jsonb, policy jsonb, result_artifact sha256, created_at timestamptz NOT NULL
+CREATE TABLE ops.batch (                             -- pipeline | enhancement | discovery
+  experiment_id text, baseline_batch_id text REFERENCES ops.batch,
+  result_artifact sha256 REFERENCES catalog.artifact,
+  run_ids text[], counts jsonb, policy jsonb, recorded_at timestamptz
+);
+CREATE TABLE ops.triage_decision (                   -- append-only; owner is the discovery
+  dataset_id text, model text, probability double precision, prompt_sha256 text,
+  request_id text, response_artifact sha256 REFERENCES catalog.artifact, basis text
+);
+CREATE TABLE ops.model_cache (                       -- append-only
+  response_artifact sha256 REFERENCES catalog.artifact,
+  artifact_id sha256 REFERENCES catalog.artifact
+);
+CREATE TABLE ops.model_call (                        -- every attempt; settled once, then fixed
+  experiment_id text, caller_id text, stage text, model text, status text,
+  input_tokens bigint, output_tokens bigint,         -- null = unknown, never zero
+  reservation_usd double precision, charge_usd double precision, rate jsonb
+);
+CREATE TABLE ops.event (                             -- owner is the run
+  at timestamptz, experiment_id text, stage text, model text, status text,
+  input_tokens bigint, output_tokens bigint, calculated_cost_usd double precision,
+  budget_charge_usd double precision, wall_seconds double precision
+);
+CREATE TABLE ops.evaluation (                        -- human_label | ai_label | worksheet | ...
+  worksheet_id text, item_id text, verdict text, reviewer text, evidence text,
+  review_type text, labelled_at timestamptz, batch_id text REFERENCES ops.batch
+);
+CREATE TABLE ops.embedding (                         -- append-only, HNSW index
+  key text PRIMARY KEY, model text NOT NULL, embedding vector(1536) NOT NULL, created_at timestamptz
 );
 
-CREATE TABLE identity.entity (
-  id text PRIMARY KEY, kind text NOT NULL,           -- entity | enhanced_entity
-  status text NOT NULL, rule_version text NOT NULL, first_batch_id text REFERENCES ops.batch
+CREATE TABLE identity.entity (                       -- kind: entity | enhanced_entity
+  batch_id text REFERENCES ops.batch,                -- set for a batch-owned snapshot
+  entity_id text, status text, rule_version text, identifiers jsonb
 );
-CREATE TABLE identity.entity_identifier (
-  batch_id text REFERENCES ops.batch, entity_id text REFERENCES identity.entity,
-  scheme text NOT NULL, value text NOT NULL,         -- abn | acn | nzbn
-  PRIMARY KEY (batch_id, entity_id, scheme, value)
+CREATE VIEW identity.entity_identifier AS ...        -- entity, scheme, value from identifiers
+CREATE TABLE identity.membership (                   -- append-only
+  batch_id text REFERENCES ops.batch, source_id text, record_id sha256, entity_id text,
+  FOREIGN KEY (source_id, record_id) REFERENCES evidence.source_record,
+  UNIQUE (batch_id, source_id, record_id)            -- a record joins one entity per batch
 );
-CREATE INDEX ON identity.entity_identifier (scheme, value);
-
-CREATE TABLE identity.membership (                   -- a record joins at most one entity per batch
-  batch_id text REFERENCES ops.batch, source_id text, record_id sha256,
-  entity_id text NOT NULL REFERENCES identity.entity, decision text, reason text,
-  PRIMARY KEY (batch_id, source_id, record_id)
+CREATE TABLE identity.link (                         -- append-only
+  batch_id text REFERENCES ops.batch, link_id sha256, entity_key text,
+  rule text, rule_version text, score double precision, score_kind text,
+  threshold double precision, status text,           -- proposed_unreviewed until reviewed
+  human_review_status text, evidence jsonb,
+  a_source_id text, a_record_id sha256, b_source_id text, b_record_id sha256   -- both REFERENCES evidence.source_record
 );
-CREATE INDEX ON identity.membership (batch_id, entity_id);
-
-CREATE TABLE identity.link (
-  id sha256 PRIMARY KEY, batch_id text REFERENCES ops.batch,
-  a_source_id text, a_record_id sha256, b_source_id text, b_record_id sha256,
-  rule text NOT NULL, rule_version text NOT NULL,
-  score real, score_kind text NOT NULL, threshold real,
-  status text NOT NULL,                              -- proposed_unreviewed until reviewed
-  evidence jsonb NOT NULL
+CREATE TABLE identity.profile (                      -- append-only
+  batch_id text REFERENCES ops.batch, entity_key text, profile_version sha256,
+  policy_version text, status text, uncertainties jsonb,
+  UNIQUE (batch_id, entity_key)
 );
-
-CREATE TABLE identity.profile (
-  batch_id text REFERENCES ops.batch, entity_id text REFERENCES identity.entity,
-  profile_version sha256 NOT NULL, policy_version text NOT NULL, status text NOT NULL,
-  uncertainties jsonb, PRIMARY KEY (batch_id, entity_id)
-);
-CREATE TABLE identity.profile_field (
-  batch_id text, entity_id text, concept_id bigint REFERENCES ontology.concept, position int,
-  status text NOT NULL,                              -- selected | unresolved | multi
+CREATE TABLE identity.profile_field (                -- append-only
+  profile_id text REFERENCES identity.profile, position int,
+  concept_name text NOT NULL, concept_id bigint REFERENCES ontology.concept,
+  status text,                                       -- selected | multiple_values
   value text, observation_source_id text, observation_id sha256,
-  decision text, temporal_caveat text, alternatives jsonb,
-  PRIMARY KEY (batch_id, entity_id, concept_id, position),
-  FOREIGN KEY (batch_id, entity_id) REFERENCES identity.profile,
+  detail jsonb NOT NULL,                             -- the field exactly: alternatives, provenance, decision
+  PRIMARY KEY (profile_id, position),
   FOREIGN KEY (observation_source_id, observation_id) REFERENCES evidence.observation
 );
-CREATE TABLE identity.profile_address (             -- one source record's address fields kept together
-  batch_id text, entity_id text, position int, source_id text, record_id sha256,
-  address_role text, fields jsonb NOT NULL,
-  PRIMARY KEY (batch_id, entity_id, position),
-  FOREIGN KEY (batch_id, entity_id) REFERENCES identity.profile
-);
-
-CREATE TABLE ops.event (
-  id uuid, run_id text, kind text NOT NULL, at timestamptz NOT NULL, payload jsonb NOT NULL,
-  PRIMARY KEY (at, id)
-) PARTITION BY RANGE (at);
-CREATE TABLE ops.model_call (                        -- every attempt, including failed and retried
-  id text PRIMARY KEY, experiment_id text NOT NULL, owner text, stage text NOT NULL, model text NOT NULL,
-  status text NOT NULL, input_tokens bigint, output_tokens bigint,   -- null = unknown, never zero
-  reservation_usd numeric, charge_usd numeric, rate jsonb, created_at timestamptz NOT NULL
-);
-CREATE TABLE ops.model_cache (key text PRIMARY KEY, stage text, response_artifact sha256, created_at timestamptz);
-CREATE TABLE ops.evaluation (
-  id text PRIMARY KEY, kind text NOT NULL,           -- human_label | ai_label | worksheet | ...
-  worksheet_id text, item_id text, verdict text, reviewer text, evidence text,
-  labelled_at timestamptz, payload jsonb NOT NULL
-);
-CREATE TABLE ops.embedding (
-  key sha256 PRIMARY KEY, model text NOT NULL, embedding vector(1536) NOT NULL, created_at timestamptz NOT NULL
+CREATE TABLE identity.profile_address (              -- append-only; one record's address fields together
+  profile_id text REFERENCES identity.profile, position int, role text,
+  source_id text, record_id sha256, detail jsonb NOT NULL,
+  PRIMARY KEY (profile_id, position),
+  FOREIGN KEY (source_id, record_id) REFERENCES evidence.source_record
 );
 ```
 
+Differences from the first sketch, each found while building against the stored data and the code:
+
+- **Records are kept exactly, as in phase 2.** Every table accepts the record the store is given and reads it back unchanged; typed columns hold what is present and well formed, and a reference column is filled only when the row it points at exists. In the stored data every reference resolved: no value stayed outside its column.
+- **`model_call` is not append-only.** A reservation is written before a call and changed once when the call is settled. The database allows that one change and refuses any change to a call that is `settled` or a `historical_estimate`.
+- **`evaluation` is not append-only.** A row is the current label of an item and is replaced when the item is labelled again. Every label ever submitted is an event, as before, so the history is still append-only where it was.
+- **`event` is not append-only and not partitioned.** The enhancement step writes a usage event when a call starts and completes it when the call ends, so an interrupted call leaves its receipt. Partitioning by time would need a partition key in the primary key, while the store looks events up by ID alone, and a step that creates partitions ahead of time, which nothing runs yet. With 9,178 events a plain table with indexes is enough; it can be rebuilt as partitions later, as `0013` did for evidence.
+- **The store's `batches` table is three tables.** Batches, triage decisions and cached model responses shared one table and are told apart by their key (`triage-…`, `enhance-cache-…`). The ontology job's cached responses, which sat in `ontology_events`, join `ops.model_cache`.
+- **A batch is written in one transaction** with its entities, memberships, links and profiles, batch first (`store.put_many`). Before, the batch row was written last and separately, so a failure left rows without a batch.
+- **`entity` holds two kinds of row,** as the store did: the shared record of an entity, which assembly updates, and the snapshot an enhancement batch owns. So `membership.entity_id` is not a foreign key. `entity_identifier` is a view over the `identifiers` column, which has a GIN index, instead of a table that would have to follow every update.
+- **Profile fields and addresses are stored once,** as rows whose `detail` is the field exactly and whose columns point at the observation or source record it cites. A profile reads back with them in place. Of 3,465 stored fields, 3,351 cite an observation and 114 hold several values.
+- **`current_*` views are not built.** They were to select the promoted batch from the submission manifest until releases exist. A view cannot read that file, and a pointer table made only for one phase would be replaced in the next. Phase 4 builds them on `ops.release`.
+- **`ops.embedding` is keyed by the cache key,** a text, not a digest. Only vectors of the indexed size, 1,536, are stored.
+
 Tasks:
 
-- [ ] **Migrations** for `identity` and the remaining `ops` tables. Append-only triggers on `membership`, `link`, `profile`, `profile_field`, `profile_address`, `model_call`, `evaluation`.
-- [ ] **Backfill** batches, entities and identifiers, memberships, links, profiles (flattening `fields`, `addresses` and alternatives), events, budget reservations into `model_call`, caches, triage decisions, evaluations.
-- [ ] **Repositories** in `db/identity.py` and `db/ops.py`. Finish the `store` facade for these tables. After this phase no module reads `legacy` directly.
-- [ ] **`current_*` views** per derived table that select the batch named by the active release (phase 4). Until then they select the promoted batch from the submission manifest.
-- [ ] **Keep budget locking** as is: the advisory lock stays, reservations now write `ops.model_call`.
-- [ ] **Write new embeddings** to `ops.embedding` with an HNSW index. Backfilling cached embeddings is optional.
-- [ ] **Make the legacy tables read-only** by revoking writes from the pipeline role.
+- [x] **Migrations** `0015` and `0016` for the remaining `ops` tables and `identity`. Append-only triggers on `triage_decision`, `model_cache`, `embedding`, `membership`, `link`, `profile`, `profile_field`, `profile_address`; a settlement trigger on `model_call`.
+- [x] **Backfill** batches, triage decisions, cached responses, budget reservations into `model_call`, events, evaluations, entities, memberships, links and profiles with their fields and addresses. `link-lens backfill identity-ops` is idempotent and verifies that every copied record reads back exactly as its legacy row.
+- [x] **Repositories** in [db/identity.py](../src/link_lens/db/identity.py) and [db/ops.py](../src/link_lens/db/ops.py). The `store` facade serves every table from typed schemas. The one exception is the legacy ontology history (`ontologies` and the proposal and activation rows of `ontology_events`), which the store still reads for archives and which `backfill.py` and the baseline script read to compare. No other module reads `legacy`.
+- [ ] **`current_*` views.** Moved to phase 4; see above.
+- [x] **Keep budget locking** as is: the advisory lock stays, reservations now write `ops.model_call`, and the enhancement budget is summed from `ops.event.budget_charge_usd`.
+- [x] **Write new embeddings** to `ops.embedding` with an HNSW index. Cached embeddings are not backfilled.
+- [x] **Make the legacy tables read-only** (migration `0017`) by revoking `INSERT` and `UPDATE` from the pipeline role.
+- [x] **Structured logs** ([logs.py](../src/link_lens/logs.py)), from the owner's constraints. The `link-lens` entry point writes one JSON line to standard error when a command finishes or fails: command, exit code, duration and, for a failure, the error type. A message is logged only for errors this code base raises itself, so a provider response is never copied into a log. The backfills log one line per table.
+- [x] **Discovery by experiment.** `link-lens portfolio` reads the configured experiment's discovery instead of the shared `discovery` pointer.
 
 Done when:
 
@@ -558,6 +569,16 @@ Done when:
 - Re-running `assemble` on the promoted batch's inputs reproduces identical `profile_version` values. This is deterministic and makes no model calls.
 - `link-lens usage` and the cost reports return the same totals and the same priced-call coverage as before.
 - Human labels and AI labels remain separately countable.
+
+Results on 2026-11-14:
+
+- **Baseline.** The typed check now covers every table except the legacy ontology history and reported zero differences on the local database: row counts and ID digests per table, kind and owner; memberships, entities, links, profile versions and stored counts per batch; reservations per experiment. The legacy check also reported zero differences.
+- **Backfill.** 26 batches, 1,067 triage decisions, 18,395 cached responses, 1,002 model calls, 9,178 events, 411 evaluations, 298 entities, 1,235 memberships, 621 links and 614 profiles with 3,465 fields and 355 addresses, in 69 seconds. Every record read back exactly and every reference resolved.
+- **Deterministic replay.** On a restored copy, `assemble` on the promoted batch's six runs (`minimum_profiles` 50, cohort pool 25,000) produced a new batch whose 60 profile versions and 61 link IDs equal the promoted batch's. It inserted no observation, source record or entity and made no model call.
+- **Same reports.** On restored copies, phase 2 code before the migration and phase 3 code after it printed the same bytes for `usage` (two experiments), `runs`, `ontology budget` and `evaluation-report`, returned identical records for every profile, entity, link, membership, evaluation, reservation, event and batch and identical budget and measurement summaries, and exported the same 1,747 files with equal values. On the local database `usage` reports 1,002 calls, 997 priced.
+- **Labels.** `ops.evaluation` holds 322 AI labels and 70 human labels under separate kinds.
+- **Tests.** 175 passed, 4 skipped. The 10 new tests cover typed assembly and its repeatability, atomic batch writes, profile fields as rows, the three batch tables, settlement of model calls, events and labels, embeddings, the backfill with its typed baseline, restore order and command logs. One role test changed because the pipeline role can no longer write `legacy`.
+- **Not verified:** an enhancement run on the typed tables (it needs paid model calls; its writes are covered by the existing tests with stubbed models); similarity search on real embeddings, since none is stored yet; restoring a first-format archive as the pipeline role, which now cannot write the legacy ontology rows that restore uses.
 
 ## Phase 4: Releases, serving views and the OKF tree
 
@@ -609,6 +630,7 @@ OKF path scheme:
 
 Tasks:
 
+- [ ] **`current_*` views** per derived table that select the batch named by the latest release (moved here from phase 3).
 - [ ] **`link-lens release create --batch-id … --reviewer …`** inserts the release row and builds the `okf_*` tables. It is a human action and is never triggered by a pipeline run. `release list` and `release show` report state.
 - [ ] **Serving views** as above, owned by the migrator role, selectable by `linklens_product` only.
 - [ ] **Split the renderer out of `exports.py`.** `okf/render.py` holds pure functions: `render_entity`, `render_evidence`, `render_source`, `render_concept`, `render_index`. Use the release time for `generated.at` so output is deterministic.
@@ -828,7 +850,9 @@ No verification step needs a model call or a new human review.
 | Tests need PostgreSQL | Deterministic tests no longer run without a database | Use a container started by the test session; keep pure logic tests database-free |
 | `jsonb` key order | Files regenerated from legacy payloads list the same values with keys in a different order, so a regenerated `outputs/` shows key-order diffs and new file hashes. OKF pages come from artifacts and are unaffected. | Keep the submitted files as they are. Compare regenerated JSON by value, or write exports with sorted keys if byte-stable output is wanted. |
 | Backend migrates on start | The compose backend runs `alembic upgrade head` when it starts, so starting it on new code migrates the database it points at | Back up before starting a backend that carries new migrations; consider a separate migration step before Phase 9 |
-| Lenient record tables | `source`, `snapshot`, `run`, `mapping` and `approval` accept any record the store is given, so their typed columns are nullable and a reference that does not resolve is kept as JSON instead of failing | Report unresolved values with `link-lens backfill spine`; add `NOT NULL` and strict references when the store facade is retired and writers use the repositories directly |
+| Events are not partitioned | `ops.event` is one table; the plan sketched partitions by time | Rebuild as time partitions when volume calls for it, together with a step that creates partitions ahead |
+| Format-1 archives and the read-only legacy schema | Restoring a first-format archive writes its ontology rows to `legacy` before copying them to the registry, which the pipeline role may no longer do | Restore such archives as the migrator, or convert them once to the current format |
+| Lenient record tables | `source`, `snapshot`, `run`, `mapping` and `approval` (and since phase 3 the identity and operations tables) accept any record the store is given, so their typed columns are nullable and a reference that does not resolve is kept as JSON instead of failing | Report unresolved values with `link-lens backfill spine`; add `NOT NULL` and strict references when the store facade is retired and writers use the repositories directly |
 | Shared memory in Docker | Parallel joins over the typed tables failed with Docker's 64 MB default | Compose sets `shm_size: 256mb`; lookups use array parameters instead of long `IN` lists; size it again for production |
 | Roles on managed PostgreSQL | Migration `0008` creates roles and changes owners, which the local superuser may do. A managed service's admin user is not a superuser and needs membership in `linklens_migrator` first. | Settle in Phase 9 with the chosen provider |
 | Source coverage tiers and profiles | A profile combines several sources. A client limited to some sources could still see values selected from others. | Decide between selling profiles whole or filtering fields and provenance by scope. Start with whole profiles, and apply scope to observations, evidence and bundles. |

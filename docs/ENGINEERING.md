@@ -176,6 +176,20 @@ uv run python scripts/migration_baseline.py --typed --check outputs/local-run/mi
 
 On 2026-11-14 the local database moved from `0009` to `0012` and was backfilled in 58 seconds: 26,610 artifacts, 949 sources, 12 snapshots, 73 runs, 107 mappings in 107 configs with 602 mapping fields, 52 approvals, 23,101 source records and 374,335 observations. No observation needed its JSON column. Eleven runs name a pseudo-source (`ontology`, `connectivity-test`) and eight a snapshot that was never stored; those values stay in the run's JSON column. Both baseline checks reported zero differences, a second backfill copied nothing, and `evidence.observation` takes 223 MB where `legacy.observations` takes 722 MB. The same day the two evidence tables were rebuilt as hash partitions (`0013`, 8 seconds) and the refresh table and view were added (`0014`); both baseline checks again reported zero differences. Before that, on a restored copy, eight CLI commands printed the same bytes as before and an export of the submission batch produced the same 1,747 files with equal values.
 
+Identity and operations (migrations `0015` to `0017`, Phase 3) complete the move: batches, triage decisions, cached model responses, model calls, events, evaluations, entities, memberships, links and profiles are served from the `ops` and `identity` schemas, and the pipeline role can no longer write `legacy`.
+
+- **Batches.** `assemble` and `enhance` write a batch and everything it owns in one transaction with `store.put_many`, batch first. The store's `batches` name still answers for batches, triage decisions (`triage-…`) and cached responses (`enhance-cache-…`), which are now three tables.
+- **Profiles.** A profile's fields and addresses are rows in `identity.profile_field` and `identity.profile_address`; each keeps the field exactly and points at the observation or source record it cites. The profile reads back unchanged, so `profile_version` is unaffected.
+- **Model calls.** A reservation in `ops.model_call` may change until it is settled; after that the database refuses any change. Usage events in `ops.event` are written when a call starts and completed when it ends. `ops.evaluation` holds the current label per item; human and AI labels have separate kinds.
+- **Embeddings.** New embeddings are also stored in `ops.embedding`, with an HNSW index for cosine similarity. Cached embeddings from earlier runs are not copied.
+- **Logs.** `link-lens` writes one JSON line to standard error when a command finishes or fails, with the command, exit code and duration. Results stay on standard output.
+
+```sh
+uv run link-lens backfill identity-ops
+```
+
+On 2026-11-14 the local database moved from `0014` to `0017` and was backfilled in 69 seconds: 26 batches, 1,067 triage decisions, 18,395 cached responses, 1,002 model calls, 9,178 events, 411 evaluations, 298 entities, 1,235 memberships, 621 links and 614 profiles with 3,465 fields. Both baseline checks reported zero differences. On a restored copy, re-running `assemble` for the promoted batch reproduced all 60 profile versions without a model call, and the reports and export matched the previous code's output.
+
 The migration baseline records what the store holds, so each later migration and backfill can be checked against it. It is read-only and works on both layouts:
 
 ```sh

@@ -30,7 +30,7 @@ Application code is in `src/link_lens/`:
 | `contracts.py`, `readers.py`, `extraction.py` | Typed mapping contract, shared readers and declarative extraction |
 | `resolution.py`, `profiles.py`, `pipeline.py` | Deterministic linking, profile decisions and assembly |
 | `store.py`, `blobs.py`, `frozen.py` | Store facade over typed and legacy tables, artifact byte storage (local or S3-compatible) and archive/restore |
-| `db/`, `backfill.py` | Typed-schema helpers and repositories (`db/ontology.py`, `db/catalog.py`, `db/onboarding.py`, `db/evidence.py`), and copies from the legacy tables |
+| `db/`, `backfill.py`, `logs.py` | Typed-schema helpers and repositories (`db/ontology.py`, `db/catalog.py`, `db/onboarding.py`, `db/evidence.py`, `db/identity.py`, `db/ops.py`), copies from the legacy tables, and JSON-line command logs |
 | `ontology.py`, `ontology_workflow.py`, `ontology_gate.py`, `ontology_export.py` | Ontology registry, proposal job, promotion gate, and LinkML/SHACL/JSON Schema export |
 | `evaluation.py`, `review_ui.py` | Separate human/AI evaluation records and review worksheets |
 | `measurements.py`, `pricing.py`, `pricing_rates.json` | Usage, pricing basis and cost calculations |
@@ -66,6 +66,7 @@ Service startup and provider setup live in README. Default local ports: Inbox 30
 - Only the trusted sandbox controller has Docker-daemon access. Execution containers receive no network, credentials, Docker socket or repository mount. Preserve resource limits, bounded outputs and cleanup on failure. This is local-development isolation, not a production multi-tenant security claim.
 - Link on validated identifiers with compatible subject roles. Never derive ACN from an ABN suffix, merge on name alone, or ignore conflicting identifiers/ownership ambiguity. Preserve source records and versioned membership decisions.
 - Preserve raw values, exact source locators, timestamp policy, separate confidence dimensions, alternatives and cohesive address bundles. Uncalibrated scores are rule/model scores, not measured probabilities. Missing defensible timestamps require quarantine rather than invented dates.
+- Every domain lives in typed tables behind `store.py`; nothing writes `legacy`. Write a batch and what it owns with `store.put_many`, batch first. A settled model call never changes.
 - Sources, snapshots, runs, mappings, approvals and observations live in typed tables behind `store.py` and must read back exactly as written. Snapshots, mapping configs, mappings, approvals, source records and observations are append-only; write observations with `store.put_observations`.
 - Write each pipeline step as a function with explicit IDs that returns a small result record and writes nothing new when repeated. No table gets one partition per source. CLI exit codes: 0 done, 1 failed, 2 called wrongly, 3 ran and found something that blocks the next step. `docs/PRODUCTION_PLAN.md` section 4 lists these rules.
 - PostgreSQL and immutable artifacts are authoritative; OKF is a generated view. Serve artifacts by registered ID, not arbitrary filesystem paths. Version schema changes with Alembic.
