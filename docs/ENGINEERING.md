@@ -156,6 +156,24 @@ The ontology registry (migration `0009`, Phase 1) is the first typed domain. Its
 
 On 2026-11-14 the local database moved from `0008` to `0009` and was backfilled: 2 versions, 59 concepts, 3 proposals with 393 dispositions and 45 concept decisions, and 2 activations. `ontology show` and `ontology diff` printed the same bytes as before for both versions, and the baseline check reported zero differences.
 
+The evidence spine (migrations `0010` to `0012`, Phase 2) moves artifacts, sources, snapshots, runs, mappings, approvals and observations to the `catalog`, `onboarding` and `evidence` schemas. Callers still use `store.put`, `get`, `require` and `listing`; `store.py` routes these seven tables to the typed repositories.
+
+- **Exact records.** A source, snapshot, run, mapping or approval reads back exactly as it was written. A field sits in its typed column when the value is present and well formed, and in the row's JSON column otherwise. A reference column is filled only when the row it points at exists, so no foreign key dangles; `link-lens backfill spine` reports values that stayed outside their column.
+- **Observations.** `evidence.observation` references its source record, concept and mapping config. Licence, snapshot, locator, roles and source reliability are read through those references instead of being copied onto each row, and each observation still reads back exactly as the extractor produced it. `store.put_observations` loads them with `COPY`; an observation that is already stored is skipped. The legacy `owner_id` of an observation (whichever run or source stored it first) is not kept.
+- **Mapping configs.** A config is stored once in `onboarding.mapping_config` under its content hash, and `onboarding.mapping` references it, because two runs may propose the same config. `onboarding.mapping_field` indexes each config's fields by concept.
+- **Partitions.** Source records and observations are partitioned by source. Registering a source calls `evidence.ensure_source_partitions`; other sources use the default partitions.
+- **Artifacts.** `blobs.py` writes bytes to the local artifact directory or, with `LINK_LENS_ARTIFACT_STORE=s3`, to an S3-compatible bucket read through a local cache. `catalog.artifact.uri` records where each artifact is. The S3 backend is tested with a stand-in client only, not against a real bucket.
+- **Archives.** `freeze` reads records through the store, so an archive has the same shape whether a table is generic or typed.
+
+```sh
+uv run link-lens backfill spine
+uv run python scripts/migration_baseline.py --typed --check outputs/local-run/migration-baseline.json
+```
+
+`backfill spine` copies in dependency order, is idempotent, and verifies that every copied record reads back exactly as its legacy row. The `--typed` check computes counts and digests per table, experiment, batch and mapping config from the typed schemas and compares them with the baseline.
+
+On 2026-11-14 the local database moved from `0009` to `0012` and was backfilled in 58 seconds: 26,610 artifacts, 949 sources, 12 snapshots, 73 runs, 107 mappings in 107 configs with 602 mapping fields, 52 approvals, 23,101 source records and 374,335 observations. No observation needed its JSON column. Eleven runs name a pseudo-source (`ontology`, `connectivity-test`) and eight a snapshot that was never stored; those values stay in the run's JSON column. Both baseline checks reported zero differences, a second backfill copied nothing, and `evidence.observation` takes 223 MB where `legacy.observations` takes 722 MB. Before that, on a restored copy, eight CLI commands printed the same bytes as before and an export of the submission batch produced the same 1,747 files with equal values.
+
 The migration baseline records what the store holds, so each later migration and backfill can be checked against it. It is read-only and works on both layouts:
 
 ```sh

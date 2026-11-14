@@ -28,8 +28,8 @@ Application code is in `src/link_lens/`:
 | `agent.py`, `llm.py` | Bounded LangGraph onboarding, model calls, validation, critique and Inbox interrupts |
 | `contracts.py`, `readers.py`, `extraction.py` | Typed mapping contract, shared readers and declarative extraction |
 | `resolution.py`, `profiles.py`, `pipeline.py` | Deterministic linking, profile decisions and assembly |
-| `store.py`, `frozen.py` | PostgreSQL evidence, content-addressed artifacts and archive/restore |
-| `db/`, `backfill.py` | Typed-schema helpers and repositories (`db/ontology.py`), and copies from the legacy tables |
+| `store.py`, `blobs.py`, `frozen.py` | Store facade over typed and legacy tables, artifact byte storage (local or S3-compatible) and archive/restore |
+| `db/`, `backfill.py` | Typed-schema helpers and repositories (`db/ontology.py`, `db/catalog.py`, `db/onboarding.py`, `db/evidence.py`), and copies from the legacy tables |
 | `ontology.py`, `ontology_workflow.py`, `ontology_gate.py`, `ontology_export.py` | Ontology registry, proposal job, promotion gate, and LinkML/SHACL/JSON Schema export |
 | `evaluation.py`, `review_ui.py` | Separate human/AI evaluation records and review worksheets |
 | `measurements.py`, `pricing.py`, `pricing_rates.json` | Usage, pricing basis and cost calculations |
@@ -65,6 +65,7 @@ Service startup and provider setup live in README. Default local ports: Inbox 30
 - Only the trusted sandbox controller has Docker-daemon access. Execution containers receive no network, credentials, Docker socket or repository mount. Preserve resource limits, bounded outputs and cleanup on failure. This is local-development isolation, not a production multi-tenant security claim.
 - Link on validated identifiers with compatible subject roles. Never derive ACN from an ABN suffix, merge on name alone, or ignore conflicting identifiers/ownership ambiguity. Preserve source records and versioned membership decisions.
 - Preserve raw values, exact source locators, timestamp policy, separate confidence dimensions, alternatives and cohesive address bundles. Uncalibrated scores are rule/model scores, not measured probabilities. Missing defensible timestamps require quarantine rather than invented dates.
+- Sources, snapshots, runs, mappings, approvals and observations live in typed tables behind `store.py` and must read back exactly as written. Snapshots, mapping configs, mappings, approvals, source records and observations are append-only; write observations with `store.put_observations`.
 - PostgreSQL and immutable artifacts are authoritative; OKF is a generated view. Serve artifacts by registered ID, not arbitrary filesystem paths. Version schema changes with Alembic.
 - AI audits, human mapping approvals and human evidence evaluations are different activities. Unknown/unreviewed labels are not correct answers. An AI audit cannot complete the assignment's human evaluation requirement.
 - Include all model attempts in usage. Missing usage is unknown, not zero. State estimated pricing basis and priced-call coverage; do not present a partial subtotal as the complete bill. Per-record processing is deterministic unless explicitly changed.

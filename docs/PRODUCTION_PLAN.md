@@ -1,6 +1,6 @@
 # Production implementation plan
 
-Status: **Phases 0 and 1 are implemented and applied to the local database (2026-11-14). Phases 2 to 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
+Status: **Phases 0, 1 and 2 are implemented and applied to the local database (2026-11-14). Phases 3 to 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
 
 Facts about the current store were measured on the local database on 2026-11-14 (experiment `jev-gpt6-luna-ontology-v1` plus earlier experiments in the same database).
 
@@ -77,7 +77,7 @@ flowchart LR
 |---|---|---|
 | `ontology` | `ontology_version`, `concept`, `concept_value`, `concept_requires`, `version_concept`, `version_evidence`, `proposal`, `proposal_run`, `disposition`, `concept_decision`, `activation`, `gate_report` | `ontologies`, `ontology_events`, the JSON blob |
 | `catalog` | `source`, `snapshot`, `artifact` | `sources`, `snapshots`, `artifacts` |
-| `onboarding` | `run`, `mapping`, `mapping_field`, `approval` | `runs`, `mappings`, `approvals` |
+| `onboarding` | `run`, `mapping_config`, `mapping`, `mapping_field`, `approval` | `runs`, `mappings`, `approvals` |
 | `evidence` | `source_record`, `observation` | `observations` |
 | `identity` | `entity`, `entity_identifier`, `membership`, `link`, `profile`, `profile_field`, `profile_address` | `entities`, `memberships`, `links`, `profiles` |
 | `ops` | `batch`, `release`, `event`, `model_call`, `model_cache`, `triage_decision`, `evaluation`, `embedding` | `batches`, `events`, `budget_reservations`, `evaluations` |
@@ -283,96 +283,123 @@ Results on 2026-11-14:
 
 **Goal:** the evidence spine exists with foreign keys: concept, observation, source record, snapshot, source.
 
-Schema sketch:
+Schema as built (migrations [0010](../migrations/versions/0010_catalog.py), [0011](../migrations/versions/0011_onboarding.py) and [0012](../migrations/versions/0012_evidence.py) hold the full DDL):
 
 ```sql
 CREATE TABLE catalog.artifact (
   sha256 sha256 PRIMARY KEY, uri text NOT NULL, media_type text NOT NULL,
-  size bigint NOT NULL, name text, created_at timestamptz NOT NULL
+  size bigint NOT NULL, name text NOT NULL, created_at timestamptz NOT NULL
 );
 CREATE TABLE catalog.source (
-  id text PRIMARY KEY, kind text NOT NULL,          -- catalogue | registered
-  portal text NOT NULL, slug text, title text, publisher text,
-  metadata jsonb NOT NULL, created_at timestamptz NOT NULL
+  id text PRIMARY KEY, owner_id text, kind text,     -- catalogue | registered
+  portal text, slug text, metadata jsonb,
+  title text GENERATED ALWAYS AS (metadata ->> 'title') STORED,
+  publisher text GENERATED ALWAYS AS (metadata -> 'organization' ->> 'title') STORED,
+  extra jsonb NOT NULL, created_at timestamptz NOT NULL
 );
-CREATE TABLE catalog.snapshot (
-  id sha256 PRIMARY KEY, source_id text NOT NULL REFERENCES catalog.source,
-  resource_id text, artifact_sha sha256 NOT NULL REFERENCES catalog.artifact, format text NOT NULL,
+CREATE TABLE catalog.snapshot (                      -- append-only
+  id text PRIMARY KEY, owner_id text, kind text,
+  source_id text REFERENCES catalog.source, resource_id text,
+  artifact_sha sha256 REFERENCES catalog.artifact, format text,
   licence text, licence_url text,
-  observed_at timestamptz, observed_at_basis text NOT NULL,
-  documentation jsonb, dataset_notes text, receipt jsonb, inspection jsonb
+  observed_at timestamptz, observed_at_basis text, retrieved_at timestamptz,
+  documentation jsonb, dataset_notes text, receipt jsonb, inspection jsonb,
+  extra jsonb NOT NULL, created_at timestamptz NOT NULL
 );
 
 CREATE TABLE onboarding.run (
-  id text PRIMARY KEY, kind text NOT NULL, experiment_id text NOT NULL,
-  source_id text REFERENCES catalog.source, snapshot_id sha256 REFERENCES catalog.snapshot,
+  id text PRIMARY KEY, owner_id text, kind text, experiment_id text,
+  source_id text REFERENCES catalog.source, snapshot_id text REFERENCES catalog.snapshot,
   ontology_hash sha256 REFERENCES ontology.ontology_version,
-  status text NOT NULL, model text, prompt_version text, thread_id text,
   supersedes_run_id text REFERENCES onboarding.run,
+  status text, model text, prompt_version text, thread_id text,
   model_calls int, python_calls int, input_tokens bigint, output_tokens bigint,
-  active_seconds numeric, calculated_cost_usd numeric,
+  active_seconds double precision, calculated_cost_usd double precision,
+  started_at timestamptz, completed_at timestamptz,
   state jsonb NOT NULL,                              -- validation, critique, artifacts, recovery lineage
-  created_at timestamptz NOT NULL, completed_at timestamptz
+  created_at timestamptz NOT NULL
 );
-CREATE TABLE onboarding.mapping (
-  config_hash sha256 PRIMARY KEY,                    -- unique across all 107 stored mappings
-  id text NOT NULL UNIQUE,                           -- existing "<run>:<version>" id
-  run_id text NOT NULL REFERENCES onboarding.run, version int NOT NULL,
+CREATE TABLE onboarding.mapping_config (             -- append-only; one row per distinct config
+  config_hash sha256 PRIMARY KEY, config jsonb NOT NULL,
   ontology_hash sha256 REFERENCES ontology.ontology_version,   -- null = packaged v0.1
   subject_role text NOT NULL, source_kind text NOT NULL, address_role text NOT NULL,
-  source_reliability real NOT NULL, config jsonb NOT NULL,
-  model text, status text NOT NULL, created_at timestamptz NOT NULL
+  source_reliability double precision NOT NULL, created_at timestamptz NOT NULL
 );
 CREATE TABLE onboarding.mapping_field (              -- derived from config, for impact queries
-  config_hash sha256 REFERENCES onboarding.mapping, concept_id bigint REFERENCES ontology.concept,
+  config_hash sha256 REFERENCES onboarding.mapping_config, position int,
+  concept_id bigint NOT NULL REFERENCES ontology.concept,
   group_name text NOT NULL DEFAULT '', source_fields text[] NOT NULL,
-  PRIMARY KEY (config_hash, concept_id, group_name)
+  PRIMARY KEY (config_hash, position)
+);
+CREATE TABLE onboarding.mapping (                    -- append-only; a config proposed in a run
+  id text PRIMARY KEY, owner_id text, kind text,     -- existing "<run>:<version>" id
+  run_id text REFERENCES onboarding.run, version int,
+  config_hash sha256 REFERENCES onboarding.mapping_config,
+  model text, status text, generated_by text, proposed_at timestamptz,
+  extra jsonb NOT NULL, created_at timestamptz NOT NULL
 );
 CREATE TABLE onboarding.approval (                   -- append-only
-  id text PRIMARY KEY, run_id text NOT NULL REFERENCES onboarding.run,
-  config_hash sha256 NOT NULL REFERENCES onboarding.mapping,
-  decision text NOT NULL, reviewer text NOT NULL, feedback text,
-  identity_basis text, decided_at timestamptz NOT NULL
+  id text PRIMARY KEY, owner_id text, kind text,
+  run_id text REFERENCES onboarding.run, mapping_id text REFERENCES onboarding.mapping,
+  config_hash sha256 REFERENCES onboarding.mapping_config,
+  decision text, reviewer text, feedback text, identity_basis text, decided_at timestamptz,
+  extra jsonb NOT NULL, created_at timestamptz NOT NULL
 );
 
-CREATE TABLE evidence.source_record (
-  source_id text NOT NULL REFERENCES catalog.source,
-  id sha256 NOT NULL, snapshot_id sha256 NOT NULL REFERENCES catalog.snapshot,
+CREATE TABLE evidence.source_record (                -- append-only
+  source_id text NOT NULL REFERENCES catalog.source, id sha256 NOT NULL,
+  snapshot_id text NOT NULL REFERENCES catalog.snapshot,
   sheet text, row_no bigint, locator jsonb NOT NULL,
   PRIMARY KEY (source_id, id)
 ) PARTITION BY LIST (source_id);
-
-CREATE TABLE evidence.observation (
-  source_id text NOT NULL, id sha256 NOT NULL,
-  record_id sha256 NOT NULL, concept_id bigint NOT NULL REFERENCES ontology.concept,
-  config_hash sha256 NOT NULL REFERENCES onboarding.mapping,
-  group_name text, group_id text,
-  value text, raw_value jsonb NOT NULL, source_fields text[] NOT NULL,
-  field_confidence real, observed_at timestamptz, observed_at_basis text,
-  ingested_at timestamptz NOT NULL, derivation_level text,
+CREATE TABLE evidence.observation (                  -- append-only
+  source_id text NOT NULL, id sha256 NOT NULL, record_id sha256 NOT NULL,
+  concept_id bigint NOT NULL REFERENCES ontology.concept,
+  config_hash sha256 NOT NULL REFERENCES onboarding.mapping_config,
+  group_name text, group_id sha256,
+  value text NOT NULL, raw_value jsonb NOT NULL, source_fields text[] NOT NULL,
+  field_confidence double precision NOT NULL,
+  observed_at timestamptz NOT NULL,
+  timestamp_basis text NOT NULL CHECK (timestamp_basis IN ('snapshot', 'record')),
+  timezone_assumed boolean NOT NULL, ingested_at timestamptz NOT NULL,
+  derivation_level text NOT NULL, engine text NOT NULL,
+  extra jsonb NOT NULL DEFAULT '{}',
   PRIMARY KEY (source_id, id),
   FOREIGN KEY (source_id, record_id) REFERENCES evidence.source_record (source_id, id)
 ) PARTITION BY LIST (source_id);
 CREATE INDEX ON evidence.observation (source_id, record_id);
-CREATE INDEX ON evidence.observation (concept_id, value);
+CREATE INDEX ON evidence.observation (concept_id, left(value, 256));
+CREATE INDEX ON evidence.observation (config_hash);
 ```
 
 Notes:
 
-- Licence, snapshot and source context are read through `source_record` and `snapshot`. Roles and source reliability are read through `mapping`. They are no longer copied onto each observation. Estimated row size falls from about 1.7 KB to about 0.5 KB (5% sample estimate).
-- `observed_at` stays on the observation because a mapping may use a record-level statement timestamp.
-- One partition per registered source, plus a default partition. A source can then be loaded, verified and attached, or detached, without touching the others.
+- Licence, snapshot and source context are read through `source_record` and `snapshot`. Roles and source reliability are read through `mapping_config`. They are no longer copied onto each observation. `evidence.observation` with its indexes takes 223 MB where `legacy.observations` takes 722 MB.
+- `observed_at` stays on the observation because a mapping may use a record-level statement timestamp. `timestamp_basis` says whether it came from the snapshot or from the record.
+- One partition pair per source that has observations, plus default partitions. `evidence.ensure_source_partitions` creates them; registering a source calls it. A source can then be loaded, verified and attached, or detached, without touching the others.
 - Full source rows are not stored today; only per-field `raw_value`. Adding a `raw jsonb` column to `source_record` is a separate decision.
+
+Differences from the first sketch, each found while building against the stored data and the code:
+
+- **Records are kept exactly.** The store has always held one JSON document per key, and tests and callers write partial records. `source`, `snapshot`, `run`, `mapping` and `approval` therefore keep the document without loss: a field goes into its typed column when the value is present and well formed, and into the row's JSON column (`extra`, or `state` for a run) otherwise. Reading puts the document back together. These tables have nullable typed columns instead of `NOT NULL`, and keep the store's `owner_id` and `kind`, which `listing` filters on.
+- **Reference columns are filled only when the referenced row exists.** A foreign key never dangles, and a reference that does not resolve stays visible in the JSON column. In the stored data that is 11 runs that name a pseudo-source (`ontology`, `connectivity-test`) and 8 that name a snapshot that was never stored.
+- **A mapping config is its own table.** `config_hash` is unique across the 107 stored mappings, but two runs can propose the same config, and the tests do. `mapping_config` holds each distinct config once under its content hash, and is stored only when the config really hashes to it; `mapping` is the proposal in a run. Observations and approvals reference the config. `mapping_field` is keyed by position.
+- **Snapshot IDs stay text.** They are 64-character digests today, but the store accepts any key, and nothing is gained by `bytea` for a dozen rows.
+- **Observations are strict, and still exact.** Every column the sketch had is required, and an observation must reference a stored snapshot, mapping config and concept. `engine`, `timezone_assumed` and `timestamp_basis` replace three repeated strings. `extra` holds anything a row could not derive exactly from its references; none of the 374,335 stored observations needs it.
+- **No owner on observations.** The legacy `owner_id` was whichever run or source stored the observation first. A run's observations are found through its mapping config.
+- **The value index holds a prefix**, `left(value, 256)`, so no value is too long for it. The longest stored value is 735 bytes.
+- **Artifacts, mapping configs and mapping fields are append-only too.**
 
 Tasks:
 
-- [ ] **Migrations** for `catalog`, `onboarding`, `evidence`, with append-only triggers on `snapshot`, `mapping`, `approval`, `source_record`, `observation`.
-- [ ] **Backfill** in dependency order: artifacts, sources, snapshots, runs, mappings and `mapping_field`, approvals, source records (distinct records from observation payloads), observations. Use `INSERT … SELECT` from `legacy` with the JSON operators; batch observations per source.
-- [ ] **Repositories** in `db/catalog.py`, `db/onboarding.py`, `db/evidence.py`. Re-implement the `store` facade for these tables on top of them, returning the same dict shapes callers expect.
-- [ ] **Bulk observation writes.** Replace the per-row `store.put` loop in [pipeline.py](../src/link_lens/pipeline.py) with the `COPY` loader. Extraction and assembly logic do not change.
-- [ ] **Blob storage interface.** `store.blob` and `blob_path` go behind an interface with a local filesystem backend (current behaviour) and an S3-compatible backend. `catalog.artifact.uri` records where the bytes are.
-- [ ] **Turn on gate checks 3 and 4** from phase 1 now that observations and mappings are typed.
-- [ ] **Update [frozen.py](../src/link_lens/frozen.py)** to a second archive format that covers the typed schemas. Keep reading the first format.
+- [x] **Migrations** `0010` to `0012` for `catalog`, `onboarding`, `evidence`, with append-only triggers on `artifact`, `snapshot`, `mapping_config`, `mapping_field`, `mapping`, `approval`, `source_record`, `observation`.
+- [x] **Backfill** in dependency order: artifacts, sources, snapshots, runs, mappings with their configs and `mapping_field`, approvals, source records, observations. `link-lens backfill spine` ([backfill.py](../src/link_lens/backfill.py)) is idempotent and verifies that every copied record reads back exactly as its legacy row; observations go in chunks of 20,000 through the `COPY` loader.
+- [x] **Repositories** in [db/catalog.py](../src/link_lens/db/catalog.py), [db/onboarding.py](../src/link_lens/db/onboarding.py), [db/evidence.py](../src/link_lens/db/evidence.py), with the exact-record machinery in [db/records.py](../src/link_lens/db/records.py). The `store` facade serves these seven tables from them and returns the same dict shapes callers expect.
+- [x] **Bulk observation writes.** `store.put_observations` replaces the per-row `store.put` loops in [pipeline.py](../src/link_lens/pipeline.py) and [agent.py](../src/link_lens/agent.py). Extraction and assembly logic do not change.
+- [x] **Blob storage interface.** [blobs.py](../src/link_lens/blobs.py) has a local filesystem backend (current behaviour) and an S3-compatible backend that reads through a local cache. `catalog.artifact.uri` records where the bytes are, so both can coexist while blobs move. `boto3` is in an optional `s3` dependency group.
+- [x] **Turn on gate checks 3 and 4** from phase 1. The gate validates up to 25 stored observations per concept against the generated SHACL shapes, and reports the mapping configs and observations that use each concept a version adds.
+- [x] **Archive format.** [frozen.py](../src/link_lens/frozen.py) reads and restores records through the store, so format 2 carries the typed tables as the same records, and format 1 archives still restore.
+- [x] **Typed baseline check.** `scripts/migration_baseline.py --typed --check FILE` computes counts and digests from the typed schemas and compares them with the baseline.
 
 Done when:
 
@@ -389,6 +416,17 @@ JOIN   onboarding.mapping m   ON m.config_hash = o.config_hash
 WHERE  c.name = 'registration.business_name_status'
 GROUP  BY 1;
 ```
+
+Results on 2026-11-14:
+
+- **Baseline.** The typed check reported zero differences on the local database: row counts and ID digests for the seven tables; runs, mappings, approvals, observations and source records per experiment; observations and source records per batch and per mapping config. The legacy check also reported zero differences, so the legacy rows are untouched.
+- **Backfill.** 26,610 artifacts, 949 sources, 12 snapshots, 73 runs, 107 mappings in 107 configs with 602 mapping fields, 52 approvals, 23,101 source records and 374,335 observations, in 58 seconds. Every record read back exactly; no observation needed its `extra` column; a second run copied nothing.
+- **Typed-only writes.** A test runs the onboarding graph and extraction on a fixture: all eight typed tables receive rows, the seven legacy tables stay empty, and extracting again inserts nothing.
+- **Impact query.** Returns one mapping with 1,964 observations for `registration.business_name_status`.
+- **Unchanged output.** On a restored copy, eight CLI commands printed the same bytes with Phase 1 code before the migration and Phase 2 code after it, and an export of the submission batch produced the same 1,747 files with equal values (25 JSON files differ in key order only).
+- **Gate.** On the promoted version, 1,400 sampled observations of 56 concepts validated against the generated shapes with no violation.
+- **Tests.** 158 passed, 4 skipped. Three existing tests changed: one edited a stored snapshot, which is now refused, and builds it once instead; the baseline test now writes legacy rows directly; one gate test expects the impact check to pass.
+- **Not verified:** the S3 backend against a real bucket (it is tested with a stand-in client); `freeze` and `thaw` on the full local database (tested on fixtures only); a live onboarding run with a paid model call.
 
 ## Phase 3: Identity, profiles and operations
 
@@ -757,6 +795,8 @@ No verification step needs a model call or a new human review.
 | Tests need PostgreSQL | Deterministic tests no longer run without a database | Use a container started by the test session; keep pure logic tests database-free |
 | `jsonb` key order | Files regenerated from legacy payloads list the same values with keys in a different order, so a regenerated `outputs/` shows key-order diffs and new file hashes. OKF pages come from artifacts and are unaffected. | Keep the submitted files as they are. Compare regenerated JSON by value, or write exports with sorted keys if byte-stable output is wanted. |
 | Backend migrates on start | The compose backend runs `alembic upgrade head` when it starts, so starting it on new code migrates the database it points at | Back up before starting a backend that carries new migrations; consider a separate migration step before Phase 9 |
+| Lenient record tables | `source`, `snapshot`, `run`, `mapping` and `approval` accept any record the store is given, so their typed columns are nullable and a reference that does not resolve is kept as JSON instead of failing | Report unresolved values with `link-lens backfill spine`; add `NOT NULL` and strict references when the store facade is retired and writers use the repositories directly |
+| Shared memory in Docker | Parallel joins over the typed tables failed with Docker's 64 MB default | Compose sets `shm_size: 256mb`; lookups use array parameters instead of long `IN` lists; size it again for production |
 | Roles on managed PostgreSQL | Migration `0008` creates roles and changes owners, which the local superuser may do. A managed service's admin user is not a superuser and needs membership in `linklens_migrator` first. | Settle in Phase 9 with the chosen provider |
 | Source coverage tiers and profiles | A profile combines several sources. A client limited to some sources could still see values selected from others. | Decide between selling profiles whole or filtering fields and provenance by scope. Start with whole profiles, and apply scope to observations, evidence and bundles. |
 | Hash storage | `bytea` halves key size but is less readable in ad hoc SQL | Use the `sha256` domain with hex views and helper functions; revisit if it slows development |

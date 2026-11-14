@@ -37,6 +37,9 @@ ontology = [
     "linkml>=1.12.1",
     "pyshacl>=0.40.2",
 ]
+s3 = [
+    "boto3>=1.44.3",
+]
 
 [build-system]
 requires = ["hatchling"]
