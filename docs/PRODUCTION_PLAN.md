@@ -1,6 +1,6 @@
 # Production implementation plan
 
-Status: **Phases 0 to 5 are implemented and applied to the local database (2026-11-14). No release, tier, client or key has been created there yet; those are the owner's actions. Phases 6 to 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
+Status: **Phases 0 to 6 are implemented and applied to the local database (2026-11-14). No release, tier, client or key has been created there yet; those are the owner's actions. Phase 7 is deferred; phases 8 and 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
 
 Facts about the current store were measured on the local database on 2026-11-14 (experiment `jev-gpt6-luna-ontology-v1` plus earlier experiments in the same database).
 
@@ -792,33 +792,69 @@ curl -H "Authorization: Bearer KEY" http://localhost:8100/v1/entities
 
 | Toolset | Tool | Does |
 |---|---|---|
-| Data | `search_entities(name, abn, acn, state, type, cursor)` | Finds entities; each result includes `okf_path` |
-| Data | `get_profile(entity_id)` | Profile fields with status, alternatives and evidence IDs |
-| Data | `list_observations(entity_id, concept, cursor)` | Source claims for an entity |
+| Data | `search_entities(name, abn, acn, state, type, cursor, limit)` | Finds entities; each result includes `okf_path` |
+| Data | `get_profile(entity_id)` | Profile summary: every claim with status, decision, alternatives and evidence IDs; the licence of every source cited |
+| Data | `list_observations(entity_id, concept, cursor, limit)` | Source claims for an entity |
 | Data | `get_evidence(observation_id)` | Record locator, snapshot, source, licence |
-| Data | `describe_concepts(scope)` | Ontology concepts and definitions |
-| Files | `okf_ls(path, cursor)` | Lists a folder or index |
+| Data | `describe_concepts(scope)` | Scopes and their concept names, or the definitions of one scope |
+| Files | `okf_ls(path, cursor, limit)` | Lists a folder or index |
 | Files | `okf_read(path, offset, limit)` | Returns one page as OKF Markdown |
-| Files | `okf_find(path, type, tags, status, cursor)` | Filters pages by frontmatter |
-| Files | `okf_grep(pattern, path, cursor)` | Matches text under a folder; returns path and line |
+| Files | `okf_find(path, type, tags, status, cursor, limit)` | Filters pages by frontmatter |
+| Files | `okf_grep(pattern, path, cursor, limit)` | Matches text under a folder; returns path and line |
+
+The server is [interfaces/mcp_server.py](../src/link_lens/interfaces/mcp_server.py), built on the MCP Python SDK 2.3.0 (`mcp>=2.3,<3`). That SDK speaks protocol `2026-07-28`, which has no handshake and no session, and still serves clients of the `2025-11-25` handshake. The server keeps no session for either, so any instance can answer any request.
+
+Differences from the first sketch:
+
+- **`get_profile` answers a summary, not the stored profile.** A stored profile is 12 to 66 KB of JSON on the local data (median 27 KB), mostly copies of each observation it cites. The MCP tool keeps every claim with its value, status, decision, confidence and alternatives, cites the evidence by observation ID with its date and date basis, and lists the licence of every source cited. `get_evidence` returns the rest for an ID. A claim with many values lists the first ten and gives the total. Measured: 14 KB median, 27 KB at most. REST still returns the stored profile.
+- **Tools take no release argument.** A tool answers from the latest release the key may see and every result names that release. An older release within the tier's history is reachable through REST with `?release=`. A `release` argument on each tool is a small addition if a client needs it.
+- **A limit is answered as a tool result, not as HTTP 429.** Only a tool call is counted and limited, under the `mcp` interface; listing tools is free. A call over the rate or the monthly quota returns an error result with status 429 and the seconds to wait, which an agent can read and act on. A missing, wrong or revoked key, a tier without `mcp`, and a narrower mount whose toolset the tier lacks are HTTP 401 or 403 before any MCP message is read.
+- **The tool list is made per request.** The SDK's high-level server lists the same tools to everyone, so this one uses the SDK's low-level `Server` and filters the list by the key's toolsets. A tool outside them answers `Unknown tool`, the same as a name that does not exist.
+- **No output schemas.** Every tool returns structured content and the same JSON, or the Markdown, as text. Declaring an output schema for each would add the profile and evidence schemas to every agent's context. Data results are validated on the server by the same response models as REST.
+- **`describe_concepts` without a scope lists the scopes** and the concept names in each; with a scope it returns the definitions. All definitions at once grow with the ontology.
+- **List results have a size budget.** A page of `list_observations` or `search_entities` holds at most 20,000 characters of JSON, because some values are long texts; 25 observations were up to 96 KB before. The rest follows `next_cursor`.
+- **Pages name their ID in frontmatter.** Entity pages gain `entity_id` and evidence pages `observation_id`, also as searchable lines. This is the plan's cross-link task; it adds one frontmatter key to what phase 4 compared with `outputs/okf`. A release created before this change would lack the two search lines; none exists locally.
+- **The agent evaluation is scripted.** The standing rule is no paid model call, so [scripts/mcp_agent_eval.py](../scripts/mcp_agent_eval.py) carries a written plan per task and toolset instead of a model. It shows that each task can be done with either toolset and what it costs in calls. It does not show how well a model picks tools from their descriptions; that run is the owner's to make.
+- **Host checking is off unless configured.** The SDK's DNS-rebinding protection accepts only `localhost` by default. Every request needs a key that only the client holds, so the service leaves the Host header to the proxy in front, unless `LINK_LENS_MCP_ALLOWED_HOSTS` names the hosts it answers to.
 
 Tasks:
 
-- [ ] **Read the documentation for the installed MCP SDK version first.** Mount the server on the product app at `/mcp` using its HTTP transport.
-- [ ] **Reuse the auth step.** The same bearer key applies. The tier's `toolsets` decides which tools are listed. Offer `/mcp/data` and `/mcp/files` as narrower mounts for clients that want one style.
-- [ ] **Each tool is one call into the query layer.** No tool runs commands, writes data or accepts SQL.
-- [ ] **Bound every result:** page sizes, a line limit on `okf_read`, a match limit on `okf_grep`, and a clear continuation cursor.
-- [ ] **Return both text and structured content** where the SDK supports it. Data tools return JSON; file tools return Markdown.
-- [ ] **Cross-link the styles.** Data results carry `okf_path`; page frontmatter carries the entity or observation ID.
-- [ ] **Write tool descriptions for agents:** when to use each tool, what the limits are, and what the status values mean.
-- [ ] **Agent evaluation.** A small script runs about ten fixed tasks (find a company by ABN, cite the source of its legal name, list its licences, explain an unresolved field) once with each toolset and records success and tool calls.
-- [ ] **Leave a seam for OAuth** as a second credential resolver. Not built in this phase.
+- [x] **Read the documentation for the installed MCP SDK version first.** Read for 2.3.0, which is a new major version: `FastMCP` is gone and the transport, client and session model changed. The server is mounted on the product app at `/mcp` over Streamable HTTP, answering in JSON.
+- [x] **Reuse the auth step.** The same bearer key applies. The tier's `toolsets` decides which tools are listed. `/mcp/data` and `/mcp/files` are narrower mounts for clients that want one style.
+- [x] **Each tool is one call into the query layer.** No tool runs commands, writes data or accepts SQL. Arguments are checked against a closed schema; an unknown argument is refused.
+- [x] **Bound every result:** page sizes with a maximum, a size budget on lists, a line limit on `okf_read` (400 by default), a match limit on `okf_grep`, a value limit per claim in `get_profile`, and `next_cursor` or `next_offset` to continue.
+- [x] **Return both text and structured content.** Data tools return JSON; file tools return Markdown or listings in the style of `ls`, `find` and `grep`.
+- [x] **Cross-link the styles.** Data results carry `okf_path`; page frontmatter carries the entity or observation ID.
+- [x] **Write tool descriptions for agents:** when to use each tool, what the limits are, and what the status values mean. The server's instructions explain the statuses and the two styles. The nine definitions are 8.9 KB together.
+- [x] **Agent evaluation,** scripted; see above. Ten fixed tasks, once with each toolset, recording the answer and the tool calls.
+- [x] **Leave a seam for OAuth** as a second credential resolver. The MCP endpoints call the same `auth.authenticate` as REST, so a resolver added to `auth.RESOLVERS` applies to both. Not built in this phase.
 
 Done when:
 
 - A client configured with only a URL and a key can list tools and complete the evaluation tasks with either toolset.
 - Usage from MCP calls appears in `access.api_usage` under the `mcp` interface.
 - A key whose tier lacks a toolset does not see its tools.
+
+Results on 2026-11-14:
+
+- **URL and key only.** On a restored copy of the local database with a rehearsal release, the SDK's client was given a URL and a key over real HTTP. It listed the tools in both protocol modes and completed all ten tasks with each toolset, with the same answers: 12 calls with data tools, 22 with file tools. Run for each of the 20 entities that have a name and an ABN, 200 of 200 tasks agreed. The record of one run is [outputs/local-run/mcp-eval-rehearsal.json](../outputs/local-run/mcp-eval-rehearsal.json).
+- **Usage.** Every tool call of those runs is in `access.api_usage` under `mcp`. A test checks that the count equals the calls made, that listing tools adds nothing, and that REST and MCP calls draw on one monthly quota.
+- **Toolsets.** A key of a data-only tier lists the five data tools on `/mcp`, gets `Unknown tool` for a file tool and 403 on `/mcp/files`.
+- **Same values as REST.** Tests compare `search_entities`, `list_observations`, `get_evidence` and `describe_concepts` with the REST answers, and the profile summary with the stored profile, value by value. `okf_read` returns the same bytes as the REST page.
+- **Scope.** A key limited to one source cannot reach another source's observations, evidence or pages through any tool.
+- **Size and time on the copy,** 60 entities: profile summary 14 KB median and 27 KB at most; a page of observations at most 20 KB; an entity page read in 400-line parts of about 17 KB. Every tool answered in 20 ms or less at the median and 36 ms at most.
+- **Local service.** No migration in this phase; the local database is unchanged at `0019`. The backend image was rebuilt with the new dependency and the `product` container recreated on it. `/mcp` refuses a request without a key. No key exists there, so no tool call was made against the local database.
+- **Tests.** 211 passed, 4 skipped. The 11 new tests are in [tests/test_product_mcp.py](../tests/test_product_mcp.py) and run the real server through the SDK's client.
+- **Not verified:** a model choosing tools from their descriptions; an MCP host application such as a desktop assistant, since only the SDK's own client was used; a client that accepts only OAuth; `okf_ls` on a folder with millions of pages (see the risk table).
+
+To connect a client, after a release and a key exist:
+
+```sh
+uv run link-lens access tier set professional --rate-per-minute 300 --interface rest --interface mcp --toolset data --toolset files
+LINK_LENS_API_KEY=KEY uv run python scripts/mcp_agent_eval.py --url http://localhost:8100
+```
+
+A client's configuration is the URL `http://localhost:8100/mcp` (or `/mcp/data`, `/mcp/files`) and the header `Authorization: Bearer KEY`.
 
 ## Phase 7: GraphQL
 
@@ -920,11 +956,14 @@ No verification step needs a model call or a new human review.
 | Hash storage | `bytea` halves key size but is less readable in ad hoc SQL | Use the `sha256` domain with hex views and helper functions; revisit if it slows development |
 | Observation partitioning | 32 hash partitions on `source_id` suit thousands of sources, but one very large source makes its partition much bigger than the others, and all partitions grow with every refresh | Split a hot partition in two (modulus 64, same remainder and remainder plus 32), or sub-partition it by hash of `id`. Revisit the count before the first source above about 100 million observations. |
 | `okf_grep` at scale | Free regex over all pages would be slow | Require a path prefix, back it with trigram indexes on `okf_line`, cap matches |
+| `okf_ls` at scale | Listing a folder reads every page beneath it to find its entries, so the root of a release with millions of pages would be slow. Measured only on 100,000 synthetic pages in phase 4. An agent lists the root first. | Store folder entries when a release is built, or list distinct names with an index skip scan. Do it before a release of more than about a million pages. |
 | Index design | Nested by-name indexes for millions of entities need tuning | Test on synthetic data in phase 4 before fixing the path scheme |
 | Rate limiting in process | Not correct across several instances | Acceptable for one instance; shared store is a phase 9 task |
 | Product service login | The local service logs in with the one local user and sets the product role per transaction. A fault that skipped that step would run with more rights. | In phase 9 give the service its own login that is only a member of `linklens_product` |
 | MCP and OAuth | Some MCP clients accept only OAuth for remote servers | Keys first, as decided; the auth step is written for a second resolver |
-| MCP SDK and Strawberry versions | Both libraries change often | Pin versions; read the current documentation before coding |
+| MCP tool choice by a model | The evaluation runs written plans, so it does not measure whether a model picks the right tool from the descriptions | Owner runs the ten tasks with a model once paid calls are allowed; adjust descriptions from what it gets wrong |
+| MCP calls that are not tool calls | Listing tools and discovery are authenticated but not counted or rate-limited | Acceptable for one instance; add a request rate limit with the shared limiter in phase 9 |
+| MCP SDK and Strawberry versions | Both libraries change often | Pin versions; read the current documentation before coding. MCP is pinned to major version 2 (`mcp>=2.3,<3`); its server middleware API is marked provisional and is not used. |
 | Agent runtime licence | The development server is not for production | Decide in phase 9 before any production deployment |
 | Which experiments to migrate | Backfill covers everything in the database today | Confirm whether earlier experiments are migrated or left as frozen archives |
 | Tier values and prices | Placeholders only | Owner sets them; they are rows and can change without code |

@@ -224,6 +224,22 @@ uv run link-lens access usage
 
 On 2026-11-14 the local database moved from `0018` to `0019`. No tier, client or key has been created on it. On a restored copy with a rehearsal release, all 60 profiles answered over REST matched the stored profiles, and every route answered in under 35 ms.
 
+The MCP interface (Phase 6, no migration) offers the same data to agents from the same service.
+
+- **Endpoints.** `/mcp` offers both toolsets, `/mcp/data` and `/mcp/files` one each. All use Streamable HTTP, answer in JSON and keep no session. The bearer key is the REST key; its tier needs `mcp` among its interfaces and at least one toolset.
+- **Tools.** `interfaces/mcp_server.py` defines nine read-only tools, each one call into `product/queries.py`: `search_entities`, `get_profile`, `list_observations`, `get_evidence`, `describe_concepts`, and `okf_ls`, `okf_read`, `okf_find`, `okf_grep`. A key is shown only the tools of its tier's toolsets.
+- **Results.** Each result has structured content and the same JSON, or the Markdown, as text, names its release, and is bounded: `next_cursor` or `next_offset` continues it. `get_profile` answers a summary that cites evidence by observation ID; `get_evidence` returns the record behind an ID.
+- **Limits.** A tool call is counted under `mcp` and shares the client's monthly quota with REST. A call over a limit, an unknown entity or a bad argument is an error result the agent can read, with a status and, for a limit, the seconds to wait. A bad key is HTTP 401 or 403.
+- **Hosts.** Set `LINK_LENS_MCP_ALLOWED_HOSTS` (a JSON list) to make the service refuse other Host headers; empty leaves that to the proxy in front.
+- **Evaluation.** `scripts/mcp_agent_eval.py` runs ten fixed tasks with each toolset through an MCP client that has only a URL and a key, and fails when the two toolsets disagree. Its plans are written out; it calls no model.
+
+```sh
+uv run link-lens access tier set professional --rate-per-minute 300 --interface rest --interface mcp --toolset data --toolset files
+LINK_LENS_API_KEY=KEY uv run python scripts/mcp_agent_eval.py --url http://localhost:8100
+```
+
+The service image must contain the `mcp` package: after pulling this change, run `docker compose build backend` and `docker compose up -d --no-deps product`.
+
 The migration baseline records what the store holds, so each later migration and backfill can be checked against it. It is read-only and works on both layouts:
 
 ```sh
