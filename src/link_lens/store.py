@@ -20,7 +20,6 @@ from sqlalchemy import (
     Table,
     create_engine,
     select,
-    text,
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.dialects.postgresql import insert as pg_insert
@@ -124,12 +123,6 @@ def put(table, key, payload, owner="", kind="", *, immutable=False, created_at=N
             RECORDS[table].put(
                 connection, key, payload, owner, kind, immutable, created_at
             )
-            if table == "sources" and kind == "registered":
-                # A registered source will receive observations of its own.
-                connection.execute(
-                    text("SELECT evidence.ensure_source_partitions(:source)"),
-                    {"source": key},
-                )
         return payload
     t = TABLES[table]
     if immutable:

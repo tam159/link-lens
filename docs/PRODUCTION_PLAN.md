@@ -110,6 +110,16 @@ These come from the contracts in [AGENTS.md](../AGENTS.md).
 - **Experimental output goes to `outputs/local-run/`.** Submission artifacts are replaced only when a task calls for it.
 - **One Alembic migration per step**, each with a working downgrade until the legacy tables are retired.
 
+The owner added these on 2026-11-14. They keep the later Dagster and dbt work ([orchestration plan](ORCHESTRATION_PLAN.md), section 5) cheap, and suit hundreds or thousands of sources run by two engineers.
+
+- **A pipeline step is a function with explicit parameters** (`source_id`, `snapshot_id`, `run_id`, `batch_id`, `release_id`) that returns a small result record. No step depends on process-wide state other than settings.
+- **A step is idempotent.** A retry or a re-run writes nothing new. Content-hash IDs and `ON CONFLICT DO NOTHING` loads already give this; new code keeps it.
+- **Serving SQL lives in one directory, one file per read model, each a single `SELECT`** (phase 4), so a file can become a dbt model with little change.
+- **The source registry carries refresh facts:** intended cadence, last checked, last changed, and the approved mapping in force. An orchestrator reads them and keeps no copy.
+- **Drift detection is a library function** that compares a new snapshot's reader and headers with what the approved mapping expects and returns unchanged, or changed with reasons.
+- **Partitioning must suit thousands of sources.** No table gets one partition per source.
+- **CLI commands write structured logs and return clear exit codes**, so an orchestrator can report a failure usefully.
+
 ## 5. Phase overview
 
 | Phase | Outcome | Depends on | Size |
@@ -351,7 +361,7 @@ CREATE TABLE evidence.source_record (                -- append-only
   snapshot_id text NOT NULL REFERENCES catalog.snapshot,
   sheet text, row_no bigint, locator jsonb NOT NULL,
   PRIMARY KEY (source_id, id)
-) PARTITION BY LIST (source_id);
+) PARTITION BY HASH (source_id);                     -- 32 partitions
 CREATE TABLE evidence.observation (                  -- append-only
   source_id text NOT NULL, id sha256 NOT NULL, record_id sha256 NOT NULL,
   concept_id bigint NOT NULL REFERENCES ontology.concept,
@@ -366,7 +376,7 @@ CREATE TABLE evidence.observation (                  -- append-only
   extra jsonb NOT NULL DEFAULT '{}',
   PRIMARY KEY (source_id, id),
   FOREIGN KEY (source_id, record_id) REFERENCES evidence.source_record (source_id, id)
-) PARTITION BY LIST (source_id);
+) PARTITION BY HASH (source_id);                     -- 32 partitions
 CREATE INDEX ON evidence.observation (source_id, record_id);
 CREATE INDEX ON evidence.observation (concept_id, left(value, 256));
 CREATE INDEX ON evidence.observation (config_hash);
@@ -376,7 +386,11 @@ Notes:
 
 - Licence, snapshot and source context are read through `source_record` and `snapshot`. Roles and source reliability are read through `mapping_config`. They are no longer copied onto each observation. `evidence.observation` with its indexes takes 223 MB where `legacy.observations` takes 722 MB.
 - `observed_at` stays on the observation because a mapping may use a record-level statement timestamp. `timestamp_basis` says whether it came from the snapshot or from the record.
-- One partition pair per source that has observations, plus default partitions. `evidence.ensure_source_partitions` creates them; registering a source calls it. A source can then be loaded, verified and attached, or detached, without touching the others.
+- **Partitioning: 32 hash partitions on `source_id`** for both tables (migration `0013`). The first build used one list partition per source, as first sketched; the owner expects hundreds or thousands of sources, and that many partitions slow planning, multiply locks and bloat the catalog. The reasoning:
+  - *Key.* Hashing `source_id` keeps all rows of a source in one partition and the two tables aligned, so a query for one source reads one partition and the join from observation to source record stays within a partition. Both primary keys and the foreign key already start with `source_id`, so nothing else changes. Hashing the row ID instead would spread every source over all partitions.
+  - *Count.* 32 is fixed however many sources exist. At a billion observations it is about 31 million rows a partition, and a plan that touches all 32 is still cheap. It is a power of two, so one partition can later be split in two (modulus 64) without rehashing the rest.
+  - *Checked.* The primary keys, the foreign key from observation to source record, and a foreign key shaped like `identity.profile_field`'s to observation all work on the hash-partitioned tables (tested).
+  - *Given up.* A source can no longer be attached or detached as a partition. Loads are idempotent by content hash, so a source is reloaded by loading it again. List partitions for very large sources over a hash-partitioned default were considered and rejected for now: moving a source out of the default rewrites its rows, and two engineers should not have two partition schemes to operate.
 - Full source rows are not stored today; only per-field `raw_value`. Adding a `raw jsonb` column to `source_record` is a separate decision.
 
 Differences from the first sketch, each found while building against the stored data and the code:
@@ -800,7 +814,7 @@ No verification step needs a model call or a new human review.
 | Roles on managed PostgreSQL | Migration `0008` creates roles and changes owners, which the local superuser may do. A managed service's admin user is not a superuser and needs membership in `linklens_migrator` first. | Settle in Phase 9 with the chosen provider |
 | Source coverage tiers and profiles | A profile combines several sources. A client limited to some sources could still see values selected from others. | Decide between selling profiles whole or filtering fields and provenance by scope. Start with whole profiles, and apply scope to observations, evidence and bundles. |
 | Hash storage | `bytea` halves key size but is less readable in ad hoc SQL | Use the `sha256` domain with hex views and helper functions; revisit if it slows development |
-| Observation partitioning | Sources refreshed many times will grow one partition | Sub-partition by snapshot when a source has more than a few refreshes |
+| Observation partitioning | 32 hash partitions on `source_id` suit thousands of sources, but one very large source makes its partition much bigger than the others, and all partitions grow with every refresh | Split a hot partition in two (modulus 64, same remainder and remainder plus 32), or sub-partition it by hash of `id`. Revisit the count before the first source above about 100 million observations. |
 | `okf_grep` at scale | Free regex over all pages would be slow | Require a path prefix, back it with trigram indexes on `okf_line`, cap matches |
 | Index design | Nested by-name indexes for millions of entities need tuning | Test on synthetic data in phase 4 before fixing the path scheme |
 | Rate limiting in process | Not correct across several instances | Acceptable for one instance; shared store is a phase 9 task |

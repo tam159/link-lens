@@ -371,37 +371,91 @@ def test_an_observation_needs_its_snapshot_config_and_concept(spec, snapshot):
     assert count(evidence.observation) == 0 and count(evidence.source_record) == 0
 
 
-def partitions():
+def partitions(table):
+    """The partitions that hold rows, per source."""
     with store.engine().connect() as connection:
-        return set(
+        return dict(
             connection.execute(
                 text(
-                    "SELECT o.tableoid::regclass::text FROM evidence.observation o "
-                    "UNION SELECT r.tableoid::regclass::text FROM evidence.source_record r"
+                    f"SELECT source_id, min(tableoid::regclass::text) FROM evidence.{table} "
+                    "GROUP BY source_id HAVING count(DISTINCT tableoid) = 1"
                 )
-            ).scalars()
+            ).all()
         )
 
 
-def test_a_registered_source_gets_its_own_partitions(spec, snapshot):
-    snap, *_ = chain(spec, snapshot, source="registered-source")
-    store.put_observations(claims(spec, snap))
-    suffix = hashlib.md5(b"registered-source").hexdigest()[:16]
-    assert partitions() == {
-        f"evidence.observation_{suffix}",
-        f"evidence.source_record_{suffix}",
-    }
-    other, *_ = chain(
-        spec, snapshot, source="catalogue-source", run_id="run-2", kind=""
+def test_evidence_is_hash_partitioned_by_source(spec, snapshot):
+    with store.engine().connect() as connection:
+        layout = connection.execute(
+            text(
+                "SELECT p.partrelid::regclass::text, p.partstrat, count(i.inhrelid) "
+                "FROM pg_partitioned_table p JOIN pg_inherits i ON i.inhparent = p.partrelid "
+                "WHERE p.partrelid::regclass::text LIKE 'evidence.%' GROUP BY 1, 2 ORDER BY 1"
+            )
+        ).all()
+    # The count is fixed however many sources there are.
+    assert [tuple(row) for row in layout] == [
+        ("evidence.observation", "h", 32),
+        ("evidence.source_record", "h", 32),
+    ]
+    sources = [f"source-{n}" for n in range(12)]
+    for number, source in enumerate(sources):
+        snap, *_ = chain(spec, snapshot, source=source, run_id=f"run-{number}")
+        store.put_observations(claims(spec, snap, rows=2))
+    observations, records = partitions("observation"), partitions("source_record")
+    # Every source's rows are in one partition, and a claim sits beside its record.
+    assert set(observations) == set(records) == set(sources)
+    assert all(
+        observations[s].rsplit("_", 1)[1] == records[s].rsplit("_", 1)[1]
+        for s in sources
     )
-    store.put_observations(claims(spec, other))
-    assert "evidence.observation_default" in partitions()
-    # Rows already in the default partition stay there; asking again is harmless.
-    with store.engine().begin() as connection:
+    assert len(set(observations.values())) > 1
+    assert count(evidence.observation) == 48 and count(evidence.source_record) == 24
+
+
+def test_foreign_keys_work_on_the_hash_partitioned_tables(spec, snapshot):
+    snap, *_ = chain(spec, snapshot)
+    observations = claims(spec, snap, rows=1)
+    store.put_observations(observations)
+    stored = observations[0]
+    with store.engine().connect() as connection:
+        # A reference shaped like identity.profile_field's, from phase 3. The
+        # table exists only inside this transaction, which is rolled back.
         connection.execute(
-            text("SELECT evidence.ensure_source_partitions('catalogue-source')")
+            text(
+                "CREATE TABLE identity.field (source_id text, observation_id sha256, "
+                "FOREIGN KEY (source_id, observation_id) "
+                "REFERENCES evidence.observation (source_id, id))"
+            )
         )
-    assert len(partitions()) == 4 and count(evidence.observation) == 20
+        reference = "INSERT INTO identity.field VALUES (:source, sha256_from_hex(:id))"
+        connection.execute(text(reference), {"source": SOURCE, "id": stored["id"]})
+        with pytest.raises(DBAPIError, match="foreign key"):
+            with connection.begin_nested():
+                connection.execute(text(reference), {"source": SOURCE, "id": "ab" * 32})
+        with pytest.raises(DBAPIError, match="foreign key"):
+            with connection.begin_nested():
+                connection.execute(
+                    text(reference), {"source": "other", "id": stored["id"]}
+                )
+        # An observation needs its source record, and neither key can repeat.
+        orphan = (
+            "INSERT INTO evidence.observation SELECT source_id, sha256_from_hex(:id), "
+            "sha256_from_hex(:record), concept_id, config_hash, group_name, group_id, value, "
+            "raw_value, source_fields, field_confidence, observed_at, timestamp_basis, "
+            "timezone_assumed, ingested_at, derivation_level, engine, extra "
+            "FROM evidence.observation LIMIT 1"
+        )
+        with pytest.raises(DBAPIError, match="foreign key"):
+            with connection.begin_nested():
+                connection.execute(text(orphan), {"id": "cd" * 32, "record": "ef" * 32})
+        with pytest.raises(DBAPIError, match="duplicate key"):
+            with connection.begin_nested():
+                connection.execute(
+                    text(orphan),
+                    {"id": stored["id"], "record": stored["source_record_id"]},
+                )
+        connection.rollback()
 
 
 def test_pipeline_role_writes_evidence_and_product_role_reads_none(spec, snapshot):
@@ -413,9 +467,6 @@ def test_pipeline_role_writes_evidence_and_product_role_reads_none(spec, snapsho
             evidence.insert_observations(connection, observations, store._root_hash())
             == 10
         )
-        connection.execute(
-            text("SELECT evidence.ensure_source_partitions('new-source')")
-        )
         assert (
             connection.execute(text("SELECT count(*) FROM onboarding.run")).scalar_one()
             == 1
@@ -424,7 +475,6 @@ def test_pipeline_role_writes_evidence_and_product_role_reads_none(spec, snapsho
         ("linklens_pipeline", "DELETE FROM evidence.observation"),
         ("linklens_product", "SELECT * FROM evidence.observation"),
         ("linklens_product", "SELECT * FROM catalog.source"),
-        ("linklens_product", "SELECT evidence.ensure_source_partitions('x')"),
     ):
         with store.engine().connect() as connection:
             connection.execute(text(f"SET LOCAL ROLE {role}"))

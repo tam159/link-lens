@@ -3,7 +3,7 @@
 Each backfill is idempotent and verifies its own result before committing.
 """
 
-from sqlalchemy import func, select, text
+from sqlalchemy import func, select
 
 from . import blobs, store
 from . import ontology as ontologies
@@ -294,14 +294,6 @@ def evidence_spine(chunk=20000):
 
     legacy = store.TABLES["observations"]
     root = store._root_hash()
-    with store.engine().begin() as connection:
-        for source in connection.execute(
-            select(legacy.c.payload["source_id"].astext).distinct()
-        ).scalars():
-            connection.execute(
-                text("SELECT evidence.ensure_source_partitions(:source)"),
-                {"source": source},
-            )
     total = copied = with_extra = 0
     extra_keys, last = {}, ""
     while True:
