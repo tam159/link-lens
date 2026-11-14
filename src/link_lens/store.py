@@ -25,7 +25,7 @@ from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 
 from . import blobs
-from .db import catalog, evidence, is_sha256, onboarding
+from .db import catalog, evidence, identity, is_sha256, onboarding, ops
 from .settings import settings
 
 metadata = MetaData()
@@ -81,8 +81,31 @@ RECORDS = {
     "runs": onboarding.runs,
     "mappings": onboarding.mappings,
     "approvals": onboarding.approvals,
+    "entities": identity.entities,
+    "memberships": identity.memberships,
+    "links": identity.links,
+    "profiles": identity.profiles,
+    "evaluations": ops.evaluations,
+    "events": ops.events,
+    "budget_reservations": ops.model_calls,
 }
-TYPED = ("artifacts", *RECORDS, "observations")
+TYPED = ("artifacts", *RECORDS, "observations", "batches")
+# Legacy rows that are history only: ontology versions and the events that
+# proposed and activated them now live in the ontology registry.
+HISTORY = ("ontologies", "ontology_events")
+
+
+def record_table(table, key, kind=None):
+    """The typed table that holds a record, or None while it is still generic."""
+    if table in RECORDS:
+        return RECORDS[table]
+    if table == "batches":
+        return ops.batch_table(key, kind)
+    if table == "ontology_events" and (
+        kind == "model_cache" or key.startswith("call-")
+    ):
+        return ops.model_caches
+    return None
 
 
 def _root_hash():
@@ -116,13 +139,12 @@ def put(table, key, payload, owner="", kind="", *, immutable=False, created_at=N
             )
             catalog.put_artifact(connection, payload, uri, created_at)
         return payload
-    if table in RECORDS:
+    target = record_table(table, key, kind)
+    if target is not None:
         if table == "mappings":
             _prepare_mappings()
         with engine().begin() as connection:
-            RECORDS[table].put(
-                connection, key, payload, owner, kind, immutable, created_at
-            )
+            target.put(connection, key, payload, owner, kind, immutable, created_at)
         return payload
     t = TABLES[table]
     if immutable:
@@ -149,6 +171,38 @@ def put(table, key, payload, owner="", kind="", *, immutable=False, created_at=N
     return payload
 
 
+def put_many(records):
+    """Write several records in one transaction, in the order given.
+
+    Each record is `(table, key, payload, owner, kind, immutable)`. A batch is
+    written this way: the batch row first, then everything it owns, so the batch
+    and its entities, memberships, links and profiles appear together or not at
+    all.
+    """
+    records = list(records)
+    if any(table == "mappings" for table, *_ in records):
+        _prepare_mappings()
+    with engine().begin() as connection:
+        for table, key, payload, owner, kind, immutable in records:
+            target = record_table(table, key, kind)
+            if target is None:
+                raise ValueError(f"{table} cannot be written with put_many")
+            target.put(connection, key, payload, owner, kind, immutable)
+    return len(records)
+
+
+def put_embedding(key, model, vector):
+    """Keep an embedding for similarity search; a stored one is left unchanged."""
+    with engine().begin() as connection:
+        return ops.put_embedding(connection, key, model, vector)
+
+
+def charged(owner, kind):
+    """Budget charged so far by one owner's events of a kind."""
+    with engine().connect() as connection:
+        return ops.charged(connection, owner, kind)
+
+
 def put_observations(observations):
     """Store observations in bulk. Returns how many were not stored already."""
     from . import ontology
@@ -170,8 +224,11 @@ def get(table, key):
             return found[0] if found else None
         if table == "artifacts":
             return catalog.get_artifact(connection, key) if is_sha256(key) else None
-        if table in RECORDS:
-            return RECORDS[table].get(connection, key)
+        target = record_table(table, key)
+        if target is not None:
+            found = target.get(connection, key)
+            if found is not None or table != "ontology_events":
+                return found
         return connection.execute(
             select(TABLES[table].c.payload).where(TABLES[table].c.id == key)
         ).scalar_one_or_none()
@@ -214,6 +271,17 @@ def records(table, owner=None, kind=None, connection=None):
             )
         elif table in RECORDS:
             rows = RECORDS[table].records(connection, owner, kind)
+        elif table == "batches":
+            # Batches, triage decisions and cached responses were one table.
+            rows = sorted(
+                (
+                    row
+                    for part in ops.batch_tables(kind)
+                    for row in part.records(connection, owner, kind)
+                    if row[2] != "model_cache"
+                ),
+                key=lambda row: (row[4], row[0]),
+            )
         else:
             t = TABLES[table]
             query = select(t.c.id, t.c.owner_id, t.c.kind, t.c.payload, t.c.created_at)
@@ -222,7 +290,18 @@ def records(table, owner=None, kind=None, connection=None):
                 query = query.where(t.c.owner_id == owner)
             if kind is not None:
                 query = query.where(t.c.kind == kind)
-            rows = connection.execute(query)
+            rows = list(connection.execute(query))
+            if table == "ontology_events":
+                # Cached model responses moved to ops; the rest is history.
+                rows = sorted(
+                    [row for row in rows if row[2] != "model_cache"]
+                    + [
+                        row
+                        for row in ops.model_caches.records(connection, owner, kind)
+                        if row[2] == "model_cache"
+                    ],
+                    key=lambda row: (row[4], row[0]),
+                )
         for key, row_owner, row_kind, payload, _ in rows:
             yield {
                 "id": key,

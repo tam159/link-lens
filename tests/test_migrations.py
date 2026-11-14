@@ -214,12 +214,14 @@ def test_roles_have_only_their_privileges(database):
             "SELECT rolcanlogin FROM pg_roles WHERE rolname LIKE 'linklens\\_%'",
         ) == [False, False, False]
 
-        # The pipeline role reads and writes legacy rows but cannot delete them.
-        assert allowed(connection, "linklens_pipeline", insert.format("legacy.runs"))
-        assert allowed(
+        # Every domain is typed now: the pipeline role may read legacy rows only.
+        assert allowed(connection, "linklens_pipeline", "SELECT * FROM legacy.runs")
+        assert not allowed(
+            connection, "linklens_pipeline", insert.format("legacy.runs")
+        )
+        assert not allowed(
             connection, "linklens_pipeline", "UPDATE legacy.runs SET kind = ''"
         )
-        assert allowed(connection, "linklens_pipeline", "SELECT * FROM legacy.runs")
         assert not allowed(connection, "linklens_pipeline", "DELETE FROM legacy.runs")
         assert not allowed(connection, "linklens_product", "SELECT * FROM legacy.runs")
 

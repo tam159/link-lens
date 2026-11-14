@@ -10,7 +10,6 @@ import tiktoken
 
 import httpx
 from dotenv import load_dotenv
-from sqlalchemy import func, select
 from langchain_core.messages import HumanMessage, SystemMessage
 
 from . import store, budget as experiment_budget
@@ -197,21 +196,7 @@ class Inference:
         ) / 1e6
         for attempt in range(self.retries + 1):
             with store.model_budget_lock():
-                events = store.TABLES["events"]
-                with store.engine().connect() as connection:
-                    spent = connection.execute(
-                        select(
-                            func.coalesce(
-                                func.sum(
-                                    events.c.payload["budget_charge_usd"].as_float()
-                                ),
-                                0,
-                            )
-                        ).where(
-                            events.c.owner_id == self.owner,
-                            events.c.kind == "enhancement_usage",
-                        )
-                    ).scalar_one()
+                spent = store.charged(self.owner, "enhancement_usage")
                 if spent + reservation > self.budget:
                     raise PendingInference(
                         "Enhancement dollar budget exhausted; pending"
@@ -641,6 +626,7 @@ class Inference:
                                 ]
                             )
                     self.embedding_vectors[entry["key"]] = vector
+                    store.put_embedding(entry["key"], raw.get("model") or "", vector)
                     result.extend((ref, vector, None) for ref in entry["refs"])
                 return result
             except PendingInference as exc:

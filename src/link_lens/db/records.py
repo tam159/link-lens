@@ -24,6 +24,13 @@ def same(a, b):
     return json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True)
 
 
+def same_column(a, b):
+    """`same` for column values, which may be timestamps."""
+    return json.dumps(a, sort_keys=True, default=str) == json.dumps(
+        b, sort_keys=True, default=str
+    )
+
+
 def parse_time(value):
     """An ISO timestamp as an aware datetime; naive values are taken as UTC."""
     if not isinstance(value, str):
@@ -67,18 +74,71 @@ class Field:
             return parse_time(value)
         if kind == "json":
             return value if isinstance(value, (dict, list)) else None
+        if kind == "texts":
+            fits = isinstance(value, list) and all(
+                isinstance(v, str) and "\x00" not in v for v in value
+            )
+            return list(value) if fits else None
         raise ValueError(kind)
 
     def from_db(self, value):
+        if self.kind == "texts":
+            return list(value)
         return render_time(value) if self.kind == "timestamp" else value
+
+
+class RecordRef:
+    """A payload key holding `[source_id, record_id]`, kept as two columns.
+
+    The pair is typed only when that source record is stored, so the composite
+    foreign key to `evidence.source_record` always holds.
+    """
+
+    def __init__(self, key, source_column, record_column, source_record):
+        self.key, self.source_column, self.record_column = (
+            key,
+            source_column,
+            record_column,
+        )
+        self.source_record = source_record
+
+    def split(self, connection, payload):
+        value = payload.get(self.key)
+        fits = (
+            isinstance(value, list)
+            and len(value) == 2
+            and isinstance(value[0], str)
+            and is_sha256(value[1])
+        )
+        table = self.source_record
+        if (
+            fits
+            and connection.execute(
+                select(table.c.id).where(
+                    table.c.source_id == value[0], table.c.id == value[1]
+                )
+            ).first()
+        ):
+            return {self.source_column: value[0], self.record_column: value[1]}
+        return {self.source_column: None, self.record_column: None}
+
+    def join(self, row):
+        if row[self.record_column] is None:
+            return None
+        return [row[self.source_column], row[self.record_column]]
 
 
 class RecordTable:
     """Reads and writes store records in one typed table."""
 
-    def __init__(self, name, table, fields, extra="extra", append_only=False):
+    def __init__(
+        self, name, table, fields, extra="extra", append_only=False, refs=(), batch=None
+    ):
         self.name, self.table, self.fields = name, table, fields
         self.extra, self.append_only = extra, append_only
+        # `refs` are record references; `batch` is the batch table when the row's
+        # owner is a batch and the table has a `batch_id` column for it.
+        self.refs, self.batch = list(refs), batch
 
     def statement(self):
         return select(self.table)
@@ -96,8 +156,30 @@ class RecordTable:
             columns[field.column] = value
             if value is not None and same(field.from_db(value), payload[field.key]):
                 typed.add(field.key)
+        for ref in self.refs:
+            pair = ref.split(connection, payload)
+            columns.update(pair)
+            if pair[ref.record_column] is not None:
+                typed.add(ref.key)
         columns[self.extra] = {k: v for k, v in payload.items() if k not in typed}
         return columns
+
+    def columns(self, connection, owner, payload):
+        """All column values for a record; the owner fills a batch the payload omits."""
+        values = self.split(connection, payload)
+        for name, value in self.owner_columns(connection, owner).items():
+            if values.get(name) is None:
+                values[name] = value
+        return values
+
+    def owner_columns(self, connection, owner):
+        """`batch_id` when the owner is a stored batch; nothing for other tables."""
+        if self.batch is None:
+            return {}
+        found = connection.execute(
+            select(self.batch.c.id).where(self.batch.c.id == owner)
+        ).first()
+        return {"batch_id": owner if found else None}
 
     def join(self, row):
         """The payload a row was written from."""
@@ -107,7 +189,18 @@ class RecordTable:
             for field in self.fields
             if row[field.column] is not None and field.key not in extra
         }
+        for ref in self.refs:
+            pair = ref.join(row)
+            if pair is not None and ref.key not in extra:
+                payload[ref.key] = pair
         return {**payload, **extra}
+
+    def load(self, connection, rows):
+        """Payloads for fetched rows, in order. Tables with child rows override it."""
+        return [self.join(row) for row in rows]
+
+    def after_insert(self, connection, key, payload):
+        """Write rows derived from a newly inserted record. Nothing by default."""
 
     def _row(self, connection, key):
         row = connection.execute(self.statement().where(self.table.c.id == key)).first()
@@ -115,7 +208,7 @@ class RecordTable:
 
     def get(self, connection, key):
         row = self._row(connection, key)
-        return None if row is None else self.join(row)
+        return None if row is None else self.load(connection, [row])[0]
 
     def put(
         self,
@@ -129,7 +222,7 @@ class RecordTable:
     ):
         existing = self._row(connection, key)
         if existing is not None:
-            unchanged = self.join(existing) == payload
+            unchanged = self.load(connection, [existing])[0] == payload
             if immutable:
                 if not unchanged:
                     raise ValueError(f"Immutable {self.name}/{key} already exists")
@@ -141,20 +234,29 @@ class RecordTable:
                         "a different record"
                     )
                 return
-            connection.execute(
-                self.table.update()
-                .where(self.table.c.id == key)
-                .values(owner_id=owner, kind=kind, **self.split(connection, payload))
-            )
+            values = {
+                "owner_id": owner,
+                "kind": kind,
+                **self.columns(connection, owner, payload),
+            }
+            # Writing the same record again changes nothing, not even a timestamp.
+            if any(
+                not same_column(existing[name], value) for name, value in values.items()
+            ):
+                connection.execute(
+                    self.table.update().where(self.table.c.id == key).values(values)
+                )
             return
         values = {"id": key, "owner_id": owner, "kind": kind}
         if created_at is not None:
             values["created_at"] = created_at
-        connection.execute(
+        inserted = connection.execute(
             insert(self.table)
-            .values(**values, **self.split(connection, payload))
+            .values(**values, **self.columns(connection, owner, payload))
             .on_conflict_do_nothing()
-        )
+        ).rowcount
+        if inserted:
+            self.after_insert(connection, key, payload)
 
     def records(self, connection, owner=None, kind=None):
         """Records in the store's listing order: (id, owner, kind, payload, created_at)."""
@@ -164,14 +266,9 @@ class RecordTable:
             statement = statement.where(table.c.owner_id == owner)
         if kind is not None:
             statement = statement.where(table.c.kind == kind)
-        for row in connection.execute(statement).mappings():
-            yield (
-                row["id"],
-                row["owner_id"],
-                row["kind"],
-                self.join(row),
-                row["created_at"],
-            )
+        rows = connection.execute(statement).mappings().all()
+        for row, payload in zip(rows, self.load(connection, rows)):
+            yield row["id"], row["owner_id"], row["kind"], payload, row["created_at"]
 
     def unresolved(self, connection):
         """Per field, the records whose value is not held in its typed column."""

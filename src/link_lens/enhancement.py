@@ -535,24 +535,6 @@ def enhance(
             force=True,
         )
     result_id = store.json_blob(result, "enhanced-pipeline-results.json")
-    for table, rows, kind, id_field in [
-        ("entities", linked["entities"], "enhanced_entity", "id"),
-        ("links", linked["links"], "proposed_link", "id"),
-        ("profiles", profiles, "profile", "canonical_entity_key"),
-    ]:
-        for row in rows:
-            # Batch-owned snapshots do not overwrite canonical baseline entities.
-            key = content_hash([derived_id, table, row[id_field]])
-            store.put(table, key, row, derived_id, kind, immutable=True)
-    for ref, eid in linked["membership"].items():
-        store.put(
-            "memberships",
-            content_hash([derived_id, ref]),
-            {"batch_id": derived_id, "record": list(ref), "entity_id": eid},
-            derived_id,
-            "membership",
-            immutable=True,
-        )
     batch = {
         "id": derived_id,
         "baseline_batch_id": batch_id,
@@ -567,7 +549,38 @@ def enhance(
         "evaluation_status": "experimental_human_labels_pending",
         "policy": policy.model_dump(),
     }
-    store.put("batches", derived_id, batch, kind="enhancement", immutable=True)
+    # The batch and everything it owns are written together, batch first.
+    # Batch-owned snapshots do not overwrite canonical baseline entities.
+    store.put_many(
+        [("batches", derived_id, batch, "", "enhancement", True)]
+        + [
+            (
+                table,
+                content_hash([derived_id, table, row[id_field]]),
+                row,
+                derived_id,
+                kind,
+                True,
+            )
+            for table, rows, kind, id_field in [
+                ("entities", linked["entities"], "enhanced_entity", "id"),
+                ("links", linked["links"], "proposed_link", "id"),
+                ("profiles", profiles, "profile", "canonical_entity_key"),
+            ]
+            for row in rows
+        ]
+        + [
+            (
+                "memberships",
+                content_hash([derived_id, ref]),
+                {"batch_id": derived_id, "record": list(ref), "entity_id": eid},
+                derived_id,
+                "membership",
+                True,
+            )
+            for ref, eid in linked["membership"].items()
+        ]
+    )
     if output is not None:
         export_enhancement(result, Path(output))
     if progress:

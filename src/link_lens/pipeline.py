@@ -147,36 +147,6 @@ def assemble(
     }
     result_id = store.json_blob(result, "pipeline-results.json")
     store.put_observations(observations)
-    for entity in linked["entities"]:
-        store.put("entities", entity["id"], entity, kind="entity")
-    for ref, entity_id in linked["membership"].items():
-        key = content_hash({"batch": batch_id, "record": ref})
-        store.put(
-            "memberships",
-            key,
-            {"batch_id": batch_id, "record": list(ref), "entity_id": entity_id},
-            batch_id,
-            "membership",
-            immutable=True,
-        )
-    for link in linked["links"]:
-        store.put(
-            "links",
-            batch_id + ":" + link["id"][:64],
-            link,
-            batch_id,
-            "proposed_link",
-            immutable=True,
-        )
-    for profile in profiles:
-        store.put(
-            "profiles",
-            batch_id + ":" + profile["canonical_entity_key"],
-            profile,
-            batch_id,
-            "profile",
-            immutable=True,
-        )
     batch = {
         "id": batch_id,
         "baseline_batch_id": baseline_batch_id,
@@ -188,5 +158,45 @@ def assemble(
         },
         "evaluation_status": "human_labels_pending",
     }
-    store.put("batches", batch_id, batch, kind="pipeline", immutable=True)
+    # The batch and everything it owns are written together, batch first.
+    store.put_many(
+        [("batches", batch_id, batch, "", "pipeline", True)]
+        + [
+            ("entities", entity["id"], entity, "", "entity", False)
+            for entity in linked["entities"]
+        ]
+        + [
+            (
+                "memberships",
+                content_hash({"batch": batch_id, "record": ref}),
+                {"batch_id": batch_id, "record": list(ref), "entity_id": entity_id},
+                batch_id,
+                "membership",
+                True,
+            )
+            for ref, entity_id in linked["membership"].items()
+        ]
+        + [
+            (
+                "links",
+                batch_id + ":" + link["id"][:64],
+                link,
+                batch_id,
+                "proposed_link",
+                True,
+            )
+            for link in linked["links"]
+        ]
+        + [
+            (
+                "profiles",
+                batch_id + ":" + profile["canonical_entity_key"],
+                profile,
+                batch_id,
+                "profile",
+                True,
+            )
+            for profile in profiles
+        ]
+    )
     return batch
