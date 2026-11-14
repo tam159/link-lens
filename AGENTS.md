@@ -29,6 +29,8 @@ Application code is in `src/link_lens/`:
 | `contracts.py`, `readers.py`, `extraction.py` | Typed mapping contract, shared readers and declarative extraction |
 | `resolution.py`, `profiles.py`, `pipeline.py` | Deterministic linking, profile decisions and assembly |
 | `store.py`, `frozen.py` | PostgreSQL evidence, content-addressed artifacts and archive/restore |
+| `db/`, `backfill.py` | Typed-schema helpers and repositories (`db/ontology.py`), and copies from the legacy tables |
+| `ontology.py`, `ontology_workflow.py`, `ontology_gate.py`, `ontology_export.py` | Ontology registry, proposal job, promotion gate, and LinkML/SHACL/JSON Schema export |
 | `evaluation.py`, `review_ui.py` | Separate human/AI evaluation records and review worksheets |
 | `measurements.py`, `pricing.py`, `pricing_rates.json` | Usage, pricing basis and cost calculations |
 | `exports.py`, `_vendor/okf/` | Generated JSONL/CSV/OKF and viewer; retain vendor attribution |
@@ -56,6 +58,7 @@ Service startup and provider setup live in README. Default local ports: Inbox 30
 - The submitted approach uses Jev for discovery/identity, `gpt-6-luna` for ontology/onboarding/conflict annotations, and `text-embedding-3-small` for hybrid retrieval. The promoted ontology seeds new experiments; legacy mappings retain frozen v0.1. Model names are configurable and provider access is deployment-specific. Do not silently change models during a comparison.
 - Part 1 combines deterministic and Jev relevance signals with download/readability checks. A successful download is evidence of availability, not proof of business relevance. Audit labels must not influence the frozen ranking being evaluated.
 - One onboarding graph investigates and revises mappings. Exploration Python runs only through the sandbox. Approved extraction uses the shared declarative engine, never generated Python or unrestricted expressions embedded in configs.
+- An ontology version's hash is the digest of its document and must rebuild from the registry rows. Registry tables are append-only and versions are additive. Promotion is a human action that needs a recorded gate run with no failed check; a gate result is not a promotion.
 - Keep discovery, validation feedback and held-out final records separate. Freeze reader/partition decisions before inference; never expose reserved records to exploration. A failed final test does not authorise repeated tuning against that same test set.
 - Accept approves the exact stored config hash; Respond requests revision; Ignore defers. Config changes require fresh approval. Preserve reviewer, feedback, timestamps and idempotent resume/extraction. Never substitute AI acceptance for the user's mapping review.
 - Keep bounded calls, tokens, execution time, mapping versions and costs. Preserve failed/retried calls and explicit recovery lineage; do not reset budgets invisibly.

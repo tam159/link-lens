@@ -37,7 +37,7 @@ jobs:
         uses: astral-sh/setup-uv@v6
 
       - name: Install dependencies
-        run: uv sync --frozen
+        run: uv sync --frozen --group ontology
 
       - name: Lint
         run: uv run ruff check src/link_lens tests --exclude _vendor --select F
@@ -47,6 +47,9 @@ jobs:
           uv run alembic upgrade head
           uv run alembic downgrade base
           uv run alembic upgrade head
+
+      - name: Lint the generated ontology schema
+        run: uv run linkml-lint firmable_ontology.linkml.yaml
 
       - name: Test
         run: uv run pytest -q

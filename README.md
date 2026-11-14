@@ -392,6 +392,8 @@ uv run ruff check src/link_lens tests --exclude _vendor --select F
 RUN_DOCKER_TESTS=1 uv run pytest tests/test_sandbox_integration.py -q
 ```
 
+The LinkML, SHACL and JSON Schema tests need the optional `ontology` dependency group (`uv sync --frozen --group ontology`) and are skipped without it.
+
 Database tests run on PostgreSQL built by `alembic upgrade head`, in a throwaway `pgvector/pgvector:pg17-trixie` container that the test session starts on first use and removes afterwards. Set `LINK_LENS_TEST_DATABASE_URL` to use an existing server instead; the tests create and drop their own `linklens_test_*` databases there and never use the database named in the URL. Tests that do not touch the store need neither.
 
 The recorded suite result is **106 passed, four integration tests skipped**; earlier Docker checks are documented in [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.

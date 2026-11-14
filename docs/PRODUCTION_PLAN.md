@@ -1,6 +1,6 @@
 # Production implementation plan
 
-Status: **Phase 0 is implemented and the local database was migrated to it on 2026-11-14. Phases 1 to 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
+Status: **Phases 0 and 1 are implemented and applied to the local database (2026-11-14). Phases 2 to 9 are planned.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
 
 Facts about the current store were measured on the local database on 2026-11-14 (experiment `jev-gpt6-luna-ontology-v1` plus earlier experiments in the same database).
 
@@ -46,7 +46,7 @@ Facts about the current store were measured on the local database on 2026-11-14 
 | Tables | 17 tables with one shape: `id, owner_id, kind, payload json, created_at`. No foreign keys. Indexes on `owner_id` and `kind` only. Defined in a loop in [store.py](../src/link_lens/store.py). Phase 0 moves them to the `legacy` schema with `payload jsonb`. |
 | Store API | `put`, `get`, `require`, `listing`, `blob`, `read_json`, `event`. About 300 references in 20 modules. `runs` and `batches` are the most used. |
 | Observations | 374,335 rows, 703 MB. 23,101 source records, 56 fields. They use 39 of the 107 stored mapping configs, and every one of those 39 has a mapping row. The pipeline writes them one statement at a time and never reads them back from the table; it reads extraction artifacts. `owner_id` is a run ID for the 201,632 rows stored by extraction and a source ID for the 172,703 rows stored by assembly, so an observation's run is found through its `config_hash`. |
-| Ontology | 59 concepts in a JSON blob referenced from `ontologies`. Activation and proposals are `ontology_events` rows. |
+| Ontology | Before Phase 1: 59 concepts in a JSON blob referenced from `ontologies`, with activation and proposals as `ontology_events` rows. Since Phase 1 the `ontology` schema holds them as rows; the legacy rows stay as history and the model cache stays in `legacy.ontology_events`. |
 | Uniqueness checked | `config_hash` is unique across the 107 mappings. A membership is unique per batch and record. A profile is unique per batch and entity. No source record appears in more than one snapshot. Entity IDs are not all UUIDs, so they stay `text`. |
 | Tests | Before Phase 0, deterministic tests ran on SQLite through `store.metadata.create_all` and did not exercise Alembic. Since Phase 0 they run on PostgreSQL built by `alembic upgrade head` in [conftest.py](../tests/conftest.py). |
 | API | [api.py](../src/link_lens/api.py) is a small FastAPI app mounted beside the LangGraph development server. It is an internal API, not a product API. |
@@ -75,7 +75,7 @@ flowchart LR
 
 | Schema | Tables | Replaces |
 |---|---|---|
-| `ontology` | `ontology_version`, `concept`, `concept_value`, `concept_requires`, `version_concept`, `proposal`, `disposition`, `concept_decision`, `activation`, `gate_report` | `ontologies`, `ontology_events`, the JSON blob |
+| `ontology` | `ontology_version`, `concept`, `concept_value`, `concept_requires`, `version_concept`, `version_evidence`, `proposal`, `proposal_run`, `disposition`, `concept_decision`, `activation`, `gate_report` | `ontologies`, `ontology_events`, the JSON blob |
 | `catalog` | `source`, `snapshot`, `artifact` | `sources`, `snapshots`, `artifacts` |
 | `onboarding` | `run`, `mapping`, `mapping_field`, `approval` | `runs`, `mappings`, `approvals` |
 | `evidence` | `source_record`, `observation` | `observations` |
@@ -166,69 +166,62 @@ Results on 2026-11-14:
 
 **Goal:** the ontology is rows that other tables can reference, and each change passes a recorded gate before promotion.
 
-Schema sketch:
+Schema as built (migration `0009`; the full DDL is in [0009_ontology_registry.py](../migrations/versions/0009_ontology_registry.py)):
 
 ```sql
 CREATE TABLE ontology.ontology_version (
-  hash              sha256 PRIMARY KEY,           -- existing digest(document)
-  parent_hash       sha256 REFERENCES ontology.ontology_version,
-  label             text NOT NULL,                -- e.g. experimental-939e8c69596c
-  document_artifact sha256 NOT NULL,              -- original JSON, kept for digest checks
-  linkml_artifact   sha256,
-  created_at        timestamptz NOT NULL DEFAULT now()
+  hash sha256 PRIMARY KEY,                         -- existing digest(document)
+  parent_hash sha256 REFERENCES ontology.ontology_version,
+  label text NOT NULL,                             -- e.g. experimental-939e8c69596c
+  document_artifact sha256 NOT NULL,               -- original JSON, kept for digest checks
+  created_at timestamptz NOT NULL DEFAULT now()
 );
-
 CREATE TABLE ontology.concept (
-  id            bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  name          text NOT NULL,                    -- entity.legal_name
-  content_hash  sha256 NOT NULL,                  -- digest of this definition
-  scope         text NOT NULL,
-  datatype      text NOT NULL,
-  cardinality   text NOT NULL CHECK (cardinality IN ('one', 'many')),
-  definition    text NOT NULL,
-  minimum       numeric,
-  maximum       numeric,
+  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  name text NOT NULL, content_hash sha256 NOT NULL,   -- digest of this definition
+  scope text NOT NULL, datatype text NOT NULL,
+  cardinality text NOT NULL CHECK (cardinality IN ('one', 'many')),
+  definition text NOT NULL,
+  minimum text, maximum text,                      -- exact text; valid numerics
   introduced_in sha256 NOT NULL REFERENCES ontology.ontology_version,
-  UNIQUE (name, content_hash)
+  UNIQUE (name, content_hash), UNIQUE (id, name)
 );
-
-CREATE TABLE ontology.concept_value (
-  concept_id bigint REFERENCES ontology.concept, value text, position int,
-  PRIMARY KEY (concept_id, value)
-);
-CREATE TABLE ontology.concept_requires (
-  concept_id bigint REFERENCES ontology.concept,
-  required_concept_id bigint REFERENCES ontology.concept,
-  PRIMARY KEY (concept_id, required_concept_id)
-);
+CREATE TABLE ontology.concept_value   (concept_id, value, position, PRIMARY KEY (concept_id, value));
+CREATE TABLE ontology.concept_requires(concept_id, required_concept_id, position, PRIMARY KEY (concept_id, required_concept_id));
 CREATE TABLE ontology.version_concept (
-  version_hash sha256 REFERENCES ontology.ontology_version,
-  concept_id   bigint REFERENCES ontology.concept,
-  PRIMARY KEY (version_hash, concept_id)
+  version_hash sha256 REFERENCES ontology.ontology_version, concept_id bigint, name text, position int,
+  PRIMARY KEY (version_hash, concept_id), UNIQUE (version_hash, name), UNIQUE (version_hash, position),
+  FOREIGN KEY (concept_id, name) REFERENCES ontology.concept (id, name)
 );
+CREATE TABLE ontology.version_evidence (version_hash, evidence_artifact sha256, created_at, PRIMARY KEY (version_hash, evidence_artifact));
 
 CREATE TABLE ontology.proposal (
-  id text PRIMARY KEY, parent_hash sha256 REFERENCES ontology.ontology_version,
-  job_run_id text, status text NOT NULL, model text, prompt_version text,
-  proposal_artifact sha256, created_at timestamptz NOT NULL
+  id text PRIMARY KEY, experiment_id text NOT NULL,
+  parent_hash sha256 NOT NULL REFERENCES ontology.ontology_version,
+  ontology_hash sha256 REFERENCES ontology.ontology_version,   -- null when rejected
+  job_run_id text, status text NOT NULL CHECK (status IN ('validated', 'rejected')),
+  model text, prompt_version text, proposal_artifact sha256 NOT NULL,
+  accepted_concepts int, rejected_concepts int, supersedes_proposal_ids text[],
+  created_at timestamptz NOT NULL
 );
+CREATE TABLE ontology.proposal_run     (proposal_id, position, run_id text NOT NULL, alias text, PRIMARY KEY (proposal_id, position));
 CREATE TABLE ontology.disposition (
-  proposal_id text REFERENCES ontology.proposal, run_id text, source_field text,
+  proposal_id text REFERENCES ontology.proposal, position int,
+  source_ref text NOT NULL,                        -- the run reference as the model wrote it
+  source_field text NOT NULL, run_id text,         -- resolved run, null when the reference names none
   disposition text NOT NULL, target_concept text, evidence_quote text NOT NULL, reason text NOT NULL,
-  PRIMARY KEY (proposal_id, run_id, source_field)
+  PRIMARY KEY (proposal_id, position)
 );
-CREATE TABLE ontology.concept_decision (
-  proposal_id text REFERENCES ontology.proposal, concept_name text,
-  acceptable boolean NOT NULL, reason text NOT NULL,
-  PRIMARY KEY (proposal_id, concept_name)
-);
+CREATE TABLE ontology.concept_decision (proposal_id, position, concept_name text NOT NULL, acceptable boolean NOT NULL, reason text NOT NULL, PRIMARY KEY (proposal_id, position));
 
 CREATE TABLE ontology.activation (            -- append-only; current = latest per experiment
   id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   experiment_id text NOT NULL, version_hash sha256 NOT NULL REFERENCES ontology.ontology_version,
   status text NOT NULL CHECK (status IN ('experimental', 'promoted')),
   reviewer text, created_at timestamptz NOT NULL,
-  CHECK (status <> 'promoted' OR reviewer IS NOT NULL)
+  gate_run_at timestamptz, gate_results jsonb,     -- the gate run a promotion relied on
+  CHECK ((status = 'promoted') = (reviewer IS NOT NULL)),
+  UNIQUE (experiment_id, version_hash, status, created_at)
 );
 CREATE TABLE ontology.gate_report (
   version_hash sha256 REFERENCES ontology.ontology_version, check_name text,
@@ -238,31 +231,53 @@ CREATE TABLE ontology.gate_report (
 );
 ```
 
+Differences from the first sketch, each found while building against the stored data:
+
+- **Order is stored.** `version_concept`, `concept_requires`, `disposition` and `concept_decision` carry a `position`, so a rebuilt document has its concepts, values and companions in the original order and `ontology show` prints the same bytes.
+- **Bounds are text.** A version's hash is computed from the bound's text (`"-90"`), which `numeric` would not always return unchanged. A check keeps them valid numerics.
+- **No `linkml_artifact` column.** `ontology_version` rejects updates, so a file generated later cannot be attached to it. The gate report of the LinkML check records the hash of the export it linted.
+- **`version_evidence`** holds the proposal artifact a version was registered with; the sketch had no place for the legacy `proposal_evidence` rows.
+- **`proposal`** also records the experiment, the resulting version and the counts and superseded proposals of the legacy record, and **`proposal_run`** lists its runs with their aliases, so a proposal reads back exactly as it was stored. Optional columns are null where the older records had no such key.
+- **Dispositions and decisions are keyed by position.** A rejected proposal may repeat a source field or a concept, which is one reason it was rejected. `source_ref` keeps the run reference as the model wrote it; two references in the oldest stored proposal name no run.
+- **`activation`** records the gate run a promotion relied on and has a natural unique key, so the backfill is idempotent.
+- **All twelve tables reject updates,** not only the five the sketch listed.
+
 `version_concept` lists a version's members so reads do not walk ancestors. It also allows a later version to drop or replace a concept without changing the model, although the current rule remains additive only.
 
 Tasks:
 
-- [ ] **Migration** for the tables above, with `forbid_update()` on `ontology_version`, `concept`, `concept_value`, `version_concept`, `activation`.
-- [ ] **Backfill** the packaged v0.1 ontology, every row in `legacy.ontologies`, and the proposal, evidence, activation and promotion rows from `legacy.ontology_events`. `model_cache` rows move to `ops.model_cache` in phase 3 and stay in `legacy` until then.
-- [ ] **Rewrite [ontology.py](../src/link_lens/ontology.py)** over the registry: `resolve()` builds the same document from rows; `register()` inserts version, concepts and members in one transaction; `activate()` appends an activation row; `active_hash()` reads the latest activation. Public signatures do not change.
-- [ ] **Keep the digest invariant.** `digest(resolve(hash)) == hash` for every stored version. The original JSON artifact stays as an independent check.
-- [ ] **Update [ontology_workflow.py](../src/link_lens/ontology_workflow.py)** to write `proposal`, `disposition` and `concept_decision` rows instead of event payloads.
-- [ ] **LinkML export.** `ontology_export.py` maps scope to class, concept to attribute, enum to enum, `many` to `multivalued`, bounds to `minimum_value` and `maximum_value`, definition to `description`. Add `linkml` and `pyshacl` to a separate `ontology` dependency group so the runtime image does not need them.
-- [ ] **CLI:** `link-lens ontology export HASH --format linkml|shacl|jsonschema` and `link-lens ontology gate HASH`.
-- [ ] **Promotion gate.** `ontology gate` records one `gate_report` row per check:
-  1. LinkML export and lint succeed.
+- [x] **Migration** `0009` for the tables above, with `forbid_update()` on all twelve, and a deferred constraint trigger that rejects a version missing or redefining a concept of its parent. The tables are created as `linklens_migrator`.
+- [x] **Backfill.** `link-lens backfill ontology` ([backfill.py](../src/link_lens/backfill.py)) copies the packaged v0.1 ontology, every row in `legacy.ontologies`, and the proposal, evidence, activation and promotion rows from `legacy.ontology_events`. It is idempotent and verifies before committing: each version rebuilds its document, each experiment's latest activation equals its legacy `active` pointer, and each proposal reads back as its legacy record. `model_cache` rows move to `ops.model_cache` in phase 3 and stay in `legacy` until then.
+- [x] **Rewrite [ontology.py](../src/link_lens/ontology.py)** over the registry ([db/ontology.py](../src/link_lens/db/ontology.py)): `resolve()` builds the same document from rows; `register()` inserts version, concepts and members in one transaction; `activate()` appends an activation row; `active_hash()` reads the latest activation. Public signatures do not change.
+  - *Changed behaviour:* `register()` refuses a document that is not in canonical form (every concept with all nine fields; only `version`, `parent_hash` and `concepts` at the top level), because its rows could not rebuild its hash. Both stored versions and `firmable_ontology.yaml` are canonical.
+- [x] **Keep the digest invariant.** `digest(resolve(hash)) == hash` for every stored version, checked on every `resolve()` and at registration. The original JSON artifact stays as an independent check, used by the gate.
+- [x] **Update [ontology_workflow.py](../src/link_lens/ontology_workflow.py)** to write `proposal`, `proposal_run`, `disposition` and `concept_decision` rows instead of an event payload. Rows hold the released dispositions, or the proposed ones when nothing was released; the full packet stays in the proposal artifact.
+- [x] **LinkML export.** [ontology_export.py](../src/link_lens/ontology_export.py) maps scope to class, concept to attribute, enum to enum, `many` to `multivalued`, bounds to `minimum_value` and `maximum_value`, definition to `description`. It adds a `ConceptName` enum of every concept and an `Observation` class, and keeps `requires` as an annotation. `linkml` and `pyshacl` are in a separate `ontology` dependency group, so the runtime image does not need them.
+- [x] **CLI:** `link-lens ontology export HASH --format linkml|shacl|jsonschema` and `link-lens ontology gate HASH`.
+- [x] **Promotion gate.** `ontology gate` ([ontology_gate.py](../src/link_lens/ontology_gate.py)) records one `gate_report` row per check:
+  1. LinkML export and lint succeed, and SHACL and JSON Schema generate. `unknown` when the `ontology` group is not installed.
   2. The version is additive against its parent.
   3. A sample of stored observations validates against the generated SHACL shapes (after phase 2; `unknown` until then).
   4. Impact report: mappings and observation counts per changed concept (after phase 2; `unknown` until then).
-  5. Optional Open Ontologies `plan` on the generated Turtle with existing IRIs locked, at a pinned version.
-- [ ] **`ontology promote` requires a gate report** with no `fail`. `unknown` results are shown to the reviewer and recorded with the promotion.
-- [ ] **Commit the promoted LinkML file** next to `firmable_ontology.yaml` so a promotion shows up as a reviewable diff.
+  5. Optional Open Ontologies `plan` on the generated Turtle with existing IRIs locked, at a pinned version. Recorded as `unknown`: the integration is not built and no version is pinned.
+  6. Added while building: the rows rebuild the hash and equal the original JSON artifact.
+- [x] **`ontology promote` requires a gate report** with no `fail` in the latest run. The rule is in `activate()`, so no caller can promote around it. `unknown` results are returned to the reviewer and stored with the promotion.
+- [x] **Commit the promoted LinkML file** next to `firmable_ontology.yaml` as [firmable_ontology.linkml.yaml](../firmable_ontology.linkml.yaml), so a promotion shows up as a reviewable diff. A test fails when the two drift apart.
+- [x] **Archive format 2** (brought forward from phase 2 for the ontology tables): `freeze` adds the registry rows, and `thaw` still reads format 1 and runs the backfill after it. Without this, new ontology records would be missing from archives.
 
 Done when:
 
 - All existing ontology tests pass, plus new tests for digest parity, additive enforcement in the database, and gate blocking on `fail`.
 - `link-lens ontology show` and `ontology diff` give the same output as before for both stored versions.
 - Generated LinkML passes `linkml-lint`, and the JSON Schema enum of concept names equals the 59 registered names.
+
+Results on 2026-11-14:
+
+- **Tests.** 144 passed, 4 skipped, none failed. All existing ontology tests pass; two were adapted because they reached into the legacy tables (tampering is now refused by the database, and the archive test now clears the registry too). The 20 new tests cover digest and order parity, the canonical-form rule, additive enforcement in the database, append-only triggers, activation history, gate blocking and unknown results, export mapping, lint, JSON Schema, SHACL validation with `pyshacl`, proposal rows, the backfill, both archive formats and the CLI. The stale triage test from Phase 0 is fixed.
+- **Local database.** Migrated from `0008` to `0009` and backfilled after a fresh backup and a rehearsal on a restored copy: 2 versions, 59 concepts, 128 enum values, 74 members, 3 proposals with 18 runs, 393 dispositions and 45 concept decisions, 1 evidence row, 2 activations. The digest over the two ontology hashes equals the baseline, and the baseline check on `legacy` reported zero differences before and after.
+- **Same output.** `ontology show` for both versions and `ontology diff` between them printed the same bytes as before the migration, on the copy and on the local database.
+- **LinkML.** `linkml-lint firmable_ontology.linkml.yaml` reports no problems with the repository's `.linkmllint.yaml`, which exempts permissible values from naming conventions because they are data. The JSON Schema `ConceptName` enum equals the 59 names registered for the promoted version.
+- **Not done:** no gate run is recorded on the local database, and the promotion of 2026-09-25 predates the gate. Gate checks 3 to 5 are placeholders that record `unknown`.
 
 ## Phase 2: Catalog, onboarding and evidence
 
@@ -755,4 +770,6 @@ No verification step needs a model call or a new human review.
 | Which experiments to migrate | Backfill covers everything in the database today | Confirm whether earlier experiments are migrated or left as frozen archives |
 | Tier values and prices | Placeholders only | Owner sets them; they are rows and can change without code |
 | Open Ontologies | Single main author and fast churn | Optional gate check only, pinned version, result may be `unknown` |
+| Ontology namespace | Generated SHACL and LinkML use the placeholder `https://linklens.example/ontology/`. Class and attribute IRIs become a contract once a client or the Open Ontologies check depends on them. | Owner chooses the real namespace before phase 5 exposes concepts |
+| Gate without `linkml` | Where the `ontology` dependency group is not installed, the LinkML check is `unknown` and does not block promotion | Run the gate where the group is installed; consider making this check required before production |
 | Full source rows | Not stored today | Decide separately whether to retain raw rows in `source_record` |

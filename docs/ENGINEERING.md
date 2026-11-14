@@ -152,6 +152,10 @@ This is Phase 0 of the [production plan](PRODUCTION_PLAN.md). The application st
 - **Migrations are explicit SQL.** `migrations/env.py` has no metadata and does not autogenerate. Each migration runs in its own transaction. `alembic downgrade base` drops the tables and is only for an empty database; on a database with data, downgrade to `0002`.
 - **jsonb and key order.** `jsonb` keeps every value but reorders object keys. Stored IDs and hashes are computed with sorted keys and do not change. Files regenerated from payloads (for example `mapping-v1.json`, `run.json`, `events.json`, `cost-usage.json`) list the same values with keys in a different order. OKF pages are rendered from artifacts and are unaffected.
 
+The ontology registry (migration `0009`, Phase 1) is the first typed domain. Its tables are created as `linklens_migrator`, so `linklens_pipeline` receives its default privileges. `uv run link-lens backfill ontology` copies versions, proposal evidence, activations and proposals from `legacy.ontologies` and `legacy.ontology_events`; it is idempotent, verifies each copy against its legacy record before committing, and leaves the legacy rows and the model cache where they are. New ontology records are written only to the registry. `freeze` now writes archive format 2, which adds the registry rows; `thaw` still reads format 1 and runs the backfill after restoring it.
+
+On 2026-11-14 the local database moved from `0008` to `0009` and was backfilled: 2 versions, 59 concepts, 3 proposals with 393 dispositions and 45 concept decisions, and 2 activations. `ontology show` and `ontology diff` printed the same bytes as before for both versions, and the baseline check reported zero differences.
+
 The migration baseline records what the store holds, so each later migration and backfill can be checked against it. It is read-only and works on both layouts:
 
 ```sh
@@ -392,8 +396,13 @@ Provider references: [OpenAI embeddings](https://developers.openai.com/api/docs/
 
 ## Experimental ontology evolution
 
-Run `uv run alembic upgrade head` before using the registry. New tables store immutable
-ontology documents, proposal/activation evidence and experiment-wide API reservations.
+Run `uv run alembic upgrade head` before using the registry. The `ontology` schema stores
+each version as rows: `ontology_version`, `concept` with its values and required companions,
+`version_concept` membership, proposals with their dispositions and concept decisions,
+activations and gate reports. Every table rejects updates, and a version that removes or
+redefines a concept of its parent is rejected when its transaction commits. A version's
+hash is still the digest of its document: `ontology.resolve()` rebuilds the document from
+the rows and checks the hash, and the original JSON artifact is kept as an independent copy.
 The packaged v0.1 ontology preserves old mappings and approval hashes. The promoted root `firmable_ontology.yaml` seeds a new experiment when no active version exists; an existing experiment pin always takes precedence. New mappings
 include `ontology_hash`; changing its meaning requires a new mapping and approval.
 Experimental additions cannot redefine or remove a parent concept.
@@ -432,6 +441,30 @@ validation. Rejected concepts and concepts depending on rejected companions rema
 experiment's ontology pointer. It never rewrites the submitted YAML or accepts a mapping.
 `ontology promote HASH --reviewer NAME` records a human decision on that exact version;
 it does not publish artifacts or approve source mappings.
+
+Promotion needs a recorded gate run with no failed check:
+
+```sh
+uv sync --frozen --group ontology          # linkml and pyshacl, not in the runtime image
+uv run link-lens ontology gate ONTOLOGY_HASH
+uv run link-lens ontology promote ONTOLOGY_HASH --reviewer NAME
+uv run link-lens ontology export ONTOLOGY_HASH --format linkml --output firmable_ontology.linkml.yaml
+```
+
+`ontology gate` writes one `ontology.gate_report` row per check and exits 1 if any fails.
+The checks are: the rows rebuild the hash and equal the stored artifact; the LinkML export
+passes `linkml-lint` and generates SHACL and JSON Schema; the version is additive against
+its parent. Three more are recorded as `unknown` for now: SHACL validation of stored
+observations and the impact report wait for typed observations, and the optional Open
+Ontologies check is not configured. `unknown` does not block; the results are stored with
+the promotion and printed for the reviewer. Without the `ontology` dependency group the
+LinkML check is `unknown` too. The promotion recorded on 2026-09-25 predates the gate and
+has no gate run.
+
+`ontology export` also writes `--format shacl` and `--format jsonschema`. The committed
+`firmable_ontology.linkml.yaml` is the export of the promoted version, so a promotion shows
+up as a diff; a test fails when it drifts from `firmable_ontology.yaml`. Class and attribute
+IRIs use the placeholder namespace `https://linklens.example/ontology/` until a real one is chosen.
 
 Definitions specify type, scope, cardinality, numeric bounds and required companion
 concepts. Scoped fields use a mapping `group` name; the engine derives group identity
