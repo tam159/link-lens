@@ -23,9 +23,15 @@ def jsonl(path, rows):
     )
 
 
-def check_bundle(root):
+def check_bundle(root, withheld=frozenset()):
+    """Check every page's type and links. Returns counts, or raises with the faults.
+
+    `withheld` are paths, relative to the root, that a bundle limited to some
+    sources leaves out on purpose; a link to one of them is counted, not a fault.
+    """
+    root = Path(root)
     errors = []
-    count = 0
+    count = held = 0
     for path in root.rglob("*.md"):
         text = path.read_text()
         if path.name not in ("index.md", "log.md"):
@@ -37,11 +43,16 @@ def check_bundle(root):
             if "://" in target or target.startswith("#"):
                 continue
             dest = (path.parent / target.split("#")[0]).resolve()
-            if not dest.is_relative_to(root.resolve()) or not dest.exists():
+            if not dest.is_relative_to(root.resolve()):
+                errors.append(f"Broken or escaping link: {path} -> {target}")
+            elif dest.relative_to(root.resolve()).as_posix() in withheld:
+                held += 1
+            elif not dest.exists():
                 errors.append(f"Broken or escaping link: {path} -> {target}")
     if errors:
         raise ValueError("\n".join(errors))
-    return {"concepts": count, "broken_links": 0}
+    counts = {"concepts": count, "broken_links": 0}
+    return {**counts, "withheld_links": held} if withheld else counts
 
 
 def okf_export(result, sources, root, generated_at=None, ontology=None):

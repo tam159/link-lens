@@ -20,6 +20,12 @@ class Settings(BaseSettings):
     # Host names the MCP endpoints answer to, such as "data.example.com". Empty
     # leaves the Host header to the proxy in front; every call needs a key either way.
     mcp_allowed_hosts: list[str] = []
+    # Signs bundle download links served by the product service itself, which
+    # is how a bundle in the local artifact store is downloaded. Unset, each
+    # process makes its own secret, so a link works only on the instance that
+    # gave it. A bundle in S3 gets a link signed by S3 instead.
+    link_secret: str | None = None
+    link_ttl_seconds: int = 300
     ontology_path: Path = Path("firmable_ontology.yaml")
     model: str = "gpt-6-luna"
     experiment_id: str = "jev-gpt6-luna-ontology-v1"

@@ -119,3 +119,24 @@ def path(uri, sha):
     if scheme not in stores():
         raise ValueError(f"No artifact store is configured for {uri}")
     return stores()[scheme].path(uri, sha)
+
+
+def presigned(uri, seconds, filename):
+    """A link to an artifact that expires, signed by its store; None if local."""
+    if not uri.startswith("s3://") or "s3" not in stores():
+        return None
+    bucket, _, key = uri.removeprefix("s3://").partition("/")
+    return (
+        stores()["s3"]
+        .client()
+        .generate_presigned_url(
+            "get_object",
+            Params={
+                "Bucket": bucket,
+                "Key": key,
+                "ResponseContentDisposition": f'attachment; filename="{filename}"',
+                "ResponseContentType": "application/gzip",
+            },
+            ExpiresIn=seconds,
+        )
+    )

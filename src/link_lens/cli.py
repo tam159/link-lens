@@ -806,6 +806,67 @@ def release_export(output: Path, release_id: int | None = None):
     show({**written, **exports.check_bundle(output)})
 
 
+scope_app = typer.Typer(help="Named bundle scopes: bounded lists of entities.")
+release_app.add_typer(scope_app, name="scope")
+
+
+@scope_app.command("set")
+def release_scope_set(
+    name: str,
+    reviewer: str = typer.Option(..., "--reviewer"),
+    entity: list[str] = typer.Option([], "--entity", help="An entity ID; repeat."),
+    entities_file: Path | None = typer.Option(
+        None, "--entities-file", help="A file with one entity ID a line."
+    ),
+    manual: bool = typer.Option(
+        False, "--manual", help="Do not build this scope when a release is created."
+    ),
+):
+    """Name the entities of a bundle scope such as `demo`. Replaces the list."""
+    from . import bundles
+
+    chosen = list(entity)
+    if entities_file:
+        chosen += [line.strip() for line in entities_file.read_text().splitlines()]
+    try:
+        show(bundles.set_scope(name, [e for e in chosen if e], reviewer, not manual))
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+
+
+@scope_app.command("list")
+def release_scope_list():
+    from . import bundles
+
+    show(bundles.scopes())
+
+
+@release_app.command("bundle")
+def release_bundle(
+    release_id: int | None = typer.Argument(
+        None, help="The latest release by default."
+    ),
+    scope: str = typer.Option(
+        ..., "--scope", help="A named scope such as demo, or client:<client id>."
+    ),
+):
+    """Build a release's bundle for a scope: files, link check, viewer, archive."""
+    from . import bundles
+
+    try:
+        show(bundles.build(release_id, scope))
+    except KeyError as error:
+        raise typer.BadParameter(str(error.args[0])) from error
+
+
+@release_app.command("bundles")
+def release_bundles(release_id: int | None = None):
+    """Bundles built so far, newest first."""
+    from . import bundles
+
+    show(bundles.listing(release_id))
+
+
 @app.command("serving-apply")
 def serving_apply():
     """Create or refresh the serving views from their SQL files."""

@@ -255,6 +255,19 @@ class Release(Model):
     is_current: bool
 
 
+class Bundle(Model):
+    release_id: int
+    scope: str
+    entities: int
+    files: int
+    size_bytes: int
+    sha256: str
+    manifest_sha256: str
+    created_at: datetime
+    url: str
+    expires_at: datetime
+
+
 class Problem(Model):
     type: str = "about:blank"
     title: str

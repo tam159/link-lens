@@ -11,6 +11,7 @@ from sqlalchemy import (
     Table,
     Text,
 )
+from sqlalchemy.dialects.postgresql import UUID
 
 from .types import Sha256
 
@@ -62,4 +63,29 @@ okf_index = Table(
     Column("entry_count", Integer),
     Column("description", Text),
     Column("source_id", Text),
+)
+
+bundle_scope = Table(
+    "bundle_scope",
+    MetaData(schema="ops"),
+    Column("name", Text, primary_key=True),
+    Column("entity_ids", ARRAY(Text)),
+    Column("on_release", Boolean),
+    Column("set_by", Text),
+    Column("set_at", DateTime(timezone=True)),
+)
+release_bundle = Table(
+    "release_bundle",
+    MetaData(schema="ops"),
+    Column("id", BigInteger, primary_key=True),
+    Column("release_id", BigInteger),
+    Column("scope", Text),
+    Column("client_id", UUID(as_uuid=False)),
+    Column("source_scope", ARRAY(Text)),
+    Column("entity_count", Integer),
+    Column("file_count", Integer),
+    Column("size_bytes", BigInteger),
+    Column("artifact_sha", Sha256),
+    Column("manifest_sha", Sha256),
+    Column("created_at", DateTime(timezone=True)),
 )

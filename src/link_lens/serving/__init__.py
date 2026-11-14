@@ -22,6 +22,7 @@ MODELS = (
     "link",
     "source",
     "concept",
+    "bundle",
 )
 
 

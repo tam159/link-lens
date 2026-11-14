@@ -10,9 +10,11 @@ sources, observations, evidence and the OKF tree.
 import base64
 import binascii
 import json
+from collections import OrderedDict
 
 from sqlalchemy import text
 
+from .. import bundles
 from ..db import is_sha256
 from ..okf import render, tree
 from . import Problem
@@ -621,6 +623,73 @@ def describe_concepts(connection, principal, release, scope=None):
         {**row, "okf_path": render.concept_path(row["scope"], row["name"])}
         for row in rows
     ]
+
+
+def get_bundle(connection, principal, release):
+    """The bundle built for this key's client and a release, if its tier has bundles."""
+    if not principal.bundle_downloads:
+        raise Problem(
+            403, "Bundles not in tier", "This tier does not include bundle downloads."
+        )
+    row = (
+        connection.execute(
+            text(
+                "SELECT scope, source_scope, entity_count, file_count, size_bytes, "
+                "sha256, manifest_sha256, uri, created_at FROM serving.bundle "
+                "WHERE release_id = :release AND client_id = CAST(:client AS uuid)"
+            ),
+            {"release": release["release_id"], "client": principal.client_id},
+        )
+        .mappings()
+        .first()
+    )
+    if row is None:
+        raise not_found("A bundle for this client")
+    # A bundle holds what the client could see when it was built. If the tier
+    # has since been narrowed, the files are no longer the client's to have.
+    covered, allowed = row["source_scope"], principal.sources
+    if allowed is not None and (covered is None or not set(covered) <= allowed):
+        raise Problem(
+            409,
+            "Bundle out of date",
+            "It was built for more sources than this key may now see. Ask for a new one.",
+        )
+    return {"release_id": release["release_id"], **row}
+
+
+def bundle_artifact(connection, sha):
+    """Where a bundle's bytes are. Only a bundle can be fetched by its hash."""
+    uri = connection.execute(
+        text("SELECT uri FROM serving.bundle WHERE sha256 = :sha LIMIT 1"), {"sha": sha}
+    ).scalar_one_or_none()
+    if uri is None:
+        raise Problem(404, "Not found", "The link is invalid or has expired.")
+    return uri
+
+
+VIEWERS, _viewers = 128, OrderedDict()
+
+
+def entity_viewer(connection, principal, release, entity_id):
+    """The graph viewer of one entity, its evidence and its sources, as HTML.
+
+    Built from the same pages as the tree and kept by profile version, which
+    changes whenever the profile does. Returns the HTML and that version.
+    """
+    found = get_entity(connection, principal, release, entity_id)
+    scope = None if principal.sources is None else tuple(sorted(principal.sources))
+    key = (release["release_id"], entity_id, found["profile_version"], scope)
+    if key in _viewers:
+        _viewers.move_to_end(key)
+    else:
+        record = tree.release_record(connection, release["release_id"])
+        html = bundles.entity_viewer(connection, record, entity_id, principal.sources)
+        if html is None:
+            raise not_found(f"Entity {entity_id}")
+        _viewers[key] = html
+        while len(_viewers) > VIEWERS:
+            _viewers.popitem(last=False)
+    return _viewers[key], found["profile_version"]
 
 
 def okf(call, connection, principal, release, *arguments, **options):

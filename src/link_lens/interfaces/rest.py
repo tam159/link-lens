@@ -6,14 +6,20 @@ details for errors; `Accept: text/markdown` on an entity route returns its OKF
 page.
 """
 
+import time
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends, Header, Query, Request, Response
+from fastapi.responses import FileResponse, HTMLResponse
 from sqlalchemy.engine import Connection
 
+from .. import blobs
 from ..okf import render
 from ..product import auth, db, limits, models, queries
+from ..product import links as download
+from ..settings import settings
 
 INTERFACE = "rest"
 router = APIRouter(prefix="/v1")
@@ -193,6 +199,66 @@ def releases(caller: Caller):
 def current_release(caller: Caller):
     found = queries.list_releases(caller.connection, caller.principal)
     return models.check(models.Release, found[0])
+
+
+@router.get("/entities/{entity_id}/viewer", response_class=HTMLResponse)
+def entity_viewer(
+    caller: Caller,
+    entity_id: str,
+    if_none_match: Annotated[str | None, Header()] = None,
+):
+    """A graph of the entity, its evidence and its sources, as one HTML page."""
+    html, version = caller.ask(queries.entity_viewer, entity_id)
+    headers = {
+        "ETag": f'"{version}"',
+        RELEASE_HEADER: str(caller.release["release_id"]),
+    }
+    if if_none_match == headers["ETag"]:
+        return Response(status_code=304, headers=headers)
+    return HTMLResponse(html, headers=headers)
+
+
+@router.get("/bundles/download/{token}", include_in_schema=False)
+def bundle_download(token: str):
+    """The archive a link names. The link is the permission; it expires."""
+    sha = download.verify(token)
+    with db.session() as connection:
+        uri = queries.bundle_artifact(connection, sha)
+    return FileResponse(
+        blobs.path(uri, sha),
+        media_type="application/gzip",
+        filename=f"link-lens-bundle-{sha[:12]}.tar.gz",
+    )
+
+
+@router.get("/bundles/{release_id}", response_model=models.Bundle)
+def bundle(caller: Caller, release_id: int, request: Request):
+    """A short-lived link to the bundle built for this client and release."""
+    chosen = queries.resolve_release(caller.connection, caller.principal, release_id)
+    caller.response.headers[RELEASE_HEADER] = str(chosen["release_id"])
+    found = queries.get_bundle(caller.connection, caller.principal, chosen)
+    seconds = settings().link_ttl_seconds
+    name = f"link-lens-release-{release_id}.tar.gz"
+    url = blobs.presigned(found["uri"], seconds, name)
+    expires = int(time.time()) + seconds
+    if url is None:
+        token, expires = download.sign(found["sha256"])
+        url = str(request.url_for("bundle_download", token=token))
+    return models.check(
+        models.Bundle,
+        {
+            "release_id": found["release_id"],
+            "scope": found["scope"],
+            "entities": found["entity_count"],
+            "files": found["file_count"],
+            "size_bytes": found["size_bytes"],
+            "sha256": found["sha256"],
+            "manifest_sha256": found["manifest_sha256"],
+            "created_at": found["created_at"],
+            "url": url,
+            "expires_at": datetime.fromtimestamp(expires, UTC),
+        },
+    )
 
 
 @router.get("/okf", response_model=dict[str, Any])

@@ -470,6 +470,7 @@ def test_serving_views_answer_for_a_release(release):
             "link": 50,
             "source": 2,
             "concept": 59,
+            "bundle": 0,
         }
         entity = (
             connection.execute(

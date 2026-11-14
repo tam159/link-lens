@@ -38,3 +38,13 @@ frontend/.next/
 # Full local reruns are preserved locally; curated submission evidence is in outputs/
 # and experiments/. Large JSONL exports there use checksummed lossless gzip.
 /outputs/local-run/jev-gpt6-luna-ontology-v1/
+
+# Generated OKF of new runs and releases is not versioned: a release's files are
+# rendered from PostgreSQL on demand or stored as a bundle artifact. The
+# submitted outputs/okf stays as historical evidence, and tests keep a small
+# bundle under tests/fixtures/okf_bundle.
+/outputs/local-run/okf/
+/outputs/local-run/release-*/
+/outputs/local-run/bundles/
+/outputs/*/okf/
+!/outputs/okf/

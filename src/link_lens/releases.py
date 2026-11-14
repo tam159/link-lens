@@ -311,4 +311,8 @@ def create(batch_id, reviewer, notes=None):
         **{k: v for k, v in release.items() if k != "notes"},
         **counts,
     )
-    return {**release, **counts}
+    # The release is committed. Bundles of the scopes that follow a release are
+    # built from it now, so none needs a command of its own.
+    from . import bundles
+
+    return {**release, **counts, "bundles": bundles.on_release(release["release_id"])}
