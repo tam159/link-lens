@@ -4,7 +4,7 @@ from pathlib import Path
 
 from sqlalchemy import text
 
-from .. import releases, store
+from .. import store
 from . import render, tree
 
 
@@ -16,7 +16,7 @@ def write(release_id, root, sources=None):
     root = Path(root)
     scope, parameters = tree.visible(sources)
     with store.engine().connect() as connection:
-        release = releases.get(connection, release_id)
+        release = tree.release_record(connection, release_id)
         parameters["release"] = release["release_id"]
         paths = list(
             connection.execute(

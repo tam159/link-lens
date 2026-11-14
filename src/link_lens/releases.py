@@ -196,6 +196,7 @@ def build(connection, release):
                 source_id=row.source_id,
                 observation_source_id=row.source_id,
                 observation_id=row.id,
+                concept_name=row.name,
             )
 
     sources = []

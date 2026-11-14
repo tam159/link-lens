@@ -1,7 +1,9 @@
 """The OKF tree of a release as a virtual file system: ls, read, find, grep.
 
 Nothing is stored as files. Folders and search come from the tables built when
-the release was created; a page is rendered when it is read. Every function
+the release was created; a page is rendered when it is read. Everything is read
+from the `serving` schema, so the product role, which can read nothing else,
+can serve the whole tree. Every function
 takes the release and, optionally, the sources a caller may see. A page that
 belongs to one source (a source page, an evidence page) is hidden from a caller
 whose scope does not include that source.
@@ -11,9 +13,7 @@ import re
 
 from sqlalchemy import text
 
-from .. import releases
-from ..db import catalog, evidence, identity
-from ..db import ontology as registry
+from ..db.records import render_time
 from . import index, render
 
 PAGE_LIMIT = 200
@@ -100,51 +100,107 @@ def escape(value):
     return value.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
 
 
-def render_page(connection, release, page, cache=None):
-    """The text of one stored page.
+def one(connection, sql, **parameters):
+    row = connection.execute(text(sql), parameters).mappings().first()
+    if row is None:
+        raise KeyError("The page's record is not in this release")
+    return row
 
-    `cache` is a dict a caller may share between pages of one release, so the
-    ontology document is read once for many concept pages.
+
+def render_page(connection, release, page, cache=None):
+    """The text of one stored page, from the serving read models alone.
+
+    `cache` is a dict a caller may share between pages of one release.
     """
-    cache = {} if cache is None else cache
-    at = release["released_at"]
+    at, release_id = release["released_at"], release["release_id"]
     if page.type == "Business Profile":
-        profile = identity.profile
-        rows = (
-            connection.execute(
-                profile.select().where(
-                    profile.c.batch_id == release["batch_id"],
-                    profile.c.entity_key == page.entity_id,
-                )
-            )
-            .mappings()
-            .all()
-        )
-        payload = identity.profiles.load(connection, rows)[0]
-        cited = [key for key in render.cited_ids(payload) if len(key) == 64]
-        observation, concept = evidence.observation, registry.concept
+        profile = one(
+            connection,
+            "SELECT document FROM serving.profile "
+            "WHERE release_id = :release AND entity_id = :entity",
+            release=release_id,
+            entity=page.entity_id,
+        )["document"]
+        # A cited ID is a claim when the release has an evidence page for it.
+        cited = [render.evidence_path(key) for key in render.cited_ids(profile)]
         claims = connection.execute(
-            observation.select()
-            .with_only_columns(observation.c.id, concept.c.name)
-            .join(concept, concept.c.id == observation.c.concept_id)
-            .where(evidence.among(observation.c.id, cited))
-            .order_by(observation.c.id)
+            text(
+                "SELECT sha256_hex(observation_id), concept_name FROM serving.okf_page "
+                "WHERE release_id = :release AND path = ANY(:paths) ORDER BY 1"
+            ),
+            {"release": release_id, "paths": cited},
         ).all()
-        return render.render_entity(payload, [tuple(c) for c in claims], at)
+        return render.render_entity(profile, [tuple(c) for c in claims], at)
     if page.type == "Field Observation":
-        found = list(
-            evidence.observations(
-                connection, [page.observation_id], page.observation_source_id
-            )
-        )
-        return render.render_evidence(found[0], at)
+        observation = one(
+            connection,
+            "SELECT document FROM serving.observation WHERE release_id = :release "
+            "AND source_id = :source AND observation_key = sha256_from_hex(:observation)",
+            release=release_id,
+            source=page.observation_source_id,
+            observation=page.observation_id,
+        )["document"]
+        return render.render_evidence(observation, at)
     if page.type == "Public Data Source":
-        return render.render_source(catalog.sources.get(connection, page.source_id), at)
-    if "ontology" not in cache:
-        cache["ontology"] = registry.document(connection, release["ontology_hash"])
-    return render.render_concept(
-        cache["ontology"]["concepts"][page.concept_name], release["ontology_hash"], at
+        source = one(
+            connection,
+            "SELECT * FROM serving.source WHERE release_id = :release AND source_id = :source",
+            release=release_id,
+            source=page.source_id,
+        )
+        return render.render_source(source_record(source), at)
+    concept = one(
+        connection,
+        "SELECT * FROM serving.concept WHERE release_id = :release AND name = :name",
+        release=release_id,
+        name=page.concept_name,
     )
+    return render.render_concept(concept_record(concept), release["ontology_hash"], at)
+
+
+def source_record(row):
+    """What a source page needs, in the shape the renderer takes."""
+    metadata = {"title": row["title"], "license_title": row["licence_title"]}
+    if row["publisher"] is not None:
+        metadata["organization"] = {"title": row["publisher"]}
+    return {"id": row["source_id"], "portal": row["portal"], "metadata": metadata}
+
+
+def concept_record(row):
+    return {
+        "name": row["name"],
+        "definition": row["definition"],
+        "type": row["datatype"],
+        "scope": row["scope"],
+        "cardinality": row["cardinality"],
+        "values": list(row["allowed_values"]),
+        "requires": list(row["requires"]),
+        "minimum": row["minimum"],
+        "maximum": row["maximum"],
+    }
+
+
+def release_record(connection, release_id=None):
+    """A release as the serving layer shows it; the latest when no ID is given."""
+    row = (
+        connection.execute(
+            text(
+                "SELECT release_id, batch_id, ontology_hash, released_by, released_at, notes "
+                "FROM serving.release WHERE CAST(:release AS bigint) IS NULL "
+                "OR release_id = :release ORDER BY release_id DESC LIMIT 1"
+            ),
+            {"release": release_id},
+        )
+        .mappings()
+        .first()
+    )
+    if row is None:
+        raise KeyError(
+            "No release has been created"
+            if release_id is None
+            else f"releases/{release_id} not found"
+        )
+    return {**row, "released_at": render_time(row["released_at"])}
 
 
 def page_text(connection, release, path, sources=None, cache=None):
@@ -182,7 +238,7 @@ def read(connection, release_id, path, sources=None, offset=0, limit=None):
     `offset` is the first line to return, counted from 0, and `limit` the number
     of lines. `next_offset` is None when the page has been read to its end.
     """
-    release = releases.get(connection, release_id)
+    release = release_record(connection, release_id)
     body = page_text(connection, release, folder(path), sources)
     lines = body.splitlines(keepends=True)
     end = len(lines) if limit is None else min(len(lines), offset + bound(limit))

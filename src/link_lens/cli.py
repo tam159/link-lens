@@ -676,6 +676,92 @@ def source_drift(source_id: str, snapshot_id: str | None = None):
         raise typer.Exit(EXIT_BLOCKED)
 
 
+access_app = typer.Typer(help="Tiers, clients and API keys of the product service.")
+tier_app = typer.Typer(help="Tiers: what a class of client may do.")
+client_app = typer.Typer(help="Clients: who holds keys.")
+key_app = typer.Typer(help="API keys.")
+app.add_typer(access_app, name="access")
+access_app.add_typer(tier_app, name="tier")
+access_app.add_typer(client_app, name="client")
+access_app.add_typer(key_app, name="key")
+
+
+def managing(action, *arguments, **options):
+    """Run an access administration step, reporting a wrong argument as such."""
+    try:
+        return action(*arguments, **options)
+    except (ValueError, KeyError) as error:
+        raise typer.BadParameter(str(error).strip("'")) from error
+
+
+@tier_app.command("set")
+def access_tier_set(
+    tier_id: str,
+    rate_per_minute: int = typer.Option(..., "--rate-per-minute"),
+    monthly_quota: int | None = typer.Option(None, "--monthly-quota"),
+    interface: list[str] = typer.Option(["rest"], "--interface"),
+    toolset: list[str] = typer.Option([], "--toolset"),
+    source: list[str] = typer.Option(
+        [], "--source", help="Repeat to limit the tier to sources."
+    ),
+    bundle_downloads: bool = False,
+    release_lag: int = 0,
+    history_depth: int | None = None,
+):
+    """Create a tier or replace its limits. Without --source the tier sees every source."""
+    from .product import keys
+
+    show(
+        managing(
+            keys.set_tier,
+            tier_id,
+            rate_per_minute,
+            monthly_quota,
+            interface,
+            toolset,
+            source or None,
+            bundle_downloads,
+            release_lag,
+            history_depth,
+        )
+    )
+
+
+@client_app.command("create")
+def access_client_create(name: str, tier: str = typer.Option(..., "--tier")):
+    from .product import keys
+
+    show(managing(keys.create_client, name, tier))
+
+
+@key_app.command("create")
+def access_key_create(
+    client_id: str,
+    label: str | None = typer.Option(None, "--label"),
+    expires_in_days: int | None = typer.Option(None, "--expires-in-days"),
+):
+    """Create a key. It is printed once here and cannot be shown again."""
+    from .product import keys
+
+    show(managing(keys.create_key, client_id, label, expires_in_days))
+
+
+@key_app.command("revoke")
+def access_key_revoke(prefix: str):
+    """Revoke a key by its prefix, the part between `ll_` and the secret."""
+    from .product import keys
+
+    show(managing(keys.revoke_key, prefix))
+
+
+@access_app.command("usage")
+def access_usage(client_id: str | None = None, since: str | None = None):
+    """Calls per client, key, interface and month."""
+    from .product import keys
+
+    show(managing(keys.usage, client_id, since))
+
+
 release_app = typer.Typer(help="Releases: what clients see, recorded by a person.")
 app.add_typer(release_app, name="release")
 

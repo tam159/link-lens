@@ -86,16 +86,20 @@ def test_a_second_release_changes_nothing_in_the_first(release, spec, snapshot):
     with store.engine().connect() as connection:
         assert snapshot_of(connection, 1) == before
         again = tree.read(connection, 2, before["pages"][0]["path"])["text"]
-        partitions = connection.execute(
-            text(
-                "SELECT count(*) FROM pg_inherits "
-                "WHERE inhparent = 'serving.okf_page'::regclass"
-            )
-        ).scalar_one()
+        # Each release has its own partitions. (Partitions of releases made by
+        # other tests stay in the session database, so they are named, not counted.)
+        partitions = set(
+            connection.execute(
+                text(
+                    "SELECT inhrelid::regclass::text FROM pg_inherits "
+                    "WHERE inhparent = 'serving.okf_page'::regclass"
+                )
+            ).scalars()
+        )
     first = before["texts"][before["pages"][0]["path"]]
     assert again != first  # stamped with its own release time
     assert again.replace(second["released_at"], release["released_at"]) == first
-    assert partitions == 2
+    assert {"serving.okf_page_r1", "serving.okf_page_r2"} <= partitions
     assert releases.show()["release_id"] == 2 and releases.show(1)["release_id"] == 1
 
 

@@ -2,6 +2,7 @@
 -- source and the licence. Attribution travels with every claim.
 SELECT release.id AS release_id,
        observation.source_id,
+       observation.id AS observation_key,
        sha256_hex(observation.id) AS observation_id,
        sha256_hex(observation.record_id) AS record_id,
        record.sheet,
