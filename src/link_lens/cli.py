@@ -544,6 +544,36 @@ def ontology_diff(parent_hash: str, ontology_hash: str):
     )
 
 
+@ontology_app.command("export")
+def ontology_export_command(
+    ontology_hash: str,
+    format: str = typer.Option("linkml", "--format"),
+    output: Path | None = typer.Option(None, "--output"),
+):
+    """Write a version as LinkML, or as SHACL or JSON Schema generated from it."""
+    from . import ontology_export
+    from .ontology import resolve
+
+    if format not in ontology_export.FORMATS:
+        raise typer.BadParameter("Use linkml, shacl or jsonschema")
+    text = ontology_export.FORMATS[format](resolve(ontology_hash), ontology_hash)
+    if output:
+        output.write_text(text)
+    else:
+        typer.echo(text, nl=False)
+
+
+@ontology_app.command("gate")
+def ontology_gate_command(ontology_hash: str):
+    """Run and record the promotion checks. Exits 1 if a check fails."""
+    from . import ontology_gate
+
+    report = ontology_gate.run(ontology_hash)
+    show(report)
+    if report["blocks_promotion"]:
+        raise typer.Exit(1)
+
+
 @ontology_app.command("promote")
 def ontology_promote(ontology_hash: str, reviewer: str = typer.Option(...)):
     """Record explicit human promotion; does not approve mappings or rewrite outputs."""
@@ -551,7 +581,10 @@ def ontology_promote(ontology_hash: str, reviewer: str = typer.Option(...)):
 
     if not reviewer.strip():
         raise typer.BadParameter("Reviewer required")
-    show(activate(ontology_hash, settings().experiment_id, reviewer))
+    try:
+        show(activate(ontology_hash, settings().experiment_id, reviewer))
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
 
 
 @ontology_app.command("budget")
@@ -559,3 +592,15 @@ def ontology_budget():
     from .budget import summary
 
     show(summary(settings().experiment_id))
+
+
+backfill_app = typer.Typer(help="Copy legacy rows into the typed schemas.")
+app.add_typer(backfill_app, name="backfill")
+
+
+@backfill_app.command("ontology")
+def backfill_ontology():
+    """Copy ontology versions, activations and proposals into the registry."""
+    from . import backfill
+
+    show(backfill.ontology())
