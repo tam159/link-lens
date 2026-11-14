@@ -485,3 +485,32 @@ async def test_the_fixed_tasks_can_be_done_with_either_toolset(released):  # noq
     calls = record["summary"]["calls"]
     used = {(row["prefix"], row["interface"]): row["calls"] for row in keys.usage()}
     assert used == {(created["prefix"], "mcp"): calls["data"] + calls["files"] + 1}
+
+
+@pytest.mark.asyncio
+async def test_configured_hosts_are_the_only_ones_answered(released, monkeypatch):  # noqa: F811
+    from link_lens.settings import settings
+
+    headers, _ = both()
+    listing = {"jsonrpc": "2.0", "id": 1, "method": "tools/list"}
+    accept = {"Accept": "application/json, text/event-stream", **headers}
+    monkeypatch.setenv("LINK_LENS_MCP_ALLOWED_HOSTS", '["data.example.com"]')
+    settings.cache_clear()
+    try:
+        async with app.router.lifespan_context(app), http(accept) as client:
+            for host, status in (
+                ("data.example.com", 200),
+                ("data.example.com:8443", 200),
+                ("other.example.com", 421),
+            ):
+                answer = await client.post("/mcp", json=listing, headers={"Host": host})
+                assert answer.status_code == status, (host, answer.text)
+    finally:
+        monkeypatch.delenv("LINK_LENS_MCP_ALLOWED_HOSTS")
+        settings.cache_clear()
+    # Unset, the Host header is left to the proxy in front.
+    async with app.router.lifespan_context(app), http(accept) as client:
+        answer = await client.post(
+            "/mcp", json=listing, headers={"Host": "other.example.com"}
+        )
+        assert answer.status_code == 200

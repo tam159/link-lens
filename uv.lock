@@ -1457,7 +1457,7 @@ requires-dist = [
     { name = "langgraph", specifier = ">=1,<2" },
     { name = "langgraph-cli", extras = ["inmem"], specifier = ">=0.4.31" },
     { name = "langgraph-sdk", specifier = ">=0.4.4" },
-    { name = "mcp", specifier = ">=2.3.0" },
+    { name = "mcp", specifier = ">=2.3,<3" },
     { name = "numpy", specifier = ">=2.5.3" },
     { name = "openpyxl", specifier = ">=3.1.5" },
     { name = "pandas", specifier = ">=3.0.5" },
