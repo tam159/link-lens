@@ -1,6 +1,6 @@
 # Orchestration and transformation plan: Dagster and dbt
 
-Status: **Phases D0 to D5, with D3a, are implemented and applied to the local stack (2026-11-15). D6 and D7 are planned, not built. Alerts have no channel yet, and nothing has a sign-in.** This is the follow-on to the [production implementation plan](PRODUCTION_PLAN.md). That plan's phases 0 to 6 and 8 are implemented; phase 7 is deferred and phase 9 is done only as far as one machine allows (no hosting, no reviewer sign-in, `legacy` not dropped). Names, layouts and SQL in the phases not yet built are sketches to confirm while building. Sizes are rough estimates for one engineer.
+Status: **Phases D0 to D6, with D3a, are implemented and applied to the local stack (2026-11-15). D7 is planned, not built. Alerts have no channel yet. The operations console has a sign-in for development; no identity provider is connected, and the Dagster UI, dbt's documentation and Grafana have none.** This is the follow-on to the [production implementation plan](PRODUCTION_PLAN.md). That plan's phases 0 to 6 and 8 are implemented; phase 7 is deferred and phase 9 is done only as far as one machine allows (no hosting, no reviewer sign-in, `legacy` not dropped). Names, layouts and SQL in the phases not yet built are sketches to confirm while building. Sizes are rough estimates for one engineer.
 
 This plan was written before phases 2 to 9 of the first plan were built. It was compared with the code on 2026-11-15, before any of it was built. Where the code differs, the text below says so: section 5 gives the state of each seam, and each phase has a **Reconciled with the code** list of what to settle when that phase starts.
 
@@ -604,66 +604,105 @@ What the console is, and is not:
 | Releases: compare with the previous one, create | Counts, quality and usage charts: dashboards |
 | Clients, tiers and keys | Reviewing a mapping: Agent Inbox |
 | Ontology versions and gate reports, read-only | Promoting an ontology: CLI, for now |
-| Audit log of every action | |
+| Audit log of every action | Bundle scopes and client bundles: CLI |
 
-The console links out to the Dagster UI, the dashboards and the Agent Inbox item for a source. It does not copy their features.
+The console links out to the Dagster UI, the dashboards and the Agent Inbox. It does not copy their features.
+
+As built (migration `0029`), the audit table differs from the first sketch in one way: a change is two rows under one `action_id`, the request and then its outcome, instead of one row with a `result`.
 
 ```sql
 CREATE TABLE ops.admin_action (                      -- append-only
   id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  action_id uuid NOT NULL,                           -- one per change
+  phase text NOT NULL,                               -- requested, then done or failed; or refused
   actor text NOT NULL, role text NOT NULL,
   action text NOT NULL,                              -- source.register, release.create, key.issue, ...
   target text NOT NULL, request jsonb NOT NULL,      -- never contains a key or secret
-  result text NOT NULL, at timestamptz NOT NULL DEFAULT now()
+  result jsonb, at timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (action_id, phase)
 );
 ```
 
-Admin API, internal only and separate from the product service:
+Admin API, internal only and separate from the product service. As built, in [admin/app.py](../src/link_lens/admin/app.py):
 
 | Route | Does | Role |
 |---|---|---|
-| `GET /admin/catalogue?q=` | Searches the saved catalogue for candidate datasets | Product owner |
-| `POST /admin/sources/preview` | Runs the download and reader checks; returns licence, size, format, header sample, and an estimated onboarding cost against the remaining budget. Writes nothing. | Product owner |
-| `POST /admin/sources` | Registers the source and snapshot and requests onboarding | Product owner |
-| `PATCH /admin/sources/{id}` | Sets cadence; pauses or resumes | Product owner |
-| `GET /admin/sources`, `GET /admin/sources/{id}` | Status (fresh, stale, drifted, waiting for review), history, links to Inbox, Dagster and OKF | Any signed-in user |
-| `GET /admin/releases/preview?batch_id=` | Profiles added, changed and removed against the current release; check results | Product owner |
-| `POST /admin/releases` | Creates the release | Product owner |
-| `GET /admin/ontology/versions` | Versions, activations and gate reports | Any signed-in user |
+| `POST /admin/session`, `DELETE /admin/session`, `GET /admin/me` | Signs a person in to a browser session, out again, and says who is signed in | Anyone with a token; signed in |
+| `GET /admin/home` | What needs a person, the budget, the latest release, links to the other tools | Any signed-in user |
+| `GET /admin/catalogue?q=` | Searches the saved catalogue for candidate datasets, best ranked first | Product owner |
+| `POST /admin/sources/preview` | Downloads and inspects the file; returns licence, size, format, header sample, and an estimated onboarding cost against the remaining budget. Writes nothing. | Product owner |
+| `POST /admin/sources` | Registers the source and snapshot and requests onboarding. Needs `confirm_paid_calls`. | Product owner |
+| `PATCH /admin/sources/{id}` | Sets or clears the cadence; pauses or resumes | Product owner |
+| `GET /admin/sources`, `GET /admin/sources/{id}` | Status (fresh, overdue, failing, drifted, waiting for review), snapshots, runs, drift checks, what people did, links to Inbox, Dagster, the dashboard and OKF | Any signed-in user |
+| `GET /admin/releases` | Releases and the batches one could be recorded from | Any signed-in user |
+| `GET /admin/releases/preview?batch_id=` | Profiles added, changed, removed and unchanged against the latest release; check results | Product owner |
+| `POST /admin/releases` | Creates the release in the signed-in person's name | Product owner |
+| `GET /admin/ontology/versions` | Versions, activations and the latest gate run of each | Any signed-in user |
+| `GET /admin/clients` | Clients with their keys (prefix and dates) and the tiers | Admin |
 | `POST /admin/clients`, `PATCH /admin/clients/{id}` | Creates a client; sets its tier and status | Admin |
-| `POST /admin/clients/{id}/keys`, `DELETE /admin/keys/{id}` | Issues a key, shown once; revokes a key | Admin |
-| `PUT /admin/tiers/{id}` | Edits a tier row | Admin |
+| `POST /admin/clients/{id}/keys`, `DELETE /admin/keys/{prefix}` | Issues a key, shown once; revokes a key by its prefix | Admin |
+| `PUT /admin/tiers/{id}` | Creates a tier or replaces its limits | Admin |
 | `GET /admin/actions` | Audit log | Admin |
 
-Reconciled with the code on 2026-11-15. Settle these when the phase starts.
+Reconciled with the code on 2026-11-15, and settled as follows when the phase started.
 
-- **Reviewer sign-in does not exist.** Approvals, promotions, releases and bundle scopes record a configured name (`LINK_LENS_REVIEWER`) or one passed on the command line. The roles in this phase need an identity to attach to. A sign-in step with a list of resolvers, as `product/auth.py` has for API keys, and a local development resolver would let the console be built before an identity provider is chosen; propose that before building.
-- **Library functions the routes can call today:** `ingestion.register`, `sources.set_cadence` and `sources.state`, `releases.create`, `releases.listing` and `releases.show`, the `access` commands behind `link-lens access` (tier set, client create, key create, key revoke, usage), and the registry and `ontology.gate_report` for ontology versions.
-- **Functions that do not exist yet:** a preview of a source that writes nothing (`ingestion.register` stores the source and snapshot as it goes), an estimate of onboarding cost, a comparison of a batch with the current release, pausing a source, and setting a client's status.
-- **`DELETE /admin/keys/{id}` revokes.** A key row is kept and gets `revoked_at`; nothing is deleted.
+- **Reviewer sign-in did not exist.** Proposed before building and accepted by the owner on 2026-11-15: a sign-in step with a list of resolvers, as `product/auth.py` has for API keys, and one resolver for development that reads people from the environment. An identity provider is one more resolver; no route changes when it is added. None is connected.
+- **UI technology,** accepted by the owner the same day: a small custom web app, served by the admin API itself as static files. A low-code tool would have needed its own database login, which the plan rules out.
+- **Library functions the routes call:** `ingestion.register`, `refresh.request_onboarding`, `sources.set_cadence`, `sources.pause` and `sources.resume`, `releases.create` and `releases.listing`, and the `product/keys.py` functions behind `link-lens access`.
+- **Functions that did not exist and were added to the library,** each with a CLI command: `ingestion.preview` (`link-lens source preview`), `budget.onboarding_estimate`, `releases.preview` (`link-lens release preview`), `keys.set_client_tier`, `keys.clients` and `keys.tiers` (`link-lens access client set`, `client list`, `tier list`). Pausing a source and setting a client's status existed since D4 and phase 5.
+- **`DELETE /admin/keys/{prefix}` revokes.** A key row is kept and gets `revoked_at`; nothing is deleted. The key is named by its prefix, as on the command line.
 - **An internal API already exists.** `api.py` is mounted beside the LangGraph server and has no sign-in. The admin API is a separate app from it and from the product service, which only reads.
 
 Tasks:
 
-- [ ] **Build the admin API first**, on the same library functions the CLI calls. Each route is a few lines; no rule lives only in the API.
-- [ ] **Sign-in and roles** through the reviewer sign-in from the first plan. Roles: engineer, product owner, admin. The role is checked in the API, not in the UI.
-- [ ] **Record every action** in `ops.admin_action` in the same transaction as the change. Keys and secrets never enter the log.
-- [ ] **Preview before commit.** Adding a source and creating a release each have a preview route that writes nothing, and the UI shows it before the confirm button.
-- [ ] **Show the budget on paid actions.** Registering a source starts onboarding, which makes model calls. The confirmation shows the estimate, the cap and what remains, and the API refuses when the cap would be exceeded.
-- [ ] **Cadence is data.** The console edits the source registry. Dagster reads it. The console has no scheduler of its own.
-- [ ] **Releases stay a human decision.** The console is a second way to make it, with the same record as the CLI. Nothing creates a release automatically.
-- [ ] **Decide the UI technology at the start of the phase:** a low-code admin tool or a small custom web app. Either way the UI calls the admin API only and holds no database credentials.
-- [ ] **Screens:** source list with status filters; add-source flow (search, preview, confirm); source detail; release list and create flow with comparison; clients, tiers and keys; ontology versions; audit log. A home screen shows what needs attention and links to the dashboards.
-- [ ] **Keep CLI parity.** Every console action has a CLI equivalent that writes the same records.
-- [ ] **Leave review to Agent Inbox.** A source waiting for review shows how long it has waited and a link to its Inbox item.
+- [x] **Build the admin API first**, on the same library functions the CLI calls. Each route is a few lines; no rule lives only in the API.
+  - *As built:* [admin/service.py](../src/link_lens/admin/service.py) holds what the console reads and does, each function a few lines over the library; [admin/app.py](../src/link_lens/admin/app.py) holds the routes, the role each needs and the shape of each request. Two things the API adds are not library rules but conditions of acting for someone in a browser: adding a source needs `confirm_paid_calls`, and a source whose estimated onboarding would take the budget over its cap is refused before anything is registered. The budget itself still refuses every model call past the cap, as before.
+  - *The API takes no portal address from a caller.* A dataset is looked up on the portal the catalogue was read from, as with the CLI, so the console cannot be made to fetch an address of someone's choosing.
+  - *It serves no description of itself:* the generated documentation pages are off, so someone not signed in learns nothing about the routes.
+- [x] **Sign-in and roles** through the reviewer sign-in from the first plan. Roles: engineer, product owner, admin. The role is checked in the API, not in the UI.
+  - *As built:* [admin/auth.py](../src/link_lens/admin/auth.py). `authenticate` tries each resolver in turn. The one that exists reads `LINK_LENS_ADMIN_USERS`, a JSON object of token to name and role. Empty, unreadable, or naming a role that does not exist, it signs nobody in: there is no default account. Each role includes the one before it.
+  - *Two ways to present a token:* an `Authorization: Bearer` header, for scripts and tests, or a browser session started with `POST /admin/session`, which sets the token in a cookie the page's code cannot read and the browser sends only to the console's own pages. A change made through the cookie must also carry a header only the console's pages set, so another site cannot make a signed-in browser act.
+  - **Not done:** an identity provider, and with it per-person accounts, expiry and revocation. A token is a shared secret until then: it is valid while it is listed, there is no limit on sign-in attempts, and the name recorded is the one the list gives. For that reason the console is published on the machine's loopback address only, like the other UIs.
+- [x] **Record every action** in `ops.admin_action` in the same transaction as the change. Keys and secrets never enter the log.
+  - *Differs from the sketch:* not the same transaction. The library functions the CLI calls open and commit their own transactions, and several of them (registering a source, creating a release) do more than one. So the request is written and committed *before* the change, and the outcome after, under one `action_id` ([admin/audit.py](../src/link_lens/admin/audit.py)). A change can therefore never exist without a row saying who asked for it; a request with no outcome was cut off and the log shows it as `unfinished`. The other order, or one row at the end, could lose the record of a change that happened.
+  - *What is recorded:* changes, and changes refused for the person's role or for the budget. Reading, searching and previewing are not recorded.
+  - *Secrets:* anything named like a key, secret, token, password or hash is left out before a row is written, the outcome of issuing a key holds its ID and prefix only, and each row is also one log line with no request content. The table is append-only and the orchestrator's role cannot write it.
+- [x] **Preview before commit.** Adding a source and creating a release each have a preview route that writes nothing, and the UI shows it before the confirm button.
+  - *As built:* the source preview asks the portal for the dataset, downloads the file with the same bounds as registering and inspects it in a temporary file; nothing reaches the store. It does make a request to the publisher. The release preview compares profile versions of the batch with the latest release and runs four checks.
+  - *A failed release check does not block in the API,* because `link-lens release create` does not either; the library refuses only what it always refused (no batch, mixed ontology versions, views not built). The page asks for an explicit tick before recording a release with a failed check.
+- [x] **Show the budget on paid actions.** Registering a source starts onboarding, which makes model calls. The confirmation shows the estimate, the cap and what remains, and the API refuses when the cap would be exceeded.
+  - *As built:* the estimate is the median recorded cost of the onboarding runs that completed, with the highest beside it and the number of runs it rests on. It is history, not a quote, and the page says so. It uses the cost each run recorded, so it shares the open point from D2: the list-price estimate of `link-lens usage` is not in the database.
+- [x] **Cadence is data.** The console edits the source registry. Dagster reads it. The console has no scheduler of its own.
+  - *As built:* `PATCH /admin/sources/{id}` calls `sources.set_cadence`, `sources.pause` (in the signed-in person's name) and `sources.resume`, the functions behind `link-lens source cadence`, `pause` and `resume`.
+- [x] **Releases stay a human decision.** The console is a second way to make it, with the same record as the CLI. Nothing creates a release automatically.
+  - *As built:* `POST /admin/releases` calls `releases.create` with the signed-in person as the reviewer. The orchestrator's role still cannot insert a release.
+- [x] **Decide the UI technology at the start of the phase:** a low-code admin tool or a small custom web app. Either way the UI calls the admin API only and holds no database credentials.
+  - *Decided: a small custom web app.* Three static files in [admin/static](../src/link_lens/admin/static/), no framework and no build step, served under `/console` with a content security policy that allows only the console's own files. One function talks to a server, and only to `/admin` on the same origin. The page is built from values, never from markup, so a dataset's title cannot become part of it.
+- [x] **Screens:** source list with status filters; add-source flow (search, preview, confirm); source detail; release list and create flow with comparison; clients, tiers and keys; ontology versions; audit log. A home screen shows what needs attention and links to the dashboards.
+  - *As built,* all of them. Clients and the audit log appear in the menu only for an admin; that is a convenience, the API decides.
+- [x] **Keep CLI parity.** Every console action has a CLI equivalent that writes the same records.
+  - *As built:* add a source is `link-lens register` then `onboard`; the rest are named above. The reverse does not hold for the audit log: an action taken on the command line is not in `ops.admin_action`. It leaves the records it always left (the reviewer on a release, who paused a source), and no sign-in stands behind a terminal.
+- [x] **Leave review to Agent Inbox.** A source waiting for review shows how long it has waited and a link to its Inbox item.
+  - *Partly:* the link goes to the Agent Inbox, not to the item. The Inbox lists the waiting items itself, and its address for one item was not confirmed.
 
 Done when:
 
-- The product owner adds a new source end to end without a terminal: search, preview, confirm, see it waiting for review, and after approval see it fresh.
-- Every console action appears in the audit log with actor, role and target, and a test confirms no key material is logged.
-- A product owner cannot issue keys or edit tiers, and an unsigned request is refused, checked by tests against the API.
-- The UI works with no direct database connection.
-- A release created in the console is identical in its records to one created by CLI, and triggers the same builds.
+- The product owner adds a new source end to end without a terminal: search, preview, confirm, see it waiting for review, and after approval see it fresh. **Met, in a test against the API and by hand in the browser on a throwaway copy. In both, the agent's proposal and the reviewer's acceptance were fixtures, because a real onboarding run makes paid calls; the onboarding server was a stand-in that records what it was asked to start.**
+- Every console action appears in the audit log with actor, role and target, and a test confirms no key material is logged. **Met.**
+- A product owner cannot issue keys or edit tiers, and an unsigned request is refused, checked by tests against the API. **Met: 19 routes refuse an unsigned and a wrongly signed request; 7 admin routes refuse a product owner and 13 routes refuse an engineer.**
+- The UI works with no direct database connection. **Met: the pages are static files and one function calls `/admin`; a test reads them for anything else.**
+- A release created in the console is identical in its records to one created by CLI, and triggers the same builds. **Met for the records, in a test: the two releases differ in ID and time only, with the same digest and page counts. The builds are triggered by the row in `ops.release`, which Dagster's `release_recorded` sensor reads (tested in D3 and D5); that was not run again through Dagster in this phase.**
+
+Results on 2026-11-15:
+
+- **The console.** `docker compose --profile console up -d admin` serves it on http://localhost:8200, loopback only, from the backend image. It works on the database as `linklens_pipeline`, as the CLI's role does, and gets no provider key: it starts onboarding on the backend and makes no model call itself.
+- **Migration `0029`** adds `ops.admin_action` and lets the pipeline role use the `analytics` schema; dbt grants it the reporting models, not the staging views. The console reads a source's status from `analytics.source_health`, the one place that defines it. Rehearsed on a restored copy (upgrade, dbt build, both baseline checks, downgrade), then applied to the local database with the services stopped. Both baseline checks reported zero differences. Backup: `/Users/may/link-lens-backups/linklens-pre-d6-cutover-20261115T070652.dump`.
+- **By hand, in the browser, on a throwaway copy** of the database and of the artifact store: searched the catalogue for the registered auditors dataset, previewed it (362,843 bytes fetched from the publisher, header and five rows shown, estimate US$0.02 from 32 completed runs against a US$10.00 cap), confirmed, saw it waiting for review on the source's page and on the home screen, and after the fixture approval set a 7 day cadence and saw it fresh. Compared the submission batch with no release (60 profiles added, four checks passed) and recorded release 1. As an admin, created a tier and a client, issued a key (shown once), revoked it, and read all seven changes in the audit log. The copy was removed afterwards.
+- **The real local database was changed by the migration only.** After the trial it holds no admin action, no release, no client and no cadence, 6 registered sources as before, and the artifact store has the same 26,610 files. The console on port 8200 runs with nobody listed, so nobody can sign in until the owner sets `LINK_LENS_ADMIN_USERS`.
+- **Found while trying it, and fixed:** the experiment on the local database has no discovery revision of its own, so the catalogue search ranks by the active revision it was seeded from; a notice that was switched off printed as the word "false"; the browser's own prompt and confirm dialogs were replaced by controls on the page. And in the library: a run is created before its thread, so when the onboarding server did not answer, the run stayed `new` with no thread and asking again started nothing. `refresh.request_onboarding` now starts that run, and still never a second one; Dagster's `onboarding_request` asset gets the same behaviour.
+- **No dependency was added.** FastAPI and the LangGraph client were already in the runtime's own dependencies; the lock file did not change.
+- **Tests.** 295 passed, 4 skipped with the `orchestration` group installed; 276 passed, 5 skipped in a clean default environment. Lint passes. Eleven new tests in `tests/test_admin.py`, all run as the pipeline role, and one in `tests/test_refresh.py` for the run that never started.
+- **Not verified:** a real onboarding run started from the console (it would be a paid call); the console's release followed by a Dagster build on the real stack; an identity provider; the console behind a proxy or on anything but the loopback address.
 
 ## Phase D7: Cutover
 
@@ -692,8 +731,8 @@ Done when:
 | Human gates | D3 | Orchestration code cannot write approvals, promotions or releases |
 | Budget | D3, D4 | Paid steps reserve budget, respect the cap, and are never retried by Dagster |
 | Scale | D4 | Several hundred fixture sources refresh on mixed cadences without manual action |
-| Console roles and audit | D6 | API tests for each role; every action logged; no key material in logs |
-| Console and CLI parity | D6 | The same action through either path writes identical records |
+| Console roles and audit | D6 | API tests for each role; every action logged; no key material in logs. Done in `tests/test_admin.py`, run as the pipeline role |
+| Console and CLI parity | D6 | The same action through either path writes identical records. Done for a release, a client's status and a release preview |
 
 No verification step needs a paid model call.
 
@@ -717,7 +756,11 @@ No verification step needs a paid model call.
 | Migrations and the running orchestrator | Dagster runs the checkout's code against the database, so code that needs a new column fails until the migration is applied | Stop the Dagster services with the backend when migrating; the procedure in ENGINEERING.md says so. |
 | Model cost on a schedule | Scheduled discovery or onboarding could spend without notice | Budget cap stays authoritative; alerts before the cap; paid steps in a small pool |
 | Publisher load | Frequent checks across many hosts | Conditional requests, per-host limits, cadence from the registry |
-| Dagster sign-in | Confirmed in D5: the open-source UI has no sign-in, and neither has dbt's documentation. Both are bound to the machine's loopback address. | Keep them unpublished until a proxy signs people in. D6 proposes the sign-in step that proxy would use. |
+| Dagster sign-in | Confirmed in D5: the open-source UI has no sign-in, and neither has dbt's documentation. Both are bound to the machine's loopback address. | Keep them unpublished until a proxy signs people in. D6 built a sign-in step for the console; a proxy for the other UIs would use the same identity provider once one is chosen. |
+| Console sign-in is a shared secret | Since D6 the console signs people in from a list of tokens in the environment. A token does not expire, cannot be revoked except by editing the list, and sign-in attempts are not limited. The name in the audit log is the one the list gives. | Keep the console on the loopback address. Connect an identity provider as one more resolver in `admin/auth.py` before publishing it anywhere; no route changes. |
+| The audit log covers the console only | An action taken on the command line is not in `ops.admin_action`. It leaves the records it always left: the reviewer named on a release, who paused a source. | Accepted: no sign-in stands behind a terminal. Routine product decisions move to the console in D7; the CLI stays for one-off and recovery work. |
+| A cut-off console action | The request is committed before the change and the outcome after, so a process that dies between them leaves a request with no outcome and a change that may or may not have happened | The log shows it as `unfinished`. Look at the target (the source, the release, the key) to see which; every change the console makes is safe to ask for again except issuing a key, which makes a second key. |
+| The Inbox link is not to the item | A source waiting for review links to the Agent Inbox, which lists the waiting items, not to that source's item | Confirm the Inbox's address for one item and use it; until then one more click. |
 | One machine | The deployment is Compose on one machine: no failover, and the secrets are an environment file | Accepted by the owner's decision of 2026-11-15. The override, the service login, the backups and the runbooks carry over to a hosted deployment; the run launcher and the secret store would be chosen again. |
 | Upgrades are the team's | Open-source Dagster and dbt Core are upgraded by changing the pins in `pyproject.toml` and rebuilding the image; a Dagster upgrade may migrate its own database | Upgrade deliberately, one tool at a time, on a copy first. Read the release notes and the installed documentation, and keep dbt Core below 1.13 while dagster-dbt requires it. |
 | dbt engine and licence | dbt Core is Apache-2.0; other dbt engines may carry different terms | Stay on dbt Core unless there is a reason to change; check terms before switching |
