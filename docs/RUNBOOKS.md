@@ -228,6 +228,8 @@ scripts/backup_databases.sh /path/to/backups 14     # keep Dagster's for 14 days
 
 The script dumps `linklens` and `dagster`, checks that each archive lists, and writes a checksum beside each. It never deletes a `linklens` dump: that is the application's data and may be the only copy, so how long to keep those is a decision, not a default. Dagster's dumps are run history and are pruned.
 
+The `backup` service (profile `backups`) takes the same dumps every day and keeps the newest `LINK_LENS_BACKUP_KEEP` of each database; it never removes a dump named otherwise, so name a dump you want kept `linklens-pre-<reason>-<time>.dump`. If its log shows `pg_dump failed`, the older dumps are all still there: fix the cause and it tries again at the next interval.
+
 Artifact bytes are in neither dump. Back up `artifacts/` or the bucket with them, and keep a dump and the artifacts of the same moment together.
 
 Before a migration, take a dump with the services stopped and rehearse on a restored copy first; the engineering guide has the procedure under **Changing a database that holds data**.

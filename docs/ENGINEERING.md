@@ -157,9 +157,9 @@ Where things stand on 15 November 2026:
 | Application | Still reads and writes through `store.py`, which returns the same records as before. |
 | What clients see | Views in `serving`, built by dbt, for a release that a person records. None is recorded on the local database. |
 | Product service | Compose service `product` on port 8100: REST, MCP, bundle links and an entity viewer. It refuses every call until a release and a key exist. |
-| Dagster, dbt and Grafana | [Orchestration plan](ORCHESTRATION_PLAN.md) phases D0 to D7: dbt owns and builds the serving views and the reporting models, Grafana shows three dashboards over those, and Dagster holds the data flow as assets with sensors on approvals and releases, a schedule that refreshes sources by their cadence, and alert sensors. Both tools are open source and run in local Docker, for development or, with an override, as a deployment. No source has a cadence and no alert channel is configured, so nothing has been refreshed or sent, and no asset has been materialised on the local database. |
+| Dagster, dbt and Grafana | [Orchestration plan](ORCHESTRATION_PLAN.md) phases D0 to D7: dbt owns and builds the serving views and the reporting models, Grafana shows three dashboards over those, and Dagster holds the data flow as assets with sensors on approvals and releases, a schedule that refreshes sources by their cadence, and alert sensors. Both tools are open source and run in local Docker, for development or, with an override, as a deployment. Cut over on 2026-11-15 (see [Routine operation](#routine-operation-where-each-routine-runs)): every source has a cadence and Dagster refreshes it; alerts are logged, not sent, by the owner's choice. |
 | Operations console | Compose service `admin` on port 8200 (profile `console`): sources, releases, clients and an audit log, for a signed-in person. Its sign-in is a list of tokens; no identity provider is connected. |
-| Not done | The cutover of the local stack, which is the owner's decisions under [Routine operation](#routine-operation-where-each-routine-runs); recording completed full extractions, so that a snapshot extracted only in part is visible; hosting, an identity provider for reviewer sign-in, the agent runtime licence and dropping `legacy`. |
+| Not done | The end of the side-by-side period on 2026-11-29; recording completed full extractions, so that a snapshot extracted only in part is visible; hosting, an identity provider for reviewer sign-in, the agent runtime licence and dropping `legacy`. |
 
 | To do this | Read |
 |---|---|
@@ -205,20 +205,34 @@ Phase D7 of the [orchestration plan](ORCHESTRATION_PLAN.md) moved the routines o
 
 What still needs a person who can use a terminal is not routine: a migration (the procedure under [Changing a database that holds data](#changing-a-database-that-holds-data)), a restore, recovering an onboarding run, an ontology promotion, and the evaluation work of the submission. The submission's own path, "Run the six-source pipeline" in the README, stays as it is: it reproduces the submitted results and is not how the product is run.
 
-**Cutting over a database that holds data.** Moving a stack from manual runs to this table is a set of decisions, each the owner's, in this order. None has been made on the local stack.
+**Cutting over a database that holds data.** Moving a stack from manual runs to this table is a set of decisions, each the owner's, in this order. The local stack was cut over on 2026-11-15; what the owner chose for it is under **The local stack's cutover** below.
 
 1. People who sign in to the console: `LINK_LENS_ADMIN_USERS`, one token per person.
-2. Backups: set `LINK_LENS_BACKUP_DIR` and start the `backup` service.
+2. Backups: set `LINK_LENS_BACKUP_DIR` and `LINK_LENS_BACKUP_KEEP`, and start the `backup` service.
 3. Where alerts go: `LINK_LENS_ALERT_WEBHOOK_URL` for the Dagster services.
 4. The extraction left outstanding from before: snapshots registered by onboarding were extracted only as far as their review needed, and the schedule extracts only files whose bytes changed. Once, in the Dagster UI, materialise `observations` for all partitions (a backfill). The UI warns that the snapshots of some sources were never materialised in Dagster; that is expected, because those snapshots were registered before Dagster ran, and extraction reads them from the database. On a copy of the local database, extracting the six sources' files in full stored about 2.1 million observations; the local database holds 374,335. From a terminal the same is `uv run link-lens source extract SOURCE_ID` for each source. `link-lens source backfill` does not find this case: it looks for a snapshot with no observations under the mapping in force, and a snapshot extracted in part has some.
 5. A cadence for each source, in the console. The schedule starts checking the next quarter hour.
 6. If wanted, the deployment override for the Dagster services (see [Dagster and dbt as a deployment](#dagster-and-dbt-as-a-deployment)).
 7. A period of side-by-side running before nobody runs the commands any more. Compare by content, not by observation ID: an observation's ID includes the time its file was downloaded, so two environments that each download the same file give the same observations under different IDs. Within one database, Dagster and the CLI give the same IDs, batches and releases.
 
-**Backups without a terminal.** The service runs `deploy/backup-loop.sh`, the same dumps and rule as `scripts/backup_databases.sh`: both databases each day, each checked to list and given a checksum, `linklens` dumps never deleted, Dagster's own dumps removed after `LINK_LENS_DAGSTER_BACKUP_DAYS` (7). Set the folder first; each `linklens` dump is about 130 MB, so a year of them is about 47 GB:
+**The local stack's cutover.** Done on 2026-11-15 by the owner's decisions:
+
+| Decision | What the owner chose |
+|---|---|
+| Who signs in to the console | The owner, as admin |
+| How often each source is checked | Every 7 days for ACNC Registered Charities and the three ASIC registers (Financial Services Licensees, Business Names, Company), which change within days; every 30 days for Corporate Tax Transparency (published annually) and Employment Services Provider Locations (last changed 2016) |
+| Where alerts go | Nowhere: the owner looks at the Dagster UI and the source health dashboard. Each alert is a line in the Dagster daemon's log |
+| Backups | Daily, into `/Users/may/link-lens-backups`, keeping the newest 3 dumps of each database because the disk is nearly full. A dump taken just before the cutover, `linklens-pre-cutover-20261115T102958.dump`, is kept by name |
+| The outstanding extraction | After the first scheduled check |
+| Side by side | Until 2026-11-29, two weekly checks |
+| Deployment mode for Dagster | Not yet; development mode stays |
+
+What happened: the cadences were set at 10:30 UTC. At 10:45 the schedule refreshed five sources, and at 11:00 the sixth; all six runs succeeded. Four files had changed since September and were extracted in full under their approved mappings (4 snapshots, 4 runs of kind `refresh`, 2,064,418 observations), and every drift check was `unchanged`. The two unchanged sources were then extracted in full with `link-lens source extract` (44,900 and 4,847 observations); extracting again stored nothing. The database went from 374,335 observations to 2,488,500. Every source is `fresh`, next due on 2026-11-22 or 2026-12-15. The legacy baseline check still reports zero differences; the typed check against the recorded baseline reports 56, all of them additions (27 counts up, 27 digests of sets that grew, the new run kind `refresh`), none missing or smaller. All 149 dbt tests pass, the reconciliations included. A dump of the database is now about 270 MB, so three take about 0.8 GB.
+
+**Backups without a terminal.** The service runs `deploy/backup-loop.sh`, the same dumps as `scripts/backup_databases.sh`: both databases each day, each checked to list and given a checksum. It keeps the newest `LINK_LENS_BACKUP_KEEP` dumps of each database (7 by default) and removes older ones only after a new dump of that database has been written and checked, so a run of failures never leaves fewer good copies. It touches only files named `<database>-<time>.dump` and their checksums; a dump named otherwise, such as `linklens-pre-<something>.dump` taken before a migration, stays until a person removes it. A `linklens` dump is about 270 MB since the cutover. Set the folder and the number kept first:
 
 ```sh
-# .env: LINK_LENS_BACKUP_DIR=/path/to/backups
+# .env: LINK_LENS_BACKUP_DIR=/path/to/backups and LINK_LENS_BACKUP_KEEP=3
 docker compose --profile backups up -d backup
 docker compose --profile backups logs backup --tail 10
 ```
@@ -586,20 +600,21 @@ The backend runs `alembic upgrade head` when it starts, so a new migration reach
 
 1. Take a backup and check that it lists: `pg_dump -Fc`, then `pg_restore --list`.
 2. Rehearse on a copy: restore the backup into a throwaway `pgvector/pgvector:pg17-trixie` container (create the `NOLOGIN` roles first: three, `linklens_transform` as well for a dump taken at `0022` or later, and `linklens_analyst` at `0025` or later), run `uv run alembic upgrade head` and any backfill there with `LINK_LENS_DATABASE_URL` pointing at the copy, and run both baseline checks.
-3. On the real database: stop the backend, the product service and, if they run, the Dagster services (they run the checkout's code and fail on a column that is not there yet), take a fresh backup, upgrade, run the backfill if the phase has one, build the serving views with dbt, and run both checks.
+3. On the real database: stop the backend, the product service, the console and, if they run, the Dagster services (they run the checkout's code and fail on a column that is not there yet, and the schedule would add rows between the two readings below). Take a fresh backup, save the typed figures, upgrade, run the backfill if the phase has one, build the serving views with dbt, and run both checks.
 4. Start the services and check them: `/api/health` and `/api/runs` on port 2024, the Inbox on 3000, `/health` on 8091 and 8100.
 
 ```sh
-docker compose stop backend product
-docker compose exec -T postgres pg_dump -U linklens -d linklens -Fc > ../linklens-before-migration.dump
+docker compose --profile orchestration --profile console stop backend product admin dagster-webserver dagster-daemon
+docker compose exec -T postgres pg_dump -U linklens -d linklens -Fc > /Users/may/link-lens-backups/linklens-pre-MIGRATION-TIME.dump
+uv run python scripts/migration_baseline.py --typed --output /tmp/typed-before.json
 uv run alembic upgrade head
 uv run link-lens dbt build
 uv run python scripts/migration_baseline.py --check outputs/local-run/migration-baseline.json
-uv run python scripts/migration_baseline.py --typed --check outputs/local-run/migration-baseline.json
-docker compose up -d
+uv run python scripts/migration_baseline.py --typed --check /tmp/typed-before.json
+docker compose --profile orchestration --profile console up -d
 ```
 
-Both checks must report `0 difference(s)`. The first compares the legacy rows, the second the same records read back from the typed tables. Each migration has a downgrade, and one step down and up again is tested; a downgrade that passes `0024` drops the serving views, and `link-lens dbt build` after the next upgrade puts them back. Building a bundle adds an artifact, so after the first bundle the artifact count differs from the baseline by the number of bundles built.
+Both checks must report `0 difference(s)`. The first compares the legacy rows, which never change, with the recorded baseline. The second compares the records read back from the typed tables with the same reading taken just before the migration. Until the cutover on 2026-11-15 the typed check compared with the recorded baseline too (`--typed --check outputs/local-run/migration-baseline.json`); since then refreshes add snapshots, runs and observations, so that comparison reports what they added, and the reading taken before the migration is the one to match. Name the backup `linklens-pre-<something>.dump`: the backup service never removes a dump named that way. Each migration has a downgrade, and one step down and up again is tested; a downgrade that passes `0024` drops the serving views, and `link-lens dbt build` after the next upgrade puts them back. Building a bundle adds an artifact, so after the first bundle the artifact count differs from the baseline by the number of bundles built.
 
 Every phase was applied to the local database this way on 14 and 15 November 2026, and each time both checks reported zero differences.
 

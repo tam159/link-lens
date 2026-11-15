@@ -35,7 +35,7 @@ This page is for the two engineers who change the data flow: the AI engineer and
    Database tests start their own PostgreSQL in Docker. They never touch the `linklens` database.
 3. Update the document that owns what you changed. A decision that differs from the plan is written into the plan's phase and its risk table.
 4. CI runs two jobs: the application (lint, migrations up, down and up, the published contracts, the kept bundle, the suite) and the orchestration (the runtime image has neither tool; dbt builds and tests every model; Dagster's definitions load; the Dagster image builds and loads by itself).
-5. A change that adds a migration reaches the local database only by the procedure in the engineering guide under **Changing a database that holds data**: backup, rehearsal on a copy, services stopped, migrate, `link-lens dbt build`, both baseline checks at zero.
+5. A change that adds a migration reaches the local database only by the procedure in the engineering guide under **Changing a database that holds data**: backup, rehearsal on a copy, services stopped, the typed figures saved, migrate, `link-lens dbt build`, both baseline checks at zero (the typed one against the figures saved before the migration).
 
 ## Writing a dbt model
 
