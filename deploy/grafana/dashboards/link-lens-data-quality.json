@@ -1,0 +1,973 @@
+{
+  "uid": "link-lens-data-quality",
+  "title": "Data quality",
+  "description": "Sources, coverage, validity, identity, profiles, releases and review, with measured quality kept apart from proxy numbers.",
+  "tags": [
+    "link-lens"
+  ],
+  "timezone": "utc",
+  "schemaVersion": 39,
+  "version": 1,
+  "editable": false,
+  "graphTooltip": 0,
+  "refresh": "",
+  "time": {
+    "from": "now-90d",
+    "to": "now"
+  },
+  "links": [
+    {
+      "type": "dashboards",
+      "tags": [
+        "link-lens"
+      ],
+      "title": "Link Lens dashboards",
+      "asDropdown": true,
+      "icon": "external link"
+    }
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "product_url",
+        "label": "Product service",
+        "type": "textbox",
+        "query": "http://localhost:8100",
+        "current": {
+          "text": "http://localhost:8100",
+          "value": "http://localhost:8100"
+        },
+        "hide": 0,
+        "options": [
+          {
+            "selected": true,
+            "text": "http://localhost:8100",
+            "value": "http://localhost:8100"
+          }
+        ]
+      },
+      {
+        "name": "dagster_url",
+        "label": "Dagster",
+        "type": "textbox",
+        "query": "http://localhost:3070",
+        "current": {
+          "text": "http://localhost:3070",
+          "value": "http://localhost:3070"
+        },
+        "hide": 0,
+        "options": [
+          {
+            "selected": true,
+            "text": "http://localhost:3070",
+            "value": "http://localhost:3070"
+          }
+        ]
+      },
+      {
+        "name": "inbox_url",
+        "label": "Agent Inbox",
+        "type": "textbox",
+        "query": "http://localhost:3000",
+        "current": {
+          "text": "http://localhost:3000",
+          "value": "http://localhost:3000"
+        },
+        "hide": 0,
+        "options": [
+          {
+            "selected": true,
+            "text": "http://localhost:3000",
+            "value": "http://localhost:3000"
+          }
+        ]
+      }
+    ]
+  },
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+    {
+      "id": 1,
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 3
+      },
+      "type": "text",
+      "title": "",
+      "options": {
+        "mode": "markdown",
+        "content": "**How to read this board.** *Measured* quality means a person checked a sample; it is shown with its sample size and date, under **Human review**. Everything else is a proxy: counts, statuses, and scores that are **uncalibrated** rule or model scores, not probabilities. An **AI audit** is shown in its own panel and is not a human evaluation; the two are never added together."
+      }
+    },
+    {
+      "id": 2,
+      "gridPos": {
+        "x": 0,
+        "y": 3,
+        "w": 24,
+        "h": 1
+      },
+      "type": "row",
+      "title": "Sources",
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 3,
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Fresh",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status = 'fresh'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 4,
+      "gridPos": {
+        "x": 4,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Stale or failing",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status IN ('stale', 'failing')"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 5,
+      "gridPos": {
+        "x": 8,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "No cadence set",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status = 'no_cadence'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 6,
+      "gridPos": {
+        "x": 12,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Blocked by drift",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE drift_status = 'blocked'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 7,
+      "gridPos": {
+        "x": 16,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Waiting for review",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE waiting_for_review"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 8,
+      "gridPos": {
+        "x": 20,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Longest wait, days",
+      "description": "Blocked by drift: the approved mapping cannot read the source's latest snapshot, and a person must review a new one.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT coalesce(round(max(extract(epoch FROM now() - waiting_since) / 86400)::numeric, 1), 0) FROM analytics.source_health WHERE waiting_for_review"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 9,
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 24,
+        "h": 1
+      },
+      "type": "row",
+      "title": "Coverage",
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 10,
+      "gridPos": {
+        "x": 0,
+        "y": 9,
+        "w": 14,
+        "h": 8
+      },
+      "type": "table",
+      "title": "Records, observations and unmapped fields per source",
+      "description": "unmapped_share is the share of the source's fields that the approved mapping names and leaves unmapped.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT source_title, records, observations, concepts_used, mapped_fields, unmapped_fields, unmapped_share, okf_path, source_id FROM analytics.source_coverage ORDER BY observations DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "source_title"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "OKF page (needs an API key)",
+                    "url": "${product_url}/v1/okf${__data.fields.okf_path}",
+                    "targetBlank": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "okf_path"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 11,
+      "gridPos": {
+        "x": 14,
+        "y": 9,
+        "w": 10,
+        "h": 8
+      },
+      "type": "table",
+      "title": "Concepts no mapping uses",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT concept, scope, datatype, okf_path FROM analytics.concept_usage WHERE never_mapped ORDER BY concept"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "concept"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "OKF page (needs an API key)",
+                    "url": "${product_url}/v1/okf${__data.fields.okf_path}",
+                    "targetBlank": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "okf_path"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 12,
+      "gridPos": {
+        "x": 0,
+        "y": 17,
+        "w": 24,
+        "h": 1
+      },
+      "type": "row",
+      "title": "Validity",
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 13,
+      "gridPos": {
+        "x": 0,
+        "y": 18,
+        "w": 12,
+        "h": 8
+      },
+      "type": "table",
+      "title": "Enum values outside the ontology",
+      "description": "Observations of enum concepts whose value is not one the ontology allows. Checksums of identifiers and records set aside for a missing timestamp are not stored as rows and are not shown.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT source_id, concept, observations, outside_allowed_values FROM analytics.observation_validity ORDER BY outside_allowed_values DESC, observations DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 14,
+      "gridPos": {
+        "x": 12,
+        "y": 18,
+        "w": 12,
+        "h": 8
+      },
+      "type": "table",
+      "title": "Fields set aside in validation samples",
+      "description": "From each onboarding run's validation sample, not from the whole source.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT run_id, source_id, run_status, validation_records, validation_quarantined_fields FROM analytics.onboarding_run WHERE validation_records IS NOT NULL ORDER BY completed_at DESC NULLS LAST"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 15,
+      "gridPos": {
+        "x": 0,
+        "y": 26,
+        "w": 24,
+        "h": 1
+      },
+      "type": "row",
+      "title": "Identity",
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 16,
+      "gridPos": {
+        "x": 0,
+        "y": 27,
+        "w": 14,
+        "h": 8
+      },
+      "type": "table",
+      "title": "Links by rule and review state",
+      "description": "A link is a proposal until a person reviews it. score_kind says what the score is; it is never a probability.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT batch_id, rule, link_status, human_review_status, score_kind, links FROM analytics.identity_link_summary ORDER BY batch_id, links DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 17,
+      "gridPos": {
+        "x": 14,
+        "y": 27,
+        "w": 10,
+        "h": 8
+      },
+      "type": "table",
+      "title": "Entities by number of supporting sources",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT batch_id, supporting_sources, entities, records FROM analytics.identity_entity_support ORDER BY batch_id, supporting_sources"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 18,
+      "gridPos": {
+        "x": 0,
+        "y": 35,
+        "w": 24,
+        "h": 1
+      },
+      "type": "row",
+      "title": "Profiles and releases",
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 19,
+      "gridPos": {
+        "x": 0,
+        "y": 36,
+        "w": 14,
+        "h": 8
+      },
+      "type": "table",
+      "title": "Profile fields by concept, latest release",
+      "description": "selected: one value chosen. multiple_values: a multi-valued concept, where no winner is forced. unresolved: no defensible value.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT concept, fields, selected, multiple_values, unresolved FROM analytics.release_field_status WHERE release_id = (SELECT release_id FROM analytics.release_overview WHERE is_latest) ORDER BY concept"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 20,
+      "gridPos": {
+        "x": 14,
+        "y": 36,
+        "w": 10,
+        "h": 8
+      },
+      "type": "table",
+      "title": "Profiles added, changed and removed",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT release_id, previous_release_id, profiles_added, profiles_changed, profiles_removed FROM analytics.release_profile_changes ORDER BY release_id DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 21,
+      "gridPos": {
+        "x": 0,
+        "y": 44,
+        "w": 24,
+        "h": 1
+      },
+      "type": "row",
+      "title": "Review",
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 22,
+      "gridPos": {
+        "x": 0,
+        "y": 45,
+        "w": 12,
+        "h": 8
+      },
+      "type": "table",
+      "title": "Human review: measured on a sample",
+      "description": "A person labelled these items. share_yes describes this sample only; read it with its size and date.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT worksheet_kind, sample_size, verdict_yes, verdict_no, verdict_unsure, share_yes, last_labelled_at, reviewers, worksheet_id FROM analytics.evaluation_summary WHERE review_kind = 'human' ORDER BY last_labelled_at DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 23,
+      "gridPos": {
+        "x": 12,
+        "y": 45,
+        "w": 12,
+        "h": 8
+      },
+      "type": "table",
+      "title": "AI audit: not a human evaluation",
+      "description": "An AI model's opinion of the same kind of items. It cannot stand in for a person's review, and unsure is not correct.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT worksheet_kind, sample_size, verdict_yes, verdict_no, verdict_unsure, share_yes, last_labelled_at, worksheet_id FROM analytics.evaluation_summary WHERE review_kind = 'ai' ORDER BY last_labelled_at DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    }
+  ]
+}

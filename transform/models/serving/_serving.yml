@@ -1,0 +1,685 @@
+# The serving read models: what the product service, the OKF tree and the bundle
+# builder read. Each model is one SELECT with an enforced contract, so a column
+# that is added, removed, renamed or retyped fails the build. Change a model and
+# its contract together, and build into serving_next first.
+#
+# Every model carries release_id. Evidence is never hidden: status, provenance,
+# alternatives, score kind, timestamp basis and licence are columns, not options.
+version: 2
+
+models:
+  - name: release
+    description: Releases, with the batch and ontology version each one names. A release never changes.
+    columns:
+      - name: release_id
+        data_type: bigint
+        description: The release. Higher is newer.
+        data_tests: [unique, not_null]
+      - name: batch_id
+        data_type: text
+        description: The batch of entities, links and profiles that the release serves.
+        data_tests: [not_null]
+      - name: ontology_hash
+        data_type: text
+        description: Digest of the ontology version the batch's runs were onboarded under, in hex.
+        data_tests: [not_null]
+      - name: released_by
+        data_type: text
+        description: The person who recorded the release.
+        data_tests: [not_null]
+      - name: released_at
+        data_type: timestamp with time zone
+        description: When the release was recorded. Pages of the release are stamped with it.
+        data_tests: [not_null]
+      - name: notes
+        data_type: text
+        description: Free text given with the release, if any.
+      - name: batch_kind
+        data_type: text
+        description: Kind of the batch, pipeline or enhancement.
+      - name: experiment_id
+        data_type: text
+        description: The experiment the batch belongs to.
+      - name: is_latest
+        data_type: boolean
+        description: True for the newest release only.
+        data_tests: [not_null]
+
+  - name: current_release
+    description: The latest release, one row. "Current" for any other model is a join with this one.
+    columns:
+      - name: release_id
+        data_type: bigint
+        description: The latest release.
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('release')
+                field: release_id
+      - name: batch_id
+        data_type: text
+        description: Its batch.
+      - name: ontology_hash
+        data_type: text
+        description: Its ontology version, in hex.
+      - name: released_by
+        data_type: text
+        description: Who recorded it.
+      - name: released_at
+        data_type: timestamp with time zone
+        description: When it was recorded.
+
+  - name: entity
+    description: Entities of a release, one row per profile, with a display name and identifiers taken from the profile's own fields.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [release_id, entity_id]
+    columns:
+      - name: release_id
+        data_type: bigint
+        description: The release.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('release')
+                field: release_id
+      - name: entity_id
+        data_type: text
+        description: The entity's key. Stable across releases; the path of its OKF page is built from it.
+        data_tests: [not_null]
+      - name: profile_id
+        data_type: text
+        description: The stored profile row, internal.
+        data_tests: [not_null]
+      - name: display_name
+        data_type: text
+        description: The selected legal name, when the profile has one.
+      - name: identifiers
+        data_type: jsonb
+        description: ABN, ACN and NZBN from the profile's fields, keyed by concept name. Null when the profile has none.
+      - name: status
+        data_type: text
+        description: The profile's status. It says the profile rests on proposed, unreviewed identity links.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["profile_from_proposed_links"]
+      - name: profile_version
+        data_type: text
+        description: Content hash of the profile, in hex. The REST ETag.
+        data_tests: [not_null]
+
+  - name: profile
+    description: Profiles of a release, each with the stored profile rebuilt exactly as the pipeline wrote it. Statuses and scores are labels, never probabilities.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [release_id, entity_id]
+      - exists_in:
+          arguments:
+            columns: [release_id, entity_id]
+            to: ref('entity')
+    columns:
+      - name: release_id
+        data_type: bigint
+        description: The release.
+        data_tests: [not_null]
+      - name: entity_id
+        data_type: text
+        description: The entity the profile describes.
+        data_tests: [not_null]
+      - name: profile_id
+        data_type: text
+        description: The stored profile row, internal.
+      - name: profile_version
+        data_type: text
+        description: Content hash of the profile, in hex.
+        data_tests: [not_null]
+      - name: policy_version
+        data_type: text
+        description: Version of the profile policy that selected the values.
+      - name: status
+        data_type: text
+        description: The profile's status.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["profile_from_proposed_links"]
+      - name: uncertainties
+        data_type: jsonb
+        description: What the profile states it is unsure of.
+      - name: source_records
+        data_type: jsonb
+        description: The source records the profile was assembled from.
+      - name: groups
+        data_type: jsonb
+        description: Grouped values, such as licences or service locations.
+      - name: reconciliation
+        data_type: jsonb
+        description: Notes of the experimental reconciliation pass, when one ran.
+      - name: document
+        data_type: jsonb
+        description: The profile exactly as the pipeline wrote it; pages and the REST profile are rendered from this.
+        data_tests: [not_null]
+
+  - name: profile_field
+    description: One row per profile field, with the observation it was selected from and every alternative that was not.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [release_id, entity_id, position]
+      - exists_in:
+          arguments:
+            columns: [release_id, entity_id]
+            to: ref('profile')
+      # A field that cites an observation cites one the release serves.
+      - exists_in:
+          arguments:
+            columns: [release_id, observation_source_id, observation_id]
+            to: ref('observation')
+            to_columns: [release_id, source_id, observation_id]
+      - exists_in:
+          arguments:
+            columns: [release_id, concept]
+            to: ref('concept')
+            to_columns: [release_id, name]
+    columns:
+      - name: release_id
+        data_type: bigint
+        description: The release.
+        data_tests: [not_null]
+      - name: entity_id
+        data_type: text
+        description: The entity.
+        data_tests: [not_null]
+      - name: position
+        data_type: integer
+        description: Order of the field in the stored profile.
+        data_tests: [not_null]
+      - name: concept
+        data_type: text
+        description: The ontology concept the field states.
+        data_tests: [not_null]
+      - name: status
+        data_type: text
+        description: selected (one value chosen), multiple_values (a multi-valued concept; no winner forced) or unresolved.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["selected", "multiple_values", "unresolved"]
+      - name: value
+        data_type: jsonb
+        description: The value as the profile states it, which may be a number. What a client receives.
+      - name: value_text
+        data_type: text
+        description: The same value when it is text. What search matches on.
+      - name: values
+        data_type: jsonb
+        description: The values of a multi-valued field, each with its own provenance.
+      - name: observation_source_id
+        data_type: text
+        description: Source of the observation the value was selected from.
+      - name: observation_id
+        data_type: text
+        description: The observation the value was selected from, in hex. Null for a multi-valued field.
+      - name: decision
+        data_type: text
+        description: The rule that selected the value, in words.
+      - name: temporal_caveat
+        data_type: text
+        description: What the timestamp does and does not say about the value.
+      - name: confidence
+        data_type: jsonb
+        description: Source reliability and field confidence. Uncalibrated judgements, not probabilities.
+      - name: confidence_kind
+        data_type: text
+        description: Says what kind of numbers `confidence` holds.
+        data_tests: [not_null]
+      - name: provenance
+        data_type: jsonb
+        description: Source, record, locator, licence and timestamps of the selected value.
+      - name: alternatives
+        data_type: jsonb
+        description: Every other value that was observed and not selected, with its provenance.
+
+  - name: profile_address
+    description: Addresses of a profile. One source record's address fields stay together.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [release_id, entity_id, position]
+      - exists_in:
+          arguments:
+            columns: [release_id, entity_id]
+            to: ref('profile')
+      - exists_in:
+          arguments:
+            columns: [release_id, source_id]
+            to: ref('source')
+    columns:
+      - name: release_id
+        data_type: bigint
+        description: The release.
+        data_tests: [not_null]
+      - name: entity_id
+        data_type: text
+        description: The entity.
+        data_tests: [not_null]
+      - name: position
+        data_type: integer
+        description: Order of the address in the stored profile.
+        data_tests: [not_null]
+      - name: role
+        data_type: text
+        description: What the address is for, such as business.
+      - name: source_id
+        data_type: text
+        description: The source the address record comes from.
+      - name: record_id
+        data_type: text
+        description: The source record, in hex.
+      - name: fields
+        data_type: jsonb
+        description: The address fields of that record, keyed by concept.
+
+  - name: observation
+    description: Source claims of a release, every observation extracted with a mapping config approved in one of the release's runs, whether its record is linked to an entity or not.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [release_id, source_id, observation_id]
+      - exists_in:
+          arguments:
+            columns: [release_id, source_id]
+            to: ref('source')
+      - exists_in:
+          arguments:
+            columns: [release_id, concept]
+            to: ref('concept')
+            to_columns: [release_id, name]
+      # Every claim has its record, snapshot and source behind it.
+      - exists_in:
+          arguments:
+            columns: [release_id, source_id, observation_id]
+            to: ref('evidence')
+    columns:
+      - name: release_id
+        data_type: bigint
+        description: The release.
+        data_tests: [not_null]
+      - name: source_id
+        data_type: text
+        description: The source the claim comes from.
+        data_tests: [not_null]
+      - name: observation_key
+        data_type: sha256
+        description: The observation's ID as stored, 32 bytes. For joins and index lookups.
+      - name: observation_id
+        data_type: text
+        description: The observation's ID in hex, as clients see it.
+        data_tests: [not_null]
+      - name: record_key
+        data_type: sha256
+        description: The source record's ID as stored, 32 bytes.
+      - name: record_id
+        data_type: text
+        description: The source record's ID in hex.
+        data_tests: [not_null]
+      - name: entity_id
+        data_type: text
+        description: The entity the record belongs to in this release. Null for an unlinked record.
+      - name: concept
+        data_type: text
+        description: The ontology concept the claim states.
+        data_tests: [not_null]
+      - name: value
+        data_type: text
+        description: The normalised value.
+        data_tests: [not_null]
+      - name: raw_value
+        data_type: jsonb
+        description: The value exactly as the source has it.
+      - name: source_fields
+        data_type: text[]
+        description: The source columns the value was taken from.
+      - name: group_name
+        data_type: text
+        description: Group of the claim, for concepts that come in groups.
+      - name: field_confidence
+        data_type: double precision
+        description: The mapping's confidence in this field. An uncalibrated judgement.
+      - name: source_reliability
+        data_type: double precision
+        description: The mapping's reliability for the source. An uncalibrated judgement.
+      - name: confidence_kind
+        data_type: text
+        description: Says what kind of numbers the two confidences are.
+        data_tests: [not_null]
+      - name: observed_at
+        data_type: timestamp with time zone
+        description: When the claim was true according to `timestamp_basis`.
+        data_tests: [not_null]
+      - name: timestamp_basis
+        data_type: text
+        description: Where `observed_at` comes from, the snapshot or a field of the record.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["snapshot", "record"]
+      - name: timezone_assumed
+        data_type: boolean
+        description: True when the source gave no time zone and UTC was assumed.
+      - name: ingested_at
+        data_type: timestamp with time zone
+        description: When the claim was extracted.
+      - name: derivation_level
+        data_type: text
+        description: How far the value is from the source, L1 for a direct extraction.
+      - name: config_hash
+        data_type: text
+        description: The approved mapping config that extracted the claim, in hex.
+        data_tests: [not_null]
+      - name: subject_role
+        data_type: text
+        description: What the source's records are about, from the mapping.
+      - name: source_kind
+        data_type: text
+        description: The kind of source, from the mapping.
+      - name: licence
+        data_type: text
+        description: Licence of the snapshot the claim comes from. Attribution travels with every claim.
+        data_tests: [not_null]
+      - name: licence_url
+        data_type: text
+        description: Where the licence is published, when the source says.
+      - name: document
+        data_type: jsonb
+        description: The observation exactly as the extractor wrote it; evidence pages are rendered from this.
+        data_tests: [not_null]
+
+  - name: evidence
+    description: Where a claim comes from, its record's exact locator, the snapshot, the source and the licence.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [release_id, source_id, observation_id]
+    columns:
+      - name: release_id
+        data_type: bigint
+        description: The release.
+        data_tests: [not_null]
+      - name: source_id
+        data_type: text
+        description: The source.
+        data_tests: [not_null]
+      - name: observation_key
+        data_type: sha256
+        description: The observation's ID as stored, 32 bytes.
+      - name: observation_id
+        data_type: text
+        description: The observation's ID in hex.
+        data_tests: [not_null]
+      - name: record_id
+        data_type: text
+        description: The source record's ID in hex.
+        data_tests: [not_null]
+      - name: sheet
+        data_type: text
+        description: Sheet of a workbook the record is on, if any.
+      - name: row_no
+        data_type: bigint
+        description: Row of the record in its file or sheet.
+      - name: locator
+        data_type: jsonb
+        description: The exact place of the record in the snapshot.
+        data_tests: [not_null]
+      - name: snapshot_id
+        data_type: text
+        description: The snapshot the record was read from.
+        data_tests: [not_null]
+      - name: format
+        data_type: text
+        description: File format of the snapshot.
+      - name: snapshot_observed_at
+        data_type: timestamp with time zone
+        description: The snapshot's observation time.
+      - name: snapshot_observed_at_basis
+        data_type: text
+        description: What that time is, such as a publication date used as a proxy.
+      - name: retrieved_at
+        data_type: timestamp with time zone
+        description: When the bytes were downloaded.
+      - name: licence
+        data_type: text
+        description: Licence of the snapshot.
+        data_tests: [not_null]
+      - name: licence_url
+        data_type: text
+        description: Where the licence is published.
+      - name: source_title
+        data_type: text
+        description: Title of the source dataset.
+      - name: publisher
+        data_type: text
+        description: The organisation that publishes it.
+      - name: portal
+        data_type: text
+        description: The data portal it was found on.
+
+  - name: link
+    description: Identity links of a release. A link is a rule or model proposal until a person reviews it, and its score is not a probability.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [release_id, link_id]
+    columns:
+      - name: release_id
+        data_type: bigint
+        description: The release.
+        data_tests: [not_null]
+      - name: link_id
+        data_type: text
+        description: Content hash of the link, in hex.
+        data_tests: [not_null]
+      - name: entity_id
+        data_type: text
+        description: The entity the two records were joined into.
+      - name: rule
+        data_type: text
+        description: The rule that proposed the link.
+        data_tests: [not_null]
+      - name: rule_version
+        data_type: text
+        description: Version of that rule.
+      - name: score
+        data_type: double precision
+        description: The rule's or model's score. Uncalibrated.
+      - name: score_kind
+        data_type: text
+        description: Says what kind of number `score` is.
+        data_tests: [not_null]
+      - name: threshold
+        data_type: double precision
+        description: The score a link had to reach.
+      - name: status
+        data_type: text
+        description: proposed_unreviewed until a person reviews the link.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["proposed_unreviewed"]
+      - name: human_review_status
+        data_type: text
+        description: Whether a person has reviewed the link. Null on links made before reviews were recorded.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["unreviewed"]
+      - name: a_source_id
+        data_type: text
+        description: Source of the first record.
+      - name: a_record_id
+        data_type: text
+        description: The first record, in hex.
+      - name: b_source_id
+        data_type: text
+        description: Source of the second record.
+      - name: b_record_id
+        data_type: text
+        description: The second record, in hex.
+      - name: evidence
+        data_type: jsonb
+        description: What the two records agree on, with labels and locators of both.
+
+  - name: source
+    description: Sources of a release, with the licence of the snapshot each run used.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [release_id, source_id]
+    columns:
+      - name: release_id
+        data_type: bigint
+        description: The release.
+        data_tests: [not_null]
+      - name: source_id
+        data_type: text
+        description: The source.
+        data_tests: [not_null]
+      - name: title
+        data_type: text
+        description: Title of the dataset.
+      - name: publisher
+        data_type: text
+        description: The organisation that publishes it.
+      - name: portal
+        data_type: text
+        description: The data portal it was found on.
+      - name: slug
+        data_type: text
+        description: Its name on the portal.
+      - name: licence_title
+        data_type: text
+        description: The licence as the portal's metadata names it.
+      - name: run_id
+        data_type: text
+        description: The onboarding run of this source in the release's batch.
+        data_tests: [not_null]
+      - name: snapshot_id
+        data_type: text
+        description: The snapshot that run used.
+        data_tests: [not_null]
+      - name: licence
+        data_type: text
+        description: Licence recorded with that snapshot.
+        data_tests: [not_null]
+      - name: licence_url
+        data_type: text
+        description: Where the licence is published.
+      - name: retrieved_at
+        data_type: timestamp with time zone
+        description: When the snapshot was downloaded.
+
+  - name: concept
+    description: Concepts of the ontology version a release was made under.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [release_id, name]
+    columns:
+      - name: release_id
+        data_type: bigint
+        description: The release.
+        data_tests: [not_null]
+      - name: name
+        data_type: text
+        description: The concept's name, such as entity.legal_name.
+        data_tests: [not_null]
+      - name: scope
+        data_type: text
+        description: What the concept describes, such as entity, address or licence.
+        data_tests: [not_null]
+      - name: datatype
+        data_type: text
+        description: The type of its values.
+        data_tests: [not_null]
+      - name: cardinality
+        data_type: text
+        description: Whether an entity has one value or many.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["one", "many"]
+      - name: definition
+        data_type: text
+        description: What the concept means.
+        data_tests: [not_null]
+      - name: minimum
+        data_type: text
+        description: Lower bound of a numeric concept, as text.
+      - name: maximum
+        data_type: text
+        description: Upper bound of a numeric concept, as text.
+      - name: position
+        data_type: integer
+        description: Order of the concept in the ontology document.
+      - name: allowed_values
+        data_type: text[]
+        description: The allowed values of an enum concept, in order. Empty for other concepts.
+      - name: requires
+        data_type: text[]
+        description: Concepts that must accompany this one.
+
+  - name: bundle
+    description: Bundles a client may download, the latest archive built for each release and client. Named scopes such as demo are not served.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [release_id, client_id]
+    columns:
+      - name: release_id
+        data_type: bigint
+        description: The release.
+        data_tests: [not_null]
+      - name: client_id
+        data_type: uuid
+        description: The client the bundle was built for.
+        data_tests: [not_null]
+      - name: scope
+        data_type: text
+        description: The scope name, client:<id>.
+      - name: source_scope
+        data_type: text[]
+        description: The sources the files are limited to. Null means every source.
+      - name: entity_count
+        data_type: integer
+        description: Entities in the bundle.
+      - name: file_count
+        data_type: integer
+        description: Files in the archive.
+      - name: size_bytes
+        data_type: bigint
+        description: Size of the archive.
+      - name: sha256
+        data_type: text
+        description: Hash of the archive, in hex.
+        data_tests: [not_null]
+      - name: manifest_sha256
+        data_type: text
+        description: Hash of the manifest, which names every file and its hash.
+      - name: uri
+        data_type: text
+        description: Where the archive's bytes are stored.
+        data_tests: [not_null]
+      - name: created_at
+        data_type: timestamp with time zone
+        description: When the bundle was built.

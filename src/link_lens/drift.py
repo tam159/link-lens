@@ -105,3 +105,51 @@ def detect(snapshot_id, config_hash=None, config=None):
             ],
         }
     return {**result, **compare(config, snapshot.get("format"), headers)}
+
+
+def record(snapshot_id, config_hash):
+    """Check a stored snapshot against a mapping config and keep the result.
+
+    The result follows from the snapshot and the config, so it is stored once:
+    checking the same pair again returns the stored row and writes nothing.
+    """
+    import json
+
+    from sqlalchemy import text
+
+    found = text(
+        "SELECT source_id, status, blocking, reasons, checked_at FROM catalog.drift_check "
+        "WHERE snapshot_id = :snapshot AND config_hash = sha256_from_hex(:config)"
+    )
+    keys = {"snapshot": snapshot_id, "config": config_hash}
+    with store.engine().connect() as connection:
+        row = connection.execute(found, keys).mappings().first()
+    if row is None:
+        result = detect(snapshot_id, config_hash)
+        source_id = store.require("snapshots", snapshot_id)["source_id"]
+        with store.engine().begin() as connection:
+            connection.execute(
+                text(
+                    "INSERT INTO catalog.drift_check "
+                    "(snapshot_id, config_hash, source_id, status, blocking, reasons) "
+                    "VALUES (:snapshot, sha256_from_hex(:config), :source, :status, "
+                    ":blocking, CAST(:reasons AS jsonb)) ON CONFLICT DO NOTHING"
+                ),
+                {
+                    **keys,
+                    "source": source_id,
+                    "status": result["status"],
+                    "blocking": result["blocking"],
+                    "reasons": json.dumps(result["reasons"]),
+                },
+            )
+            row = connection.execute(found, keys).mappings().one()
+    return {
+        "source_id": row["source_id"],
+        "snapshot_id": snapshot_id,
+        "config_hash": config_hash,
+        "status": row["status"],
+        "blocking": row["blocking"],
+        "reasons": row["reasons"],
+        "checked_at": row["checked_at"].isoformat(),
+    }

@@ -11,6 +11,7 @@ import json
 from sqlalchemy import select, text
 
 from . import logs, ontology, store
+from . import serving as views
 from .db import catalog, copy_insert, evidence, identity, ops, serving
 from .db import ontology as registry
 from .db.records import render_time
@@ -316,14 +317,8 @@ def build(connection, release):
     }
 
 
-def create(batch_id, reviewer, notes=None):
-    """Record a release of a batch and build its OKF tree. A human action.
-
-    The ontology version is the one the batch's runs were onboarded under; a
-    batch whose runs disagree cannot be released.
-    """
-    if not reviewer or not reviewer.strip():
-        raise ValueError("A release needs the name of the person releasing it")
+def batch_version(batch_id):
+    """The batch and the one ontology version its runs were onboarded under."""
     batch = store.require("batches", batch_id)
     if not batch.get("run_ids"):
         raise ValueError(f"{batch_id} is not an assembled batch")
@@ -336,11 +331,100 @@ def create(batch_id, reviewer, notes=None):
         raise ValueError(
             "The batch's runs were onboarded under different ontology versions"
         )
-    version = versions.pop()
+    return batch, versions.pop()
+
+
+def preview(batch_id):
+    """What a release of a batch would be, against the latest release. Writes nothing.
+
+    Profiles added, removed and changed by entity and profile version, and the
+    checks a release should pass. A batch assembled after a source was
+    refreshed also differs by resampling; `refreshed_sources` says when to read
+    the comparison with that in mind.
+    """
+    batch, version = batch_version(batch_id)
+    with store.engine().connect() as connection:
+        current = connection.execute(
+            text("SELECT id, batch_id FROM ops.release ORDER BY id DESC LIMIT 1")
+        ).first()
+        profiles = text(
+            "SELECT entity_key, sha256_hex(profile_version) FROM identity.profile "
+            "WHERE batch_id = :batch"
+        )
+        new = dict(connection.execute(profiles, {"batch": batch_id}).all())
+        old = (
+            dict(connection.execute(profiles, {"batch": current.batch_id}).all())
+            if current
+            else {}
+        )
+        uncited = connection.execute(
+            text(
+                "SELECT count(*) FROM identity.profile_field f "
+                "JOIN identity.profile p ON p.id = f.profile_id "
+                "WHERE p.batch_id = :batch AND f.status = 'selected' "
+                "AND f.observation_id IS NULL"
+            ),
+            {"batch": batch_id},
+        ).scalar_one()
+        links = connection.execute(
+            text("SELECT count(*) FROM identity.link WHERE batch_id = :batch"),
+            {"batch": batch_id},
+        ).scalar_one()
+        refreshed = connection.execute(
+            text(
+                "SELECT count(*) FROM onboarding.run "
+                "WHERE id = ANY(:runs) AND kind = 'refresh'"
+            ),
+            {"runs": list(batch["run_ids"])},
+        ).scalar_one()
+        views = views_built(connection)
+    already = bool(current) and current.batch_id == batch_id
+    checks = [
+        {"check": "the batch has profiles", "passed": bool(new)},
+        {"check": "every selected field cites an observation", "passed": uncited == 0},
+        {"check": "the serving views are built", "passed": views},
+        {"check": "the batch is not the one already released", "passed": not already},
+    ]
+    return {
+        "batch_id": batch_id,
+        "ontology_hash": version,
+        "runs": len(batch["run_ids"]),
+        "profiles": len(new),
+        "links": links,
+        "current_release_id": current.id if current else None,
+        "profiles_added": len(new.keys() - old.keys()),
+        "profiles_removed": len(old.keys() - new.keys()),
+        "profiles_changed": sum(new[e] != old[e] for e in new.keys() & old.keys()),
+        "profiles_unchanged": sum(new[e] == old[e] for e in new.keys() & old.keys()),
+        "refreshed_sources": refreshed,
+        "checks": checks,
+        "ready": all(check["passed"] for check in checks),
+    }
+
+
+def views_built(connection):
+    try:
+        views.require(connection)
+    except ValueError:
+        return False
+    return True
+
+
+def create(batch_id, reviewer, notes=None):
+    """Record a release of a batch and build its OKF tree. A human action.
+
+    The ontology version is the one the batch's runs were onboarded under; a
+    batch whose runs disagree cannot be released.
+    """
+    if not reviewer or not reviewer.strip():
+        raise ValueError("A release needs the name of the person releasing it")
+    batch, version = batch_version(batch_id)
     ontology.register(ontology.legacy())
     ontology.resolve(version)
     table = serving.release
     with store.engine().begin() as connection:
+        # The bundles built after the commit, and every client, read the views.
+        views.require(connection)
         row = connection.execute(
             table.insert()
             .values(

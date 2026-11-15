@@ -1,0 +1,24 @@
+# The one data source: the `analytics` schema of the application database, read
+# as a login that is only a member of linklens_analyst. Grafana can therefore
+# read the reporting models and nothing else: no core table, no serving view,
+# no key. Dashboards query models, never tables.
+apiVersion: 1
+
+datasources:
+  - name: Link Lens analytics
+    uid: linklens-analytics
+    type: postgres
+    access: proxy
+    url: ${LINK_LENS_GRAFANA_DB_HOST}:${LINK_LENS_GRAFANA_DB_PORT}
+    user: linklens_grafana
+    secureJsonData:
+      password: ${LINK_LENS_GRAFANA_POSTGRES_PASSWORD}
+    jsonData:
+      database: ${LINK_LENS_GRAFANA_DB_NAME}
+      sslmode: disable
+      postgresVersion: 1500
+      maxOpenConns: 5
+      maxIdleConns: 2
+      connMaxLifetime: 14400
+    isDefault: true
+    editable: false

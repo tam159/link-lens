@@ -129,6 +129,65 @@ def set_client_status(client_id, status):
     return {"client_id": str(client_id), "status": status}
 
 
+def set_client_tier(client_id, tier_id):
+    """Move a client to another tier. Its keys follow at once."""
+    tier(tier_id)
+    with store.engine().begin() as connection:
+        changed = connection.execute(
+            text("UPDATE access.client SET tier_id = :tier WHERE id = :id"),
+            {"id": client_id, "tier": tier_id},
+        ).rowcount
+    if not changed:
+        raise KeyError(f"clients/{client_id} not found")
+    return {"client_id": str(client_id), "tier_id": tier_id}
+
+
+def tiers():
+    with store.engine().connect() as connection:
+        return [
+            dict(row)
+            for row in connection.execute(
+                text("SELECT * FROM access.tier ORDER BY id")
+            ).mappings()
+        ]
+
+
+def clients():
+    """Every client with its keys. A key is its prefix and dates, never its secret."""
+    with store.engine().connect() as connection:
+        found = {
+            str(row["id"]): {
+                "client_id": str(row["id"]),
+                "name": row["name"],
+                "tier_id": row["tier_id"],
+                "status": row["status"],
+                "created_at": row["created_at"].isoformat(),
+                "keys": [],
+            }
+            for row in connection.execute(
+                text("SELECT * FROM access.client ORDER BY created_at, id")
+            ).mappings()
+        }
+        for row in connection.execute(
+            text(
+                "SELECT id, client_id, prefix, label, created_at, expires_at, revoked_at "
+                "FROM access.api_key ORDER BY created_at, id"
+            )
+        ).mappings():
+            found[str(row["client_id"])]["keys"].append(
+                {
+                    "key_id": str(row["id"]),
+                    "prefix": row["prefix"],
+                    "label": row["label"],
+                    **{
+                        name: row[name] and row[name].isoformat()
+                        for name in ("created_at", "expires_at", "revoked_at")
+                    },
+                }
+            )
+    return list(found.values())
+
+
 def create_key(client_id, label=None, expires_in_days=None):
     """Create a key for a client. The returned `key` is shown this once only."""
     prefix, secret = secrets.token_hex(6), secrets.token_hex(32)

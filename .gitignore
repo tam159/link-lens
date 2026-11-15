@@ -48,3 +48,8 @@ frontend/.next/
 /outputs/local-run/bundles/
 /outputs/*/okf/
 !/outputs/okf/
+
+# Dagster and dbt working files
+.tmp_dagster_home_*/
+# Default folder of the backup service; see compose.yaml.
+/backups/

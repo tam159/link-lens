@@ -1,0 +1,14 @@
+# Dashboards are files in deploy/grafana/dashboards, reviewed like code. A
+# change made in the Grafana UI is not saved back: export the JSON and commit it.
+apiVersion: 1
+
+providers:
+  - name: Link Lens
+    orgId: 1
+    folder: Link Lens
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    allowUiUpdates: false
+    options:
+      path: /var/lib/grafana/dashboards

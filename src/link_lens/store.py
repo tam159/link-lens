@@ -71,7 +71,13 @@ def now():
 
 @lru_cache
 def engine():
-    return create_engine(settings().database_url, pool_pre_ping=True)
+    role = settings().database_role
+    if role and not role.replace("_", "").isalnum():
+        raise ValueError(f"Not a role name: {role}")
+    # The role is set when a connection opens, so every statement of the process
+    # has that role's rights and no more.
+    options = {"connect_args": {"options": f"-c role={role}"}} if role else {}
+    return create_engine(settings().database_url, pool_pre_ping=True, **options)
 
 
 # Tables served from typed schemas. Each keeps the record it was given exactly.

@@ -1,0 +1,131 @@
+# The core tables dbt reads. Alembic owns every one of them; dbt only selects.
+# A table is declared here when a model needs it, with what a model author
+# should know about it. The full definitions are in migrations/versions/.
+version: 2
+
+sources:
+  - name: ops
+    schema: ops
+    description: Batches, releases and operational records.
+    tables:
+      - name: release
+        description: >
+          A person's record that one batch, under one ontology version, is what
+          clients see. Append-only. Nothing creates a release but a person.
+        config:
+          # A placeholder until the owner sets a release cadence.
+          loaded_at_field: released_at
+          freshness:
+            warn_after: {count: 45, period: day}
+      - name: batch
+        description: >
+          One assembly of entities, links and profiles from a set of approved
+          onboarding runs (`run_ids`). Kinds are pipeline, enhancement and discovery.
+      - name: release_bundle
+        description: An archive of a release's OKF files, built for a named scope or one client. Append-only.
+      - name: event
+        description: >
+          What happened in a run, one row per event. The kinds model_usage,
+          triage_usage and enhancement_usage are model calls with their tokens
+          and the cost calculated when they ran. Tokens that are null are unknown, never zero.
+      - name: model_call
+        description: >
+          The budget ledger: one row per attempt to call a model, reserved
+          before the call and settled once after it. A settled row never changes.
+      - name: evaluation
+        description: >
+          The current label of each reviewed item. Human labels and AI labels
+          are different kinds and are never one figure.
+
+  - name: ontology
+    schema: ontology
+    description: The ontology registry. Versions are additive and every table is append-only.
+    tables:
+      - name: concept
+        description: One definition of a concept. A changed definition is a new row under the same name.
+      - name: concept_value
+        description: The allowed values of an enum concept, in order.
+      - name: concept_requires
+        description: Concepts that must accompany a concept, in order.
+      - name: version_concept
+        description: The concepts that make up an ontology version, in document order.
+
+  - name: catalog
+    schema: catalog
+    description: Sources, their snapshots and stored artifacts.
+    tables:
+      - name: source
+        description: A public dataset, as catalogued or as registered for onboarding.
+      - name: source_state
+        description: >
+          A view with the refresh facts of each source: cadence, last check,
+          when the next check is due, when the bytes last changed and the
+          approved mapping in force.
+      - name: snapshot
+        description: >
+          The bytes of a source as downloaded once, with licence, format and
+          the basis of its observation time. Append-only.
+        config:
+          # A placeholder until sources have cadences; see catalog.source_state.
+          loaded_at_field: retrieved_at
+          freshness:
+            warn_after: {count: 45, period: day}
+      - name: drift_check
+        description: >
+          The result of comparing a snapshot with a mapping config, one row per
+          pair: unchanged, or changed with reasons, and whether the mapping can
+          still extract from it.
+      - name: artifact
+        description: Content-addressed bytes. Only `uri` may change, when the bytes move to object storage.
+
+  - name: onboarding
+    schema: onboarding
+    description: Onboarding runs, the mappings they proposed and the approvals a person gave.
+    tables:
+      - name: run
+        description: One onboarding attempt for a source snapshot. `state` holds the approval it ended with.
+      - name: approval
+        description: A person's decision on one exact mapping config. Append-only; never written by a pipeline step.
+      - name: mapping_config
+        description: A declarative mapping, stored once under its content hash, with its roles and source reliability.
+      - name: mapping
+        description: A mapping config as proposed in a run, with its version within the run.
+      - name: mapping_field
+        description: The fields of a mapping config, one row per mapped concept, derived from the config.
+
+  - name: evidence
+    schema: evidence
+    description: Source records and the observations extracted from them. Append-only, hash-partitioned by source.
+    tables:
+      - name: source_record
+        description: One record of a snapshot, with its exact locator.
+      - name: observation
+        description: One claim extracted from a source record with an approved mapping config.
+
+  - name: identity
+    schema: identity
+    description: Entities, links between records, and profiles, each versioned by batch.
+    tables:
+      - name: profile
+        description: The profile of one entity in one batch. Append-only.
+      - name: profile_field
+        description: One field of a profile, exactly as decided, pointing at the observation it cites.
+      - name: profile_address
+        description: One source record's address fields, kept together.
+      - name: link
+        description: A proposed identity link between two source records. Its score is a rule or model score, not a probability.
+      - name: membership
+        description: Which entity a source record belongs to in a batch.
+
+  - name: access
+    schema: access
+    description: Tiers, clients, keys and usage of the product service. The hash of a key's secret is not readable here.
+    tables:
+      - name: tier
+        description: What a class of client may do. Limits and prices are rows.
+      - name: client
+        description: Who holds keys.
+      - name: api_key
+        description: A key's client, prefix, label and dates. Never its secret.
+      - name: api_usage
+        description: Calls counted per key, day and interface. There is no route or tool in it.

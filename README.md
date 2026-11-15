@@ -177,7 +177,7 @@ uv sync --frozen
 if [ ! -f .env ]; then cp .env.example .env; fi
 ```
 
-A first Docker build may exceed ten minutes; subsequent starts reuse images. The supplied setup uses local ports 3000, 2024, 5439, 8091 and 8100.
+A first Docker build may exceed ten minutes; subsequent starts reuse images. The supplied setup uses local ports 3000, 2024, 5439, 8091 and 8100, 3070 and 3090 if you start Dagster, 3080 if you start Grafana and 8200 if you start the operations console.
 
 ### 2. Fill in `.env`
 
@@ -208,9 +208,11 @@ docker compose up -d --build
 docker compose ps
 curl --fail http://localhost:2024/api/health
 uv run link-lens --help
+# Build the views the product service reads (the backend creates the tables):
+uv run link-lens dbt build
 ```
 
-The backend applies Alembic migrations at startup, so back up an existing database before starting a backend that carries newer migrations ([engineering guide](docs/ENGINEERING.md), **Database layout, migrations and the baseline**). Run `docker compose` from the repository root: it runs the code of the folder it is started from. All published ports bind to loopback; this is a local development setup.
+The backend applies Alembic migrations at startup. Migrations create tables, not the `serving` views: those are dbt models, built by `link-lens dbt build` on a new database and again after a model changes. Back up an existing database before starting a backend that carries newer migrations ([engineering guide](docs/ENGINEERING.md), **Database layout, migrations and the baseline**). Run `docker compose` from the repository root: it runs the code of the folder it is started from. All published ports bind to loopback; this is a local development setup.
 
 | Service | Local address / purpose |
 |---|---|
@@ -219,6 +221,10 @@ The backend applies Alembic migrations at startup, so back up an existing databa
 | PostgreSQL | `localhost:5439`; host CLI defaults are in `.env.example` |
 | Sandbox controller | `localhost:8091`; called by the workflow |
 | Product service | [http://localhost:8100](http://localhost:8100); read-only REST and MCP for clients. It refuses every call until a release and an API key exist; see [Serve a release to clients](#serve-a-release-to-clients). |
+| Dagster UI, optional | [http://localhost:3070](http://localhost:3070); only with `docker compose --profile orchestration up -d`. See [Dagster and dbt](#dagster-and-dbt). |
+| dbt documentation, optional | [http://localhost:3090](http://localhost:3090); started with the same profile. Every model, column, test and source, as written by the latest build through Dagster. |
+| Grafana, optional | [http://localhost:3080](http://localhost:3080); only with `docker compose --profile dashboards up -d`. Sign in as `admin`; the password is `LINK_LENS_GRAFANA_ADMIN_PASSWORD`, `admin` when unset. |
+| Operations console, optional | [http://localhost:8200](http://localhost:8200); only with `docker compose --profile console up -d admin`. Sign in with a token listed in `LINK_LENS_ADMIN_USERS`; see [Operations console](#operations-console). |
 
 Open Agent Inbox and add a connection:
 
@@ -323,6 +329,37 @@ curl -H "Authorization: Bearer KEY" http://localhost:8100/v1/entities
 
 Every answer carries the status of a value, the observations behind it, the alternatives, the kind of score, the basis of its timestamp and the licence of its source. Bundles of a release, usage reports and running more than one instance are covered in the [engineering guide](docs/ENGINEERING.md). The [production plan](docs/PRODUCTION_PLAN.md) records what was built and measured and what is still open, including hosting, reviewer sign-in and retiring the earlier tables.
 
+## Run it day to day
+
+The two sections above are how the submission was produced and how a first release is recorded by hand. Day to day, the product runs without a terminal: Dagster refreshes the sources and builds the views, and people decide in three places.
+
+```mermaid
+flowchart LR
+    Owner["Product owner"] --> Console["Operations console :8200"]
+    Reviewer["Reviewer"] --> Inbox["Agent Inbox :3000"]
+    Team["Engineers"] --> DagsterUI["Dagster UI :3070"]
+    Team --> Grafana["Grafana :3080"]
+    Console -->|"add a source, set cadence, record a release, keys"| PG["PostgreSQL"]
+    Console -->|"start onboarding (paid)"| Graph["LangGraph backend"]
+    Inbox <--> Graph
+    Graph -->|"proposed mapping, approval"| PG
+    Daemon["Dagster schedules and sensors"] -->|"refresh, drift check, extract, batch"| PG
+    Daemon -->|"dbt build after a release"| Views["serving and analytics views"]
+    PG --> Views
+    Views --> Product["Product service :8100"]
+    Views --> Grafana
+    Product --> Clients["Clients: REST and MCP"]
+```
+
+| Who | Where | Does |
+|---|---|---|
+| Product owner | [Operations console](#operations-console) | Adds sources, sets how often each is checked, compares a batch with the current release and records a release, manages clients, tiers and keys |
+| Reviewer | Agent Inbox | Accepts or answers each proposed mapping |
+| Dagster, by itself | Schedules and sensors | Checks due sources for a new file, checks drift, extracts under the approved mapping, rebuilds the views after a release |
+| Engineers | Dagster UI and Grafana | Assemble a batch, start a paid onboarding run after drift, watch freshness, failures and cost; fix what the [runbooks](docs/RUNBOOKS.md) describe |
+
+The command line stays for one-off work, recovery, promoting an ontology and bundle scopes. Which routine runs where, and what each command is still for, is in the [engineering guide](docs/ENGINEERING.md), section **Routine operation**. How to change a model, an asset or the console is in [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Other run paths
 
 Open the linked file, then use the named section. These direct file links also work in editors that do not support jumping to a heading in another Markdown file.
@@ -387,7 +424,7 @@ A second, read-only service answers clients: the product service on port 8100 (`
 ```mermaid
 flowchart LR
     Batch["Batch of profiles in PostgreSQL"] -->|"release create, by a person"| Release["Release: batch and ontology version"]
-    Release --> Views["serving views: one SELECT per file"]
+    Release --> Views["serving views: dbt models with contracts"]
     Release --> Tree["OKF pages, lines and index of the release"]
     Views --> Queries["Query layer: scope, release lag, limits"]
     Tree --> Queries
@@ -396,6 +433,50 @@ flowchart LR
     Queries --> MCP["MCP /mcp: data tools and file tools"]
     Queries --> Bundles["Bundle links and entity viewer"]
 ```
+
+### Dagster and dbt
+
+Two tools run the product with many sources and a small team: Dagster for the deterministic data flow and dbt Core for derived SQL. The [orchestration plan](docs/ORCHESTRATION_PLAN.md) has the phases, and all eight are built: the seventh is the [operations console](#operations-console) below, and the last moved routine operation off the terminal (see [Run it day to day](#run-it-day-to-day)). On 2026-11-15 the owner cut the local stack over: each source is checked every 7 days (the four ASIC and ACNC registers) or 30 days (Corporate Tax Transparency and the employment services list); alerts go to no channel, because the owner watches the Dagster UI and the dashboards; the backup service keeps the newest 3 daily dumps of each database; and scheduled and manual results are watched side by side until 2026-11-29. The decisions and how to change them are in the engineering guide under **Routine operation**. dbt owns the twelve `serving` views that the product service reads: each is a model in `transform/models/serving/` with an enforced contract, tests and documentation, built as the `linklens_transform` database role. dbt also builds sixteen reporting models in the `analytics` schema, for the team only: usage, source health, coverage, onboarding, identity, cost, release quality and review labels. Grafana shows three dashboards over them: product overview, data quality and source health. Dagster holds the deterministic data flow as assets in `orchestration/`: per source, a `snapshot` (new only when the publisher's bytes changed) with a check that it still fits the approved mapping, then `observations` extracted under that mapping; beside them a batch of entities and profiles, the dbt models, and two requests that spend on model calls and never start by themselves. Sensors react to what a person recorded: a newly approved mapping requests extraction, and a new release requests the dbt build. Dagster works as a database role that cannot record an approval, a promotion or a release. When a source's bytes change and still fit its approved mapping, the refresh is recorded as a run that carries that approval, and the next batch is assembled from it; nothing reaches a client until a person records a release. A batch is still a bounded sample, so two batches across a refresh differ by more than what the publisher changed ([orchestration plan](docs/ORCHESTRATION_PLAN.md), phase D3a). One schedule refreshes each source by the cadence set for it (`link-lens source cadence SOURCE --days N`), asking a publisher only for something newer and backing off when it does not answer; no source has a cadence until you set one. Sensors alert on failed runs and checks, drift, overdue sources and the model budget, to the webhook in `LINK_LENS_ALERT_WEBHOOK_URL`; without one they only log. The commands above still work as before.
+
+Both tools are the open-source editions, in one image, `link-lens-dagster:local`, and run in local Docker. `docker compose --profile orchestration up -d` runs them for development, with the checkout mounted. Adding `-f deploy/compose.deploy.yaml` runs them as a deployment: from the image alone, restarting when they stop, with no default password, and logged in to the database as a login that can only become the orchestrator's or dbt's role. Where Dagster runs, it builds the views after a migration and after a release, so `link-lens dbt build` is needed only where it does not. [docs/RUNBOOKS.md](docs/RUNBOOKS.md) says what to do when a refresh fails, a source drifts, a review is stuck, a build fails or the budget is spent.
+
+dbt is part of the default installation, because the serving views and the tests need it. Dagster is optional and is not in the default installation or the default Compose stack:
+
+```sh
+uv run link-lens dbt debug     # dbt connects to the configured database as linklens_transform
+uv run link-lens dbt build     # builds the serving views and runs their tests
+uv run link-lens dbt docs generate   # model and column documentation, in transform/target/
+# To change a read model: build a candidate beside the live views, compare, then build.
+uv run link-lens serving-compare --build
+# Dashboards over the reporting models, with their own login to the database:
+docker compose --profile dashboards up -d
+# The same refresh steps Dagster runs, by hand:
+uv run link-lens source check SOURCE_ID
+uv run link-lens source extract SOURCE_ID
+# What the schedule would do now, and what extraction is outstanding:
+uv run link-lens source due
+uv run link-lens source backfill
+uv sync --frozen --group orchestration
+uv run dagster definitions validate --workspace orchestration/workspace.yaml
+# Dagster webserver and daemon, with their own image and their own `dagster` database:
+docker compose --profile orchestration up -d --build
+```
+
+`link-lens dbt` passes its arguments to dbt and takes the connection from `LINK_LENS_DATABASE_URL`, so dbt and the pipeline use the same database. The Dagster UI has no sign-in of its own and is bound to this machine. Grafana asks for a sign-in and reads the database as a role that can see the reporting models and nothing else. On the dashboards, a figure a person measured on a sample is shown apart from AI audits and from uncalibrated scores. Alembic owns every table that holds state; dbt owns only derived relations, and the two never manage the same one. The backend image contains neither tool, so `link-lens dbt` runs on the host.
+
+### Operations console
+
+A small console lets the people who run the product work without a terminal: find a dataset in the saved catalogue, preview it, add it as a source, set how often it is refreshed or pause it, compare a batch with the current release and record a release, manage clients, tiers and API keys, and read an audit log of every change. Reviewing a mapping stays in the Agent Inbox, running and scheduling in the Dagster UI and the numbers on the dashboards; the console links to them.
+
+```sh
+# In .env: who may sign in, as JSON. A token is a secret; choose long random ones.
+# LINK_LENS_ADMIN_USERS={"A_LONG_RANDOM_TOKEN":{"name":"Your Name","role":"admin"}}
+docker compose --profile console up -d admin
+```
+
+Open [http://localhost:8200](http://localhost:8200) and sign in with the token. There are three roles, each including the one before: `engineer` reads, `product_owner` also adds and manages sources and records releases, `admin` also manages clients, tiers and keys and reads the audit log. With nobody listed, nobody can sign in.
+
+Adding a source starts onboarding, which makes paid model calls: the console shows an estimate, the budget cap and what remains before the confirm button, and refuses when the estimate would exceed the cap. Recording a release there is the same human decision as `link-lens release create`, stored in the signed-in person's name. This sign-in is for development and one machine: there is no identity provider, so the console is published on this machine only. Details are in the [engineering guide](docs/ENGINEERING.md), section **Operations console**.
 
 ### Experiment and model boundaries
 
@@ -431,11 +512,11 @@ uv run ruff check src/link_lens tests --exclude _vendor --select F
 RUN_DOCKER_TESTS=1 uv run pytest tests/test_sandbox_integration.py -q
 ```
 
-The LinkML, SHACL and JSON Schema tests need the optional `ontology` dependency group (`uv sync --frozen --group ontology`) and are skipped without it.
+The LinkML, SHACL and JSON Schema tests need the optional `ontology` dependency group (`uv sync --frozen --group ontology`) and are skipped without it. The Dagster tests (`tests/test_orchestration.py`) need the `orchestration` group and are skipped without it; CI runs them in a job of their own. dbt is in the `dev` group, since the test database gets its serving views from it.
 
 Database tests run on PostgreSQL built by `alembic upgrade head`, in a throwaway `pgvector/pgvector:pg17-trixie` container that the test session starts on first use and removes afterwards. Set `LINK_LENS_TEST_DATABASE_URL` to use an existing server instead; the tests create and drop their own `linklens_test_*` databases there and never use the database named in the URL. Tests that do not touch the store need neither.
 
-The suite result on 15 November 2026, with the production data model and product service, is **229 passed, four integration tests skipped**. The result recorded for the promoted submission was 106 passed, four skipped; it and the earlier Docker checks are documented in the [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
+The suite result on 15 November 2026, with the production data model, the product service, dbt-built serving views and reporting models, the dashboards, the Dagster assets and the operations console, is **297 passed, four integration tests skipped** with the `orchestration` group installed, and 277 passed with the Dagster tests skipped as well without it. The result recorded for the promoted submission was 106 passed, four skipped; it and the earlier Docker checks are documented in the [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
 
 ## Documentation and code
 
@@ -447,11 +528,14 @@ The suite result on 15 November 2026, with the production data model and product
 | [Workflow and architecture](#how-it-works) | Discovery, agent loop, storage and runtime contracts in this README |
 | [docs/ENGINEERING.md](docs/ENGINEERING.md) | Implementation evidence, verification and recovery |
 | [docs/PRODUCTION_PLAN.md](docs/PRODUCTION_PLAN.md) | The production data model and product service, phase by phase: what was built, measured and left open |
+| [docs/ORCHESTRATION_PLAN.md](docs/ORCHESTRATION_PLAN.md) | Dagster and dbt, phase by phase: ownership, what each phase must settle, what is built |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Who owns what, and how to add a dbt model, a Dagster asset or a console action |
+| [docs/RUNBOOKS.md](docs/RUNBOOKS.md) | What to do when the data flow needs a person, and how to back up and restore |
 | [docs/api/](docs/api/) | Published REST and MCP contracts of the product service |
 | [outputs/COMPARISON.md](outputs/COMPARISON.md) | Preserved baseline versus the final approach |
 | [docs/THIRD_PARTY.md](docs/THIRD_PARTY.md) | Component and data attribution |
 
-Implementation is in `src/link_lens/`: `agent.py` orchestrates onboarding; `ingestion.py`, `triage.py` and `downloadability.py` handle discovery/acquisition; `contracts.py`, `readers.py` and `extraction.py` implement shared mapping execution; `resolution.py` and `profiles.py` build entities; `store.py`, `evaluation.py` and `exports.py` retain and present evidence; `db/` holds the typed tables behind the store; `releases.py`, `serving/` and `okf/` turn a batch into what clients see; `product/` and `interfaces/` are the read-only product service with its REST routes and MCP tools; `bundles.py` builds release bundles. Service definitions are in `compose.yaml` and `deploy/`; database migrations are in `migrations/`.
+Implementation is in `src/link_lens/`: `agent.py` orchestrates onboarding; `ingestion.py`, `triage.py` and `downloadability.py` handle discovery/acquisition; `contracts.py`, `readers.py` and `extraction.py` implement shared mapping execution; `resolution.py` and `profiles.py` build entities; `store.py`, `evaluation.py` and `exports.py` retain and present evidence; `db/` holds the typed tables behind the store; `releases.py`, `serving.py` and `okf/` turn a batch into what clients see, through the views that dbt builds from `transform/models/serving/`; `product/` and `interfaces/` are the read-only product service with its REST routes and MCP tools; `bundles.py` builds release bundles. Service definitions are in `compose.yaml` and `deploy/`; database migrations are in `migrations/`. Beside `src/`, `transform/` is the dbt project and `orchestration/` the Dagster code location.
 
 
 ### Experimental ontology evolution

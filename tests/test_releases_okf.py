@@ -4,7 +4,8 @@ import json
 import time
 
 import pytest
-from link_lens import exports, releases, serving, store
+from conftest import ROOT, build_views, dbt
+from link_lens import exports, releases, serving, store, transform
 from link_lens.cli import app
 from link_lens.db import copy_insert
 from link_lens.db import serving as tables
@@ -14,6 +15,10 @@ from sqlalchemy import text
 from sqlalchemy.exc import DBAPIError
 from test_identity_ops import assembled
 from typer.testing import CliRunner
+
+
+# The read models, one dbt model file each.
+MODELS = sorted(p.stem for p in (ROOT / "transform/models/serving").glob("*.sql"))
 
 
 @pytest.fixture
@@ -456,7 +461,7 @@ def test_serving_views_answer_for_a_release(release):
             name: connection.execute(
                 text(f"SELECT count(*) FROM serving.{name} WHERE release_id = 1")
             ).scalar_one()
-            for name in serving.MODELS
+            for name in MODELS
             if name != "current_release"
         }
         assert counts == {
@@ -544,45 +549,153 @@ def test_serving_views_answer_for_a_release(release):
                     connection.execute(text(forbidden))
 
 
-def test_serving_views_follow_their_files(release, monkeypatch):
-    for name in serving.MODELS:
-        comment, statement = serving.sql(name).split("SELECT", 1)
-        # One commented SELECT per file, so a file can become a dbt model.
+def test_a_candidate_build_is_compared_with_what_clients_read(release, tmp_path):
+    """A changed model is built into serving_next and compared before it is served."""
+    url = store.engine().url.render_as_string(hide_password=False)
+    finished = transform.candidate(
+        url=url,
+        project_dir=ROOT / "transform",
+        env={
+            "DBT_TARGET_PATH": str(tmp_path / "target"),
+            "DBT_LOG_PATH": str(tmp_path / "logs"),
+        },
+        capture_output=True,
+        text=True,
+    )
+    assert finished.returncode == 0, finished.stdout
+    # Only the serving models were built: the reporting models still read the
+    # views clients read, not the candidate.
+    assert "serving_next.entity" in finished.stdout
+    assert "analytics." not in finished.stdout
+    try:
+        with store.engine().connect() as connection:
+            assert serving.built(connection, "serving_next") == MODELS
+            result = serving.compare(connection)
+        assert result["differences"] == []
+        assert sorted(result["views"]) == MODELS
+        assert all(view["columns_equal"] for view in result["views"].values())
+        assert result["views"]["observation"]["releases"][1] == {
+            "rows": {"serving_next": 200, "serving": 200},
+            "equal": True,
+        }
+        # A view that answers differently is reported, by view and release.
+        with store.engine().begin() as connection:
+            connection.execute(text("SET LOCAL ROLE linklens_transform"))
+            connection.execute(text("DROP VIEW serving_next.link"))
+            connection.execute(
+                text(
+                    "CREATE VIEW serving_next.link AS "
+                    "SELECT * FROM serving.link WHERE false"
+                )
+            )
+            connection.execute(text("DROP VIEW serving_next.bundle"))
+        with store.engine().connect() as connection:
+            assert serving.compare(connection)["differences"] == [
+                "bundle: only in serving",
+                "link: release 1 differs",
+            ]
+        runner = CliRunner()
+        assert runner.invoke(app, ["serving-compare"]).exit_code == 3
+    finally:
+        with store.engine().begin() as connection:
+            connection.execute(text("SET LOCAL ROLE linklens_transform"))
+            for name in MODELS:
+                connection.execute(text(f'DROP VIEW IF EXISTS serving_next."{name}"'))
+
+
+def test_every_dbt_test_passes_on_a_release(release):
+    """Keys, references, statuses and reconciliations hold on real rows, not only on none."""
+    url = store.engine().url.render_as_string(hide_password=False)
+    finished = dbt(url, "test")
+    assert finished.returncode == 0, finished.stdout
+    with store.engine().connect() as connection:
+        overview = connection.execute(
+            text("SELECT * FROM analytics.release_overview")
+        ).one()
+        assert (overview.entities, overview.profiles, overview.observations) == (
+            50,
+            50,
+            200,
+        )
+        changes = connection.execute(
+            text("SELECT * FROM analytics.release_profile_changes")
+        ).one()
+        assert (changes.previous_release_id, changes.profiles_added) == (None, 50)
+
+
+def test_a_release_serves_what_was_stored_when_it_was_recorded(release):
+    """A later extraction, of the same snapshot or a new one, adds nothing to it."""
+    counts = "SELECT count(*) FROM serving.{} WHERE release_id = 1"
+    with store.engine().begin() as connection:
+        before = [
+            connection.execute(text(counts.format(view))).scalar_one()
+            for view in ("observation", "evidence")
+        ]
+        assert before == [200, 200]
+        # More observations of the same records under the same approved mapping,
+        # as a larger extraction of the snapshot would store them.
+        connection.execute(
+            text(
+                "INSERT INTO evidence.observation (source_id, id, record_id, concept_id, "
+                "config_hash, group_name, group_id, value, raw_value, source_fields, "
+                "field_confidence, observed_at, timestamp_basis, timezone_assumed, "
+                "ingested_at, derivation_level, engine, extra) "
+                "SELECT source_id, sha256_from_hex(md5(sha256_hex(id)) || md5(value)), "
+                "record_id, concept_id, config_hash, group_name, group_id, value || ' later', "
+                "raw_value, source_fields, field_confidence, observed_at, timestamp_basis, "
+                "timezone_assumed, ingested_at, derivation_level, engine, extra "
+                "FROM evidence.observation"
+            )
+        )
+        assert (
+            connection.execute(
+                text("SELECT count(*) FROM evidence.observation")
+            ).scalar_one()
+            == 400
+        )
+    with store.engine().connect() as connection:
+        assert [
+            connection.execute(text(counts.format(view))).scalar_one()
+            for view in ("observation", "evidence")
+        ] == before
+        assert (
+            connection.execute(
+                text("SELECT observations FROM analytics.release_overview")
+            ).scalar_one()
+            == 200
+        )
+
+
+def test_each_read_model_is_one_commented_select():
+    for name in MODELS:
+        body = (ROOT / "transform/models/serving" / f"{name}.sql").read_text()
+        comment, statement = body.split("SELECT", 1)
         assert comment.strip().startswith("--") and ";" not in statement, name
         assert not any(
             word in statement.upper()
             for word in ("INSERT ", "UPDATE ", "DELETE ", "CREATE ")
         ), name
+        # A model reads declared sources or other models, never a bare table.
+        assert "{{ source(" in statement, name
+        assert "release_id" in statement, name
+
+
+def test_a_release_is_refused_until_the_views_are_built(spec, snapshot):
+    batch = assemble(assembled(spec, snapshot))
+    url = store.engine().url.render_as_string(hide_password=False)
     with store.engine().begin() as connection:
-        assert serving.apply(connection) == []  # nothing changed since the upgrade
-    original = serving.sql
-    monkeypatch.setattr(
-        serving,
-        "sql",
-        lambda name: (
-            original(name) + " WHERE false"
-            if name == "current_release"
-            else original(name)
-        ),
-    )
-    with pytest.raises(Exception):
-        with store.engine().begin() as connection:
-            serving.apply(connection)  # LIMIT 1 WHERE false is not valid SQL
-    monkeypatch.setattr(
-        serving,
-        "sql",
-        lambda name: (
-            "SELECT 1 AS release_id" if name == "current_release" else original(name)
-        ),
-    )
-    with store.engine().begin() as connection:
-        assert serving.apply(connection) == ["current_release"]
-        assert connection.execute(
-            text("SELECT * FROM serving.current_release")
-        ).all() == [(1,)]
-    monkeypatch.setattr(serving, "sql", original)
-    with store.engine().begin() as connection:
-        assert serving.apply(connection) == ["current_release"]
+        connection.execute(text("SET LOCAL ROLE linklens_transform"))
+        for name in MODELS:
+            # The reporting models that read a serving model go with it; the
+            # build below makes them again.
+            connection.execute(text(f'DROP VIEW serving."{name}" CASCADE'))
+    try:
+        with pytest.raises(ValueError, match="link-lens dbt build"):
+            releases.create(batch["id"], "test reviewer")
+        assert releases.listing() == []
+    finally:
+        build_views(url)
+    assert releases.create(batch["id"], "test reviewer")["entities"] == 50
 
 
 def test_cli_creates_lists_shows_and_exports_a_release(spec, snapshot, tmp_path):
@@ -618,7 +731,6 @@ def test_cli_creates_lists_shows_and_exports_a_release(spec, snapshot, tmp_path)
     exported = runner.invoke(app, ["release", "export", str(tmp_path / "bundle")])
     assert exported.exit_code == 0 and json.loads(exported.output)["broken_links"] == 0
     assert (tmp_path / "bundle" / "index.md").exists()
-    assert json.loads(runner.invoke(app, ["serving-apply"]).output) == {"changed": []}
 
 
 def test_pages_are_ordered_for_readers_and_reproducible():

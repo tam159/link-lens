@@ -1,0 +1,57 @@
+# Instance configuration of the Dagster services. The image's entrypoint copies
+# it to $DAGSTER_HOME/dagster.yaml at every start. Dagster's run, event and schedule storage is the
+# `dagster` database: the same PostgreSQL server as the application, a database
+# and a login of its own, and never a schema of the application's database.
+storage:
+  postgres:
+    postgres_db:
+      hostname:
+        env: DAGSTER_POSTGRES_HOST
+      port:
+        env: DAGSTER_POSTGRES_PORT
+      username:
+        env: DAGSTER_POSTGRES_USER
+      password:
+        env: DAGSTER_POSTGRES_PASSWORD
+      db_name:
+        env: DAGSTER_POSTGRES_DB
+
+telemetry:
+  enabled: false
+
+# No first-run dialog asking for an email address.
+nux:
+  enabled: false
+
+# How many steps may run at once across all runs, per pool: two by default,
+# which covers `downloads` and `database`. Model calls go one at a time. A
+# pool's limit is a row in Dagster's own storage, so the webserver sets every
+# pool when it starts (see compose.yaml): `model_calls` to 1, the others to 2.
+# Left to the first runs, several starting together race to create the row. The application's
+# budget is the authority on spend; the queue keeps a burst from racing it.
+concurrency:
+  pools:
+    default_limit: 2
+    granularity: op
+
+# The daemon starts a failed run again only when its job asks for it with the
+# tag dagster/max_retries (refresh, extraction and the dbt build do), and only
+# when the run itself failed: a worker that died, an error in Dagster's own
+# storage. A failed step is left to that asset's retry policy; a step that is
+# blocked waits for a person. Jobs that make model calls never ask.
+run_retries:
+  enabled: true
+  max_retries: 0
+  retry_on_asset_or_op_failure: false
+
+# How long Dagster keeps the record of each schedule and sensor evaluation.
+# Runs are pruned by the prune_run_history job, 90 days by default. This is
+# Dagster's own history; the application's records are not in this database.
+retention:
+  schedule:
+    purge_after_days: 30
+  sensor:
+    purge_after_days:
+      skipped: 7
+      failure: 30
+      success: 30

@@ -11,6 +11,9 @@ class Settings(BaseSettings):
         env_file=".env", extra="ignore", env_prefix="LINK_LENS_"
     )
     database_url: str = "postgresql+psycopg://linklens:linklens@localhost:5439/linklens"
+    # A database role every connection of this process takes, such as
+    # linklens_orchestrator. Unset, a connection keeps the rights of its login.
+    database_role: str | None = None
     artifact_dir: Path = Path("artifacts")
     # "local" keeps artifact bytes under artifact_dir; "s3" writes new ones to an
     # S3-compatible bucket and reads them through a cache under artifact_dir.
@@ -38,6 +41,24 @@ class Settings(BaseSettings):
     rate_limit_store: Literal["database", "memory"] = "database"
     # /metrics answers only to this bearer token; unset, there is no /metrics.
     metrics_token: str | None = None
+    # The dbt project that `link-lens dbt` and the orchestrator run, relative to
+    # the working directory like the paths above.
+    dbt_project_dir: Path = Path("transform")
+    # Who may sign in to the operations console while no identity provider is
+    # connected: a JSON object of token -> {"name": ..., "role": ...}, with role
+    # engineer, product_owner or admin. A token is a secret a person holds.
+    # Empty or not valid JSON, nobody can sign in. For development and one machine.
+    admin_users: str = ""
+    # Where alerts are posted: an incoming-webhook URL that accepts {"text": ...},
+    # as Slack's and most chat tools' do. Unset, an alert is logged and not sent.
+    # The URL is a secret and is never logged.
+    alert_webhook_url: str | None = None
+    # Base addresses used in alert links and by the operations console.
+    dagster_url: str = "http://localhost:3070"
+    inbox_url: str = "http://localhost:3000"
+    # Base addresses the operations console links to.
+    dashboards_url: str = "http://localhost:3080"
+    product_url: str = "http://localhost:8100"
     ontology_path: Path = Path("firmable_ontology.yaml")
     model: str = "gpt-6-luna"
     experiment_id: str = "jev-gpt6-luna-ontology-v1"

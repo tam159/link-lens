@@ -1,0 +1,65 @@
+# Who reads the serving models. A change to a model is a change to these.
+version: 2
+
+exposures:
+  - name: rest_api
+    label: REST interface
+    type: application
+    maturity: high
+    description: >
+      The routes under /v1 of the product service, answered by
+      src/link_lens/product/queries.py. The published contract is
+      docs/api/openapi.json.
+    owner:
+      name: AI engineer
+    depends_on:
+      - ref('release')
+      - ref('entity')
+      - ref('profile')
+      - ref('profile_field')
+      - ref('profile_address')
+      - ref('observation')
+      - ref('evidence')
+      - ref('link')
+      - ref('source')
+      - ref('concept')
+      - ref('bundle')
+
+  - name: mcp_server
+    label: MCP server
+    type: application
+    maturity: high
+    description: >
+      The data tools and file tools at /mcp of the product service, each one
+      call into the same query layer as REST. The published contract is
+      docs/api/mcp-tools.json.
+    owner:
+      name: AI engineer
+    depends_on:
+      - ref('release')
+      - ref('entity')
+      - ref('profile')
+      - ref('profile_field')
+      - ref('profile_address')
+      - ref('observation')
+      - ref('evidence')
+      - ref('source')
+      - ref('concept')
+
+  - name: okf_tree_and_bundles
+    label: OKF tree and release bundles
+    type: application
+    maturity: high
+    description: >
+      OKF pages rendered on request by src/link_lens/okf/tree.py and the
+      archives built by src/link_lens/bundles.py. Pages are rendered from the
+      document columns of profile and observation.
+    owner:
+      name: AI engineer
+    depends_on:
+      - ref('release')
+      - ref('current_release')
+      - ref('profile')
+      - ref('observation')
+      - ref('source')
+      - ref('concept')

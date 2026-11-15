@@ -64,6 +64,61 @@ services:
       - ./artifacts:/app/artifacts:ro
     depends_on:
       postgres: {condition: service_healthy}
+  admin:
+    # The operations console: the admin API and its pages, for the people who
+    # run the product. It shares the backend image, works on the database as
+    # linklens_pipeline like the CLI, and gets no provider key: it starts
+    # onboarding on the backend and makes no model call itself. It has a
+    # sign-in (LINK_LENS_ADMIN_USERS) but no identity provider, so it is
+    # published on this machine only.
+    profiles: ["console"]
+    image: link-lens-backend:local
+    command: ["uvicorn", "link_lens.admin.app:app", "--host", "0.0.0.0", "--port", "8200", "--reload", "--reload-dir", "/app/src"]
+    environment:
+      LINK_LENS_DATABASE_URL: postgresql+psycopg://linklens:${LINK_LENS_POSTGRES_PASSWORD:-linklens}@postgres:5432/linklens
+      LINK_LENS_DATABASE_ROLE: linklens_pipeline
+      LINK_LENS_ARTIFACT_DIR: /app/artifacts
+      LINK_LENS_API_URL: http://backend:2024
+      LINK_LENS_EXPERIMENT_ID: ${LINK_LENS_EXPERIMENT_ID:-jev-gpt6-luna-ontology-v1}
+      LINK_LENS_MODEL: ${LINK_LENS_MODEL:-gpt-6-luna}
+      LINK_LENS_MAX_COST_USD: ${LINK_LENS_MAX_COST_USD:-10}
+      # What a new run records about pricing, as the backend has it.
+      LINK_LENS_PRICING_BASIS:
+      LINK_LENS_PRICING_MULTIPLIER:
+      LINK_LENS_INPUT_USD_PER_MILLION:
+      LINK_LENS_OUTPUT_USD_PER_MILLION:
+      # Taken from the environment or .env when set there; unset, nobody can sign in.
+      LINK_LENS_ADMIN_USERS:
+      LINK_LENS_DAGSTER_URL:
+      LINK_LENS_INBOX_URL:
+      LINK_LENS_DASHBOARDS_URL:
+      LINK_LENS_PRODUCT_URL:
+    ports: ["127.0.0.1:8200:8200"]
+    volumes:
+      - ./src:/app/src:ro
+      - ./firmable_ontology.yaml:/app/firmable_ontology.yaml:ro
+      # A new source's snapshot and a release's bundles are written to the artifact store.
+      - ./artifacts:/app/artifacts
+    depends_on:
+      postgres: {condition: service_healthy}
+  backup:
+    # Dumps both databases on a timer, so backups need no person at a terminal:
+    # `docker compose --profile backups up -d backup`. Set LINK_LENS_BACKUP_DIR
+    # first. It keeps the newest LINK_LENS_BACKUP_KEEP dumps of each database;
+    # a `linklens` dump is about 270 MB since the cutover. See deploy/backup-loop.sh.
+    profiles: ["backups"]
+    image: pgvector/pgvector:pg17-trixie
+    entrypoint: ["sh", "/backup-loop.sh"]
+    environment:
+      PGPASSWORD: ${LINK_LENS_POSTGRES_PASSWORD:-linklens}
+      LINK_LENS_BACKUP_INTERVAL_SECONDS: ${LINK_LENS_BACKUP_INTERVAL_SECONDS:-86400}
+      LINK_LENS_BACKUP_KEEP: ${LINK_LENS_BACKUP_KEEP:-7}
+    volumes:
+      - ./deploy/backup-loop.sh:/backup-loop.sh:ro
+      - ${LINK_LENS_BACKUP_DIR:-./backups}:/backups
+    restart: unless-stopped
+    depends_on:
+      postgres: {condition: service_healthy}
   frontend:
     build:
       context: .
@@ -90,6 +145,143 @@ services:
       context: .
       dockerfile: deploy/Dockerfile.sandbox
     profiles: ["build-sandbox"]
+  # Dagster runs only with `docker compose --profile orchestration up -d`, so the
+  # default stack stays as it was. Its own storage is the `dagster` database on
+  # the same server, with a login that has no right on the application's schemas.
+  dagster-db:
+    # Creates the `dagster` login and database when they are missing, then exits.
+    image: pgvector/pgvector:pg17-trixie
+    profiles: ["orchestration"]
+    environment:
+      PGHOST: postgres
+      PGUSER: linklens
+      PGPASSWORD: ${LINK_LENS_POSTGRES_PASSWORD:-linklens}
+      PGDATABASE: postgres
+      DAGSTER_POSTGRES_PASSWORD: ${LINK_LENS_DAGSTER_POSTGRES_PASSWORD:-dagster}
+    entrypoint: ["sh", "-c", "psql -v ON_ERROR_STOP=1 -v password=\"$$DAGSTER_POSTGRES_PASSWORD\" -f /dagster-db.sql"]
+    volumes:
+      - ./deploy/dagster-db.sql:/dagster-db.sql:ro
+    depends_on:
+      postgres: {condition: service_healthy}
+  dagster-webserver:
+    # The Dagster UI, http://localhost:3070. It has no sign-in of its own, so the
+    # port is bound to this machine only.
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.dagster
+    image: link-lens-dagster:local
+    profiles: ["orchestration"]
+    # Every pool gets its row in Dagster's storage before any run starts: model
+    # calls one at a time, the others two. Left to the first runs, several
+    # starting at once race to create the same row and one of them fails.
+    command: ["sh", "-c", "dagster instance concurrency set model_calls 1 && dagster instance concurrency set database 2 && dagster instance concurrency set downloads 2 && exec dagster-webserver --host 0.0.0.0 --port 3070 --workspace /app/orchestration/workspace.yaml"]
+    # Provider keys are needed only by the two assets that make model calls.
+    env_file: &dagster-env-file
+      - path: .env
+        required: false
+    environment: &dagster-environment
+      DAGSTER_POSTGRES_HOST: postgres
+      DAGSTER_POSTGRES_PORT: "5432"
+      DAGSTER_POSTGRES_USER: dagster
+      DAGSTER_POSTGRES_PASSWORD: ${LINK_LENS_DAGSTER_POSTGRES_PASSWORD:-dagster}
+      DAGSTER_POSTGRES_DB: dagster
+      # The application's database, with every connection taking the role that
+      # cannot record an approval, a promotion or a release. dbt connects to the
+      # same database as linklens_transform.
+      LINK_LENS_DATABASE_URL: postgresql+psycopg://linklens:${LINK_LENS_POSTGRES_PASSWORD:-linklens}@postgres:5432/linklens
+      LINK_LENS_DATABASE_ROLE: linklens_orchestrator
+      LINK_LENS_API_URL: http://backend:2024
+      LINK_LENS_EXPERIMENT_ID: ${LINK_LENS_EXPERIMENT_ID:-jev-gpt6-luna-ontology-v1}
+    ports: ["127.0.0.1:3070:3070"]
+    volumes: &dagster-volumes
+      # Reload the code location in the UI to pick up an edit.
+      - ./orchestration:/app/orchestration:ro
+      - ./transform:/app/transform:ro
+      - ./src:/app/src:ro
+      - ./firmable_ontology.yaml:/app/firmable_ontology.yaml:ro
+      # Snapshots are downloaded into the artifact store.
+      - ./artifacts:/app/artifacts
+      # Dagster's working files, compute logs and dbt's build files. The image's
+      # entrypoint copies orchestration/dagster.yaml into it at every start.
+      - dagster-home:/opt/dagster/home
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3070/server_info > /dev/null"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    depends_on:
+      postgres: {condition: service_healthy}
+      dagster-db: {condition: service_completed_successfully}
+  dagster-daemon:
+    # Runs schedules and sensors and takes runs off the queue. It starts after
+    # the webserver has created Dagster's tables.
+    image: link-lens-dagster:local
+    profiles: ["orchestration"]
+    command: ["dagster-daemon", "run", "--workspace", "/app/orchestration/workspace.yaml"]
+    env_file: *dagster-env-file
+    environment: *dagster-environment
+    volumes: *dagster-volumes
+    depends_on:
+      dagster-webserver: {condition: service_healthy}
+  dbt-docs:
+    # dbt's documentation of every model, column, test and source, written by
+    # each build of the models: http://localhost:3090. Internal; bound to this
+    # machine. Empty until the models have been built once through Dagster.
+    image: link-lens-dagster:local
+    profiles: ["orchestration"]
+    command: ["sh", "-c", "mkdir -p /opt/dagster/home/dbt-target && exec python -m http.server 3090 --bind 0.0.0.0 --directory /opt/dagster/home/dbt-target"]
+    ports: ["127.0.0.1:3090:3090"]
+    volumes:
+      - dagster-home:/opt/dagster/home
+    depends_on:
+      dagster-webserver: {condition: service_healthy}
+  # Dashboards run only with `docker compose --profile dashboards up -d`. Grafana
+  # reads the reporting models in `analytics` through a login that can read
+  # nothing else, and keeps its own users and settings in its own volume.
+  grafana-db:
+    # Creates the `linklens_grafana` login when it is missing, then exits.
+    image: pgvector/pgvector:pg17-trixie
+    profiles: ["dashboards"]
+    environment:
+      PGHOST: postgres
+      PGUSER: linklens
+      PGPASSWORD: ${LINK_LENS_POSTGRES_PASSWORD:-linklens}
+      PGDATABASE: postgres
+      GRAFANA_POSTGRES_PASSWORD: ${LINK_LENS_GRAFANA_POSTGRES_PASSWORD:-grafana}
+    entrypoint: ["sh", "-c", "psql -v ON_ERROR_STOP=1 -v password=\"$$GRAFANA_POSTGRES_PASSWORD\" -f /grafana-db.sql"]
+    volumes:
+      - ./deploy/grafana-db.sql:/grafana-db.sql:ro
+    depends_on:
+      postgres: {condition: service_healthy}
+  grafana:
+    # http://localhost:3080, sign in as `admin`. Bound to this machine only.
+    image: grafana/grafana-oss:13.0.2
+    profiles: ["dashboards"]
+    environment:
+      GF_SERVER_HTTP_PORT: "3080"
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${LINK_LENS_GRAFANA_ADMIN_PASSWORD:-admin}
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      # Nothing is reported to the vendor and nothing is fetched from it.
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: "false"
+      GF_NEWS_NEWS_FEED_ENABLED: "false"
+      LINK_LENS_GRAFANA_DB_HOST: postgres
+      LINK_LENS_GRAFANA_DB_PORT: "5432"
+      LINK_LENS_GRAFANA_DB_NAME: linklens
+      LINK_LENS_GRAFANA_POSTGRES_PASSWORD: ${LINK_LENS_GRAFANA_POSTGRES_PASSWORD:-grafana}
+    ports: ["127.0.0.1:3080:3080"]
+    volumes:
+      - ./deploy/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./deploy/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      postgres: {condition: service_healthy}
+      grafana-db: {condition: service_completed_successfully}
 volumes:
   postgres-data:
   checkpoints:
+  dagster-home:
+  grafana-data:

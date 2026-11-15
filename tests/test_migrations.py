@@ -3,7 +3,7 @@
 import json
 
 import pytest
-from conftest import SCHEMAS, head_revision, migrate
+from conftest import ROOT, SCHEMAS, build_views, head_revision, migrate
 from link_lens import store
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import DBAPIError
@@ -212,7 +212,7 @@ def test_roles_have_only_their_privileges(database):
         assert scalars(
             connection,
             "SELECT rolcanlogin FROM pg_roles WHERE rolname LIKE 'linklens\\_%'",
-        ) == [False, False, False]
+        ) == [False, False, False, False, False, False]
 
         # Every domain is typed now: the pipeline role may read legacy rows only.
         assert allowed(connection, "linklens_pipeline", "SELECT * FROM legacy.runs")
@@ -239,6 +239,9 @@ def test_roles_have_only_their_privileges(database):
         read = "SELECT * FROM {}.probe"
         assert allowed(connection, "linklens_pipeline", write.format("ops"))
         assert allowed(connection, "linklens_pipeline", read.format("ops"))
+        assert allowed(connection, "linklens_transform", read.format("ops"))
+        assert allowed(connection, "linklens_transform", read.format("serving"))
+        assert not allowed(connection, "linklens_transform", write.format("ops"))
         assert not allowed(connection, "linklens_pipeline", "DELETE FROM ops.probe")
         # The pipeline builds a release's OKF rows in serving but never edits them.
         assert allowed(connection, "linklens_pipeline", read.format("serving"))
@@ -254,21 +257,231 @@ def test_roles_have_only_their_privileges(database):
         connection.rollback()
 
 
-def test_each_recent_migration_steps_down_and_up_again(empty_database):
-    """A partial downgrade leaves the serving views dropped; head restores them."""
-    from link_lens import serving
+def test_transform_role_reads_core_and_builds_only_in_analytics(database):
+    """The role dbt works as: read the core schemas, create only in analytics."""
+    role = "linklens_transform"
+    with database.connect() as connection:
+        for relation in (
+            "ontology.concept",
+            "catalog.source_state",
+            "onboarding.run",
+            "evidence.observation",
+            "identity.profile",
+            "ops.model_call",
+            "serving.release",
+            "serving.okf_page",
+            "access.tier",
+            "access.client",
+            "access.api_usage",
+        ):
+            assert allowed(connection, role, f"SELECT * FROM {relation}"), relation
+        # A key's client and prefix, never the hash of its secret.
+        assert allowed(
+            connection, role, "SELECT id, client_id, prefix FROM access.api_key"
+        )
+        assert not allowed(connection, role, "SELECT key_hash FROM access.api_key")
+        assert not allowed(connection, role, "SELECT * FROM access.api_key")
+        assert not allowed(connection, role, "SELECT * FROM access.rate_bucket")
+        assert not allowed(connection, role, "SELECT * FROM legacy.runs")
 
+        for statement in (
+            "CREATE TABLE ops.probe (id int)",
+            "CREATE SCHEMA other",
+            "INSERT INTO catalog.source_refresh (source_id) VALUES ('x')",
+            "DELETE FROM access.api_usage",
+        ):
+            assert not allowed(connection, role, statement), statement
+
+        # What it builds in analytics is its own; no other role can read it.
+        connection.execute(text(f"SET LOCAL ROLE {role}"))
+        connection.execute(text("CREATE VIEW analytics.probe AS SELECT 1 AS one"))
+        connection.execute(
+            text("CREATE TABLE analytics.probe_table AS SELECT 1 AS one")
+        )
+        connection.execute(text("RESET ROLE"))
+        assert allowed(connection, role, "SELECT * FROM analytics.probe")
+        assert allowed(connection, role, "DROP TABLE analytics.probe_table")
+        for other in ("linklens_product", "linklens_pipeline"):
+            assert not allowed(connection, other, "SELECT * FROM analytics.probe")
+            assert not allowed(
+                connection, other, "CREATE VIEW analytics.other AS SELECT 1 AS one"
+            )
+        connection.rollback()
+
+
+def test_analyst_role_reads_the_reporting_models_and_nothing_else(database):
+    """The team and the dashboard tool read analytics; the product role does not."""
+    role = "linklens_analyst"
+    with database.connect() as connection:
+        for model in ("source_health", "model_cost", "evaluation_summary"):
+            assert allowed(connection, role, f"SELECT * FROM analytics.{model}"), model
+        for statement in (
+            # Staging views are dbt's working layer and are not granted.
+            "SELECT * FROM analytics.stg_access__api_key",
+            "SELECT * FROM serving.profile",
+            "SELECT * FROM ops.event",
+            "SELECT * FROM access.api_key",
+            "SELECT * FROM legacy.runs",
+            "CREATE VIEW analytics.mine AS SELECT 1 AS one",
+        ):
+            assert not allowed(connection, role, statement), statement
+        assert not allowed(
+            connection, "linklens_product", "SELECT * FROM analytics.source_health"
+        )
+        # The console and the CLI read the same models, and no more of the schema.
+        pipeline = "linklens_pipeline"
+        assert allowed(connection, pipeline, "SELECT * FROM analytics.source_health")
+        assert not allowed(
+            connection, pipeline, "SELECT * FROM analytics.stg_access__api_key"
+        )
+        assert not allowed(
+            connection, pipeline, "CREATE VIEW analytics.mine AS SELECT 1 AS one"
+        )
+        assert scalars(
+            connection,
+            "SELECT rolcanlogin FROM pg_roles WHERE rolname = :role",
+            role=role,
+        ) == [False]
+
+
+def test_orchestrator_role_cannot_record_a_human_decision(database):
+    """It writes what the data flow writes and none of what only a person records."""
+    role = "linklens_orchestrator"
+    nothing = "INSERT INTO {} OVERRIDING SYSTEM VALUE SELECT * FROM {} WHERE false"
+    with database.connect() as connection:
+        for table in (
+            "catalog.snapshot",
+            "catalog.drift_check",
+            "catalog.source_refresh",
+            "onboarding.run",
+            "evidence.observation",
+            "evidence.source_record",
+            "identity.profile",
+            "identity.link",
+            "ops.batch",
+            "ops.model_call",
+            "ontology.ontology_version",
+        ):
+            assert allowed(connection, role, nothing.format(table, table)), table
+            assert allowed(connection, role, f"SELECT * FROM {table}"), table
+        for table in (
+            "onboarding.approval",
+            "ontology.activation",
+            "ops.release",
+            "ops.bundle_scope",
+            "ops.release_bundle",
+            "ops.evaluation",
+            "ops.admin_action",
+        ):
+            assert allowed(connection, role, f"SELECT * FROM {table}"), table
+            assert not allowed(connection, role, nothing.format(table, table)), table
+            assert scalars(
+                connection,
+                "SELECT has_table_privilege(:role, :table, 'UPDATE')",
+                role=role,
+                table=table,
+            ) == [False], table
+        for statement in (
+            "SELECT * FROM access.api_key",
+            "SELECT * FROM access.client",
+            "INSERT INTO serving.okf_page SELECT * FROM serving.okf_page WHERE false",
+            "DELETE FROM catalog.drift_check",
+            "DELETE FROM evidence.observation",
+            "CREATE TABLE ops.mine (id int)",
+            "SELECT * FROM analytics.source_health",
+            "SELECT * FROM serving.profile",
+            "SELECT * FROM serving.okf_page",
+        ):
+            assert not allowed(connection, role, statement), statement
+
+
+def test_downgrade_drops_what_the_transform_role_built(empty_database):
     engine = create_engine(empty_database, poolclass=NullPool)
     migrate(empty_database)
-    views = "SELECT viewname FROM pg_views WHERE schemaname = 'serving'"
+    with engine.begin() as connection:
+        connection.execute(text("SET LOCAL ROLE linklens_transform"))
+        connection.execute(text("CREATE VIEW analytics.built AS SELECT 1 AS one"))
+    migrate(empty_database, "0021", "downgrade")
     with engine.connect() as connection:
-        assert sorted(scalars(connection, views)) == sorted(serving.MODELS)
-    for revision, dropped in (("-1", False), ("0019", True), ("0017", True)):
-        migrate(empty_database, revision, "downgrade")
-        with engine.connect() as connection:
-            # A migration that a view reads from drops the views on its way down.
-            left = scalars(connection, views)
-            assert left == [] if dropped else sorted(left) == sorted(serving.MODELS)
-        migrate(empty_database)
-        with engine.connect() as connection:
-            assert sorted(scalars(connection, views)) == sorted(serving.MODELS)
+        assert (
+            scalars(
+                connection, "SELECT 1 FROM pg_namespace WHERE nspname = 'analytics'"
+            )
+            == []
+        )
+        # Roles are shared by the server: this one stays while another database
+        # uses it, but it keeps nothing here.
+        assert scalars(
+            connection,
+            "SELECT count(*) FROM pg_default_acl a, aclexplode(a.defaclacl) AS acl "
+            "JOIN pg_roles r ON r.oid = acl.grantee "
+            "WHERE r.rolname = 'linklens_transform'",
+        ) == [0]
+        assert scalars(
+            connection,
+            "SELECT has_table_privilege(oid, 'ops.batch', 'SELECT') FROM pg_roles "
+            "WHERE rolname = 'linklens_transform'",
+        ) in ([], [False])
+    migrate(empty_database)
+    with engine.connect() as connection:
+        assert allowed(connection, "linklens_transform", "SELECT * FROM ops.batch")
+
+
+def test_migrations_create_no_view_and_dbt_owns_the_ones_it_builds(empty_database):
+    """Alembic and dbt never manage the same relation in `serving`."""
+    engine = create_engine(empty_database, poolclass=NullPool)
+    owners = (
+        "SELECT c.relname, c.relkind::text, pg_get_userbyid(c.relowner) FROM pg_class c "
+        "JOIN pg_namespace n ON n.oid = c.relnamespace "
+        "WHERE n.nspname = 'serving' AND c.relkind IN ('v', 'p', 'r') ORDER BY 1"
+    )
+    models = sorted(p.stem for p in (ROOT / "transform/models/serving").glob("*.sql"))
+    assert len(models) == 12
+
+    migrate(empty_database)
+    with engine.connect() as connection:
+        alone = connection.execute(text(owners)).all()
+    assert [name for name, kind, _ in alone if kind == "v"] == []
+    assert {owner for _, _, owner in alone} == {"linklens_migrator"}
+
+    build_views(empty_database)
+    with engine.connect() as connection:
+        built = connection.execute(text(owners)).all()
+        assert sorted(name for name, kind, _ in built if kind == "v") == models
+        assert {owner for _, kind, owner in built if kind == "v"} == {
+            "linklens_transform"
+        }
+        assert [row for row in built if row[1] != "v"] == alone
+        # What dbt owns is granted to the two roles that read it, and no more.
+        for role, expected in (
+            ("linklens_product", True),
+            ("linklens_pipeline", True),
+            ("linklens_migrator", False),
+        ):
+            assert scalars(
+                connection,
+                "SELECT has_table_privilege(:role, 'serving.profile', 'SELECT')",
+                role=role,
+            ) == [expected]
+        assert allowed(connection, "linklens_product", "SELECT * FROM serving.profile")
+        assert not allowed(
+            connection, "linklens_product", "SELECT * FROM identity.profile"
+        )
+
+    # One step down drops dbt's views; the old code would create its own again.
+    migrate(empty_database, "0023", "downgrade")
+    with engine.connect() as connection:
+        assert connection.execute(text(owners)).all() == alone
+        assert not allowed(
+            connection,
+            "linklens_transform",
+            "CREATE VIEW serving.probe AS SELECT 1 AS one",
+        )
+    migrate(empty_database)
+    build_views(empty_database)
+    with engine.connect() as connection:
+        assert connection.execute(text(owners)).all() == built
+
+    # Every earlier migration still steps down with dbt's views in place.
+    migrate(empty_database, "0017", "downgrade")
+    migrate(empty_database)

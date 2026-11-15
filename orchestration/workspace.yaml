@@ -1,0 +1,8 @@
+# The one code location. Both paths are relative to this file, so the workspace
+# loads the same way from any directory. The working directory is what puts the
+# link_lens_dagster package on the import path.
+load_from:
+  - python_file:
+      relative_path: link_lens_dagster/definitions.py
+      working_directory: .
+      location_name: link_lens

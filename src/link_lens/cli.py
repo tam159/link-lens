@@ -63,34 +63,13 @@ def register(dataset: str, resource: str | None = None):
 @app.command()
 def onboard(run_id: str):
     """Start a durable graph thread; inspect progress with runs or Agent Inbox."""
+    from . import refresh
+
     run = store.require("runs", run_id)
-    if run.get("thread_id"):
-        raise typer.BadParameter(
-            "This run already has a thread; review or inspect it instead of duplicating execution"
-        )
-    c = client()
-    thread = c.threads.create(
-        metadata={
-            "application": "link-lens",
-            "onboarding_run_id": run_id,
-            "source": run["source_slug"],
-        }
-    )
-    run["thread_id"] = thread["thread_id"]
-    store.put("runs", run_id, run, run["source_id"], "onboarding")
-    result = c.runs.create(
-        thread["thread_id"],
-        "onboard",
-        input={"run_id": run_id, "feedback": run.get("carried_feedback", "none")},
-        config={"recursion_limit": 40},
-    )
-    show(
-        {
-            "run_id": run_id,
-            "thread_id": thread["thread_id"],
-            "server_run_id": result["run_id"],
-        }
-    )
+    try:
+        show(refresh.start_thread(run, client()))
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
 
 
 @app.command()
@@ -202,11 +181,30 @@ def review(run_id: str, decision: str, feedback: str = ""):
 
 @app.command()
 def assemble(
-    run_ids: list[str],
+    run_ids: list[str] | None = typer.Argument(None),
     minimum_profiles: int = 50,
     cohort_pool_size: int | None = None,
     baseline_batch_id: str | None = None,
 ):
+    """Assemble a batch of entities, links and profiles. Deterministic; no model call.
+
+    Without run IDs, from the current run of every registered source, as
+    Dagster's `identity_batch` asset does, and prints the batch's summary.
+    With run IDs, from exactly those runs, and prints the whole batch record.
+    """
+    if not run_ids:
+        from . import refresh
+
+        try:
+            show(
+                refresh.assemble(
+                    None, minimum_profiles, cohort_pool_size, baseline_batch_id
+                )
+            )
+        except refresh.Blocked as blocked:
+            show({"blocked": str(blocked)})
+            raise typer.Exit(EXIT_BLOCKED) from blocked
+        return
     from .pipeline import assemble as build
 
     show(build(run_ids, minimum_profiles, cohort_pool_size, baseline_batch_id))
@@ -644,6 +642,21 @@ def source_state(source_id: str | None = None, kind: str | None = None):
     show(sources.state(source_id, kind))
 
 
+@source_app.command("preview")
+def source_preview(dataset: str, resource: str | None = None):
+    """What registering a dataset would download and what onboarding is likely to cost. Writes nothing."""
+    from . import budget
+
+    show(
+        {
+            **ingestion.preview(
+                SourceRequest(dataset_id=dataset, resource_id=resource)
+            ),
+            "budget": budget.onboarding_estimate(),
+        }
+    )
+
+
 @source_app.command("cadence")
 def source_cadence(source_id: str, days: float | None = typer.Option(None, "--days")):
     """Set how often a source should be checked. Without --days, clear it."""
@@ -672,6 +685,87 @@ def source_drift(source_id: str, snapshot_id: str | None = None):
     result = drift.detect(snapshot_id, facts["approved_config_hash"])
     show({"source_id": source_id, **result})
     if result["blocking"]:
+        raise typer.Exit(EXIT_BLOCKED)
+
+
+@source_app.command("check")
+def source_check(source_id: str):
+    """Download a source again; a snapshot is registered only if the bytes changed."""
+    from . import refresh
+
+    show(refresh.check(source_id))
+
+
+@source_app.command("extract")
+def source_extract(
+    source_id: str,
+    snapshot_id: str | None = None,
+    limit: int | None = typer.Option(None, "--limit", help="Records to read."),
+):
+    """Extract a snapshot under the mapping approved for the source. Exits 3 if blocked.
+
+    The latest snapshot unless one is named. Nothing is extracted without an
+    approved mapping, or when the snapshot's shape has drifted from it; the
+    drift check is recorded. Extracting again stores nothing new.
+    """
+    from . import refresh
+
+    try:
+        show(refresh.extract(source_id, snapshot_id, limit))
+    except refresh.Blocked as blocked:
+        show({"source_id": source_id, "blocked": str(blocked)})
+        raise typer.Exit(EXIT_BLOCKED) from blocked
+
+
+@source_app.command("pause")
+def source_pause(source_id: str, reviewer: str = typer.Option(..., "--reviewer")):
+    """Stop scheduled checks of a source until it is resumed."""
+    from . import sources
+
+    try:
+        show(sources.pause(source_id, reviewer))
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+
+
+@source_app.command("resume")
+def source_resume(source_id: str):
+    """Let scheduled checks of a paused source start again."""
+    from . import sources
+
+    show(sources.resume(source_id))
+
+
+@source_app.command("due")
+def source_due():
+    """Sources whose scheduled check is due now, and those overdue with the reason."""
+    from . import sources
+
+    show({"due": sources.due(), "overdue": sources.overdue()})
+
+
+@source_app.command("backfill")
+def source_backfill(
+    source_id: str | None = typer.Argument(None),
+    apply: bool = typer.Option(False, "--apply", help="Extract what the plan lists."),
+    limit: int | None = typer.Option(None, "--limit", help="Records to read a source."),
+):
+    """What extraction is outstanding under the mappings in force; a dry run unless --apply.
+
+    Use after a mapping changed. Without --apply nothing is written: the plan
+    lists each source's latest snapshot, its observations under the mapping now
+    in force, and whether it needs extracting or is blocked. Exits 3 if a source
+    is blocked.
+    """
+    from . import refresh
+
+    plan = (
+        refresh.backfill(source_id, limit)
+        if apply
+        else refresh.backfill_plan(source_id)
+    )
+    show({"applied": apply, "sources": plan})
+    if any(row["action"].startswith("blocked") for row in plan):
         raise typer.Exit(EXIT_BLOCKED)
 
 
@@ -733,6 +827,42 @@ def access_client_create(name: str, tier: str = typer.Option(..., "--tier")):
     show(managing(keys.create_client, name, tier))
 
 
+@client_app.command("set")
+def access_client_set(
+    client_id: str,
+    tier: str | None = typer.Option(None, "--tier"),
+    status: str | None = typer.Option(None, "--status", help="active or suspended"),
+):
+    """Move a client to another tier, or suspend or reactivate it."""
+    from .product import keys
+
+    if tier is None and status is None:
+        raise typer.BadParameter("Give --tier, --status or both")
+    if status not in (None, "active", "suspended"):
+        raise typer.BadParameter("--status is active or suspended")
+    changed = {}
+    if tier is not None:
+        changed.update(managing(keys.set_client_tier, client_id, tier))
+    if status is not None:
+        changed.update(managing(keys.set_client_status, client_id, status))
+    show(changed)
+
+
+@client_app.command("list")
+def access_client_list():
+    """Clients with their keys: prefix and dates, never a secret."""
+    from .product import keys
+
+    show(keys.clients())
+
+
+@tier_app.command("list")
+def access_tier_list():
+    from .product import keys
+
+    show(keys.tiers())
+
+
 @key_app.command("create")
 def access_key_create(
     client_id: str,
@@ -778,6 +908,20 @@ def release_create(
         show(releases.create(batch_id, reviewer, notes))
     except ValueError as error:
         raise typer.BadParameter(str(error)) from error
+
+
+@release_app.command("preview")
+def release_preview(batch_id: str = typer.Option(..., "--batch-id")):
+    """What a release of a batch would be, against the latest one. Writes nothing; exits 3 if a check fails."""
+    from . import releases
+
+    try:
+        found = releases.preview(batch_id)
+    except (ValueError, KeyError) as error:
+        raise typer.BadParameter(str(error).strip("'")) from error
+    show(found)
+    if not found["ready"]:
+        raise typer.Exit(EXIT_BLOCKED)
 
 
 @release_app.command("list")
@@ -895,13 +1039,52 @@ def release_bundles(release_id: int | None = None):
     show(bundles.listing(release_id))
 
 
-@app.command("serving-apply")
-def serving_apply():
-    """Create or refresh the serving views from their SQL files."""
-    from . import serving
+@app.command("serving-compare")
+def serving_compare(
+    candidate: str = "serving_next",
+    reference: str = "serving",
+    build: bool = typer.Option(
+        False, "--build", help="Build the serving models into the candidate first."
+    ),
+):
+    """Compare the serving views built in one schema with those in another.
 
-    with store.engine().begin() as connection:
-        show({"changed": serving.apply(connection)})
+    Columns, and per release the row count and a digest of every row. For a
+    changed model: `serving-compare --build` builds the serving models into
+    serving_next and compares them with what clients read; build into serving
+    only when it reports no difference you did not mean. Exits 3 on a difference.
+    """
+    import sys
+
+    from . import serving, transform
+
+    if build:
+        # dbt's own report goes to standard error; the result stays on standard output.
+        code = transform.candidate(candidate, stdout=sys.stderr).returncode
+        if code:
+            raise typer.Exit(code)
+    with store.engine().connect() as connection:
+        result = serving.compare(connection, candidate, reference)
+    show(result)
+    if result["differences"]:
+        raise typer.Exit(EXIT_BLOCKED)
+
+
+@app.command(
+    "dbt",
+    context_settings={"allow_extra_args": True, "ignore_unknown_options": True},
+    add_help_option=False,
+)
+def dbt(context: typer.Context):
+    """Run dbt on the transform project: `link-lens dbt build`, `link-lens dbt debug`.
+
+    dbt connects to the configured database and works as linklens_transform.
+    Everything after `dbt` is passed to it, and its exit code is returned:
+    0 done, 1 a model or a test failed, 2 dbt could not run what was asked.
+    """
+    from . import transform
+
+    raise typer.Exit(transform.run(context.args).returncode)
 
 
 def main():

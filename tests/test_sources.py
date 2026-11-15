@@ -81,6 +81,13 @@ def test_state_reports_what_is_stored_and_what_is_derived(spec, snapshot):
         "approved_mapping_id": None,
         "approved_run_id": None,
         "approved_at": None,
+        # What a schedule reads: nobody paused it and no check has failed.
+        "paused_at": None,
+        "paused_by": None,
+        "consecutive_failures": 0,
+        "last_failure_at": None,
+        "last_error": None,
+        "retry_after": None,
     }
     first = approve("run-1", config)
     assert sources.state(SOURCE)[0]["approved_config_hash"] == first

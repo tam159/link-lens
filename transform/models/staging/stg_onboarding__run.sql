@@ -1,0 +1,22 @@
+-- onboarding.run, renamed and cast only.
+SELECT id AS run_id,
+       kind AS run_kind,
+       experiment_id,
+       source_id,
+       snapshot_id,
+       sha256_hex(ontology_hash) AS ontology_hash,
+       supersedes_run_id,
+       status AS run_status,
+       model,
+       model_calls,
+       python_calls,
+       input_tokens,
+       output_tokens,
+       active_seconds,
+       calculated_cost_usd,
+       started_at,
+       completed_at,
+       (state -> 'validation' ->> 'records')::bigint AS validation_records,
+       (state -> 'validation' ->> 'quarantined_fields')::bigint AS validation_quarantined_fields,
+       created_at
+FROM {{ source('onboarding', 'run') }}
