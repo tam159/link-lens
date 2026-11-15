@@ -33,6 +33,7 @@ SCHEMAS = (
     "ops",
     "access",
     "serving",
+    "analytics",
     "legacy",
 )
 
