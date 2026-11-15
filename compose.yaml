@@ -101,6 +101,24 @@ services:
       - ./artifacts:/app/artifacts
     depends_on:
       postgres: {condition: service_healthy}
+  backup:
+    # Dumps both databases on a timer, so backups need no person at a terminal:
+    # `docker compose --profile backups up -d backup`. Set LINK_LENS_BACKUP_DIR
+    # first: the dumps of `linklens` are never deleted and take about 130 MB a
+    # day. See deploy/backup-loop.sh.
+    profiles: ["backups"]
+    image: pgvector/pgvector:pg17-trixie
+    entrypoint: ["sh", "/backup-loop.sh"]
+    environment:
+      PGPASSWORD: ${LINK_LENS_POSTGRES_PASSWORD:-linklens}
+      LINK_LENS_BACKUP_INTERVAL_SECONDS: ${LINK_LENS_BACKUP_INTERVAL_SECONDS:-86400}
+      LINK_LENS_DAGSTER_BACKUP_DAYS: ${LINK_LENS_DAGSTER_BACKUP_DAYS:-7}
+    volumes:
+      - ./deploy/backup-loop.sh:/backup-loop.sh:ro
+      - ${LINK_LENS_BACKUP_DIR:-./backups}:/backups
+    restart: unless-stopped
+    depends_on:
+      postgres: {condition: service_healthy}
   frontend:
     build:
       context: .

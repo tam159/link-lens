@@ -51,3 +51,5 @@ frontend/.next/
 
 # Dagster and dbt working files
 .tmp_dagster_home_*/
+# Default folder of the backup service; see compose.yaml.
+/backups/
