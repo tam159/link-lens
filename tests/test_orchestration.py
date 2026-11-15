@@ -405,7 +405,8 @@ def test_a_recorded_release_requests_the_models_and_their_tests(
     assert built.success
     keys = materialised(built)
     assert "serving/profile" in keys and "analytics/release_overview" in keys
-    assert len(keys) == 49
+    # Every dbt model is an asset: one per SQL file of the project.
+    assert len(keys) == len(list((ROOT / "transform/models").rglob("*.sql")))
     evaluations = built.get_asset_check_evaluations()
     assert len(evaluations) > 100 and all(e.passed for e in evaluations)
     assert stored("SELECT profiles FROM analytics.release_overview") == 50

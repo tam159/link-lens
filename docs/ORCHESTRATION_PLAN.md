@@ -1,6 +1,6 @@
 # Orchestration and transformation plan: Dagster and dbt
 
-Status: **Phases D0 to D3 and D3a are implemented and applied to the local database (2026-11-15). D4 to D7 are planned, not built.** This is the follow-on to the [production implementation plan](PRODUCTION_PLAN.md). That plan's phases 0 to 6 and 8 are implemented; phase 7 is deferred and phase 9 is done only as far as one machine allows (no hosting, no reviewer sign-in, `legacy` not dropped). Names, layouts and SQL in the phases not yet built are sketches to confirm while building. Sizes are rough estimates for one engineer.
+Status: **Phases D0 to D4, with D3a, are implemented and applied to the local database (2026-11-15). D5 to D7 are planned, not built. Alerts have no channel yet.** This is the follow-on to the [production implementation plan](PRODUCTION_PLAN.md). That plan's phases 0 to 6 and 8 are implemented; phase 7 is deferred and phase 9 is done only as far as one machine allows (no hosting, no reviewer sign-in, `legacy` not dropped). Names, layouts and SQL in the phases not yet built are sketches to confirm while building. Sizes are rough estimates for one engineer.
 
 This plan was written before phases 2 to 9 of the first plan were built. It was compared with the code on 2026-11-15, before any of it was built. Where the code differs, the text below says so: section 5 gives the state of each seam, and each phase has a **Reconciled with the code** list of what to settle when that phase starts.
 
@@ -139,7 +139,7 @@ These were requests to the first plan, made before its phases 2 to 9 were built.
 | D2 | `analytics` schema: usage, freshness, coverage, cost, quality. **Done 2026-11-15, with open points** | Phase 5 | M |
 | D3 | Dagster assets, checks and sensors for the data flow. **Done 2026-11-15** | Phases 3 and 4 | L |
 | D3a | A refreshed snapshot reaches the next batch (added 2026-11-15). **Done 2026-11-15; a batch after a refresh also changes by resampling** | D3 | S |
-| D4 | Per-source schedules, freshness policies, alerts, backfills | D3 | M |
+| D4 | Per-source schedules, freshness policies, alerts, backfills. **Done 2026-11-15; alerts await a channel** | D3 | M |
 | D5 | Production deployment of Dagster and dbt | Phase 9, D3 | M |
 | D6 | Operations console for sources, releases and clients | Phases 5 and 9, D3 | M |
 | D7 | Cutover from manual runs; documentation | D1 to D6 | S |
@@ -494,7 +494,7 @@ So `release_profile_changes` after a refresh reports change that is partly resam
 
 **Goal:** hundreds or thousands of sources refresh on their own cadence, and the team hears about problems without watching a screen.
 
-Reconciled with the code on 2026-11-15. Settle these when the phase starts.
+Reconciled with the code on 2026-11-15, before the phase was built. The tasks below say how each point was settled.
 
 - **What is due** is `catalog.source_state.next_check_due_at`, which is `last_checked_at + cadence`. A source with no cadence is never due.
 - **"The existing publisher cap" is not a request limit.** It caps the discovery shortlist at eight datasets per publisher. `ingestion.download` makes plain bounded requests, with no conditional request and no per-host limit; both are new code.
@@ -502,20 +502,44 @@ Reconciled with the code on 2026-11-15. Settle these when the phase starts.
 
 Tasks:
 
-- [ ] **Per-source cadence** read from the source registry. One schedule evaluates which sources are due, instead of one schedule per source.
-- [ ] **Freshness policies** on `snapshot` and `observations` per source, derived from cadence. Lateness appears in the UI and in the source health model from D2.
-- [ ] **Be polite to publishers.** Conditional requests where supported, per-host concurrency limits, backoff on errors, and the existing publisher cap.
+- [x] **Per-source cadence** read from the source registry. One schedule evaluates which sources are due, instead of one schedule per source.
+  - *As built:* `sources.due` in the library decides; the `due_sources` schedule asks it every 15 minutes and requests `refresh_source` for each source it names. A source is due when it has a cadence and an approved mapping, is not paused, was never checked or its last check plus cadence has passed, and is not waiting out a failure. No cadence is set on any local source, so the schedule is on and asks for nothing until someone sets one (`link-lens source cadence`).
+  - *Added (migration `0028`):* a person can pause a source (`link-lens source pause SOURCE --reviewer NAME`, `source resume`), and the registry counts checks that failed in a row. Both are in `catalog.source_state`. Pausing is recorded with a name; D6's console edits the same rows.
+- [x] **Freshness policies** on `snapshot` and `observations` per source, derived from cadence. Lateness appears in the UI and in the source health model from D2.
+  - *Changed while building:* Dagster's freshness policies belong to an asset, not to a partition, so they cannot say "this source is late by its own cadence". Lateness is worked out in the registry instead (`sources.overdue`: overdue by more than an hour, or three failed checks in a row) and shown three ways: an hourly asset check `sources_checked_on_time` on `snapshot` in the Dagster UI, the `refresh_status`, `days_overdue` and `last_error` columns of `analytics.source_health`, and the source health dashboard.
+- [x] **Be polite to publishers.** Conditional requests where supported, per-host concurrency limits, backoff on errors, and the existing publisher cap.
+  - *Conditional requests:* a download keeps the publisher's `ETag` and `Last-Modified` in its receipt, and the next check of that resource sends them. On `304` no bytes are transferred and the stored snapshot stays the latest. Existing snapshots carry no validators, so the first scheduled check of each still downloads in full.
+  - *Per host:* the schedule starts at most 5 refreshes for one publisher portal and 50 in all per evaluation, and the `downloads` pool lets two run at once. The host is the source's portal; the host a file is finally served from is known only after the portal answers.
+  - *Backoff:* a failed check is counted, and the next attempt waits one hour, then two, then four, never longer than the cadence. A success ends it. Dagster's own retry of the step is still two attempts.
+  - *"The existing publisher cap"* is a limit on the discovery shortlist, not on requests, as reconciled above.
 - [ ] **Alerts** to the team channel for failed runs, failed checks, drift, stale sources, and budget nearing its cap. Each alert links to the run and names the source.
-- [ ] **Review queue visibility.** Report sources waiting on a person and for how long. At this scale review throughput is the likely bottleneck, not compute.
-- [ ] **Identity cadence.** Start with a scheduled full batch. Move to incremental recomputation only when batch time requires it, as a separate design.
-- [ ] **Backfill procedure** for re-extracting a source after a mapping change, with a dry run that reports the affected partitions first.
-- [ ] **Run retention** for Dagster's own storage.
+  - *Built, not connected.* Five sensors send one line each through [alerts.py](../src/link_lens/alerts.py) to an incoming webhook (`LINK_LENS_ALERT_WEBHOOK_URL`, the `{"text": ...}` form Slack and most chat tools accept). **No channel is configured: the owner has not said where alerts should go.** Until the URL is set, an alert is logged and not sent, and the sensors still move on, so setting it later does not replay old news.
+  - *What each says:* a failed run names the job, the source, the error and any failed checks, and links to the run; a check that did not pass in a run that succeeded is its own alert; drift names the reasons and links to the Inbox; an overdue or failing source is reported once per due date; the budget is reported at 80% and at the cap.
+- [x] **Review queue visibility.** Report sources waiting on a person and for how long. At this scale review throughput is the likely bottleneck, not compute.
+  - *As built:* the source health dashboard counts sources waiting for review and blocked by drift, and lists each with how long it has waited; the data quality board shows the longest wait. `analytics.source_health` now reads the stored drift check of the latest snapshot, which D3 added.
+- [x] **Identity cadence.** Start with a scheduled full batch. Move to incremental recomputation only when batch time requires it, as a separate design.
+  - *As built, and off:* `weekly_batch` assembles a batch on Mondays at 03:00 UTC. It is stopped until someone turns it on, because a batch after a refresh also changes by resampling (D3a) and a batch serves nobody until a person releases it.
+- [x] **Backfill procedure** for re-extracting a source after a mapping change, with a dry run that reports the affected partitions first.
+  - *As built:* `link-lens source backfill [SOURCE]` lists, for each registered source, its latest snapshot, how many observations it has under the mapping now in force, and whether it needs extracting or is blocked by drift. It writes nothing without `--apply`, and exits 3 when a source is blocked. In Dagster the same sources are the partitions to launch `extract_observations` for.
+- [x] **Run retention** for Dagster's own storage.
+  - *As built:* a daily job, `prune_run_history`, deletes finished runs older than 90 days, and `dagster.yaml` keeps schedule and sensor evaluations for 30 days (skipped ones for 7). This is Dagster's database only.
 
 Done when:
 
-- A simulated set of several hundred fixture sources with mixed cadences refreshes over a simulated week with no manual action except reviews.
-- Every alert type has been triggered once in a test environment and reached the channel.
-- The team can answer "which sources are stale and why" from one screen.
+- A simulated set of several hundred fixture sources with mixed cadences refreshes over a simulated week with no manual action except reviews. **Met in a test: 300 sources on three portals, cadences of one, three and seven days, three failing on the first day and two paused on the third. The schedule is evaluated at each of the week's 672 quarter hours, and what a refresh does to the registry is applied without the download.**
+- Every alert type has been triggered once in a test environment and reached the channel. **Met against a local webhook that stands in for the channel. Not met against a real one: none is configured.**
+- The team can answer "which sources are stale and why" from one screen. **Met: the source health dashboard, with status, days overdue, failures and the last error, drift, and what waits for review.**
+
+Results on 2026-11-15:
+
+- **The simulated week.** More than 1,000 checks were requested. No source was checked sooner than its cadence, no evaluation asked for more than 50 refreshes or more than 5 for one portal, no run was asked for twice, the failing sources waited and recovered, the paused ones were left alone from the moment they were paused, and at the end of the week nothing was overdue. The test takes about 40 seconds.
+- **Alerts.** In one test a blocked extraction, the drift it recorded, an overdue source, the freshness check and the budget at 85% and then over the cap each produced one message at the webhook, in that order, six in all; the overdue source and the 80% level were not reported twice. The webhook's address appears in no log line.
+- **Conditional download.** With a stand-in for `curl`: the first download stores the `ETag`; the second sends `If-None-Match`, gets `304`, stores no snapshot and records the check.
+- **Local database.** Backed up to `/Users/may/link-lens-backups/linklens-pre-d4-cutover-20261115T050203.dump` with the backend and product service stopped, rehearsed on a restored copy first (with one step down and up), then moved from `0027` to `0028`; 50 models and 149 tests passed. Both baseline checks reported zero differences before and after.
+- **Dagster on the local database.** Four schedules and ten sensors load. `due_sources` finds nothing due, because no source has a cadence, and no run was launched. Inside the Dagster container the due and overdue queries run as `linklens_orchestrator`.
+- **Found while applying it:** Dagster runs the checkout's code, so for the minutes between committing this phase's code and migrating, two evaluations failed on a column that did not exist yet. The procedure now stops the Dagster services during a migration too.
+- **Tests.** 280 passed, 4 skipped with the `orchestration` group installed; 264 passed, 5 skipped in a clean default environment. Lint passes. Eight new tests cover the registry and the library, four the schedule, the simulated week, the alerts and retention.
+- **Not verified:** a real scheduled refresh against a publisher, since no cadence is set and setting one is the owner's decision; a conditional request against a real publisher; an alert in a real channel; the schedule at several thousand sources (the query is one indexed scan and was run at 300).
 
 ## Phase D5: Deployment and operations
 
@@ -659,7 +683,10 @@ No verification step needs a paid model call.
 | dbt reads `.env` | dbt 1.12 loads a `.env` file found from the working directory upward, so a `dbt` command run in this repository sees the provider keys in `.env` | dbt needs only the database settings. Anonymous usage statistics are switched off in `dbt_project.yml`, and Dagster's telemetry in `dagster.yaml`. |
 | Immutable release tables in dbt | A full refresh would rewrite published rows | Full refresh disabled on those models; schema change fails; parity test on rebuild |
 | Partition count | Thousands of sources as database partitions or as orchestrator partitions | Hash partitions in PostgreSQL; source as the only Dagster partition dimension; test at ten thousand sources |
-| Review throughput | New and drifted sources wait on people | Make the queue visible in D4; consider review prioritisation as separate work |
+| Review throughput | New and drifted sources wait on people | Visible since D4 on the source health dashboard; consider review prioritisation as separate work |
+| Alerts have nowhere to go | The alert sensors are built and tested against a local webhook, but no team channel is configured, so on any real stack an alert is only a log line | Owner sets `LINK_LENS_ALERT_WEBHOOK_URL` for the Dagster services. Until then, look at the Dagster UI and the source health dashboard. |
+| One host limit for every publisher | The schedule's limit of 5 refreshes per portal and evaluation is one number for all portals, and counts the portal, not the host a file is served from | Enough for a few hundred sources on a portal. Make it a setting per portal when one publisher asks for less or hundreds of daily sources share a portal. |
+| Migrations and the running orchestrator | Dagster runs the checkout's code against the database, so code that needs a new column fails until the migration is applied | Stop the Dagster services with the backend when migrating; the procedure in ENGINEERING.md says so. |
 | Model cost on a schedule | Scheduled discovery or onboarding could spend without notice | Budget cap stays authoritative; alerts before the cap; paid steps in a small pool |
 | Publisher load | Frequent checks across many hosts | Conditional requests, per-host limits, cadence from the registry |
 | Dagster sign-in | The open-source UI may lack built-in authentication | Confirm in D5; proxy or hosted offering |

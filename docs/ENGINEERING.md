@@ -153,11 +153,11 @@ Where things stand on 15 November 2026:
 
 | Part | State |
 |---|---|
-| Schema | Migration `0027`. Records live in `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `access`. `legacy` holds the earlier tables, read-only. `analytics` holds dbt's reporting models. |
+| Schema | Migration `0028`. Records live in `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `access`. `legacy` holds the earlier tables, read-only. `analytics` holds dbt's reporting models. |
 | Application | Still reads and writes through `store.py`, which returns the same records as before. |
 | What clients see | Views in `serving`, built by dbt, for a release that a person records. None is recorded on the local database. |
 | Product service | Compose service `product` on port 8100: REST, MCP, bundle links and an entity viewer. It refuses every call until a release and a key exist. |
-| Dagster, dbt and Grafana | [Orchestration plan](ORCHESTRATION_PLAN.md) phases D0 to D3: dbt owns and builds the serving views and the reporting models, Grafana shows three dashboards over those, and Dagster holds the data flow as assets with sensors on approvals and releases. Nothing runs on a timer, and no asset has been materialised on the local database. |
+| Dagster, dbt and Grafana | [Orchestration plan](ORCHESTRATION_PLAN.md) phases D0 to D3: dbt owns and builds the serving views and the reporting models, Grafana shows three dashboards over those, and Dagster holds the data flow as assets with sensors on approvals and releases, a schedule that refreshes sources by their cadence, and alert sensors. No source has a cadence and no alert channel is configured, so nothing has been refreshed or sent, and no asset has been materialised on the local database. |
 | Not done | Hosting, reviewer sign-in, the agent runtime licence and dropping `legacy`. |
 
 | To do this | Read |
@@ -171,6 +171,7 @@ Where things stand on 15 November 2026:
 | Change a serving read model, or build the views on a database | [dbt owns the serving views](#dbt-owns-the-serving-views-migrations-0023-and-0024) |
 | Add a reporting model or a dashboard panel, or open the dashboards | [Reporting models and dashboards](#reporting-models-and-dashboards-migration-0025) |
 | Refresh a source, extract it, or see what Dagster would do | [Dagster runs the data flow](#dagster-runs-the-data-flow-migrations-0026-and-0027) |
+| Set a cadence, pause a source, connect alerts, backfill after a mapping change | [Schedules, freshness and alerts](#schedules-freshness-and-alerts-migration-0028) |
 | Restore somewhere else and check it | [Restoring into an empty environment](#restoring-into-an-empty-environment) |
 
 #### Foundations (migrations 0003 to 0008)
@@ -407,6 +408,29 @@ In the Dagster UI, a source is refreshed by materialising `snapshot` and `observ
 
 On 2026-11-15, on a restored copy, a refresh of one real source with three edited rows went from changed bytes to a refresh run, a batch whose three profiles select the new values, and a release that serves the new snapshot, while two earlier releases kept their digests. Before that, also on a restored copy, the assets extracted 25,000 records a source for the six sources: every observation stored before was reproduced, 941,433 more were stored, a second extraction stored nothing, and the two rehearsal releases still served 38,302 and 149,349 observations. `identity_batch` twice reproduced the 60 profile versions of the deterministic batch behind the promoted one. The local database then moved from `0025` to `0027` with both baseline checks at zero differences; no asset has been materialised on it.
 
+#### Schedules, freshness and alerts (migration 0028)
+
+Schedules, freshness and alerts (migration `0028`, phase D4 of the [orchestration plan](ORCHESTRATION_PLAN.md)). Sources refresh on their own cadence and the team hears about problems. Both are idle until a cadence and a webhook are set.
+
+- **Cadence.** `link-lens source cadence SOURCE --days N` sets how often a source is checked; `--days` left out clears it. The schedule `due_sources` asks `sources.due` every 15 minutes and requests `refresh_source` for each source it names: one with a cadence and an approved mapping, not paused, never checked or past its last check plus cadence, and not waiting out a failure. `link-lens source due` prints the same answer by hand.
+- **Pause.** `link-lens source pause SOURCE --reviewer NAME` stops scheduled checks of a source and records who paused it; `source resume SOURCE` starts them again. A paused source is not overdue.
+- **Politeness.** A check sends the `ETag` or `Last-Modified` of the last download of that resource; on `304` nothing is transferred, the check is recorded and the stored snapshot stays the latest. A failed check is counted, and the next attempt waits an hour, then two, then four, up to the cadence. One evaluation starts at most 50 refreshes and 5 for one publisher portal (`MAX_PER_TICK`, `MAX_PER_HOST` in `schedules.py`), and two downloads run at once.
+- **Lateness.** `sources.overdue` lists sources overdue by more than an hour or with three failed checks in a row. The hourly check `sources_checked_on_time` shows it in the Dagster UI, and `analytics.source_health` and the source health dashboard show status, days overdue, failures, the last error, and drift.
+- **Alerts.** Set `LINK_LENS_ALERT_WEBHOOK_URL` for the Dagster services (in `.env`) to an incoming webhook that accepts `{"text": ...}`, and recreate them. Five sensors then post one line each: a failed run, a check that did not pass, drift, a source overdue or failing, and the model budget at 80% and at its cap. Each names the source and links to the run or the asset (`LINK_LENS_DAGSTER_URL`, `LINK_LENS_INBOX_URL`). Without the URL each alert is one `alert.unsent` log line. The URL is a secret and is never logged.
+- **Backfill.** After a mapping changes, `link-lens source backfill [SOURCE]` lists each registered source's latest snapshot, its observations under the mapping now in force, and whether it needs extracting or is blocked by drift. Nothing is written without `--apply`; the command exits 3 when a source is blocked. In Dagster, launch `extract_observations` for the same sources.
+- **Batches.** `weekly_batch` is defined and stopped. Turn it on in the Dagster UI when a weekly batch is wanted; read phase D3a of the plan first.
+- **Dagster's own history.** `prune_run_history` deletes finished runs older than 90 days every night; evaluations of schedules and sensors are kept 30 days.
+
+```sh
+uv run link-lens source cadence SOURCE_ID --days 7
+uv run link-lens source pause SOURCE_ID --reviewer NAME
+uv run link-lens source due
+uv run link-lens source backfill              # a dry run
+uv run link-lens source backfill --apply
+```
+
+On 2026-11-15 the local database moved from `0027` to `0028` with both baseline checks at zero differences. A test refreshes 300 fixture sources with mixed cadences for a simulated week, and another sends each alert type to a local webhook. No source has a cadence and no webhook is configured on the local stack.
+
 #### Restoring into an empty environment
 
 Restoring into an empty environment and checking it serves the same release:
@@ -445,7 +469,7 @@ The backend runs `alembic upgrade head` when it starts, so a new migration reach
 
 1. Take a backup and check that it lists: `pg_dump -Fc`, then `pg_restore --list`.
 2. Rehearse on a copy: restore the backup into a throwaway `pgvector/pgvector:pg17-trixie` container (create the `NOLOGIN` roles first: three, `linklens_transform` as well for a dump taken at `0022` or later, and `linklens_analyst` at `0025` or later), run `uv run alembic upgrade head` and any backfill there with `LINK_LENS_DATABASE_URL` pointing at the copy, and run both baseline checks.
-3. On the real database: stop the backend and the product service, take a fresh backup, upgrade, run the backfill if the phase has one, build the serving views with dbt, and run both checks.
+3. On the real database: stop the backend, the product service and, if they run, the Dagster services (they run the checkout's code and fail on a column that is not there yet), take a fresh backup, upgrade, run the backfill if the phase has one, build the serving views with dbt, and run both checks.
 4. Start the services and check them: `/api/health` and `/api/runs` on port 2024, the Inbox on 3000, `/health` on 8091 and 8100.
 
 ```sh

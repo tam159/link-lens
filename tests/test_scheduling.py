@@ -266,10 +266,19 @@ def channel(monkeypatch):
     settings.cache_clear()
 
 
-def test_an_alert_names_the_source_and_links_to_the_run(channel, capsys):
-    from link_lens import logs
+@pytest.fixture
+def logged(monkeypatch):
+    """What `alerts` writes to the log, as (event, fields)."""
+    events = []
+    monkeypatch.setattr(
+        alerts.logs,
+        "event",
+        lambda name, level=None, **fields: events.append((name, fields)),
+    )
+    return events
 
-    logs.configure()
+
+def test_an_alert_names_the_source_and_links_to_the_run(channel, logged):
     assert alerts.send(
         "run_failed",
         "refresh_source failed",
@@ -286,24 +295,21 @@ def test_an_alert_names_the_source_and_links_to_the_run(channel, capsys):
     ]
     with pytest.raises(ValueError, match="Unknown alert kind"):
         alerts.send("surprise", "x")
-    logged = capsys.readouterr().err
-    assert "alert.sent" in logged and "secret-token" not in logged
+    assert [name for name, _ in logged] == ["alert.sent"]
+    assert "secret-token" not in json.dumps(logged)
 
 
-def test_an_alert_without_a_channel_is_logged_and_nothing_fails(monkeypatch, capsys):
-    from link_lens import logs
-
-    logs.configure()
+def test_an_alert_without_a_channel_is_logged_and_nothing_fails(monkeypatch, logged):
     monkeypatch.delenv("LINK_LENS_ALERT_WEBHOOK_URL", raising=False)
     settings.cache_clear()
     assert alerts.send("drift", "columns changed", source="a source") is False
-    assert "alert.unsent" in capsys.readouterr().err
+    assert logged[-1][0] == "alert.unsent" and logged[-1][1]["source"] == "a source"
     # A channel that does not answer is logged too, and does not raise.
     monkeypatch.setenv(
         "LINK_LENS_ALERT_WEBHOOK_URL", "http://127.0.0.1:9/hook/secret-token"
     )
     settings.cache_clear()
     assert alerts.send("budget", "80% of the cap is spent") is False
-    logged = capsys.readouterr().err
-    assert "alert.failed" in logged and "secret-token" not in logged
+    assert logged[-1][0] == "alert.failed"
+    assert "secret-token" not in json.dumps(logged)
     settings.cache_clear()
