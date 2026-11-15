@@ -18,14 +18,22 @@ from link_lens_dagster.assets.onboarding import onboarding_request, source_catal
 from link_lens_dagster.assets.snapshots import snapshot
 from link_lens_dagster.resources import LangGraph, Pipeline
 
+# A run whose worker or engine fails (not a step: steps have retry policies of
+# their own) is started again from where it failed, twice at most, by the
+# daemon (`run_retries` in dagster.yaml). Only for the deterministic jobs, whose
+# steps store nothing twice. Never for a job that makes model calls.
+RETRIED = {"dagster/max_retries": "2", "dagster/retry_strategy": "FROM_FAILURE"}
+
 refresh_source = dg.define_asset_job(
     "refresh_source",
     selection=dg.AssetSelection.assets(snapshot, observations),
+    tags=RETRIED,
     description="Check one source for new bytes; if they changed and still fit the approved mapping, extract them.",
 )
 extract_observations = dg.define_asset_job(
     "extract_observations",
     selection=dg.AssetSelection.assets(observations),
+    tags=RETRIED,
     description="Extract a source's latest snapshot under its approved mapping.",
 )
 request_onboarding = dg.define_asset_job(
@@ -41,6 +49,7 @@ assemble_batch = dg.define_asset_job(
 build_models = dg.define_asset_job(
     "build_models",
     selection=dg.AssetSelection.assets(models),
+    tags=RETRIED,
     description="Build every dbt model and run every dbt test.",
 )
 

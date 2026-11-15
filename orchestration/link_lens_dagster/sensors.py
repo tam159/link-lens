@@ -184,6 +184,23 @@ def models_sensor(job, expected):
         )[0]["views"]
         if built >= expected:
             return dg.SkipReason(f"All {expected} models are built.")
+        # A build replaces each view in turn, so views are missing while one
+        # runs. That build will bring them back; asking for another would not.
+        building = context.instance.get_runs_count(
+            dg.RunsFilter(
+                job_name=job.name,
+                statuses=[
+                    dg.DagsterRunStatus.QUEUED,
+                    dg.DagsterRunStatus.NOT_STARTED,
+                    dg.DagsterRunStatus.STARTING,
+                    dg.DagsterRunStatus.STARTED,
+                ],
+            )
+        )
+        if building:
+            return dg.SkipReason(
+                f"{expected - built} views are missing while a build runs."
+            )
         # One request an hour at most, however long the views stay missing.
         hour = time.time() // 3600
         return dg.RunRequest(

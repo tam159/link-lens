@@ -454,6 +454,30 @@ def test_orchestration_code_never_records_a_human_decision():
     assert "retry_policy" not in definitions
 
 
+def test_only_deterministic_jobs_are_run_again_after_a_crash(location):
+    """A run that crashed is started again from its failure; a paid one never is."""
+    import yaml
+
+    jobs = {job.name: job for job in location.defs.resolve_all_job_defs()}
+    retried = {
+        name
+        for name, job in jobs.items()
+        if int(job.tags.get("dagster/max_retries", "0")) > 0
+    }
+    assert retried == {"refresh_source", "extract_observations", "build_models"}
+    for name in retried:
+        assert jobs[name].tags["dagster/retry_strategy"] == "FROM_FAILURE"
+    # The jobs that reach a model-calling asset ask for nothing.
+    for name in ("request_onboarding",):
+        assert "dagster/max_retries" not in jobs[name].tags
+    instance = yaml.safe_load((ORCHESTRATION / "dagster.yaml").read_text())
+    assert instance["run_retries"] == {
+        "enabled": True,
+        "max_retries": 0,
+        "retry_on_asset_or_op_failure": False,
+    }
+
+
 def test_a_refreshed_source_flows_into_the_next_batch(
     location, spec, as_orchestrator, monkeypatch
 ):
@@ -819,6 +843,18 @@ def test_missing_views_are_rebuilt_without_anyone_asking(location, database):
         assert (
             sensor(dagster.build_sensor_context(instance=instance)).run_key
             == wanted.run_key
+        )
+        # While a build runs, views go missing as it replaces them: no second build.
+        job = location.defs.resolve_job_def("build_models")
+        running = instance.create_run_for_job(
+            job, status=dagster.DagsterRunStatus.STARTED
+        )
+        waiting = sensor(dagster.build_sensor_context(instance=instance))
+        assert isinstance(waiting, dagster.SkipReason)
+        assert "while a build runs" in waiting.skip_message
+        instance.report_run_failed(running)
+        assert isinstance(
+            sensor(dagster.build_sensor_context(instance=instance)), dagster.RunRequest
         )
     finally:
         build_views(database.url.render_as_string(hide_password=False))
