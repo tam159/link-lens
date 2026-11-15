@@ -178,6 +178,7 @@ def due(now=None, limit=None, per_host=None):
     at = at or datetime.now(UTC)
     query = text(
         "SELECT state.source_id, state.next_check_due_at, state.last_checked_at, "
+        "state.consecutive_failures, "
         "substring(source.portal from '://([^/]+)') AS host "
         "FROM catalog.source_state state "
         "JOIN catalog.source source ON source.id = state.source_id "
@@ -199,6 +200,8 @@ def due(now=None, limit=None, per_host=None):
             {
                 "source_id": row["source_id"],
                 "host": host,
+                # How many checks have failed in a row before this one.
+                "attempt": row["consecutive_failures"],
                 "due_at": None
                 if row["next_check_due_at"] is None
                 else render_time(row["next_check_due_at"]),

@@ -32,3 +32,15 @@ concurrency:
   pools:
     default_limit: 2
     granularity: op
+
+# How long Dagster keeps the record of each schedule and sensor evaluation.
+# Runs are pruned by the prune_run_history job, 90 days by default. This is
+# Dagster's own history; the application's records are not in this database.
+retention:
+  schedule:
+    purge_after_days: 30
+  sensor:
+    purge_after_days:
+      skipped: 7
+      failure: 30
+      success: 30

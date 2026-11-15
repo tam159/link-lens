@@ -508,3 +508,283 @@ def test_a_refreshed_source_flows_into_the_next_batch(
     ]
     # Still nothing a client can see: no release exists, and the role cannot make one.
     assert stored("SELECT count(*) FROM ops.release") == 0
+
+
+# ---------------------------------------------------------------------------
+# Phase D4: schedules, freshness, alerts and retention.
+
+from datetime import UTC, datetime, timedelta  # noqa: E402
+
+from link_lens import sources as registry  # noqa: E402
+from test_scheduling import channel as channel  # noqa: E402,F401  (a fixture)
+
+MONDAY = datetime(2026, 1, 5, 0, 0, tzinfo=UTC)
+
+
+@pytest.fixture
+def instance():
+    """A Dagster instance on disk for the test: a schedule needs one it can reopen."""
+    with dagster.instance_for_test() as made:
+        yield made
+
+
+def tick(location, name, instance, at):
+    schedule = location.defs.resolve_schedule_def(name)
+    context = dagster.build_schedule_context(
+        instance=instance,
+        scheduled_execution_time=at,
+        repository_def=location.defs.get_repository_def(),
+    )
+    return schedule.evaluate_tick(context)
+
+
+def test_the_schedule_asks_only_for_what_is_due(location, source, instance):
+    assert (
+        tick(location, "due_sources", instance, MONDAY).skip_message
+        == "No source is due."
+    )
+    registry.set_cadence(source["id"], 1)
+    # Due, but the partition is not known yet: the sensor adds it first.
+    assert (
+        "no partition yet"
+        in tick(location, "due_sources", instance, MONDAY).skip_message
+    )
+    instance.add_dynamic_partitions("source", [source["id"]])
+    wanted = tick(location, "due_sources", instance, MONDAY).run_requests
+    assert [(r.partition_key, r.run_key) for r in wanted] == [
+        (source["id"], f"refresh-{source['id']}-first-0")
+    ]
+    registry.record_check(source["id"], MONDAY)
+    assert not tick(
+        location, "due_sources", instance, MONDAY + timedelta(hours=12)
+    ).run_requests
+    again = tick(
+        location, "due_sources", instance, MONDAY + timedelta(days=1)
+    ).run_requests
+    assert again[0].run_key != wanted[0].run_key
+    # A failed attempt waits, and its retry is a run of its own.
+    registry.record_failure(
+        source["id"], "RuntimeError: down", MONDAY + timedelta(days=1)
+    )
+    assert not tick(
+        location, "due_sources", instance, MONDAY + timedelta(days=1, minutes=30)
+    ).run_requests
+    retry = tick(location, "due_sources", instance, MONDAY + timedelta(days=1, hours=1))
+    assert retry.run_requests[0].run_key.endswith("-1")
+    # The other schedules: the batch is off until someone turns it on.
+    statuses = {s.name: s.default_status.value for s in location.defs.schedules}
+    assert statuses == {
+        "due_sources": "RUNNING",
+        "check_source_freshness_hourly": "RUNNING",
+        "weekly_batch": "STOPPED",
+        "prune_run_history_daily": "RUNNING",
+    }
+
+
+def test_three_hundred_sources_refresh_for_a_week_without_anyone_helping(
+    location, source, instance
+):
+    """Mixed cadences, three publisher portals, some failing and some paused."""
+    from link_lens_dagster import schedules
+
+    with store.engine().begin() as connection:
+        # 300 registered sources, each with an approved mapping, in bulk.
+        connection.execute(
+            text(
+                "INSERT INTO catalog.source (id, kind, portal, slug, extra, created_at) "
+                "SELECT 'sim-' || n, 'registered', "
+                "'https://portal-' || (n % 3) || '.example.gov.au/data', 'sim-' || n, '{}', now() "
+                "FROM generate_series(1, 300) n"
+            )
+        )
+        connection.execute(
+            text(
+                "INSERT INTO onboarding.run (id, kind, source_id, status, state, created_at) "
+                "SELECT 'run-sim-' || n, 'onboarding', 'sim-' || n, 'completed', '{}', now() "
+                "FROM generate_series(1, 300) n"
+            )
+        )
+        connection.execute(
+            text(
+                "INSERT INTO onboarding.approval "
+                "(id, run_id, config_hash, decision, extra, created_at) "
+                "SELECT 'approval-sim-' || n, 'run-sim-' || n, sha256_from_hex(:config), "
+                "'approved', '{}', now() FROM generate_series(1, 300) n"
+            ),
+            {"config": source["config_hash"]},
+        )
+        connection.execute(
+            text(
+                "INSERT INTO catalog.source_refresh (source_id, cadence) "
+                "SELECT 'sim-' || n, (ARRAY[1, 3, 7])[1 + n % 3] * interval '1 day' "
+                "FROM generate_series(1, 300) n"
+            )
+        )
+    cadence = {f"sim-{n}": (1, 3, 7)[n % 3] for n in range(1, 301)}
+    failing = {
+        "sim-1",
+        "sim-2",
+        "sim-4",
+    }  # daily sources whose publisher is down on day one
+    paused = {"sim-7", "sim-10"}  # daily sources someone pauses on day three
+    instance.add_dynamic_partitions("source", sorted(cadence))
+
+    checks, keys, biggest_tick, biggest_host = {s: [] for s in cadence}, set(), 0, 0
+    now = MONDAY
+    while now < MONDAY + timedelta(days=7):
+        if now == MONDAY + timedelta(days=2):
+            for source_id in paused:
+                registry.pause(source_id, "owner")
+        requests = tick(location, "due_sources", instance, now).run_requests or []
+        biggest_tick = max(biggest_tick, len(requests))
+        hosts = {}
+        for request in requests:
+            assert request.run_key not in keys, "a run was asked for twice"
+            keys.add(request.run_key)
+            n = int(request.partition_key.split("-")[1])
+            hosts[n % 3] = hosts.get(n % 3, 0) + 1
+            # What the refresh run does to the registry, without the download.
+            if request.partition_key in failing and now < MONDAY + timedelta(days=1):
+                registry.record_failure(
+                    request.partition_key, "RuntimeError: down", now
+                )
+            else:
+                registry.record_check(request.partition_key, now)
+                checks[request.partition_key].append(now)
+        biggest_host = max([biggest_host, *hosts.values()])
+        now += timedelta(minutes=15)
+
+    assert biggest_tick <= schedules.MAX_PER_TICK
+    assert biggest_host <= schedules.MAX_PER_HOST
+    for source_id, times in checks.items():
+        days = cadence[source_id]
+        # Never sooner than its cadence allows.
+        assert all(b - a >= timedelta(days=days) for a, b in zip(times, times[1:])), (
+            source_id
+        )
+        if source_id in paused:
+            assert times and max(times) < MONDAY + timedelta(days=2), source_id
+        else:
+            # Every source kept its rhythm: as many checks as fit in the week,
+            # give or take the first day's queue and the failures' wait.
+            expected = 7 // days + (1 if 7 % days or days == 7 else 0)
+            assert expected - 1 <= len(times) <= expected + 1, (source_id, len(times))
+    # At the end of the week nothing is overdue and nobody was needed.
+    assert registry.overdue(now) == []
+    assert sum(len(times) for times in checks.values()) > 1000
+
+
+def test_every_alert_reaches_the_channel(
+    location, source, spec, as_orchestrator, monkeypatch, channel
+):
+    from link_lens import budget
+    from link_lens_dagster import alerting
+    from link_lens_dagster.assets.extraction import observations
+
+    instance = dagster.DagsterInstance.ephemeral()
+    instance.add_dynamic_partitions("source", [source["id"]])
+    drift_cursor = dagster.build_sensor_context(instance=instance)
+    alerting.alert_drift(drift_cursor)  # starts from the present
+
+    # 1. A run fails: extraction of a snapshot the approved mapping cannot read.
+    snapshot_of(
+        source["id"],
+        csv_of(["legal_name", "abn"], [["E", ABNS[0]]]),
+        "2025-03-01T00:00:00Z",
+    )
+    registry.set_cadence(source["id"], 1)
+    registry.record_check(source["id"], MONDAY)
+    as_orchestrator()
+    failed = run(location, [observations], instance, source["id"])
+    assert not failed.success
+    alerting.alert_run_failed(
+        dagster.build_run_status_sensor_context(
+            sensor_name="alert_run_failed",
+            dagster_event=failed.get_run_failure_event(),
+            dagster_instance=instance,
+            dagster_run=failed.dagster_run,
+        ).for_run_failure()
+    )
+    assert "Run failed" in channel[-1]["text"]
+    assert f"Refresh fixture ({source['id']})" in channel[-1]["text"]
+    assert f"/runs/{failed.run_id}" in channel[-1]["text"]
+
+    # 2. Drift was recorded by that attempt.
+    alerting.alert_drift(
+        dagster.build_sensor_context(instance=instance, cursor=drift_cursor.cursor)
+    )
+    assert "Source drifted" in channel[-1]["text"]
+    assert "missing_used_column name" in channel[-1]["text"]
+
+    # 3. The source is overdue: told once, not again while nothing changes.
+    first = dagster.build_sensor_context(instance=instance)
+    alerting.alert_overdue_sources(first)
+    assert "Source overdue" in channel[-1]["text"]
+    told = len(channel)
+    alerting.alert_overdue_sources(
+        dagster.build_sensor_context(instance=instance, cursor=first.cursor)
+    )
+    assert len(channel) == told
+
+    # 4. A run that succeeds with a check that did not pass: the freshness check.
+    job = location.defs.resolve_job_def("check_source_freshness")
+    from link_lens_dagster.resources import Pipeline
+
+    checked = job.execute_in_process(
+        instance=instance, resources={"pipeline": Pipeline()}
+    )
+    assert checked.success
+    evaluation = checked.get_asset_check_evaluations()[0]
+    assert (
+        not evaluation.passed and evaluation.metadata["overdue_or_failing"].value == 1
+    )
+    alerting.alert_check_failed(
+        dagster.build_run_status_sensor_context(
+            sensor_name="alert_check_failed",
+            dagster_event=checked.get_run_success_event(),
+            dagster_instance=instance,
+            dagster_run=checked.dagster_run,
+        )
+    )
+    assert "Check failed: snapshot:sources_checked_on_time" in channel[-1]["text"]
+
+    # 5. The budget: at 80%, and again only when the cap is reached.
+    spent = {"cap_usd": 10.0, "charged_usd": 8.5, "basis": "estimate"}
+    monkeypatch.setattr(budget, "summary", lambda experiment: spent)
+    at_80 = dagster.build_sensor_context(instance=instance)
+    alerting.alert_budget(at_80)
+    assert "Budget: 85% of the cap is spent" in channel[-1]["text"]
+    told = len(channel)
+    again = dagster.build_sensor_context(instance=instance, cursor=at_80.cursor)
+    alerting.alert_budget(again)
+    assert len(channel) == told
+    spent["charged_usd"] = 10.2
+    alerting.alert_budget(
+        dagster.build_sensor_context(instance=instance, cursor=again.cursor)
+    )
+    assert "the cap is reached" in channel[-1]["text"]
+
+    kinds = [message["text"].split(":")[0] for message in channel]
+    assert kinds == [
+        "[Link Lens] Run failed",
+        "[Link Lens] Source drifted",
+        "[Link Lens] Source overdue",
+        "[Link Lens] Check failed",
+        "[Link Lens] Budget",
+        "[Link Lens] Budget",
+    ]
+
+
+def test_old_runs_are_pruned_from_dagsters_own_history(location):
+    instance = dagster.DagsterInstance.ephemeral()
+    job = location.defs.resolve_job_def("prune_run_history")
+    first = job.execute_in_process(instance=instance)
+    assert first.success and first.output_for_node("delete_old_runs") == 0
+    assert len(instance.get_runs()) == 1
+    # With no retention at all, the finished run before this one goes.
+    second = job.execute_in_process(
+        instance=instance,
+        run_config={"ops": {"delete_old_runs": {"config": {"keep_days": 0}}}},
+    )
+    assert second.output_for_node("delete_old_runs") == 1
+    assert [r.run_id for r in instance.get_runs()] == [second.run_id]

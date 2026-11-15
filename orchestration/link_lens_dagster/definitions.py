@@ -10,7 +10,7 @@ import dagster as dg
 
 # Absolute imports: the workspace loads this file by path, with the folder
 # above the package on the import path.
-from link_lens_dagster import sensors
+from link_lens_dagster import alerting, schedules, sensors
 from link_lens_dagster.assets.extraction import observations
 from link_lens_dagster.assets.identity import identity_batch
 from link_lens_dagster.assets.models import dbt, models
@@ -59,6 +59,15 @@ defs = dg.Definitions(
         request_onboarding,
         assemble_batch,
         build_models,
+        schedules.check_source_freshness,
+        schedules.prune_run_history,
+    ],
+    asset_checks=[schedules.sources_checked_on_time],
+    schedules=[
+        schedules.due_sources_schedule(refresh_source),
+        schedules.freshness_schedule,
+        schedules.weekly_batch_schedule(assemble_batch),
+        schedules.retention_schedule,
     ],
     sensors=[
         sensors.registered_sources,
@@ -66,6 +75,11 @@ defs = dg.Definitions(
         sensors.release_sensor(build_models),
         sensors.ontology_promoted,
         sensors.drift_sensor(request_onboarding),
+        alerting.alert_run_failed,
+        alerting.alert_check_failed,
+        alerting.alert_drift,
+        alerting.alert_overdue_sources,
+        alerting.alert_budget,
     ],
     resources={"pipeline": Pipeline(), "langgraph": LangGraph(), "dbt": dbt},
 )
