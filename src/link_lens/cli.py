@@ -181,11 +181,30 @@ def review(run_id: str, decision: str, feedback: str = ""):
 
 @app.command()
 def assemble(
-    run_ids: list[str],
+    run_ids: list[str] | None = typer.Argument(None),
     minimum_profiles: int = 50,
     cohort_pool_size: int | None = None,
     baseline_batch_id: str | None = None,
 ):
+    """Assemble a batch of entities, links and profiles. Deterministic; no model call.
+
+    Without run IDs, from the current run of every registered source, as
+    Dagster's `identity_batch` asset does, and prints the batch's summary.
+    With run IDs, from exactly those runs, and prints the whole batch record.
+    """
+    if not run_ids:
+        from . import refresh
+
+        try:
+            show(
+                refresh.assemble(
+                    None, minimum_profiles, cohort_pool_size, baseline_batch_id
+                )
+            )
+        except refresh.Blocked as blocked:
+            show({"blocked": str(blocked)})
+            raise typer.Exit(EXIT_BLOCKED) from blocked
+        return
     from .pipeline import assemble as build
 
     show(build(run_ids, minimum_profiles, cohort_pool_size, baseline_batch_id))

@@ -216,6 +216,35 @@ def test_onboarding_is_requested_once_per_snapshot(source):
     )["started"]
 
 
+def test_cli_assembles_from_the_current_runs_as_dagster_does(spec):
+    import json
+
+    from link_lens.cli import app
+    from typer.testing import CliRunner
+
+    runner = CliRunner()
+    blocked = runner.invoke(app, ["assemble"])
+    assert (
+        blocked.exit_code == 3 and "approved" in json.loads(blocked.stdout)["blocked"]
+    )
+    built = two_sources(spec)
+    refresh.extract("source-a")
+    refresh.extract("source-b")
+    by_cli = runner.invoke(
+        app, ["assemble", "--minimum-profiles", "3", "--cohort-pool-size", "100"]
+    )
+    assert by_cli.exit_code == 0, by_cli.output
+    by_cli = json.loads(by_cli.stdout)
+    assert by_cli["run_ids"] == [
+        built["source-a"]["run"]["id"],
+        built["source-b"]["run"]["id"],
+    ]
+    # The library step Dagster's asset calls gives the same profiles in a new batch.
+    by_library = refresh.assemble(minimum_profiles=3, cohort_pool_size=100)
+    assert by_library["batch_id"] != by_cli["batch_id"]
+    assert by_library["profile_digest"] == by_cli["profile_digest"]
+
+
 def test_a_run_that_never_started_is_started_when_asked_again(source):
     changed = snapshot_of(
         source["id"],
