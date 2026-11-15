@@ -11,6 +11,9 @@ class Settings(BaseSettings):
         env_file=".env", extra="ignore", env_prefix="LINK_LENS_"
     )
     database_url: str = "postgresql+psycopg://linklens:linklens@localhost:5439/linklens"
+    # A database role every connection of this process takes, such as
+    # linklens_orchestrator. Unset, a connection keeps the rights of its login.
+    database_role: str | None = None
     artifact_dir: Path = Path("artifacts")
     # "local" keeps artifact bytes under artifact_dir; "s3" writes new ones to an
     # S3-compatible bucket and reads them through a cache under artifact_dir.

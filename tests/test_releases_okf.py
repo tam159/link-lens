@@ -623,6 +623,49 @@ def test_every_dbt_test_passes_on_a_release(release):
         assert (changes.previous_release_id, changes.profiles_added) == (None, 50)
 
 
+def test_a_release_serves_what_was_stored_when_it_was_recorded(release):
+    """A later extraction, of the same snapshot or a new one, adds nothing to it."""
+    counts = "SELECT count(*) FROM serving.{} WHERE release_id = 1"
+    with store.engine().begin() as connection:
+        before = [
+            connection.execute(text(counts.format(view))).scalar_one()
+            for view in ("observation", "evidence")
+        ]
+        assert before == [200, 200]
+        # More observations of the same records under the same approved mapping,
+        # as a larger extraction of the snapshot would store them.
+        connection.execute(
+            text(
+                "INSERT INTO evidence.observation (source_id, id, record_id, concept_id, "
+                "config_hash, group_name, group_id, value, raw_value, source_fields, "
+                "field_confidence, observed_at, timestamp_basis, timezone_assumed, "
+                "ingested_at, derivation_level, engine, extra) "
+                "SELECT source_id, sha256_from_hex(md5(sha256_hex(id)) || md5(value)), "
+                "record_id, concept_id, config_hash, group_name, group_id, value || ' later', "
+                "raw_value, source_fields, field_confidence, observed_at, timestamp_basis, "
+                "timezone_assumed, ingested_at, derivation_level, engine, extra "
+                "FROM evidence.observation"
+            )
+        )
+        assert (
+            connection.execute(
+                text("SELECT count(*) FROM evidence.observation")
+            ).scalar_one()
+            == 400
+        )
+    with store.engine().connect() as connection:
+        assert [
+            connection.execute(text(counts.format(view))).scalar_one()
+            for view in ("observation", "evidence")
+        ] == before
+        assert (
+            connection.execute(
+                text("SELECT observations FROM analytics.release_overview")
+            ).scalar_one()
+            == 200
+        )
+
+
 def test_each_read_model_is_one_commented_select():
     for name in MODELS:
         body = (ROOT / "transform/models/serving" / f"{name}.sql").read_text()

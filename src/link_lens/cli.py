@@ -63,34 +63,13 @@ def register(dataset: str, resource: str | None = None):
 @app.command()
 def onboard(run_id: str):
     """Start a durable graph thread; inspect progress with runs or Agent Inbox."""
+    from . import refresh
+
     run = store.require("runs", run_id)
-    if run.get("thread_id"):
-        raise typer.BadParameter(
-            "This run already has a thread; review or inspect it instead of duplicating execution"
-        )
-    c = client()
-    thread = c.threads.create(
-        metadata={
-            "application": "link-lens",
-            "onboarding_run_id": run_id,
-            "source": run["source_slug"],
-        }
-    )
-    run["thread_id"] = thread["thread_id"]
-    store.put("runs", run_id, run, run["source_id"], "onboarding")
-    result = c.runs.create(
-        thread["thread_id"],
-        "onboard",
-        input={"run_id": run_id, "feedback": run.get("carried_feedback", "none")},
-        config={"recursion_limit": 40},
-    )
-    show(
-        {
-            "run_id": run_id,
-            "thread_id": thread["thread_id"],
-            "server_run_id": result["run_id"],
-        }
-    )
+    try:
+        show(refresh.start_thread(run, client()))
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
 
 
 @app.command()

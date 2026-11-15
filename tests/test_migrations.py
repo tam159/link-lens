@@ -212,7 +212,7 @@ def test_roles_have_only_their_privileges(database):
         assert scalars(
             connection,
             "SELECT rolcanlogin FROM pg_roles WHERE rolname LIKE 'linklens\\_%'",
-        ) == [False, False, False, False, False]
+        ) == [False, False, False, False, False, False]
 
         # Every domain is typed now: the pipeline role may read legacy rows only.
         assert allowed(connection, "linklens_pipeline", "SELECT * FROM legacy.runs")
@@ -333,6 +333,55 @@ def test_analyst_role_reads_the_reporting_models_and_nothing_else(database):
             "SELECT rolcanlogin FROM pg_roles WHERE rolname = :role",
             role=role,
         ) == [False]
+
+
+def test_orchestrator_role_cannot_record_a_human_decision(database):
+    """It writes what the data flow writes and none of what only a person records."""
+    role = "linklens_orchestrator"
+    nothing = "INSERT INTO {} OVERRIDING SYSTEM VALUE SELECT * FROM {} WHERE false"
+    with database.connect() as connection:
+        for table in (
+            "catalog.snapshot",
+            "catalog.drift_check",
+            "catalog.source_refresh",
+            "onboarding.run",
+            "evidence.observation",
+            "evidence.source_record",
+            "identity.profile",
+            "identity.link",
+            "ops.batch",
+            "ops.model_call",
+            "ontology.ontology_version",
+        ):
+            assert allowed(connection, role, nothing.format(table, table)), table
+            assert allowed(connection, role, f"SELECT * FROM {table}"), table
+        for table in (
+            "onboarding.approval",
+            "ontology.activation",
+            "ops.release",
+            "ops.bundle_scope",
+            "ops.release_bundle",
+            "ops.evaluation",
+        ):
+            assert allowed(connection, role, f"SELECT * FROM {table}"), table
+            assert not allowed(connection, role, nothing.format(table, table)), table
+            assert scalars(
+                connection,
+                "SELECT has_table_privilege(:role, :table, 'UPDATE')",
+                role=role,
+                table=table,
+            ) == [False], table
+        for statement in (
+            "SELECT * FROM access.api_key",
+            "SELECT * FROM access.client",
+            "INSERT INTO serving.okf_page SELECT * FROM serving.okf_page WHERE false",
+            "DELETE FROM catalog.drift_check",
+            "DELETE FROM evidence.observation",
+            "CREATE TABLE ops.mine (id int)",
+            "SELECT * FROM analytics.source_health",
+        ):
+            assert not allowed(connection, role, statement), statement
+        assert allowed(connection, role, "SELECT * FROM serving.profile")
 
 
 def test_downgrade_drops_what_the_transform_role_built(empty_database):

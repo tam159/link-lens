@@ -1,5 +1,7 @@
 -- Where a claim comes from: its record's exact locator, the snapshot, the
--- source and the licence. Attribution travels with every claim.
+-- source and the licence. Attribution travels with every claim. The same
+-- observations as the observation model: the run's snapshot, stored by the time
+-- the release was recorded.
 SELECT release.id AS release_id,
        observation.source_id,
        observation.id AS observation_key,
@@ -25,7 +27,9 @@ JOIN {{ source('onboarding', 'approval') }} AS approval
   ON approval.id = run.state ->> 'approval_id' AND approval.decision = 'approved'
 JOIN {{ source('evidence', 'observation') }} AS observation
   ON observation.config_hash = approval.config_hash AND observation.source_id = run.source_id
+ AND observation.loaded_at <= release.released_at
 JOIN {{ source('evidence', 'source_record') }} AS record
   ON record.source_id = observation.source_id AND record.id = observation.record_id
+ AND record.snapshot_id = run.snapshot_id
 JOIN {{ source('catalog', 'snapshot') }} AS snapshot ON snapshot.id = record.snapshot_id
 JOIN {{ source('catalog', 'source') }} AS source ON source.id = observation.source_id

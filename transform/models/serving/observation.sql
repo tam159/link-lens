@@ -1,5 +1,8 @@
 -- Source claims of a release: every observation extracted with a mapping config
 -- that was approved in one of the release's runs, linked to an entity or not.
+-- Only from the snapshot that run was onboarded on, and only what was stored
+-- when the release was recorded: a later extraction, of that snapshot or of a
+-- refreshed one, adds nothing to a release that exists.
 SELECT release.id AS release_id,
        observation.source_id,
        observation.id AS observation_key,
@@ -84,9 +87,11 @@ JOIN {{ source('onboarding', 'approval') }} AS approval
 JOIN {{ source('onboarding', 'mapping_config') }} AS config ON config.config_hash = approval.config_hash
 JOIN {{ source('evidence', 'observation') }} AS observation
   ON observation.config_hash = config.config_hash AND observation.source_id = run.source_id
+ AND observation.loaded_at <= release.released_at
 JOIN {{ source('ontology', 'concept') }} AS concept ON concept.id = observation.concept_id
 JOIN {{ source('evidence', 'source_record') }} AS record
   ON record.source_id = observation.source_id AND record.id = observation.record_id
+ AND record.snapshot_id = run.snapshot_id
 JOIN {{ source('catalog', 'snapshot') }} AS snapshot ON snapshot.id = record.snapshot_id
 LEFT JOIN {{ source('identity', 'membership') }} AS membership
   ON membership.batch_id = release.batch_id
