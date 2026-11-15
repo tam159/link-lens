@@ -44,13 +44,21 @@ class Settings(BaseSettings):
     # The dbt project that `link-lens dbt` and the orchestrator run, relative to
     # the working directory like the paths above.
     dbt_project_dir: Path = Path("transform")
+    # Who may sign in to the operations console while no identity provider is
+    # connected: a JSON object of token -> {"name": ..., "role": ...}, with role
+    # engineer, product_owner or admin. A token is a secret a person holds.
+    # Empty, nobody can sign in. Development and single-machine use only.
+    admin_users: dict[str, dict[str, str]] = {}
     # Where alerts are posted: an incoming-webhook URL that accepts {"text": ...},
     # as Slack's and most chat tools' do. Unset, an alert is logged and not sent.
     # The URL is a secret and is never logged.
     alert_webhook_url: str | None = None
-    # Base addresses used in alert links.
+    # Base addresses used in alert links and by the operations console.
     dagster_url: str = "http://localhost:3070"
     inbox_url: str = "http://localhost:3000"
+    # Base addresses the operations console links to.
+    dashboards_url: str = "http://localhost:3080"
+    product_url: str = "http://localhost:8100"
     ontology_path: Path = Path("firmable_ontology.yaml")
     model: str = "gpt-6-luna"
     experiment_id: str = "jev-gpt6-luna-ontology-v1"
