@@ -159,7 +159,7 @@ Where things stand on 15 November 2026:
 | Product service | Compose service `product` on port 8100: REST, MCP, bundle links and an entity viewer. It refuses every call until a release and a key exist. |
 | Dagster, dbt and Grafana | [Orchestration plan](ORCHESTRATION_PLAN.md) phases D0 to D7: dbt owns and builds the serving views and the reporting models, Grafana shows three dashboards over those, and Dagster holds the data flow as assets with sensors on approvals and releases, a schedule that refreshes sources by their cadence, and alert sensors. Both tools are open source and run in local Docker, for development or, with an override, as a deployment. No source has a cadence and no alert channel is configured, so nothing has been refreshed or sent, and no asset has been materialised on the local database. |
 | Operations console | Compose service `admin` on port 8200 (profile `console`): sources, releases, clients and an audit log, for a signed-in person. Its sign-in is a list of tokens; no identity provider is connected. |
-| Not done | Hosting, an identity provider for reviewer sign-in, the agent runtime licence and dropping `legacy`. |
+| Not done | The cutover of the local stack, which is the owner's decisions under [Routine operation](#routine-operation-where-each-routine-runs); recording completed full extractions, so that a snapshot extracted only in part is visible; hosting, an identity provider for reviewer sign-in, the agent runtime licence and dropping `legacy`. |
 
 | To do this | Read |
 |---|---|
