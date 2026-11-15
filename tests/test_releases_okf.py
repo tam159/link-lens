@@ -4,7 +4,8 @@ import json
 import time
 
 import pytest
-from link_lens import exports, releases, serving, store, transform
+from conftest import ROOT, build_views, dbt
+from link_lens import exports, releases, serving, store
 from link_lens.cli import app
 from link_lens.db import copy_insert
 from link_lens.db import serving as tables
@@ -14,6 +15,10 @@ from sqlalchemy import text
 from sqlalchemy.exc import DBAPIError
 from test_identity_ops import assembled
 from typer.testing import CliRunner
+
+
+# The read models, one dbt model file each.
+MODELS = sorted(p.stem for p in (ROOT / "transform/models/serving").glob("*.sql"))
 
 
 @pytest.fixture
@@ -456,7 +461,7 @@ def test_serving_views_answer_for_a_release(release):
             name: connection.execute(
                 text(f"SELECT count(*) FROM serving.{name} WHERE release_id = 1")
             ).scalar_one()
-            for name in serving.MODELS
+            for name in MODELS
             if name != "current_release"
         }
         assert counts == {
@@ -544,93 +549,75 @@ def test_serving_views_answer_for_a_release(release):
                     connection.execute(text(forbidden))
 
 
-@pytest.mark.skipif(
-    transform.executable() is None, reason="needs the transform dependency group"
-)
-def test_dbt_models_answer_exactly_as_the_hand_written_views(release, tmp_path):
-    """dbt builds the read models into serving_next; every row must be the same."""
-    finished = transform.run(
-        ["run"],
-        url=store.engine().url.render_as_string(hide_password=False),
-        project_dir=transform.Path(__file__).resolve().parents[1] / "transform",
-        env={
-            "DBT_TARGET_PATH": str(tmp_path / "target"),
-            "DBT_LOG_PATH": str(tmp_path / "logs"),
-        },
-        capture_output=True,
-        text=True,
-    )
-    assert finished.returncode == 0, finished.stdout + finished.stderr
-    with store.engine().connect() as connection:
-        result = serving.compare(connection)
-    assert result["differences"] == []
-    assert set(result["views"]) == set(serving.MODELS)
-    assert all(view["columns_equal"] for view in result["views"].values())
-    assert result["views"]["observation"]["releases"][1] == {
-        "rows": {"serving_next": 200, "serving": 200},
-        "equal": True,
-    }
-    # A view that answers differently is reported, by view and release.
-    with store.engine().begin() as connection:
-        connection.execute(text("SET LOCAL ROLE linklens_transform"))
-        connection.execute(text("DROP VIEW serving_next.link"))
-        connection.execute(
-            text(
-                "CREATE VIEW serving_next.link AS "
-                "SELECT * FROM serving.link WHERE false"
+def test_a_candidate_build_is_compared_with_what_clients_read(release):
+    """A changed model is built into serving_next and compared before it is served."""
+    url = store.engine().url.render_as_string(hide_password=False)
+    finished = dbt(url, "run", "--vars", "{serving_schema: serving_next}")
+    assert finished.returncode == 0, finished.stdout
+    try:
+        with store.engine().connect() as connection:
+            assert serving.built(connection, "serving_next") == MODELS
+            result = serving.compare(connection)
+        assert result["differences"] == []
+        assert sorted(result["views"]) == MODELS
+        assert all(view["columns_equal"] for view in result["views"].values())
+        assert result["views"]["observation"]["releases"][1] == {
+            "rows": {"serving_next": 200, "serving": 200},
+            "equal": True,
+        }
+        # A view that answers differently is reported, by view and release.
+        with store.engine().begin() as connection:
+            connection.execute(text("SET LOCAL ROLE linklens_transform"))
+            connection.execute(text("DROP VIEW serving_next.link"))
+            connection.execute(
+                text(
+                    "CREATE VIEW serving_next.link AS "
+                    "SELECT * FROM serving.link WHERE false"
+                )
             )
-        )
-        connection.execute(text("DROP VIEW serving_next.bundle"))
-    with store.engine().connect() as connection:
-        assert serving.compare(connection)["differences"] == [
-            "bundle: only in serving",
-            "link: release 1 differs",
-        ]
-    with store.engine().begin() as connection:
-        connection.execute(text("SET LOCAL ROLE linklens_transform"))
-        for name in serving.MODELS:
-            connection.execute(text(f'DROP VIEW IF EXISTS serving_next."{name}"'))
+            connection.execute(text("DROP VIEW serving_next.bundle"))
+        with store.engine().connect() as connection:
+            assert serving.compare(connection)["differences"] == [
+                "bundle: only in serving",
+                "link: release 1 differs",
+            ]
+        runner = CliRunner()
+        assert runner.invoke(app, ["serving-compare"]).exit_code == 3
+    finally:
+        with store.engine().begin() as connection:
+            connection.execute(text("SET LOCAL ROLE linklens_transform"))
+            for name in MODELS:
+                connection.execute(text(f'DROP VIEW IF EXISTS serving_next."{name}"'))
 
 
-def test_serving_views_follow_their_files(release, monkeypatch):
-    for name in serving.MODELS:
-        comment, statement = serving.sql(name).split("SELECT", 1)
-        # One commented SELECT per file, so a file can become a dbt model.
+def test_each_read_model_is_one_commented_select():
+    for name in MODELS:
+        body = (ROOT / "transform/models/serving" / f"{name}.sql").read_text()
+        comment, statement = body.split("SELECT", 1)
         assert comment.strip().startswith("--") and ";" not in statement, name
         assert not any(
             word in statement.upper()
             for word in ("INSERT ", "UPDATE ", "DELETE ", "CREATE ")
         ), name
+        # A model reads declared sources or other models, never a bare table.
+        assert "{{ source(" in statement, name
+        assert "release_id" in statement, name
+
+
+def test_a_release_is_refused_until_the_views_are_built(spec, snapshot):
+    batch = assemble(assembled(spec, snapshot))
+    url = store.engine().url.render_as_string(hide_password=False)
     with store.engine().begin() as connection:
-        assert serving.apply(connection) == []  # nothing changed since the upgrade
-    original = serving.sql
-    monkeypatch.setattr(
-        serving,
-        "sql",
-        lambda name: (
-            original(name) + " WHERE false"
-            if name == "current_release"
-            else original(name)
-        ),
-    )
-    with pytest.raises(Exception):
-        with store.engine().begin() as connection:
-            serving.apply(connection)  # LIMIT 1 WHERE false is not valid SQL
-    monkeypatch.setattr(
-        serving,
-        "sql",
-        lambda name: (
-            "SELECT 1 AS release_id" if name == "current_release" else original(name)
-        ),
-    )
-    with store.engine().begin() as connection:
-        assert serving.apply(connection) == ["current_release"]
-        assert connection.execute(
-            text("SELECT * FROM serving.current_release")
-        ).all() == [(1,)]
-    monkeypatch.setattr(serving, "sql", original)
-    with store.engine().begin() as connection:
-        assert serving.apply(connection) == ["current_release"]
+        connection.execute(text("SET LOCAL ROLE linklens_transform"))
+        for name in MODELS:
+            connection.execute(text(f'DROP VIEW serving."{name}"'))
+    try:
+        with pytest.raises(ValueError, match="link-lens dbt build"):
+            releases.create(batch["id"], "test reviewer")
+        assert releases.listing() == []
+    finally:
+        build_views(url)
+    assert releases.create(batch["id"], "test reviewer")["entities"] == 50
 
 
 def test_cli_creates_lists_shows_and_exports_a_release(spec, snapshot, tmp_path):
@@ -666,7 +653,6 @@ def test_cli_creates_lists_shows_and_exports_a_release(spec, snapshot, tmp_path)
     exported = runner.invoke(app, ["release", "export", str(tmp_path / "bundle")])
     assert exported.exit_code == 0 and json.loads(exported.output)["broken_links"] == 0
     assert (tmp_path / "bundle" / "index.md").exists()
-    assert json.loads(runner.invoke(app, ["serving-apply"]).output) == {"changed": []}
 
 
 def test_pages_are_ordered_for_readers_and_reproducible():

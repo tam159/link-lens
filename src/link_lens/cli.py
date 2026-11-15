@@ -895,15 +895,6 @@ def release_bundles(release_id: int | None = None):
     show(bundles.listing(release_id))
 
 
-@app.command("serving-apply")
-def serving_apply():
-    """Create or refresh the serving views from their SQL files."""
-    from . import serving
-
-    with store.engine().begin() as connection:
-        show({"changed": serving.apply(connection)})
-
-
 @app.command("serving-compare")
 def serving_compare(candidate: str = "serving_next", reference: str = "serving"):
     """Compare the serving views built in one schema with those in another.

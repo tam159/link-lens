@@ -1,65 +1,33 @@
-"""Serving read models: one SQL file per model, each a single SELECT.
+"""Serving read models: the views clients are answered from.
 
-The files are the definition. `apply` creates a view in the `serving` schema
-for each, named after the file, and records the file's digest on the view so an
-unchanged view is left alone. It runs after every `alembic upgrade`.
+Each read model is a dbt model in `transform/models/serving`, one SELECT with an
+enforced contract, built as a view owned by `linklens_transform`. Alembic owns
+nothing here but the schema, the three `okf_*` tables and their functions.
+
+A changed model is built into `serving_next` first and compared with what
+`serving` holds, release by release, before it is built where clients read it.
 """
-
-import hashlib
-from importlib import resources
 
 from sqlalchemy import text
 
-MODELS = (
-    "release",
-    "current_release",
-    "entity",
-    "profile",
-    "profile_field",
-    "profile_address",
-    "observation",
-    "evidence",
-    "link",
-    "source",
-    "concept",
-    "bundle",
-)
 
-
-def sql(name):
-    """The SELECT that defines a read model."""
-    return resources.files(__package__).joinpath(name + ".sql").read_text()
-
-
-def apply(connection):
-    """Create or refresh the serving views. Returns the names that changed."""
-    if connection.execute(text("SELECT to_regclass('ops.release')")).scalar() is None:
-        return []
-    connection.execute(text("SET LOCAL ROLE linklens_migrator"))
-    applied = dict(
+def built(connection, schema="serving"):
+    """Names of the views that exist in a schema."""
+    return sorted(
         connection.execute(
-            text(
-                "SELECT c.relname, obj_description(c.oid) FROM pg_class c "
-                "JOIN pg_namespace n ON n.oid = c.relnamespace "
-                "WHERE n.nspname = 'serving' AND c.relkind = 'v'"
-            )
-        ).all()
+            text("SELECT viewname FROM pg_views WHERE schemaname = :schema"),
+            {"schema": schema},
+        ).scalars()
     )
-    changed = []
-    for name in MODELS:
-        body = sql(name)
-        mark = "sha256:" + hashlib.sha256(body.encode()).hexdigest()
-        if applied.get(name) == mark:
-            continue
-        connection.execute(text(f"DROP VIEW IF EXISTS serving.{name}"))
-        connection.execute(text(f"CREATE VIEW serving.{name} AS\n{body}"))
-        connection.execute(text(f"COMMENT ON VIEW serving.{name} IS '{mark}'"))
-        changed.append(name)
-    for name in applied.keys() - set(MODELS):
-        connection.execute(text(f"DROP VIEW serving.{name}"))
-        changed.append(name)
-    connection.execute(text("RESET ROLE"))
-    return changed
+
+
+def require(connection):
+    """Fail with what to do when the serving views have not been built."""
+    if "profile" not in built(connection):
+        raise ValueError(
+            "The serving views are not built. Run `link-lens dbt build` on this "
+            "database: alembic creates the tables, dbt the views."
+        )
 
 
 def compare(connection, candidate="serving_next", reference="serving"):

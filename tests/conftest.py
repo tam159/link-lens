@@ -1,6 +1,7 @@
 """Test fixtures.
 
-Database tests run on PostgreSQL built by `alembic upgrade head`. The server is
+Database tests run on PostgreSQL built by `alembic upgrade head`, with the
+serving views built by dbt on top, as on any other database. The server is
 started on first use, so a test that never touches the store needs no database.
 By default it is a throwaway container; set `LINK_LENS_TEST_DATABASE_URL` to use
 an existing server instead. Either way the tests create and drop their own
@@ -8,6 +9,7 @@ an existing server instead. Either way the tests create and drop their own
 """
 
 import os
+import tempfile
 import threading
 import uuid
 from pathlib import Path
@@ -16,7 +18,7 @@ import pytest
 from alembic import command
 from alembic.config import Config
 from alembic.script import ScriptDirectory
-from link_lens import store
+from link_lens import store, transform
 from link_lens.settings import settings
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import make_url
@@ -53,6 +55,31 @@ def migrate(url, revision="head", direction="upgrade"):
     config = alembic_config()
     config.set_main_option("sqlalchemy.url", url.replace("%", "%%"))
     getattr(command, direction)(config, revision)
+
+
+def dbt(url, *arguments):
+    """Run a dbt command on a database; returns the finished process."""
+    scratch = tempfile.mkdtemp(prefix="link-lens-dbt-")
+    return transform.run(
+        list(arguments),
+        url=url,
+        project_dir=ROOT / "transform",
+        # Keep dbt's build files and logs out of the repository.
+        env={"DBT_TARGET_PATH": scratch + "/target", "DBT_LOG_PATH": scratch + "/logs"},
+        capture_output=True,
+        text=True,
+    )
+
+
+def build_views(url):
+    """Build the serving views with dbt, as `link-lens dbt run` does."""
+    if transform.executable() is None:
+        raise RuntimeError(
+            "Database tests need dbt to build the serving views; run `uv sync --frozen`"
+        )
+    finished = dbt(url, "run")
+    if finished.returncode != 0:
+        raise RuntimeError("dbt could not build the serving views:\n" + finished.stdout)
 
 
 class TestServer:
@@ -116,6 +143,7 @@ class TestServer:
             if self._engine is None:
                 url = self.create_database()
                 migrate(url)
+                build_views(url)
                 engine = create_engine(url, pool_pre_ping=True)
                 with engine.connect() as connection:
                     tables = connection.execute(

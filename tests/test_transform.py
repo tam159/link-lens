@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PROJECT = ROOT / "transform"
 
 # The schemas dbt may create relations in. Everything else is Alembic's.
-DBT_SCHEMAS = {"analytics", "serving_next"}
+DBT_SCHEMAS = {"analytics", "serving", "serving_next"}
 
 needs_dbt = pytest.mark.skipif(
     transform.executable() is None, reason="needs the transform dependency group"

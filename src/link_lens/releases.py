@@ -11,6 +11,7 @@ import json
 from sqlalchemy import select, text
 
 from . import logs, ontology, store
+from . import serving as views
 from .db import catalog, copy_insert, evidence, identity, ops, serving
 from .db import ontology as registry
 from .db.records import render_time
@@ -341,6 +342,8 @@ def create(batch_id, reviewer, notes=None):
     ontology.resolve(version)
     table = serving.release
     with store.engine().begin() as connection:
+        # The bundles built after the commit, and every client, read the views.
+        views.require(connection)
         row = connection.execute(
             table.insert()
             .values(

@@ -3,7 +3,7 @@
 import json
 
 import pytest
-from conftest import SCHEMAS, head_revision, migrate
+from conftest import ROOT, SCHEMAS, build_views, head_revision, migrate
 from link_lens import store
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import DBAPIError
@@ -285,7 +285,6 @@ def test_transform_role_reads_core_and_builds_only_in_analytics(database):
         assert not allowed(connection, role, "SELECT * FROM legacy.runs")
 
         for statement in (
-            "CREATE VIEW serving.probe AS SELECT 1 AS one",
             "CREATE TABLE ops.probe (id int)",
             "CREATE SCHEMA other",
             "INSERT INTO catalog.source_refresh (source_id) VALUES ('x')",
@@ -342,21 +341,61 @@ def test_downgrade_drops_what_the_transform_role_built(empty_database):
         assert allowed(connection, "linklens_transform", "SELECT * FROM ops.batch")
 
 
-def test_each_recent_migration_steps_down_and_up_again(empty_database):
-    """A partial downgrade leaves the serving views dropped; head restores them."""
-    from link_lens import serving
-
+def test_migrations_create_no_view_and_dbt_owns_the_ones_it_builds(empty_database):
+    """Alembic and dbt never manage the same relation in `serving`."""
     engine = create_engine(empty_database, poolclass=NullPool)
+    owners = (
+        "SELECT c.relname, c.relkind::text, pg_get_userbyid(c.relowner) FROM pg_class c "
+        "JOIN pg_namespace n ON n.oid = c.relnamespace "
+        "WHERE n.nspname = 'serving' AND c.relkind IN ('v', 'p', 'r') ORDER BY 1"
+    )
+    models = sorted(p.stem for p in (ROOT / "transform/models/serving").glob("*.sql"))
+    assert len(models) == 12
+
     migrate(empty_database)
-    views = "SELECT viewname FROM pg_views WHERE schemaname = 'serving'"
     with engine.connect() as connection:
-        assert sorted(scalars(connection, views)) == sorted(serving.MODELS)
-    for revision, dropped in (("-1", False), ("0019", True), ("0017", True)):
-        migrate(empty_database, revision, "downgrade")
-        with engine.connect() as connection:
-            # A migration that a view reads from drops the views on its way down.
-            left = scalars(connection, views)
-            assert left == [] if dropped else sorted(left) == sorted(serving.MODELS)
-        migrate(empty_database)
-        with engine.connect() as connection:
-            assert sorted(scalars(connection, views)) == sorted(serving.MODELS)
+        alone = connection.execute(text(owners)).all()
+    assert [name for name, kind, _ in alone if kind == "v"] == []
+    assert {owner for _, _, owner in alone} == {"linklens_migrator"}
+
+    build_views(empty_database)
+    with engine.connect() as connection:
+        built = connection.execute(text(owners)).all()
+        assert sorted(name for name, kind, _ in built if kind == "v") == models
+        assert {owner for _, kind, owner in built if kind == "v"} == {
+            "linklens_transform"
+        }
+        assert [row for row in built if row[1] != "v"] == alone
+        # What dbt owns is granted to the two roles that read it, and no more.
+        for role, expected in (
+            ("linklens_product", True),
+            ("linklens_pipeline", True),
+            ("linklens_migrator", False),
+        ):
+            assert scalars(
+                connection,
+                "SELECT has_table_privilege(:role, 'serving.profile', 'SELECT')",
+                role=role,
+            ) == [expected]
+        assert allowed(connection, "linklens_product", "SELECT * FROM serving.profile")
+        assert not allowed(
+            connection, "linklens_product", "SELECT * FROM identity.profile"
+        )
+
+    # One step down drops dbt's views; the old code would create its own again.
+    migrate(empty_database, "0023", "downgrade")
+    with engine.connect() as connection:
+        assert connection.execute(text(owners)).all() == alone
+        assert not allowed(
+            connection,
+            "linklens_transform",
+            "CREATE VIEW serving.probe AS SELECT 1 AS one",
+        )
+    migrate(empty_database)
+    build_views(empty_database)
+    with engine.connect() as connection:
+        assert connection.execute(text(owners)).all() == built
+
+    # Every earlier migration still steps down with dbt's views in place.
+    migrate(empty_database, "0017", "downgrade")
+    migrate(empty_database)
