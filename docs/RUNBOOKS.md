@@ -2,7 +2,7 @@
 
 What to do when something in the data flow needs a person. Each runbook says how you find out, what to look at, what to do, and what not to do. How the pieces work is in the [engineering guide](ENGINEERING.md); why they are built this way is in the [orchestration plan](ORCHESTRATION_PLAN.md).
 
-Commands run from the repository root. The local addresses are the Dagster UI at http://localhost:3070, Grafana at http://localhost:3080, dbt's documentation at http://localhost:3090 and the Agent Inbox at http://localhost:3000.
+Commands run from the repository root. The local addresses are the Dagster UI at http://localhost:3070, Grafana at http://localhost:3080, dbt's documentation at http://localhost:3090, the Agent Inbox at http://localhost:3000 and, when started, the operations console at http://localhost:8200. Where a runbook gives a command to set a cadence, pause a source or record a release, a signed-in product owner can do the same in the console.
 
 Three things only a person does, in every runbook: approve a mapping, promote an ontology, record a release. Dagster cannot do them, and no runbook asks you to work around that.
 
@@ -15,6 +15,7 @@ Three things only a person does, in every runbook: approve a mapping, promote an
 | Paid steps are refused, or the budget alert fired | [The budget cap is reached](#the-budget-cap-is-reached) |
 | A release must be served again from a backup | [Restoring a release](#restoring-a-release) |
 | The Dagster UI is down or a schedule shows an error | [Dagster itself](#dagster-itself) |
+| Nobody can sign in to the console, or an action shows as unfinished | [The operations console](#the-operations-console) |
 | Taking and checking backups | [Backups](#backups) |
 
 ## A source's refresh failed
@@ -197,6 +198,25 @@ uv run link-lens source cadence SOURCE_ID --days 7
 **The assets fail with "must work on the database as linklens_orchestrator".** The Dagster services lost `LINK_LENS_DATABASE_ROLE`, or their login is not a member of that role. They refuse to work with more rights than they should have; fix the configuration, do not remove the check.
 
 **Starting again from nothing.** Dagster's database holds its own history only. Stop the two services, `DROP DATABASE dagster` as the administrator, start them: they come back empty, the sensors start from the present, and nothing of the product is lost.
+
+## The operations console
+
+**Nobody can sign in.** The console signs in only the people listed in `LINK_LENS_ADMIN_USERS`, one line of JSON in `.env`. Nothing listed, a line that is not valid JSON (the log has `console.users_unreadable`), or a role other than `engineer`, `product_owner` or `admin` signs nobody in. Fix the line and recreate the service:
+
+```sh
+docker compose --profile console up -d --force-recreate admin
+docker compose --profile console logs admin --tail 30
+```
+
+**A page says the reporting models are not built.** The console reads a source's status from `analytics`. Build the models: `uv run link-lens dbt build`, or wait for Dagster's `models_missing` sensor.
+
+**An action shows as `unfinished` in the audit log.** Its request was recorded and the service stopped before recording the outcome. Look at the target to see whether the change happened: the source's page, the release list, the client's keys. Asking again is safe for everything except issuing a key, which would make a second key; revoke the one you cannot account for.
+
+**Adding a source failed after "Confirm".** The log row says why. If the onboarding server did not answer, the source and its snapshot are registered and its run exists but was never started: confirm again once the backend is up. The same run is started, and nothing is registered or spent twice.
+
+**Someone should no longer have access.** Remove their token from `LINK_LENS_ADMIN_USERS` and recreate the service. A token does not expire by itself.
+
+**Do not** hand out one token to several people: the audit log would record them all under one name.
 
 ## Backups
 

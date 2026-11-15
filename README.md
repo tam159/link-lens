@@ -177,7 +177,7 @@ uv sync --frozen
 if [ ! -f .env ]; then cp .env.example .env; fi
 ```
 
-A first Docker build may exceed ten minutes; subsequent starts reuse images. The supplied setup uses local ports 3000, 2024, 5439, 8091 and 8100, 3070 and 3090 if you start Dagster and 3080 if you start Grafana.
+A first Docker build may exceed ten minutes; subsequent starts reuse images. The supplied setup uses local ports 3000, 2024, 5439, 8091 and 8100, 3070 and 3090 if you start Dagster, 3080 if you start Grafana and 8200 if you start the operations console.
 
 ### 2. Fill in `.env`
 
@@ -224,6 +224,7 @@ The backend applies Alembic migrations at startup. Migrations create tables, not
 | Dagster UI, optional | [http://localhost:3070](http://localhost:3070); only with `docker compose --profile orchestration up -d`. See [Dagster and dbt](#dagster-and-dbt). |
 | dbt documentation, optional | [http://localhost:3090](http://localhost:3090); started with the same profile. Every model, column, test and source, as written by the latest build through Dagster. |
 | Grafana, optional | [http://localhost:3080](http://localhost:3080); only with `docker compose --profile dashboards up -d`. Sign in as `admin`; the password is `LINK_LENS_GRAFANA_ADMIN_PASSWORD`, `admin` when unset. |
+| Operations console, optional | [http://localhost:8200](http://localhost:8200); only with `docker compose --profile console up -d admin`. Sign in with a token listed in `LINK_LENS_ADMIN_USERS`; see [Operations console](#operations-console). |
 
 Open Agent Inbox and add a connection:
 
@@ -404,7 +405,7 @@ flowchart LR
 
 ### Dagster and dbt
 
-Two tools are being added for running the product with many sources and a small team: Dagster for the deterministic data flow and dbt Core for derived SQL. The [orchestration plan](docs/ORCHESTRATION_PLAN.md) has the phases. Six phases are built. dbt owns the twelve `serving` views that the product service reads: each is a model in `transform/models/serving/` with an enforced contract, tests and documentation, built as the `linklens_transform` database role. dbt also builds sixteen reporting models in the `analytics` schema, for the team only: usage, source health, coverage, onboarding, identity, cost, release quality and review labels. Grafana shows three dashboards over them: product overview, data quality and source health. Dagster holds the deterministic data flow as assets in `orchestration/`: per source, a `snapshot` (new only when the publisher's bytes changed) with a check that it still fits the approved mapping, then `observations` extracted under that mapping; beside them a batch of entities and profiles, the dbt models, and two requests that spend on model calls and never start by themselves. Sensors react to what a person recorded: a newly approved mapping requests extraction, and a new release requests the dbt build. Dagster works as a database role that cannot record an approval, a promotion or a release. When a source's bytes change and still fit its approved mapping, the refresh is recorded as a run that carries that approval, and the next batch is assembled from it; nothing reaches a client until a person records a release. A batch is still a bounded sample, so two batches across a refresh differ by more than what the publisher changed ([orchestration plan](docs/ORCHESTRATION_PLAN.md), phase D3a). One schedule refreshes each source by the cadence set for it (`link-lens source cadence SOURCE --days N`), asking a publisher only for something newer and backing off when it does not answer; no source has a cadence until you set one. Sensors alert on failed runs and checks, drift, overdue sources and the model budget, to the webhook in `LINK_LENS_ALERT_WEBHOOK_URL`; without one they only log. The commands above still work as before.
+Two tools are being added for running the product with many sources and a small team: Dagster for the deterministic data flow and dbt Core for derived SQL. The [orchestration plan](docs/ORCHESTRATION_PLAN.md) has the phases. Seven of its eight phases are built; the last, the cutover from manual runs, is not. The seventh is the [operations console](#operations-console) below. dbt owns the twelve `serving` views that the product service reads: each is a model in `transform/models/serving/` with an enforced contract, tests and documentation, built as the `linklens_transform` database role. dbt also builds sixteen reporting models in the `analytics` schema, for the team only: usage, source health, coverage, onboarding, identity, cost, release quality and review labels. Grafana shows three dashboards over them: product overview, data quality and source health. Dagster holds the deterministic data flow as assets in `orchestration/`: per source, a `snapshot` (new only when the publisher's bytes changed) with a check that it still fits the approved mapping, then `observations` extracted under that mapping; beside them a batch of entities and profiles, the dbt models, and two requests that spend on model calls and never start by themselves. Sensors react to what a person recorded: a newly approved mapping requests extraction, and a new release requests the dbt build. Dagster works as a database role that cannot record an approval, a promotion or a release. When a source's bytes change and still fit its approved mapping, the refresh is recorded as a run that carries that approval, and the next batch is assembled from it; nothing reaches a client until a person records a release. A batch is still a bounded sample, so two batches across a refresh differ by more than what the publisher changed ([orchestration plan](docs/ORCHESTRATION_PLAN.md), phase D3a). One schedule refreshes each source by the cadence set for it (`link-lens source cadence SOURCE --days N`), asking a publisher only for something newer and backing off when it does not answer; no source has a cadence until you set one. Sensors alert on failed runs and checks, drift, overdue sources and the model budget, to the webhook in `LINK_LENS_ALERT_WEBHOOK_URL`; without one they only log. The commands above still work as before.
 
 Both tools are the open-source editions, in one image, `link-lens-dagster:local`, and run in local Docker. `docker compose --profile orchestration up -d` runs them for development, with the checkout mounted. Adding `-f deploy/compose.deploy.yaml` runs them as a deployment: from the image alone, restarting when they stop, with no default password, and logged in to the database as a login that can only become the orchestrator's or dbt's role. Where Dagster runs, it builds the views after a migration and after a release, so `link-lens dbt build` is needed only where it does not. [docs/RUNBOOKS.md](docs/RUNBOOKS.md) says what to do when a refresh fails, a source drifts, a review is stuck, a build fails or the budget is spent.
 
@@ -431,6 +432,20 @@ docker compose --profile orchestration up -d --build
 ```
 
 `link-lens dbt` passes its arguments to dbt and takes the connection from `LINK_LENS_DATABASE_URL`, so dbt and the pipeline use the same database. The Dagster UI has no sign-in of its own and is bound to this machine. Grafana asks for a sign-in and reads the database as a role that can see the reporting models and nothing else. On the dashboards, a figure a person measured on a sample is shown apart from AI audits and from uncalibrated scores. Alembic owns every table that holds state; dbt owns only derived relations, and the two never manage the same one. The backend image contains neither tool, so `link-lens dbt` runs on the host.
+
+### Operations console
+
+A small console lets the people who run the product work without a terminal: find a dataset in the saved catalogue, preview it, add it as a source, set how often it is refreshed or pause it, compare a batch with the current release and record a release, manage clients, tiers and API keys, and read an audit log of every change. Reviewing a mapping stays in the Agent Inbox, running and scheduling in the Dagster UI and the numbers on the dashboards; the console links to them.
+
+```sh
+# In .env: who may sign in, as JSON. A token is a secret; choose long random ones.
+# LINK_LENS_ADMIN_USERS={"A_LONG_RANDOM_TOKEN":{"name":"Your Name","role":"admin"}}
+docker compose --profile console up -d admin
+```
+
+Open [http://localhost:8200](http://localhost:8200) and sign in with the token. There are three roles, each including the one before: `engineer` reads, `product_owner` also adds and manages sources and records releases, `admin` also manages clients, tiers and keys and reads the audit log. With nobody listed, nobody can sign in.
+
+Adding a source starts onboarding, which makes paid model calls: the console shows an estimate, the budget cap and what remains before the confirm button, and refuses when the estimate would exceed the cap. Recording a release there is the same human decision as `link-lens release create`, stored in the signed-in person's name. This sign-in is for development and one machine: there is no identity provider, so the console is published on this machine only. Details are in the [engineering guide](docs/ENGINEERING.md), section **Operations console**.
 
 ### Experiment and model boundaries
 
@@ -470,7 +485,7 @@ The LinkML, SHACL and JSON Schema tests need the optional `ontology` dependency 
 
 Database tests run on PostgreSQL built by `alembic upgrade head`, in a throwaway `pgvector/pgvector:pg17-trixie` container that the test session starts on first use and removes afterwards. Set `LINK_LENS_TEST_DATABASE_URL` to use an existing server instead; the tests create and drop their own `linklens_test_*` databases there and never use the database named in the URL. Tests that do not touch the store need neither.
 
-The suite result on 15 November 2026, with the production data model, the product service, dbt-built serving views and reporting models, the dashboards and the Dagster assets, is **283 passed, four integration tests skipped** with the `orchestration` group installed, and 264 passed with the Dagster tests skipped as well without it. The result recorded for the promoted submission was 106 passed, four skipped; it and the earlier Docker checks are documented in the [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
+The suite result on 15 November 2026, with the production data model, the product service, dbt-built serving views and reporting models, the dashboards, the Dagster assets and the operations console, is **295 passed, four integration tests skipped** with the `orchestration` group installed, and 276 passed with the Dagster tests skipped as well without it. The result recorded for the promoted submission was 106 passed, four skipped; it and the earlier Docker checks are documented in the [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
 
 ## Documentation and code
 

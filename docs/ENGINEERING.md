@@ -173,6 +173,7 @@ Where things stand on 15 November 2026:
 | Refresh a source, extract it, or see what Dagster would do | [Dagster runs the data flow](#dagster-runs-the-data-flow-migrations-0026-and-0027) |
 | Set a cadence, pause a source, connect alerts, backfill after a mapping change | [Schedules, freshness and alerts](#schedules-freshness-and-alerts-migration-0028) |
 | Run Dagster as a deployment, rebuild its image, back up | [Dagster and dbt as a deployment](#dagster-and-dbt-as-a-deployment) |
+| Add a source, record a release or manage clients without a terminal | [Operations console](#operations-console-migration-0029) |
 | Something failed and needs a person | [RUNBOOKS.md](RUNBOOKS.md) |
 | Restore somewhere else and check it | [Restoring into an empty environment](#restoring-into-an-empty-environment) |
 
@@ -459,6 +460,45 @@ Dagster and dbt as a deployment (phase D5 of the [orchestration plan](ORCHESTRAT
 - **Upgrading a tool.** Change its pin in `pyproject.toml`, `uv lock`, compare `uv export --no-dev` before and after, rebuild the image, and try it on a copy. A Dagster upgrade may migrate Dagster's own database. dbt Core stays below 1.13 while dagster-dbt requires it.
 
 On 2026-11-15 a second Compose project was run as a deployment beside the real stack, on a restore of the newest backup: the services worked as `linklens_orchestrator` through the limited login and were refused an insert of a release; with every dbt view dropped, Dagster rebuilt all 50 in 22 seconds without being asked; a release recorded with the CLI was built for in 26 seconds and served 60 profiles to the product role; an extraction launched through Dagster ran in the daemon; and the daemon came back healthy after a restart. The project was removed afterwards. The real stack runs the same image in development mode.
+
+#### Operations console (migration 0029)
+
+The operations console (phase D6 of the [orchestration plan](ORCHESTRATION_PLAN.md), migration `0029`) is an admin API and its pages, in `src/link_lens/admin/`. It is a third service beside the backend and the product service, and it is the only one that acts for a signed-in person.
+
+- **Start it.** List who may sign in, then start the service. It answers on http://localhost:8200, loopback only.
+
+  ```sh
+  # .env, one line of JSON: token -> name and role (engineer, product_owner, admin)
+  # LINK_LENS_ADMIN_USERS={"A_LONG_RANDOM_TOKEN":{"name":"Your Name","role":"admin"}}
+  docker compose --profile console up -d admin
+  ```
+
+  A token can be made with `python3 -c "import secrets; print(secrets.token_urlsafe(32))"`. After changing the list, recreate the service: `docker compose --profile console up -d --force-recreate admin`. With nothing listed, or a list that is not valid JSON, nobody can sign in.
+- **What it is.** `admin/app.py` has the routes and the role each needs; `admin/service.py` has what the console reads and does, each function a few lines over the library function the CLI calls; `admin/auth.py` signs people in; `admin/audit.py` writes the log; `admin/static/` has three static files, the pages. The pages call `/admin` on their own origin and nothing else, and hold no credential.
+- **Roles.** `engineer` reads sources, releases, ontology versions and what needs attention. `product_owner` also searches the catalogue, previews and adds sources, sets a cadence, pauses and resumes, and previews and records releases. `admin` also manages clients, tiers and keys and reads the audit log. The API checks the role; the menu only follows it.
+- **Signing in.** `auth.authenticate` tries each resolver in a list. The one that exists reads `LINK_LENS_ADMIN_USERS`. A script sends `Authorization: Bearer TOKEN`; a browser signs in once and gets the token in a cookie that the page's code cannot read and that is sent only to the console. A change made with the cookie must carry the header `X-LinkLens-Console`, which only the console's pages set. An identity provider is one more resolver returning the same name and role.
+- **The audit log.** `ops.admin_action` is append-only. A change is two rows with one `action_id`: `requested`, committed before the change, then `done` or `failed`. A change refused for the person's role or for the budget is one row, `refused`. A request with no outcome was cut off; the console shows it as `unfinished`. Nothing named like a key, secret, token, password or hash is written, and a new key is recorded by its ID and prefix. Actions taken on the command line are not in this table.
+
+  ```sql
+  SELECT at, actor, role, action, target, phase, result FROM ops.admin_action ORDER BY id DESC LIMIT 50;
+  ```
+
+- **Adding a source.** Search reads the saved catalogue and ranks by the active discovery revision; relevance is an uncalibrated score. Preview asks the portal for the dataset, downloads the file with the same bounds as registering, inspects it in a temporary file and stores nothing. Confirm calls `ingestion.register` and `refresh.request_onboarding`, which starts the onboarding graph on the backend: paid model calls, within the run's own limits. The estimate shown is the median recorded cost of completed onboarding runs. The API refuses without `confirm_paid_calls`, and when the estimate would take the budget over `LINK_LENS_MAX_COST_USD`.
+- **Recording a release.** The comparison (`releases.preview`, also `link-lens release preview --batch-id BATCH`) counts profiles added, changed, removed and unchanged against the latest release and runs four checks. After a refresh, part of the difference is resampling; the page says so when the batch has refreshed sources. Recording calls `releases.create` with the signed-in person as the reviewer. Where Dagster runs, its sensor then builds the models as for a release from the command line.
+- **Clients, tiers and keys.** The functions behind `link-lens access`. A key is shown once, in the answer to the request that issued it; the answer is marked not to be stored, and no later answer or log row holds it. Revoking keeps the key's row.
+- **Database role.** The service sets `LINK_LENS_DATABASE_ROLE=linklens_pipeline`. Migration `0029` lets that role use the `analytics` schema and dbt grants it the reporting models, so the console reads a source's status from `analytics.source_health`. If the models are not built the console answers 503 and names `link-lens dbt build`.
+- **No provider key.** The service gets the database, the artifact store, the backend's address and the settings a new run records, and nothing else from `.env`.
+- **Command-line equivalents.** `link-lens source preview DATASET`, `register` and `onboard`, `source cadence`, `source pause` and `resume`, `release preview` and `create`, `access tier set` and `list`, `access client create`, `set` and `list`, `access key create` and `revoke`.
+- **Trying a change.** Do not confirm a source, record a release or issue a key on the real database to see the console work. Restore a backup into a throwaway container, clone the artifact store, and run the app against them with a stand-in for the onboarding server:
+
+  ```sh
+  LINK_LENS_DATABASE_URL=postgresql+psycopg://linklens:PASSWORD@localhost:PORT/linklens LINK_LENS_DATABASE_ROLE=linklens_pipeline \
+  LINK_LENS_ARTIFACT_DIR=/path/to/a/copy LINK_LENS_API_URL=http://127.0.0.1:STAND_IN_PORT \
+  LINK_LENS_ADMIN_USERS='{"trial-token":{"name":"Trial","role":"admin"}}' \
+  uv run uvicorn link_lens.admin.app:app --host 127.0.0.1 --port 8201
+  ```
+
+On 2026-11-15 migration `0029` was rehearsed on a restored copy and applied to the local database with the services stopped; both baseline checks reported zero differences (backup `/Users/may/link-lens-backups/linklens-pre-d6-cutover-20261115T070652.dump`). On a throwaway copy the whole flow was done in the browser: a dataset searched, previewed and added, seen waiting for review and, after a fixture approval and a 7 day cadence, fresh; the submission batch compared and released; a tier, a client and a key created and the key revoked; seven changes read in the audit log. The real database holds no console action, release, client or cadence, and the running console lists nobody.
 
 #### Restoring into an empty environment
 
