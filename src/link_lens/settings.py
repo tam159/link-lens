@@ -2,7 +2,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import Field
+from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -10,7 +10,22 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env", extra="ignore", env_prefix="LINK_LENS_"
     )
-    database_url: str = "postgresql+psycopg://linklens:linklens@localhost:5439/linklens"
+    # Host ports of the local stack. compose.yaml publishes each service on
+    # 127.0.0.1 at the port of the same name (LINK_LENS_<NAME>_PORT), with the
+    # same defaults. They sit in an uncommon block, 18700 to 18740, so they do
+    # not clash with other local apps. Change one in .env and recreate the
+    # service; the addresses below follow unless they are set themselves.
+    inbox_port: int = 18700
+    backend_port: int = 18701
+    postgres_port: int = 18702
+    sandbox_port: int = 18703
+    product_port: int = 18710
+    console_port: int = 18720
+    dagster_port: int = 18730
+    dbt_docs_port: int = 18731
+    grafana_port: int = 18740
+    # Unset, the local Compose database at postgres_port.
+    database_url: str = ""
     # A database role every connection of this process takes, such as
     # linklens_orchestrator. Unset, a connection keeps the rights of its login.
     database_role: str | None = None
@@ -53,12 +68,13 @@ class Settings(BaseSettings):
     # as Slack's and most chat tools' do. Unset, an alert is logged and not sent.
     # The URL is a secret and is never logged.
     alert_webhook_url: str | None = None
-    # Base addresses used in alert links and by the operations console.
-    dagster_url: str = "http://localhost:3070"
-    inbox_url: str = "http://localhost:3000"
+    # Base addresses used in alert links and by the operations console. Unset,
+    # each is http://localhost at its port above.
+    dagster_url: str = ""
+    inbox_url: str = ""
     # Base addresses the operations console links to.
-    dashboards_url: str = "http://localhost:3080"
-    product_url: str = "http://localhost:8100"
+    dashboards_url: str = ""
+    product_url: str = ""
     ontology_path: Path = Path("firmable_ontology.yaml")
     model: str = "gpt-6-luna"
     experiment_id: str = "jev-gpt6-luna-ontology-v1"
@@ -71,9 +87,11 @@ class Settings(BaseSettings):
     enhancement_max_pairs: int = 500
     embedding_batch_size: int = 64
     enhancement_retries: int = 2
-    sandbox_url: str = "http://localhost:8091"
+    sandbox_url: str = ""
     sandbox_token: str = "local-development-only"
-    api_url: str = "http://localhost:2024"
+    # The LangGraph backend as the CLI reaches it; review links in the Inbox use
+    # it too, so the backend's own value is its address on this machine.
+    api_url: str = ""
     max_model_calls: int = 50
     max_python_calls: int = 10
     mapping_max_output_tokens: int = Field(default=16000, ge=7000, le=32000)
@@ -89,6 +107,24 @@ class Settings(BaseSettings):
     sample_pool_size: int = 5000
     csv_prefix_bytes: int = 8_388_608
     reviewer: str = "local-user"
+
+    @model_validator(mode="after")
+    def local_addresses(self):
+        """Fill each address left unset from its host port."""
+        defaults = {
+            "database_url": "postgresql+psycopg://linklens:linklens@localhost:"
+            f"{self.postgres_port}/linklens",
+            "api_url": f"http://localhost:{self.backend_port}",
+            "sandbox_url": f"http://localhost:{self.sandbox_port}",
+            "inbox_url": f"http://localhost:{self.inbox_port}",
+            "product_url": f"http://localhost:{self.product_port}",
+            "dagster_url": f"http://localhost:{self.dagster_port}",
+            "dashboards_url": f"http://localhost:{self.grafana_port}",
+        }
+        for name, value in defaults.items():
+            if not getattr(self, name):
+                setattr(self, name, value)
+        return self
 
 
 @lru_cache

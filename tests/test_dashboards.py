@@ -93,4 +93,4 @@ def test_grafana_holds_no_secret_and_reads_as_the_analyst_login():
     grafana = yaml.safe_load((ROOT / "compose.yaml").read_text())["services"]["grafana"]
     assert grafana["profiles"] == ["dashboards"]
     assert grafana["environment"]["GF_AUTH_ANONYMOUS_ENABLED"] == "false"
-    assert grafana["ports"] == ["127.0.0.1:3080:3080"]
+    assert grafana["ports"] == ["127.0.0.1:${LINK_LENS_GRAFANA_PORT:-18740}:3080"]

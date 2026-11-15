@@ -156,9 +156,9 @@ Where things stand on 15 November 2026:
 | Schema | Migration `0029`. Records live in `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `access`. `legacy` holds the earlier tables, read-only. `analytics` holds dbt's reporting models. |
 | Application | Still reads and writes through `store.py`, which returns the same records as before. |
 | What clients see | Views in `serving`, built by dbt, for a release that a person records. None is recorded on the local database. |
-| Product service | Compose service `product` on port 8100: REST, MCP, bundle links and an entity viewer. It refuses every call until a release and a key exist. |
+| Product service | Compose service `product` on port 18710: REST, MCP, bundle links and an entity viewer. It refuses every call until a release and a key exist. |
 | Dagster, dbt and Grafana | [Orchestration plan](ORCHESTRATION_PLAN.md) phases D0 to D7: dbt owns and builds the serving views and the reporting models, Grafana shows three dashboards over those, and Dagster holds the data flow as assets with sensors on approvals and releases, a schedule that refreshes sources by their cadence, and alert sensors. Both tools are open source and run in local Docker, for development or, with an override, as a deployment. Cut over on 2026-11-15 (see [Routine operation](#routine-operation-where-each-routine-runs)): every source has a cadence and Dagster refreshes it; alerts are logged, not sent, by the owner's choice. |
-| Operations console | Compose service `admin` on port 8200 (profile `console`): sources, releases, clients and an audit log, for a signed-in person. Its sign-in is a list of tokens; no identity provider is connected. |
+| Operations console | Compose service `admin` on port 18720 (profile `console`): sources, releases, clients and an audit log, for a signed-in person. Its sign-in is a list of tokens; no identity provider is connected. |
 | Not done | The end of the side-by-side period on 2026-11-29; recording completed full extractions, so that a snapshot extracted only in part is visible; hosting, an identity provider for reviewer sign-in, the agent runtime licence and dropping `legacy`. |
 
 | To do this | Read |
@@ -323,7 +323,7 @@ The product service (migration `0019`, Phase 5) is what a paying client calls. I
 - **As first built, and since.** In this phase the rate limit was held in the process and the service logged in with the local user, setting its role per transaction. Phase 9 moved the bucket into PostgreSQL and lets the service log in as a role of its own; see [Running as a service](#running-as-a-service-migration-0021). Locally it still uses the local user.
 
 ```sh
-docker compose up -d product          # http://localhost:8100, /health needs no key
+docker compose up -d product          # http://localhost:18710, /health needs no key
 uv run link-lens access tier set starter --rate-per-minute 60 --monthly-quota 10000 --interface rest
 uv run link-lens access client create "Example client" --tier starter
 uv run link-lens access key create CLIENT_ID --label first
@@ -345,7 +345,7 @@ The MCP interface (Phase 6, no migration) offers the same data to agents from th
 
 ```sh
 uv run link-lens access tier set professional --rate-per-minute 300 --interface rest --interface mcp --toolset data --toolset files
-LINK_LENS_API_KEY=KEY uv run python scripts/mcp_agent_eval.py --url http://localhost:8100
+LINK_LENS_API_KEY=KEY uv run python scripts/mcp_agent_eval.py --url http://localhost:18710
 ```
 
 The backend, sandbox controller and product service share one image, which must contain the `mcp` package. After pulling a change to the dependencies, run `docker compose build backend` and `docker compose up -d` from the repository root. Compose runs the code of the folder it is started from, so started from another checkout it builds that checkout's code.
@@ -386,7 +386,7 @@ Dagster and dbt foundations (migration `0022`, phase D0 of the [orchestration pl
 - **dbt.** The project is `transform/`. Its profile has one target, configured by the environment, and sets the role `linklens_transform` on every connection, as the product service sets its own. `uv run link-lens dbt ARGS` runs dbt with the connection taken from `LINK_LENS_DATABASE_URL` and returns dbt's exit code (0 done, 1 a model or a test failed, 2 dbt could not run what was asked). Run directly from `transform/`, dbt uses the `LINK_LENS_DBT_*` variables, which default to the local Compose database. A model's schema is used exactly as configured (`macros/generate_schema_name.sql`), because every developer has a database of their own and the product service reads `serving` by that name. dbt 1.12 loads a `.env` file from the working directory upward; it needs only the database settings.
 - **Dagster.** The code location is the package `orchestration/link_lens_dagster`, loaded through `orchestration/workspace.yaml`, whose paths are relative to that file. `orchestration/dagster.yaml` is the instance configuration of the Compose services.
 - **Dagster's own storage** is a database named `dagster` on the same server, owned by a login named `dagster`. `deploy/dagster-db.sql` creates both when they are missing and changes nothing that exists; the Compose service `dagster-db` runs it. That login can connect to the server but has no right on any schema of `linklens`. A `pg_dump` of `linklens` does not include it, which is intended: Dagster's history is not application data.
-- **Compose.** `dagster-db`, `dagster-webserver` and `dagster-daemon` start only with the `orchestration` profile and use the image `link-lens-dagster:local` (`deploy/Dockerfile.dagster`). The UI is on port 3070, bound to this machine, and has no sign-in. The services are given no connection to `linklens` yet; phase D3 adds it with the first assets.
+- **Compose.** `dagster-db`, `dagster-webserver` and `dagster-daemon` start only with the `orchestration` profile and use the image `link-lens-dagster:local` (`deploy/Dockerfile.dagster`). The UI is on port 18730, bound to this machine, and has no sign-in. The services are given no connection to `linklens` yet; phase D3 adds it with the first assets.
 - **Nothing is reported to the vendors.** dbt's usage statistics and Dagster's telemetry and first-run dialog are switched off in `dbt_project.yml` and `dagster.yaml`.
 
 ```sh
@@ -394,7 +394,7 @@ uv sync --frozen --group orchestration --group transform
 uv run link-lens dbt debug
 uv run link-lens dbt build
 uv run dagster definitions validate --workspace orchestration/workspace.yaml
-docker compose --profile orchestration up -d --build     # http://localhost:3070
+docker compose --profile orchestration up -d --build     # http://localhost:18730
 docker compose --profile orchestration stop dagster-webserver dagster-daemon
 ```
 
@@ -433,14 +433,14 @@ Reporting models and dashboards (migration `0025`, phase D2 of the [orchestratio
 - **Adding a model.** Write `transform/models/analytics/NAME.sql` as one `SELECT` over `ref()` calls, describe it in `_analytics.yml` with a key test, add a reconciliation test under `transform/tests/` if it adds things up, and run `link-lens dbt build`. The folder's settings give it its schema and its grant; no migration and no Python is needed. A core table not read before needs a line in `models/sources/sources.yml` and a staging view.
 - **What the cost models are.** `model_cost` counts the calls `link-lens usage` counts, per stage, with tokens, the cost recorded when each call ran and the budget charge. It does not hold that report's list-price estimate, which is priced from saved response files. `budget_ledger` equals `budget.summary`.
 - **Who can read.** `linklens_analyst` (migration `0025`) may use `analytics` and select the sixteen models; it cannot read a core table, a serving view, a staging view or a key. A person or a tool gets a login that is a member: `CREATE ROLE name LOGIN PASSWORD '...' IN ROLE linklens_analyst`.
-- **Grafana.** `docker compose --profile dashboards up -d` starts `grafana-db`, which creates the login `linklens_grafana` when it is missing, and `grafana` (13.0.2) on port 3080, bound to this machine. Sign in as `admin` with `LINK_LENS_GRAFANA_ADMIN_PASSWORD` (`admin` when unset). The data source and the folder of dashboards are loaded from `deploy/grafana/provisioning/`; reporting to the vendor and update checks are off.
+- **Grafana.** `docker compose --profile dashboards up -d` starts `grafana-db`, which creates the login `linklens_grafana` when it is missing, and `grafana` (13.0.2) on port 18740, bound to this machine. Sign in as `admin` with `LINK_LENS_GRAFANA_ADMIN_PASSWORD` (`admin` when unset). The data source and the folder of dashboards are loaded from `deploy/grafana/provisioning/`; reporting to the vendor and update checks are off.
 - **Dashboards.** `deploy/grafana/dashboards/` holds three JSON files: product overview, data quality and source health. Every panel queries `analytics.<model>`. A change made in the Grafana UI is not saved: export the dashboard's JSON, replace the file, add any newly read model to `transform/models/analytics/_exposures.yml`, and run `uv run pytest tests/test_dashboards.py`, which runs every panel's query as the analyst.
 - **Links to evidence.** A source links to its dataset on the publisher's portal and to its OKF page, a concept and a release to their OKF pages. The OKF links go to the product service and need an API key, so they do not open from a plain browser click yet.
 - **Not shown, because it is not stored:** the route or tool of a call, drift checks, why a record stayed unlinked, identifier checksums and records set aside for a missing timestamp.
 
 ```sh
 uv run link-lens dbt build                     # serving views, reporting models and their tests
-docker compose --profile dashboards up -d      # http://localhost:3080
+docker compose --profile dashboards up -d      # http://localhost:18740
 docker compose --profile dashboards stop grafana
 ```
 
@@ -466,7 +466,7 @@ Dagster runs the data flow (migrations `0026` and `0027`, phase D3 of the [orche
 ```sh
 uv run link-lens source check SOURCE_ID                 # download again; no model call
 uv run link-lens source extract SOURCE_ID --limit 25000  # exit 3 when blocked
-docker compose --profile orchestration up -d             # http://localhost:3070
+docker compose --profile orchestration up -d             # http://localhost:18730
 ```
 
 In the Dagster UI, a source is refreshed by materialising `snapshot` and `observations` for its partition (job `refresh_source`). To run the assets outside Dagster's services, set `LINK_LENS_DATABASE_ROLE=linklens_orchestrator` first.
@@ -515,7 +515,7 @@ Dagster and dbt as a deployment (phase D5 of the [orchestration plan](ORCHESTRAT
   The override removes the mounts, restarts the services when they stop, and refuses to start without `LINK_LENS_DAGSTER_POSTGRES_PASSWORD` and `LINK_LENS_ORCHESTRATION_PASSWORD`. Use passwords without characters that need escaping in a URL. Run the migrations first.
 - **The service login.** With the override, `dagster-db` also runs `deploy/service-logins.sql`, which creates `linklens_orchestration`: a login that inherits nothing and can only become `linklens_orchestrator` (the assets) or `linklens_transform` (dbt). Taken by itself it can read nothing. An existing login is left as it is; change its password with `ALTER ROLE`.
 - **Views without a command.** The sensor `models_missing` requests `build_models` when views that dbt owns are missing, and `release_recorded` after a release. On a database Dagster watches, nobody runs `link-lens dbt build` after a migration or a restore.
-- **dbt's documentation.** Each build writes the documentation site into Dagster's volume, and the service `dbt-docs` serves it on port 3090. It is empty until the models have been built once through Dagster.
+- **dbt's documentation.** Each build writes the documentation site into Dagster's volume, and the service `dbt-docs` serves it on port 18731. It is empty until the models have been built once through Dagster.
 - **No sign-in.** The open-source Dagster UI has none, and neither has the documentation server. Both, and Grafana, are published on the loopback address only. Publishing them further needs a proxy that signs people in.
 - **Runs are processes, not containers.** Dagster's default launcher runs each run inside the service that launched it. The launcher that starts a container per run needs the Docker socket, which only the sandbox controller may have.
 - **Backups.** `scripts/backup_databases.sh DIRECTORY [DAYS]` dumps `linklens` and `dagster`, checks each archive and writes a checksum. It prunes its own `dagster` dumps after 7 days and never deletes a `linklens` dump.
@@ -527,7 +527,7 @@ On 2026-11-15 a second Compose project was run as a deployment beside the real s
 
 The operations console (phase D6 of the [orchestration plan](ORCHESTRATION_PLAN.md), migration `0029`) is an admin API and its pages, in `src/link_lens/admin/`. It is a third service beside the backend and the product service, and it is the only one that acts for a signed-in person.
 
-- **Start it.** List who may sign in, then start the service. It answers on http://localhost:8200, loopback only.
+- **Start it.** List who may sign in, then start the service. It answers on http://localhost:18720, loopback only.
 
   ```sh
   # .env, one line of JSON: token -> name and role (engineer, product_owner, admin)
@@ -601,7 +601,7 @@ The backend runs `alembic upgrade head` when it starts, so a new migration reach
 1. Take a backup and check that it lists: `pg_dump -Fc`, then `pg_restore --list`.
 2. Rehearse on a copy: restore the backup into a throwaway `pgvector/pgvector:pg17-trixie` container (create the `NOLOGIN` roles first: three, `linklens_transform` as well for a dump taken at `0022` or later, and `linklens_analyst` at `0025` or later), run `uv run alembic upgrade head` and any backfill there with `LINK_LENS_DATABASE_URL` pointing at the copy, and run both baseline checks.
 3. On the real database: stop the backend, the product service, the console and, if they run, the Dagster services (they run the checkout's code and fail on a column that is not there yet, and the schedule would add rows between the two readings below). Take a fresh backup, save the typed figures, upgrade, run the backfill if the phase has one, build the serving views with dbt, and run both checks.
-4. Start the services and check them: `/api/health` and `/api/runs` on port 2024, the Inbox on 3000, `/health` on 8091 and 8100.
+4. Start the services and check them: `/api/health` and `/api/runs` on port 18701, the Inbox on 18700, `/health` on 18703 and 18710.
 
 ```sh
 docker compose --profile orchestration --profile console stop backend product admin dagster-webserver dagster-daemon
@@ -656,7 +656,7 @@ Discovery scores all supported-format candidates using Jev. The combined rank is
 
 ### Review the current configs
 
-Open [Agent Inbox](http://localhost:3000) or use the source links in [the current overview](../outputs/README.md). Review the exact new Luna-generated configs. Accept, Respond, or Ignore. Old Terra approvals never approve new configs.
+Open [Agent Inbox](http://localhost:18700) or use the source links in [the current overview](../outputs/README.md). Review the exact new Luna-generated configs. Accept, Respond, or Ignore. Old Terra approvals never approve new configs.
 
 A run at `needs_review` or `failed` has not passed the workflow and is not ready to accept. Its errors must be diagnosed; a fresh bounded run retains a `supersedes_run_id` link and all old costs. No automatic fallback to Terra, hand-edited mapping, hidden budget reset or test-set-guided repair is used.
 

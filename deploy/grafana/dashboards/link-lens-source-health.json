@@ -32,17 +32,17 @@
         "name": "product_url",
         "label": "Product service",
         "type": "textbox",
-        "query": "http://localhost:8100",
+        "query": "http://localhost:18710",
         "current": {
-          "text": "http://localhost:8100",
-          "value": "http://localhost:8100"
+          "text": "http://localhost:18710",
+          "value": "http://localhost:18710"
         },
         "hide": 0,
         "options": [
           {
             "selected": true,
-            "text": "http://localhost:8100",
-            "value": "http://localhost:8100"
+            "text": "http://localhost:18710",
+            "value": "http://localhost:18710"
           }
         ]
       },
@@ -50,17 +50,17 @@
         "name": "dagster_url",
         "label": "Dagster",
         "type": "textbox",
-        "query": "http://localhost:3070",
+        "query": "http://localhost:18730",
         "current": {
-          "text": "http://localhost:3070",
-          "value": "http://localhost:3070"
+          "text": "http://localhost:18730",
+          "value": "http://localhost:18730"
         },
         "hide": 0,
         "options": [
           {
             "selected": true,
-            "text": "http://localhost:3070",
-            "value": "http://localhost:3070"
+            "text": "http://localhost:18730",
+            "value": "http://localhost:18730"
           }
         ]
       },
@@ -68,17 +68,17 @@
         "name": "inbox_url",
         "label": "Agent Inbox",
         "type": "textbox",
-        "query": "http://localhost:3000",
+        "query": "http://localhost:18700",
         "current": {
-          "text": "http://localhost:3000",
-          "value": "http://localhost:3000"
+          "text": "http://localhost:18700",
+          "value": "http://localhost:18700"
         },
         "hide": 0,
         "options": [
           {
             "selected": true,
-            "text": "http://localhost:3000",
-            "value": "http://localhost:3000"
+            "text": "http://localhost:18700",
+            "value": "http://localhost:18700"
           }
         ]
       }

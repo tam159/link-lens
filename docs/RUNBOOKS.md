@@ -2,7 +2,7 @@
 
 What to do when something in the data flow needs a person. Each runbook says how you find out, what to look at, what to do, and what not to do. How the pieces work is in the [engineering guide](ENGINEERING.md); why they are built this way is in the [orchestration plan](ORCHESTRATION_PLAN.md).
 
-Commands run from the repository root. The local addresses are the Dagster UI at http://localhost:3070, Grafana at http://localhost:3080, dbt's documentation at http://localhost:3090, the Agent Inbox at http://localhost:3000 and, when started, the operations console at http://localhost:8200. Where a runbook gives a command to set a cadence, pause a source or record a release, a signed-in product owner can do the same in the console.
+Commands run from the repository root. The local addresses are the Dagster UI at http://localhost:18730, Grafana at http://localhost:18740, dbt's documentation at http://localhost:18731, the Agent Inbox at http://localhost:18700 and, when started, the operations console at http://localhost:18720. Where a runbook gives a command to set a cadence, pause a source or record a release, a signed-in product owner can do the same in the console.
 
 Three things only a person does, in every runbook: approve a mapping, promote an ontology, record a release. Dagster cannot do them, and no runbook asks you to work around that.
 

@@ -17,7 +17,7 @@ def test_boundary_and_cleanup():
 
     code = """import os,socket,json,pathlib
 checks={"uid":os.getuid(),"secret":os.getenv("OPENAI_API_KEY"),"socket":pathlib.Path("/var/run/docker.sock").exists(),"repository":pathlib.Path("/app/.env").exists()}
-for name,address in [("internet",("1.1.1.1",443)),("database",("172.17.0.1",5439))]:
+for name,address in [("internet",("1.1.1.1",443)),("database",("172.17.0.1",18702))]:
  s=socket.socket();s.settimeout(.3)
  try:s.connect(address);checks[name]="reachable"
  except OSError:checks[name]="blocked"

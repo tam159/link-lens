@@ -328,7 +328,7 @@ def test_a_product_owner_adds_a_source_end_to_end(api, publisher, onboarding, sp
     store.put("runs", run["id"], run, DATASET["id"], "onboarding")
     waiting = api.get(f"/admin/sources/{DATASET['id']}", headers=EVE).json()
     assert waiting["waiting_for_review"] is True and waiting["waiting_since"]
-    assert waiting["links"]["inbox"] == "http://localhost:3000"
+    assert waiting["links"]["inbox"] == "http://localhost:18700"
     assert [row["status"] for row in waiting["runs"]] == ["needs_review"]
     assert [
         row["source_id"]
@@ -719,6 +719,7 @@ def test_the_pages_call_only_the_admin_api_and_hold_no_credentials(api):
             "link_lens_",
             "password=",
             "5439",
+            "18702",
             "bearer",
         ):
             assert word not in lowered, word
