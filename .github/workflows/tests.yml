@@ -108,13 +108,12 @@ jobs:
       - name: Migrate the database
         run: uv run alembic upgrade head
 
-      - name: dbt connects, builds the serving views, tests them and documents them
+      - name: dbt connects, builds and tests every model, documents them and compares a candidate
         run: |
           uv run link-lens dbt debug
           uv run link-lens dbt build
           uv run link-lens dbt docs generate
-          uv run link-lens dbt run --vars '{serving_schema: serving_next}'
-          uv run link-lens serving-compare
+          uv run link-lens serving-compare --build
 
       - name: Dagster definitions load
         run: uv run dagster definitions validate --workspace orchestration/workspace.yaml

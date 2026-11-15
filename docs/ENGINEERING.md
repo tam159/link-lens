@@ -153,11 +153,11 @@ Where things stand on 15 November 2026:
 
 | Part | State |
 |---|---|
-| Schema | Migration `0024`. Records live in `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `access`. `legacy` holds the earlier tables, read-only. `analytics` is empty and belongs to dbt. |
+| Schema | Migration `0025`. Records live in `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `access`. `legacy` holds the earlier tables, read-only. `analytics` holds dbt's reporting models. |
 | Application | Still reads and writes through `store.py`, which returns the same records as before. |
 | What clients see | Views in `serving`, built by dbt, for a release that a person records. None is recorded on the local database. |
 | Product service | Compose service `product` on port 8100: REST, MCP, bundle links and an entity viewer. It refuses every call until a release and a key exist. |
-| Dagster and dbt | [Orchestration plan](ORCHESTRATION_PLAN.md) phases D0 and D1: dbt owns and builds the serving views. Dagster has an empty code location and its own database; nothing runs through it yet. |
+| Dagster, dbt and Grafana | [Orchestration plan](ORCHESTRATION_PLAN.md) phases D0 to D2: dbt owns and builds the serving views and the reporting models, and Grafana shows three dashboards over those. Dagster has an empty code location and its own database; nothing runs through it yet. |
 | Not done | Hosting, reviewer sign-in, the agent runtime licence and dropping `legacy`. |
 
 | To do this | Read |
@@ -169,6 +169,7 @@ Where things stand on 15 November 2026:
 | Run more than one instance, a replica, metrics, a bucket | [Running as a service](#running-as-a-service-migration-0021) |
 | Run dbt or the Dagster UI | [Dagster and dbt foundations](#dagster-and-dbt-foundations-migration-0022) |
 | Change a serving read model, or build the views on a database | [dbt owns the serving views](#dbt-owns-the-serving-views-migrations-0023-and-0024) |
+| Add a reporting model or a dashboard panel, or open the dashboards | [Reporting models and dashboards](#reporting-models-and-dashboards-migration-0025) |
 | Restore somewhere else and check it | [Restoring into an empty environment](#restoring-into-an-empty-environment) |
 
 #### Foundations (migrations 0003 to 0008)
@@ -346,16 +347,37 @@ dbt owns the serving views (migrations `0023` and `0024`, phase D1 of the [orche
 - **Changing a read model.** Build the candidate beside the live views, compare, then build where clients read:
 
 ```sh
-uv run link-lens dbt run --vars '{serving_schema: serving_next}'
-uv run link-lens serving-compare      # exit 3 and a list when a view answers differently
+uv run link-lens serving-compare --build   # exit 3 and a list when a view answers differently
 uv run link-lens dbt build
 ```
 
-`serving-compare` compares the two schemas view by view: the columns with their types, and for each release the row count and a digest over every row. A difference you meant, such as a new column, is listed like any other; read the list before building. A contract change is a change to what clients receive, so check `docs/api/` and the interface tests with it.
+`--build` builds the serving models, and only those, into `serving_next`. Do not build the whole project with another serving schema: the reporting models read the serving models by reference and would then read the candidate. `serving-compare` compares the two schemas view by view: the columns with their types, and for each release the row count and a digest over every row. A difference you meant, such as a new column, is listed like any other; read the list before building. A contract change is a change to what clients receive, so check `docs/api/` and the interface tests with it.
 
 - **Source freshness.** `link-lens dbt source freshness` warns when the newest snapshot or release is older than 45 days. The number is a placeholder until sources have cadences.
 
 On 2026-11-15, on a restored copy with two rehearsal releases, the dbt-built views in `serving_next` matched the hand-written views in every column, count and digest (up to 149,349 rows a view); after the switch the views in `serving` gave the same fingerprint and the same release digests, all 96 tests passed in 23 seconds, and the product service answered all 60 profiles with the stored profile version. The local database then moved from `0022` to `0024` with both baseline checks at zero differences; it has no release, so its views are empty.
+
+#### Reporting models and dashboards (migration 0025)
+
+Reporting models and dashboards (migration `0025`, phase D2 of the [orchestration plan](ORCHESTRATION_PLAN.md)). Nothing here is served to clients.
+
+- **Models.** Sixteen models in `transform/models/analytics/`, built as views in the `analytics` schema: `usage_daily` and `usage_monthly`; `source_health`, `source_coverage` and `concept_usage`; `onboarding_run`; `identity_link_summary`, `identity_entity_support` and `batch_overview`; `model_cost` and `budget_ledger`; `release_overview`, `release_profile_changes` and `release_field_status`; `evaluation_summary`; `observation_validity`. `_analytics.yml` describes every column. They read 21 staging views (`stg_<schema>__<table>`), each one core table with its columns renamed and cast, or the serving models.
+- **Tests.** Each model has a key test, and six tests check that totals equal the tables they come from. `evaluation_summary` keeps human review and AI audit in separate rows, and a test fails if a label is counted under the wrong kind.
+- **Adding a model.** Write `transform/models/analytics/NAME.sql` as one `SELECT` over `ref()` calls, describe it in `_analytics.yml` with a key test, add a reconciliation test under `transform/tests/` if it adds things up, and run `link-lens dbt build`. The folder's settings give it its schema and its grant; no migration and no Python is needed. A core table not read before needs a line in `models/sources/sources.yml` and a staging view.
+- **What the cost models are.** `model_cost` counts the calls `link-lens usage` counts, per stage, with tokens, the cost recorded when each call ran and the budget charge. It does not hold that report's list-price estimate, which is priced from saved response files. `budget_ledger` equals `budget.summary`.
+- **Who can read.** `linklens_analyst` (migration `0025`) may use `analytics` and select the sixteen models; it cannot read a core table, a serving view, a staging view or a key. A person or a tool gets a login that is a member: `CREATE ROLE name LOGIN PASSWORD '...' IN ROLE linklens_analyst`.
+- **Grafana.** `docker compose --profile dashboards up -d` starts `grafana-db`, which creates the login `linklens_grafana` when it is missing, and `grafana` (13.0.2) on port 3080, bound to this machine. Sign in as `admin` with `LINK_LENS_GRAFANA_ADMIN_PASSWORD` (`admin` when unset). The data source and the folder of dashboards are loaded from `deploy/grafana/provisioning/`; reporting to the vendor and update checks are off.
+- **Dashboards.** `deploy/grafana/dashboards/` holds three JSON files: product overview, data quality and source health. Every panel queries `analytics.<model>`. A change made in the Grafana UI is not saved: export the dashboard's JSON, replace the file, add any newly read model to `transform/models/analytics/_exposures.yml`, and run `uv run pytest tests/test_dashboards.py`, which runs every panel's query as the analyst.
+- **Links to evidence.** A source links to its dataset on the publisher's portal and to its OKF page, a concept and a release to their OKF pages. The OKF links go to the product service and need an API key, so they do not open from a plain browser click yet.
+- **Not shown, because it is not stored:** the route or tool of a call, drift checks, why a record stayed unlinked, identifier checksums and records set aside for a missing timestamp.
+
+```sh
+uv run link-lens dbt build                     # serving views, reporting models and their tests
+docker compose --profile dashboards up -d      # http://localhost:3080
+docker compose --profile dashboards stop grafana
+```
+
+On 2026-11-15 the local database moved from `0024` to `0025` with both baseline checks at zero differences, and `dbt build` there passed 49 models and 147 tests. On a restored copy with two rehearsal releases the models reconciled with their tables and with `link-lens usage` (1,002, 6,001 and 52 calls for the three experiments), and all 38 panel queries answered through Grafana.
 
 #### Restoring into an empty environment
 
@@ -367,8 +389,8 @@ uv run link-lens release digest
 pg_dump -U linklens -d linklens -Fc -f linklens.dump
 
 # On the target: the roles first, then the data, then any newer migrations.
-# A dump taken before migration 0022 does not need linklens_transform.
-psql -c "CREATE ROLE linklens_migrator NOLOGIN" -c "CREATE ROLE linklens_pipeline NOLOGIN" -c "CREATE ROLE linklens_product NOLOGIN" -c "CREATE ROLE linklens_transform NOLOGIN"
+# A dump taken before migration 0022 does not need linklens_transform, nor one before 0025 linklens_analyst.
+psql -c "CREATE ROLE linklens_migrator NOLOGIN" -c "CREATE ROLE linklens_pipeline NOLOGIN" -c "CREATE ROLE linklens_product NOLOGIN" -c "CREATE ROLE linklens_transform NOLOGIN" -c "CREATE ROLE linklens_analyst NOLOGIN"
 createdb linklens && pg_restore -d linklens linklens.dump
 uv run alembic upgrade head
 uv run link-lens dbt build         # the serving views; a dump taken at 0024 or later already has them
@@ -393,7 +415,7 @@ uv run python scripts/migration_baseline.py --check outputs/local-run/migration-
 The backend runs `alembic upgrade head` when it starts, so a new migration reaches the database at the next backend start whether or not anyone meant it to. For a database whose data matters, such as the local one, apply a migration on purpose instead:
 
 1. Take a backup and check that it lists: `pg_dump -Fc`, then `pg_restore --list`.
-2. Rehearse on a copy: restore the backup into a throwaway `pgvector/pgvector:pg17-trixie` container (create the `NOLOGIN` roles first: three, and `linklens_transform` as well for a dump taken at `0022` or later), run `uv run alembic upgrade head` and any backfill there with `LINK_LENS_DATABASE_URL` pointing at the copy, and run both baseline checks.
+2. Rehearse on a copy: restore the backup into a throwaway `pgvector/pgvector:pg17-trixie` container (create the `NOLOGIN` roles first: three, `linklens_transform` as well for a dump taken at `0022` or later, and `linklens_analyst` at `0025` or later), run `uv run alembic upgrade head` and any backfill there with `LINK_LENS_DATABASE_URL` pointing at the copy, and run both baseline checks.
 3. On the real database: stop the backend and the product service, take a fresh backup, upgrade, run the backfill if the phase has one, build the serving views with dbt, and run both checks.
 4. Start the services and check them: `/api/health` and `/api/runs` on port 2024, the Inbox on 3000, `/health` on 8091 and 8100.
 

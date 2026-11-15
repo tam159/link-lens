@@ -1,6 +1,6 @@
 # Orchestration and transformation plan: Dagster and dbt
 
-Status: **Phases D0 and D1 are implemented and applied to the local database (2026-11-15). D2 to D7 are planned, not built.** This is the follow-on to the [production implementation plan](PRODUCTION_PLAN.md). That plan's phases 0 to 6 and 8 are implemented; phase 7 is deferred and phase 9 is done only as far as one machine allows (no hosting, no reviewer sign-in, `legacy` not dropped). Names, layouts and SQL in the phases not yet built are sketches to confirm while building. Sizes are rough estimates for one engineer.
+Status: **Phases D0 to D2 are implemented and applied to the local database (2026-11-15). D3 to D7 are planned, not built.** This is the follow-on to the [production implementation plan](PRODUCTION_PLAN.md). That plan's phases 0 to 6 and 8 are implemented; phase 7 is deferred and phase 9 is done only as far as one machine allows (no hosting, no reviewer sign-in, `legacy` not dropped). Names, layouts and SQL in the phases not yet built are sketches to confirm while building. Sizes are rough estimates for one engineer.
 
 This plan was written before phases 2 to 9 of the first plan were built. It was compared with the code on 2026-11-15, before any of it was built. Where the code differs, the text below says so: section 5 gives the state of each seam, and each phase has a **Reconciled with the code** list of what to settle when that phase starts.
 
@@ -49,7 +49,7 @@ Timing: this plan begins after the first plan is complete. The earliest technica
 | State | Stays in PostgreSQL (`onboarding.run`, `ops.batch`, `ops.release`). Dagster's own run history lives in a separate database. |
 | Cost control | The application budget ledger stays authoritative. Dagster never retries a paid model call on its own. |
 | Operating UI | The Dagster UI: trigger a stage, schedule, retry, backfill, see what is stale or failed. Not rebuilt elsewhere. |
-| Dashboards | Grafana or Superset over the `analytics` models. The choice is made in D2. |
+| Dashboards | Grafana over the `analytics` models, chosen by the owner in D2. |
 | Admin console | A small console for the product owner and engineers: add and manage sources, create releases, manage clients, tiers and keys. |
 | Review screen | Agent Inbox stays the review tool. A custom review screen is out of scope until review volume outgrows it. |
 
@@ -65,7 +65,7 @@ Timing: this plan begins after the first plan is complete. The earliest technica
 | `analytics` schema | Analytics engineer | dbt creates the relations; Alembic owns the schema and its grants |
 | Schedules, sensors, freshness, alerts | Analytics engineer, with the AI engineer for model-calling steps | Dagster |
 | Product service, REST, MCP | AI engineer | Python |
-| Dashboards | Analytics engineer | Grafana or Superset |
+| Dashboards | Analytics engineer | Grafana, as JSON files in `deploy/grafana/dashboards` |
 | Admin API and console | AI engineer builds; product owner is the main user | Python API, small web UI |
 
 The rule that prevents conflicts: **Alembic and dbt never manage the same relation.** When dbt takes over a `serving` relation, the old definition is removed in the same change.
@@ -135,7 +135,7 @@ These were requests to the first plan, made before its phases 2 to 9 were built.
 |---|---|---|---|
 | D0 | Project skeletons, databases, roles, CI. **Done 2026-11-15** | Phase 0 | S |
 | D1 | dbt owns the set-based `serving` read models, with tests and contracts. **Done 2026-11-15** | Phases 4 and 5 | M |
-| D2 | `analytics` schema: usage, freshness, coverage, cost, quality | Phase 5 | M |
+| D2 | `analytics` schema: usage, freshness, coverage, cost, quality. **Done 2026-11-15, with open points** | Phase 5 | M |
 | D3 | Dagster assets, checks and sensors for the data flow | Phases 3 and 4 | L |
 | D4 | Per-source schedules, freshness policies, alerts, backfills | D3 | M |
 | D5 | Production deployment of Dagster and dbt | Phase 9, D3 | M |
@@ -232,7 +232,7 @@ Tasks:
   - *A choice to revisit:* the accepted values for `link.status` and the profile statuses are the ones the code writes today. When link review adds a status, the test fails until the value is added, which is the point of it.
 - [x] **Build in parallel first.** dbt writes to a `serving_next` schema. A comparison job checks row counts and digests against the existing `serving` relations for every release.
   - *As built:* migration `0023` creates `serving_next`. `link-lens serving-compare` ([serving.py](../src/link_lens/serving.py)) compares two schemas view by view: the columns with their types, and per release the row count and a digest over every row, document columns included. It exits 3 on a difference.
-  - *Kept after the switch:* the schema and the command stay as the way to change a read model. Build the candidate with `link-lens dbt run --vars '{serving_schema: serving_next}'`, compare, then build into `serving`.
+  - *Kept after the switch:* the schema and the command stay as the way to change a read model. `link-lens serving-compare --build` builds the candidate and compares it; then build into `serving`. (D2 added `--build`, which selects the serving models only; see its results.)
 - [x] **Switch ownership.** One change set points dbt at `serving` and adds the Alembic migration that drops the hand-written definitions. The product service is unchanged.
   - *As built:* migration `0024` drops the views `linklens_migrator` owns and grants `CREATE` on `serving` to `linklens_transform`. The same commit removes the SQL files from `src/link_lens/serving/`, `serving.apply`, its hook in `migrations/env.py` and the `serving-apply` command. No file under `product/`, `interfaces/` or `okf/` changed.
   - *Consequence, decided here:* migrations no longer create a view, so **a database needs `link-lens dbt build` after `alembic upgrade head`**. This applies to a new local database, a restore, and the test database. The backend image has no dbt, so the backend's start still migrates but does not build views; that is a command on the host until Dagster runs dbt in D3. `release create` refuses, saying what to run, when the views are missing.
@@ -274,7 +274,7 @@ Results on 2026-11-15:
 | Cost | Model calls and charges per stage, model and experiment; priced-call coverage; unknown-usage attempts kept separate |
 | Release quality | Profiles added, removed and changed between consecutive releases; unresolved fields per concept |
 
-Reconciled with the code on 2026-11-15. Settle these when the phase starts.
+Reconciled with the code on 2026-11-15, before the phase was built. The tasks below say how each point was settled.
 
 - **Usage is counted per key, day and interface only.** `access.api_usage` has no route and no tool, so "top tools and routes" cannot come from the database. Those counts exist in the request logs and in `/metrics` (per interface, tier and status). Either drop that metric from the usage models, read it from the metrics store in the dashboard, or add a usage table with a route column, which is a change to what the product service writes.
 - **Drift events are not stored.** `drift.detect` returns its result and writes nothing. The source health models can report last check, last change and lag from `catalog.source_state`; drift history needs D3 to record each check where dbt can read it.
@@ -286,13 +286,24 @@ Reconciled with the code on 2026-11-15. Settle these when the phase starts.
 
 Tasks:
 
-- [ ] **Build the model groups above** in `transform/models/analytics`, each with tests on keys and on totals that must reconcile with the source tables.
-- [ ] **Keep human and AI evaluation separate** in every model that touches labels. A model never combines them into one accuracy figure.
+- [x] **Build the model groups above** in `transform/models/analytics`, each with tests on keys and on totals that must reconcile with the source tables.
+  - *As built:* sixteen models, all views in `analytics`, described column by column in [_analytics.yml](../transform/models/analytics/_analytics.yml). Usage: `usage_daily`, `usage_monthly`. Source health: `source_health`. Coverage: `source_coverage`, `concept_usage`. Onboarding: `onboarding_run`. Identity: `identity_link_summary`, `identity_entity_support`, `batch_overview`. Cost: `model_cost`, `budget_ledger`. Release quality: `release_overview`, `release_profile_changes`, `release_field_status`. Review: `evaluation_summary`. Validity: `observation_validity`. Each has a key test, and six tests compare totals with the tables: calls with `access.api_usage`, calls, tokens and cost with `ops.event`, the ledger with `ops.model_call`, observations with `evidence.observation`, labels per kind with `ops.evaluation`, and links, runs and profiles with theirs.
+  - *Staging, moved here from D1:* 21 thin views, one per core table the models read, named `stg_<schema>__<table>`. They live in `analytics` and are granted to nobody but dbt.
+  - *Views, not tables.* Every figure is current when it is read and none can be stale, and the largest model answers in a tenth of a second on the local data. Make the heavy ones tables when D3 has Dagster refresh them and the data is larger.
+  - *Not built, because the data does not exist:* top tools and routes (usage has no route or tool column); drift events (a drift check stores nothing); unlinked records by reason (only a count per batch is stored); checksum-valid identifiers and records set aside for a missing timestamp (extraction does not store them as rows; the size of each run's validation sample is in `onboarding_run`). Each is named in the model that would hold it. The first two are decisions about what the product service and D3 should record.
+- [x] **Keep human and AI evaluation separate** in every model that touches labels. A model never combines them into one accuracy figure.
+  - *As built:* `evaluation_summary` is the only model that reads labels. `review_kind` is part of its key, and a test checks that the labels counted per kind equal the stored labels of that kind and that no row has another kind. The dashboard shows the two kinds in two panels.
 - [ ] **Cost models reproduce the existing reports.** Totals and priced-call coverage must equal `link-lens usage` output.
-- [ ] **Choose Grafana or Superset** and declare each dashboard as a dbt exposure. Grafana is stronger for operational panels and alerting, and the lab already runs it. Superset is stronger for slicing relational metrics and for a product owner exploring numbers. Pick one for the first dashboards; do not run both until there is a clear need.
-- [ ] **First dashboards:** a product overview (sources, records, observations, entities, links, profiles per release), a data quality board, and a source health board. Use the quality definitions below.
+  - *Met for calls, not for the estimate.* `model_cost` counts exactly the calls `link-lens usage` counts, per stage, for the three experiments that have calls: 1,002, 6,001 and 52. That includes the attempts that reserved budget and left no usage receipt, which the report keeps as unknown usage. `budget_ledger` equals `budget.summary`: 1,002 attempts and USD 0.643798 charged for the current experiment.
+  - *Cannot be reproduced in SQL:* the report's `priced_calls` and `measured_subtotal_usd`. It prices each call in Python from the saved response file, which holds the cache-read and cache-write split, with the rates in `pricing_rates.json`. Neither is in the database. `model_cost` therefore reports the cost recorded when each call ran and what the budget was charged, and says so in its description. To close this, the estimate per call would have to be stored as rows when the report runs; that is an open decision in the risk table.
+- [x] **Choose Grafana or Superset** and declare each dashboard as a dbt exposure. Grafana is stronger for operational panels and alerting, and the lab already runs it. Superset is stronger for slicing relational metrics and for a product owner exploring numbers. Pick one for the first dashboards; do not run both until there is a clear need.
+  - *Decided by the owner on 2026-11-15: Grafana.* Version 13.0.2 (`grafana/grafana-oss`, AGPL-3.0, run unmodified as its own service). It runs only with the Compose profile `dashboards`, on port 3080 bound to this machine. Dashboards are JSON files in [deploy/grafana/dashboards](../deploy/grafana/dashboards/), loaded at start, and each is an exposure in [_exposures.yml](../transform/models/analytics/_exposures.yml). A test fails when a dashboard reads a model its exposure does not name.
+- [x] **First dashboards:** a product overview (sources, records, observations, entities, links, profiles per release), a data quality board, and a source health board. Use the quality definitions below.
+  - *As built:* three dashboards, 38 queries. The data quality board follows the table below except for the rows whose data does not exist: there is no "drifted" count, and validity shows enum values and the validation samples only.
 - [ ] **Every number links to evidence.** A dashboard row for a source, entity or release links to its OKF page or its Dagster asset.
-- [ ] **Restrict access.** The `analytics` schema is readable by the team, not by the product role.
+  - *Partly met.* A source links to its dataset on the publisher's portal and to its OKF page; a concept and a release link to their OKF pages; a source waiting for review links to the Agent Inbox. The OKF links point at the product service, which answers only with an API key, so they open for someone who has one and not from a plain browser click. There is no Dagster asset to link to until D3; the link goes to the Dagster UI. This closes when sign-in exists (D6) and assets exist (D3).
+- [x] **Restrict access.** The `analytics` schema is readable by the team, not by the product role.
+  - *As built (migration `0025`):* `linklens_analyst`, a `NOLOGIN` group with `USAGE` on `analytics`; dbt grants it `SELECT` on the sixteen models and not on the staging views. Grafana reads as `linklens_grafana`, a login that is only a member of that group, created by [deploy/grafana-db.sql](../deploy/grafana-db.sql). Tests expect a permission error when the analyst reads a core table, a serving view, a staging view or a key, and when the product role reads `analytics`.
 
 Quality definitions for the data quality board:
 
@@ -310,9 +321,20 @@ Measured quality (a person checked a sample) is always shown apart from proxy nu
 
 Done when:
 
-- Usage totals reconcile with `access.api_usage`, and cost totals with the existing cost report.
-- The analytics engineer can add a model with tests and docs without touching Alembic or Python.
-- The product owner can open the three first dashboards after signing in and follow a number to its evidence.
+- Usage totals reconcile with `access.api_usage`, and cost totals with the existing cost report. **Usage: met. Cost: calls and budget charges equal the reports; the list-price estimate does not exist in the database (see the cost task).**
+- The analytics engineer can add a model with tests and docs without touching Alembic or Python. **Met: a model is a SQL file and an entry in `_analytics.yml`; the folder's configuration gives it its schema, its grant and its place in the build.**
+- The product owner can open the three first dashboards after signing in and follow a number to its evidence. **Met locally with Grafana's own sign-in. Following a number works to the publisher's dataset; the OKF pages need an API key until sign-in exists.**
+
+Results on 2026-11-15:
+
+- **Build.** On a restored copy with two rehearsal releases, `dbt build` built 49 models (12 serving, 21 staging, 16 analytics) and passed 147 tests in 21 seconds.
+- **Reconciliation.** The six reconciliation tests pass on the copy. Against the reports: calls per stage equal `link-lens usage` for `jev-gpt6-luna-ontology-v1` (1,002), `jev-luna-v1` (6,001) and `terra-baseline` (52); the first comparison was one call short, which is how the attempts without a receipt were found. After 47 real calls to the product service on the copy, `usage_daily` and `usage_monthly` each total 47.
+- **What the models show on the local data.** Six registered sources, none with a cadence, none waiting for review; 77,573 observations of enum concepts with none outside the allowed values; 2 of 59 concepts mapped by no config; 70 human labels in two worksheets and 322 AI labels in seven, never in one row.
+- **Dashboards.** Through Grafana's own query API, all 38 panel queries answered, on the copy and on the local database. Opened in a browser on the copy, the product overview showed the latest release's 6 sources, 11,282 records, 149,349 observations, 60 entities, 61 links and 60 profiles, and the source health board its six sources and the onboarding runs by status. An unsigned request is refused, and the Grafana login is refused when it selects from `serving` or `ops`.
+- **Found while building:** a candidate build of the serving models with the whole project selected rebuilt the analytics models too and pointed them at `serving_next`. `link-lens serving-compare --build` and `transform.candidate` now select the serving models only, and a test checks that nothing in `analytics` is rebuilt.
+- **Local database.** Backed up to `/Users/may/link-lens-backups/linklens-pre-d2-cutover-20261115T033829.dump` with the backend and product service stopped, moved from `0024` to `0025`, and built: 49 models and 147 tests passed. Both baseline checks reported zero differences before and after. The local server also has the `linklens_grafana` login now.
+- **Tests.** 250 passed, 4 skipped with the `orchestration` group installed; 246 passed, 5 skipped in a clean default environment. Lint passes. New: the analyst role's rights; every dbt test on a fixture release; and four dashboard tests.
+- **Not verified:** the dashboards with a real release, since none is recorded locally (their release panels are empty there); Grafana behind real sign-in; the CI workflow on GitHub.
 
 ## Phase D3: Dagster assets for the data flow
 
@@ -538,7 +560,11 @@ No verification step needs a paid model call.
 | Version pairing | dbt adapter and core versions, and Dagster's Python range, move independently | Pin and upgrade deliberately |
 | Incremental identity | Full batches may become slow at scale | Out of scope here; design separately when measured |
 | Alternatives | Airflow, Prefect, Temporal, SQLMesh | Not chosen: Dagster's asset and partition model fits per-source data; dbt is the tool the analytics role knows. Revisit only if a hosting constraint forces it. |
-| Dashboard tool | Grafana or Superset | Decide in D2 by who uses it most: operational panels and alerts favour Grafana; exploring relational metrics favours Superset |
+| Dashboard tool | Grafana or Superset | Decided in D2: Grafana. Revisit Superset only if the product owner needs to slice numbers in ways fixed panels cannot give. |
+| List-price cost estimate is not in the database | `link-lens usage` prices calls from saved response files and a rates file, so dbt cannot reproduce `priced_calls` or the estimated subtotal | Owner decides whether the estimate per call is stored as rows when the report runs. Until then the dashboards show recorded cost and budget charges, labelled as such. |
+| Usage has no route or tool | "Top tools and routes" cannot be reported from `access.api_usage` | Decide whether the product service should count per route and tool; it is one more key column and a change to what the service writes. Request logs and `/metrics` have it per interface and status today. |
+| A partial dbt build drops dependent views | Replacing a serving view drops the analytics views that read it; a build of only the serving models into `serving` would leave four reporting models missing until the next full build | Build the whole project into `serving` (`link-lens dbt build`). Use `serving-compare --build` for a candidate, which writes to `serving_next` and touches nothing else. |
+| Grafana's licence and sign-in | Grafana OSS is AGPL-3.0. It is run unmodified as a separate service, which the licence allows; modifying it would carry obligations. Its local sign-in is one shared admin account. | Keep it unmodified. Real accounts or single sign-on come with D5. |
 | Low-code console tools | Many connect straight to the database and bypass roles and audit | The UI may call the admin API only; no database credentials in the UI |
 | Review volume | Agent Inbox has no prioritisation or batching | Out of scope now. Revisit a custom review screen when waiting time or queue length on the source health board stays high |
 | Console scope growth | Operating and charting features creep into the console | Keep the three-tool split: Dagster to operate, dashboards to observe, console to decide and configure |

@@ -177,7 +177,7 @@ uv sync --frozen
 if [ ! -f .env ]; then cp .env.example .env; fi
 ```
 
-A first Docker build may exceed ten minutes; subsequent starts reuse images. The supplied setup uses local ports 3000, 2024, 5439, 8091 and 8100, and 3070 if you start Dagster.
+A first Docker build may exceed ten minutes; subsequent starts reuse images. The supplied setup uses local ports 3000, 2024, 5439, 8091 and 8100, 3070 if you start Dagster and 3080 if you start Grafana.
 
 ### 2. Fill in `.env`
 
@@ -222,6 +222,7 @@ The backend applies Alembic migrations at startup. Migrations create tables, not
 | Sandbox controller | `localhost:8091`; called by the workflow |
 | Product service | [http://localhost:8100](http://localhost:8100); read-only REST and MCP for clients. It refuses every call until a release and an API key exist; see [Serve a release to clients](#serve-a-release-to-clients). |
 | Dagster UI, optional | [http://localhost:3070](http://localhost:3070); only with `docker compose --profile orchestration up -d`. See [Dagster and dbt](#dagster-and-dbt). |
+| Grafana, optional | [http://localhost:3080](http://localhost:3080); only with `docker compose --profile dashboards up -d`. Sign in as `admin`; the password is `LINK_LENS_GRAFANA_ADMIN_PASSWORD`, `admin` when unset. |
 
 Open Agent Inbox and add a connection:
 
@@ -402,7 +403,7 @@ flowchart LR
 
 ### Dagster and dbt
 
-Two tools are being added for running the product with many sources and a small team: Dagster for the deterministic data flow and dbt Core for derived SQL. The [orchestration plan](docs/ORCHESTRATION_PLAN.md) has the phases. Two phases are built. dbt owns the twelve `serving` views that the product service reads: each is a model in `transform/models/serving/` with an enforced contract, tests and documentation, built as the `linklens_transform` database role. The Dagster code location in `orchestration/` exists and is empty: no pipeline step runs through Dagster yet, and the commands above are still how the pipeline runs.
+Two tools are being added for running the product with many sources and a small team: Dagster for the deterministic data flow and dbt Core for derived SQL. The [orchestration plan](docs/ORCHESTRATION_PLAN.md) has the phases. Three phases are built. dbt owns the twelve `serving` views that the product service reads: each is a model in `transform/models/serving/` with an enforced contract, tests and documentation, built as the `linklens_transform` database role. dbt also builds sixteen reporting models in the `analytics` schema, for the team only: usage, source health, coverage, onboarding, identity, cost, release quality and review labels. Grafana shows three dashboards over them: product overview, data quality and source health. The Dagster code location in `orchestration/` exists and is empty: no pipeline step runs through Dagster yet, and the commands above are still how the pipeline runs.
 
 dbt is part of the default installation, because the serving views and the tests need it. Dagster is optional and is not in the default installation or the default Compose stack:
 
@@ -410,16 +411,17 @@ dbt is part of the default installation, because the serving views and the tests
 uv run link-lens dbt debug     # dbt connects to the configured database as linklens_transform
 uv run link-lens dbt build     # builds the serving views and runs their tests
 uv run link-lens dbt docs generate   # model and column documentation, in transform/target/
-# To change a read model: build a candidate, compare it with what clients read, then build.
-uv run link-lens dbt run --vars '{serving_schema: serving_next}'
-uv run link-lens serving-compare
+# To change a read model: build a candidate beside the live views, compare, then build.
+uv run link-lens serving-compare --build
+# Dashboards over the reporting models, with their own login to the database:
+docker compose --profile dashboards up -d
 uv sync --frozen --group orchestration
 uv run dagster definitions validate --workspace orchestration/workspace.yaml
 # Dagster webserver and daemon, with their own image and their own `dagster` database:
 docker compose --profile orchestration up -d --build
 ```
 
-`link-lens dbt` passes its arguments to dbt and takes the connection from `LINK_LENS_DATABASE_URL`, so dbt and the pipeline use the same database. The Dagster UI has no sign-in of its own and is bound to this machine. Alembic owns every table that holds state; dbt owns only derived relations, and the two never manage the same one. The backend image contains neither tool, so `link-lens dbt` runs on the host.
+`link-lens dbt` passes its arguments to dbt and takes the connection from `LINK_LENS_DATABASE_URL`, so dbt and the pipeline use the same database. The Dagster UI has no sign-in of its own and is bound to this machine. Grafana asks for a sign-in and reads the database as a role that can see the reporting models and nothing else. On the dashboards, a figure a person measured on a sample is shown apart from AI audits and from uncalibrated scores. Alembic owns every table that holds state; dbt owns only derived relations, and the two never manage the same one. The backend image contains neither tool, so `link-lens dbt` runs on the host.
 
 ### Experiment and model boundaries
 
@@ -459,7 +461,7 @@ The LinkML, SHACL and JSON Schema tests need the optional `ontology` dependency 
 
 Database tests run on PostgreSQL built by `alembic upgrade head`, in a throwaway `pgvector/pgvector:pg17-trixie` container that the test session starts on first use and removes afterwards. Set `LINK_LENS_TEST_DATABASE_URL` to use an existing server instead; the tests create and drop their own `linklens_test_*` databases there and never use the database named in the URL. Tests that do not touch the store need neither.
 
-The suite result on 15 November 2026, with the production data model, the product service, dbt-built serving views and the Dagster foundations, is **242 passed, four integration tests skipped** with the `orchestration` group installed, and 238 passed with the Dagster tests skipped as well without it. The result recorded for the promoted submission was 106 passed, four skipped; it and the earlier Docker checks are documented in the [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
+The suite result on 15 November 2026, with the production data model, the product service, dbt-built serving views and reporting models, the dashboards and the Dagster foundations, is **250 passed, four integration tests skipped** with the `orchestration` group installed, and 246 passed with the Dagster tests skipped as well without it. The result recorded for the promoted submission was 106 passed, four skipped; it and the earlier Docker checks are documented in the [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
 
 ## Documentation and code
 
