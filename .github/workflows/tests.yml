@@ -63,3 +63,59 @@ jobs:
 
       - name: Test
         run: uv run pytest -q
+
+  # Dagster and dbt are installed only here: the job above installs and runs
+  # exactly what it did before they were added.
+  orchestration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17-trixie
+        env:
+          POSTGRES_DB: linklens
+          POSTGRES_USER: linklens
+          POSTGRES_PASSWORD: linklens
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U linklens -d linklens"
+          --health-interval 3s
+          --health-timeout 3s
+          --health-retries 20
+    env:
+      # Throwaway CI database, migrated below; the tests create their own beside it.
+      LINK_LENS_DATABASE_URL: postgresql+psycopg://linklens:linklens@localhost:5432/linklens
+      LINK_LENS_TEST_DATABASE_URL: postgresql+psycopg://linklens:linklens@localhost:5432/linklens
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: The runtime image installs neither Dagster nor dbt
+        run: |
+          if uv export --frozen --no-dev --no-hashes --no-emit-project | grep -iE '^(dagster|dbt)'; then
+            echo "Dagster or dbt reached the runtime dependencies" && exit 1
+          fi
+
+      - name: Install dependencies
+        run: uv sync --frozen --group orchestration --group transform
+
+      - name: Lint
+        run: uv run ruff check orchestration tests/test_orchestration.py tests/test_transform.py --select F
+
+      - name: Migrate the database
+        run: uv run alembic upgrade head
+
+      - name: dbt connects, parses and builds
+        run: |
+          uv run link-lens dbt debug
+          uv run link-lens dbt parse
+          uv run link-lens dbt build
+
+      - name: Dagster definitions load
+        run: uv run dagster definitions validate --workspace orchestration/workspace.yaml
+
+      - name: Test dbt, Dagster and the roles on a migrated database
+        run: uv run pytest -q tests/test_transform.py tests/test_orchestration.py tests/test_migrations.py
