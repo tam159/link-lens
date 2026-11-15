@@ -14,6 +14,17 @@ compares it with a saved one; `generated_at` and `environment` are not compared.
 The third computes the same figures from the typed schemas, for the domains that
 have moved, and compares only those with the saved baseline.
 
+Once a database has grown past that baseline (refreshes add snapshots, runs and
+observations), compare a migration with the database just before it instead:
+
+    uv run python scripts/migration_baseline.py --typed --output before.json
+    # ... migrate ...
+    uv run python scripts/migration_baseline.py --typed --check before.json
+
+`--typed --output` writes the typed figures to a file of your choosing; it never
+writes the default baseline file, which records the database before the
+production migrations.
+
 A digest is the SHA-256 of the values sorted by code point and joined by newlines.
 `payloads` digests `id:md5(payload::jsonb::text)`, PostgreSQL's canonical jsonb
 text, so it is the same before and after the json to jsonb conversion.
@@ -440,14 +451,18 @@ def main(argv=None):
     parser.add_argument(
         "--typed",
         action="store_true",
-        help="compute from the typed schemas; needs --check",
+        help="compute from the typed schemas; with --check, or --output to another file",
     )
     parser.add_argument("--force", action="store_true", help="replace --output")
     parser.add_argument("--database-url", help="default: LINK_LENS_DATABASE_URL")
     args = parser.parse_args(argv)
 
-    if args.typed and not args.check:
-        parser.error("--typed compares with a saved baseline; add --check FILE")
+    if args.typed and not args.check and args.output == DEFAULT_OUTPUT:
+        parser.error(
+            "--typed compares with a saved baseline (--check FILE) or writes the "
+            "typed figures to another file (--output FILE); it never replaces "
+            f"{DEFAULT_OUTPUT}"
+        )
     if not args.check and args.output.exists() and not args.force:
         parser.error(f"{args.output} exists; use --check to compare or --force")
     url = args.database_url
@@ -481,7 +496,7 @@ def main(argv=None):
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(current, indent=1, sort_keys=True) + "\n")
     print(f"wrote {args.output}")
-    for name, value in current["digests"].items():
+    for name, value in current.get("digests", {}).items():
         print(f"{name}: {value['count']} {value['digest']}")
     return 0
 

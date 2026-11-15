@@ -123,6 +123,30 @@ def test_second_run_is_identical_and_changes_are_reported(url, tmp_path, capsys)
     assert json.loads(output.read_text()) == saved
 
 
+def test_typed_figures_are_saved_and_compared_before_and_after(
+    database, tmp_path, capsys
+):
+    """After a database grew past the baseline, a migration is checked against itself."""
+    url = database.url.render_as_string(hide_password=False)
+    with pytest.raises(SystemExit):
+        script.main(["--database-url", url, "--typed"])  # never the default file
+    before = tmp_path / "before.json"
+    arguments = ["--database-url", url, "--typed"]
+    assert script.main(arguments + ["--output", str(before)]) == 0
+    assert script.main(arguments + ["--check", str(before)]) == 0
+    with pytest.raises(SystemExit):
+        script.main(arguments + ["--output", str(before)])  # not replaced silently
+    store.put(
+        "runs",
+        "run-added",
+        {"id": "run-added", "experiment_id": "exp-added", "status": "completed"},
+        "source-a",
+        "onboarding",
+    )
+    assert script.main(arguments + ["--check", str(before)]) == 1
+    assert "exp-added" in capsys.readouterr().out
+
+
 def test_baseline_cannot_write(url, monkeypatch):
     def write(connection):
         connection.execute(text("DELETE FROM legacy.observations"))
