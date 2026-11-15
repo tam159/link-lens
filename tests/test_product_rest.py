@@ -752,9 +752,7 @@ def test_a_numeric_profile_value_is_answered_as_a_number(released, api, headers)
     answer = api.get(f"/v1/entities/{entity_id}/profile", headers=headers).json()
     values = {field["concept"]: field["value"] for field in answer["fields"]}
     assert values["entity.abn"] == 41
-    assert (
-        values["entity.legal_name"] == profile["fields"]["entity.legal_name"]["value"]
-    )
+    assert values["entity.legal_name"] == profile["fields"]["entity.legal_name"]["value"]
 
     # Search matches the text of a value, and a number has no text to match.
     found = api.get("/v1/entities", params={"abn": "41"}, headers=headers).json()
