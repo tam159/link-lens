@@ -48,3 +48,6 @@ frontend/.next/
 /outputs/local-run/bundles/
 /outputs/*/okf/
 !/outputs/okf/
+
+# Dagster and dbt working files
+.tmp_dagster_home_*/

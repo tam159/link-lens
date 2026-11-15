@@ -11,3 +11,6 @@ local
 experiments
 demo
 .DS_Store
+transform/target
+transform/logs
+transform/dbt_packages
