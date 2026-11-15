@@ -18,6 +18,7 @@ Library versions and licences were checked on PyPI on 2026-11-15 and installed o
 8. [Phase D1: dbt for the serving layer](#phase-d1-dbt-for-the-serving-layer)
 9. [Phase D2: dbt analytics models](#phase-d2-dbt-analytics-models)
 10. [Phase D3: Dagster assets for the data flow](#phase-d3-dagster-assets-for-the-data-flow)
+11. [Phase D3a: A refresh reaches a batch](#phase-d3a-a-refresh-reaches-a-batch)
 11. [Phase D4: Schedules, freshness and alerts](#phase-d4-schedules-freshness-and-alerts)
 12. [Phase D5: Deployment and operations](#phase-d5-deployment-and-operations)
 13. [Phase D6: Operations console](#phase-d6-operations-console)
@@ -137,6 +138,7 @@ These were requests to the first plan, made before its phases 2 to 9 were built.
 | D1 | dbt owns the set-based `serving` read models, with tests and contracts. **Done 2026-11-15** | Phases 4 and 5 | M |
 | D2 | `analytics` schema: usage, freshness, coverage, cost, quality. **Done 2026-11-15, with open points** | Phase 5 | M |
 | D3 | Dagster assets, checks and sensors for the data flow. **Done 2026-11-15; a refreshed snapshot does not yet reach a batch** | Phases 3 and 4 | L |
+| D3a | A refreshed snapshot reaches the next batch (added 2026-11-15) | D3 | S |
 | D4 | Per-source schedules, freshness policies, alerts, backfills | D3 | M |
 | D5 | Production deployment of Dagster and dbt | Phase 9, D3 | M |
 | D6 | Operations console for sources, releases and clients | Phases 5 and 9, D3 | M |
@@ -429,6 +431,41 @@ Results on 2026-11-15:
 - **Dagster on the local database.** The code location loads with 54 assets, 144 checks, five jobs and five sensors; the six registered sources are partitions; the four running sensors ticked and started from the present; no run was launched; `model_calls` has one slot.
 - **Tests.** 266 passed, 4 skipped with the `orchestration` group installed; 255 passed, 5 skipped in a clean default environment. Lint passes. Seven new tests run the assets and sensors on the test database as the orchestrator; seven cover the refresh steps without Dagster; two cover the role and the release pin.
 - **Not verified:** a real download through the `snapshot` asset (the tests stand in for the publisher); `onboarding_request` against the real LangGraph server, which would make model calls; `source_catalogue`, for the same reason; a run launched from the Dagster UI by a person; the CI workflow on GitHub.
+
+## Phase D3a: A refresh reaches a batch
+
+Added on 2026-11-15, at the owner's direction, after D3 showed that a refreshed snapshot was extracted and stored but reached no batch. It comes before D4 because schedules that refresh evidence which no profile ever uses are not worth running.
+
+**Goal:** when a source's bytes change and still fit its approved mapping, the next batch is assembled from the new snapshot, with no new human decision and no change to what an existing release serves.
+
+The design, and why it is this small:
+
+- **Assembly already re-extracts.** `pipeline.assemble` does not read stored observations. It reads each run's snapshot with the approved reader and runs the shared extraction engine again, which is deterministic and gives the same IDs. Reading the stored rows back instead would need record labels that are not stored and would change nothing a client sees. What assembly lacked was a way to be pointed at a snapshot other than the one a source was onboarded on.
+- **A batch is defined by its runs,** and so is everything built on one: `ops.batch.run_ids`, the serving models (release, batch, run, approval, mapping config, snapshot), the ontology version of a release, exports and the enhancement pass. Changing that would touch all of them and the stored batch records.
+- **So a refresh is recorded as a run.** When `refresh.extract` extracts a snapshot other than the one the approved run was onboarded on, it records a run of kind `refresh` for that snapshot. The run names the mapping and the approval of the run it refreshes, makes no model call, and is `completed` at once. Its ID follows from the snapshot and the mapping config, so recording it again writes nothing.
+- **No approval is created or implied.** The refresh run points at the approval a person gave for that exact config hash. It exists only when the drift check found nothing that blocks extraction. A snapshot that does not fit still waits for a person, as in D3.
+- **`refresh.current_runs()`** gives, for every registered source, the completed run of its newest snapshot under the mapping in force: the refresh run when there is one, otherwise the onboarding run. `identity_batch` assembles from those.
+
+What does not change: the linking rules, the profile policy, entity IDs (they follow from the validated identifier), any stored record, and any release. A new batch serves nobody until a person records a release of it.
+
+What this does not solve, and should not be read as solving:
+
+- **Assembly is still a bounded sample.** A batch holds the entities that link across sources within the records read, at least `minimum_profiles` of them, and at most 1,000 records a source. That comes from the assignment and is unchanged. A batch over every record of every source needs assembly that streams instead of holding one result document in memory; that is the scale work the risk table calls incremental identity.
+- **Every refresh stores the source's observations again.** A record's ID includes its snapshot, so an unchanged row of a new snapshot is a new record with new observations. Evidence grows with every refresh that changes any byte.
+
+Tasks:
+
+- [ ] **`pipeline.approved_result` accepts a run without sampled partitions** and reads the snapshot instead. Runs that have them behave as before.
+- [ ] **`refresh.extract` records the refresh run,** and returns its ID. Extracting the onboarding snapshot records nothing.
+- [ ] **`refresh.current_runs`** replaces `approved_runs` as what `refresh.assemble` and `identity_batch` use.
+- [ ] **Reporting:** the onboarding models keep counting onboarding runs only; a refresh is not an onboarding attempt.
+- [ ] **Tests:** a refresh changes the next batch's profiles and not the entity IDs; the release of the earlier batch serves what it served; the release of the new batch serves the new snapshot; repeating any step writes nothing.
+
+Done when:
+
+- On a restored copy, a source's snapshot is replaced by one with changed rows, the assets are materialised, and the new batch's profiles differ exactly for the entities whose rows changed.
+- A release recorded before the refresh has the same digest and the same observations afterwards.
+- Assembling from the onboarding runs still reproduces the deterministic batch, as in D3.
 
 ## Phase D4: Schedules, freshness and alerts
 
