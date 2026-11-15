@@ -904,6 +904,23 @@ def serving_apply():
         show({"changed": serving.apply(connection)})
 
 
+@app.command("serving-compare")
+def serving_compare(candidate: str = "serving_next", reference: str = "serving"):
+    """Compare the serving views built in one schema with those in another.
+
+    Columns, and per release the row count and a digest of every row. Build a
+    changed model into serving_next first, run this, and build into serving
+    only when it reports no difference you did not mean. Exits 3 on a difference.
+    """
+    from . import serving
+
+    with store.engine().connect() as connection:
+        result = serving.compare(connection, candidate, reference)
+    show(result)
+    if result["differences"]:
+        raise typer.Exit(EXIT_BLOCKED)
+
+
 @app.command(
     "dbt",
     context_settings={"allow_extra_args": True, "ignore_unknown_options": True},

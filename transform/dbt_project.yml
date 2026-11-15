@@ -20,3 +20,22 @@ clean-targets: ["target", "dbt_packages"]
 
 flags:
   send_anonymous_usage_stats: false
+
+models:
+  link_lens:
+    serving:
+      # What clients read through the product service. A column or type that
+      # differs from the model's contract fails the build instead of reaching them.
+      +materialized: view
+      # Where the serving models are built. `serving_next` is the place to
+      # build a candidate and compare it with `link-lens serving-compare`
+      # before clients read it. The default is given here because this file
+      # cannot read a `vars:` block of its own; pass another with
+      # `--vars '{serving_schema: ...}'`.
+      +schema: "{{ var('serving_schema', 'serving_next') }}"
+      +contract:
+        enforced: true
+      # Relations dbt owns get no default privileges from the migrator: the
+      # product service reads them, and so do the OKF tree and the bundle builder.
+      +grants:
+        select: ["linklens_product", "linklens_pipeline"]

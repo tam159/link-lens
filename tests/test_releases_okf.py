@@ -4,7 +4,7 @@ import json
 import time
 
 import pytest
-from link_lens import exports, releases, serving, store
+from link_lens import exports, releases, serving, store, transform
 from link_lens.cli import app
 from link_lens.db import copy_insert
 from link_lens.db import serving as tables
@@ -542,6 +542,54 @@ def test_serving_views_answer_for_a_release(release):
             with pytest.raises(DBAPIError, match="permission denied"):
                 with connection.begin_nested():
                     connection.execute(text(forbidden))
+
+
+@pytest.mark.skipif(
+    transform.executable() is None, reason="needs the transform dependency group"
+)
+def test_dbt_models_answer_exactly_as_the_hand_written_views(release, tmp_path):
+    """dbt builds the read models into serving_next; every row must be the same."""
+    finished = transform.run(
+        ["run"],
+        url=store.engine().url.render_as_string(hide_password=False),
+        project_dir=transform.Path(__file__).resolve().parents[1] / "transform",
+        env={
+            "DBT_TARGET_PATH": str(tmp_path / "target"),
+            "DBT_LOG_PATH": str(tmp_path / "logs"),
+        },
+        capture_output=True,
+        text=True,
+    )
+    assert finished.returncode == 0, finished.stdout + finished.stderr
+    with store.engine().connect() as connection:
+        result = serving.compare(connection)
+    assert result["differences"] == []
+    assert set(result["views"]) == set(serving.MODELS)
+    assert all(view["columns_equal"] for view in result["views"].values())
+    assert result["views"]["observation"]["releases"][1] == {
+        "rows": {"serving_next": 200, "serving": 200},
+        "equal": True,
+    }
+    # A view that answers differently is reported, by view and release.
+    with store.engine().begin() as connection:
+        connection.execute(text("SET LOCAL ROLE linklens_transform"))
+        connection.execute(text("DROP VIEW serving_next.link"))
+        connection.execute(
+            text(
+                "CREATE VIEW serving_next.link AS "
+                "SELECT * FROM serving.link WHERE false"
+            )
+        )
+        connection.execute(text("DROP VIEW serving_next.bundle"))
+    with store.engine().connect() as connection:
+        assert serving.compare(connection)["differences"] == [
+            "bundle: only in serving",
+            "link: release 1 differs",
+        ]
+    with store.engine().begin() as connection:
+        connection.execute(text("SET LOCAL ROLE linklens_transform"))
+        for name in serving.MODELS:
+            connection.execute(text(f'DROP VIEW IF EXISTS serving_next."{name}"'))
 
 
 def test_serving_views_follow_their_files(release, monkeypatch):

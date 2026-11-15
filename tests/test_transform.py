@@ -14,6 +14,9 @@ from sqlalchemy import text
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT = ROOT / "transform"
 
+# The schemas dbt may create relations in. Everything else is Alembic's.
+DBT_SCHEMAS = {"analytics", "serving_next"}
+
 needs_dbt = pytest.mark.skipif(
     transform.executable() is None, reason="needs the transform dependency group"
 )
@@ -109,10 +112,10 @@ def test_dbt_parses_and_builds_without_touching_other_schemas(dbt, database):
         # Alembic and dbt never manage the same relation: whatever dbt owns is
         # in a schema it was given, and nothing Alembic made has changed hands.
         built = connection.execute(owned, {"role": "linklens_transform"}).all()
-        assert {schema for schema, _ in built} <= {"analytics"}
+        assert {schema for schema, _ in built} <= DBT_SCHEMAS
         after = connection.execute(relations).all()
-        assert [row for row in after if row.nspname != "analytics"] == [
-            row for row in before if row.nspname != "analytics"
+        assert [row for row in after if row.nspname not in DBT_SCHEMAS] == [
+            row for row in before if row.nspname not in DBT_SCHEMAS
         ]
 
 

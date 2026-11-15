@@ -1,0 +1,91 @@
+# The core tables dbt reads. Alembic owns every one of them; dbt only selects.
+# A table is declared here when a model needs it, with what a model author
+# should know about it. The full definitions are in migrations/versions/.
+version: 2
+
+sources:
+  - name: ops
+    schema: ops
+    description: Batches, releases and operational records.
+    tables:
+      - name: release
+        description: >
+          A person's record that one batch, under one ontology version, is what
+          clients see. Append-only. Nothing creates a release but a person.
+        config:
+          # A placeholder until the owner sets a release cadence.
+          loaded_at_field: released_at
+          freshness:
+            warn_after: {count: 45, period: day}
+      - name: batch
+        description: >
+          One assembly of entities, links and profiles from a set of approved
+          onboarding runs (`run_ids`). Kinds are pipeline, enhancement and discovery.
+      - name: release_bundle
+        description: An archive of a release's OKF files, built for a named scope or one client. Append-only.
+
+  - name: ontology
+    schema: ontology
+    description: The ontology registry. Versions are additive and every table is append-only.
+    tables:
+      - name: concept
+        description: One definition of a concept. A changed definition is a new row under the same name.
+      - name: concept_value
+        description: The allowed values of an enum concept, in order.
+      - name: concept_requires
+        description: Concepts that must accompany a concept, in order.
+      - name: version_concept
+        description: The concepts that make up an ontology version, in document order.
+
+  - name: catalog
+    schema: catalog
+    description: Sources, their snapshots and stored artifacts.
+    tables:
+      - name: source
+        description: A public dataset, as catalogued or as registered for onboarding.
+      - name: snapshot
+        description: >
+          The bytes of a source as downloaded once, with licence, format and
+          the basis of its observation time. Append-only.
+        config:
+          # A placeholder until sources have cadences; see catalog.source_state.
+          loaded_at_field: retrieved_at
+          freshness:
+            warn_after: {count: 45, period: day}
+      - name: artifact
+        description: Content-addressed bytes. Only `uri` may change, when the bytes move to object storage.
+
+  - name: onboarding
+    schema: onboarding
+    description: Onboarding runs, the mappings they proposed and the approvals a person gave.
+    tables:
+      - name: run
+        description: One onboarding attempt for a source snapshot. `state` holds the approval it ended with.
+      - name: approval
+        description: A person's decision on one exact mapping config. Append-only; never written by a pipeline step.
+      - name: mapping_config
+        description: A declarative mapping, stored once under its content hash, with its roles and source reliability.
+
+  - name: evidence
+    schema: evidence
+    description: Source records and the observations extracted from them. Append-only, hash-partitioned by source.
+    tables:
+      - name: source_record
+        description: One record of a snapshot, with its exact locator.
+      - name: observation
+        description: One claim extracted from a source record with an approved mapping config.
+
+  - name: identity
+    schema: identity
+    description: Entities, links between records, and profiles, each versioned by batch.
+    tables:
+      - name: profile
+        description: The profile of one entity in one batch. Append-only.
+      - name: profile_field
+        description: One field of a profile, exactly as decided, pointing at the observation it cites.
+      - name: profile_address
+        description: One source record's address fields, kept together.
+      - name: link
+        description: A proposed identity link between two source records. Its score is a rule or model score, not a probability.
+      - name: membership
+        description: Which entity a source record belongs to in a batch.
