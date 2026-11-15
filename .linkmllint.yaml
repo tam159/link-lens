@@ -1,0 +1,9 @@
+# Rules for the generated ontology schema (firmable_ontology.linkml.yaml).
+# Permissible values are data: concept names as registered and register values as
+# published. They keep their exact text, so naming conventions do not apply to them.
+extends: recommended
+rules:
+  standard_naming:
+    level: warning
+    exclude_type:
+      - permissible_value

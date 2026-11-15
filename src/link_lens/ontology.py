@@ -86,13 +86,20 @@ def legacy():
 
 
 def resolve(ontology_hash=None):
+    """The ontology document for a hash, rebuilt from the registry rows."""
     baseline = legacy()
     if ontology_hash is None or ontology_hash == digest(baseline):
         return baseline
     from . import store
+    from .db import is_sha256
+    from .db import ontology as registry
 
-    record = store.require("ontologies", ontology_hash)
-    document = store.read_json(record["artifact_id"])
+    document = None
+    if is_sha256(ontology_hash):
+        with store.engine().connect() as connection:
+            document = registry.document(connection, ontology_hash)
+    if document is None:
+        raise KeyError(f"ontologies/{ontology_hash} not found")
     if digest(document) != ontology_hash:
         raise ValueError("Ontology content hash mismatch")
     return document
@@ -119,37 +126,66 @@ def validate_document(document, parent=None):
 
 
 def register(document, evidence=None):
+    """Store a version, its concepts and its members in one transaction."""
     from . import store
+    from .db import ontology as registry
 
     if not document.get("parent_hash") and document != legacy():
         raise ValueError("Only the packaged legacy ontology can be a root version")
+    if document.get("parent_hash") == digest(legacy()):
+        # The packaged root resolves without being stored; its children need its row.
+        register(legacy())
     validate_document(
         document,
         resolve(document["parent_hash"]) if document.get("parent_hash") else None,
     )
+    # Rows hold the canonical form of each concept. A document in another form
+    # would be stored under a hash its rows no longer rebuild, so it is refused.
+    if set(document) != {"version", "parent_hash", "concepts"} or any(
+        raw != Concept.model_validate(raw).model_dump()
+        for raw in document["concepts"].values()
+    ):
+        raise ValueError(
+            "Ontology document is not in canonical form: every concept needs all "
+            "fields, and only version, parent_hash and concepts are allowed at "
+            "the top level"
+        )
     key = digest(document)
     artifact = store.json_blob(document, "ontology.json")
-    record = {
-        "id": key,
-        "artifact_id": artifact,
-        "parent_hash": document.get("parent_hash"),
-        "version": document["version"],
-    }
-    store.put("ontologies", key, record, kind="ontology", immutable=True)
-    if evidence:
-        store.put(
-            "ontology_events",
-            digest({"ontology": key, "evidence": evidence}),
-            {"ontology_hash": key, "evidence": evidence},
-            kind="proposal_evidence",
-            immutable=True,
-        )
+    with store.engine().begin() as connection:
+        if registry.insert_version(connection, key, document, artifact, digest):
+            if digest(registry.document(connection, key)) != key:
+                raise ValueError("Ontology rows do not rebuild the document's hash")
+        if evidence:
+            registry.add_evidence(connection, key, evidence)
     return key
 
 
-def activate(ontology_hash, experiment_id, reviewer=None):
-    from . import store
+def gate_for_promotion(connection, ontology_hash):
+    """The gate run a promotion relies on. A missing or failed gate blocks it."""
+    from .db import ontology as registry
 
+    run = registry.latest_gate_run(connection, ontology_hash)
+    if run is None:
+        raise ValueError(
+            "Promotion requires a gate report; run `link-lens ontology gate` first"
+        )
+    results = {check["check"]: check["result"] for check in run["checks"]}
+    failed = sorted(name for name, result in results.items() if result == "fail")
+    if failed:
+        raise ValueError(
+            "Promotion blocked by failed gate checks: " + ", ".join(failed)
+        )
+    return {"run_at": run["run_at"], "results": results}
+
+
+def activate(ontology_hash, experiment_id, reviewer=None):
+    """Append an activation. With a reviewer it is a promotion and needs a gate."""
+    from . import store
+    from .db import ontology as registry
+
+    if ontology_hash == digest(legacy()):
+        register(legacy())
     resolve(ontology_hash)
     record = {
         "ontology_hash": ontology_hash,
@@ -158,25 +194,20 @@ def activate(ontology_hash, experiment_id, reviewer=None):
         "status": "promoted" if reviewer else "experimental",
         "created_at": store.now(),
     }
-    store.put(
-        "ontology_events",
-        digest(record),
-        record,
-        experiment_id,
-        record["status"],
-        immutable=True,
-    )
-    store.put(
-        "ontology_events", "active-" + experiment_id, record, experiment_id, "active"
-    )
-    return record
+    with store.engine().begin() as connection:
+        gate = gate_for_promotion(connection, ontology_hash) if reviewer else None
+        registry.append_activation(connection, record, gate)
+    # Unknown gate results travel with the promotion so the reviewer sees them.
+    return {**record, "gate": gate} if gate else record
 
 
 def active_hash(experiment_id):
     from . import store
+    from .db import ontology as registry
     from .settings import settings
 
-    active = store.get("ontology_events", "active-" + experiment_id)
+    with store.engine().connect() as connection:
+        active = registry.latest_activation(connection, experiment_id)
     if active:
         return active["ontology_hash"]
     baseline = register(legacy())
@@ -186,6 +217,23 @@ def active_hash(experiment_id):
         if isinstance(submitted, dict) and "concepts" in submitted:
             return register(submitted)
     return baseline
+
+
+def proposal(proposal_id):
+    """A stored proposal as the workflow returned it, or None."""
+    from . import store
+    from .db import ontology as registry
+
+    with store.engine().connect() as connection:
+        return registry.get_proposal(connection, proposal_id)
+
+
+def proposals():
+    from . import store
+    from .db import ontology as registry
+
+    with store.engine().connect() as connection:
+        return registry.list_proposals(connection)
 
 
 def scalar(value, concept):

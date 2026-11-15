@@ -7,11 +7,17 @@ import typer
 from langgraph_sdk import get_sync_client
 
 from . import evaluation, exports, ingestion, store
-from .contracts import SourceRequest, StrictModel
+from .contracts import SourceRequest, StrictModel, content_hash
 from .settings import settings
-from .contracts import content_hash
 
 app = typer.Typer(no_args_is_help=True)
+
+
+# Exit codes, so an orchestrator can tell what happened without reading output:
+# 0 the command did its work; 1 it failed; 2 it was called wrongly (Typer's own
+# code); 3 it ran and found something that blocks the next step, such as a failed
+# gate check or a snapshot the approved mapping cannot read.
+EXIT_BLOCKED = 3
 
 
 def show(value):
@@ -112,7 +118,11 @@ def recover(run_id: str, feedback: str = typer.Option(..., "--feedback")):
 @app.command()
 def portfolio(start: bool = False):
     """Register the six only if present in the computed shortlist. --start spends API tokens."""
-    shortlist = store.require("batches", "discovery")["shortlist"]
+    # The configured experiment's discovery, not whichever experiment ran last.
+    shortlist = (
+        store.current_discovery(settings().experiment_id)
+        or store.require("batches", "discovery")
+    )["shortlist"]
     by_slug = {r["slug"]: r for r in shortlist}
     missing = set(ingestion.PORTFOLIO) - set(by_slug)
     if missing:
@@ -544,6 +554,36 @@ def ontology_diff(parent_hash: str, ontology_hash: str):
     )
 
 
+@ontology_app.command("export")
+def ontology_export_command(
+    ontology_hash: str,
+    format: str = typer.Option("linkml", "--format"),
+    output: Path | None = typer.Option(None, "--output"),
+):
+    """Write a version as LinkML, or as SHACL or JSON Schema generated from it."""
+    from . import ontology_export
+    from .ontology import resolve
+
+    if format not in ontology_export.FORMATS:
+        raise typer.BadParameter("Use linkml, shacl or jsonschema")
+    text = ontology_export.FORMATS[format](resolve(ontology_hash), ontology_hash)
+    if output:
+        output.write_text(text)
+    else:
+        typer.echo(text, nl=False)
+
+
+@ontology_app.command("gate")
+def ontology_gate_command(ontology_hash: str):
+    """Run and record the promotion checks. Exits 3 if a check fails."""
+    from . import ontology_gate
+
+    report = ontology_gate.run(ontology_hash)
+    show(report)
+    if report["blocks_promotion"]:
+        raise typer.Exit(EXIT_BLOCKED)
+
+
 @ontology_app.command("promote")
 def ontology_promote(ontology_hash: str, reviewer: str = typer.Option(...)):
     """Record explicit human promotion; does not approve mappings or rewrite outputs."""
@@ -551,7 +591,10 @@ def ontology_promote(ontology_hash: str, reviewer: str = typer.Option(...)):
 
     if not reviewer.strip():
         raise typer.BadParameter("Reviewer required")
-    show(activate(ontology_hash, settings().experiment_id, reviewer))
+    try:
+        show(activate(ontology_hash, settings().experiment_id, reviewer))
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
 
 
 @ontology_app.command("budget")
@@ -559,3 +602,346 @@ def ontology_budget():
     from .budget import summary
 
     show(summary(settings().experiment_id))
+
+
+backfill_app = typer.Typer(help="Copy legacy rows into the typed schemas.")
+app.add_typer(backfill_app, name="backfill")
+
+
+@backfill_app.command("ontology")
+def backfill_ontology():
+    """Copy ontology versions, activations and proposals into the registry."""
+    from . import backfill
+
+    show(backfill.ontology())
+
+
+@backfill_app.command("spine")
+def backfill_spine():
+    """Copy artifacts, sources, snapshots, runs, mappings, approvals and observations."""
+    from . import backfill
+
+    show(backfill.evidence_spine())
+
+
+@backfill_app.command("identity-ops")
+def backfill_identity_ops():
+    """Copy batches, caches, model calls, events, evaluations and identity results."""
+    from . import backfill
+
+    show(backfill.identity_and_operations())
+
+
+source_app = typer.Typer(help="Refresh facts and drift checks for sources.")
+app.add_typer(source_app, name="source")
+
+
+@source_app.command("state")
+def source_state(source_id: str | None = None, kind: str | None = None):
+    """Cadence, last check, last change and approved mapping, per source."""
+    from . import sources
+
+    show(sources.state(source_id, kind))
+
+
+@source_app.command("cadence")
+def source_cadence(source_id: str, days: float | None = typer.Option(None, "--days")):
+    """Set how often a source should be checked. Without --days, clear it."""
+    from . import sources
+
+    try:
+        show(sources.set_cadence(source_id, days))
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+
+
+@source_app.command("drift")
+def source_drift(source_id: str, snapshot_id: str | None = None):
+    """Compare a snapshot with the source's approved mapping. Exits 3 if it blocks.
+
+    Uses the source's latest snapshot unless one is named.
+    """
+    from . import drift, sources
+
+    facts = sources.state(source_id)[0]
+    if not facts["approved_config_hash"]:
+        raise typer.BadParameter("The source has no approved mapping")
+    snapshot_id = snapshot_id or facts["latest_snapshot_id"]
+    if not snapshot_id:
+        raise typer.BadParameter("The source has no snapshot")
+    result = drift.detect(snapshot_id, facts["approved_config_hash"])
+    show({"source_id": source_id, **result})
+    if result["blocking"]:
+        raise typer.Exit(EXIT_BLOCKED)
+
+
+access_app = typer.Typer(help="Tiers, clients and API keys of the product service.")
+tier_app = typer.Typer(help="Tiers: what a class of client may do.")
+client_app = typer.Typer(help="Clients: who holds keys.")
+key_app = typer.Typer(help="API keys.")
+app.add_typer(access_app, name="access")
+access_app.add_typer(tier_app, name="tier")
+access_app.add_typer(client_app, name="client")
+access_app.add_typer(key_app, name="key")
+
+
+def managing(action, *arguments, **options):
+    """Run an access administration step, reporting a wrong argument as such."""
+    try:
+        return action(*arguments, **options)
+    except (ValueError, KeyError) as error:
+        raise typer.BadParameter(str(error).strip("'")) from error
+
+
+@tier_app.command("set")
+def access_tier_set(
+    tier_id: str,
+    rate_per_minute: int = typer.Option(..., "--rate-per-minute"),
+    monthly_quota: int | None = typer.Option(None, "--monthly-quota"),
+    interface: list[str] = typer.Option(["rest"], "--interface"),
+    toolset: list[str] = typer.Option([], "--toolset"),
+    source: list[str] = typer.Option(
+        [], "--source", help="Repeat to limit the tier to sources."
+    ),
+    bundle_downloads: bool = False,
+    release_lag: int = 0,
+    history_depth: int | None = None,
+):
+    """Create a tier or replace its limits. Without --source the tier sees every source."""
+    from .product import keys
+
+    show(
+        managing(
+            keys.set_tier,
+            tier_id,
+            rate_per_minute,
+            monthly_quota,
+            interface,
+            toolset,
+            source or None,
+            bundle_downloads,
+            release_lag,
+            history_depth,
+        )
+    )
+
+
+@client_app.command("create")
+def access_client_create(name: str, tier: str = typer.Option(..., "--tier")):
+    from .product import keys
+
+    show(managing(keys.create_client, name, tier))
+
+
+@key_app.command("create")
+def access_key_create(
+    client_id: str,
+    label: str | None = typer.Option(None, "--label"),
+    expires_in_days: int | None = typer.Option(None, "--expires-in-days"),
+):
+    """Create a key. It is printed once here and cannot be shown again."""
+    from .product import keys
+
+    show(managing(keys.create_key, client_id, label, expires_in_days))
+
+
+@key_app.command("revoke")
+def access_key_revoke(prefix: str):
+    """Revoke a key by its prefix, the part between `ll_` and the secret."""
+    from .product import keys
+
+    show(managing(keys.revoke_key, prefix))
+
+
+@access_app.command("usage")
+def access_usage(client_id: str | None = None, since: str | None = None):
+    """Calls per client, key, interface and month."""
+    from .product import keys
+
+    show(managing(keys.usage, client_id, since))
+
+
+release_app = typer.Typer(help="Releases: what clients see, recorded by a person.")
+app.add_typer(release_app, name="release")
+
+
+@release_app.command("create")
+def release_create(
+    batch_id: str = typer.Option(..., "--batch-id"),
+    reviewer: str = typer.Option(..., "--reviewer"),
+    notes: str | None = typer.Option(None, "--notes"),
+):
+    """Record a release of a batch and build its OKF tree. Never run by a pipeline."""
+    from . import releases
+
+    try:
+        show(releases.create(batch_id, reviewer, notes))
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+
+
+@release_app.command("list")
+def release_list():
+    from . import releases
+
+    show(releases.listing())
+
+
+@release_app.command("show")
+def release_show(release_id: int | None = None):
+    """A release and the pages built for it. Without an ID, the latest release."""
+    from . import releases
+
+    show(releases.show(release_id))
+
+
+@release_app.command("export")
+def release_export(output: Path, release_id: int | None = None):
+    """Write a release's OKF tree to a folder and check its links."""
+    from . import exports
+    from .okf import bundle
+
+    written = bundle.write(release_id, output)
+    show({**written, **exports.check_bundle(output)})
+
+
+@release_app.command("digest")
+def release_digest(release_id: int | None = typer.Argument(None)):
+    """A fingerprint of what a release serves, to compare two environments."""
+    from . import releases
+
+    show(releases.digest(release_id))
+
+
+artifacts_app = typer.Typer(help="Artifact bytes and where they are stored.")
+app.add_typer(artifacts_app, name="artifacts")
+
+
+@artifacts_app.command("migrate")
+def artifacts_migrate(
+    limit: int | None = typer.Option(None, "--limit", help="Move at most this many."),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Check, copy nothing."),
+):
+    """Copy local artifacts to the configured object store, verifying each hash."""
+    from . import artifacts
+
+    try:
+        moved = artifacts.migrate(limit, dry_run)
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+    show(moved)
+    if moved["missing"] or moved["mismatched"]:
+        raise typer.Exit(EXIT_BLOCKED)
+
+
+scope_app = typer.Typer(help="Named bundle scopes: bounded lists of entities.")
+release_app.add_typer(scope_app, name="scope")
+
+
+@scope_app.command("set")
+def release_scope_set(
+    name: str,
+    reviewer: str = typer.Option(..., "--reviewer"),
+    entity: list[str] = typer.Option([], "--entity", help="An entity ID; repeat."),
+    entities_file: Path | None = typer.Option(
+        None, "--entities-file", help="A file with one entity ID a line."
+    ),
+    manual: bool = typer.Option(
+        False, "--manual", help="Do not build this scope when a release is created."
+    ),
+):
+    """Name the entities of a bundle scope such as `demo`. Replaces the list."""
+    from . import bundles
+
+    chosen = list(entity)
+    if entities_file:
+        chosen += [line.strip() for line in entities_file.read_text().splitlines()]
+    try:
+        show(bundles.set_scope(name, [e for e in chosen if e], reviewer, not manual))
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+
+
+@scope_app.command("list")
+def release_scope_list():
+    from . import bundles
+
+    show(bundles.scopes())
+
+
+@release_app.command("bundle")
+def release_bundle(
+    release_id: int | None = typer.Argument(
+        None, help="The latest release by default."
+    ),
+    scope: str = typer.Option(
+        ..., "--scope", help="A named scope such as demo, or client:<client id>."
+    ),
+):
+    """Build a release's bundle for a scope: files, link check, viewer, archive."""
+    from . import bundles
+
+    try:
+        show(bundles.build(release_id, scope))
+    except KeyError as error:
+        raise typer.BadParameter(str(error.args[0])) from error
+
+
+@release_app.command("bundles")
+def release_bundles(release_id: int | None = None):
+    """Bundles built so far, newest first."""
+    from . import bundles
+
+    show(bundles.listing(release_id))
+
+
+@app.command("serving-apply")
+def serving_apply():
+    """Create or refresh the serving views from their SQL files."""
+    from . import serving
+
+    with store.engine().begin() as connection:
+        show({"changed": serving.apply(connection)})
+
+
+def main():
+    """Console entry point: run the command and log how it ended.
+
+    Typer sets the exit code: 0, 2 for a wrong call, or the code a command chose.
+    A command that raises is logged with its error type and exits 1.
+    """
+    import logging
+    import sys
+    import time
+
+    from . import logs
+
+    logs.configure()
+    started = time.monotonic()
+    command = " ".join(a for a in sys.argv[1:3] if not a.startswith("-"))
+
+    def seconds():
+        return round(time.monotonic() - started, 3)
+
+    try:
+        app()
+    except SystemExit as stop:
+        code = stop.code if isinstance(stop.code, int) else int(stop.code is not None)
+        logs.event(
+            "command.finished",
+            logging.INFO if code == 0 else logging.WARNING,
+            command=command,
+            exit_code=code,
+            seconds=seconds(),
+        )
+        raise
+    except Exception as error:
+        logs.event(
+            "command.failed",
+            logging.ERROR,
+            command=command,
+            exit_code=1,
+            seconds=seconds(),
+            **logs.error_fields(error),
+        )
+        raise

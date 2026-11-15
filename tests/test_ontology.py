@@ -127,10 +127,18 @@ def test_additive_immutable_ontology():
     )
     with pytest.raises(ValueError, match="additive"):
         ontology.register(altered)
-    record = store.require("ontologies", key)
-    record["version"] = "tampered"
-    with pytest.raises(ValueError, match="Immutable"):
-        store.put("ontologies", key, record, immutable=True)
+    from sqlalchemy import text
+    from sqlalchemy.exc import DBAPIError
+
+    for statement in (
+        "UPDATE ontology.ontology_version SET label = 'tampered'",
+        "UPDATE ontology.concept SET definition = 'tampered'",
+        "UPDATE ontology.version_concept SET position = position + 100",
+    ):
+        with store.engine().connect() as connection:
+            with pytest.raises(DBAPIError, match="append-only"):
+                connection.execute(text(statement))
+    assert ontology.resolve(key) == original
 
 
 def test_registry_target_and_scope(spec):
@@ -388,16 +396,16 @@ def test_global_reservations_concurrency_and_unknown_usage(monkeypatch):
     assert attempt("retry")
 
 
-def test_archive_registry_roundtrip(tmp_path):
+def test_archive_registry_roundtrip(tmp_path, clear_store):
     from link_lens.frozen import freeze, thaw
 
     key = extension()
     ontology.activate(key, "test")
     path = tmp_path / "evidence.zip"
     freeze(path)
-    for table in reversed(list(store.TABLES.values())):
-        with store.engine().begin() as connection:
-            connection.execute(table.delete())
+    clear_store()
+    with pytest.raises(KeyError):
+        ontology.resolve(key)
     thaw(path)
     assert ontology.active_hash("test") == key
     assert ontology.resolve(key)["concepts"]["contact.phone"]["scope"] == "contact"

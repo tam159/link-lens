@@ -1,6 +1,7 @@
 """Bounded discovery-only ontology proposal job, separate from mapping approval."""
 
 import json
+from datetime import UTC, datetime
 from typing import Literal
 
 from pydantic import Field
@@ -181,6 +182,54 @@ def cached_call(job_id, schema, prompt, stage):
     return response
 
 
+def record_proposal(result, dispositions, decisions):
+    """Store the proposal with its dispositions and concept decisions as rows."""
+    from .db import ontology as registry
+
+    job = store.require("runs", result["id"])
+    aliases = {run: alias for alias, run in result["source_run_ids"].items()}
+    with store.engine().begin() as connection:
+        registry.insert_proposal(
+            connection,
+            {
+                "id": result["id"],
+                "experiment_id": job["experiment_id"],
+                "parent_hash": result["parent_hash"],
+                "ontology_hash": result["ontology_hash"],
+                "job_run_id": job["id"],
+                "status": result["status"],
+                "model": job.get("model"),
+                "prompt_version": job.get("prompt_version"),
+                "proposal_artifact": result["proposal_artifact"],
+                "accepted_concepts": result["accepted_concepts"],
+                "rejected_concepts": result["rejected_concepts"],
+                "supersedes_proposal_ids": result["supersedes_proposal_ids"],
+                "created_at": datetime.now(UTC),
+            },
+            [{"run_id": run, "alias": aliases.get(run)} for run in result["run_ids"]],
+            [
+                {
+                    "source_ref": d.run_id,
+                    "source_field": d.source_field,
+                    "run_id": result["source_run_ids"].get(d.run_id),
+                    "disposition": d.disposition,
+                    "target_concept": d.target,
+                    "evidence_quote": d.evidence_quote,
+                    "reason": d.reason,
+                }
+                for d in dispositions
+            ],
+            [
+                {
+                    "concept_name": d.name,
+                    "acceptable": d.acceptable,
+                    "reason": d.reason,
+                }
+                for d in decisions
+            ],
+        )
+
+
 def propose(run_ids, activate_experimental=False):
     if not run_ids or len(run_ids) != len(set(run_ids)):
         raise ValueError("Select distinct source runs")
@@ -194,7 +243,11 @@ def propose(run_ids, activate_experimental=False):
         )
     prior_ids = {r.get("ontology_proposal_id") for r in runs}
     if len(prior_ids) == 1 and None not in prior_ids:
-        return store.require("ontology_events", prior_ids.pop())
+        prior_id = prior_ids.pop()
+        stored = ontology.proposal(prior_id)
+        if stored is None:
+            raise KeyError(f"ontology proposal {prior_id} not found")
+        return stored
     parents = {
         r.get("ontology_hash") or ontology.digest(ontology.legacy()) for r in runs
     }
@@ -218,7 +271,7 @@ def propose(run_ids, activate_experimental=False):
             }
         )[:40]
     )
-    prior = store.get("ontology_events", job_id)
+    prior = ontology.proposal(job_id)
     if prior:
         result = prior
     else:
@@ -340,17 +393,15 @@ TRUSTED ENGINE FACTS: Every claim preserves source, exact raw record/values, obs
             - (len(released.concepts) if released else 0),
             "supersedes_proposal_ids": [
                 p["id"]
-                for p in store.listing("ontology_events", kind="proposal")
+                for p in ontology.proposals()
                 if p.get("run_ids") == run_ids and p.get("status") == "rejected"
             ],
         }
-        store.put(
-            "ontology_events",
-            job_id,
+        record_proposal(
             result,
-            settings().experiment_id,
-            "proposal",
-            immutable=True,
+            # What was released, or what was proposed when nothing was released.
+            (released or consolidated).dispositions,
+            review.decisions if review else [],
         )
         job = store.require("runs", job_id)
         job["status"] = result["status"]

@@ -1,5 +1,7 @@
 from functools import lru_cache
 from pathlib import Path
+from typing import Literal
+
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -10,6 +12,32 @@ class Settings(BaseSettings):
     )
     database_url: str = "postgresql+psycopg://linklens:linklens@localhost:5439/linklens"
     artifact_dir: Path = Path("artifacts")
+    # "local" keeps artifact bytes under artifact_dir; "s3" writes new ones to an
+    # S3-compatible bucket and reads them through a cache under artifact_dir.
+    artifact_store: Literal["local", "s3"] = "local"
+    artifact_bucket: str | None = None
+    artifact_prefix: str = ""
+    artifact_endpoint_url: str | None = None
+    # Host names the MCP endpoints answer to, such as "data.example.com". Empty
+    # leaves the Host header to the proxy in front; every call needs a key either way.
+    mcp_allowed_hosts: list[str] = []
+    # Signs bundle download links served by the product service itself, which
+    # is how a bundle in the local artifact store is downloaded. Unset, each
+    # process makes its own secret, so a link works only on the instance that
+    # gave it. A bundle in S3 gets a link signed by S3 instead.
+    link_secret: str | None = None
+    link_ttl_seconds: int = 300
+    # The product service. It authenticates, limits and counts on the primary,
+    # where a revoked key stops at once, and reads data from the replica when
+    # one is given. Both default to database_url. In production each is a login
+    # that is only a member of linklens_product.
+    product_database_url: str | None = None
+    product_replica_url: str | None = None
+    # "database" keeps each key's token bucket in PostgreSQL, right for any
+    # number of instances; "memory" keeps it in the process, right for one.
+    rate_limit_store: Literal["database", "memory"] = "database"
+    # /metrics answers only to this bearer token; unset, there is no /metrics.
+    metrics_token: str | None = None
     ontology_path: Path = Path("firmable_ontology.yaml")
     model: str = "gpt-6-luna"
     experiment_id: str = "jev-gpt6-luna-ontology-v1"

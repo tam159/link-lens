@@ -1,0 +1,319 @@
+{
+  "instructions": "Link Lens holds evidence-backed profiles of businesses, built from public datasets.\nEvery value is a claim with a status and the source observations behind it.\n\nStatuses: `selected` is the value chosen among the sources; `multiple_values` is a\nfield that keeps every value; `unresolved` means the sources disagree with equal\nauthority and no value was chosen, so report the alternatives instead of picking\none. Confidence numbers are uncalibrated judgements, not probabilities. An\nidentity link is a rule proposal until a person has reviewed it.\n\nData tools return JSON. File tools read the same release as Markdown pages:\nstart at `/index.md`. A data result names its page in `okf_path`, and a page\nnames its entity or observation ID in its frontmatter, so the two styles can be\nmixed. Every result names the release it was answered from. When a result has\n`next_cursor` or `next_offset`, call again with it to get the rest.\n",
+  "tools": [
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Find businesses by any of name (part of the name, any case), ABN, ACN, state (such as NSW) and entity type. Identifiers match exactly, digits only. With no argument it lists every entity. Returns `entities` with `entity_id`, `display_name`, `identifiers`, `status` and `okf_path` (the entity's page for okf_read), at most 20 a page, and `next_cursor` when there are more. Use the `entity_id` with get_profile.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "abn": {
+            "description": "ABN, 11 digits.",
+            "type": "string"
+          },
+          "acn": {
+            "description": "ACN, 9 digits.",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "next_cursor of the previous result, to get the next page.",
+            "type": "string"
+          },
+          "limit": {
+            "description": "Most entities to return. Default 20.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "name": {
+            "description": "Part of the name.",
+            "type": "string"
+          },
+          "state": {
+            "description": "State code, e.g. NSW.",
+            "type": "string"
+          },
+          "type": {
+            "description": "Entity type, exact.",
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
+      "name": "search_entities",
+      "title": "Search entities",
+      "toolset": "data"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "The profile of one entity: every field with its `status`, `value` (or `values` for a multi-valued field), the `decision` that explains the choice, `alternatives` that were not chosen, and `evidence`, the observations behind it by `observation_id`. `addresses` and `groups` (such as one licence) are claims that one source record makes together. `sources` gives the licence of every source cited. Pass an `observation_id` to get_evidence for the source record. A field with many values lists the first 10 and gives `values_total`; list_observations with that concept returns all of them. Status `unresolved` means no value was chosen: report the alternatives.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "entity_id": {
+            "description": "From search_entities or a page's frontmatter.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity_id"
+        ],
+        "type": "object"
+      },
+      "name": "get_profile",
+      "title": "Get an entity's profile",
+      "toolset": "data"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Every claim that the sources make about one entity, selected or not, optionally for one concept (such as entity.legal_name). Each has its `value`, `raw_value` as published, `source_id`, `observed_at` with `timestamp_basis` (`record`: the source states the date; `snapshot`: the date the dataset was published, which does not say when the value changed) and `licence`. At most 25 a page, fewer when the values are long, with `next_cursor`.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "concept": {
+            "description": "A concept name from describe_concepts.",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "next_cursor of the previous result, to get the next page.",
+            "type": "string"
+          },
+          "entity_id": {
+            "type": "string"
+          },
+          "limit": {
+            "description": "Most observations to return. Default 25.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entity_id"
+        ],
+        "type": "object"
+      },
+      "name": "list_observations",
+      "title": "List an entity's source claims",
+      "toolset": "data"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Where one observation came from: the `record` with its row locator in the source file, the `snapshot` of the dataset with when it was retrieved, the `source` with title and publisher, and the `licence` to attribute. Use it to cite a value from get_profile or list_observations.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "observation_id": {
+            "description": "An observation_id from a profile's evidence or from list_observations.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "observation_id"
+        ],
+        "type": "object"
+      },
+      "name": "get_evidence",
+      "title": "Get the evidence for one claim",
+      "toolset": "data"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "What the field names mean. With no argument: the scopes (entity, address, licence, ...) and the concept names in each. With `scope`: the definition, datatype, cardinality (`one` or `many`) and allowed values of every concept in that scope.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "scope": {
+            "description": "A scope name.",
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
+      "name": "describe_concepts",
+      "title": "Describe ontology concepts",
+      "toolset": "data"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "List a folder of the OKF tree, like `ls`. Start at `/`. Folders end with `/` and show how many entries they hold; `index.md` in a folder is a page that links to its entries. Entities are under /entities (browse by-name, by-state, by-type or by-source), cited observations under /evidence, sources under /sources, concepts under /ontology. 100 entries a call, with `next_cursor`.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "cursor": {
+            "description": "next_cursor of the previous result, to get the next page.",
+            "type": "string"
+          },
+          "limit": {
+            "description": "Most entries to return. Default 100.",
+            "maximum": 200,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "path": {
+            "description": "A path in the OKF tree, starting with /. Folders: /entities, /evidence, /sources, /ontology.",
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
+      "name": "okf_ls",
+      "title": "List a folder",
+      "toolset": "files"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Read one page as Markdown, like `cat`. An entity page has the profile: each field with its status, value and links to its evidence pages. An evidence page has one observation with its source record, snapshot and licence. Frontmatter gives the page's type, status and the entity or observation ID, usable with the data tools. Returns 400 lines from `offset`; when the page is longer, the result gives `next_offset`.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "description": "Most lines to return. Default 400.",
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "offset": {
+            "description": "First line to return, counted from 0.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "path": {
+            "description": "Path of a page, ending in .md.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "type": "object"
+      },
+      "name": "okf_read",
+      "title": "Read a page",
+      "toolset": "files"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Find pages under a folder by what their frontmatter says, like `find`. `type` is the page type (entity, evidence, source, concept), `status` the profile or claim status, `tags` a list that must all be present. Returns path, type, status and title of each page, 50 a call, with `next_cursor`. Use okf_grep to search for a value instead.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "cursor": {
+            "description": "next_cursor of the previous result, to get the next page.",
+            "type": "string"
+          },
+          "limit": {
+            "description": "Most pages to return. Default 50.",
+            "maximum": 200,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "path": {
+            "description": "A path in the OKF tree, starting with /. Folders: /entities, /evidence, /sources, /ontology.",
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
+      "name": "okf_find",
+      "title": "Find pages by frontmatter",
+      "toolset": "files"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Search under a folder with a regular expression, like `grep -rn`. It searches each page's frontmatter and its claims, written one a line as `concept: value` (for example `entity.abn: 51824753556`), not the prose. A folder below the root is required, such as /entities or /evidence. Returns `path:line: text` for each match, 50 a call, with `next_cursor`. Read a matching page with okf_read.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "cursor": {
+            "description": "next_cursor of the previous result, to get the next page.",
+            "type": "string"
+          },
+          "limit": {
+            "description": "Most matches to return. Default 50.",
+            "maximum": 200,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "path": {
+            "description": "A path in the OKF tree, starting with /. Folders: /entities, /evidence, /sources, /ontology.",
+            "type": "string"
+          },
+          "pattern": {
+            "description": "A POSIX regular expression, case-sensitive.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pattern",
+          "path"
+        ],
+        "type": "object"
+      },
+      "name": "okf_grep",
+      "title": "Search page text",
+      "toolset": "files"
+    }
+  ]
+}

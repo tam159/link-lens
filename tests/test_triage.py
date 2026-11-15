@@ -9,6 +9,8 @@ from link_lens.pricing import collect, estimate, rates
 
 def test_decision_cached_with_receipt_and_experiment_isolation(monkeypatch):
     monkeypatch.setenv("OPENROUTER_API_KEY", "test-only")
+    # The receipt is filed under the configured experiment, whatever the default is.
+    monkeypatch.setenv("LINK_LENS_EXPERIMENT_ID", "jev-luna-v1")
     response = Mock()
     response.json.return_value = {
         "model": "typesafe/jev-1.13-test",

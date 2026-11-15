@@ -10,7 +10,7 @@ from urllib.parse import urlencode, urlparse
 
 from pypdf import PdfReader
 
-from . import store
+from . import sources, store
 from .contracts import SourceRequest
 from .readers import inspect_resource
 from .settings import settings
@@ -283,6 +283,8 @@ def register(request: SourceRequest):
     )
     artifact = store.blob(data, "application/octet-stream", r.get("name") or r["id"])
     snapshot_id = hashlib.sha256((d["id"] + r["id"] + artifact).encode()).hexdigest()
+    # The publisher was checked, whether or not the bytes turned out to be new.
+    sources.record_check(d["id"], receipt.get("retrieved_at"))
     existing = store.get("snapshots", snapshot_id)
     if existing:
         return source, existing

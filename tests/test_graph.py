@@ -8,10 +8,13 @@ from link_lens.contracts import SemanticReview
 from link_lens.ingestion import new_run
 
 
-def prepared(spec, snapshot):
+def prepared(spec, snapshot, data=None):
     data = (
-        "name,abn\n" + "".join(f"Example {i},51824753556\n" for i in range(200))
-    ).encode()
+        data
+        or (
+            "name,abn\n" + "".join(f"Example {i},51824753556\n" for i in range(200))
+        ).encode()
+    )
     blob = store.blob(data)
     snapshot.update(
         artifact_id=blob,
@@ -105,14 +108,11 @@ def test_final_failure_never_returns_to_model(monkeypatch, spec, snapshot):
 def test_structural_reader_repair_precedes_partition_freeze(
     monkeypatch, spec, snapshot
 ):
-    run = prepared(spec, snapshot)
+    # A snapshot is immutable, so the quoted file is its content from the start.
     data = (
         "name,abn\n" + "".join(f'"Example {i}",51824753556\n' for i in range(200))
     ).encode()
-    digest = store.blob(data)
-    snap = store.require("snapshots", "snapshot")
-    snap.update(artifact_id=digest, sha256=digest)
-    store.put("snapshots", "snapshot", snap)
+    run = prepared(spec, snapshot, data)
     calls = []
 
     def fake_call(run_id, schema, prompt, stage):

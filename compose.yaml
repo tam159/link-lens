@@ -1,7 +1,12 @@
 name: link-lens
 services:
   postgres:
-    image: postgres:17
+    # Debian trixie build: the same glibc as the postgres:17 image that created
+    # existing data volumes, so text indexes keep their collation version.
+    image: pgvector/pgvector:pg17-trixie
+    # Parallel joins over the typed tables need more shared memory than Docker's
+    # 64 MB default.
+    shm_size: 256mb
     environment:
       POSTGRES_DB: linklens
       POSTGRES_USER: linklens
@@ -44,6 +49,21 @@ services:
     depends_on:
       postgres: {condition: service_healthy}
       sandbox-controller: {condition: service_started}
+  product:
+    # The read-only product service. It shares the backend image but not its
+    # role: every query runs as linklens_product, which can read only serving.
+    image: link-lens-backend:local
+    command: ["uvicorn", "link_lens.product.app:app", "--host", "0.0.0.0", "--port", "8100", "--reload", "--reload-dir", "/app/src"]
+    environment:
+      LINK_LENS_DATABASE_URL: postgresql+psycopg://linklens:${LINK_LENS_POSTGRES_PASSWORD:-linklens}@postgres:5432/linklens
+      LINK_LENS_ARTIFACT_DIR: /app/artifacts
+    ports: ["127.0.0.1:8100:8100"]
+    volumes:
+      - ./src:/app/src:ro
+      # Bundles are read from the artifact store; this service never writes it.
+      - ./artifacts:/app/artifacts:ro
+    depends_on:
+      postgres: {condition: service_healthy}
   frontend:
     build:
       context: .

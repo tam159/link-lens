@@ -1,0 +1,864 @@
+id: https://linklens.example/ontology/4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227
+name: link_lens_ontology
+title: Link Lens ontology experimental-939e8c69596c
+description: 'Generated from the Link Lens ontology registry. Do not edit: change the ontology through
+  a proposal and export it again.'
+version: experimental-939e8c69596c
+annotations:
+  ontology_hash: 4a02fa33f46c0052df2775983fdb55cdc5df6f5ba2087b6a4b528342ba9e1227
+  parent_hash: f66f63b3568165bc0e555f6532955e741a3847b4e2b2ee2bb39bb31df98edc35
+prefixes:
+  linkml: https://w3id.org/linkml/
+  linklens: https://linklens.example/ontology/
+default_prefix: linklens
+default_range: string
+imports:
+- linkml:types
+classes:
+  Entity:
+    description: A legal entity or other subject a source makes claims about.
+    attributes:
+      legal_name:
+        description: As registered. Not the trading name.
+        range: string
+        annotations:
+          concept: entity.legal_name
+      trading_name:
+        description: May be multiple. Emit one observation each.
+        range: string
+        annotations:
+          concept: entity.trading_name
+        multivalued: true
+      abn:
+        description: Australian Business Number. Has a checksum — validate it, do not just length-check.
+        range: string
+        annotations:
+          concept: entity.abn
+      acn:
+        description: Australian Company Number. Also checksummed. The last 9 digits of an ABN are often
+          the ACN, but not always.
+        range: string
+        annotations:
+          concept: entity.acn
+      nzbn:
+        description: New Zealand Business Number, if you happen to hit an NZ source.
+        range: string
+        annotations:
+          concept: entity.nzbn
+      entity_type:
+        description: Default to unknown. Guessing here causes downstream harm.
+        range: EntityEntityTypeValue
+        annotations:
+          concept: entity.entity_type
+      status:
+        description: Canonical entity.status source claim.
+        range: EntityStatusValue
+        annotations:
+          concept: entity.status
+      website:
+        description: Canonical entity.website source claim.
+        range: string
+        annotations:
+          concept: entity.website
+      industry_code:
+        description: ANZSIC where available. Record the raw source value too.
+        range: string
+        annotations:
+          concept: entity.industry_code
+      date_registered:
+        description: Canonical entity.date_registered source claim.
+        range: date
+        annotations:
+          concept: entity.date_registered
+      date_established:
+        description: Date the charity organisation was established, distinct from any regulator registration
+          date; parse as a date.
+        range: date
+        annotations:
+          concept: entity.date_established
+      charity_size:
+        description: Charity size category reported from the latest Annual Information Statement; trim
+          and accept the documented size labels.
+        range: EntityCharitySizeValue
+        annotations:
+          concept: entity.charity_size
+      responsible_person_count:
+        description: Reported number of charity board or committee members; parse as a non-negative integer.
+        range: integer
+        annotations:
+          concept: entity.responsible_person_count
+        minimum_value: 0
+      operating_region:
+        description: Australian state or territory in which the charity reports operating; emit one category
+          for each affirmative indicator.
+        range: EntityOperatingRegionValue
+        annotations:
+          concept: entity.operating_region
+        multivalued: true
+      operating_country:
+        description: ISO 3166-1 alpha-3 country code reported for an overseas charity operating location;
+          trim and emit each comma-separated code separately.
+        range: string
+        annotations:
+          concept: entity.operating_country
+        multivalued: true
+      charity_subtype:
+        description: ACNC charity subtype categories reported for a charity, including charitable-purpose
+          categories, PBI and HPC; emit each affirmative indicator as a category.
+        range: EntityCharitySubtypeValue
+        annotations:
+          concept: entity.charity_subtype
+        multivalued: true
+      charity_beneficiary_category:
+        description: Beneficiary groups the charity reports assisting; emit each affirmative indicator
+          as a category without treating blanks as negative claims.
+        range: EntityCharityBeneficiaryCategoryValue
+        annotations:
+          concept: entity.charity_beneficiary_category
+        multivalued: true
+      asic_company_type:
+        description: ASIC Company Dataset type code for a company or registered body; trim surrounding
+          whitespace and accept documented codes.
+        range: EntityAsicCompanyTypeValue
+        annotations:
+          concept: entity.asic_company_type
+      asic_company_class:
+        description: ASIC Company Dataset liability class code; trim surrounding whitespace and accept
+          documented codes.
+        range: EntityAsicCompanyClassValue
+        annotations:
+          concept: entity.asic_company_class
+      asic_company_sub_class:
+        description: ASIC Company Dataset subclass code; trim surrounding whitespace and accept documented
+          codes.
+        range: EntityAsicCompanySubClassValue
+        annotations:
+          concept: entity.asic_company_sub_class
+      asic_register_status:
+        description: Status code reported for a company in the ASIC Company Dataset; trim and preserve
+          the source code without translating to a broader status.
+        range: EntityAsicRegisterStatusValue
+        annotations:
+          concept: entity.asic_register_status
+  Address:
+    description: An address as one source record states it; its fields stay together.
+    attributes:
+      full:
+        description: Canonical address.full source claim.
+        range: string
+        annotations:
+          concept: address.full
+      locality:
+        description: Canonical address.locality source claim.
+        range: string
+        annotations:
+          concept: address.locality
+      state:
+        description: Canonical address.state source claim.
+        range: AddressStateValue
+        annotations:
+          concept: address.state
+      postcode:
+        description: Canonical address.postcode source claim.
+        range: string
+        annotations:
+          concept: address.postcode
+      country:
+        description: Canonical address.country source claim.
+        range: string
+        annotations:
+          concept: address.country
+      type:
+        description: Address category supplied for the charity address; trim surrounding whitespace and
+          retain documented source labels.
+        range: AddressTypeValue
+        annotations:
+          concept: address.type
+      line_1:
+        description: First separately supplied address-line component of the charity business address;
+          trim surrounding whitespace.
+        range: string
+        annotations:
+          concept: address.line_1
+      line_2:
+        description: Second separately supplied address-line component of the charity business address;
+          trim surrounding whitespace.
+        range: string
+        annotations:
+          concept: address.line_2
+      line_3:
+        description: Third separately supplied address-line component of the charity business address;
+          trim surrounding whitespace.
+        range: string
+        annotations:
+          concept: address.line_3
+  Registration:
+    description: A registration a source records for a subject.
+    attributes:
+      acnc_date_registered:
+        description: Effective date on which the charity was registered with the Australian Charities
+          and Not-for-profits Commission; parse as a date and keep distinct from company registration.
+        range: date
+        annotations:
+          concept: registration.acnc_date_registered
+      registered_business_name:
+        description: Business name shown on an ASIC Business Names register entry; trim surrounding whitespace
+          and do not infer a legal-entity owner.
+        range: string
+        annotations:
+          concept: registration.registered_business_name
+      business_name_status:
+        description: Status label of the ASIC business-name registration; trim and retain source labels
+          without mapping them to legal-entity status.
+        range: RegistrationBusinessNameStatusValue
+        annotations:
+          concept: registration.business_name_status
+      business_name_registration_date:
+        description: Date on which the business name started, parsed from the documented day/month/year
+          format; not a company registration date.
+        range: date
+        annotations:
+          concept: registration.business_name_registration_date
+      business_name_cancellation_date:
+        description: Date on which the business name ceased, parsed from the documented day/month/year
+          format when supplied; not an entity deregistration date.
+        range: date
+        annotations:
+          concept: registration.business_name_cancellation_date
+      former_state_number:
+        description: Identifier allocated to a business name by a previous state or territory regulator
+          before 28 May 2012; retain the source string.
+        range: string
+        annotations:
+          concept: registration.former_state_number
+      previous_state_of_registration:
+        description: Abbreviated state or territory in which the business name was registered by a previous
+          regulator; trim and accept documented abbreviations.
+        range: RegistrationPreviousStateOfRegistrationValue
+        annotations:
+          concept: registration.previous_state_of_registration
+      business_name_abn:
+        description: ABN claim displayed on an ASIC business-name register entry; preserve as an entry-level
+          identifier and do not infer legal-entity ownership.
+        range: string
+        annotations:
+          concept: registration.business_name_abn
+      original_state:
+        description: State in which the company was originally registered, as reported by the ASIC Company
+          Dataset; trim and retain the source abbreviation.
+        range: string
+        annotations:
+          concept: registration.original_state
+      state_registration_number:
+        description: Number assigned when the company was originally registered by a state; preserve as
+          a string because formats vary by state.
+        range: string
+        annotations:
+          concept: registration.state_registration_number
+      company_deregistration_date:
+        description: Date on which the company was deregistered, as reported by the ASIC Company Dataset;
+          parse as a date and keep distinct from other registration regimes.
+        range: date
+        annotations:
+          concept: registration.company_deregistration_date
+      current_name_start_date:
+        description: Start date reported for the current registered company name; parse as a date and
+          keep distinct from company registration date.
+        range: date
+        annotations:
+          concept: registration.current_name_start_date
+  FinancialPeriod:
+    description: Figures a source reports for one reporting period.
+    attributes:
+      year_end:
+        description: Charity's reported financial-year end as a month-and-day label, such as 30-Jun; trim
+          surrounding whitespace.
+        range: string
+        annotations:
+          concept: financial_period.year_end
+      reporting_period:
+        description: Income-year label associated with reported corporate tax information, retained as
+          supplied (for example, 2023-24); trim surrounding whitespace.
+        range: string
+        annotations:
+          concept: financial_period.reporting_period
+  Licence:
+    description: A licence or authorisation a source records for a subject.
+    attributes:
+      number:
+        description: Identifier allocated to an Australian Financial Services licensee; retain the identifier
+          as a string, including any leading zeros.
+        range: string
+        annotations:
+          concept: licence.number
+      register_entry_name:
+        description: Name displayed for a licensee entry on the Australian Financial Services Licensee
+          Register; may be an organisation name or an individual's displayed name.
+        range: string
+        annotations:
+          concept: licence.register_entry_name
+      start_date:
+        description: Start or issue date of an Australian Financial Services licence, distinct from a
+          licensee's company registration date; parse as a date.
+        range: date
+        annotations:
+          concept: licence.start_date
+      pre_fsr_reference:
+        description: Prior register identifier and licence number recorded for a licensee where a register
+          was superseded by Financial Services Reform; retain each reference as supplied.
+        range: string
+        annotations:
+          concept: licence.pre_fsr_reference
+        multivalued: true
+      authorisation_condition:
+        description: Current condition stating financial services or products authorised under the licence;
+          retain each source condition or row as a separate observation.
+        range: string
+        annotations:
+          concept: licence.authorisation_condition
+        multivalued: true
+  ServiceLocation:
+    description: A place where a subject delivers a service.
+    attributes:
+      code:
+        description: Source identifier for an employment-services provider site or service location; trim
+          and preserve as a string.
+        range: string
+        annotations:
+          concept: service_location.code
+      contract_name:
+        description: Contract name recorded in an employment-services location record; trim without asserting
+          the provider's legal relationship to the contract.
+        range: string
+        annotations:
+          concept: service_location.contract_name
+      name:
+        description: Name used by the source for an employment-services service location; trim surrounding
+          whitespace.
+        range: string
+        annotations:
+          concept: service_location.name
+      address_line:
+        description: Street or premises address line recorded for a service location; trim without inferring
+          omitted address components.
+        range: string
+        annotations:
+          concept: service_location.address_line
+      website:
+        description: Website URL explicitly recorded for a service location; retain as a location-scoped
+          source claim, not an entity-wide website.
+        range: string
+        annotations:
+          concept: service_location.website
+      latitude:
+        description: Latitude coordinate of the service location, parsed as a decimal and limited to the
+          valid latitude range.
+        range: decimal
+        annotations:
+          concept: service_location.latitude
+        minimum_value: -90
+        maximum_value: 90
+      longitude:
+        description: Longitude coordinate of the service location, parsed as a decimal and limited to
+          the valid longitude range.
+        range: decimal
+        annotations:
+          concept: service_location.longitude
+        minimum_value: -180
+        maximum_value: 180
+      agent_freecall_phone:
+        description: Telephone number identified as an agent free-call number in the service-location
+          source; trim and retain as a string to preserve dialing characters and zeros.
+        range: string
+        annotations:
+          concept: service_location.agent_freecall_phone
+  Contact:
+    description: A contact point a source lists for a record.
+    attributes:
+      phone:
+        description: Telephone number explicitly identified as a contact phone for a service site; trim
+          and retain as a string without treating it as a legal-entity contact.
+        range: string
+        annotations:
+          concept: contact.phone
+      email:
+        description: Email address recorded for a service-site contact; trim without treating it as a
+          legal-entity contact.
+        range: string
+        annotations:
+          concept: contact.email
+  Observation:
+    description: 'One source claim: a concept and the value the source states.'
+    attributes:
+      concept:
+        description: The concept the claim is about.
+        range: ConceptName
+        required: true
+      value:
+        description: The value after the mapping's declared transformations.
+        range: string
+enums:
+  EntityEntityTypeValue:
+    description: Values the ontology allows for entity.entity_type.
+    permissible_values:
+      company:
+        description: entity.entity_type is company.
+      sole_trader:
+        description: entity.entity_type is sole_trader.
+      partnership:
+        description: entity.entity_type is partnership.
+      trust:
+        description: entity.entity_type is trust.
+      incorporated_association:
+        description: entity.entity_type is incorporated_association.
+      government:
+        description: entity.entity_type is government.
+      other:
+        description: entity.entity_type is other.
+      unknown:
+        description: entity.entity_type is unknown.
+  EntityStatusValue:
+    description: Values the ontology allows for entity.status.
+    permissible_values:
+      active:
+        description: entity.status is active.
+      deregistered:
+        description: entity.status is deregistered.
+      in_liquidation:
+        description: entity.status is in_liquidation.
+      suspended:
+        description: entity.status is suspended.
+      unknown:
+        description: entity.status is unknown.
+  AddressStateValue:
+    description: Values the ontology allows for address.state.
+    permissible_values:
+      NSW:
+        description: address.state is NSW.
+      VIC:
+        description: address.state is VIC.
+      QLD:
+        description: address.state is QLD.
+      WA:
+        description: address.state is WA.
+      SA:
+        description: address.state is SA.
+      TAS:
+        description: address.state is TAS.
+      ACT:
+        description: address.state is ACT.
+      NT:
+        description: address.state is NT.
+      NZ:
+        description: address.state is NZ.
+      OTHER:
+        description: address.state is OTHER.
+  AddressTypeValue:
+    description: Values the ontology allows for address.type.
+    permissible_values:
+      Business:
+        description: address.type is Business.
+  EntityCharitySizeValue:
+    description: Values the ontology allows for entity.charity_size.
+    permissible_values:
+      Small:
+        description: entity.charity_size is Small.
+      Medium:
+        description: entity.charity_size is Medium.
+      Large:
+        description: entity.charity_size is Large.
+  EntityOperatingRegionValue:
+    description: Values the ontology allows for entity.operating_region.
+    permissible_values:
+      ACT:
+        description: entity.operating_region is ACT.
+      NSW:
+        description: entity.operating_region is NSW.
+      NT:
+        description: entity.operating_region is NT.
+      QLD:
+        description: entity.operating_region is QLD.
+      SA:
+        description: entity.operating_region is SA.
+      TAS:
+        description: entity.operating_region is TAS.
+      VIC:
+        description: entity.operating_region is VIC.
+      WA:
+        description: entity.operating_region is WA.
+  EntityCharitySubtypeValue:
+    description: Values the ontology allows for entity.charity_subtype.
+    permissible_values:
+      PBI:
+        description: entity.charity_subtype is PBI.
+      HPC:
+        description: entity.charity_subtype is HPC.
+      Preventing or relieving suffering of animals:
+        description: entity.charity_subtype is Preventing or relieving suffering of animals.
+      Advancing Culture:
+        description: entity.charity_subtype is Advancing Culture.
+      Advancing Education:
+        description: entity.charity_subtype is Advancing Education.
+      Advancing Health:
+        description: entity.charity_subtype is Advancing Health.
+      Promote or oppose a change to law, government poll or practice:
+        description: entity.charity_subtype is Promote or oppose a change to law, government poll or practice.
+      Advancing natural environment:
+        description: entity.charity_subtype is Advancing natural environment.
+      Promoting or protecting human rights:
+        description: entity.charity_subtype is Promoting or protecting human rights.
+      Purposes beneficial to the general public and other analogous:
+        description: entity.charity_subtype is Purposes beneficial to the general public and other analogous.
+      Promoting reconciliation, mutual respect and tolerance:
+        description: entity.charity_subtype is Promoting reconciliation, mutual respect and tolerance.
+      Advancing Religion:
+        description: entity.charity_subtype is Advancing Religion.
+      Advancing social or public welfare:
+        description: entity.charity_subtype is Advancing social or public welfare.
+      Advancing security or safety of Australia or Australian public:
+        description: entity.charity_subtype is Advancing security or safety of Australia or Australian
+          public.
+  EntityCharityBeneficiaryCategoryValue:
+    description: Values the ontology allows for entity.charity_beneficiary_category.
+    permissible_values:
+      Aboriginal or TSI:
+        description: entity.charity_beneficiary_category is Aboriginal or TSI.
+      Adults:
+        description: entity.charity_beneficiary_category is Adults.
+      Aged Persons:
+        description: entity.charity_beneficiary_category is Aged Persons.
+      Children:
+        description: entity.charity_beneficiary_category is Children.
+      Communities Overseas:
+        description: entity.charity_beneficiary_category is Communities Overseas.
+      Early Childhood:
+        description: entity.charity_beneficiary_category is Early Childhood.
+      Ethnic Groups:
+        description: entity.charity_beneficiary_category is Ethnic Groups.
+      Families:
+        description: entity.charity_beneficiary_category is Families.
+      Females:
+        description: entity.charity_beneficiary_category is Females.
+      Financially Disadvantaged:
+        description: entity.charity_beneficiary_category is Financially Disadvantaged.
+      LGBTIQA+:
+        description: entity.charity_beneficiary_category is LGBTIQA+.
+      General Community in Australia:
+        description: entity.charity_beneficiary_category is General Community in Australia.
+      Males:
+        description: entity.charity_beneficiary_category is Males.
+      Migrants Refugees or Asylum Seekers:
+        description: entity.charity_beneficiary_category is Migrants Refugees or Asylum Seekers.
+      Other Beneficiaries:
+        description: entity.charity_beneficiary_category is Other Beneficiaries.
+      Other Charities:
+        description: entity.charity_beneficiary_category is Other Charities.
+      People at risk of homelessness:
+        description: entity.charity_beneficiary_category is People at risk of homelessness.
+      People with Chronic Illness:
+        description: entity.charity_beneficiary_category is People with Chronic Illness.
+      People with Disabilities:
+        description: entity.charity_beneficiary_category is People with Disabilities.
+      Pre Post Release Offenders:
+        description: entity.charity_beneficiary_category is Pre Post Release Offenders.
+      Rural Regional Remote Communities:
+        description: entity.charity_beneficiary_category is Rural Regional Remote Communities.
+      Unemployed Person:
+        description: entity.charity_beneficiary_category is Unemployed Person.
+      Veterans or their families:
+        description: entity.charity_beneficiary_category is Veterans or their families.
+      Victims of crime:
+        description: entity.charity_beneficiary_category is Victims of crime.
+      Victims of Disasters:
+        description: entity.charity_beneficiary_category is Victims of Disasters.
+      Youth:
+        description: entity.charity_beneficiary_category is Youth.
+      Animals:
+        description: entity.charity_beneficiary_category is Animals.
+      Environment:
+        description: entity.charity_beneficiary_category is Environment.
+      Other gender identities:
+        description: entity.charity_beneficiary_category is Other gender identities.
+  RegistrationBusinessNameStatusValue:
+    description: Values the ontology allows for registration.business_name_status.
+    permissible_values:
+      Registered:
+        description: registration.business_name_status is Registered.
+      Cancelled:
+        description: registration.business_name_status is Cancelled.
+      Deregistered:
+        description: registration.business_name_status is Deregistered.
+  RegistrationPreviousStateOfRegistrationValue:
+    description: Values the ontology allows for registration.previous_state_of_registration.
+    permissible_values:
+      ACT:
+        description: registration.previous_state_of_registration is ACT.
+      NSW:
+        description: registration.previous_state_of_registration is NSW.
+      NT:
+        description: registration.previous_state_of_registration is NT.
+      QLD:
+        description: registration.previous_state_of_registration is QLD.
+      SA:
+        description: registration.previous_state_of_registration is SA.
+      TAS:
+        description: registration.previous_state_of_registration is TAS.
+      VIC:
+        description: registration.previous_state_of_registration is VIC.
+      WA:
+        description: registration.previous_state_of_registration is WA.
+  EntityAsicCompanyTypeValue:
+    description: Values the ontology allows for entity.asic_company_type.
+    permissible_values:
+      APTY:
+        description: entity.asic_company_type is APTY.
+      APUB:
+        description: entity.asic_company_type is APUB.
+      FNOS:
+        description: entity.asic_company_type is FNOS.
+      RACN:
+        description: entity.asic_company_type is RACN.
+  EntityAsicCompanyClassValue:
+    description: Values the ontology allows for entity.asic_company_class.
+    permissible_values:
+      LMSH:
+        description: entity.asic_company_class is LMSH.
+      LMGT:
+        description: entity.asic_company_class is LMGT.
+      LMSG:
+        description: entity.asic_company_class is LMSG.
+      NLIA:
+        description: entity.asic_company_class is NLIA.
+      UNLM:
+        description: entity.asic_company_class is UNLM.
+      NONE:
+        description: entity.asic_company_class is NONE.
+  EntityAsicCompanySubClassValue:
+    description: Values the ontology allows for entity.asic_company_sub_class.
+    permissible_values:
+      EXPT:
+        description: entity.asic_company_sub_class is EXPT.
+      HUNT:
+        description: entity.asic_company_sub_class is HUNT.
+      LISN:
+        description: entity.asic_company_sub_class is LISN.
+      LISS:
+        description: entity.asic_company_sub_class is LISS.
+      LIST:
+        description: entity.asic_company_sub_class is LIST.
+      NEXT:
+        description: entity.asic_company_sub_class is NEXT.
+      NLTD:
+        description: entity.asic_company_sub_class is NLTD.
+      NONE:
+        description: entity.asic_company_sub_class is NONE.
+      PNPC:
+        description: entity.asic_company_sub_class is PNPC.
+      PROP:
+        description: entity.asic_company_sub_class is PROP.
+      PSTC:
+        description: entity.asic_company_sub_class is PSTC.
+      PUBF:
+        description: entity.asic_company_sub_class is PUBF.
+      RACA:
+        description: entity.asic_company_sub_class is RACA.
+      RACO:
+        description: entity.asic_company_sub_class is RACO.
+      STFI:
+        description: entity.asic_company_sub_class is STFI.
+      ULSN:
+        description: entity.asic_company_sub_class is ULSN.
+      ULSS:
+        description: entity.asic_company_sub_class is ULSS.
+      ULST:
+        description: entity.asic_company_sub_class is ULST.
+  EntityAsicRegisterStatusValue:
+    description: Values the ontology allows for entity.asic_register_status.
+    permissible_values:
+      DRGD:
+        description: entity.asic_register_status is DRGD.
+      EXAD:
+        description: entity.asic_register_status is EXAD.
+      NOAC:
+        description: entity.asic_register_status is NOAC.
+      NRGD:
+        description: entity.asic_register_status is NRGD.
+      PROV:
+        description: entity.asic_register_status is PROV.
+      REGD:
+        description: entity.asic_register_status is REGD.
+      SOFF:
+        description: entity.asic_register_status is SOFF.
+      DISS:
+        description: entity.asic_register_status is DISS.
+      DIV3:
+        description: entity.asic_register_status is DIV3.
+      PEND:
+        description: entity.asic_register_status is PEND.
+      CNCL:
+        description: entity.asic_register_status is CNCL.
+  ConceptName:
+    description: Every concept of this ontology version.
+    permissible_values:
+      entity.legal_name:
+        description: As registered. Not the trading name.
+      entity.trading_name:
+        description: May be multiple. Emit one observation each.
+      entity.abn:
+        description: Australian Business Number. Has a checksum — validate it, do not just length-check.
+      entity.acn:
+        description: Australian Company Number. Also checksummed. The last 9 digits of an ABN are often
+          the ACN, but not always.
+      entity.nzbn:
+        description: New Zealand Business Number, if you happen to hit an NZ source.
+      entity.entity_type:
+        description: Default to unknown. Guessing here causes downstream harm.
+      entity.status:
+        description: Canonical entity.status source claim.
+      entity.website:
+        description: Canonical entity.website source claim.
+      entity.industry_code:
+        description: ANZSIC where available. Record the raw source value too.
+      entity.date_registered:
+        description: Canonical entity.date_registered source claim.
+      address.full:
+        description: Canonical address.full source claim.
+      address.locality:
+        description: Canonical address.locality source claim.
+      address.state:
+        description: Canonical address.state source claim.
+      address.postcode:
+        description: Canonical address.postcode source claim.
+      address.country:
+        description: Canonical address.country source claim.
+      address.type:
+        description: Address category supplied for the charity address; trim surrounding whitespace and
+          retain documented source labels.
+      address.line_1:
+        description: First separately supplied address-line component of the charity business address;
+          trim surrounding whitespace.
+      address.line_2:
+        description: Second separately supplied address-line component of the charity business address;
+          trim surrounding whitespace.
+      address.line_3:
+        description: Third separately supplied address-line component of the charity business address;
+          trim surrounding whitespace.
+      registration.acnc_date_registered:
+        description: Effective date on which the charity was registered with the Australian Charities
+          and Not-for-profits Commission; parse as a date and keep distinct from company registration.
+      entity.date_established:
+        description: Date the charity organisation was established, distinct from any regulator registration
+          date; parse as a date.
+      entity.charity_size:
+        description: Charity size category reported from the latest Annual Information Statement; trim
+          and accept the documented size labels.
+      entity.responsible_person_count:
+        description: Reported number of charity board or committee members; parse as a non-negative integer.
+      financial_period.year_end:
+        description: Charity's reported financial-year end as a month-and-day label, such as 30-Jun; trim
+          surrounding whitespace.
+      entity.operating_region:
+        description: Australian state or territory in which the charity reports operating; emit one category
+          for each affirmative indicator.
+      entity.operating_country:
+        description: ISO 3166-1 alpha-3 country code reported for an overseas charity operating location;
+          trim and emit each comma-separated code separately.
+      entity.charity_subtype:
+        description: ACNC charity subtype categories reported for a charity, including charitable-purpose
+          categories, PBI and HPC; emit each affirmative indicator as a category.
+      entity.charity_beneficiary_category:
+        description: Beneficiary groups the charity reports assisting; emit each affirmative indicator
+          as a category without treating blanks as negative claims.
+      licence.number:
+        description: Identifier allocated to an Australian Financial Services licensee; retain the identifier
+          as a string, including any leading zeros.
+      licence.register_entry_name:
+        description: Name displayed for a licensee entry on the Australian Financial Services Licensee
+          Register; may be an organisation name or an individual's displayed name.
+      licence.start_date:
+        description: Start or issue date of an Australian Financial Services licence, distinct from a
+          licensee's company registration date; parse as a date.
+      licence.pre_fsr_reference:
+        description: Prior register identifier and licence number recorded for a licensee where a register
+          was superseded by Financial Services Reform; retain each reference as supplied.
+      licence.authorisation_condition:
+        description: Current condition stating financial services or products authorised under the licence;
+          retain each source condition or row as a separate observation.
+      registration.registered_business_name:
+        description: Business name shown on an ASIC Business Names register entry; trim surrounding whitespace
+          and do not infer a legal-entity owner.
+      registration.business_name_status:
+        description: Status label of the ASIC business-name registration; trim and retain source labels
+          without mapping them to legal-entity status.
+      registration.business_name_registration_date:
+        description: Date on which the business name started, parsed from the documented day/month/year
+          format; not a company registration date.
+      registration.business_name_cancellation_date:
+        description: Date on which the business name ceased, parsed from the documented day/month/year
+          format when supplied; not an entity deregistration date.
+      registration.former_state_number:
+        description: Identifier allocated to a business name by a previous state or territory regulator
+          before 28 May 2012; retain the source string.
+      registration.previous_state_of_registration:
+        description: Abbreviated state or territory in which the business name was registered by a previous
+          regulator; trim and accept documented abbreviations.
+      registration.business_name_abn:
+        description: ABN claim displayed on an ASIC business-name register entry; preserve as an entry-level
+          identifier and do not infer legal-entity ownership.
+      entity.asic_company_type:
+        description: ASIC Company Dataset type code for a company or registered body; trim surrounding
+          whitespace and accept documented codes.
+      entity.asic_company_class:
+        description: ASIC Company Dataset liability class code; trim surrounding whitespace and accept
+          documented codes.
+      entity.asic_company_sub_class:
+        description: ASIC Company Dataset subclass code; trim surrounding whitespace and accept documented
+          codes.
+      entity.asic_register_status:
+        description: Status code reported for a company in the ASIC Company Dataset; trim and preserve
+          the source code without translating to a broader status.
+      registration.original_state:
+        description: State in which the company was originally registered, as reported by the ASIC Company
+          Dataset; trim and retain the source abbreviation.
+      registration.state_registration_number:
+        description: Number assigned when the company was originally registered by a state; preserve as
+          a string because formats vary by state.
+      registration.company_deregistration_date:
+        description: Date on which the company was deregistered, as reported by the ASIC Company Dataset;
+          parse as a date and keep distinct from other registration regimes.
+      registration.current_name_start_date:
+        description: Start date reported for the current registered company name; parse as a date and
+          keep distinct from company registration date.
+      financial_period.reporting_period:
+        description: Income-year label associated with reported corporate tax information, retained as
+          supplied (for example, 2023-24); trim surrounding whitespace.
+      service_location.code:
+        description: Source identifier for an employment-services provider site or service location; trim
+          and preserve as a string.
+      service_location.contract_name:
+        description: Contract name recorded in an employment-services location record; trim without asserting
+          the provider's legal relationship to the contract.
+      service_location.name:
+        description: Name used by the source for an employment-services service location; trim surrounding
+          whitespace.
+      service_location.address_line:
+        description: Street or premises address line recorded for a service location; trim without inferring
+          omitted address components.
+      service_location.website:
+        description: Website URL explicitly recorded for a service location; retain as a location-scoped
+          source claim, not an entity-wide website.
+      service_location.latitude:
+        description: Latitude coordinate of the service location, parsed as a decimal and limited to the
+          valid latitude range.
+      service_location.longitude:
+        description: Longitude coordinate of the service location, parsed as a decimal and limited to
+          the valid longitude range.
+      service_location.agent_freecall_phone:
+        description: Telephone number identified as an agent free-call number in the service-location
+          source; trim and retain as a string to preserve dialing characters and zeros.
+      contact.phone:
+        description: Telephone number explicitly identified as a contact phone for a service site; trim
+          and retain as a string without treating it as a legal-entity contact.
+      contact.email:
+        description: Email address recorded for a service-site contact; trim without treating it as a
+          legal-entity contact.

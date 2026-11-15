@@ -1,0 +1,65 @@
+name: Tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17-trixie
+        env:
+          POSTGRES_DB: linklens
+          POSTGRES_USER: linklens
+          POSTGRES_PASSWORD: linklens
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U linklens -d linklens"
+          --health-interval 3s
+          --health-timeout 3s
+          --health-retries 20
+    env:
+      # Throwaway CI database; the tests create and drop their own databases on it.
+      LINK_LENS_DATABASE_URL: postgresql+psycopg://linklens:linklens@localhost:5432/linklens
+      LINK_LENS_TEST_DATABASE_URL: postgresql+psycopg://linklens:linklens@localhost:5432/linklens
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install dependencies
+        run: uv sync --frozen --group ontology
+
+      - name: Lint
+        run: uv run ruff check src/link_lens tests scripts/mcp_agent_eval.py --exclude _vendor --select F
+
+      - name: Migrate an empty database up, down and up again
+        run: |
+          uv run alembic upgrade head
+          uv run alembic downgrade -1
+          uv run alembic upgrade head
+          uv run alembic downgrade base
+          uv run alembic upgrade head
+
+      - name: Lint the generated ontology schema
+        run: uv run linkml-lint firmable_ontology.linkml.yaml
+
+      # docs/api holds the REST and MCP contracts clients build against; a change
+      # to either must be made on purpose and committed with the code.
+      - name: Check the published REST and MCP contracts
+        run: uv run pytest -q tests/test_production.py -k published
+
+      - name: Check the kept OKF bundle against the renderer
+        run: uv run pytest -q tests/test_fixture_bundle.py
+
+      - name: Test
+        run: uv run pytest -q
