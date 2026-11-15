@@ -12,6 +12,7 @@ time it runs, so turning one on does not replay history.
 """
 
 import json
+import time
 
 import dagster as dg
 from sqlalchemy import text
@@ -162,6 +163,37 @@ def release_sensor(job):
         )
 
     return release_recorded
+
+
+def models_sensor(job, expected):
+    @dg.sensor(
+        name="models_missing",
+        job=job,
+        minimum_interval_seconds=120,
+        default_status=dg.DefaultSensorStatus.RUNNING,
+        description=(
+            "Requests a build of the dbt models when views are missing: on a new or "
+            "restored database, or after a migration dropped them. Migrations create "
+            "tables; the views clients read are dbt's."
+        ),
+    )
+    def models_missing(context: dg.SensorEvaluationContext):
+        built = rows(
+            "SELECT count(*) AS views FROM pg_views WHERE viewowner = 'linklens_transform' "
+            "AND schemaname IN ('serving', 'analytics')"
+        )[0]["views"]
+        if built >= expected:
+            return dg.SkipReason(f"All {expected} models are built.")
+        # One request an hour at most, however long the views stay missing.
+        hour = time.time() // 3600
+        return dg.RunRequest(
+            run_key=f"models-{built}-of-{expected}-{int(hour)}",
+            tags={
+                "link_lens/reason": f"{expected - built} of {expected} views missing"
+            },
+        )
+
+    return models_missing
 
 
 @dg.sensor(

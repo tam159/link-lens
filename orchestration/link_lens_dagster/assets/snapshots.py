@@ -1,12 +1,19 @@
 """A source's latest snapshot, and whether it still fits the approved mapping."""
 
+import os
+
 import dagster as dg
 
 from ..partitions import sources
 from ..resources import Pipeline
 
-# Deterministic steps may be retried: they write nothing twice.
-RETRY = dg.RetryPolicy(max_retries=2, delay=30, backoff=dg.Backoff.EXPONENTIAL)
+# Deterministic steps may be retried: they write nothing twice. The wait before
+# the first retry is 30 seconds unless the environment says otherwise.
+RETRY = dg.RetryPolicy(
+    max_retries=2,
+    delay=float(os.environ.get("LINK_LENS_RETRY_DELAY_SECONDS", "30")),
+    backoff=dg.Backoff.EXPONENTIAL,
+)
 
 
 class SnapshotConfig(dg.Config):

@@ -73,6 +73,7 @@ defs = dg.Definitions(
         sensors.registered_sources,
         sensors.approval_sensor(extract_observations),
         sensors.release_sensor(build_models),
+        sensors.models_sensor(build_models, expected=len(list(models.keys))),
         sensors.ontology_promoted,
         sensors.drift_sensor(request_onboarding),
         alerting.alert_run_failed,

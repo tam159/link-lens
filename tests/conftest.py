@@ -25,6 +25,8 @@ from sqlalchemy.engine import make_url
 from sqlalchemy.pool import NullPool
 
 ROOT = Path(__file__).resolve().parents[1]
+# Dagster's retries wait between attempts; a test has no reason to.
+os.environ.setdefault("LINK_LENS_RETRY_DELAY_SECONDS", "0")
 IMAGE = "pgvector/pgvector:pg17-trixie"
 SCHEMAS = (
     "ontology",

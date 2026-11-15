@@ -410,6 +410,9 @@ def test_a_recorded_release_requests_the_models_and_their_tests(
     evaluations = built.get_asset_check_evaluations()
     assert len(evaluations) > 100 and all(e.passed for e in evaluations)
     assert stored("SELECT profiles FROM analytics.release_overview") == 50
+    # The documentation site is written beside the build.
+    assert (dbt_models.TARGET_DIR / "index.html").exists()
+    assert (dbt_models.TARGET_DIR / "catalog.json").exists()
 
 
 def test_other_sensors_report_and_keep_partitions(location, source):
@@ -789,3 +792,68 @@ def test_old_runs_are_pruned_from_dagsters_own_history(location):
     )
     assert second.output_for_node("delete_old_runs") == 1
     assert [r.run_id for r in instance.get_runs()] == [second.run_id]
+
+
+# ---------------------------------------------------------------------------
+# Phase D5: running as a deployment.
+
+
+def test_missing_views_are_rebuilt_without_anyone_asking(location, database):
+    """After a migration or a restore dropped them, the sensor asks for a build."""
+    from conftest import build_views
+
+    sensor = location.defs.resolve_sensor_def("models_missing")
+    instance = dagster.DagsterInstance.ephemeral()
+    assert sensor.job_name == "build_models"
+    assert isinstance(
+        sensor(dagster.build_sensor_context(instance=instance)), dagster.SkipReason
+    )
+    with database.begin() as connection:
+        connection.execute(text("SET LOCAL ROLE linklens_transform"))
+        connection.execute(text("DROP VIEW serving.profile CASCADE"))
+    try:
+        wanted = sensor(dagster.build_sensor_context(instance=instance))
+        assert isinstance(wanted, dagster.RunRequest)
+        assert "views missing" in wanted.tags["link_lens/reason"]
+        # Asked again within the hour, it is the same request, so one run.
+        assert (
+            sensor(dagster.build_sensor_context(instance=instance)).run_key
+            == wanted.run_key
+        )
+    finally:
+        build_views(database.url.render_as_string(hide_password=False))
+    assert isinstance(
+        sensor(dagster.build_sensor_context(instance=instance)), dagster.SkipReason
+    )
+
+
+def test_a_failed_step_retries_and_leaves_no_duplicate(
+    location, source, as_orchestrator, monkeypatch
+):
+    """A deterministic step that fails once is run again and stores each row once."""
+    from link_lens_dagster.assets import snapshots
+    from link_lens_dagster.assets.extraction import observations
+
+    assert snapshots.RETRY.max_retries == 2
+    real, attempts = refresh.extract, []
+
+    def flaky(source_id, snapshot_id=None, limit=None):
+        attempts.append(source_id)
+        result = real(source_id, snapshot_id, limit)
+        if len(attempts) == 1:
+            # The rows are stored; the step dies before it can report them.
+            raise ConnectionError("connection reset while reporting")
+        return result
+
+    monkeypatch.setattr(refresh, "extract", flaky)
+    as_orchestrator()
+    instance = dagster.DagsterInstance.ephemeral()
+    instance.add_dynamic_partitions("source", [source["id"]])
+    recovered = run(location, [observations], instance, source["id"])
+    assert recovered.success and len(attempts) == 2
+    metadata = recovered.get_asset_materialization_events()[0].materialization.metadata
+    # Everything was already stored by the attempt that failed: nothing twice.
+    assert metadata["newly_stored"].value == 0
+    assert stored("SELECT count(*) FROM evidence.observation") == 6
+    assert stored("SELECT count(DISTINCT id) FROM evidence.observation") == 6
+    assert check(recovered, "extraction_is_complete").passed

@@ -101,3 +101,11 @@ def models(context: dg.AssetExecutionContext, dbt: DbtCliResource):
     os.environ.update(transform.environment())
     os.environ["DBT_LOG_PATH"] = str(TARGET_DIR / "logs")
     yield from dbt.cli(["build"], context=context, target_path=TARGET_DIR).stream()
+    # The documentation site is written beside the build, so what is published
+    # internally always describes what was just built. A failure here is
+    # reported and does not undo the build.
+    documented = dbt.cli(
+        ["docs", "generate"], target_path=TARGET_DIR, raise_on_error=False
+    )
+    if not documented.is_successful():
+        context.log.warning("dbt docs could not be generated; the models are built.")
