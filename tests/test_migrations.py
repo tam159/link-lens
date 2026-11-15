@@ -379,9 +379,10 @@ def test_orchestrator_role_cannot_record_a_human_decision(database):
             "DELETE FROM evidence.observation",
             "CREATE TABLE ops.mine (id int)",
             "SELECT * FROM analytics.source_health",
+            "SELECT * FROM serving.profile",
+            "SELECT * FROM serving.okf_page",
         ):
             assert not allowed(connection, role, statement), statement
-        assert allowed(connection, role, "SELECT * FROM serving.profile")
 
 
 def test_downgrade_drops_what_the_transform_role_built(empty_database):

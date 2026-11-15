@@ -5,6 +5,8 @@ writes: snapshots, runs, drift checks, source records, observations, batches,
 entities, links, profiles and usage. It cannot insert or change what only a
 person records: a mapping approval, an ontology activation or promotion, a
 release, a bundle scope or a bundle, a review label, or anything in `access`.
+It has no use for `serving` or `analytics` and no access to them: dbt builds
+those, as its own role.
 So "no asset creates a release, an approval or a promotion" is a rule of the
 database, whatever the orchestration code does.
 
@@ -21,7 +23,7 @@ depends_on = None
 
 ROLE = "linklens_orchestrator"
 WRITE = ["ontology", "catalog", "onboarding", "evidence", "identity", "ops"]
-READ = WRITE + ["serving"]
+READ = WRITE
 # What only a person records.
 HUMAN_GATES = [
     "onboarding.approval",
