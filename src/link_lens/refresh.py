@@ -7,13 +7,15 @@ Agent Inbox, and a release is recorded with `link-lens release create`.
 
     check        download the source again; a snapshot is new only if the bytes are
     check_drift  compare a snapshot with the mapping approved for the source
-    extract      extract a snapshot under that mapping, unless drift blocks it
+    extract      extract a snapshot under that mapping, unless drift blocks it, and
+                 record the run a batch is assembled from for that snapshot
     request_onboarding   start an onboarding run for a snapshot (model calls follow)
     assemble     assemble a batch from the approved runs of the registered sources
 """
 
 import hashlib
 import sys
+import uuid
 
 from sqlalchemy import select, text
 
@@ -111,6 +113,7 @@ def extract(source_id, snapshot_id=None, limit=None):
         sys.maxsize if limit is None else limit,
     )
     result = extract_rows(spec, rows, snapshot)
+    run_id = record_run(source_id, snapshot, config_hash, len(rows), result)
     # Two rows of a file can state the same thing about the same record; the
     # observation is the same and is stored once, so it is counted once.
     ids = sorted({observation["id"] for observation in result["observations"]})
@@ -118,6 +121,7 @@ def extract(source_id, snapshot_id=None, limit=None):
         "source_id": source_id,
         "snapshot_id": snapshot["id"],
         "config_hash": config_hash,
+        "run_id": run_id,
         "records": len(rows),
         "observations": len(ids),
         "repeated_in_snapshot": len(result["observations"]) - len(ids),
@@ -125,6 +129,59 @@ def extract(source_id, snapshot_id=None, limit=None):
         "issues": len(result["issues"]),
         "observation_digest": hashlib.sha256("".join(ids).encode()).hexdigest(),
     }
+
+
+def record_run(source_id, snapshot, config_hash, records, result):
+    """The run a batch is assembled from for this snapshot; a refresh run if needed.
+
+    A batch is defined by runs. The run a source was onboarded with covers the
+    snapshot it was onboarded on. For any other snapshot extracted under the
+    same approved mapping, a run of kind `refresh` is recorded: it names that
+    mapping and the approval a person gave for it, made no model call, and is
+    complete. Its ID follows from the snapshot and the config, so recording it
+    again writes nothing. No approval is created.
+    """
+    approved = store.require("runs", sources.state(source_id)[0]["approved_run_id"])
+    if approved["snapshot_id"] == snapshot["id"]:
+        return approved["id"]
+    run_id = str(
+        uuid.uuid5(
+            uuid.NAMESPACE_URL, f"link-lens:refresh:{snapshot['id']}:{config_hash}"
+        )
+    )
+    if store.get("runs", run_id) is None:
+        now = store.now()
+        store.put(
+            "runs",
+            run_id,
+            {
+                "id": run_id,
+                "experiment_id": approved.get("experiment_id"),
+                "source_id": source_id,
+                "source_slug": approved["source_slug"],
+                "snapshot_id": snapshot["id"],
+                "ontology_hash": approved.get("ontology_hash"),
+                "status": "completed",
+                "mapping_id": approved["mapping_id"],
+                "approval_id": approved["approval_id"],
+                "refreshes_run_id": approved["id"],
+                "extracted_records": records,
+                "observation_count": len(result["observations"]),
+                # No mapping was proposed in this run and no model was called.
+                "version": 0,
+                "model_calls": 0,
+                "python_calls": 0,
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "active_seconds": 0.0,
+                "calculated_cost_usd": 0.0,
+                "created_at": now,
+                "completed_at": now,
+            },
+            source_id,
+            "refresh",
+        )
+    return run_id
 
 
 def start_thread(run, client):
@@ -196,14 +253,32 @@ def request_onboarding(source_id, client, snapshot_id=None):
     }
 
 
-def approved_runs():
-    """The approved run in force of each registered source that has one."""
-    return [
-        state["approved_run_id"]
-        for state in registered()
-        if state["approved_run_id"]
-        and store.require("runs", state["approved_run_id"]).get("status") == "completed"
-    ]
+def current_runs():
+    """For each registered source, the run of its newest snapshot under the mapping in force.
+
+    That is the refresh run of the latest snapshot extracted under the approved
+    mapping, or the run the source was onboarded with when it has not been
+    refreshed. A source with no approved, completed run is left out.
+    """
+    with store.engine().connect() as connection:
+        return list(
+            connection.execute(
+                text(
+                    "SELECT DISTINCT ON (run.source_id) run.id "
+                    "FROM catalog.source_state state "
+                    "JOIN onboarding.run run ON run.source_id = state.source_id "
+                    "JOIN onboarding.approval approval "
+                    "  ON approval.id = run.state ->> 'approval_id' "
+                    " AND approval.decision = 'approved' "
+                    " AND approval.config_hash = state.approved_config_hash "
+                    "JOIN catalog.snapshot snapshot ON snapshot.id = run.snapshot_id "
+                    "WHERE state.kind = 'registered' AND run.status = 'completed' "
+                    "ORDER BY run.source_id, "
+                    "coalesce(snapshot.retrieved_at, snapshot.created_at) DESC, "
+                    "run.created_at DESC, run.id"
+                )
+            ).scalars()
+        )
 
 
 def assemble(
@@ -211,13 +286,14 @@ def assemble(
 ):
     """Assemble a batch of entities, links and profiles. Deterministic; no model call.
 
-    From the approved runs of the registered sources unless `run_ids` are given.
+    From the current run of every registered source (see `current_runs`) unless
+    `run_ids` are given.
     Every call makes a new batch; a batch is never rewritten, and no batch is
     served until a person records a release of it.
     """
     from . import pipeline
 
-    run_ids = list(run_ids or approved_runs())
+    run_ids = list(run_ids or current_runs())
     if not run_ids:
         raise Blocked("No registered source has an approved, completed run")
     batch = pipeline.assemble(

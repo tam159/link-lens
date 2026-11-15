@@ -53,6 +53,7 @@ def observations(
         metadata={
             "snapshot_id": result["snapshot_id"],
             "config_hash": result["config_hash"],
+            "run_id": result["run_id"],
             "records": result["records"],
             "observations": result["observations"],
             "repeated_in_snapshot": result["repeated_in_snapshot"],

@@ -448,3 +448,63 @@ def test_orchestration_code_never_records_a_human_decision():
     # Paid steps are never retried by Dagster and never start by themselves.
     definitions = (ORCHESTRATION / "link_lens_dagster/assets/onboarding.py").read_text()
     assert "retry_policy" not in definitions
+
+
+def test_a_refreshed_source_flows_into_the_next_batch(
+    location, spec, as_orchestrator, monkeypatch
+):
+    """Through the assets: new bytes, a refresh run, and a batch assembled from it."""
+    from link_lens_dagster.assets.extraction import observations
+    from link_lens_dagster.assets.identity import identity_batch
+    from link_lens_dagster.assets.snapshots import snapshot
+    from test_refresh import two_sources
+
+    built = two_sources(spec)
+    onboarded = built["source-a"]["run"]["id"]
+    downloaded = []
+
+    def register(request):
+        rows = [["Alpha Renamed Pty Ltd", ABNS[0]]] + [
+            [f"Alpha Entity {n}", abn] for n, abn in enumerate(ABNS) if n
+        ]
+        downloaded.append(
+            snapshot_of(
+                "source-a", csv_of(["name", "abn"], rows), "2025-03-01T00:00:00Z"
+            )
+        )
+        return {"id": "source-a"}, downloaded[-1]
+
+    monkeypatch.setattr(ingestion, "register", register)
+    as_orchestrator()
+    instance = dagster.DagsterInstance.ephemeral()
+    instance.add_dynamic_partitions("source", ["source-a", "source-b"])
+
+    refreshed = run(location, [snapshot, observations], instance, "source-a")
+    assert refreshed.success and materialised(refreshed) == ["observations", "snapshot"]
+    assert check(refreshed, "schema_drift").passed
+    extraction = next(
+        event.materialization.metadata
+        for event in refreshed.get_asset_materialization_events()
+        if event.asset_key.to_user_string() == "observations"
+    )
+    refresh_run = extraction["run_id"].value
+    assert refresh_run != onboarded
+    assert store.require("runs", refresh_run)["snapshot_id"] == downloaded[0]["id"]
+
+    config = {
+        "identity_batch": {"config": {"minimum_profiles": 3, "cohort_pool_size": 100}}
+    }
+    batch = run(location, [identity_batch], instance, config=config)
+    assert batch.success
+    assert check(batch, "selected_fields_cite_evidence").passed
+    batch_id = (
+        batch.get_asset_materialization_events()[0]
+        .materialization.metadata["batch_id"]
+        .value
+    )
+    assert store.require("batches", batch_id)["run_ids"] == [
+        refresh_run,
+        built["source-b"]["run"]["id"],
+    ]
+    # Still nothing a client can see: no release exists, and the role cannot make one.
+    assert stored("SELECT count(*) FROM ops.release") == 0

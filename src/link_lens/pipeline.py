@@ -23,8 +23,15 @@ def approved_result(run, all_pool=False, cohort_pool_size=None):
     ):
         raise ValueError("Stale or missing mapping approval")
     snapshot = store.require("snapshots", run["snapshot_id"])
-    pack = store.read_json(run["partitions_artifact"])
-    rows = sum(pack["partitions"].values(), [])
+    if run.get("partitions_artifact"):
+        pack = store.read_json(run["partitions_artifact"])
+        rows = sum(pack["partitions"].values(), [])
+    else:
+        # A refresh run: no agent sampled this snapshot, so there are no
+        # partitions to keep apart. Its records are read from the snapshot.
+        from .settings import settings
+
+        cohort_pool_size = cohort_pool_size or settings().sample_pool_size
     if cohort_pool_size is not None:
         # Post-approval deterministic processing of the same immutable snapshot.
         # This does not expose additional records to the inference agent or alter its holdout.

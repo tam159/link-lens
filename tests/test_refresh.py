@@ -249,3 +249,168 @@ def test_cli_extracts_and_exits_3_when_blocked(source):
     blocked = runner.invoke(app, ["source", "extract", source["id"]])
     assert blocked.exit_code == 3
     assert "missing_used_column" in json.loads(blocked.output)["blocked"]
+
+
+def two_sources(spec):
+    """Two registered sources that state the same three ABNs, each with an approved mapping."""
+    built = {}
+    for source_id, prefix in (("source-a", "Alpha"), ("source-b", "Beta")):
+        store.put(
+            "sources",
+            source_id,
+            {
+                "id": source_id,
+                "slug": source_id,
+                "portal": "https://data.gov.au/data",
+                "metadata": {"title": source_id, "license_title": "CC BY"},
+            },
+            kind="registered",
+        )
+        rows = [[f"{prefix} Entity {n}", abn] for n, abn in enumerate(ABNS)]
+        snapshot = snapshot_of(
+            source_id, csv_of(["name", "abn"], rows), "2025-02-01T00:00:00Z"
+        )
+        run, _ = approve(spec, source_id, snapshot)
+        built[source_id] = {"snapshot": snapshot, "run": run}
+    return built
+
+
+def profiles_of(batch_id):
+    with store.engine().connect() as connection:
+        return dict(
+            connection.execute(
+                text(
+                    "SELECT entity_key, sha256_hex(profile_version) FROM identity.profile "
+                    "WHERE batch_id = :batch"
+                ),
+                {"batch": batch_id},
+            ).all()
+        )
+
+
+def served(release_id, source_id):
+    """Snapshots the release serves observations from for a source, with their count."""
+    with store.engine().connect() as connection:
+        return dict(
+            connection.execute(
+                text(
+                    "SELECT e.snapshot_id, count(*) FROM serving.evidence e "
+                    "WHERE e.release_id = :release AND e.source_id = :source GROUP BY 1"
+                ),
+                {"release": release_id, "source": source_id},
+            ).all()
+        )
+
+
+def test_a_refresh_reaches_the_next_batch_and_no_earlier_release(spec, tmp_path):
+    from link_lens import exports, releases
+
+    built = two_sources(spec)
+    a, b = built["source-a"], built["source-b"]
+    # Extracting the snapshot a source was onboarded on needs no run of its own.
+    assert refresh.extract("source-a")["run_id"] == a["run"]["id"]
+    assert refresh.extract("source-b")["run_id"] == b["run"]["id"]
+    assert refresh.current_runs() == [a["run"]["id"], b["run"]["id"]]
+    assert count("SELECT count(*) FROM onboarding.run") == 2
+
+    first = refresh.assemble(minimum_profiles=3, cohort_pool_size=100)
+    assert first["run_ids"] == [a["run"]["id"], b["run"]["id"]]
+    assert first["counts"]["profiles"] == 3
+    release_one = releases.create(first["batch_id"], "test reviewer")
+    digest = releases.digest(release_one["release_id"])
+    assert served(1, "source-a") == {a["snapshot"]["id"]: 6}
+
+    # The publisher of source A changes one row. The shape still fits the mapping.
+    rows = [["Alpha Renamed Pty Ltd", ABNS[0]]] + [
+        [f"Alpha Entity {n}", abn] for n, abn in enumerate(ABNS) if n
+    ]
+    newer = snapshot_of(
+        "source-a", csv_of(["name", "abn"], rows), "2025-03-01T00:00:00Z"
+    )
+    assert refresh.check_drift("source-a")["blocking"] is False
+    extracted = refresh.extract("source-a")
+    assert extracted["snapshot_id"] == newer["id"] and extracted["inserted"] == 6
+
+    # The refresh is a run of its own that carries the approval a person gave.
+    run = store.require("runs", extracted["run_id"])
+    assert extracted["run_id"] != a["run"]["id"]
+    assert (run["status"], run["snapshot_id"], run["model_calls"]) == (
+        "completed",
+        newer["id"],
+        0,
+    )
+    assert (run["mapping_id"], run["approval_id"], run["refreshes_run_id"]) == (
+        a["run"]["mapping_id"],
+        a["run"]["approval_id"],
+        a["run"]["id"],
+    )
+    assert count("SELECT count(*) FROM onboarding.run WHERE kind = 'refresh'") == 1
+    assert count("SELECT count(*) FROM onboarding.approval") == 2
+    # Extracting again records nothing more.
+    again = refresh.extract("source-a")
+    assert (again["run_id"], again["inserted"]) == (extracted["run_id"], 0)
+    assert count("SELECT count(*) FROM onboarding.run") == 3
+    assert refresh.current_runs() == [extracted["run_id"], b["run"]["id"]]
+
+    # The next batch is assembled from the new snapshot: same entities, new values.
+    second = refresh.assemble(minimum_profiles=3, cohort_pool_size=100)
+    assert second["run_ids"] == [extracted["run_id"], b["run"]["id"]]
+    before, after = profiles_of(first["batch_id"]), profiles_of(second["batch_id"])
+    assert set(before) == set(after) and len(after) == 3
+    assert all(before[entity] != after[entity] for entity in before)
+
+    def names(batch_id):
+        with store.engine().connect() as connection:
+            return connection.execute(
+                text(
+                    "SELECT string_agg(f.detail::text, ' ') FROM identity.profile_field f "
+                    "JOIN identity.profile p ON p.id = f.profile_id WHERE p.batch_id = :batch"
+                ),
+                {"batch": batch_id},
+            ).scalar_one()
+
+    assert "Alpha Renamed Pty Ltd" in names(second["batch_id"])
+    assert "Alpha Renamed Pty Ltd" not in names(first["batch_id"])
+    assert "Alpha Entity 0" in names(first["batch_id"])
+    assert "Alpha Entity 0" not in names(second["batch_id"])
+
+    # The earlier release serves exactly what it served; the new one the new snapshot.
+    assert releases.digest(release_one["release_id"]) == digest
+    assert served(1, "source-a") == {a["snapshot"]["id"]: 6}
+    release_two = releases.create(second["batch_id"], "test reviewer")
+    assert release_two["release_id"] == 2
+    assert served(2, "source-a") == {newer["id"]: 6}
+    assert served(2, "source-b") == served(1, "source-b") == {b["snapshot"]["id"]: 6}
+    assert served(1, "source-a") == {a["snapshot"]["id"]: 6}
+    with store.engine().connect() as connection:
+        assert (
+            connection.execute(
+                text(
+                    "SELECT snapshot_id FROM serving.source "
+                    "WHERE release_id = 2 AND source_id = 'source-a'"
+                )
+            ).scalar_one()
+            == newer["id"]
+        )
+        changes = connection.execute(
+            text("SELECT * FROM analytics.release_profile_changes WHERE release_id = 2")
+        ).one()
+        assert (
+            changes.profiles_added,
+            changes.profiles_removed,
+            changes.profiles_changed,
+        ) == (
+            0,
+            0,
+            3,
+        )
+        # A refresh is not an onboarding attempt and is not counted as one.
+        assert (
+            connection.execute(
+                text("SELECT count(*) FROM analytics.onboarding_run")
+            ).scalar_one()
+            == 2
+        )
+    # A batch with a refresh run exports like any other.
+    exported = exports.export(tmp_path / "out", second["batch_id"])
+    assert exported and (tmp_path / "out" / "onboarding" / "source-a").is_dir()
