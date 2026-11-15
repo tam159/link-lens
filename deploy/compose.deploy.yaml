@@ -43,3 +43,6 @@ services:
     environment: *deployed
   dbt-docs:
     restart: unless-stopped
+    volumes: !override
+      - dagster-home:/opt/dagster/home
+    environment: *deployed

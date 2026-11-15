@@ -233,7 +233,7 @@ Open these in a browser to explore. Each port is a setting in `.env` (from [.env
 - **The product service** refuses every data call until a release and an API key exist; see [Serve a release to clients](#serve-a-release-to-clients). `/health` needs no key.
 - **The console** signs in only people listed in `LINK_LENS_ADMIN_USERS`; see [Operations console](#operations-console).
 - **Grafana:** sign in as `admin`; the password is `LINK_LENS_GRAFANA_ADMIN_PASSWORD`, `admin` when unset. Its dashboards link to the product service, Dagster and the Inbox at the default ports; type another address into the box at the top of a dashboard if you changed one.
-- **dbt documentation** is empty until the models have been built once through Dagster.
+- **dbt documentation** is written by each build of the models through Dagster, and generated when its service starts and finds none.
 
 Open Agent Inbox and add a connection:
 

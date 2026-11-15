@@ -237,14 +237,20 @@ services:
     depends_on:
       dagster-webserver: {condition: service_healthy}
   dbt-docs:
-    # dbt's documentation of every model, column, test and source, written by
-    # each build of the models: http://localhost:18731 (LINK_LENS_DBT_DOCS_PORT).
-    # Internal; bound to this machine. Empty until the models have been built once through Dagster.
+    # dbt's documentation of every model, column, test and source:
+    # http://localhost:18731 (LINK_LENS_DBT_DOCS_PORT). Internal; bound to this
+    # machine. Each build of the models through Dagster writes it again. When
+    # the service starts and finds none, it generates it first, which only
+    # reads the database, so the page is never a bare file listing.
     image: link-lens-dagster:local
     profiles: ["orchestration"]
-    command: ["sh", "-c", "mkdir -p /opt/dagster/home/dbt-target && exec python -m http.server 3090 --bind 0.0.0.0 --directory /opt/dagster/home/dbt-target"]
+    command: ["sh", "-c", "T=/opt/dagster/home/dbt-target; mkdir -p $$T; if [ ! -f $$T/index.html ]; then cd /app && DBT_LOG_PATH=$$T/logs link-lens dbt docs generate --target-path $$T || echo 'dbt docs could not be generated; the next build of the models writes them'; fi; exec python -m http.server 3090 --bind 0.0.0.0 --directory $$T"]
+    environment:
+      LINK_LENS_DATABASE_URL: postgresql+psycopg://linklens:${LINK_LENS_POSTGRES_PASSWORD:-linklens}@postgres:5432/linklens
     ports: ["127.0.0.1:${LINK_LENS_DBT_DOCS_PORT:-18731}:3090"]
     volumes:
+      - ./transform:/app/transform:ro
+      - ./src:/app/src:ro
       - dagster-home:/opt/dagster/home
     depends_on:
       dagster-webserver: {condition: service_healthy}
