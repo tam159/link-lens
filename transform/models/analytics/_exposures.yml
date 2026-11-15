@@ -1,0 +1,55 @@
+# The dashboards that read the reporting models. Each is a file in
+# deploy/grafana/dashboards; a model a dashboard reads is named here, and a
+# test fails when the two disagree.
+version: 2
+
+exposures:
+  - name: data_quality_dashboard
+    label: Data quality dashboard
+    type: dashboard
+    maturity: medium
+    url: http://localhost:3080/d/link-lens-data-quality
+    description: Sources, coverage, validity, identity, profiles, releases and review, with measured quality kept apart from proxy numbers.
+    owner:
+      name: Analytics engineer
+    depends_on:
+      - ref('concept_usage')
+      - ref('evaluation_summary')
+      - ref('identity_entity_support')
+      - ref('identity_link_summary')
+      - ref('observation_validity')
+      - ref('onboarding_run')
+      - ref('release_field_status')
+      - ref('release_overview')
+      - ref('release_profile_changes')
+      - ref('source_coverage')
+      - ref('source_health')
+
+  - name: product_overview_dashboard
+    label: Product overview dashboard
+    type: dashboard
+    maturity: medium
+    url: http://localhost:3080/d/link-lens-product-overview
+    description: What each release serves, how it differs from the one before, who calls the product service and what the model calls cost.
+    owner:
+      name: Analytics engineer
+    depends_on:
+      - ref('batch_overview')
+      - ref('budget_ledger')
+      - ref('model_cost')
+      - ref('release_overview')
+      - ref('release_profile_changes')
+      - ref('usage_daily')
+      - ref('usage_monthly')
+
+  - name: source_health_dashboard
+    label: Source health dashboard
+    type: dashboard
+    maturity: medium
+    url: http://localhost:3080/d/link-lens-source-health
+    description: Which sources are stale, never checked or waiting for a person, and how onboarding runs went.
+    owner:
+      name: Analytics engineer
+    depends_on:
+      - ref('onboarding_run')
+      - ref('source_health')

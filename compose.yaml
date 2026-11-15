@@ -149,7 +149,53 @@ services:
     volumes: *dagster-volumes
     depends_on:
       dagster-webserver: {condition: service_healthy}
+  # Dashboards run only with `docker compose --profile dashboards up -d`. Grafana
+  # reads the reporting models in `analytics` through a login that can read
+  # nothing else, and keeps its own users and settings in its own volume.
+  grafana-db:
+    # Creates the `linklens_grafana` login when it is missing, then exits.
+    image: pgvector/pgvector:pg17-trixie
+    profiles: ["dashboards"]
+    environment:
+      PGHOST: postgres
+      PGUSER: linklens
+      PGPASSWORD: ${LINK_LENS_POSTGRES_PASSWORD:-linklens}
+      PGDATABASE: postgres
+      GRAFANA_POSTGRES_PASSWORD: ${LINK_LENS_GRAFANA_POSTGRES_PASSWORD:-grafana}
+    entrypoint: ["sh", "-c", "psql -v ON_ERROR_STOP=1 -v password=\"$$GRAFANA_POSTGRES_PASSWORD\" -f /grafana-db.sql"]
+    volumes:
+      - ./deploy/grafana-db.sql:/grafana-db.sql:ro
+    depends_on:
+      postgres: {condition: service_healthy}
+  grafana:
+    # http://localhost:3080, sign in as `admin`. Bound to this machine only.
+    image: grafana/grafana-oss:13.0.2
+    profiles: ["dashboards"]
+    environment:
+      GF_SERVER_HTTP_PORT: "3080"
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${LINK_LENS_GRAFANA_ADMIN_PASSWORD:-admin}
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      # Nothing is reported to the vendor and nothing is fetched from it.
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: "false"
+      GF_NEWS_NEWS_FEED_ENABLED: "false"
+      LINK_LENS_GRAFANA_DB_HOST: postgres
+      LINK_LENS_GRAFANA_DB_PORT: "5432"
+      LINK_LENS_GRAFANA_DB_NAME: linklens
+      LINK_LENS_GRAFANA_POSTGRES_PASSWORD: ${LINK_LENS_GRAFANA_POSTGRES_PASSWORD:-grafana}
+    ports: ["127.0.0.1:3080:3080"]
+    volumes:
+      - ./deploy/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./deploy/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      postgres: {condition: service_healthy}
+      grafana-db: {condition: service_completed_successfully}
 volumes:
   postgres-data:
   checkpoints:
   dagster-home:
+  grafana-data:

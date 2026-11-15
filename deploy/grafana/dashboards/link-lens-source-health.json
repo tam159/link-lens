@@ -1,0 +1,623 @@
+{
+  "uid": "link-lens-source-health",
+  "title": "Source health",
+  "description": "Which sources are stale, never checked or waiting for a person, and how onboarding runs went.",
+  "tags": [
+    "link-lens"
+  ],
+  "timezone": "utc",
+  "schemaVersion": 39,
+  "version": 1,
+  "editable": false,
+  "graphTooltip": 0,
+  "refresh": "",
+  "time": {
+    "from": "now-90d",
+    "to": "now"
+  },
+  "links": [
+    {
+      "type": "dashboards",
+      "tags": [
+        "link-lens"
+      ],
+      "title": "Link Lens dashboards",
+      "asDropdown": true,
+      "icon": "external link"
+    }
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "product_url",
+        "label": "Product service",
+        "type": "textbox",
+        "query": "http://localhost:8100",
+        "current": {
+          "text": "http://localhost:8100",
+          "value": "http://localhost:8100"
+        },
+        "hide": 0,
+        "options": [
+          {
+            "selected": true,
+            "text": "http://localhost:8100",
+            "value": "http://localhost:8100"
+          }
+        ]
+      },
+      {
+        "name": "dagster_url",
+        "label": "Dagster",
+        "type": "textbox",
+        "query": "http://localhost:3070",
+        "current": {
+          "text": "http://localhost:3070",
+          "value": "http://localhost:3070"
+        },
+        "hide": 0,
+        "options": [
+          {
+            "selected": true,
+            "text": "http://localhost:3070",
+            "value": "http://localhost:3070"
+          }
+        ]
+      },
+      {
+        "name": "inbox_url",
+        "label": "Agent Inbox",
+        "type": "textbox",
+        "query": "http://localhost:3000",
+        "current": {
+          "text": "http://localhost:3000",
+          "value": "http://localhost:3000"
+        },
+        "hide": 0,
+        "options": [
+          {
+            "selected": true,
+            "text": "http://localhost:3000",
+            "value": "http://localhost:3000"
+          }
+        ]
+      }
+    ]
+  },
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+    {
+      "id": 1,
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 3
+      },
+      "type": "text",
+      "title": "",
+      "options": {
+        "mode": "markdown",
+        "content": "**Which sources need attention, and why.** A source is *stale* when a check is overdue against its cadence, and has *no cadence* until someone sets one (`link-lens source cadence SOURCE --days N`). A source *waiting for review* has a mapping in the Agent Inbox. Drift against the approved mapping is checked by `link-lens source drift` and is not stored yet, so it is not shown."
+      }
+    },
+    {
+      "id": 2,
+      "gridPos": {
+        "x": 0,
+        "y": 3,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Registered sources",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE true"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 3,
+      "gridPos": {
+        "x": 4,
+        "y": 3,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Fresh",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status = 'fresh'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 4,
+      "gridPos": {
+        "x": 8,
+        "y": 3,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Stale",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status = 'stale'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 5,
+      "gridPos": {
+        "x": 12,
+        "y": 3,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "No cadence set",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status = 'no_cadence'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 6,
+      "gridPos": {
+        "x": 16,
+        "y": 3,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Never checked",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status = 'never_checked'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 7,
+      "gridPos": {
+        "x": 20,
+        "y": 3,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Waiting for review",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE waiting_for_review"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 8,
+      "gridPos": {
+        "x": 0,
+        "y": 7,
+        "w": 24,
+        "h": 9
+      },
+      "type": "table",
+      "title": "Sources",
+      "description": "last_changed_at is when the downloaded bytes last differed. Follow a title to the dataset on its portal or to its OKF page.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT source_title, refresh_status, cadence_days, last_checked_at, next_check_due_at, round(days_overdue::numeric, 1) AS days_overdue, last_changed_at, waiting_for_review, waiting_since, latest_run_status, approved_at, publisher, portal_url, okf_path, source_id FROM analytics.source_health ORDER BY waiting_for_review DESC, days_overdue DESC NULLS LAST, source_title"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "source_title"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Dataset on its portal",
+                    "url": "${__data.fields.portal_url}",
+                    "targetBlank": true
+                  },
+                  {
+                    "title": "OKF page (needs an API key)",
+                    "url": "${product_url}/v1/okf${__data.fields.okf_path}",
+                    "targetBlank": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "waiting_for_review"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Agent Inbox",
+                    "url": "${inbox_url}",
+                    "targetBlank": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "refresh_status"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Dagster",
+                    "url": "${dagster_url}",
+                    "targetBlank": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "portal_url"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "okf_path"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 9,
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 10,
+        "h": 9
+      },
+      "type": "table",
+      "title": "Onboarding runs by status",
+      "description": "hours_to_approval runs from the first proposal to approval and includes the time a mapping waited for a person.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT run_status, count(*) AS runs, round(avg(mapping_versions)::numeric, 1) AS mean_mapping_versions, sum(revisions_requested)::bigint AS revisions_requested, round(avg(hours_to_approval)::numeric, 1) AS mean_hours_to_approval FROM analytics.onboarding_run GROUP BY run_status ORDER BY runs DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 10,
+      "gridPos": {
+        "x": 10,
+        "y": 16,
+        "w": 14,
+        "h": 9
+      },
+      "type": "table",
+      "title": "Latest onboarding runs",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT started_at, source_id, run_status, mapping_versions, revisions_requested, round(hours_to_approval::numeric, 1) AS hours_to_approval, model_calls, round(calculated_cost_usd::numeric, 4) AS calculated_cost_usd, experiment_id, run_id FROM analytics.onboarding_run ORDER BY started_at DESC NULLS LAST LIMIT 50"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    }
+  ]
+}

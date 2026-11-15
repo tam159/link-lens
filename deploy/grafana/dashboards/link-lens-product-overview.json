@@ -1,0 +1,787 @@
+{
+  "uid": "link-lens-product-overview",
+  "title": "Product overview",
+  "description": "What each release serves, how it differs from the one before, who calls the product service and what the model calls cost.",
+  "tags": [
+    "link-lens"
+  ],
+  "timezone": "utc",
+  "schemaVersion": 39,
+  "version": 1,
+  "editable": false,
+  "graphTooltip": 0,
+  "refresh": "",
+  "time": {
+    "from": "now-90d",
+    "to": "now"
+  },
+  "links": [
+    {
+      "type": "dashboards",
+      "tags": [
+        "link-lens"
+      ],
+      "title": "Link Lens dashboards",
+      "asDropdown": true,
+      "icon": "external link"
+    }
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "product_url",
+        "label": "Product service",
+        "type": "textbox",
+        "query": "http://localhost:8100",
+        "current": {
+          "text": "http://localhost:8100",
+          "value": "http://localhost:8100"
+        },
+        "hide": 0,
+        "options": [
+          {
+            "selected": true,
+            "text": "http://localhost:8100",
+            "value": "http://localhost:8100"
+          }
+        ]
+      },
+      {
+        "name": "dagster_url",
+        "label": "Dagster",
+        "type": "textbox",
+        "query": "http://localhost:3070",
+        "current": {
+          "text": "http://localhost:3070",
+          "value": "http://localhost:3070"
+        },
+        "hide": 0,
+        "options": [
+          {
+            "selected": true,
+            "text": "http://localhost:3070",
+            "value": "http://localhost:3070"
+          }
+        ]
+      },
+      {
+        "name": "inbox_url",
+        "label": "Agent Inbox",
+        "type": "textbox",
+        "query": "http://localhost:3000",
+        "current": {
+          "text": "http://localhost:3000",
+          "value": "http://localhost:3000"
+        },
+        "hide": 0,
+        "options": [
+          {
+            "selected": true,
+            "text": "http://localhost:3000",
+            "value": "http://localhost:3000"
+          }
+        ]
+      }
+    ]
+  },
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+    {
+      "id": 1,
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 3
+      },
+      "type": "text",
+      "title": "",
+      "options": {
+        "mode": "markdown",
+        "content": "**What clients are served.** Every figure is counted from a release that a person recorded. Identity links are proposals until a person reviews them, and profiles rest on those proposals. A row links to its release tree or OKF page in the product service, which answers only with an API key."
+      }
+    },
+    {
+      "id": 2,
+      "gridPos": {
+        "x": 0,
+        "y": 3,
+        "w": 24,
+        "h": 1
+      },
+      "type": "row",
+      "title": "Latest release",
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 3,
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Sources",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT sources FROM analytics.release_overview WHERE is_latest"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 4,
+      "gridPos": {
+        "x": 4,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Source records",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT records FROM analytics.release_overview WHERE is_latest"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 5,
+      "gridPos": {
+        "x": 8,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Observations",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT observations FROM analytics.release_overview WHERE is_latest"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 6,
+      "gridPos": {
+        "x": 12,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Entities",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT entities FROM analytics.release_overview WHERE is_latest"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 7,
+      "gridPos": {
+        "x": 16,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Links, proposed",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT links FROM analytics.release_overview WHERE is_latest"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 8,
+      "gridPos": {
+        "x": 20,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Profiles",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT profiles FROM analytics.release_overview WHERE is_latest"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 9,
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 24,
+        "h": 1
+      },
+      "type": "row",
+      "title": "Releases",
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 10,
+      "gridPos": {
+        "x": 0,
+        "y": 9,
+        "w": 24,
+        "h": 7
+      },
+      "type": "table",
+      "title": "Releases",
+      "description": "One row per release. A release never changes.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT release_id, released_at, released_by, sources, records, observations, entities, links, profiles, concepts, batch_id FROM analytics.release_overview ORDER BY release_id DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "release_id"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Release tree (needs an API key)",
+                    "url": "${product_url}/v1/okf?release=${__data.fields.release_id}",
+                    "targetBlank": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 11,
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 12,
+        "h": 7
+      },
+      "type": "table",
+      "title": "Change since the release before",
+      "description": "A profile is unchanged when its entity and its profile version are the same. The first release has no predecessor.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT release_id, previous_release_id, profiles_added, profiles_changed, profiles_removed, profiles_unchanged FROM analytics.release_profile_changes ORDER BY release_id DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 12,
+      "gridPos": {
+        "x": 12,
+        "y": 16,
+        "w": 12,
+        "h": 7
+      },
+      "type": "table",
+      "title": "Batches and the releases that serve them",
+      "description": "Counts recorded when a batch was assembled. A batch with no release is not served to anyone.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT batch_id, batch_kind, experiment_id, recorded_at, runs, counted_observations, counted_links, counted_profiles, counted_unlinked, release_ids FROM analytics.batch_overview ORDER BY recorded_at DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 13,
+      "gridPos": {
+        "x": 0,
+        "y": 23,
+        "w": 24,
+        "h": 1
+      },
+      "type": "row",
+      "title": "Usage of the product service",
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 14,
+      "gridPos": {
+        "x": 0,
+        "y": 24,
+        "w": 14,
+        "h": 8
+      },
+      "type": "timeseries",
+      "title": "Calls per day and interface",
+      "description": "Usage is counted per key, day and interface. The route or tool of a call is not recorded.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "time_series",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT day::timestamptz AS \"time\", interface AS metric, sum(calls)::bigint AS calls FROM analytics.usage_daily WHERE $__timeFilter(day::timestamptz) GROUP BY 1, 2 ORDER BY 1"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 60,
+            "stacking": {
+              "mode": "normal"
+            }
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 15,
+      "gridPos": {
+        "x": 14,
+        "y": 24,
+        "w": 10,
+        "h": 8
+      },
+      "type": "table",
+      "title": "Quota use by client and month",
+      "description": "quota_used is calls divided by the tier's monthly quota today.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT month, client_name, tier_id, calls, monthly_quota, quota_used FROM analytics.usage_monthly ORDER BY month DESC, calls DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 16,
+      "gridPos": {
+        "x": 0,
+        "y": 32,
+        "w": 24,
+        "h": 1
+      },
+      "type": "row",
+      "title": "Model calls and cost",
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 17,
+      "gridPos": {
+        "x": 0,
+        "y": 33,
+        "w": 14,
+        "h": 10
+      },
+      "type": "table",
+      "title": "Model calls by experiment and stage",
+      "description": "Every attempt is a call, failed and retried ones included. Calls with unknown usage add nothing to the sums: unknown is not zero. recorded_cost_usd is the cost calculated when the call ran, at provider rates. It is not an invoice and not the list-price estimate of `link-lens usage`.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT experiment_id, stage, sum(calls)::bigint AS calls, sum(known_usage_calls)::bigint AS known_usage_calls, sum(unknown_usage_calls)::bigint AS unknown_usage_calls, sum(input_tokens)::bigint AS input_tokens, sum(output_tokens)::bigint AS output_tokens, round(sum(recorded_cost_usd)::numeric, 4) AS recorded_cost_usd, round(sum(budget_charge_usd)::numeric, 4) AS budget_charge_usd FROM analytics.model_cost GROUP BY experiment_id, stage ORDER BY experiment_id, calls DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 18,
+      "gridPos": {
+        "x": 14,
+        "y": 33,
+        "w": 10,
+        "h": 10
+      },
+      "type": "table",
+      "title": "Budget ledger by experiment",
+      "description": "What was reserved before the calls and charged after them. A reservation that was never settled keeps its charge.",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT experiment_id, call_status, sum(attempts)::bigint AS attempts, round(sum(reservation_usd)::numeric, 4) AS reserved_usd, round(sum(charge_usd)::numeric, 4) AS charged_usd FROM analytics.budget_ledger GROUP BY experiment_id, call_status ORDER BY experiment_id, call_status"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "filterable": true
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    }
+  ]
+}
