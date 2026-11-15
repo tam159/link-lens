@@ -64,6 +64,43 @@ services:
       - ./artifacts:/app/artifacts:ro
     depends_on:
       postgres: {condition: service_healthy}
+  admin:
+    # The operations console: the admin API and its pages, for the people who
+    # run the product. It shares the backend image, works on the database as
+    # linklens_pipeline like the CLI, and gets no provider key: it starts
+    # onboarding on the backend and makes no model call itself. It has a
+    # sign-in (LINK_LENS_ADMIN_USERS) but no identity provider, so it is
+    # published on this machine only.
+    profiles: ["console"]
+    image: link-lens-backend:local
+    command: ["uvicorn", "link_lens.admin.app:app", "--host", "0.0.0.0", "--port", "8200", "--reload", "--reload-dir", "/app/src"]
+    environment:
+      LINK_LENS_DATABASE_URL: postgresql+psycopg://linklens:${LINK_LENS_POSTGRES_PASSWORD:-linklens}@postgres:5432/linklens
+      LINK_LENS_DATABASE_ROLE: linklens_pipeline
+      LINK_LENS_ARTIFACT_DIR: /app/artifacts
+      LINK_LENS_API_URL: http://backend:2024
+      LINK_LENS_EXPERIMENT_ID: ${LINK_LENS_EXPERIMENT_ID:-jev-gpt6-luna-ontology-v1}
+      LINK_LENS_MODEL: ${LINK_LENS_MODEL:-gpt-6-luna}
+      LINK_LENS_MAX_COST_USD: ${LINK_LENS_MAX_COST_USD:-10}
+      # What a new run records about pricing, as the backend has it.
+      LINK_LENS_PRICING_BASIS:
+      LINK_LENS_PRICING_MULTIPLIER:
+      LINK_LENS_INPUT_USD_PER_MILLION:
+      LINK_LENS_OUTPUT_USD_PER_MILLION:
+      # Taken from the environment or .env when set there; unset, nobody can sign in.
+      LINK_LENS_ADMIN_USERS:
+      LINK_LENS_DAGSTER_URL:
+      LINK_LENS_INBOX_URL:
+      LINK_LENS_DASHBOARDS_URL:
+      LINK_LENS_PRODUCT_URL:
+    ports: ["127.0.0.1:8200:8200"]
+    volumes:
+      - ./src:/app/src:ro
+      - ./firmable_ontology.yaml:/app/firmable_ontology.yaml:ro
+      # A new source's snapshot and a release's bundles are written to the artifact store.
+      - ./artifacts:/app/artifacts
+    depends_on:
+      postgres: {condition: service_healthy}
   frontend:
     build:
       context: .
