@@ -28,11 +28,11 @@ models:
       # differs from the model's contract fails the build instead of reaching them.
       +materialized: view
       # Built in `serving`, where clients read them. To try a changed model
-      # first, build it into `serving_next` and compare:
-      #   link-lens dbt run --vars '{serving_schema: serving_next}'
-      #   link-lens serving-compare
-      # The default is given here because this file cannot read a `vars:`
-      # block of its own.
+      # first, `link-lens serving-compare --build` builds these models, and only
+      # these, into `serving_next` and compares them with the live views. Do not
+      # build the whole project with another serving_schema: the reporting
+      # models would then read the candidate. The default is given here because
+      # this file cannot read a `vars:` block of its own.
       +schema: "{{ var('serving_schema', 'serving') }}"
       +contract:
         enforced: true
@@ -40,3 +40,16 @@ models:
       # product service reads them, and so do the OKF tree and the bundle builder.
       +grants:
         select: ["linklens_product", "linklens_pipeline"]
+    staging:
+      # One thin view per core table that the analytics models read: columns
+      # renamed and cast, nothing joined or filtered. They live in `analytics`
+      # under the prefix stg_ and are not granted to anyone but dbt.
+      +materialized: view
+      +schema: analytics
+    analytics:
+      # Internal reporting, never served to clients. Views, so a number is
+      # current whenever it is read; the dashboards read these and nothing else.
+      +materialized: view
+      +schema: analytics
+      +grants:
+        select: ["linklens_analyst"]

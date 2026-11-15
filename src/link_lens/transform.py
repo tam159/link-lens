@@ -64,3 +64,18 @@ def run(arguments, url=None, project_dir=None, **options):
         **options.pop("env", {}),
     }
     return subprocess.run([dbt, *arguments], env=variables, **options)
+
+
+def candidate(schema="serving_next", **options):
+    """Build the serving models, and only those, into another schema.
+
+    Everything else stays as it is: the reporting models read the serving models
+    by reference, and a build of the whole project with another serving schema
+    would point them at the candidate. `options` are those of `run`.
+    """
+    if not schema.replace("_", "").isalnum():
+        raise ValueError(f"Not a schema name: {schema}")
+    return run(
+        ["run", "--select", "serving", "--vars", f"{{serving_schema: {schema}}}"],
+        **options,
+    )

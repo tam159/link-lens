@@ -23,6 +23,19 @@ sources:
           onboarding runs (`run_ids`). Kinds are pipeline, enhancement and discovery.
       - name: release_bundle
         description: An archive of a release's OKF files, built for a named scope or one client. Append-only.
+      - name: event
+        description: >
+          What happened in a run, one row per event. The kinds model_usage,
+          triage_usage and enhancement_usage are model calls with their tokens
+          and the cost calculated when they ran. Tokens that are null are unknown, never zero.
+      - name: model_call
+        description: >
+          The budget ledger: one row per attempt to call a model, reserved
+          before the call and settled once after it. A settled row never changes.
+      - name: evaluation
+        description: >
+          The current label of each reviewed item. Human labels and AI labels
+          are different kinds and are never one figure.
 
   - name: ontology
     schema: ontology
@@ -43,6 +56,11 @@ sources:
     tables:
       - name: source
         description: A public dataset, as catalogued or as registered for onboarding.
+      - name: source_state
+        description: >
+          A view with the refresh facts of each source: cadence, last check,
+          when the next check is due, when the bytes last changed and the
+          approved mapping in force.
       - name: snapshot
         description: >
           The bytes of a source as downloaded once, with licence, format and
@@ -65,6 +83,10 @@ sources:
         description: A person's decision on one exact mapping config. Append-only; never written by a pipeline step.
       - name: mapping_config
         description: A declarative mapping, stored once under its content hash, with its roles and source reliability.
+      - name: mapping
+        description: A mapping config as proposed in a run, with its version within the run.
+      - name: mapping_field
+        description: The fields of a mapping config, one row per mapped concept, derived from the config.
 
   - name: evidence
     schema: evidence
@@ -89,3 +111,16 @@ sources:
         description: A proposed identity link between two source records. Its score is a rule or model score, not a probability.
       - name: membership
         description: Which entity a source record belongs to in a batch.
+
+  - name: access
+    schema: access
+    description: Tiers, clients, keys and usage of the product service. The hash of a key's secret is not readable here.
+    tables:
+      - name: tier
+        description: What a class of client may do. Limits and prices are rows.
+      - name: client
+        description: Who holds keys.
+      - name: api_key
+        description: A key's client, prefix, label and dates. Never its secret.
+      - name: api_usage
+        description: Calls counted per key, day and interface. There is no route or tool in it.

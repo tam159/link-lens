@@ -1,0 +1,50 @@
+# Staging: one thin view per core table that the analytics models read. Columns
+# are renamed so that every ID says what it identifies, hashes are hex text,
+# and a few values are taken out of JSON. Nothing is joined, filtered or added
+# up here. The serving models do not use these: they read their sources
+# directly, because they rebuild stored records exactly.
+version: 2
+
+models:
+  - name: stg_access__api_usage
+    description: Calls per key, day and interface.
+  - name: stg_access__api_key
+    description: Keys with their client, prefix, label and dates. Never the secret or its hash.
+  - name: stg_access__client
+    description: Clients with their tier and status.
+  - name: stg_access__tier
+    description: Tiers with their limits.
+  - name: stg_catalog__source
+    description: Sources, catalogued and registered.
+  - name: stg_catalog__source_state
+    description: Refresh facts per source, from the view catalog.source_state.
+  - name: stg_onboarding__run
+    description: Runs of every kind, with the size of the validation sample taken out of the run's state.
+  - name: stg_onboarding__mapping
+    description: Mapping proposals per run.
+  - name: stg_onboarding__approval
+    description: Review decisions per run and mapping.
+  - name: stg_onboarding__mapping_config
+    description: Mapping configs with the number of mapped and unmapped source fields.
+  - name: stg_onboarding__mapping_field
+    description: The concepts each mapping config maps.
+  - name: stg_evidence__observation
+    description: Observations with the IDs needed to count them. Not the raw value or the document.
+  - name: stg_evidence__source_record
+    description: Source records with their snapshot.
+  - name: stg_ontology__concept
+    description: Concepts with scope, datatype and cardinality.
+  - name: stg_ontology__concept_value
+    description: Allowed values of enum concepts.
+  - name: stg_identity__link
+    description: Identity links with rule, score kind and review state.
+  - name: stg_identity__membership
+    description: Which entity a source record belongs to in a batch.
+  - name: stg_ops__batch
+    description: Batches with the counts recorded when they were assembled.
+  - name: stg_ops__event
+    description: Events of runs, with tokens, recorded cost and the reservation a call settled.
+  - name: stg_ops__model_call
+    description: The budget ledger, one row per attempt.
+  - name: stg_ops__evaluation
+    description: Worksheets and the current label of each reviewed item, by kind.

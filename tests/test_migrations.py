@@ -212,7 +212,7 @@ def test_roles_have_only_their_privileges(database):
         assert scalars(
             connection,
             "SELECT rolcanlogin FROM pg_roles WHERE rolname LIKE 'linklens\\_%'",
-        ) == [False, False, False, False]
+        ) == [False, False, False, False, False]
 
         # Every domain is typed now: the pipeline role may read legacy rows only.
         assert allowed(connection, "linklens_pipeline", "SELECT * FROM legacy.runs")
@@ -307,6 +307,32 @@ def test_transform_role_reads_core_and_builds_only_in_analytics(database):
                 connection, other, "CREATE VIEW analytics.other AS SELECT 1 AS one"
             )
         connection.rollback()
+
+
+def test_analyst_role_reads_the_reporting_models_and_nothing_else(database):
+    """The team and the dashboard tool read analytics; the product role does not."""
+    role = "linklens_analyst"
+    with database.connect() as connection:
+        for model in ("source_health", "model_cost", "evaluation_summary"):
+            assert allowed(connection, role, f"SELECT * FROM analytics.{model}"), model
+        for statement in (
+            # Staging views are dbt's working layer and are not granted.
+            "SELECT * FROM analytics.stg_access__api_key",
+            "SELECT * FROM serving.profile",
+            "SELECT * FROM ops.event",
+            "SELECT * FROM access.api_key",
+            "SELECT * FROM legacy.runs",
+            "CREATE VIEW analytics.mine AS SELECT 1 AS one",
+        ):
+            assert not allowed(connection, role, statement), statement
+        assert not allowed(
+            connection, "linklens_product", "SELECT * FROM analytics.source_health"
+        )
+        assert scalars(
+            connection,
+            "SELECT rolcanlogin FROM pg_roles WHERE rolname = :role",
+            role=role,
+        ) == [False]
 
 
 def test_downgrade_drops_what_the_transform_role_built(empty_database):

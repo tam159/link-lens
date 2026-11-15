@@ -5,7 +5,7 @@ import time
 
 import pytest
 from conftest import ROOT, build_views, dbt
-from link_lens import exports, releases, serving, store
+from link_lens import exports, releases, serving, store, transform
 from link_lens.cli import app
 from link_lens.db import copy_insert
 from link_lens.db import serving as tables
@@ -549,11 +549,24 @@ def test_serving_views_answer_for_a_release(release):
                     connection.execute(text(forbidden))
 
 
-def test_a_candidate_build_is_compared_with_what_clients_read(release):
+def test_a_candidate_build_is_compared_with_what_clients_read(release, tmp_path):
     """A changed model is built into serving_next and compared before it is served."""
     url = store.engine().url.render_as_string(hide_password=False)
-    finished = dbt(url, "run", "--vars", "{serving_schema: serving_next}")
+    finished = transform.candidate(
+        url=url,
+        project_dir=ROOT / "transform",
+        env={
+            "DBT_TARGET_PATH": str(tmp_path / "target"),
+            "DBT_LOG_PATH": str(tmp_path / "logs"),
+        },
+        capture_output=True,
+        text=True,
+    )
     assert finished.returncode == 0, finished.stdout
+    # Only the serving models were built: the reporting models still read the
+    # views clients read, not the candidate.
+    assert "serving_next.entity" in finished.stdout
+    assert "analytics." not in finished.stdout
     try:
         with store.engine().connect() as connection:
             assert serving.built(connection, "serving_next") == MODELS
@@ -590,6 +603,26 @@ def test_a_candidate_build_is_compared_with_what_clients_read(release):
                 connection.execute(text(f'DROP VIEW IF EXISTS serving_next."{name}"'))
 
 
+def test_every_dbt_test_passes_on_a_release(release):
+    """Keys, references, statuses and reconciliations hold on real rows, not only on none."""
+    url = store.engine().url.render_as_string(hide_password=False)
+    finished = dbt(url, "test")
+    assert finished.returncode == 0, finished.stdout
+    with store.engine().connect() as connection:
+        overview = connection.execute(
+            text("SELECT * FROM analytics.release_overview")
+        ).one()
+        assert (overview.entities, overview.profiles, overview.observations) == (
+            50,
+            50,
+            200,
+        )
+        changes = connection.execute(
+            text("SELECT * FROM analytics.release_profile_changes")
+        ).one()
+        assert (changes.previous_release_id, changes.profiles_added) == (None, 50)
+
+
 def test_each_read_model_is_one_commented_select():
     for name in MODELS:
         body = (ROOT / "transform/models/serving" / f"{name}.sql").read_text()
@@ -610,7 +643,9 @@ def test_a_release_is_refused_until_the_views_are_built(spec, snapshot):
     with store.engine().begin() as connection:
         connection.execute(text("SET LOCAL ROLE linklens_transform"))
         for name in MODELS:
-            connection.execute(text(f'DROP VIEW serving."{name}"'))
+            # The reporting models that read a serving model go with it; the
+            # build below makes them again.
+            connection.execute(text(f'DROP VIEW serving."{name}" CASCADE'))
     try:
         with pytest.raises(ValueError, match="link-lens dbt build"):
             releases.create(batch["id"], "test reviewer")

@@ -896,15 +896,29 @@ def release_bundles(release_id: int | None = None):
 
 
 @app.command("serving-compare")
-def serving_compare(candidate: str = "serving_next", reference: str = "serving"):
+def serving_compare(
+    candidate: str = "serving_next",
+    reference: str = "serving",
+    build: bool = typer.Option(
+        False, "--build", help="Build the serving models into the candidate first."
+    ),
+):
     """Compare the serving views built in one schema with those in another.
 
-    Columns, and per release the row count and a digest of every row. Build a
-    changed model into serving_next first, run this, and build into serving
+    Columns, and per release the row count and a digest of every row. For a
+    changed model: `serving-compare --build` builds the serving models into
+    serving_next and compares them with what clients read; build into serving
     only when it reports no difference you did not mean. Exits 3 on a difference.
     """
-    from . import serving
+    import sys
 
+    from . import serving, transform
+
+    if build:
+        # dbt's own report goes to standard error; the result stays on standard output.
+        code = transform.candidate(candidate, stdout=sys.stderr).returncode
+        if code:
+            raise typer.Exit(code)
     with store.engine().connect() as connection:
         result = serving.compare(connection, candidate, reference)
     show(result)

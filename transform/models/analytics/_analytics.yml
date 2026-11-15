@@ -1,0 +1,272 @@
+# Analytics: internal reporting for the team. Nothing here is served to clients;
+# the product role cannot read this schema. Every model is a view over staging
+# models or over the serving models, so a number is current when it is read.
+#
+# Two rules for every model that touches review labels or scores:
+#   - human review and AI audit are separate rows, never one figure;
+#   - a score or confidence is uncalibrated unless a column says a person
+#     measured it, with the sample size and date beside it.
+version: 2
+
+models:
+  - name: usage_daily
+    description: Calls to the product service per day, client, tier and interface.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [day, client_id, interface]
+    columns:
+      - {name: day, description: The day the calls were counted on., data_tests: [not_null]}
+      - {name: client_id, description: The client whose keys made the calls., data_tests: [not_null]}
+      - {name: client_name, description: The client's name.}
+      - {name: tier_id, description: The client's tier today.}
+      - {name: interface, description: "rest, mcp or graphql.", data_tests: [not_null]}
+      - {name: keys, description: How many of the client's keys were used that day.}
+      - {name: calls, description: Calls counted. An MCP call is a tool call., data_tests: [not_null]}
+
+  - name: usage_monthly
+    description: Calls per client and month against the monthly quota of the client's tier.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [month, client_id]
+    columns:
+      - {name: month, description: First day of the month., data_tests: [not_null]}
+      - {name: client_id, description: The client., data_tests: [not_null]}
+      - {name: client_name, description: The client's name.}
+      - {name: tier_id, description: The client's tier today.}
+      - {name: calls, description: Calls in the month on every interface.}
+      - {name: monthly_quota, description: The tier's quota today. Null means no quota.}
+      - {name: quota_used, description: Calls divided by the quota. Null without a quota.}
+
+  - name: source_health
+    description: One row per registered source, with when it was last checked and changed, whether a check is due, and whether its latest onboarding run waits for a person.
+    columns:
+      - {name: source_id, description: The source., data_tests: [unique, not_null]}
+      - {name: source_title, description: Title of the dataset.}
+      - {name: publisher, description: The organisation that publishes it.}
+      - {name: portal_url, description: The dataset's page on its data portal.}
+      - {name: okf_path, description: Path of the source's OKF page in a release that includes it.}
+      - {name: cadence_days, description: How often the source should be checked. Null when no cadence is set.}
+      - {name: last_checked_at, description: When the publisher was last checked for new data.}
+      - {name: next_check_due_at, description: Last check plus cadence.}
+      - {name: last_changed_at, description: When the downloaded bytes last changed.}
+      - {name: latest_snapshot_id, description: The newest snapshot.}
+      - {name: approved_config_hash, description: The approved mapping config in force.}
+      - {name: approved_at, description: When that mapping was approved.}
+      - {name: latest_run_id, description: The source's most recent onboarding run.}
+      - {name: latest_run_status, description: Its status.}
+      - {name: waiting_for_review, description: True when that run waits for a person in the Inbox., data_tests: [not_null]}
+      - {name: waiting_since, description: When the mapping now waiting was proposed.}
+      - name: refresh_status
+        description: no_cadence, never_checked, fresh or stale, worked out when the model is read. Drift is not a status here; drift checks are not stored yet.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["no_cadence", "never_checked", "fresh", "stale"]
+      - {name: days_overdue, description: Days since the check was due. Null when not overdue.}
+
+  - name: source_coverage
+    description: Records, observations and concepts each registered source contributes, and how much of its file the approved mapping leaves unmapped.
+    columns:
+      - {name: source_id, description: The source., data_tests: [unique, not_null]}
+      - {name: source_title, description: Title of the dataset.}
+      - {name: okf_path, description: Path of the source's OKF page.}
+      - {name: records, description: Distinct source records with at least one observation.}
+      - {name: observations, description: Stored observations of the source under every mapping., data_tests: [not_null]}
+      - {name: concepts_used, description: Distinct concepts those observations state.}
+      - {name: approved_config_hash, description: The approved mapping config in force.}
+      - {name: mapped_fields, description: Fields that mapping maps.}
+      - {name: unmapped_fields, description: Source fields that mapping names and deliberately leaves unmapped.}
+      - {name: unmapped_share, description: Unmapped fields divided by mapped plus unmapped.}
+
+  - name: concept_usage
+    description: How much each ontology concept is used, by observations, sources and mapping configs.
+    columns:
+      - {name: concept, description: The concept's name., data_tests: [unique, not_null]}
+      - {name: scope, description: What the concept describes.}
+      - {name: datatype, description: The type of its values.}
+      - {name: cardinality, description: one or many.}
+      - {name: okf_path, description: Path of the concept's OKF page.}
+      - {name: observations, description: Stored observations that state the concept.}
+      - {name: sources, description: Sources with at least one such observation.}
+      - {name: mapping_configs, description: Mapping configs that map the concept.}
+      - {name: never_mapped, description: True when no mapping config maps it.}
+
+  - name: onboarding_run
+    description: One row per onboarding run, with mapping versions, revision requests, time to approval, usage and the size of its validation sample.
+    columns:
+      - {name: run_id, description: The run., data_tests: [unique, not_null]}
+      - {name: source_id, description: The source being onboarded.}
+      - {name: experiment_id, description: The experiment the run belongs to.}
+      - {name: run_status, description: "completed, needs_review, failed, budget_exhausted and others."}
+      - {name: model, description: The model that proposed the mapping.}
+      - {name: mapping_versions, description: Mapping versions proposed in the run.}
+      - {name: revisions_requested, description: Times a person asked for a revision.}
+      - {name: first_proposed_at, description: When the first version was proposed.}
+      - {name: approved_at, description: When a person approved a version.}
+      - {name: hours_to_approval, description: Hours from the first proposal to approval, review time included.}
+      - {name: model_calls, description: Model calls the run made.}
+      - {name: input_tokens, description: Input tokens reported. Null is unknown.}
+      - {name: output_tokens, description: Output tokens reported. Null is unknown.}
+      - {name: calculated_cost_usd, description: Cost calculated when the run finished.}
+      - {name: validation_records, description: Records in the run's validation sample.}
+      - {name: validation_quarantined_fields, description: Fields set aside in that sample because they could not be parsed or dated. A sample figure.}
+      - {name: started_at, description: When the run started.}
+      - {name: completed_at, description: When it finished.}
+
+  - name: identity_link_summary
+    description: Identity links per batch by rule and review state. Scores are rule or model scores, never probabilities.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [batch_id, rule, link_status, human_review_status, score_kind]
+    columns:
+      - {name: batch_id, description: The batch., data_tests: [not_null]}
+      - {name: rule, description: The rule that proposed the links.}
+      - {name: link_status, description: proposed_unreviewed until a person reviews a link.}
+      - {name: human_review_status, description: "unreviewed, or not recorded on links made before reviews were recorded."}
+      - {name: score_kind, description: What kind of number the links' score is.}
+      - {name: links, description: Links in the group.}
+
+  - name: identity_entity_support
+    description: Entities of a batch by how many sources support them.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [batch_id, supporting_sources]
+    columns:
+      - {name: batch_id, description: The batch., data_tests: [not_null]}
+      - {name: supporting_sources, description: Number of distinct sources among an entity's records.}
+      - {name: entities, description: Entities with that many sources.}
+      - {name: records, description: Source records those entities hold.}
+
+  - name: batch_overview
+    description: Assembled batches with the counts recorded when they were built and the releases that serve them.
+    columns:
+      - {name: batch_id, description: The batch., data_tests: [unique, not_null]}
+      - {name: batch_kind, description: pipeline or enhancement.}
+      - {name: experiment_id, description: The experiment.}
+      - {name: baseline_batch_id, description: The batch an enhancement batch was built on.}
+      - {name: runs, description: Onboarding runs the batch was assembled from.}
+      - {name: counted_observations, description: Observations counted at assembly.}
+      - {name: counted_links, description: Links counted at assembly.}
+      - {name: counted_profiles, description: Profiles counted at assembly.}
+      - {name: counted_unlinked, description: Records left unlinked. A count only; the reason is not stored.}
+      - {name: recorded_at, description: When the batch was assembled.}
+      - {name: release_ids, description: Releases that serve the batch. Empty when it was never released.}
+
+  - name: model_cost
+    description: Model calls per experiment, kind, stage, model and outcome, with tokens and recorded cost. The calls are those `link-lens usage` counts; the costs are recorded costs, not its list-price estimate.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [experiment_id, event_kind, stage, model, event_status]
+    columns:
+      - {name: experiment_id, description: The experiment., data_tests: [not_null]}
+      - {name: event_kind, description: "model_usage (onboarding and ontology), triage_usage, enhancement_usage, or attempt_without_receipt."}
+      - {name: stage, description: The step that made the call.}
+      - {name: model, description: The model called.}
+      - {name: event_status, description: "success, error, or receipt_missing."}
+      - {name: calls, description: Every attempt, failed and retried ones included., data_tests: [not_null]}
+      - {name: known_usage_calls, description: Calls whose tokens were reported.}
+      - {name: unknown_usage_calls, description: Calls whose tokens were not reported. Unknown, not zero; they add nothing to the sums.}
+      - {name: input_tokens, description: Input tokens of the calls with known usage.}
+      - {name: output_tokens, description: Output tokens of the calls with known usage.}
+      - {name: calls_with_recorded_cost, description: Calls that have a cost calculated when they ran.}
+      - {name: recorded_cost_usd, description: Sum of those costs. An estimate at provider rates, not an invoice.}
+      - {name: budget_charge_usd, description: What the budget was charged for these calls.}
+
+  - name: budget_ledger
+    description: The budget ledger per experiment, stage, model and state, what was reserved before the calls and charged after them.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [experiment_id, stage, model, call_status]
+    columns:
+      - {name: experiment_id, description: The experiment., data_tests: [not_null]}
+      - {name: stage, description: The step that made the calls.}
+      - {name: model, description: The model called.}
+      - {name: call_status, description: "settled, reserved (never settled) or historical_estimate."}
+      - {name: attempts, description: Attempts in the group.}
+      - {name: reservation_usd, description: Budget reserved before the calls.}
+      - {name: charge_usd, description: Budget charged. An unsettled reservation keeps its charge.}
+
+  - name: release_overview
+    description: What each release serves, counted from the serving models clients read.
+    columns:
+      - {name: release_id, description: The release., data_tests: [unique, not_null]}
+      - {name: batch_id, description: Its batch.}
+      - {name: ontology_hash, description: Its ontology version.}
+      - {name: released_by, description: Who recorded it.}
+      - {name: released_at, description: When.}
+      - {name: is_latest, description: True for the newest release.}
+      - {name: sources, description: Sources in the release.}
+      - {name: records, description: Source records with at least one served observation.}
+      - {name: observations, description: Observations served, linked to an entity or not.}
+      - {name: entities, description: Entities.}
+      - {name: links, description: Identity links, proposed and unreviewed unless a person reviewed them.}
+      - {name: profiles, description: Profiles.}
+      - {name: concepts, description: Concepts of its ontology version.}
+
+  - name: release_profile_changes
+    description: Profiles added, removed and changed between each release and the one before it.
+    columns:
+      - {name: release_id, description: The release., data_tests: [unique, not_null]}
+      - {name: previous_release_id, description: The release before it. Null for the first.}
+      - {name: profiles_added, description: Entities with a profile now and none before. All of them for the first release.}
+      - {name: profiles_removed, description: Entities with a profile before and none now.}
+      - {name: profiles_changed, description: Entities in both whose profile version differs.}
+      - {name: profiles_unchanged, description: Entities in both with the same profile version.}
+
+  - name: release_field_status
+    description: Profile fields of each release by concept and status.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [release_id, concept]
+    columns:
+      - {name: release_id, description: The release., data_tests: [not_null]}
+      - {name: concept, description: The concept., data_tests: [not_null]}
+      - {name: fields, description: Profile fields of the concept.}
+      - {name: selected, description: Fields with one selected value.}
+      - {name: multiple_values, description: Fields of a multi-valued concept, where no winner is forced.}
+      - {name: unresolved, description: Fields that could not be resolved.}
+
+  - name: evaluation_summary
+    description: Review labels per worksheet, with human review and AI audit as separate rows. An AI audit is not a human evaluation, and the two are never added together.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [review_kind, worksheet_id]
+    columns:
+      - name: review_kind
+        description: human for a person's labels, ai for an AI audit.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["human", "ai"]
+      - {name: worksheet_id, description: The worksheet the labels belong to.}
+      - {name: worksheet_kind, description: "What was reviewed: triage, links, enhancement, or not recorded."}
+      - {name: sample_size, description: Items labelled. The figures below are about this sample only., data_tests: [not_null]}
+      - {name: verdict_yes, description: Items judged correct.}
+      - {name: verdict_no, description: Items judged wrong.}
+      - {name: verdict_unsure, description: Items the reviewer could not judge. They are not correct answers.}
+      - {name: share_yes, description: Yes divided by yes plus no. A measured share for a human review; for an AI audit, the audit's opinion.}
+      - {name: reviewers, description: Distinct reviewers.}
+      - {name: first_labelled_at, description: Earliest label.}
+      - {name: last_labelled_at, description: Latest label; how old the measurement is.}
+
+  - name: observation_validity
+    description: Observations of enum concepts per source, and how many state a value the ontology does not allow.
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [source_id, concept]
+    columns:
+      - {name: source_id, description: The source., data_tests: [not_null]}
+      - {name: concept, description: The enum concept., data_tests: [not_null]}
+      - {name: observations, description: Observations of the concept from the source.}
+      - {name: outside_allowed_values, description: Those whose value is not one of the concept's allowed values.}
