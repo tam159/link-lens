@@ -328,6 +328,15 @@ def test_analyst_role_reads_the_reporting_models_and_nothing_else(database):
         assert not allowed(
             connection, "linklens_product", "SELECT * FROM analytics.source_health"
         )
+        # The console and the CLI read the same models, and no more of the schema.
+        pipeline = "linklens_pipeline"
+        assert allowed(connection, pipeline, "SELECT * FROM analytics.source_health")
+        assert not allowed(
+            connection, pipeline, "SELECT * FROM analytics.stg_access__api_key"
+        )
+        assert not allowed(
+            connection, pipeline, "CREATE VIEW analytics.mine AS SELECT 1 AS one"
+        )
         assert scalars(
             connection,
             "SELECT rolcanlogin FROM pg_roles WHERE rolname = :role",
@@ -362,6 +371,7 @@ def test_orchestrator_role_cannot_record_a_human_decision(database):
             "ops.bundle_scope",
             "ops.release_bundle",
             "ops.evaluation",
+            "ops.admin_action",
         ):
             assert allowed(connection, role, f"SELECT * FROM {table}"), table
             assert not allowed(connection, role, nothing.format(table, table)), table

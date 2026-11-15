@@ -51,5 +51,7 @@ models:
       # current whenever it is read; the dashboards read these and nothing else.
       +materialized: view
       +schema: analytics
+      # The team and the dashboards read these as linklens_analyst; the console
+      # and the CLI, which work as linklens_pipeline, read them too.
       +grants:
-        select: ["linklens_analyst"]
+        select: ["linklens_analyst", "linklens_pipeline"]
