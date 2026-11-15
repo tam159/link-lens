@@ -18,6 +18,8 @@ models:
     description: Sources, catalogued and registered.
   - name: stg_catalog__source_state
     description: Refresh facts per source, from the view catalog.source_state.
+  - name: stg_catalog__drift_check
+    description: Drift checks, one per snapshot and mapping config.
   - name: stg_onboarding__run
     description: Runs of every kind, with the size of the validation sample taken out of the run's state.
   - name: stg_onboarding__mapping

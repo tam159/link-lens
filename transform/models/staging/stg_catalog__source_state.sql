@@ -10,5 +10,11 @@ SELECT source_id,
        sha256_hex(approved_config_hash) AS approved_config_hash,
        approved_mapping_id,
        approved_run_id,
-       approved_at
+       approved_at,
+       paused_at,
+       paused_by,
+       consecutive_failures,
+       last_failure_at,
+       last_error,
+       retry_after
 FROM {{ source('catalog', 'source_state') }}

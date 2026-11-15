@@ -58,13 +58,26 @@ models:
       - {name: latest_run_status, description: Its status.}
       - {name: waiting_for_review, description: True when that run waits for a person in the Inbox., data_tests: [not_null]}
       - {name: waiting_since, description: When the mapping now waiting was proposed.}
-      - name: refresh_status
-        description: no_cadence, never_checked, fresh or stale, worked out when the model is read. Drift is not a status here; drift checks are not stored yet.
+      - {name: paused, description: True when a person paused scheduled checks of the source.}
+      - {name: paused_by, description: Who paused it.}
+      - {name: consecutive_failures, description: Checks of the publisher that failed in a row. Zero after a success.}
+      - {name: last_error, description: What the last failed check reported.}
+      - {name: retry_after, description: When a failing source may be tried again.}
+      - name: drift_status
+        description: The recorded check of the latest snapshot against the mapping in force. blocked means the mapping cannot extract from it and a person must review a new one; changed means it differs in ways that do not stop extraction.
         data_tests:
           - not_null
           - accepted_values:
               arguments:
-                values: ["no_cadence", "never_checked", "fresh", "stale"]
+                values: ["no_mapping", "not_checked", "unchanged", "changed", "blocked"]
+      - {name: drift_checked_at, description: When that check was recorded.}
+      - name: refresh_status
+        description: paused, failing, no_cadence, never_checked, fresh or stale, in that order of precedence, worked out when the model is read.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["paused", "failing", "no_cadence", "never_checked", "fresh", "stale"]
       - {name: days_overdue, description: Days since the check was due. Null when not overdue.}
 
   - name: source_coverage

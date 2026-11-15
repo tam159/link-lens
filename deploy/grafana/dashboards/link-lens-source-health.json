@@ -100,7 +100,7 @@
       "title": "",
       "options": {
         "mode": "markdown",
-        "content": "**Which sources need attention, and why.** A source is *stale* when a check is overdue against its cadence, and has *no cadence* until someone sets one (`link-lens source cadence SOURCE --days N`). A source *waiting for review* has a mapping in the Agent Inbox. Drift against the approved mapping is checked by `link-lens source drift` and is not stored yet, so it is not shown."
+        "content": "**Which sources need attention, and why.** A source is *stale* when a check is overdue against its cadence, and has *no cadence* until someone sets one (`link-lens source cadence SOURCE --days N`). A source is *failing* when its last check of the publisher failed; the next attempt waits longer each time. A source *waiting for review* has a mapping in the Agent Inbox. *Blocked by drift* means the latest snapshot no longer fits the approved mapping."
       }
     },
     {
@@ -108,11 +108,11 @@
       "gridPos": {
         "x": 0,
         "y": 3,
-        "w": 4,
+        "w": 3,
         "h": 4
       },
       "type": "stat",
-      "title": "Registered sources",
+      "title": "Registered",
       "description": "",
       "datasource": {
         "type": "postgres",
@@ -157,9 +157,9 @@
     {
       "id": 3,
       "gridPos": {
-        "x": 4,
+        "x": 3,
         "y": 3,
-        "w": 4,
+        "w": 3,
         "h": 4
       },
       "type": "stat",
@@ -208,9 +208,9 @@
     {
       "id": 4,
       "gridPos": {
-        "x": 8,
+        "x": 6,
         "y": 3,
-        "w": 4,
+        "w": 3,
         "h": 4
       },
       "type": "stat",
@@ -259,13 +259,13 @@
     {
       "id": 5,
       "gridPos": {
-        "x": 12,
+        "x": 9,
         "y": 3,
-        "w": 4,
+        "w": 3,
         "h": 4
       },
       "type": "stat",
-      "title": "No cadence set",
+      "title": "Failing",
       "description": "",
       "datasource": {
         "type": "postgres",
@@ -281,7 +281,7 @@
           "format": "table",
           "rawQuery": true,
           "editorMode": "code",
-          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status = 'no_cadence'"
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status = 'failing'"
         }
       ],
       "fieldConfig": {
@@ -310,13 +310,13 @@
     {
       "id": 6,
       "gridPos": {
-        "x": 16,
+        "x": 12,
         "y": 3,
-        "w": 4,
+        "w": 3,
         "h": 4
       },
       "type": "stat",
-      "title": "Never checked",
+      "title": "Paused",
       "description": "",
       "datasource": {
         "type": "postgres",
@@ -332,7 +332,7 @@
           "format": "table",
           "rawQuery": true,
           "editorMode": "code",
-          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status = 'never_checked'"
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status = 'paused'"
         }
       ],
       "fieldConfig": {
@@ -361,9 +361,111 @@
     {
       "id": 7,
       "gridPos": {
-        "x": 20,
+        "x": 15,
         "y": 3,
-        "w": 4,
+        "w": 3,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "No cadence",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status IN ('no_cadence', 'never_checked')"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 8,
+      "gridPos": {
+        "x": 18,
+        "y": 3,
+        "w": 3,
+        "h": 4
+      },
+      "type": "stat",
+      "title": "Blocked by drift",
+      "description": "",
+      "datasource": {
+        "type": "postgres",
+        "uid": "linklens-analytics"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "linklens-analytics"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "editorMode": "code",
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE drift_status = 'blocked'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "auto"
+      }
+    },
+    {
+      "id": 9,
+      "gridPos": {
+        "x": 21,
+        "y": 3,
+        "w": 3,
         "h": 4
       },
       "type": "stat",
@@ -410,7 +512,7 @@
       }
     },
     {
-      "id": 8,
+      "id": 10,
       "gridPos": {
         "x": 0,
         "y": 7,
@@ -419,7 +521,7 @@
       },
       "type": "table",
       "title": "Sources",
-      "description": "last_changed_at is when the downloaded bytes last differed. Follow a title to the dataset on its portal or to its OKF page.",
+      "description": "Why a source needs attention is in refresh_status, drift_status and last_error. last_changed_at is when the downloaded bytes last differed. Follow a title to the dataset on its portal or to its OKF page.",
       "datasource": {
         "type": "postgres",
         "uid": "linklens-analytics"
@@ -434,7 +536,7 @@
           "format": "table",
           "rawQuery": true,
           "editorMode": "code",
-          "rawSql": "SELECT source_title, refresh_status, cadence_days, last_checked_at, next_check_due_at, round(days_overdue::numeric, 1) AS days_overdue, last_changed_at, waiting_for_review, waiting_since, latest_run_status, approved_at, publisher, portal_url, okf_path, source_id FROM analytics.source_health ORDER BY waiting_for_review DESC, days_overdue DESC NULLS LAST, source_title"
+          "rawSql": "SELECT source_title, refresh_status, drift_status, cadence_days, last_checked_at, next_check_due_at, round(days_overdue::numeric, 1) AS days_overdue, consecutive_failures, last_error, retry_after, paused_by, last_changed_at, waiting_for_review, waiting_since, latest_run_status, approved_at, publisher, portal_url, okf_path, source_id FROM analytics.source_health ORDER BY (drift_status = 'blocked') DESC, waiting_for_review DESC, consecutive_failures DESC, days_overdue DESC NULLS LAST, source_title"
         }
       ],
       "fieldConfig": {
@@ -536,7 +638,7 @@
       }
     },
     {
-      "id": 9,
+      "id": 11,
       "gridPos": {
         "x": 0,
         "y": 16,
@@ -578,7 +680,7 @@
       }
     },
     {
-      "id": 10,
+      "id": 12,
       "gridPos": {
         "x": 10,
         "y": 16,

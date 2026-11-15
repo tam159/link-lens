@@ -176,7 +176,7 @@
         "h": 4
       },
       "type": "stat",
-      "title": "Stale",
+      "title": "Stale or failing",
       "description": "",
       "datasource": {
         "type": "postgres",
@@ -192,7 +192,7 @@
           "format": "table",
           "rawQuery": true,
           "editorMode": "code",
-          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status = 'stale'"
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status IN ('stale', 'failing')"
         }
       ],
       "fieldConfig": {
@@ -278,7 +278,7 @@
         "h": 4
       },
       "type": "stat",
-      "title": "Never checked",
+      "title": "Blocked by drift",
       "description": "",
       "datasource": {
         "type": "postgres",
@@ -294,7 +294,7 @@
           "format": "table",
           "rawQuery": true,
           "editorMode": "code",
-          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE refresh_status = 'never_checked'"
+          "rawSql": "SELECT count(*) FROM analytics.source_health WHERE drift_status = 'blocked'"
         }
       ],
       "fieldConfig": {
@@ -381,7 +381,7 @@
       },
       "type": "stat",
       "title": "Longest wait, days",
-      "description": "Drifted sources are not counted here: a drift check stores nothing yet.",
+      "description": "Blocked by drift: the approved mapping cannot read the source's latest snapshot, and a person must review a new one.",
       "datasource": {
         "type": "postgres",
         "uid": "linklens-analytics"

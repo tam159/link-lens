@@ -70,6 +70,11 @@ sources:
           loaded_at_field: retrieved_at
           freshness:
             warn_after: {count: 45, period: day}
+      - name: drift_check
+        description: >
+          The result of comparing a snapshot with a mapping config, one row per
+          pair: unchanged, or changed with reasons, and whether the mapping can
+          still extract from it.
       - name: artifact
         description: Content-addressed bytes. Only `uri` may change, when the bytes move to object storage.
 
