@@ -55,7 +55,9 @@ const put = (element, ...nodes) => element.replaceChildren(...nodes.flat(Infinit
 const show = (...nodes) => put(view, ...nodes);
 const notice = (text, kind) => h("div", { class: "notice " + (kind || ""), role: kind === "bad" ? "alert" : "status" }, text);
 const badge = (text, kind) => h("span", { class: "badge " + (kind || "") }, text);
-const link = (text, href) => (href ? h("a", { href, target: "_blank", rel: "noopener noreferrer" }, text) : null);
+// A link out of the console. An address comes from settings or from a
+// publisher's metadata, so anything that is not a web address is not linked.
+const link = (text, href) => (href && /^https?:\/\//i.test(href) ? h("a", { href, target: "_blank", rel: "noopener noreferrer" }, text) : null);
 const short = (value, length = 12) => (value ? h("code", { title: value }, String(value).slice(0, length)) : "–");
 const number = (value) => (value === null || value === undefined ? "–" : Number(value).toLocaleString("en"));
 const money = (value) => (value === null || value === undefined ? "unknown" : "US$" + Number(value).toFixed(2));

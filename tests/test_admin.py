@@ -700,6 +700,8 @@ def test_the_pages_call_only_the_admin_api_and_hold_no_credentials(api):
     script = files["console.js"]
     # One place talks to a server, and only to /admin on the console's own origin.
     assert script.count("fetch(") == 1 and 'fetch("/admin" + path' in script
+    # A publisher's metadata can hold any address; only web addresses become links.
+    assert "/^https?:\\/\\//i.test(href)" in script
     for word in (
         "XMLHttpRequest",
         "WebSocket",
