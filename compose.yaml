@@ -116,7 +116,8 @@ services:
       dockerfile: deploy/Dockerfile.dagster
     image: link-lens-dagster:local
     profiles: ["orchestration"]
-    command: ["dagster-webserver", "--host", "0.0.0.0", "--port", "3070", "--workspace", "/app/orchestration/workspace.yaml"]
+    # Model calls run one at a time; the other pools take the default in dagster.yaml.
+    command: ["sh", "-c", "dagster instance concurrency set model_calls 1 && exec dagster-webserver --host 0.0.0.0 --port 3070 --workspace /app/orchestration/workspace.yaml"]
     # Provider keys are needed only by the two assets that make model calls.
     env_file: &dagster-env-file
       - path: .env

@@ -23,17 +23,12 @@ telemetry:
 nux:
   enabled: false
 
-# How many steps may run at once across all runs, by what they load. Model
-# calls go one at a time: the application's budget is the authority on spend,
-# and a queue keeps a burst from racing it. Downloads are kept few to be polite
-# to publishers; a limit per publisher host comes with scheduling.
+# How many steps may run at once across all runs, per pool: two by default,
+# which covers `downloads` and `database`. Model calls go one at a time; a limit
+# for a named pool is kept in Dagster's own storage, so the webserver sets
+# `model_calls` to 1 when it starts (see compose.yaml). The application's
+# budget is the authority on spend; the queue keeps a burst from racing it.
 concurrency:
   pools:
     default_limit: 2
     granularity: op
-    model_calls:
-      limit: 1
-    downloads:
-      limit: 2
-    database:
-      limit: 2
