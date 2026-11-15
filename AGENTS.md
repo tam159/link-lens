@@ -2,7 +2,7 @@
 
 ## Purpose and starting points
 
-Link Lens onboards unfamiliar public business datasets, produces agent-generated declarative mappings for human approval, then deterministically extracts observations, links entities and builds evidence-backed profiles. It began as a locally runnable assignment submission, and those results and experiments are preserved. On top of it are a production data model in typed PostgreSQL schemas and a read-only product service (REST, MCP, bundles) that serves a release a person has recorded. Everything still runs locally: nothing is hosted, and no release has been recorded for clients unless the stored data says so. A second plan adds Dagster for the deterministic data flow and dbt for derived SQL; its foundations exist (an empty Dagster code location and an empty dbt project), and its later phases are not built.
+Link Lens onboards unfamiliar public business datasets, produces agent-generated declarative mappings for human approval, then deterministically extracts observations, links entities and builds evidence-backed profiles. It began as a locally runnable assignment submission, and those results and experiments are preserved. On top of it are a production data model in typed PostgreSQL schemas and a read-only product service (REST, MCP, bundles) that serves a release a person has recorded. Everything still runs locally: nothing is hosted, and no release has been recorded for clients unless the stored data says so. A second plan adds Dagster for the deterministic data flow and dbt for derived SQL; dbt now builds the `serving` views that clients read, the Dagster code location exists but is empty, and the later phases are not built.
 
 Read only the documentation relevant to your task:
 
@@ -38,7 +38,7 @@ Application code is in `src/link_lens/`:
 | `evaluation.py`, `review_ui.py` | Separate human/AI evaluation records and review worksheets |
 | `measurements.py`, `pricing.py`, `pricing_rates.json` | Usage, pricing basis and cost calculations |
 | `exports.py`, `_vendor/okf/` | Generated JSONL/CSV/OKF and viewer; retain vendor attribution |
-| `releases.py`, `okf/`, `serving/` | Human-recorded releases, the OKF renderer, index, virtual tree and bundle, and the serving read models as one `SELECT` per SQL file |
+| `releases.py`, `okf/`, `serving.py` | Human-recorded releases, the OKF renderer, index, virtual tree and bundle, and the comparison of serving views between two schemas. The read models themselves are dbt models in `transform/models/serving/` |
 | `product/`, `interfaces/rest.py`, `interfaces/mcp_server.py` | The read-only product service: API keys and tiers, limits, the query layer over `serving`, response models, the REST routes and the MCP tools |
 | `bundles.py`, `artifacts.py` | Release bundles for a named scope or a client, the per-entity viewer, and moving artifact bytes to object storage |
 | `transform.py` | Runs the `dbt` command on the transform project with the connection taken from the application's database URL; does not import dbt |
@@ -50,7 +50,7 @@ Two folders beside `src/` belong to the orchestration plan and are not part of t
 
 | Folder | Responsibility |
 |---|---|
-| `transform/` | The dbt project: `dbt_project.yml`, a profile configured by the environment, a schema-name macro, and model folders (`sources`, `staging`, `serving`, `analytics`) that are empty until phases D1 and D2 |
+| `transform/` | The dbt project: `dbt_project.yml`, a profile configured by the environment, a schema-name macro, the declared sources (`models/sources`), the twelve serving read models with their contracts, tests and exposures (`models/serving`), generic and singular tests (`tests/`), and `staging` and `analytics` folders that are empty until phase D2 |
 | `orchestration/` | The Dagster code location `link_lens_dagster` (`definitions.py`, and modules for assets, resources, sensors, schedules and checks that are empty until phases D3 and D4), its `workspace.yaml`, and the instance configuration `dagster.yaml` |
 
 `deploy/Dockerfile.dagster` builds the image for Dagster and dbt, and `deploy/dagster-db.sql` creates Dagster's own database. Read scripts before executing them: several `scripts/` files have top-level side effects, fixed experiment IDs or authored audit judgments. They are not all reusable library functions. Two are safe, read-only tools: `scripts/migration_baseline.py` compares a database with the recorded baseline, and `scripts/mcp_agent_eval.py` runs fixed tasks against the MCP server without a model.
@@ -69,21 +69,23 @@ uv run ruff check src/link_lens tests --exclude _vendor --select F
 For the production data model and the product service:
 
 ```sh
-uv run alembic upgrade head     # applies migrations, then refreshes the serving views
+uv run alembic upgrade head     # applies migrations; it creates no serving view
+uv run link-lens dbt build      # builds the serving views and runs their tests
 uv run python scripts/migration_baseline.py --typed --check outputs/local-run/migration-baseline.json
 uv run link-lens release list   # what clients can be served; empty until a person records one
 UPDATE_CONTRACTS=1 uv run pytest tests/test_production.py     # after a meant REST or MCP change
 UPDATE_FIXTURES=1 uv run pytest tests/test_fixture_bundle.py  # after a meant change to a page
 ```
 
-For Dagster and dbt, which are in dependency groups that a plain `uv sync` does not install:
+dbt is installed by a plain `uv sync`, because the tests build the serving views with it. Dagster is in a dependency group of its own:
 
 ```sh
-uv sync --frozen --group orchestration --group transform
+uv sync --frozen --group orchestration
 uv run link-lens dbt debug      # dbt on the configured database, as linklens_transform
-uv run link-lens dbt build
+uv run link-lens dbt run --vars '{serving_schema: serving_next}'   # a candidate build
+uv run link-lens serving-compare   # candidate against what clients read; exits 3 on a difference
 uv run dagster definitions validate --workspace orchestration/workspace.yaml
-uv run pytest -q tests/test_transform.py tests/test_orchestration.py   # skipped without the groups
+uv run pytest -q tests/test_orchestration.py   # skipped without the orchestration group
 docker compose --profile orchestration up -d --build   # Dagster UI on http://localhost:3070
 ```
 
@@ -94,7 +96,7 @@ Service startup and provider setup live in README. Default local ports: Inbox 30
 The local stack runs the code of the folder that Compose is started from:
 
 - Run `docker compose` from the repository root. Compose mounts that folder's `./src` and `./migrations` into the running backend and product service with reload on, so an edit there reaches the running services at once. Started from another checkout or worktree, it builds and runs that folder's code instead.
-- The backend runs `alembic upgrade head` when it starts. A new migration therefore reaches the local database at the next backend start. The procedure for changing that database is under **Outputs, secrets and scope**.
+- The backend runs `alembic upgrade head` when it starts. A new migration therefore reaches the local database at the next backend start. The procedure for changing that database is under **Outputs, secrets and scope**. The backend image has no dbt, so starting it never builds or refreshes a serving view; that is `uv run link-lens dbt build` on the host.
 - The backend, sandbox controller and product service share the image `link-lens-backend:local`. After a dependency change, rebuild it with `docker compose build backend` and recreate the service that needs it.
 - Dagster and dbt run in their own image, `link-lens-dagster:local`, and only with `docker compose --profile orchestration`. The services are `dagster-db` (creates the `dagster` login and database when missing, then exits), `dagster-webserver` and `dagster-daemon`. They mount `./orchestration`, `./transform` and `./src`; reload the code location in the UI after an edit. After a change to the `orchestration` or `transform` group, rebuild with `docker compose --profile orchestration build dagster-webserver`.
 - Tests never use the `linklens` database. They start their own container or use `LINK_LENS_TEST_DATABASE_URL`.
@@ -126,7 +128,7 @@ The local stack runs the code of the folder that Compose is started from:
 - **`legacy` is read-only history.** Nothing writes it. Do not add a migration that drops it: the backend migrates on start, and the plan lists what must happen first.
 - **Commands.** CLI commands log JSON lines to standard error and results to standard output. Exit codes: 0 done, 1 failed, 2 called wrongly, 3 ran and found something that blocks the next step.
 - **A person records what clients see.** A release (`link-lens release create`), a tier, client or key (`link-lens access`), a bundle scope and a client's bundle (`link-lens release scope`, `release bundle`) and an ontology promotion are human actions. No pipeline step and no agent acting for someone creates one on a real database; test fixtures and throwaway copies are the exception.
-- **Serving.** A serving read model is one `SELECT` in `src/link_lens/serving/`; change the file, not the view. The views are applied at the head revision only. OKF pages come from `okf/render.py` only, and an entity, evidence, source or concept page is the same bytes in the tree, in a bundle and over an interface.
+- **Serving.** A serving read model is one `SELECT` in `transform/models/serving/`, a dbt model with an enforced contract in `_serving.yml`; change the file and its contract, not the view. Build a changed model into `serving_next`, run `link-lens serving-compare`, and build into `serving` only when the differences are the ones you meant. Migrations create no view: after `alembic upgrade head` on any database, run `link-lens dbt build`. OKF pages come from `okf/render.py` only, and an entity, evidence, source or concept page is the same bytes in the tree, in a bundle and over an interface.
 - **The product service only reads.** It runs as `linklens_product`, reads `serving` and the access tables, and writes only usage counts and rate buckets. It never reads a core schema. It checks the key and counts the call on the primary and reads data from the replica when one is configured.
 - **Evidence is never tiered or hidden.** Every answer carries status, provenance, alternatives, score kind, timestamp basis and licence. A key limited to some sources must not reach another source's observations, evidence, links or pages by any route. Profiles are answered whole; that is a recorded decision, not an oversight.
 - **Keys.** A key is shown once at creation. Only its prefix and the hash of its secret are stored, and only its prefix is ever logged.
@@ -139,12 +141,12 @@ The local stack runs the code of the folder that Compose is started from:
 
 `docs/ORCHESTRATION_PLAN.md` sections 2 and 3 hold the decisions and the ownership table; these are the rules a change is most likely to meet.
 
-- **Alembic and dbt never manage the same relation.** Alembic owns every table that holds state, every schema and every grant. dbt owns only derived relations: those in `analytics` now, and the `serving` views from phase D1. Until D1 the serving views still come from `src/link_lens/serving/`.
-- **dbt works as `linklens_transform`.** The profile sets that role on every connection. It reads the core schemas and `serving`, creates only in `analytics`, and reads neither `legacy` nor the hash of a key's secret. Give it more only by a migration, and say why in the plan.
+- **Alembic and dbt never manage the same relation.** Alembic owns every table that holds state, every schema and every grant to a schema. dbt owns only derived relations: the twelve views in `serving`, candidates in `serving_next`, and whatever is built in `analytics`. In `serving`, the three `okf_*` tables and the functions are Alembic's and are filled by `releases.create`; no dbt model replaces them.
+- **dbt works as `linklens_transform`.** The profile sets that role on every connection. It reads the core schemas, creates only in `serving`, `serving_next` and `analytics`, and reads neither `legacy` nor the hash of a key's secret. dbt grants `SELECT` on each serving model to `linklens_product` and `linklens_pipeline`, in `dbt_project.yml`. Give the role more only by a migration, and say why in the plan.
 - **Nothing in `analytics` is served to clients.** The product role has no access to it.
 - **Dagster's own storage is the `dagster` database**, with a login that has no right on the application's schemas. It never goes into a schema of the application's database, and application state never goes into Dagster's.
 - **Dagster calls the library and reacts to rows.** It holds no pipeline logic and keeps no copy of a fact that PostgreSQL holds. It never records a mapping approval, an ontology promotion or a release, and it never retries a paid model call on its own.
-- **The tools stay out of the runtime image.** Dagster and dbt are in the `orchestration` and `transform` dependency groups; the backend, product service and sandbox images install no group. The lock file is shared, so after any change to those groups compare `uv export --no-dev` before and after and say what moved.
+- **The tools stay out of the runtime image.** Dagster and dbt are in the `orchestration` and `transform` dependency groups, and `dev` includes `transform`; the backend, product service and sandbox images install no group. The lock file is shared, so after any change to those groups compare `uv export --no-dev` before and after and say what moved.
 - **Read the installed versions' documentation before changing `orchestration/` or `transform/`.** Both tools change often. dbt stays on dbt Core 1.12; version 2 is a separate decision.
 - **dbt and Dagster report nothing to their vendors.** Usage statistics are off in `dbt_project.yml` and telemetry in `dagster.yaml`; keep them off.
 
@@ -153,7 +155,7 @@ The local stack runs the code of the folder that Compose is started from:
 - `outputs/` holds the current submission. Export experimental reruns to a distinct directory such as `outputs/local-run/`; replace submission artifacts only when the task calls for it.
 - `experiments/` preserves earlier evidence for comparison. Do not rewrite a baseline to match new code or metrics. Keep IDs, hashes, snapshots and measurement provenance traceable.
 - `artifacts/`, database volumes and `.langgraph_api/` are runtime state. Do not delete them or run `docker compose down -v` as routine cleanup. Restore archives only into an appropriate empty database.
-- The local `linklens` database and `artifacts/` may be the only copy of the experiment data. Before a migration reaches that database: take a `pg_dump`, rehearse the migration on a restored copy in a throwaway container, stop the backend, migrate, and run both baseline checks, which must report zero differences. Say where the backup is. Ask before a step that changes or deletes existing rows rather than adds to them. `docs/ENGINEERING.md` has the commands.
+- The local `linklens` database and `artifacts/` may be the only copy of the experiment data. Before a migration reaches that database: take a `pg_dump`, rehearse the migration on a restored copy in a throwaway container, stop the backend and the product service, migrate, build the serving views with `link-lens dbt build`, and run both baseline checks, which must report zero differences. Say where the backup is. Ask before a step that changes or deletes existing rows rather than adds to them. `docs/ENGINEERING.md` has the commands.
 - `outputs/local-run/migration-baseline.json` records what the store held before the production migrations. Check against it; do not write it again. Building a bundle adds an artifact, so the artifact count grows by one for each bundle.
 - Generated OKF of new runs, releases and bundles is not committed. `outputs/okf` stays as submitted.
 - `local/` and `walkthrough/` are ignored personal/educational material. Do not promote their hand-authored mappings into agent-generated submission results or expose private notes in public docs.

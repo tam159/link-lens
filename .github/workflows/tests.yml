@@ -64,8 +64,8 @@ jobs:
       - name: Test
         run: uv run pytest -q
 
-  # Dagster and dbt are installed only here: the job above installs and runs
-  # exactly what it did before they were added.
+  # Dagster is installed only here. dbt is in the job above as well, since the
+  # tests build the serving views with it.
   orchestration:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -108,11 +108,13 @@ jobs:
       - name: Migrate the database
         run: uv run alembic upgrade head
 
-      - name: dbt connects, parses and builds
+      - name: dbt connects, builds the serving views, tests them and documents them
         run: |
           uv run link-lens dbt debug
-          uv run link-lens dbt parse
           uv run link-lens dbt build
+          uv run link-lens dbt docs generate
+          uv run link-lens dbt run --vars '{serving_schema: serving_next}'
+          uv run link-lens serving-compare
 
       - name: Dagster definitions load
         run: uv run dagster definitions validate --workspace orchestration/workspace.yaml

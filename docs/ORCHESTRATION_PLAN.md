@@ -1,6 +1,6 @@
 # Orchestration and transformation plan: Dagster and dbt
 
-Status: **Phase D0 is implemented and applied to the local database (2026-11-15). D1 to D7 are planned, not built.** This is the follow-on to the [production implementation plan](PRODUCTION_PLAN.md). That plan's phases 0 to 6 and 8 are implemented; phase 7 is deferred and phase 9 is done only as far as one machine allows (no hosting, no reviewer sign-in, `legacy` not dropped). Names, layouts and SQL in the phases not yet built are sketches to confirm while building. Sizes are rough estimates for one engineer.
+Status: **Phases D0 and D1 are implemented and applied to the local database (2026-11-15). D2 to D7 are planned, not built.** This is the follow-on to the [production implementation plan](PRODUCTION_PLAN.md). That plan's phases 0 to 6 and 8 are implemented; phase 7 is deferred and phase 9 is done only as far as one machine allows (no hosting, no reviewer sign-in, `legacy` not dropped). Names, layouts and SQL in the phases not yet built are sketches to confirm while building. Sizes are rough estimates for one engineer.
 
 This plan was written before phases 2 to 9 of the first plan were built. It was compared with the code on 2026-11-15, before any of it was built. Where the code differs, the text below says so: section 5 gives the state of each seam, and each phase has a **Reconciled with the code** list of what to settle when that phase starts.
 
@@ -60,7 +60,7 @@ Timing: this plan begins after the first plan is complete. The earliest technica
 | Core schemas: `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops`, `access`; the `legacy` history; the helpers in `public` (`sha256`, `forbid_update`) | AI engineer and analytics engineer together | Alembic |
 | Extraction, identity resolution, profile policy, ontology workflow | AI engineer | Python library |
 | Onboarding and review flow | AI engineer | LangGraph |
-| `serving` read models that are set-based SQL: the twelve views `release`, `current_release`, `entity`, `profile`, `profile_field`, `profile_address`, `observation`, `evidence`, `link`, `source`, `concept`, `bundle` | Analytics engineer | dbt from D1. Until then `serving.apply` creates them from the files in `src/link_lens/serving/` |
+| `serving` read models that are set-based SQL: the twelve views `release`, `current_release`, `entity`, `profile`, `profile_field`, `profile_address`, `observation`, `evidence`, `link`, `source`, `concept`, `bundle` | Analytics engineer | dbt, since D1: models in `transform/models/serving`, views owned by `linklens_transform` |
 | `serving` tables built by algorithm: `okf_page`, `okf_line`, `okf_index`, and the functions `serving.iso_utc`, `serving.json_float`, `serving.create_release_partitions` | AI engineer | Alembic owns the tables and functions; `releases.create` fills the tables in the transaction that records the release |
 | `analytics` schema | Analytics engineer | dbt creates the relations; Alembic owns the schema and its grants |
 | Schedules, sensors, freshness, alerts | Analytics engineer, with the AI engineer for model-calling steps | Dagster |
@@ -70,7 +70,7 @@ Timing: this plan begins after the first plan is complete. The earliest technica
 
 The rule that prevents conflicts: **Alembic and dbt never manage the same relation.** When dbt takes over a `serving` relation, the old definition is removed in the same change.
 
-*Reconciled with the code:* the serving views are not defined in migrations. `serving.apply` creates each from its SQL file after every `alembic upgrade` at the head revision and through `link-lens serving-apply`, as `linklens_migrator`. "Removing the old definition" in D1 therefore means removing that mechanism (the file list in `serving/__init__.py`, the hook in `migrations/env.py`, the CLI command, and the blocks in the downgrades of `0018` to `0020` that drop every serving view), plus one migration that drops the views the migrator owns. `serving` stays a schema with two owners of relations: dbt for the views, Alembic for the three `okf_*` tables and the three functions.
+*As built in D1:* the serving views were never defined in migrations; a hook created each from a SQL file after every upgrade. D1 removed that mechanism and added migration `0024`, which drops the views the migrator owned. `serving` is now a schema with two owners of relations: dbt for the twelve views, Alembic for the three `okf_*` tables and the three functions. A test fails if a migration creates a view there or if dbt owns anything outside `analytics`, `serving` and `serving_next`.
 
 ## 4. Target architecture
 
@@ -134,7 +134,7 @@ These were requests to the first plan, made before its phases 2 to 9 were built.
 | Phase | Outcome | Earliest dependency in the first plan | Size |
 |---|---|---|---|
 | D0 | Project skeletons, databases, roles, CI. **Done 2026-11-15** | Phase 0 | S |
-| D1 | dbt owns the set-based `serving` read models, with tests and contracts | Phases 4 and 5 | M |
+| D1 | dbt owns the set-based `serving` read models, with tests and contracts. **Done 2026-11-15** | Phases 4 and 5 | M |
 | D2 | `analytics` schema: usage, freshness, coverage, cost, quality | Phase 5 | M |
 | D3 | Dagster assets, checks and sensors for the data flow | Phases 3 and 4 | L |
 | D4 | Per-source schedules, freshness policies, alerts, backfills | D3 | M |
@@ -201,7 +201,7 @@ Results on 2026-11-15:
 
 **Goal:** the client-facing read models are dbt models with declared tests, contracts and documentation, and return exactly what the hand-written versions returned.
 
-Reconciled with the code on 2026-11-15. Settle these when the phase starts; the tasks below are still the first sketch except where marked.
+Reconciled with the code on 2026-11-15, before the phase was built. The tasks below say how each point was settled.
 
 - **The read models are views, twelve of them.** The list below lacks `current_release` and `bundle`, and names `okf_page` and `okf_line`, which are not set-based models (next point). A view has no rows of its own, so "a second `dbt build` changes zero rows" becomes: the view definitions do not change, and `link-lens release digest` gives the same digest before and after.
 - **The `okf_*` tables stay with Python and Alembic.** `okf_page`, `okf_line` and `okf_index` are built by `releases.build` inside the transaction that inserts the release, into one list partition per release created by `serving.create_release_partitions`, and reject updates by trigger. An incremental dbt model would build them after the release is committed, which would leave a window in which a release exists without its tree, and would make dbt and Alembic manage the same relation. The "insert-only incremental models" task is therefore withdrawn, not ported.
@@ -215,23 +215,50 @@ Reconciled with the code on 2026-11-15. Settle these when the phase starts; the 
 
 Tasks:
 
-- [ ] **Declare core tables as dbt sources** with descriptions. Add source freshness on `catalog.snapshot` and `ops.release`.
+- [x] **Declare core tables as dbt sources** with descriptions. Add source freshness on `catalog.snapshot` and `ops.release`.
+  - *As built:* the twenty tables the serving models read, in six sources named after their schemas ([sources.yml](../transform/models/sources/sources.yml)). A table is declared when a model needs it; D2 adds the `access` and the remaining `ops` tables. Freshness warns when the newest snapshot or release is older than 45 days and never fails. Forty-five days is a placeholder: no source has a cadence yet and no release cadence is agreed.
 - [ ] **Staging models:** thin views that rename and cast only, one per source table that serving needs.
-- [ ] **Serving models:** port each set-based read model from the first plan (`entity`, `profile`, `profile_field`, `profile_address`, `observation`, `evidence`, `link`, `source`, `concept`, `release`, `okf_page`, `okf_line`). Every model keeps the `release_id` column.
-- [ ] **Per-release tables are insert-only.** `okf_page` and `okf_line` use incremental models keyed on `release_id`, with full refresh disabled and schema change set to fail. A release's rows are never rewritten.
-- [ ] **Keep algorithmic builds in Python.** The nested OKF index stays a Python step. Rule for future models: set-based SQL goes to dbt, algorithms stay in the library.
-- [ ] **Model contracts** on every serving model, so a column or type change fails the build instead of reaching clients.
-- [ ] **Tests:** uniqueness and not-null on keys; relationships from profile fields to observations and from observations to records, snapshots and sources; accepted values for status fields; accepted values for enum concepts generated from the ontology registry; a test that no row lacks licence or timestamp basis.
-- [ ] **Build in parallel first.** dbt writes to a `serving_next` schema. A comparison job checks row counts and digests against the existing `serving` relations for every release.
-- [ ] **Switch ownership.** One change set points dbt at `serving` and adds the Alembic migration that drops the hand-written definitions. The product service is unchanged.
-- [ ] **Documentation:** descriptions on models and columns, generated dbt docs, and exposures naming REST, MCP and bundles as consumers.
+  - *Not built, moved to D2.* The serving models read their sources directly. They rebuild stored records exactly and are written for the indexes that exist, and they had to answer row for row as the hand-written views did. A layer of renamed columns under them would have meant rewriting twelve working queries for no result a test could show. The `analytics` models are new SQL and are where staging views earn their place; they also need a schema to live in, which D2 decides.
+- [x] **Serving models:** port each set-based read model from the first plan (`entity`, `profile`, `profile_field`, `profile_address`, `observation`, `evidence`, `link`, `source`, `concept`, `release`, `okf_page`, `okf_line`). Every model keeps the `release_id` column.
+  - *As built:* twelve models in [transform/models/serving](../transform/models/serving/): the ten views named here, `current_release` and `bundle`, and not the two `okf_*` tables (next task). Each file is the SQL it was, with table names replaced by `source()` calls and nothing else changed. They are views owned by `linklens_transform`, and dbt grants `SELECT` on each to `linklens_product` and `linklens_pipeline`. No model reads another, so there is no `ref()` among them yet.
+- [x] **Per-release tables are insert-only.** `okf_page` and `okf_line` use incremental models keyed on `release_id`, with full refresh disabled and schema change set to fail. A release's rows are never rewritten.
+  - *Withdrawn, as reconciled above.* The three `okf_*` tables stay tables that Alembic owns and `releases.create` fills inside the release transaction. They were insert-only before and still are, by trigger.
+- [x] **Keep algorithmic builds in Python.** The nested OKF index stays a Python step. Rule for future models: set-based SQL goes to dbt, algorithms stay in the library.
+- [x] **Model contracts** on every serving model, so a column or type change fails the build instead of reaching clients.
+  - *As built:* every column of every model has a declared type in [_serving.yml](../transform/models/serving/_serving.yml), 148 in all, and the contract is enforced for the whole folder in `dbt_project.yml`. A view's contract checks names and types; dbt has no constraints on views, so not-null and uniqueness are tests.
+- [x] **Tests:** uniqueness and not-null on keys; relationships from profile fields to observations and from observations to records, snapshots and sources; accepted values for status fields; accepted values for enum concepts generated from the ontology registry; a test that no row lacks licence or timestamp basis.
+  - *As built:* 96 tests. Keys are a release and one or two more columns, which the built-in tests cannot express, so two small generic tests were added: [unique_combination](../transform/tests/generic/unique_combination.sql) and [exists_in](../transform/tests/generic/exists_in.sql). Enum values are checked against the `allowed_values` of the `concept` model, which reads the registry, so a new ontology version changes what the test accepts with no edit. Licence and timestamp basis are not-null tests on `observation`, `evidence` and `source`.
+  - *Found while building:* `exists_in` was first a correlated lookup. Between `observation` and `evidence`, 188,000 rows each on the copy, it had not finished after ten minutes. As a set difference it takes seconds, and all 96 tests run in 23 seconds.
+  - *A choice to revisit:* the accepted values for `link.status` and the profile statuses are the ones the code writes today. When link review adds a status, the test fails until the value is added, which is the point of it.
+- [x] **Build in parallel first.** dbt writes to a `serving_next` schema. A comparison job checks row counts and digests against the existing `serving` relations for every release.
+  - *As built:* migration `0023` creates `serving_next`. `link-lens serving-compare` ([serving.py](../src/link_lens/serving.py)) compares two schemas view by view: the columns with their types, and per release the row count and a digest over every row, document columns included. It exits 3 on a difference.
+  - *Kept after the switch:* the schema and the command stay as the way to change a read model. Build the candidate with `link-lens dbt run --vars '{serving_schema: serving_next}'`, compare, then build into `serving`.
+- [x] **Switch ownership.** One change set points dbt at `serving` and adds the Alembic migration that drops the hand-written definitions. The product service is unchanged.
+  - *As built:* migration `0024` drops the views `linklens_migrator` owns and grants `CREATE` on `serving` to `linklens_transform`. The same commit removes the SQL files from `src/link_lens/serving/`, `serving.apply`, its hook in `migrations/env.py` and the `serving-apply` command. No file under `product/`, `interfaces/` or `okf/` changed.
+  - *Consequence, decided here:* migrations no longer create a view, so **a database needs `link-lens dbt build` after `alembic upgrade head`**. This applies to a new local database, a restore, and the test database. The backend image has no dbt, so the backend's start still migrates but does not build views; that is a command on the host until Dagster runs dbt in D3. `release create` refuses, saying what to run, when the views are missing.
+  - *Tests need dbt:* `tests/conftest.py` builds the views with dbt after migrating, once per session, about three seconds. The `dev` dependency group therefore includes the `transform` group. The runtime image installs no group and still contains neither tool; the CI guard from D0 checks that.
+  - *Left in place:* the downgrades of `0018` to `0020` still contain a block that drops every serving view. A downgrade passes `0024` first, which drops dbt's views, so those blocks find nothing. Applied migrations are not edited.
+- [x] **Documentation:** descriptions on models and columns, generated dbt docs, and exposures naming REST, MCP and bundles as consumers.
+  - *As built:* a description on every model, column and source table, and three exposures ([_exposures.yml](../transform/models/serving/_exposures.yml)): the REST interface, the MCP server, and the OKF tree with the bundles. `link-lens dbt docs generate` writes the site to `transform/target/`, which is not committed and not published anywhere yet; publishing is a D5 task.
 
 Done when:
 
-- Counts and digests match between `serving_next` and `serving` for every release before the switch.
-- The first plan's interface parity tests pass unchanged after the switch.
-- `dbt build` passes all tests on the promoted release.
-- A second `dbt build` for an existing release changes zero rows.
+- Counts and digests match between `serving_next` and `serving` for every release before the switch. **Met on a restored copy with two rehearsal releases. The local database has no release, so there only the columns could be compared.**
+- The first plan's interface parity tests pass unchanged after the switch. **Met: the REST, MCP, contract, bundle and fixture-bundle test files are the same bytes as before the phase.**
+- `dbt build` passes all tests on the promoted release. **Met on the copy, on a rehearsal release of the promoted batch.**
+- A second `dbt build` for an existing release changes zero rows. **Met in the sense a view allows: after a second build every view answers the same rows, and the release digests are unchanged.**
+
+Results on 2026-11-15:
+
+- **Parity before the switch.** On a restored copy of the local database, two rehearsal releases were recorded: the earlier enhancement batch under the packaged ontology (52 entities, 15 concepts) and the promoted batch (60 entities, 59 concepts). dbt built the twelve models into `serving_next` in under a second. `serving-compare` reported no difference in any view for either release: same columns and types, same row counts, same digests. The largest are `observation` and `evidence` with 38,302 and 149,349 rows; the comparison took 29 seconds.
+- **Parity after the switch.** A fingerprint of each hand-written view per release (21 lines: count and digest) was saved before the switch. After `0024` and `dbt build`, the same query on the dbt-built views gave the same 21 lines. `link-lens release digest` gave the same digest for both releases before and after.
+- **Tests on real data.** `dbt build` on the copy: 12 models and 96 tests passed, none warned, in 23 seconds.
+- **Second build and step down.** A second `dbt build` left the fingerprint and digests unchanged. One step down removed dbt's twelve views and left the 2,289 OKF page rows alone; up again and a build gave the same fingerprint.
+- **The product service on dbt's views.** Run against the copy as it runs in Compose, with a rehearsal key: all 60 profiles of the promoted batch came back with an `ETag` equal to the stored `profile_version`, and `scripts/mcp_agent_eval.py` completed its ten tasks with each toolset in agreement, 12 and 22 calls, the same counts as when the MCP server was built.
+- **Local database.** Backed up to `/Users/may/link-lens-backups/linklens-pre-d1-cutover-20261115T031524.dump` with the backend and product service stopped, then moved from `0022` to `0023`, built into `serving_next` and compared (no difference; there is no release, so no rows), then to `0024` and built: twelve views owned by `linklens_transform`, the `okf_*` tables still owned by `linklens_migrator`. Both baseline checks reported zero differences before and after. Backend, Agent Inbox, sandbox controller, product service and the Dagster UI answered afterwards.
+- **Tests.** 242 passed, 4 skipped with the `orchestration` group installed; 238 passed, 5 skipped in a clean default environment, as the first CI job installs it. Each step of both CI jobs was run locally against a fresh database. New or rewritten: dbt builds the views and Alembic none, with owners and grants checked; a candidate build is compared and a tampered view is reported; each model file is one commented `SELECT` over declared sources; a release is refused until the views exist.
+- **Docs.** `dbt docs generate` ran on the copy: 12 models, 148 of 148 columns described, 20 source tables, 3 exposures. `dbt source freshness` runs and warns, as it should: the newest snapshot is from September.
+- **Not verified:** the comparison on a database with a real release, since none is recorded; query times under the dbt-built views beyond the evaluation run, though the SQL is unchanged; the CI workflow on GitHub.
 
 ## Phase D2: dbt analytics models
 
@@ -496,7 +523,9 @@ No verification step needs a paid model call.
 | Two tools owning DDL | Alembic and dbt could both define a relation | The ownership rule in section 3, enforced by a CI check on schema ownership |
 | One lock file for every dependency group | Adding or upgrading Dagster or dbt can move a package the runtime image uses, without touching the runtime's own dependencies. D0 moved `pathspec` from 1.1.1 to 1.0.4. | Compare `uv export --no-dev` before and after any change to these groups, and say what moved. Split the tools into their own project only if a real conflict appears. |
 | The backend migrates on start, and work happens on branches | A migration on a branch reaches the local database when the backend next starts from that checkout. Once applied, a checkout without that migration file (for example `main` before the merge) cannot start the backend: Alembic does not know the revision. | Apply each migration on purpose with the procedure in [ENGINEERING.md](ENGINEERING.md). Keep the branch checked out until it is merged, or downgrade first. |
-| Tests after D1 | When dbt owns the serving views, tests that read `serving` need dbt, so it is no longer an optional tool for the test suite | Decide at the start of D1; see its list |
+| Views need dbt after a migration | Since D1 `alembic upgrade head` creates no serving view. A new or restored database, or one stepped down and up again, serves nothing until `link-lens dbt build` runs, and the backend image cannot run it. | Documented in every procedure that migrates; `release create` refuses with the command to run. D3 makes Dagster run dbt. Until then it is a step on the host. |
+| dbt recreates a view on every build | A dbt run replaces each view, taking a brief exclusive lock, and drops dependent relations it then rebuilds | Run dbt when a model changed, not on a timer. D3 runs it on a release and on a change. |
+| Tests need dbt | The test database gets its views from dbt, so `dbt-core` and `dbt-postgres` are in the `dev` group | Accepted in D1. The runtime image installs no group; a CI step checks that. |
 | dbt version 2 | dbt Core 1.x prints that version 2 is the default for new installations. dagster-dbt 0.29 supports dbt-core below 1.13, and version 2 only through a separate `dbt` package. Version 2's terms and behaviour were not examined. | Stay on dbt Core 1.12, pinned below 1.13. Treat a move to version 2 as its own decision, with its licence checked first. |
 | dbt reads `.env` | dbt 1.12 loads a `.env` file found from the working directory upward, so a `dbt` command run in this repository sees the provider keys in `.env` | dbt needs only the database settings. Anonymous usage statistics are switched off in `dbt_project.yml`, and Dagster's telemetry in `dagster.yaml`. |
 | Immutable release tables in dbt | A full refresh would rewrite published rows | Full refresh disabled on those models; schema change fails; parity test on rebuild |

@@ -596,7 +596,7 @@ CREATE TABLE ops.release (                           -- append-only
 );
 ```
 
-Serving read models. Every row carries `release_id`, and the query layer always binds one. Each view is one commented `SELECT` in [src/link_lens/serving/](../src/link_lens/serving/), named after its file.
+Serving read models. Every row carries `release_id`, and the query layer always binds one. Each view is one commented `SELECT` in [transform/models/serving/](../transform/models/serving/) (in `src/link_lens/serving/` when this phase was built), named after its file.
 
 | Read model | Content | Kind |
 |---|---|---|
@@ -633,7 +633,7 @@ OKF path scheme:
 
 Differences from the first sketch:
 
-- **Views are defined by files, not by migrations.** The owner's constraint is one `SELECT` per file, ready to become a dbt model. If a migration also held each view, the definition would live twice. `serving.apply` creates each view from its file and stores the file's digest on the view; `migrations/env.py` calls it after every upgrade, and `link-lens serving-apply` calls it by hand. Migration `0018` drops all serving views on downgrade.
+- **Views are defined by files, not by migrations.** The owner's constraint is one `SELECT` per file, ready to become a dbt model. If a migration also held each view, the definition would live twice. `serving.apply` creates each view from its file and stores the file's digest on the view; `migrations/env.py` calls it after every upgrade, and `link-lens serving-apply` calls it by hand. Migration `0018` drops all serving views on downgrade. *Since 2026-11-15 this mechanism is gone:* phase D1 of the [orchestration plan](ORCHESTRATION_PLAN.md) made each file a dbt model in `transform/models/serving/`, and `link-lens dbt build` creates the views.
 - **No `bundle_artifact` on a release.** A release rejects updates, so a bundle built later cannot be attached to it. Phase 8 records bundles in their own table.
 - **`current_*` views are one view.** `serving.current_release` names the latest release. Every read model carries `release_id`, so "current" for any of them is a join with that view. A separate current view per derived table would add nothing.
 - **Evidence pages are the cited observations.** A release has a page for each observation that a profile cites, as the submitted OKF has. Every other observation of the release, linked or not, is in `serving.observation`, not in the tree.

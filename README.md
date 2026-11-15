@@ -208,9 +208,11 @@ docker compose up -d --build
 docker compose ps
 curl --fail http://localhost:2024/api/health
 uv run link-lens --help
+# Build the views the product service reads (the backend creates the tables):
+uv run link-lens dbt build
 ```
 
-The backend applies Alembic migrations at startup, so back up an existing database before starting a backend that carries newer migrations ([engineering guide](docs/ENGINEERING.md), **Database layout, migrations and the baseline**). Run `docker compose` from the repository root: it runs the code of the folder it is started from. All published ports bind to loopback; this is a local development setup.
+The backend applies Alembic migrations at startup. Migrations create tables, not the `serving` views: those are dbt models, built by `link-lens dbt build` on a new database and again after a model changes. Back up an existing database before starting a backend that carries newer migrations ([engineering guide](docs/ENGINEERING.md), **Database layout, migrations and the baseline**). Run `docker compose` from the repository root: it runs the code of the folder it is started from. All published ports bind to loopback; this is a local development setup.
 
 | Service | Local address / purpose |
 |---|---|
@@ -388,7 +390,7 @@ A second, read-only service answers clients: the product service on port 8100 (`
 ```mermaid
 flowchart LR
     Batch["Batch of profiles in PostgreSQL"] -->|"release create, by a person"| Release["Release: batch and ontology version"]
-    Release --> Views["serving views: one SELECT per file"]
+    Release --> Views["serving views: dbt models with contracts"]
     Release --> Tree["OKF pages, lines and index of the release"]
     Views --> Queries["Query layer: scope, release lag, limits"]
     Tree --> Queries
@@ -400,20 +402,24 @@ flowchart LR
 
 ### Dagster and dbt
 
-Two tools are being added for running the product with many sources and a small team: Dagster for the deterministic data flow and dbt Core for derived SQL. The [orchestration plan](docs/ORCHESTRATION_PLAN.md) has the phases. Only its foundations are built: an empty Dagster code location in `orchestration/`, an empty dbt project in `transform/`, the `analytics` schema, and the `linklens_transform` database role that dbt works as. No pipeline step runs through Dagster yet and no model is built by dbt; the commands above are still how the pipeline runs.
+Two tools are being added for running the product with many sources and a small team: Dagster for the deterministic data flow and dbt Core for derived SQL. The [orchestration plan](docs/ORCHESTRATION_PLAN.md) has the phases. Two phases are built. dbt owns the twelve `serving` views that the product service reads: each is a model in `transform/models/serving/` with an enforced contract, tests and documentation, built as the `linklens_transform` database role. The Dagster code location in `orchestration/` exists and is empty: no pipeline step runs through Dagster yet, and the commands above are still how the pipeline runs.
 
-Both tools are optional and are not in the default installation or the default Compose stack:
+dbt is part of the default installation, because the serving views and the tests need it. Dagster is optional and is not in the default installation or the default Compose stack:
 
 ```sh
-uv sync --frozen --group orchestration --group transform
 uv run link-lens dbt debug     # dbt connects to the configured database as linklens_transform
-uv run link-lens dbt build     # nothing to build until models are added
+uv run link-lens dbt build     # builds the serving views and runs their tests
+uv run link-lens dbt docs generate   # model and column documentation, in transform/target/
+# To change a read model: build a candidate, compare it with what clients read, then build.
+uv run link-lens dbt run --vars '{serving_schema: serving_next}'
+uv run link-lens serving-compare
+uv sync --frozen --group orchestration
 uv run dagster definitions validate --workspace orchestration/workspace.yaml
 # Dagster webserver and daemon, with their own image and their own `dagster` database:
 docker compose --profile orchestration up -d --build
 ```
 
-`link-lens dbt` passes its arguments to dbt and takes the connection from `LINK_LENS_DATABASE_URL`, so dbt and the pipeline use the same database. The Dagster UI has no sign-in of its own and is bound to this machine. Alembic owns every table that holds state; dbt owns only derived relations, and the two never manage the same one.
+`link-lens dbt` passes its arguments to dbt and takes the connection from `LINK_LENS_DATABASE_URL`, so dbt and the pipeline use the same database. The Dagster UI has no sign-in of its own and is bound to this machine. Alembic owns every table that holds state; dbt owns only derived relations, and the two never manage the same one. The backend image contains neither tool, so `link-lens dbt` runs on the host.
 
 ### Experiment and model boundaries
 
@@ -449,11 +455,11 @@ uv run ruff check src/link_lens tests --exclude _vendor --select F
 RUN_DOCKER_TESTS=1 uv run pytest tests/test_sandbox_integration.py -q
 ```
 
-The LinkML, SHACL and JSON Schema tests need the optional `ontology` dependency group (`uv sync --frozen --group ontology`) and are skipped without it. The dbt and Dagster tests (`tests/test_transform.py`, `tests/test_orchestration.py`) need the `transform` and `orchestration` groups and are skipped without them; CI runs them in a job of their own.
+The LinkML, SHACL and JSON Schema tests need the optional `ontology` dependency group (`uv sync --frozen --group ontology`) and are skipped without it. The Dagster tests (`tests/test_orchestration.py`) need the `orchestration` group and are skipped without it; CI runs them in a job of their own. dbt is in the `dev` group, since the test database gets its serving views from it.
 
 Database tests run on PostgreSQL built by `alembic upgrade head`, in a throwaway `pgvector/pgvector:pg17-trixie` container that the test session starts on first use and removes afterwards. Set `LINK_LENS_TEST_DATABASE_URL` to use an existing server instead; the tests create and drop their own `linklens_test_*` databases there and never use the database named in the URL. Tests that do not touch the store need neither.
 
-The suite result on 15 November 2026, with the production data model, the product service and the Dagster and dbt foundations, is **240 passed, four integration tests skipped** with the `orchestration` and `transform` groups installed, and 233 passed with the dbt and Dagster tests skipped as well without them. The result recorded for the promoted submission was 106 passed, four skipped; it and the earlier Docker checks are documented in the [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
+The suite result on 15 November 2026, with the production data model, the product service, dbt-built serving views and the Dagster foundations, is **242 passed, four integration tests skipped** with the `orchestration` group installed, and 238 passed with the Dagster tests skipped as well without it. The result recorded for the promoted submission was 106 passed, four skipped; it and the earlier Docker checks are documented in the [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
 
 ## Documentation and code
 
@@ -470,7 +476,7 @@ The suite result on 15 November 2026, with the production data model, the produc
 | [outputs/COMPARISON.md](outputs/COMPARISON.md) | Preserved baseline versus the final approach |
 | [docs/THIRD_PARTY.md](docs/THIRD_PARTY.md) | Component and data attribution |
 
-Implementation is in `src/link_lens/`: `agent.py` orchestrates onboarding; `ingestion.py`, `triage.py` and `downloadability.py` handle discovery/acquisition; `contracts.py`, `readers.py` and `extraction.py` implement shared mapping execution; `resolution.py` and `profiles.py` build entities; `store.py`, `evaluation.py` and `exports.py` retain and present evidence; `db/` holds the typed tables behind the store; `releases.py`, `serving/` and `okf/` turn a batch into what clients see; `product/` and `interfaces/` are the read-only product service with its REST routes and MCP tools; `bundles.py` builds release bundles. Service definitions are in `compose.yaml` and `deploy/`; database migrations are in `migrations/`. Beside `src/`, `transform/` is the dbt project and `orchestration/` the Dagster code location.
+Implementation is in `src/link_lens/`: `agent.py` orchestrates onboarding; `ingestion.py`, `triage.py` and `downloadability.py` handle discovery/acquisition; `contracts.py`, `readers.py` and `extraction.py` implement shared mapping execution; `resolution.py` and `profiles.py` build entities; `store.py`, `evaluation.py` and `exports.py` retain and present evidence; `db/` holds the typed tables behind the store; `releases.py`, `serving.py` and `okf/` turn a batch into what clients see, through the views that dbt builds from `transform/models/serving/`; `product/` and `interfaces/` are the read-only product service with its REST routes and MCP tools; `bundles.py` builds release bundles. Service definitions are in `compose.yaml` and `deploy/`; database migrations are in `migrations/`. Beside `src/`, `transform/` is the dbt project and `orchestration/` the Dagster code location.
 
 
 ### Experimental ontology evolution
