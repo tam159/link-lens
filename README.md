@@ -32,7 +32,7 @@ The six mappings and submission promotion are approved. Human dataset/link evide
 
 [Discovery](#discovery-and-download-gate) · [Ontology evolution](#ontology-evolution) · [Onboarding](#stateful-onboarding) · [Entity identification](#entity-identification) · [Company profiles](#company-profiles) · [Storage and contracts](#storage-and-runtime-contracts) · [Skip to setup](#run-locally)
 
-The overview below follows the five stages of the submitted pipeline. Each column is a stage; the rows separate model judgments, deterministic code, human decisions and stored evidence. Each stage section below opens with a detailed diagram; the runtime architecture is under [Storage and runtime contracts](#storage-and-runtime-contracts).
+The overview below follows the five stages of the submitted pipeline. Each column is a stage; the rows separate model judgments, deterministic code, human decisions and stored evidence. Each stage section below opens with a detailed diagram. How the stages run as a product, with Dagster, dbt, the product service and the operations console, is under [Production architecture](#production-architecture).
 
 ![Five stages end to end: model judgments, deterministic code, human decisions and stored evidence per stage](docs/images/diagrams/submission-stages.png)
 
@@ -375,7 +375,19 @@ The demo guide covers presentation and optional workflows; the setup and six-sou
 
 ## Storage and runtime contracts
 
+### Production architecture
+
+![Production architecture: reviewer, Agent Inbox and LangGraph backend; Dagster refreshing public sources; PostgreSQL core with dbt serving and analytics views; the product service for clients; the operations console and Grafana for the team](docs/images/diagrams/production-architecture.png)
+
+- **Three writers fill the core schemas.** Dagster refreshes sources and extracts observations, the LangGraph backend records mapping approvals from Agent Inbox, and the operations console records sources, releases and keys.
+- **dbt builds two sets of views from them.** `serving` is what clients read through the product service; `analytics` is what the team reads in Grafana.
+- **A person decides what clients see.** Approvals and releases are human actions. Dagster reacts to them and never creates them.
+
+Who does what day to day is under [Run it day to day](#run-it-day-to-day); the details are in [Interfaces](#interfaces), [Dagster and dbt](#dagster-and-dbt) and [Operations console](#operations-console).
+
 ### Evidence and presentation
+
+The diagram below shows the onboarding runtime that produced the submission: the CLI, the LangGraph backend, the sandbox and the stores.
 
 ![Runtime architecture: reviewer, Agent Inbox, CLI, LangGraph backend, sandbox, evidence stores and exports](docs/images/diagrams/runtime-architecture.png)
 
