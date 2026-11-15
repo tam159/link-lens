@@ -2,6 +2,7 @@
 
 from sqlalchemy import (
     BigInteger,
+    Integer,
     Column,
     DateTime,
     Interval,
@@ -71,6 +72,11 @@ source_refresh = Table(
     Column("cadence", Interval),
     Column("last_checked_at", timestamp),
     Column("updated_at", timestamp),
+    Column("paused_at", timestamp),
+    Column("paused_by", Text),
+    Column("consecutive_failures", Integer),
+    Column("last_failure_at", timestamp),
+    Column("last_error", Text),
 )
 
 

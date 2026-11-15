@@ -10,7 +10,8 @@ Agent Inbox, and a release is recorded with `link-lens release create`.
     extract      extract a snapshot under that mapping, unless drift blocks it, and
                  record the run a batch is assembled from for that snapshot
     request_onboarding   start an onboarding run for a snapshot (model calls follow)
-    assemble     assemble a batch from the approved runs of the registered sources
+    assemble     assemble a batch from the current run of every registered source
+    backfill_plan, backfill   what extraction is outstanding after a mapping changed, and doing it
 """
 
 import hashlib
@@ -44,11 +45,17 @@ def check(source_id):
     resource_id = (
         store.require("snapshots", before).get("resource_id") if before else None
     )
-    _, snapshot = ingestion.register(
-        SourceRequest(
-            dataset_id=source_id, portal=source["portal"], resource_id=resource_id
+    try:
+        _, snapshot = ingestion.register(
+            SourceRequest(
+                dataset_id=source_id, portal=source["portal"], resource_id=resource_id
+            )
         )
-    )
+    except Exception as error:
+        # The publisher did not answer as expected. Count it, so the next
+        # attempt waits longer, and let the caller see the failure.
+        sources.record_failure(source_id, f"{type(error).__name__}: {error}")
+        raise
     return {
         "source_id": source_id,
         "snapshot_id": snapshot["id"],
@@ -182,6 +189,62 @@ def record_run(source_id, snapshot, config_hash, records, result):
             "refresh",
         )
     return run_id
+
+
+def backfill_plan(source_id=None):
+    """What extraction is outstanding: the latest snapshot of each registered source
+    against the mapping now in force. Reads only.
+
+    After a mapping changes, the source's snapshot has no observations under the
+    new config until it is extracted again. Each row says how many it has, what
+    the drift check found if one was recorded, and whether extraction is needed
+    or blocked.
+    """
+    query = text(
+        "SELECT state.source_id, state.title, state.latest_snapshot_id, "
+        "sha256_hex(state.approved_config_hash) AS config_hash, "
+        "(SELECT count(*) FROM evidence.observation o "
+        "  JOIN evidence.source_record r ON r.source_id = o.source_id AND r.id = o.record_id "
+        "  WHERE o.source_id = state.source_id AND r.snapshot_id = state.latest_snapshot_id "
+        "    AND o.config_hash = state.approved_config_hash) AS observations, "
+        "checked.status AS drift_status, checked.blocking "
+        "FROM catalog.source_state state "
+        "LEFT JOIN catalog.drift_check checked "
+        "  ON checked.snapshot_id = state.latest_snapshot_id "
+        " AND checked.config_hash = state.approved_config_hash "
+        "WHERE state.kind = 'registered' "
+        "AND (CAST(:source AS text) IS NULL OR state.source_id = :source) "
+        "ORDER BY state.title, state.source_id"
+    )
+    with store.engine().connect() as connection:
+        found = connection.execute(query, {"source": source_id}).mappings().all()
+    plan = []
+    for row in found:
+        if row["config_hash"] is None:
+            action = "waiting for an approved mapping"
+        elif row["latest_snapshot_id"] is None:
+            action = "no snapshot"
+        elif row["blocking"]:
+            action = "blocked by drift; needs a mapping for the new shape"
+        elif row["observations"] == 0:
+            action = "extract"
+        else:
+            action = "nothing to do"
+        plan.append({**row, "action": action})
+    return plan
+
+
+def backfill(source_id=None, limit=None):
+    """Extract every source the plan marks `extract`. Returns the plan with results."""
+    done = []
+    for row in backfill_plan(source_id):
+        if row["action"] == "extract":
+            try:
+                row = {**row, "result": extract(row["source_id"], limit=limit)}
+            except Blocked as blocked:
+                row = {**row, "action": "blocked", "blocked": str(blocked)}
+        done.append(row)
+    return done
 
 
 def start_thread(run, client):

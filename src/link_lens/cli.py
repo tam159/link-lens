@@ -683,6 +683,58 @@ def source_extract(
         raise typer.Exit(EXIT_BLOCKED) from blocked
 
 
+@source_app.command("pause")
+def source_pause(source_id: str, reviewer: str = typer.Option(..., "--reviewer")):
+    """Stop scheduled checks of a source until it is resumed."""
+    from . import sources
+
+    try:
+        show(sources.pause(source_id, reviewer))
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+
+
+@source_app.command("resume")
+def source_resume(source_id: str):
+    """Let scheduled checks of a paused source start again."""
+    from . import sources
+
+    show(sources.resume(source_id))
+
+
+@source_app.command("due")
+def source_due():
+    """Sources whose scheduled check is due now, and those overdue with the reason."""
+    from . import sources
+
+    show({"due": sources.due(), "overdue": sources.overdue()})
+
+
+@source_app.command("backfill")
+def source_backfill(
+    source_id: str | None = typer.Argument(None),
+    apply: bool = typer.Option(False, "--apply", help="Extract what the plan lists."),
+    limit: int | None = typer.Option(None, "--limit", help="Records to read a source."),
+):
+    """What extraction is outstanding under the mappings in force; a dry run unless --apply.
+
+    Use after a mapping changed. Without --apply nothing is written: the plan
+    lists each source's latest snapshot, its observations under the mapping now
+    in force, and whether it needs extracting or is blocked. Exits 3 if a source
+    is blocked.
+    """
+    from . import refresh
+
+    plan = (
+        refresh.backfill(source_id, limit)
+        if apply
+        else refresh.backfill_plan(source_id)
+    )
+    show({"applied": apply, "sources": plan})
+    if any(row["action"].startswith("blocked") for row in plan):
+        raise typer.Exit(EXIT_BLOCKED)
+
+
 access_app = typer.Typer(help="Tiers, clients and API keys of the product service.")
 tier_app = typer.Typer(help="Tiers: what a class of client may do.")
 client_app = typer.Typer(help="Clients: who holds keys.")
