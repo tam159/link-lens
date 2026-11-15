@@ -2,7 +2,7 @@
 
 ## Purpose and starting points
 
-Link Lens onboards unfamiliar public business datasets, produces agent-generated declarative mappings for human approval, then deterministically extracts observations, links entities and builds evidence-backed profiles. It began as a locally runnable assignment submission, and those results and experiments are preserved. On top of it are a production data model in typed PostgreSQL schemas and a read-only product service (REST, MCP, bundles) that serves a release a person has recorded. Everything still runs locally: nothing is hosted, and no release has been recorded for clients unless the stored data says so.
+Link Lens onboards unfamiliar public business datasets, produces agent-generated declarative mappings for human approval, then deterministically extracts observations, links entities and builds evidence-backed profiles. It began as a locally runnable assignment submission, and those results and experiments are preserved. On top of it are a production data model in typed PostgreSQL schemas and a read-only product service (REST, MCP, bundles) that serves a release a person has recorded. Everything still runs locally: nothing is hosted, and no release has been recorded for clients unless the stored data says so. A second plan adds Dagster for the deterministic data flow and dbt for derived SQL; its foundations exist (an empty Dagster code location and an empty dbt project), and its later phases are not built.
 
 Read only the documentation relevant to your task:
 
@@ -13,11 +13,12 @@ Read only the documentation relevant to your task:
 | [docs/DEMO.md](docs/DEMO.md) | Illustrated presentation, seventh-source run and optional frozen restore |
 | [docs/ENGINEERING.md](docs/ENGINEERING.md) | Implementation details, verification, operations and recovery |
 | [docs/PRODUCTION_PLAN.md](docs/PRODUCTION_PLAN.md) | The production work phase by phase: what was built, where it differs from the first sketch, measured results, what is open, and the risk table |
+| [docs/ORCHESTRATION_PLAN.md](docs/ORCHESTRATION_PLAN.md) | The Dagster and dbt work phase by phase (D0 to D7): who owns which relation, what each phase must settle against the code, what was built and measured, and its risk table |
 | [docs/api/](docs/api/) | The published REST (`openapi.json`) and MCP (`mcp-tools.json`) contracts, checked against the code by a test |
 | [outputs/README.md](outputs/README.md) | Current submission results, approvals and evaluation status |
 | [outputs/COMPARISON.md](outputs/COMPARISON.md) | Previous versus current approach and download-gate comparison |
 
-Resolve current experiment, discovery revision, run IDs, batch IDs, the migration revision and whether a release exists from settings and stored/exported metadata. Do not assume an ID or count in an old document is still current. `store.current_discovery()` resolves the active discovery revision; `link-lens release list` shows the releases.
+Resolve current experiment, discovery revision, run IDs, batch IDs, the migration revision, which orchestration phase is built and whether a release exists from settings, the plans and stored/exported metadata. Do not assume an ID or count in an old document is still current. `store.current_discovery()` resolves the active discovery revision; `link-lens release list` shows the releases.
 
 ## Code map
 
@@ -40,9 +41,19 @@ Application code is in `src/link_lens/`:
 | `releases.py`, `okf/`, `serving/` | Human-recorded releases, the OKF renderer, index, virtual tree and bundle, and the serving read models as one `SELECT` per SQL file |
 | `product/`, `interfaces/rest.py`, `interfaces/mcp_server.py` | The read-only product service: API keys and tiers, limits, the query layer over `serving`, response models, the REST routes and the MCP tools |
 | `bundles.py`, `artifacts.py` | Release bundles for a named scope or a client, the per-entity viewer, and moving artifact bytes to object storage |
+| `transform.py` | Runs the `dbt` command on the transform project with the connection taken from the application's database URL; does not import dbt |
 | `sandbox.py`, `runtime_compat.py` | Restricted Python execution and pinned runtime compatibility fixes |
 
-`migrations/` contains Alembic migrations as explicit SQL, each with a downgrade; `tests/` contains deterministic tests and explicitly gated integrations. `compose.yaml`, `deploy/` and `langgraph.json` define local services; `deploy/alerts.yml` holds alert rules for the product service. Read scripts before executing them: several `scripts/` files have top-level side effects, fixed experiment IDs or authored audit judgments. They are not all reusable library functions. Two are safe, read-only tools: `scripts/migration_baseline.py` compares a database with the recorded baseline, and `scripts/mcp_agent_eval.py` runs fixed tasks against the MCP server without a model.
+`migrations/` contains Alembic migrations as explicit SQL, each with a downgrade; `tests/` contains deterministic tests and explicitly gated integrations. `compose.yaml`, `deploy/` and `langgraph.json` define local services; `deploy/alerts.yml` holds alert rules for the product service.
+
+Two folders beside `src/` belong to the orchestration plan and are not part of the `link_lens` package:
+
+| Folder | Responsibility |
+|---|---|
+| `transform/` | The dbt project: `dbt_project.yml`, a profile configured by the environment, a schema-name macro, and model folders (`sources`, `staging`, `serving`, `analytics`) that are empty until phases D1 and D2 |
+| `orchestration/` | The Dagster code location `link_lens_dagster` (`definitions.py`, and modules for assets, resources, sensors, schedules and checks that are empty until phases D3 and D4), its `workspace.yaml`, and the instance configuration `dagster.yaml` |
+
+`deploy/Dockerfile.dagster` builds the image for Dagster and dbt, and `deploy/dagster-db.sql` creates Dagster's own database. Read scripts before executing them: several `scripts/` files have top-level side effects, fixed experiment IDs or authored audit judgments. They are not all reusable library functions. Two are safe, read-only tools: `scripts/migration_baseline.py` compares a database with the recorded baseline, and `scripts/mcp_agent_eval.py` runs fixed tasks against the MCP server without a model.
 
 ## Development commands
 
@@ -65,15 +76,27 @@ UPDATE_CONTRACTS=1 uv run pytest tests/test_production.py     # after a meant RE
 UPDATE_FIXTURES=1 uv run pytest tests/test_fixture_bundle.py  # after a meant change to a page
 ```
 
+For Dagster and dbt, which are in dependency groups that a plain `uv sync` does not install:
+
+```sh
+uv sync --frozen --group orchestration --group transform
+uv run link-lens dbt debug      # dbt on the configured database, as linklens_transform
+uv run link-lens dbt build
+uv run dagster definitions validate --workspace orchestration/workspace.yaml
+uv run pytest -q tests/test_transform.py tests/test_orchestration.py   # skipped without the groups
+docker compose --profile orchestration up -d --build   # Dagster UI on http://localhost:3070
+```
+
 Run relevant tests first and broader checks when the change warrants them. Deterministic tests use isolated fixtures; those that touch the store run on PostgreSQL in a throwaway container (Docker required, see README **Verification**). Live model and Docker integrations are separate. Documentation-only edits need link/command consistency checks, not a paid pipeline rerun. Consult `tests/test_sandbox_integration.py` before enabling `RUN_DOCKER_TESTS=1`.
 
-Service startup and provider setup live in README. Default local ports: Inbox 3000, backend 2024, PostgreSQL 5439, sandbox controller 8091, product service 8100. The graph ID is `onboard`. The development server supplies the graph checkpointer; PostgreSQL stores application evidence separately. Frozen application archives do not recreate LangGraph threads/checkpoints.
+Service startup and provider setup live in README. Default local ports: Inbox 3000, backend 2024, PostgreSQL 5439, sandbox controller 8091, product service 8100, and the Dagster UI 3070 when the `orchestration` profile is started. The graph ID is `onboard`. The development server supplies the graph checkpointer; PostgreSQL stores application evidence separately. Frozen application archives do not recreate LangGraph threads/checkpoints.
 
 The local stack runs the code of the folder that Compose is started from:
 
 - Run `docker compose` from the repository root. Compose mounts that folder's `./src` and `./migrations` into the running backend and product service with reload on, so an edit there reaches the running services at once. Started from another checkout or worktree, it builds and runs that folder's code instead.
 - The backend runs `alembic upgrade head` when it starts. A new migration therefore reaches the local database at the next backend start. The procedure for changing that database is under **Outputs, secrets and scope**.
 - The backend, sandbox controller and product service share the image `link-lens-backend:local`. After a dependency change, rebuild it with `docker compose build backend` and recreate the service that needs it.
+- Dagster and dbt run in their own image, `link-lens-dagster:local`, and only with `docker compose --profile orchestration`. The services are `dagster-db` (creates the `dagster` login and database when missing, then exits), `dagster-webserver` and `dagster-daemon`. They mount `./orchestration`, `./transform` and `./src`; reload the code location in the UI after an edit. After a change to the `orchestration` or `transform` group, rebuild with `docker compose --profile orchestration build dagster-webserver`.
 - Tests never use the `linklens` database. They start their own container or use `LINK_LENS_TEST_DATABASE_URL`.
 
 ## Contracts to preserve
@@ -112,6 +135,19 @@ The local stack runs the code of the folder that Compose is started from:
 - **Published contracts and the kept bundle.** `docs/api/` and `tests/fixtures/okf_bundle` change only on purpose, with the commands above, and the difference is reviewed like code.
 - **No paid call for this work.** Migrations, backfills, releases, the product service and `scripts/mcp_agent_eval.py` are verified with deterministic checks against stored data.
 
+### Orchestration and transformation
+
+`docs/ORCHESTRATION_PLAN.md` sections 2 and 3 hold the decisions and the ownership table; these are the rules a change is most likely to meet.
+
+- **Alembic and dbt never manage the same relation.** Alembic owns every table that holds state, every schema and every grant. dbt owns only derived relations: those in `analytics` now, and the `serving` views from phase D1. Until D1 the serving views still come from `src/link_lens/serving/`.
+- **dbt works as `linklens_transform`.** The profile sets that role on every connection. It reads the core schemas and `serving`, creates only in `analytics`, and reads neither `legacy` nor the hash of a key's secret. Give it more only by a migration, and say why in the plan.
+- **Nothing in `analytics` is served to clients.** The product role has no access to it.
+- **Dagster's own storage is the `dagster` database**, with a login that has no right on the application's schemas. It never goes into a schema of the application's database, and application state never goes into Dagster's.
+- **Dagster calls the library and reacts to rows.** It holds no pipeline logic and keeps no copy of a fact that PostgreSQL holds. It never records a mapping approval, an ontology promotion or a release, and it never retries a paid model call on its own.
+- **The tools stay out of the runtime image.** Dagster and dbt are in the `orchestration` and `transform` dependency groups; the backend, product service and sandbox images install no group. The lock file is shared, so after any change to those groups compare `uv export --no-dev` before and after and say what moved.
+- **Read the installed versions' documentation before changing `orchestration/` or `transform/`.** Both tools change often. dbt stays on dbt Core 1.12; version 2 is a separate decision.
+- **dbt and Dagster report nothing to their vendors.** Usage statistics are off in `dbt_project.yml` and telemetry in `dagster.yaml`; keep them off.
+
 ## Outputs, secrets and scope
 
 - `outputs/` holds the current submission. Export experimental reruns to a distinct directory such as `outputs/local-run/`; replace submission artifacts only when the task calls for it.
@@ -127,7 +163,7 @@ The local stack runs the code of the folder that Compose is started from:
 
 ## Documentation and completion
 
-Keep documentation in English and distinguish implemented, measured, assumed and future work. Update the owning document and link to detail instead of duplicating entire sections. Architecture is now in root README; do not recreate `docs/ARCHITECTURE.md`. The demo is consolidated in `docs/DEMO.md`; results/reviews/evaluation instructions are consolidated in `outputs/README.md`. For production work, `docs/PRODUCTION_PLAN.md` is the record: when a decision changes or the code turns out to differ from the plan, say so there, in the phase's section and in the risk table, instead of deviating silently. `docs/ENGINEERING.md` holds how to operate what the plan describes.
+Keep documentation in English and distinguish implemented, measured, assumed and future work. Update the owning document and link to detail instead of duplicating entire sections. Architecture is now in root README; do not recreate `docs/ARCHITECTURE.md`. The demo is consolidated in `docs/DEMO.md`; results/reviews/evaluation instructions are consolidated in `outputs/README.md`. For production work, `docs/PRODUCTION_PLAN.md` is the record, and for Dagster and dbt work `docs/ORCHESTRATION_PLAN.md` is: when a decision changes or the code turns out to differ from the plan, say so there, in the phase's section and in the risk table, instead of deviating silently. `docs/ENGINEERING.md` holds how to operate what the plan describes.
 
 Generated exports and curated explanations have different owners: report scripts can refresh machine data and generated status files, but manually check README, WRITEUP, comparison and demo claims afterward. Preserve screenshot dates and historical context. Verify relative links and Mermaid syntax when editing docs.
 
@@ -140,7 +176,7 @@ For a completed coding task, report what changed, what checks ran and any remain
 
 These are repository skills in Codex's `.agents/skills` discovery location. Other coding tools can read the linked instructions directly.
 
-Procedures for the production work are sections of [docs/ENGINEERING.md](docs/ENGINEERING.md), under **Database layout, migrations and the baseline**: migrating an existing database, backfilling, recording a release, managing access, building bundles, moving artifacts to object storage, and restoring into an empty environment.
+Procedures for the production work are sections of [docs/ENGINEERING.md](docs/ENGINEERING.md), under **Database layout, migrations and the baseline**: migrating an existing database, backfilling, recording a release, managing access, building bundles, moving artifacts to object storage, restoring into an empty environment, and running dbt and Dagster locally.
 
 ## GitHub identity
 

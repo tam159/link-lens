@@ -153,10 +153,11 @@ Where things stand on 15 November 2026:
 
 | Part | State |
 |---|---|
-| Schema | Migration `0021`. Records live in `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `access`. `legacy` holds the earlier tables, read-only. |
+| Schema | Migration `0022`. Records live in `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `access`. `legacy` holds the earlier tables, read-only. `analytics` is empty and belongs to dbt. |
 | Application | Still reads and writes through `store.py`, which returns the same records as before. |
 | What clients see | Views in `serving`, for a release that a person records. None is recorded on the local database. |
 | Product service | Compose service `product` on port 8100: REST, MCP, bundle links and an entity viewer. It refuses every call until a release and a key exist. |
+| Dagster and dbt | Foundations only ([orchestration plan](ORCHESTRATION_PLAN.md), phase D0): an empty code location, an empty dbt project, their role and their database. Nothing runs through them yet. |
 | Not done | Hosting, reviewer sign-in, the agent runtime licence and dropping `legacy`. |
 
 | To do this | Read |
@@ -166,6 +167,7 @@ Where things stand on 15 November 2026:
 | Connect an agent | [MCP interface](#mcp-interface) |
 | Build a bundle | [Bundles and the entity viewer](#bundles-and-the-entity-viewer-migration-0020) |
 | Run more than one instance, a replica, metrics, a bucket | [Running as a service](#running-as-a-service-migration-0021) |
+| Run dbt or the Dagster UI | [Dagster and dbt foundations](#dagster-and-dbt-foundations-migration-0022) |
 | Restore somewhere else and check it | [Restoring into an empty environment](#restoring-into-an-empty-environment) |
 
 #### Foundations (migrations 0003 to 0008)
@@ -306,6 +308,31 @@ Running as a service (migration `0021`, Phase 9). What needs a hosting provider 
 - **Artifacts to object storage.** With `LINK_LENS_ARTIFACT_STORE=s3` and a bucket, `link-lens artifacts migrate --dry-run` reads every local artifact and checks its hash; without `--dry-run` it copies each, checks the stored bytes and records the new location. It deletes nothing and can be run again. Exit code 3 means an artifact was missing or did not match.
 - **Published contracts.** `docs/api/openapi.json` and `docs/api/mcp-tools.json` are what clients build against. A test fails when the code differs; `UPDATE_CONTRACTS=1 uv run pytest tests/test_production.py` writes them again when the change is meant.
 
+#### Dagster and dbt foundations (migration 0022)
+
+Dagster and dbt foundations (migration `0022`, phase D0 of the [orchestration plan](ORCHESTRATION_PLAN.md)). Both tools are installed and run; neither does any work yet. The plan says what each later phase adds.
+
+- **Dependency groups.** `orchestration` (Dagster 1.13, dagster-webserver, dagster-postgres, dagster-dbt) and `transform` (dbt Core 1.12, dbt-postgres 1.11) are installed by `uv sync --frozen --group orchestration --group transform`, never by a plain `uv sync`. The backend image installs no group, so the backend, product service and sandbox controller contain neither tool. The lock file is shared by every group: adding these moved `pathspec` in the backend image from 1.1.1 to 1.0.4.
+- **Schema and role.** `analytics` is owned by `linklens_migrator` and filled only by dbt. `linklens_transform` is a `NOLOGIN` group like the other three: it reads `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `serving`, including tables the migrator creates later, reads `access.tier`, `client`, `api_usage` and every column of `api_key` except `key_hash`, and may create relations only in `analytics`. It cannot read `legacy` or `access.rate_bucket`, and it cannot create in `serving` until dbt takes over the serving views in phase D1. The downgrade of `0022` drops whatever the role owns, which is only relations dbt can build again.
+- **dbt.** The project is `transform/`. Its profile has one target, configured by the environment, and sets the role `linklens_transform` on every connection, as the product service sets its own. `uv run link-lens dbt ARGS` runs dbt with the connection taken from `LINK_LENS_DATABASE_URL` and returns dbt's exit code (0 done, 1 a model or a test failed, 2 dbt could not run what was asked). Run directly from `transform/`, dbt uses the `LINK_LENS_DBT_*` variables, which default to the local Compose database. A model's schema is used exactly as configured (`macros/generate_schema_name.sql`), because every developer has a database of their own and the product service reads `serving` by that name. dbt 1.12 loads a `.env` file from the working directory upward; it needs only the database settings.
+- **Dagster.** The code location is the package `orchestration/link_lens_dagster`, loaded through `orchestration/workspace.yaml`, whose paths are relative to that file. `orchestration/dagster.yaml` is the instance configuration of the Compose services.
+- **Dagster's own storage** is a database named `dagster` on the same server, owned by a login named `dagster`. `deploy/dagster-db.sql` creates both when they are missing and changes nothing that exists; the Compose service `dagster-db` runs it. That login can connect to the server but has no right on any schema of `linklens`. A `pg_dump` of `linklens` does not include it, which is intended: Dagster's history is not application data.
+- **Compose.** `dagster-db`, `dagster-webserver` and `dagster-daemon` start only with the `orchestration` profile and use the image `link-lens-dagster:local` (`deploy/Dockerfile.dagster`). The UI is on port 3070, bound to this machine, and has no sign-in. The services are given no connection to `linklens` yet; phase D3 adds it with the first assets.
+- **Nothing is reported to the vendors.** dbt's usage statistics and Dagster's telemetry and first-run dialog are switched off in `dbt_project.yml` and `dagster.yaml`.
+
+```sh
+uv sync --frozen --group orchestration --group transform
+uv run link-lens dbt debug
+uv run link-lens dbt build
+uv run dagster definitions validate --workspace orchestration/workspace.yaml
+docker compose --profile orchestration up -d --build     # http://localhost:3070
+docker compose --profile orchestration stop dagster-webserver dagster-daemon
+```
+
+To remove Dagster's storage and start it empty again, stop the two services and run `DROP DATABASE dagster` as the `linklens` user; the next start creates it again. This deletes run history only.
+
+On 2026-11-15 the local database moved from `0021` to `0022` after a fresh backup and a rehearsal on a restored copy, where one step down and up again was also run. Both baseline checks reported zero differences before and after, and the backend, Agent Inbox, sandbox controller and product service answered their health checks on an image rebuilt from the new lock file. `dbt debug` and an empty `dbt build` succeeded on the local database as `linklens_transform`, and the Dagster UI showed the code location `link_lens` loaded with no assets, jobs, schedules or sensors, its 22 tables in the `dagster` database and none in `linklens`.
+
 #### Restoring into an empty environment
 
 Restoring into an empty environment and checking it serves the same release:
@@ -315,8 +342,9 @@ Restoring into an empty environment and checking it serves the same release:
 uv run link-lens release digest
 pg_dump -U linklens -d linklens -Fc -f linklens.dump
 
-# On the target: the three roles first, then the data, then any newer migrations.
-psql -c "CREATE ROLE linklens_migrator NOLOGIN" -c "CREATE ROLE linklens_pipeline NOLOGIN" -c "CREATE ROLE linklens_product NOLOGIN"
+# On the target: the roles first, then the data, then any newer migrations.
+# A dump taken before migration 0022 does not need linklens_transform.
+psql -c "CREATE ROLE linklens_migrator NOLOGIN" -c "CREATE ROLE linklens_pipeline NOLOGIN" -c "CREATE ROLE linklens_product NOLOGIN" -c "CREATE ROLE linklens_transform NOLOGIN"
 createdb linklens && pg_restore -d linklens linklens.dump
 uv run alembic upgrade head
 uv run python scripts/migration_baseline.py --typed --check outputs/local-run/migration-baseline.json
@@ -340,7 +368,7 @@ uv run python scripts/migration_baseline.py --check outputs/local-run/migration-
 The backend runs `alembic upgrade head` when it starts, so a new migration reaches the database at the next backend start whether or not anyone meant it to. For a database whose data matters, such as the local one, apply a migration on purpose instead:
 
 1. Take a backup and check that it lists: `pg_dump -Fc`, then `pg_restore --list`.
-2. Rehearse on a copy: restore the backup into a throwaway `pgvector/pgvector:pg17-trixie` container (create the three `NOLOGIN` roles first), run `uv run alembic upgrade head` and any backfill there with `LINK_LENS_DATABASE_URL` pointing at the copy, and run both baseline checks.
+2. Rehearse on a copy: restore the backup into a throwaway `pgvector/pgvector:pg17-trixie` container (create the `NOLOGIN` roles first: three, and `linklens_transform` as well for a dump taken at `0022` or later), run `uv run alembic upgrade head` and any backfill there with `LINK_LENS_DATABASE_URL` pointing at the copy, and run both baseline checks.
 3. On the real database: stop the backend and the product service, take a fresh backup, upgrade, run the backfill if the phase has one, and run both checks.
 4. Start the services and check them: `/api/health` and `/api/runs` on port 2024, the Inbox on 3000, `/health` on 8091 and 8100.
 
@@ -356,6 +384,8 @@ docker compose up -d
 Both checks must report `0 difference(s)`. The first compares the legacy rows, the second the same records read back from the typed tables. Each migration has a downgrade, and one step down and up again is tested; a downgrade that passes a migration the serving views read from drops the views, and `alembic upgrade head` or `link-lens serving-apply` at head puts them back. Building a bundle adds an artifact, so after the first bundle the artifact count differs from the baseline by the number of bundles built.
 
 Every phase was applied to the local database this way on 14 and 15 November 2026, and each time both checks reported zero differences.
+
+Work happens on branches in one checkout, and the backend runs the migrations of whatever is checked out. Once a branch's migration is applied, a checkout without that migration file cannot start the backend: Alembic stops because it does not know the database's revision. Keep the branch checked out until it is merged, or downgrade before switching.
 
 The first of these moves, from the layout before the plan, is the largest. It rewrites every table under an exclusive lock, and it changes the PostgreSQL image:
 

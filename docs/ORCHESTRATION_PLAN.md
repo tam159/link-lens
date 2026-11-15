@@ -1,6 +1,6 @@
 # Orchestration and transformation plan: Dagster and dbt
 
-Status: **Phase D0 is being built (2026-11-15); D1 to D7 are planned.** This is the follow-on to the [production implementation plan](PRODUCTION_PLAN.md). That plan's phases 0 to 6 and 8 are implemented; phase 7 is deferred and phase 9 is done only as far as one machine allows (no hosting, no reviewer sign-in, `legacy` not dropped). Names, layouts and SQL in the phases not yet built are sketches to confirm while building. Sizes are rough estimates for one engineer.
+Status: **Phase D0 is implemented and applied to the local database (2026-11-15). D1 to D7 are planned, not built.** This is the follow-on to the [production implementation plan](PRODUCTION_PLAN.md). That plan's phases 0 to 6 and 8 are implemented; phase 7 is deferred and phase 9 is done only as far as one machine allows (no hosting, no reviewer sign-in, `legacy` not dropped). Names, layouts and SQL in the phases not yet built are sketches to confirm while building. Sizes are rough estimates for one engineer.
 
 This plan was written before phases 2 to 9 of the first plan were built. It was compared with the code on 2026-11-15, before any of it was built. Where the code differs, the text below says so: section 5 gives the state of each seam, and each phase has a **Reconciled with the code** list of what to settle when that phase starts.
 
@@ -133,7 +133,7 @@ These were requests to the first plan, made before its phases 2 to 9 were built.
 
 | Phase | Outcome | Earliest dependency in the first plan | Size |
 |---|---|---|---|
-| D0 | Project skeletons, databases, roles, CI | Phase 0 | S |
+| D0 | Project skeletons, databases, roles, CI. **Done 2026-11-15** | Phase 0 | S |
 | D1 | dbt owns the set-based `serving` read models, with tests and contracts | Phases 4 and 5 | M |
 | D2 | `analytics` schema: usage, freshness, coverage, cost, quality | Phase 5 | M |
 | D3 | Dagster assets, checks and sensors for the data flow | Phases 3 and 4 | L |
@@ -161,19 +161,41 @@ Reconciled with the code on 2026-11-15, before building:
 
 Tasks:
 
-- [ ] **Add dependency groups** `orchestration` (dagster, dagster-webserver, dagster-postgres, dagster-dbt) and `transform` (dbt-core, dbt-postgres). Keep them out of the product service and sandbox images. Pin versions and confirm the dbt-core and dbt-postgres pair is compatible.
-- [ ] **Create the two skeletons** in `orchestration/` and `transform/` as laid out above.
-- [ ] **Add a `dagster` database** on the same PostgreSQL server for Dagster's run, event and schedule storage. It never shares a schema with application data.
-- [ ] **Add a database role `linklens_transform`:** read on core schemas, owner of dbt-managed relations in `serving` and `analytics`. dbt grants `SELECT` on `serving` models to `linklens_product`.
-- [ ] **Add an `analytics` schema** through Alembic. dbt creates relations inside it; Alembic owns only the schema and its grants.
-- [ ] **Compose services** for the Dagster webserver and daemon, under a compose profile so the default stack stays small.
-- [ ] **CI jobs:** `dbt parse` and `dbt build` against a migrated throwaway database with fixture data; Dagster definitions load without error.
+- [x] **Add dependency groups** `orchestration` (dagster, dagster-webserver, dagster-postgres, dagster-dbt) and `transform` (dbt-core, dbt-postgres). Keep them out of the product service and sandbox images. Pin versions and confirm the dbt-core and dbt-postgres pair is compatible.
+  - *As built:* `dagster>=1.13.30,<1.14`, `dagster-webserver` the same, `dagster-postgres` and `dagster-dbt` `>=0.29.30,<0.30`, `dbt-core>=1.12.7,<1.13`, `dbt-postgres>=1.11,<1.12`; `uv.lock` holds the exact versions. The pair is compatible by both packages' own metadata and by running: `dbt debug` reports core 1.12.7 with the postgres adapter 1.11.0. A plain `uv sync` installs neither group. A CI step fails if a Dagster or dbt package appears in what the runtime image installs.
+- [x] **Create the two skeletons** in `orchestration/` and `transform/` as laid out above.
+  - *As built:* the dbt project has no model yet; its four model folders, `tests/` and `seeds/` are empty. The Dagster package has `definitions.py` with an empty `Definitions` and modules for assets, resources, sensors, schedules and checks that hold only a description of what goes there. Neither project was made with the tools' scaffolding commands, which generate more than the plan's layout.
+  - *Changed while building:* the workspace loads the code location with `python_file`, not `python_module`. Dagster resolves a `python_file` entry's paths against the workspace file and a `python_module` entry's working directory against wherever the command is run, so only the first loads from any directory.
+  - *Added:* `link-lens dbt ARGS` ([transform.py](../src/link_lens/transform.py)) runs dbt with its connection taken from `LINK_LENS_DATABASE_URL`. dbt's profile cannot read a database URL, and without this dbt and the pipeline could be pointed at different databases. The module does not import dbt.
+- [x] **Add a `dagster` database** on the same PostgreSQL server for Dagster's run, event and schedule storage. It never shares a schema with application data.
+  - *As built:* [deploy/dagster-db.sql](../deploy/dagster-db.sql) creates a login `dagster` and a database `dagster` that it owns, only when they are missing. A login of its own, not the application's, so that Dagster's credentials open nothing in `linklens`: it has no `USAGE` on any application schema. Alembic does not create them: a migration works inside one database and holds no passwords.
+- [x] **Add a database role `linklens_transform`:** read on core schemas, owner of dbt-managed relations in `serving` and `analytics`. dbt grants `SELECT` on `serving` models to `linklens_product`.
+  - *As built (migration `0022`):* a `NOLOGIN` group. It reads `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `serving`, with default privileges for tables the migrator creates later; in `access` it reads `tier`, `client`, `api_usage` and the columns of `api_key` other than `key_hash`. It owns what it creates in `analytics`. The `serving` half of this task, `CREATE` there and dbt's grants to the product and pipeline roles, is deferred to D1 for the reasons in the list above.
+- [x] **Add an `analytics` schema** through Alembic. dbt creates relations inside it; Alembic owns only the schema and its grants.
+  - *As built (migration `0022`):* owned by `linklens_migrator`; `USAGE` and `CREATE` for `linklens_transform` and nobody else. The downgrade runs `DROP OWNED BY linklens_transform`, so relations dbt built do not block it, and then drops the schema without `CASCADE`, so anything else found there stops it.
+- [x] **Compose services** for the Dagster webserver and daemon, under a compose profile so the default stack stays small.
+  - *As built:* profile `orchestration` with three services: `dagster-db` runs the script above and exits, `dagster-webserver` serves the UI on port 3070, and `dagster-daemon` starts once the webserver is healthy, so the two do not both create Dagster's tables. They share the image `link-lens-dagster:local` ([Dockerfile.dagster](../deploy/Dockerfile.dagster)) and mount `orchestration/`, `transform/` and `src/` read-only. They are given no connection to `linklens`; D3 adds one with the first asset that needs it.
+  - *Added:* telemetry and the first-run dialog that asks for an email address are off in [dagster.yaml](../orchestration/dagster.yaml), and dbt's usage statistics in `dbt_project.yml`.
+- [x] **CI jobs:** `dbt parse` and `dbt build` against a migrated throwaway database with fixture data; Dagster definitions load without error.
+  - *As built:* a second job, `orchestration`, in [tests.yml](../.github/workflows/tests.yml): it checks the runtime dependencies, installs the two groups, lints `orchestration/`, migrates the CI database, runs `dbt debug`, `parse` and `build` and `dagster definitions validate`, then [tests/test_transform.py](../tests/test_transform.py), [tests/test_orchestration.py](../tests/test_orchestration.py) and the migration tests. The first job is unchanged.
+  - *Not done, on purpose:* no fixture data is loaded for dbt, because there is no model to read it. The tests run dbt on the migrated test database that the other tests fill through the store; D1's first models get their fixture rows there.
+  - *Not run:* the workflow itself has not run on GitHub, since nothing was pushed. Each of its steps was run locally against a throwaway database.
 
 Done when:
 
-- `dbt debug` and an empty `dbt build` succeed locally and in CI.
-- The Dagster UI opens locally and shows an empty code location.
-- The existing test suite and services are unaffected.
+- `dbt debug` and an empty `dbt build` succeed locally and in CI. **Met locally; CI not run, because nothing was pushed.**
+- The Dagster UI opens locally and shows an empty code location. **Met.**
+- The existing test suite and services are unaffected. **Met.**
+
+Results on 2026-11-15:
+
+- **dbt.** On the local database, `link-lens dbt debug` reported "All checks passed" with the role `linklens_transform`, and `link-lens dbt build` exited 0 with "Nothing to do". A test asks dbt for `current_user` and gets `linklens_transform`. Another runs `parse` and `build` on the migrated test database and compares every relation and its owner before and after: nothing outside `analytics` changed.
+- **Role.** Tests expect a permission error when `linklens_transform` selects from `legacy`, reads `key_hash` or `access.rate_bucket`, writes a core table, or creates anything in `serving`, `ops` or a new schema; and when the product or pipeline role reads `analytics`.
+- **Dagster.** `dagster definitions validate` passes from any directory. With the profile started, the UI at `http://localhost:3070` lists one code location, `link_lens`, loaded, with no assets, jobs, schedules or sensors, and all six daemons report healthy. Dagster's 22 tables are in the `dagster` database and none is in `linklens`. Logged in as `dagster`, a select from `ops.batch` in `linklens` is refused.
+- **Local database.** Backed up to `/Users/may/link-lens-backups/linklens-pre-d0-20261115T022532.dump`, rehearsed on a restored copy in a throwaway container (upgrade, both baseline checks, dbt, the Dagster script twice, one step down and up again), then backed up again with the backend stopped (`linklens-pre-d0-cutover-20261115T023349.dump`) and migrated from `0021` to `0022` in under a second. Both baseline checks reported zero differences before and after. No row was changed: the migration adds a schema, a role and grants.
+- **Existing services.** The backend image was rebuilt from the new lock file and contains neither Dagster nor dbt; `pathspec` is 1.0.4 in it. Backend (73 runs listed), Agent Inbox, sandbox controller and product service answered their health checks, and the product service still refuses a call without a key.
+- **Tests.** 240 passed, 4 skipped with the two groups installed; 229 passed, 4 skipped before. The 11 new tests are two for the role and the downgrade, five for dbt and four for Dagster. In a clean environment without the groups, as the existing CI job installs it, 233 passed and 8 skipped: the four sandbox integration tests as before, and the dbt and Dagster tests. Lint passes on `src/link_lens`, `tests` and `orchestration`.
+- **Not verified:** the CI workflow on GitHub; the Dagster image and the `dagster-db` script on a managed PostgreSQL service, where the administrator is not a superuser; a run launched from the UI, since there is nothing to run.
 
 ## Phase D1: dbt for the serving layer
 
