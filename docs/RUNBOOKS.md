@@ -47,7 +47,8 @@ The run in the Dagster UI shows which step failed: `snapshot` (the download) or 
   ```
 
 - **The extraction failed with "cannot be extracted"**: that is drift or a missing approval, not a failure. Go to [A source drifted](#a-source-drifted).
-- **The extraction failed with anything else**: re-run the failed step from the run's page. Extraction stores each observation once, so a second run cannot duplicate.
+- **The extraction failed with anything else**: re-run the failed step from the run's page (Re-execute, From failure). Extraction stores each observation once, so a second run cannot duplicate. A run that failed in Dagster itself (a worker that died, an error in Dagster's own storage, the step never started) is run again from the failure by the daemon, twice at most; look at the run's page before doing it by hand.
+- **The file was downloaded but never extracted** (the `snapshot` step succeeded, `observations` did not, and the retries are spent): the schedule will not try again, because the bytes have not changed since. Re-execute the run from its failure, or materialise `observations` for that source's partition. `uv run link-lens source backfill` finds a snapshot with no observations at all under the mapping in force, not one extracted in part; when unsure, extract again, which stores only what is missing.
 
 **Do not** delete a snapshot, a drift check or observations to "reset" a source. They are append-only and the database refuses; a reset is never what fixes a refresh.
 

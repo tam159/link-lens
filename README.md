@@ -329,6 +329,37 @@ curl -H "Authorization: Bearer KEY" http://localhost:8100/v1/entities
 
 Every answer carries the status of a value, the observations behind it, the alternatives, the kind of score, the basis of its timestamp and the licence of its source. Bundles of a release, usage reports and running more than one instance are covered in the [engineering guide](docs/ENGINEERING.md). The [production plan](docs/PRODUCTION_PLAN.md) records what was built and measured and what is still open, including hosting, reviewer sign-in and retiring the earlier tables.
 
+## Run it day to day
+
+The two sections above are how the submission was produced and how a first release is recorded by hand. Day to day, the product runs without a terminal: Dagster refreshes the sources and builds the views, and people decide in three places.
+
+```mermaid
+flowchart LR
+    Owner["Product owner"] --> Console["Operations console :8200"]
+    Reviewer["Reviewer"] --> Inbox["Agent Inbox :3000"]
+    Team["Engineers"] --> DagsterUI["Dagster UI :3070"]
+    Team --> Grafana["Grafana :3080"]
+    Console -->|"add a source, set cadence, record a release, keys"| PG["PostgreSQL"]
+    Console -->|"start onboarding (paid)"| Graph["LangGraph backend"]
+    Inbox <--> Graph
+    Graph -->|"proposed mapping, approval"| PG
+    Daemon["Dagster schedules and sensors"] -->|"refresh, drift check, extract, batch"| PG
+    Daemon -->|"dbt build after a release"| Views["serving and analytics views"]
+    PG --> Views
+    Views --> Product["Product service :8100"]
+    Views --> Grafana
+    Product --> Clients["Clients: REST and MCP"]
+```
+
+| Who | Where | Does |
+|---|---|---|
+| Product owner | [Operations console](#operations-console) | Adds sources, sets how often each is checked, compares a batch with the current release and records a release, manages clients, tiers and keys |
+| Reviewer | Agent Inbox | Accepts or answers each proposed mapping |
+| Dagster, by itself | Schedules and sensors | Checks due sources for a new file, checks drift, extracts under the approved mapping, rebuilds the views after a release |
+| Engineers | Dagster UI and Grafana | Assemble a batch, start a paid onboarding run after drift, watch freshness, failures and cost; fix what the [runbooks](docs/RUNBOOKS.md) describe |
+
+The command line stays for one-off work, recovery, promoting an ontology and bundle scopes. Which routine runs where, and what each command is still for, is in the [engineering guide](docs/ENGINEERING.md), section **Routine operation**. How to change a model, an asset or the console is in [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Other run paths
 
 Open the linked file, then use the named section. These direct file links also work in editors that do not support jumping to a heading in another Markdown file.
@@ -485,7 +516,7 @@ The LinkML, SHACL and JSON Schema tests need the optional `ontology` dependency 
 
 Database tests run on PostgreSQL built by `alembic upgrade head`, in a throwaway `pgvector/pgvector:pg17-trixie` container that the test session starts on first use and removes afterwards. Set `LINK_LENS_TEST_DATABASE_URL` to use an existing server instead; the tests create and drop their own `linklens_test_*` databases there and never use the database named in the URL. Tests that do not touch the store need neither.
 
-The suite result on 15 November 2026, with the production data model, the product service, dbt-built serving views and reporting models, the dashboards, the Dagster assets and the operations console, is **295 passed, four integration tests skipped** with the `orchestration` group installed, and 276 passed with the Dagster tests skipped as well without it. The result recorded for the promoted submission was 106 passed, four skipped; it and the earlier Docker checks are documented in the [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
+The suite result on 15 November 2026, with the production data model, the product service, dbt-built serving views and reporting models, the dashboards, the Dagster assets and the operations console, is **297 passed, four integration tests skipped** with the `orchestration` group installed, and 277 passed with the Dagster tests skipped as well without it. The result recorded for the promoted submission was 106 passed, four skipped; it and the earlier Docker checks are documented in the [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
 
 ## Documentation and code
 
@@ -498,6 +529,7 @@ The suite result on 15 November 2026, with the production data model, the produc
 | [docs/ENGINEERING.md](docs/ENGINEERING.md) | Implementation evidence, verification and recovery |
 | [docs/PRODUCTION_PLAN.md](docs/PRODUCTION_PLAN.md) | The production data model and product service, phase by phase: what was built, measured and left open |
 | [docs/ORCHESTRATION_PLAN.md](docs/ORCHESTRATION_PLAN.md) | Dagster and dbt, phase by phase: ownership, what each phase must settle, what is built |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Who owns what, and how to add a dbt model, a Dagster asset or a console action |
 | [docs/RUNBOOKS.md](docs/RUNBOOKS.md) | What to do when the data flow needs a person, and how to back up and restore |
 | [docs/api/](docs/api/) | Published REST and MCP contracts of the product service |
 | [outputs/COMPARISON.md](outputs/COMPARISON.md) | Preserved baseline versus the final approach |

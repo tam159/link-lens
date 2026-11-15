@@ -153,12 +153,13 @@ Where things stand on 15 November 2026:
 
 | Part | State |
 |---|---|
-| Schema | Migration `0028`. Records live in `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `access`. `legacy` holds the earlier tables, read-only. `analytics` holds dbt's reporting models. |
+| Schema | Migration `0029`. Records live in `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `access`. `legacy` holds the earlier tables, read-only. `analytics` holds dbt's reporting models. |
 | Application | Still reads and writes through `store.py`, which returns the same records as before. |
 | What clients see | Views in `serving`, built by dbt, for a release that a person records. None is recorded on the local database. |
 | Product service | Compose service `product` on port 8100: REST, MCP, bundle links and an entity viewer. It refuses every call until a release and a key exist. |
-| Dagster, dbt and Grafana | [Orchestration plan](ORCHESTRATION_PLAN.md) phases D0 to D3: dbt owns and builds the serving views and the reporting models, Grafana shows three dashboards over those, and Dagster holds the data flow as assets with sensors on approvals and releases, a schedule that refreshes sources by their cadence, and alert sensors. Both tools are open source and run in local Docker, for development or, with an override, as a deployment. No source has a cadence and no alert channel is configured, so nothing has been refreshed or sent, and no asset has been materialised on the local database. |
-| Not done | Hosting, reviewer sign-in, the agent runtime licence and dropping `legacy`. |
+| Dagster, dbt and Grafana | [Orchestration plan](ORCHESTRATION_PLAN.md) phases D0 to D7: dbt owns and builds the serving views and the reporting models, Grafana shows three dashboards over those, and Dagster holds the data flow as assets with sensors on approvals and releases, a schedule that refreshes sources by their cadence, and alert sensors. Both tools are open source and run in local Docker, for development or, with an override, as a deployment. No source has a cadence and no alert channel is configured, so nothing has been refreshed or sent, and no asset has been materialised on the local database. |
+| Operations console | Compose service `admin` on port 8200 (profile `console`): sources, releases, clients and an audit log, for a signed-in person. Its sign-in is a list of tokens; no identity provider is connected. |
+| Not done | Hosting, an identity provider for reviewer sign-in, the agent runtime licence and dropping `legacy`. |
 
 | To do this | Read |
 |---|---|
@@ -174,8 +175,55 @@ Where things stand on 15 November 2026:
 | Set a cadence, pause a source, connect alerts, backfill after a mapping change | [Schedules, freshness and alerts](#schedules-freshness-and-alerts-migration-0028) |
 | Run Dagster as a deployment, rebuild its image, back up | [Dagster and dbt as a deployment](#dagster-and-dbt-as-a-deployment) |
 | Add a source, record a release or manage clients without a terminal | [Operations console](#operations-console-migration-0029) |
+| Know where a routine runs now, and what the CLI is still for | [Routine operation](#routine-operation-where-each-routine-runs) |
 | Something failed and needs a person | [RUNBOOKS.md](RUNBOOKS.md) |
 | Restore somewhere else and check it | [Restoring into an empty environment](#restoring-into-an-empty-environment) |
+
+#### Routine operation: where each routine runs
+
+Phase D7 of the [orchestration plan](ORCHESTRATION_PLAN.md) moved the routines off the terminal. Running the product day to day needs no command: the data flow runs in Dagster, people decide in the Agent Inbox and the console, and the dashboards and alerts say what needs them. The CLI stays, for one-off work, for recovery, and for the decisions that have no screen yet; the last column says what each command is still for.
+
+| Routine | Where it happens | Who | The command, kept for |
+|---|---|---|---|
+| Check each source for a new file | Dagster schedule `due_sources`, every 15 minutes, for sources whose cadence is due | Nobody | `source check`: try one now, end a backoff |
+| Drift check and extraction of a new file | The same run, `refresh_source`; after a new approval, the sensor `mapping_approved`. A run whose worker or engine failed is run again from the failure by the daemon, twice at most | Nobody | `source drift`, `source extract`, `source backfill`: look, or catch up after a mapping change |
+| Rebuild the serving views and reporting models | Dagster sensors `release_recorded` and `models_missing` | Nobody | `dbt build`: a database Dagster does not watch, recovery |
+| Bundles of the scopes that follow a release | Built by recording the release | Nobody | `release bundle`: rebuild one, or a client's bundle |
+| Keep Dagster's run history short | Dagster schedule `prune_run_history`, nightly | Nobody | None |
+| Back up both databases | Compose service `backup` (profile `backups`), daily, once a person starts it | Nobody, once started | `scripts/backup_databases.sh`: a backup now, before a migration |
+| Add a source | Console: search, preview, confirm | Product owner | `register`, then `onboard` |
+| Set how often a source is checked, pause or resume it | Console, the source's page | Product owner | `source cadence`, `source pause`, `source resume` |
+| Review a proposed mapping | Agent Inbox | Reviewer | `review` |
+| Onboard again after drift (paid) | Dagster UI: materialise `onboarding_request` for the source | Engineer | `onboard`, `recover` |
+| Assemble a batch | Dagster UI: launch the job `assemble_batch`, or turn on the schedule `weekly_batch` | Engineer or product owner | `assemble` (no run IDs: the same step) |
+| Compare a batch with the current release and record a release | Console, Releases | Product owner | `release preview`, `release create` |
+| Clients, tiers and keys | Console, Clients | Admin | `access` |
+| Promote an ontology | Command line only | Reviewer | `ontology gate`, `ontology promote` |
+| Name a bundle scope, build a client's bundle | Command line only | Product owner | `release scope`, `release bundle --client` |
+| See what is due, stale, failing or drifted | Console home, Grafana's source health dashboard, alerts, the Dagster UI | Everyone | `source due`, `source state` |
+| See cost and usage | Grafana's product overview dashboard | Everyone | `usage`, `access usage` |
+
+What still needs a person who can use a terminal is not routine: a migration (the procedure under [Changing a database that holds data](#changing-a-database-that-holds-data)), a restore, recovering an onboarding run, an ontology promotion, and the evaluation work of the submission. The submission's own path, "Run the six-source pipeline" in the README, stays as it is: it reproduces the submitted results and is not how the product is run.
+
+**Cutting over a database that holds data.** Moving a stack from manual runs to this table is a set of decisions, each the owner's, in this order. None has been made on the local stack.
+
+1. People who sign in to the console: `LINK_LENS_ADMIN_USERS`, one token per person.
+2. Backups: set `LINK_LENS_BACKUP_DIR` and start the `backup` service.
+3. Where alerts go: `LINK_LENS_ALERT_WEBHOOK_URL` for the Dagster services.
+4. The extraction left outstanding from before: snapshots registered by onboarding were extracted only as far as their review needed, and the schedule extracts only files whose bytes changed. Once, in the Dagster UI, materialise `observations` for all partitions (a backfill). The UI warns that the snapshots of some sources were never materialised in Dagster; that is expected, because those snapshots were registered before Dagster ran, and extraction reads them from the database. On a copy of the local database, extracting the six sources' files in full stored about 2.1 million observations; the local database holds 374,335. From a terminal the same is `uv run link-lens source extract SOURCE_ID` for each source. `link-lens source backfill` does not find this case: it looks for a snapshot with no observations under the mapping in force, and a snapshot extracted in part has some.
+5. A cadence for each source, in the console. The schedule starts checking the next quarter hour.
+6. If wanted, the deployment override for the Dagster services (see [Dagster and dbt as a deployment](#dagster-and-dbt-as-a-deployment)).
+7. A period of side-by-side running before nobody runs the commands any more. Compare by content, not by observation ID: an observation's ID includes the time its file was downloaded, so two environments that each download the same file give the same observations under different IDs. Within one database, Dagster and the CLI give the same IDs, batches and releases.
+
+**Backups without a terminal.** The service runs `deploy/backup-loop.sh`, the same dumps and rule as `scripts/backup_databases.sh`: both databases each day, each checked to list and given a checksum, `linklens` dumps never deleted, Dagster's own dumps removed after `LINK_LENS_DAGSTER_BACKUP_DAYS` (7). Set the folder first; each `linklens` dump is about 130 MB, so a year of them is about 47 GB:
+
+```sh
+# .env: LINK_LENS_BACKUP_DIR=/path/to/backups
+docker compose --profile backups up -d backup
+docker compose --profile backups logs backup --tail 10
+```
+
+Artifact bytes are in neither dump; copy `artifacts/` or the bucket with them.
 
 #### Foundations (migrations 0003 to 0008)
 
