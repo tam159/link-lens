@@ -47,8 +47,8 @@ class Settings(BaseSettings):
     # Who may sign in to the operations console while no identity provider is
     # connected: a JSON object of token -> {"name": ..., "role": ...}, with role
     # engineer, product_owner or admin. A token is a secret a person holds.
-    # Empty, nobody can sign in. Development and single-machine use only.
-    admin_users: dict[str, dict[str, str]] = {}
+    # Empty or not valid JSON, nobody can sign in. For development and one machine.
+    admin_users: str = ""
     # Where alerts are posted: an incoming-webhook URL that accepts {"text": ...},
     # as Slack's and most chat tools' do. Unset, an alert is logged and not sent.
     # The URL is a secret and is never logged.

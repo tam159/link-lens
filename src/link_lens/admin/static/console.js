@@ -50,7 +50,9 @@ function h(tag, attributes, ...children) {
   return element;
 }
 
-const show = (...nodes) => view.replaceChildren(...nodes.flat(Infinity).filter(Boolean));
+// Replace an element's content, leaving out whatever a condition turned off.
+const put = (element, ...nodes) => element.replaceChildren(...nodes.flat(Infinity).filter((node) => node !== null && node !== undefined && node !== false));
+const show = (...nodes) => put(view, ...nodes);
 const notice = (text, kind) => h("div", { class: "notice " + (kind || ""), role: kind === "bad" ? "alert" : "status" }, text);
 const badge = (text, kind) => h("span", { class: "badge " + (kind || "") }, text);
 const link = (text, href) => (href ? h("a", { href, target: "_blank", rel: "noopener noreferrer" }, text) : null);
@@ -88,16 +90,17 @@ function facts(pairs) {
 
 // Run a change, show how it ended, and say so if it failed.
 async function act(button, work, target) {
+  const isButton = button.tagName === "BUTTON";
   const label = button.textContent;
   button.disabled = true;
-  button.textContent = "Working…";
+  if (isButton) button.textContent = "Working…";
   try {
     await work();
   } catch (error) {
     (target || view).prepend(notice(error.message, "bad"));
   } finally {
     button.disabled = false;
-    button.textContent = label;
+    if (isButton) button.textContent = label;
   }
 }
 
@@ -217,7 +220,7 @@ async function sourcesScreen() {
         h("button", { "aria-pressed": String(name === chosen), onclick: () => { chosen = name; draw(); } }, name + " " + rows.filter(FILTERS[name]).length)
       )
     );
-    body.replaceChildren(
+    put(body, 
       table(
         [
           { title: "Source", cell: (row) => h("a", { href: "#/sources/" + encodeURIComponent(row.source_id) }, row.source_title || row.source_id) },
@@ -260,9 +263,9 @@ async function addSourceScreen() {
 
   const search = async () => {
     const found = await api("GET", "/catalogue?q=" + encodeURIComponent(query.value));
-    stage.replaceChildren(
+    put(stage, 
       steps(0),
-      h("p", { class: "muted" }, found.matches + " datasets of the saved catalogue match; the best ranked are shown. Relevance is an uncalibrated score, not a measured probability."),
+      h("p", { class: "muted" }, (found.matches === 1 ? "1 dataset of the saved catalogue matches" : found.matches + " datasets of the saved catalogue match") + "; the best ranked are shown first. Relevance is an uncalibrated score, not a measured probability."),
       table(
         [
           { title: "Dataset", cell: (row) => [row.title || row.slug, row.registered && [" ", badge("already a source", "good")]] },
@@ -284,7 +287,7 @@ async function addSourceScreen() {
     const agreed = h("input", { type: "checkbox" });
     const confirm = h("button", { disabled: true, onclick: (event) => act(event.target, () => add(found), stage) }, "Add this source and start onboarding");
     agreed.addEventListener("change", () => { confirm.disabled = !(agreed.checked && budget.affordable); });
-    stage.replaceChildren(
+    put(stage, 
       steps(1),
       h("h2", {}, found.title),
       found.already_registered && notice("This dataset is already a source. Adding it again checks for a new file and starts onboarding only if its snapshot has no run.", "warn"),
@@ -292,7 +295,7 @@ async function addSourceScreen() {
         ["Publisher", found.publisher || "–"],
         ["Licence", [found.licence, found.licence_url && [" · ", link("terms", found.licence_url)]]],
         ["File", [found.resource.name || found.resource.id, " (", found.resource.format.toUpperCase(), ")"]],
-        ["Downloaded for this preview", number(found.bytes) + " bytes" + (found.partial ? " (the first part of a larger file)" : "")],
+        ["Downloaded for this preview", number(found.bytes) + " bytes" + (found.partial ? " (fetched as a byte range; the file may be larger)" : "")],
         ["Publisher's last change", found.resource.last_modified ? when(found.resource.last_modified) : "not stated"],
       ]),
       h("h2", {}, "Header and first rows"),
@@ -313,7 +316,7 @@ async function addSourceScreen() {
 
   const add = async (found) => {
     const added = await api("POST", "/sources", { dataset_id: found.dataset_id, resource_id: found.resource.id, confirm_paid_calls: true });
-    stage.replaceChildren(
+    put(stage, 
       steps(2),
       notice(added.onboarding_started ? "The source is registered and onboarding has started. It will wait for a review in the Agent Inbox." : "The source is registered. Its snapshot already had an onboarding run, so nothing new was started.", "good"),
       facts([["Source", short(added.source_id, 40)], ["Snapshot", short(added.snapshot_id)], ["Onboarding run", short(added.run_id, 40)]]),
@@ -327,7 +330,7 @@ async function addSourceScreen() {
     h("form", { class: "panel row", onsubmit: (event) => { event.preventDefault(); act(event.submitter, search, stage); } }, h("label", { class: "grow" }, "Search the catalogue", query), h("button", {}, "Search")),
     h("div", { class: "panel" }, stage)
   );
-  stage.replaceChildren(steps(0), h("p", { class: "muted" }, "Search by title, publisher or name."));
+  put(stage, steps(0), h("p", { class: "muted" }, "Search by title, publisher or name."));
   query.focus();
 }
 
@@ -436,9 +439,9 @@ async function releasesScreen() {
         }, stage),
     }, "Record this release");
     anyway.addEventListener("change", () => { create.disabled = !(preview.ready || anyway.checked); });
-    stage.replaceChildren(
+    put(stage, 
       h("div", { class: "panel" },
-        h("h2", {}, "Batch " + batch.batch_id.slice(0, 12) + (preview.current_release_id ? " against release #" + preview.current_release_id : ": the first release")),
+        h("h2", {}, "Batch " + batch.batch_id + (preview.current_release_id ? " against release #" + preview.current_release_id : ": the first release")),
         h("div", { class: "tiles" },
           h("div", { class: "tile" }, h("b", {}, number(preview.profiles)), h("span", {}, "profiles in the batch")),
           h("div", { class: "tile" }, h("b", {}, number(preview.profiles_added)), h("span", {}, "added")),
@@ -476,7 +479,7 @@ async function releasesScreen() {
     h("h2", {}, "Batches"),
     h("div", { class: "panel" }, table(
       [
-        { title: "Batch", cell: (row) => short(row.batch_id) },
+        { title: "Batch", cell: (row) => h("code", {}, row.batch_id) },
         { title: "Kind", cell: (row) => row.batch_kind },
         { title: "Recorded", cell: (row) => when(row.recorded_at) },
         { title: "Runs", num: true, cell: (row) => number(row.runs) },
@@ -505,9 +508,7 @@ async function clientsScreen() {
     h("label", {}, "Name", name), h("label", {}, "Tier", tier), h("button", { disabled: !found.tiers.length }, "Create client")
   );
 
-  const issue = async (client) => {
-    const label = window.prompt("A label for the new key (optional)", "");
-    if (label === null) return;
+  const issue = async (client, label) => {
     const key = await api("POST", "/clients/" + client.client_id + "/keys", { label: label || null });
     await again();
     view.prepend(
@@ -530,7 +531,7 @@ async function clientsScreen() {
     const [depthLabel, depth] = field("History depth (empty: all)", { type: "number", min: "0", value: existing && existing.history_depth !== null ? existing.history_depth : "", size: 4 });
     const bundles = h("input", { type: "checkbox", checked: existing ? existing.bundle_downloads : false });
     const list = (input) => input.value.split(",").map((item) => item.trim()).filter(Boolean);
-    shown.replaceChildren(
+    put(shown, 
       h("form",
         { class: "panel", onsubmit: (event) => { event.preventDefault(); act(event.submitter, async () => {
           await api("PUT", "/tiers/" + encodeURIComponent(id.value), {
@@ -579,6 +580,7 @@ async function clientsScreen() {
     h("h2", {}, "Clients"),
     h("div", { class: "panel" }, newClient),
     found.clients.map((client) => {
+      const keyLabel = h("input", { type: "text", name: "label", size: 18 });
       const move = h("select", { "aria-label": "Tier of " + client.name }, tierOptions(client.tier_id));
       move.addEventListener("change", () => act(move, async () => { await api("PATCH", "/clients/" + client.client_id, { tier_id: move.value }); await again(); }));
       return h("div", { class: "panel" },
@@ -586,7 +588,7 @@ async function clientsScreen() {
           h("h2", { class: "grow" }, client.name, " ", badge(client.status, client.status === "active" ? "good" : "bad")),
           h("label", {}, "Tier", move),
           h("button", { class: "quiet", onclick: (event) => act(event.target, async () => { await api("PATCH", "/clients/" + client.client_id, { status: client.status === "active" ? "suspended" : "active" }); await again(); }) }, client.status === "active" ? "Suspend" : "Reactivate"),
-          h("button", { onclick: (event) => act(event.target, () => issue(client)) }, "Issue a key")
+          h("form", { class: "row", onsubmit: (event) => { event.preventDefault(); act(event.submitter, () => issue(client, keyLabel.value)); } }, h("label", {}, "Label of a new key (optional)", keyLabel), h("button", {}, "Issue a key"))
         ),
         table(
           [
@@ -595,7 +597,11 @@ async function clientsScreen() {
             { title: "Created", cell: (key) => when(key.created_at) },
             { title: "Expires", cell: (key) => (key.expires_at ? when(key.expires_at) : "never") },
             { title: "State", cell: (key) => (key.revoked_at ? [badge("revoked", "bad"), " ", when(key.revoked_at)] : badge("active", "good")) },
-            { title: "", cell: (key) => !key.revoked_at && h("button", { class: "danger", onclick: (event) => { if (window.confirm("Revoke the key ll_" + key.prefix + "? It stops working at once.")) act(event.target, async () => { await api("DELETE", "/keys/" + key.prefix); await again(); }); } }, "Revoke") },
+            { title: "", cell: (key) => !key.revoked_at && h("button", { class: "danger", onclick: (event) => {
+              // Asked twice: the first press only arms the button.
+              if (event.target.dataset.armed) act(event.target, async () => { await api("DELETE", "/keys/" + key.prefix); await again(); });
+              else { event.target.dataset.armed = "yes"; event.target.textContent = "Revoke now? It stops working at once"; }
+            } }, "Revoke") },
           ],
           client.keys,
           "No key issued."
@@ -645,7 +651,7 @@ function actionsTable(actions) {
     [
       { title: "When", cell: (row) => when(row.at) },
       { title: "Who", cell: (row) => [row.actor, " ", h("span", { class: "muted" }, "(" + row.role + ")")] },
-      { title: "Action", cell: (row) => h("code", {}, row.action) },
+      { title: "Action", cell: (row) => h("code", { class: "whole" }, row.action) },
       { title: "Target", cell: (row) => h("span", { class: "mono" }, row.target) },
       { title: "Outcome", cell: (row) => badge(row.outcome, kinds[row.outcome]) },
       { title: "Details", cell: (row) => h("span", { class: "mono" }, JSON.stringify({ request: row.request, result: row.result })) },

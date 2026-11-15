@@ -139,7 +139,12 @@ def source(source_id):
 
 def catalogue(query="", limit=50):
     """Datasets of the saved catalogue that match, best ranked first. Reads only what is stored."""
-    discovery = store.current_discovery(settings().experiment_id) or {}
+    # The experiment's own discovery revision, else the active one it was seeded from.
+    discovery = (
+        store.current_discovery(settings().experiment_id)
+        or store.current_discovery()
+        or {}
+    )
     ranked = {row["dataset_id"]: row for row in discovery.get("ranked", [])}
     pattern = (
         "%"

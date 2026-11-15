@@ -159,9 +159,16 @@ def test_nothing_under_admin_answers_without_a_sign_in(api, monkeypatch):
         assert wrong.status_code == 401, (method, path)
     assert api.post("/admin/session", json={"token": "nobody"}).status_code == 401
     # With no one configured, no token signs in: there is no default account.
-    monkeypatch.setenv("LINK_LENS_ADMIN_USERS", "{}")
-    settings.cache_clear()
-    assert api.get("/admin/me", headers=ADA).status_code == 401
+    # Nor does a list that cannot be read, or one that names a role nobody has.
+    for listed in (
+        "",
+        "{}",
+        "not json",
+        '{"token-of-ada": {"name": "Ada", "role": "root"}}',
+    ):
+        monkeypatch.setenv("LINK_LENS_ADMIN_USERS", listed)
+        settings.cache_clear()
+        assert api.get("/admin/me", headers=ADA).status_code == 401, listed
     assert count("SELECT count(*) FROM ops.admin_action") == 0
 
 

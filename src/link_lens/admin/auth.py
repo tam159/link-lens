@@ -15,8 +15,11 @@ one before it:
 """
 
 import hmac
+import json
+import logging
 from dataclasses import dataclass
 
+from .. import logs
 from ..settings import settings
 
 ROLES = ("engineer", "product_owner", "admin")
@@ -35,16 +38,30 @@ class Principal:
         return ROLES.index(self.role) >= ROLES.index(role)
 
 
+def people():
+    """Who `LINK_LENS_ADMIN_USERS` lists, by token. Anything unreadable lists nobody."""
+    try:
+        listed = json.loads(settings().admin_users or "{}")
+    except ValueError:
+        logs.event("console.users_unreadable", level=logging.WARNING)
+        return {}
+    return listed if isinstance(listed, dict) else {}
+
+
 def development_token(token):
     """A person listed in `LINK_LENS_ADMIN_USERS`, by the token they hold."""
     found = None
-    for known, person in settings().admin_users.items():
+    for known, person in people().items():
         # Compare every entry, in constant time, whichever one matches.
         if hmac.compare_digest(known.encode(), token.encode()):
             found = person
-    if found is None or found.get("role") not in ROLES or not found.get("name"):
+    if (
+        not isinstance(found, dict)
+        or found.get("role") not in ROLES
+        or not str(found.get("name") or "").strip()
+    ):
         return None
-    return Principal(found["name"], found["role"])
+    return Principal(str(found["name"]).strip(), found["role"])
 
 
 RESOLVERS = [development_token]
