@@ -216,6 +216,35 @@ def test_onboarding_is_requested_once_per_snapshot(source):
     )["started"]
 
 
+def test_a_run_that_never_started_is_started_when_asked_again(source):
+    changed = snapshot_of(
+        source["id"],
+        csv_of(["legal_name", "abn"], [["E", ABNS[0]]]),
+        "2025-03-01T00:00:00Z",
+    )
+
+    class Down(Client):
+        def create(self, *args, **options):
+            raise RuntimeError("the onboarding server did not answer")
+
+    with pytest.raises(RuntimeError, match="did not answer"):
+        refresh.request_onboarding(source["id"], Down())
+    # The run exists, with no thread: nothing was started and nothing spent.
+    (run_id,) = [
+        run["id"]
+        for run in store.listing("runs", kind="onboarding")
+        if run["snapshot_id"] == changed["id"]
+    ]
+    assert store.require("runs", run_id).get("thread_id") is None
+    client = Client()
+    again = refresh.request_onboarding(source["id"], client)
+    assert (again["started"], again["run_id"]) == (True, run_id)
+    assert store.require("runs", run_id)["thread_id"] == "thread-1"
+    assert len(client.started) == 1
+    assert not refresh.request_onboarding(source["id"], client)["started"]
+    assert count("SELECT count(*) FROM onboarding.run") == 2
+
+
 def test_check_reports_whether_the_bytes_changed(source, monkeypatch):
     asked = []
 

@@ -283,7 +283,9 @@ def request_onboarding(source_id, client, snapshot_id=None):
     """Start an onboarding run for a snapshot of a source, once.
 
     A snapshot that already has an onboarding run which has not failed is left
-    with it: asking again starts nothing and spends nothing.
+    with it: asking again starts nothing and spends nothing. The one exception
+    is a run that was created and never started, because the onboarding server
+    did not answer: asking again starts that run, not a second one.
     """
     snapshot_id = snapshot_id or sources.state(source_id)[0]["latest_snapshot_id"]
     if snapshot_id is None:
@@ -291,12 +293,19 @@ def request_onboarding(source_id, client, snapshot_id=None):
     with store.engine().connect() as connection:
         existing = connection.execute(
             text(
-                "SELECT id, status FROM onboarding.run WHERE snapshot_id = :snapshot "
+                "SELECT id, status, thread_id FROM onboarding.run WHERE snapshot_id = :snapshot "
                 "AND kind = 'onboarding' AND coalesce(status, '') <> 'failed' "
                 "ORDER BY created_at DESC LIMIT 1"
             ),
             {"snapshot": snapshot_id},
         ).first()
+    if existing is not None and existing.status == "new" and not existing.thread_id:
+        return {
+            "source_id": source_id,
+            "snapshot_id": snapshot_id,
+            **start_thread(store.require("runs", existing.id), client),
+            "started": True,
+        }
     if existing is not None:
         return {
             "source_id": source_id,
