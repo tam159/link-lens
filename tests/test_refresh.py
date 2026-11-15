@@ -230,3 +230,22 @@ def test_check_reports_whether_the_bytes_changed(source, monkeypatch):
     assert result["changed"] is False
     assert result["snapshot_id"] == result["previous_snapshot_id"]
     assert (asked[0].dataset_id, asked[0].resource_id) == (source["id"], "resource-1")
+
+
+def test_cli_extracts_and_exits_3_when_blocked(source):
+    import json
+
+    from link_lens.cli import app
+    from typer.testing import CliRunner
+
+    runner = CliRunner()
+    done = runner.invoke(app, ["source", "extract", source["id"], "--limit", "2"])
+    assert done.exit_code == 0 and json.loads(done.output)["inserted"] == 4
+    snapshot_of(
+        source["id"],
+        csv_of(["legal_name", "abn"], [["E", ABNS[0]]]),
+        "2025-03-01T00:00:00Z",
+    )
+    blocked = runner.invoke(app, ["source", "extract", source["id"]])
+    assert blocked.exit_code == 3
+    assert "missing_used_column" in json.loads(blocked.output)["blocked"]

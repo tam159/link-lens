@@ -117,18 +117,36 @@ services:
     image: link-lens-dagster:local
     profiles: ["orchestration"]
     command: ["dagster-webserver", "--host", "0.0.0.0", "--port", "3070", "--workspace", "/app/orchestration/workspace.yaml"]
+    # Provider keys are needed only by the two assets that make model calls.
+    env_file: &dagster-env-file
+      - path: .env
+        required: false
     environment: &dagster-environment
       DAGSTER_POSTGRES_HOST: postgres
       DAGSTER_POSTGRES_PORT: "5432"
       DAGSTER_POSTGRES_USER: dagster
       DAGSTER_POSTGRES_PASSWORD: ${LINK_LENS_DAGSTER_POSTGRES_PASSWORD:-dagster}
       DAGSTER_POSTGRES_DB: dagster
+      # The application's database, with every connection taking the role that
+      # cannot record an approval, a promotion or a release. dbt connects to the
+      # same database as linklens_transform.
+      LINK_LENS_DATABASE_URL: postgresql+psycopg://linklens:${LINK_LENS_POSTGRES_PASSWORD:-linklens}@postgres:5432/linklens
+      LINK_LENS_DATABASE_ROLE: linklens_orchestrator
+      LINK_LENS_ARTIFACT_DIR: /app/artifacts
+      LINK_LENS_ONTOLOGY_PATH: /app/firmable_ontology.yaml
+      LINK_LENS_API_URL: http://backend:2024
+      LINK_LENS_EXPERIMENT_ID: ${LINK_LENS_EXPERIMENT_ID:-jev-gpt6-luna-ontology-v1}
+      LINK_LENS_DBT_PROJECT_DIR: /app/transform
+      LINK_LENS_DBT_TARGET_PATH: /opt/dagster/home/dbt-target
     ports: ["127.0.0.1:3070:3070"]
     volumes: &dagster-volumes
       # Reload the code location in the UI to pick up an edit.
       - ./orchestration:/app/orchestration:ro
       - ./transform:/app/transform:ro
       - ./src:/app/src:ro
+      - ./firmable_ontology.yaml:/app/firmable_ontology.yaml:ro
+      # Snapshots are downloaded into the artifact store.
+      - ./artifacts:/app/artifacts
       - dagster-home:/opt/dagster/home
       - ./orchestration/dagster.yaml:/opt/dagster/home/dagster.yaml:ro
     healthcheck:
@@ -145,6 +163,7 @@ services:
     image: link-lens-dagster:local
     profiles: ["orchestration"]
     command: ["dagster-daemon", "run", "--workspace", "/app/orchestration/workspace.yaml"]
+    env_file: *dagster-env-file
     environment: *dagster-environment
     volumes: *dagster-volumes
     depends_on:

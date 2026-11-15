@@ -654,6 +654,35 @@ def source_drift(source_id: str, snapshot_id: str | None = None):
         raise typer.Exit(EXIT_BLOCKED)
 
 
+@source_app.command("check")
+def source_check(source_id: str):
+    """Download a source again; a snapshot is registered only if the bytes changed."""
+    from . import refresh
+
+    show(refresh.check(source_id))
+
+
+@source_app.command("extract")
+def source_extract(
+    source_id: str,
+    snapshot_id: str | None = None,
+    limit: int | None = typer.Option(None, "--limit", help="Records to read."),
+):
+    """Extract a snapshot under the mapping approved for the source. Exits 3 if blocked.
+
+    The latest snapshot unless one is named. Nothing is extracted without an
+    approved mapping, or when the snapshot's shape has drifted from it; the
+    drift check is recorded. Extracting again stores nothing new.
+    """
+    from . import refresh
+
+    try:
+        show(refresh.extract(source_id, snapshot_id, limit))
+    except refresh.Blocked as blocked:
+        show({"source_id": source_id, "blocked": str(blocked)})
+        raise typer.Exit(EXIT_BLOCKED) from blocked
+
+
 access_app = typer.Typer(help="Tiers, clients and API keys of the product service.")
 tier_app = typer.Typer(help="Tiers: what a class of client may do.")
 client_app = typer.Typer(help="Clients: who holds keys.")
