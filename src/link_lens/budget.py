@@ -164,3 +164,37 @@ def settle(
         store.put(
             "budget_reservations", key, record, record["experiment_id"], "api_attempt"
         )
+
+
+def onboarding_estimate(experiment_id=None):
+    """What onboarding one more source is likely to cost, against what is left.
+
+    The estimate is the median cost of the onboarding runs that completed, with
+    the highest beside it; it is history, not a quote, and a source with a long
+    or unusual file can cost more. `affordable` is false when the estimate
+    would take the experiment's charges over its cap.
+    """
+    experiment_id = experiment_id or settings().experiment_id
+    costs = sorted(
+        run["calculated_cost_usd"]
+        for run in store.listing("runs", kind="onboarding")
+        if run.get("status") == "completed" and run.get("calculated_cost_usd")
+    )
+    spent = summary(experiment_id)
+    remaining = max(spent["cap_usd"] - spent["charged_usd"], 0.0)
+    estimate = costs[len(costs) // 2] if costs else None
+    return {
+        "experiment_id": experiment_id,
+        "estimate_usd": estimate,
+        "highest_usd": costs[-1] if costs else None,
+        "basis": (
+            f"median of {len(costs)} completed onboarding runs"
+            if costs
+            else "no completed onboarding run to estimate from"
+        ),
+        "cap_usd": spent["cap_usd"],
+        "charged_usd": spent["charged_usd"],
+        "remaining_usd": remaining,
+        # With nothing to estimate from, the cap itself is the only test.
+        "affordable": remaining > (estimate or 0.0),
+    }

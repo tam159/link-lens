@@ -623,6 +623,21 @@ def source_state(source_id: str | None = None, kind: str | None = None):
     show(sources.state(source_id, kind))
 
 
+@source_app.command("preview")
+def source_preview(dataset: str, resource: str | None = None):
+    """What registering a dataset would download and what onboarding is likely to cost. Writes nothing."""
+    from . import budget
+
+    show(
+        {
+            **ingestion.preview(
+                SourceRequest(dataset_id=dataset, resource_id=resource)
+            ),
+            "budget": budget.onboarding_estimate(),
+        }
+    )
+
+
 @source_app.command("cadence")
 def source_cadence(source_id: str, days: float | None = typer.Option(None, "--days")):
     """Set how often a source should be checked. Without --days, clear it."""
@@ -793,6 +808,42 @@ def access_client_create(name: str, tier: str = typer.Option(..., "--tier")):
     show(managing(keys.create_client, name, tier))
 
 
+@client_app.command("set")
+def access_client_set(
+    client_id: str,
+    tier: str | None = typer.Option(None, "--tier"),
+    status: str | None = typer.Option(None, "--status", help="active or suspended"),
+):
+    """Move a client to another tier, or suspend or reactivate it."""
+    from .product import keys
+
+    if tier is None and status is None:
+        raise typer.BadParameter("Give --tier, --status or both")
+    if status not in (None, "active", "suspended"):
+        raise typer.BadParameter("--status is active or suspended")
+    changed = {}
+    if tier is not None:
+        changed.update(managing(keys.set_client_tier, client_id, tier))
+    if status is not None:
+        changed.update(managing(keys.set_client_status, client_id, status))
+    show(changed)
+
+
+@client_app.command("list")
+def access_client_list():
+    """Clients with their keys: prefix and dates, never a secret."""
+    from .product import keys
+
+    show(keys.clients())
+
+
+@tier_app.command("list")
+def access_tier_list():
+    from .product import keys
+
+    show(keys.tiers())
+
+
 @key_app.command("create")
 def access_key_create(
     client_id: str,
@@ -838,6 +889,20 @@ def release_create(
         show(releases.create(batch_id, reviewer, notes))
     except ValueError as error:
         raise typer.BadParameter(str(error)) from error
+
+
+@release_app.command("preview")
+def release_preview(batch_id: str = typer.Option(..., "--batch-id")):
+    """What a release of a batch would be, against the latest one. Writes nothing; exits 3 if a check fails."""
+    from . import releases
+
+    try:
+        found = releases.preview(batch_id)
+    except (ValueError, KeyError) as error:
+        raise typer.BadParameter(str(error).strip("'")) from error
+    show(found)
+    if not found["ready"]:
+        raise typer.Exit(EXIT_BLOCKED)
 
 
 @release_app.command("list")

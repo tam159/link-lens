@@ -283,11 +283,13 @@ def discover():
     return audit
 
 
-def register(request: SourceRequest):
-    d = action(request.portal, "package_show", id=request.dataset_id)
-    source = {"id": d["id"], "slug": d["name"], "metadata": d, "portal": request.portal}
-    store.put("sources", d["id"], source, kind="registered")
-    candidates = [r for r in d["resources"] if normal_format(r)]
+def choose_resource(request: SourceRequest, dataset):
+    """The resource of a dataset that registering it would download, and its format.
+
+    The one named in the request, else the one the discovery shortlist chose,
+    else the first supported one, with CSV preferred over an Excel equivalent.
+    """
+    candidates = [r for r in dataset["resources"] if normal_format(r)]
     resource_id = request.resource_id
     if not resource_id:
         discovery = store.current_discovery(settings().experiment_id) or {}
@@ -295,7 +297,7 @@ def register(request: SourceRequest):
             (
                 row
                 for row in discovery.get("shortlist", [])
-                if row["dataset_id"] == d["id"]
+                if row["dataset_id"] == dataset["id"]
             ),
             {},
         )
@@ -307,8 +309,53 @@ def register(request: SourceRequest):
     # Metadata resource order often includes an Excel equivalent before CSV. CSV is
     # preferred generically; Excel is used when that is the available data format.
     candidates.sort(key=lambda r: 0 if normal_format(r) == "csv" else 1)
-    r = candidates[0]
-    fmt = normal_format(r)
+    return candidates[0], normal_format(candidates[0])
+
+
+def preview(request: SourceRequest):
+    """What registering a dataset would download, without storing anything.
+
+    Asks the portal for the dataset, downloads the resource with the same
+    bounds as `register`, and inspects it: licence, size, format and a sample of
+    the header. Nothing is written to the store and no model is called.
+    """
+    d = action(request.portal, "package_show", id=request.dataset_id)
+    r, fmt = choose_resource(request, d)
+    data, receipt = download(
+        r["url"], prefix=settings().csv_prefix_bytes if fmt == "csv" else None
+    )
+    with tempfile.TemporaryDirectory() as folder:
+        path = Path(folder) / "resource"
+        path.write_bytes(data)
+        inspection = inspect_resource(path, fmt, receipt["partial"])
+    return {
+        "dataset_id": d["id"],
+        "slug": d.get("name"),
+        "title": d.get("title"),
+        "publisher": (d.get("organization") or {}).get("title"),
+        "licence": d.get("license_title") or "unknown",
+        "licence_url": d.get("license_url"),
+        "resource": {
+            "id": r["id"],
+            "name": r.get("name"),
+            "format": fmt,
+            "url": r["url"],
+            "last_modified": r.get("last_modified"),
+        },
+        "bytes": receipt["bytes"],
+        "partial": receipt["partial"],
+        "inspection": inspection,
+        "already_registered": (store.get("sources", d["id"]) or {}).get("portal")
+        is not None
+        and bool(store.listing("snapshots", owner=d["id"])),
+    }
+
+
+def register(request: SourceRequest):
+    d = action(request.portal, "package_show", id=request.dataset_id)
+    source = {"id": d["id"], "slug": d["name"], "metadata": d, "portal": request.portal}
+    store.put("sources", d["id"], source, kind="registered")
+    r, fmt = choose_resource(request, d)
     # The newest snapshot of this resource, if its download left validators:
     # the publisher is then asked only for something newer.
     previous = next(
