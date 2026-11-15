@@ -111,13 +111,16 @@ def extract(source_id, snapshot_id=None, limit=None):
         sys.maxsize if limit is None else limit,
     )
     result = extract_rows(spec, rows, snapshot)
-    ids = sorted(observation["id"] for observation in result["observations"])
+    # Two rows of a file can state the same thing about the same record; the
+    # observation is the same and is stored once, so it is counted once.
+    ids = sorted({observation["id"] for observation in result["observations"]})
     return {
         "source_id": source_id,
         "snapshot_id": snapshot["id"],
         "config_hash": config_hash,
         "records": len(rows),
         "observations": len(ids),
+        "repeated_in_snapshot": len(result["observations"]) - len(ids),
         "inserted": store.put_observations(result["observations"]),
         "issues": len(result["issues"]),
         "observation_digest": hashlib.sha256("".join(ids).encode()).hexdigest(),

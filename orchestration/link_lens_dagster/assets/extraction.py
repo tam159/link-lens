@@ -55,6 +55,7 @@ def observations(
             "config_hash": result["config_hash"],
             "records": result["records"],
             "observations": result["observations"],
+            "repeated_in_snapshot": result["repeated_in_snapshot"],
             "newly_stored": result["inserted"],
             "issues": result["issues"],
             "observation_digest": result["observation_digest"],
