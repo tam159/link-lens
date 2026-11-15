@@ -153,11 +153,11 @@ Where things stand on 15 November 2026:
 
 | Part | State |
 |---|---|
-| Schema | Migration `0025`. Records live in `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `access`. `legacy` holds the earlier tables, read-only. `analytics` holds dbt's reporting models. |
+| Schema | Migration `0027`. Records live in `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `access`. `legacy` holds the earlier tables, read-only. `analytics` holds dbt's reporting models. |
 | Application | Still reads and writes through `store.py`, which returns the same records as before. |
 | What clients see | Views in `serving`, built by dbt, for a release that a person records. None is recorded on the local database. |
 | Product service | Compose service `product` on port 8100: REST, MCP, bundle links and an entity viewer. It refuses every call until a release and a key exist. |
-| Dagster, dbt and Grafana | [Orchestration plan](ORCHESTRATION_PLAN.md) phases D0 to D2: dbt owns and builds the serving views and the reporting models, and Grafana shows three dashboards over those. Dagster has an empty code location and its own database; nothing runs through it yet. |
+| Dagster, dbt and Grafana | [Orchestration plan](ORCHESTRATION_PLAN.md) phases D0 to D3: dbt owns and builds the serving views and the reporting models, Grafana shows three dashboards over those, and Dagster holds the data flow as assets with sensors on approvals and releases. Nothing runs on a timer, and no asset has been materialised on the local database. |
 | Not done | Hosting, reviewer sign-in, the agent runtime licence and dropping `legacy`. |
 
 | To do this | Read |
@@ -170,6 +170,7 @@ Where things stand on 15 November 2026:
 | Run dbt or the Dagster UI | [Dagster and dbt foundations](#dagster-and-dbt-foundations-migration-0022) |
 | Change a serving read model, or build the views on a database | [dbt owns the serving views](#dbt-owns-the-serving-views-migrations-0023-and-0024) |
 | Add a reporting model or a dashboard panel, or open the dashboards | [Reporting models and dashboards](#reporting-models-and-dashboards-migration-0025) |
+| Refresh a source, extract it, or see what Dagster would do | [Dagster runs the data flow](#dagster-runs-the-data-flow-migrations-0026-and-0027) |
 | Restore somewhere else and check it | [Restoring into an empty environment](#restoring-into-an-empty-environment) |
 
 #### Foundations (migrations 0003 to 0008)
@@ -379,6 +380,31 @@ docker compose --profile dashboards stop grafana
 
 On 2026-11-15 the local database moved from `0024` to `0025` with both baseline checks at zero differences, and `dbt build` there passed 49 models and 147 tests. On a restored copy with two rehearsal releases the models reconciled with their tables and with `link-lens usage` (1,002, 6,001 and 52 calls for the three experiments), and all 38 panel queries answered through Grafana.
 
+#### Dagster runs the data flow (migrations 0026 and 0027)
+
+Dagster runs the data flow (migrations `0026` and `0027`, phase D3 of the [orchestration plan](ORCHESTRATION_PLAN.md)). It calls the library; the logic is in `src/link_lens/refresh.py`.
+
+- **Steps.** `refresh.check(source_id)` downloads a source again and registers a snapshot only if the bytes changed. `refresh.check_drift` compares a snapshot with the mapping approved for the source and stores the result. `refresh.extract(source_id, snapshot_id, limit)` extracts a snapshot under that mapping and refuses when none is approved or the shape has drifted. `refresh.request_onboarding` starts an onboarding run for a snapshot, once. `refresh.assemble` assembles a batch. Each returns a small record and, except `assemble`, writes nothing when repeated.
+- **Assets.** `snapshot`, `observations` and `onboarding_request` have one partition per registered source. `identity_batch` and `source_catalogue` have none. `models` is the dbt project: 49 models, each an asset. The jobs are `refresh_source` (snapshot, then observations), `extract_observations`, `request_onboarding`, `assemble_batch` and `build_models`.
+- **Checks.** `schema_drift` on `snapshot` is blocking: when the snapshot no longer fits the approved mapping, extraction in the same run does not start. `observations` checks that every observation has its record and that everything extracted is stored; `identity_batch` that selected fields cite an observation and that counts match; and each dbt test is a check on its model.
+- **Sensors.** `registered_sources` adds a partition per registered source. `mapping_approved` requests `extract_observations` for a source when a person approves a mapping. `release_recorded` requests `build_models` when a person records a release. `ontology_promoted` reports a promotion and starts nothing. `drift_detected` requests onboarding on blocking drift and is off until someone turns it on. Each starts from the present the first time it runs.
+- **Unchanged means no work.** When the publisher's bytes are the same, `snapshot` emits nothing and `observations` does not run. Set `force: true` in the `snapshot` step's configuration to emit it anyway.
+- **Role.** The Dagster services set `LINK_LENS_DATABASE_ROLE=linklens_orchestrator`, so every connection of the library takes that role (migration `0027`). It writes snapshots, runs, drift checks, records, observations, batches, entities, links, profiles and usage. It cannot insert or update an approval, an ontology activation, a release, a bundle scope, a bundle or a review label, and has no access to `access`, `serving` or `analytics`. An asset fails at once if the library is connected as anyone else. In production the login is a member of that role only.
+- **Paid steps.** `onboarding_request` and `source_catalogue` spend on model calls. Dagster starts them only when a person materialises them (or turns on `drift_detected`), never retries them, and runs them one at a time (pool `model_calls`). `source_catalogue` refuses to run without `confirm_paid_calls: true`.
+- **Stored drift checks.** `catalog.drift_check` (migration `0026`) has one row per snapshot and mapping config: status, whether it blocks, and the reasons. `link-lens source drift` still only prints; `source extract` and the assets record.
+- **A release serves what was stored when it was recorded.** `evidence.observation.loaded_at` (migration `0026`) is when a row was stored; rows from before the migration carry 1970-01-01. `serving.observation` and `serving.evidence` take only the snapshot the release's run was onboarded on and only rows loaded by the time the release was recorded. Extracting more later changes no release.
+- **What a refresh does not do yet.** A batch is assembled from each onboarding run's own snapshot. A refreshed snapshot's observations are stored, but no profile is built from them until assembly reads stored observations; the plan's risk table has this.
+
+```sh
+uv run link-lens source check SOURCE_ID                 # download again; no model call
+uv run link-lens source extract SOURCE_ID --limit 25000  # exit 3 when blocked
+docker compose --profile orchestration up -d             # http://localhost:3070
+```
+
+In the Dagster UI, a source is refreshed by materialising `snapshot` and `observations` for its partition (job `refresh_source`). To run the assets outside Dagster's services, set `LINK_LENS_DATABASE_ROLE=linklens_orchestrator` first.
+
+On 2026-11-15, on a restored copy, the assets extracted 25,000 records a source for the six sources: every observation stored before was reproduced, 941,433 more were stored, a second extraction stored nothing, and the two rehearsal releases still served 38,302 and 149,349 observations. `identity_batch` twice reproduced the 60 profile versions of the deterministic batch behind the promoted one. The local database then moved from `0025` to `0027` with both baseline checks at zero differences; no asset has been materialised on it.
+
 #### Restoring into an empty environment
 
 Restoring into an empty environment and checking it serves the same release:
@@ -389,8 +415,9 @@ uv run link-lens release digest
 pg_dump -U linklens -d linklens -Fc -f linklens.dump
 
 # On the target: the roles first, then the data, then any newer migrations.
-# A dump taken before migration 0022 does not need linklens_transform, nor one before 0025 linklens_analyst.
-psql -c "CREATE ROLE linklens_migrator NOLOGIN" -c "CREATE ROLE linklens_pipeline NOLOGIN" -c "CREATE ROLE linklens_product NOLOGIN" -c "CREATE ROLE linklens_transform NOLOGIN" -c "CREATE ROLE linklens_analyst NOLOGIN"
+# A dump taken before migration 0022 does not need linklens_transform, nor one before 0025
+# linklens_analyst, nor one before 0027 linklens_orchestrator.
+psql -c "CREATE ROLE linklens_migrator NOLOGIN" -c "CREATE ROLE linklens_pipeline NOLOGIN" -c "CREATE ROLE linklens_product NOLOGIN" -c "CREATE ROLE linklens_transform NOLOGIN" -c "CREATE ROLE linklens_analyst NOLOGIN" -c "CREATE ROLE linklens_orchestrator NOLOGIN"
 createdb linklens && pg_restore -d linklens linklens.dump
 uv run alembic upgrade head
 uv run link-lens dbt build         # the serving views; a dump taken at 0024 or later already has them

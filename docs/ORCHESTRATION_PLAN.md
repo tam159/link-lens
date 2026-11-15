@@ -1,6 +1,6 @@
 # Orchestration and transformation plan: Dagster and dbt
 
-Status: **Phases D0 to D2 are implemented and applied to the local database (2026-11-15). D3 to D7 are planned, not built.** This is the follow-on to the [production implementation plan](PRODUCTION_PLAN.md). That plan's phases 0 to 6 and 8 are implemented; phase 7 is deferred and phase 9 is done only as far as one machine allows (no hosting, no reviewer sign-in, `legacy` not dropped). Names, layouts and SQL in the phases not yet built are sketches to confirm while building. Sizes are rough estimates for one engineer.
+Status: **Phases D0 to D3 are implemented and applied to the local database (2026-11-15). D4 to D7 are planned, not built.** This is the follow-on to the [production implementation plan](PRODUCTION_PLAN.md). That plan's phases 0 to 6 and 8 are implemented; phase 7 is deferred and phase 9 is done only as far as one machine allows (no hosting, no reviewer sign-in, `legacy` not dropped). Names, layouts and SQL in the phases not yet built are sketches to confirm while building. Sizes are rough estimates for one engineer.
 
 This plan was written before phases 2 to 9 of the first plan were built. It was compared with the code on 2026-11-15, before any of it was built. Where the code differs, the text below says so: section 5 gives the state of each seam, and each phase has a **Reconciled with the code** list of what to settle when that phase starts.
 
@@ -103,8 +103,8 @@ Layout (D0 creates it; the files fill in from D1 and D3):
 orchestration/                Dagster code location
   workspace.yaml  dagster.yaml
   link_lens_dagster/
-    assets/                   catalogue.py, snapshots.py, extraction.py, identity.py, release.py
-    sensors.py  schedules.py  checks.py  resources.py  definitions.py
+    assets/                   snapshots.py, extraction.py, onboarding.py, identity.py, models.py
+    sensors.py  schedules.py  checks.py  resources.py  partitions.py  definitions.py
 transform/                    dbt project
   dbt_project.yml  profiles.yml
   models/
@@ -136,7 +136,7 @@ These were requests to the first plan, made before its phases 2 to 9 were built.
 | D0 | Project skeletons, databases, roles, CI. **Done 2026-11-15** | Phase 0 | S |
 | D1 | dbt owns the set-based `serving` read models, with tests and contracts. **Done 2026-11-15** | Phases 4 and 5 | M |
 | D2 | `analytics` schema: usage, freshness, coverage, cost, quality. **Done 2026-11-15, with open points** | Phase 5 | M |
-| D3 | Dagster assets, checks and sensors for the data flow | Phases 3 and 4 | L |
+| D3 | Dagster assets, checks and sensors for the data flow. **Done 2026-11-15; a refreshed snapshot does not yet reach a batch** | Phases 3 and 4 | L |
 | D4 | Per-source schedules, freshness policies, alerts, backfills | D3 | M |
 | D5 | Production deployment of Dagster and dbt | Phase 9, D3 | M |
 | D6 | Operations console for sources, releases and clients | Phases 5 and 9, D3 | M |
@@ -354,7 +354,7 @@ Asset design:
 | `okf_index` | By release | Python index builder | Depends on `serving_models` |
 | `release_bundles` | By release | Bundle job | Configured scopes only |
 
-Reconciled with the code on 2026-11-15. Settle these when the phase starts.
+Reconciled with the code on 2026-11-15, before the phase was built. The tasks below say how each point was settled.
 
 - **`snapshot`** calls `ingestion.register(SourceRequest)`. It already records the check with `sources.record_check` whether or not the bytes changed, and returns the existing snapshot when the hash is known, so "materialises only on a new hash" is a comparison of the returned snapshot ID with the last one.
 - **`observations` has no library step yet for a refreshed source.** Extraction runs inside the onboarding graph for the run's own snapshot. Extracting a new snapshot under the mapping already approved for the source is new code in the library, with the drift check as its guard.
@@ -366,22 +366,69 @@ Reconciled with the code on 2026-11-15. Settle these when the phase starts.
 
 Tasks:
 
-- [ ] **Resources:** database engine per role, object storage client, LangGraph API client, settings. No resource holds secrets in code.
-- [ ] **Assets** as in the table. Each is a few lines that call a library function and attach metadata: row counts, hashes, batch or release IDs.
-- [ ] **Use the source as the partition key** and record the snapshot hash as materialisation metadata. Do not create a second partition dimension for snapshots.
-- [ ] **Sensors on human decisions:** a new approval row requests `observations` for that source; a new promoted ontology version is reported but triggers nothing by itself; a new `ops.release` row requests `serving_models`, `okf_index` and `release_bundles` for that release.
-- [ ] **No asset creates a release, an approval or a promotion.** A test fails if orchestration code writes to those tables.
-- [ ] **Asset checks:** baseline-style counts after extraction; no observation without a record; no profile field without evidence; dbt tests surfaced as checks.
-- [ ] **Retries** only on deterministic steps. Paid steps rely on the application's bounded retry and budget reservation; Dagster does not retry them.
-- [ ] **Concurrency limits:** a small pool for model-calling steps, a pool for downloads per publisher host, and a pool for database-heavy steps.
-- [ ] **Enhancement stays opt-in.** The hybrid identity pass makes paid calls and is launched deliberately, not on a schedule.
+- [x] **Resources:** database engine per role, object storage client, LangGraph API client, settings. No resource holds secrets in code.
+  - *As built ([resources.py](../orchestration/link_lens_dagster/resources.py)):* `Pipeline`, which gives the assets the library's refresh steps and fails unless the library is connected as `linklens_orchestrator`; `LangGraph`, the server that runs the onboarding graph; and dagster-dbt's `DbtCliResource`. There is no engine or storage client of Dagster's own: the library opens its connections and its artifact store from the settings, and a new setting, `LINK_LENS_DATABASE_ROLE`, makes every connection of a process take a role. dbt connects as `linklens_transform`, as before.
+- [x] **Assets** as in the table. Each is a few lines that call a library function and attach metadata: row counts, hashes, batch or release IDs.
+  - *As built:* five assets and the dbt project. `snapshot`, `observations` and `onboarding_request` are partitioned by source; `source_catalogue` and `identity_batch` are not; `models` is the dbt project, 49 models as assets. Each calls one step in [refresh.py](../src/link_lens/refresh.py), which is new: `check`, `check_drift`, `extract`, `request_onboarding` and `assemble`, each with explicit IDs and a result record, each tested without Dagster. `link-lens source check` and `source extract` run the same steps by hand.
+  - *`schema_drift` is a blocking check on `snapshot`,* emitted in the same step as the download, not an asset of its own.
+  - *`serving_models`, `okf_index` and `release_bundles` are not separate assets,* as reconciled above. A release's OKF tree and its bundles are built by `release create`; the views need no build per release. What follows a release is the dbt build with its tests (the `models` asset).
+  - *A new step, extraction of any snapshot under the approved mapping.* `refresh.extract(source_id, snapshot_id, limit)` reads the snapshot with the approved mapping's reader, runs the shared extraction engine and stores what is new. It refuses when no mapping is approved or the snapshot's shape has drifted.
+- [x] **Use the source as the partition key** and record the snapshot hash as materialisation metadata. Do not create a second partition dimension for snapshots.
+  - *As built:* one dynamic partition set, `source`, kept equal to the registered sources by a sensor. The snapshot's hash is the `snapshot` asset's data version and metadata.
+- [x] **Sensors on human decisions:** a new approval row requests `observations` for that source; a new promoted ontology version is reported but triggers nothing by itself; a new `ops.release` row requests `serving_models`, `okf_index` and `release_bundles` for that release.
+  - *As built ([sensors.py](../orchestration/link_lens_dagster/sensors.py)):* `mapping_approved`, `ontology_promoted` and `release_recorded`, which requests the dbt build. Each keeps a cursor and starts from the present the first time, so turning one on does not replay the 39 approvals already stored.
+  - *Added:* `registered_sources`, which adds partitions, and `drift_detected`, which requests onboarding for a source whose snapshot the approved mapping cannot read. That one is **off by default**: onboarding spends on model calls, and the owner's instruction for this work is that nothing paid starts by itself. A person turns it on, or materialises `onboarding_request` for the source.
+- [x] **No asset creates a release, an approval or a promotion.** A test fails if orchestration code writes to those tables.
+  - *As built, in the database (migration `0027`):* `linklens_orchestrator` has the pipeline's rights without `INSERT` or `UPDATE` on `onboarding.approval`, `ontology.activation`, `ops.release`, `ops.bundle_scope`, `ops.release_bundle` and `ops.evaluation`, and with nothing in `access`, `serving` or `analytics`. Tests run the assets as that role and expect a permission error when it tries to insert an approval or call `releases.create`. A second test reads the orchestration code and fails on a call that records a human decision or on raw `INSERT`, `UPDATE` or `DELETE`.
+- [x] **Asset checks:** baseline-style counts after extraction; no observation without a record; no profile field without evidence; dbt tests surfaced as checks.
+  - *As built:* `extraction_is_complete` and `observations_have_records` on `observations`; `selected_fields_cite_evidence` and `counts_match_the_batch` on `identity_batch`; `schema_drift` on `snapshot`; and 139 of the 147 dbt tests as checks on the model each tests. The other eight are tests over several models; they run in the same dbt build and fail it, but have no single asset to hang on.
+  - *Found by a check:* one source's file states 3,084 observations twice. They are one observation each and are stored once, but the extraction step counted them twice and its completeness check failed. The step now counts distinct observations and reports the repeats.
+- [x] **Retries** only on deterministic steps. Paid steps rely on the application's bounded retry and budget reservation; Dagster does not retry them.
+  - *As built:* `snapshot`, `observations` and `models` retry twice with backoff. `onboarding_request` and `source_catalogue` have no retry policy, and a test checks that. `identity_batch` has none either: it makes a new batch each time, so a retry after a late failure could leave two.
+- [x] **Concurrency limits:** a small pool for model-calling steps, a pool for downloads per publisher host, and a pool for database-heavy steps.
+  - *As built:* pools `model_calls` (limit 1), `downloads` and `database` (limit 2). The instance file takes only a default limit, so the webserver sets `model_calls` when it starts.
+  - *Not built:* a limit per publisher host. A pool is fixed per asset, not per partition. D4 has that task with the rest of politeness to publishers.
+- [x] **Enhancement stays opt-in.** The hybrid identity pass makes paid calls and is launched deliberately, not on a schedule.
+  - *As built:* it is not an asset. `identity_batch` runs the deterministic assembly only; `link-lens enhance` is unchanged.
+
+Found while building, and fixed because this phase would otherwise have broken it:
+
+- **A release was not pinned to what existed when it was recorded.** `serving.observation` and `serving.evidence` selected every observation of a source under a config approved in the release's runs, whenever it was stored. Extracting more of the same snapshot, or a refreshed one, would have added rows to releases that already exist. Migration `0026` adds `evidence.observation.loaded_at`, and the two models now take only the snapshot the run was onboarded on and only observations stored by the time the release was recorded. Rows stored before the migration carry the epoch. The contract did not change, and `serving-compare` showed no difference for either rehearsal release before the change went to `serving`.
+- **Drift checks were not stored.** `catalog.drift_check` (migration `0026`) keeps one row per snapshot and mapping config, written by `drift.record`. D2's source health model can now read them; adding that column to the model and the dashboard is a small follow-up.
+
+Not solved in this phase, and it limits what a refresh achieves:
+
+- **A batch is assembled from onboarding runs, not from stored observations.** `pipeline.assemble` re-extracts each run's own snapshot from the records that run sampled, at most 1,000 a source. A refreshed snapshot's observations are extracted and stored, but no batch, and so no profile and no release, is built from them until a source is onboarded again or assembly is redesigned to read stored observations. That is the "incremental identity" item in the risk table, and it is larger than this plan.
+- **A step is not idempotent in one place.** Every `assemble` makes a new batch with a new ID, by design: batches are versions. Extraction, drift checks and onboarding requests write nothing when repeated.
 
 Done when:
 
-- Materialising the assets for the promoted batch's sources on a restored database reproduces the same observation IDs and the same `profile_version` values.
-- A source whose snapshot is unchanged does no work.
-- A drifted fixture source stops at the drift check, starts an onboarding run, and resumes extraction only after an approval row exists.
-- Creating a release by CLI leads to serving models, index and bundles being built with no manual command.
+- Materialising the assets for the promoted batch's sources on a restored database reproduces the same observation IDs and the same `profile_version` values. **Met for the deterministic batch: every earlier observation ID, and all 60 profile versions of the batch the promoted one was built on, with the promoted batch's 61 link IDs. The promoted batch itself adds the paid enhancement pass, which changes all 60 profile versions and was not run.**
+- A source whose snapshot is unchanged does no work. **Met: no snapshot is emitted and extraction does not run; extracted again by hand, it stores nothing.**
+- A drifted fixture source stops at the drift check, starts an onboarding run, and resumes extraction only after an approval row exists. **Met in a test, with a stand-in for the LangGraph server. The onboarding run is started by the sensor only when someone has turned it on.**
+- Creating a release by CLI leads to serving models, index and bundles being built with no manual command. **Met: the command builds the index and bundles itself, and the sensor requests the dbt build, which a test runs to the end.**
+
+Results on 2026-11-15:
+
+- **Replay on a restored copy,** assets run in process as `linklens_orchestrator`, six sources, 25,000 records a source:
+
+| Source | Records read | Observations | Stored before | Newly stored | Earlier IDs reproduced |
+|---|---|---|---|---|---|
+| ACNC Registered Charities | 25,000 | 516,008 | 40,754 | 475,254 | all |
+| ASIC Company Dataset | 25,000 | 247,167 | 19,536 | 227,631 | all |
+| ASIC Financial Services Licensees | 4,859 | 145,732 | 55,866 | 89,866 | all |
+| ASIC Business Names | 25,000 | 107,215 | 8,280 | 98,935 | all |
+| Employment Services Providers | 5,740 | 66,300 | 21,400 | 44,900 | all |
+| Corporate Tax Transparency | 4,198 | 8,360 | 3,513 | 4,847 | all |
+
+  The longest took 50 seconds. A second extraction of a source stored nothing. The copy went from 374,335 to 1,315,768 observations.
+- **Releases did not move.** Two rehearsal releases were recorded before the extraction. Afterwards they still served 38,302 and 149,349 observations, the figures from D1.
+- **Batch.** `identity_batch` with the promoted batch's parameters (its six runs, 50 profiles at least, a cohort pool of 25,000) made a batch of 60 profiles and 61 links in 25 seconds, twice. Both times the 60 profile versions equalled those of the deterministic batch `f7fa2df9…` and the 61 link IDs equalled the promoted batch's.
+- **Serving change.** Before the new definitions were built into `serving` on the copy, `serving-compare --build` reported no difference in any view for either release, and the release digests were the ones recorded in D1.
+- **Local database.** Backed up to `/Users/may/link-lens-backups/linklens-pre-d3-cutover-20261115T041313.dump` with the backend and product service stopped, moved from `0025` to `0027` in under a second, and the models rebuilt: 49 models and 147 tests passed. Both baseline checks reported zero differences before and after; the 374,335 observations are unchanged apart from the new column. No asset was materialised there: that would download from publishers and store new rows, which is the owner's to start.
+- **Dagster on the local database.** The code location loads with 54 assets, 144 checks, five jobs and five sensors; the six registered sources are partitions; the four running sensors ticked and started from the present; no run was launched; `model_calls` has one slot.
+- **Tests.** 266 passed, 4 skipped with the `orchestration` group installed; 255 passed, 5 skipped in a clean default environment. Lint passes. Seven new tests run the assets and sensors on the test database as the orchestrator; seven cover the refresh steps without Dagster; two cover the role and the release pin.
+- **Not verified:** a real download through the `snapshot` asset (the tests stand in for the publisher); `onboarding_request` against the real LangGraph server, which would make model calls; `source_catalogue`, for the same reason; a run launched from the Dagster UI by a person; the CI workflow on GitHub.
 
 ## Phase D4: Schedules, freshness and alerts
 
@@ -559,6 +606,9 @@ No verification step needs a paid model call.
 | dbt engine and licence | dbt Core is Apache-2.0; other dbt engines may carry different terms | Stay on dbt Core unless there is a reason to change; check terms before switching |
 | Version pairing | dbt adapter and core versions, and Dagster's Python range, move independently | Pin and upgrade deliberately |
 | Incremental identity | Full batches may become slow at scale | Out of scope here; design separately when measured |
+| Assembly reads runs, not stored observations | `pipeline.assemble` builds a batch from each onboarding run's own snapshot and the records that run sampled. Dagster can refresh a source and extract its new snapshot, but those observations reach no profile and no release. Until this changes, a refresh keeps evidence current and nothing else. | Design assembly over stored observations of each source's latest approved snapshot, as its own piece of work. It is the precondition for refreshes that change what clients see, and for D4's schedules to be worth running. |
+| A release and concurrent loads | A release serves observations stored by the time it was recorded. A load that began before the release was recorded and committed after it would appear in that release. | Record releases when no extraction is running; D4 can hold extraction while a release is being recorded. |
+| New human-gate tables | `linklens_orchestrator` gets `INSERT` and `UPDATE` on every new core table through default privileges | A migration that adds a table recording a human decision revokes them, and adds the table to the role test. |
 | Alternatives | Airflow, Prefect, Temporal, SQLMesh | Not chosen: Dagster's asset and partition model fits per-source data; dbt is the tool the analytics role knows. Revisit only if a hosting constraint forces it. |
 | Dashboard tool | Grafana or Superset | Decided in D2: Grafana. Revisit Superset only if the product owner needs to slice numbers in ways fixed panels cannot give. |
 | List-price cost estimate is not in the database | `link-lens usage` prices calls from saved response files and a rates file, so dbt cannot reproduce `priced_calls` or the estimated subtotal | Owner decides whether the estimate per call is stored as rows when the report runs. Until then the dashboards show recorded cost and budget charges, labelled as such. |

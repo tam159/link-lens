@@ -2,7 +2,7 @@
 
 ## Purpose and starting points
 
-Link Lens onboards unfamiliar public business datasets, produces agent-generated declarative mappings for human approval, then deterministically extracts observations, links entities and builds evidence-backed profiles. It began as a locally runnable assignment submission, and those results and experiments are preserved. On top of it are a production data model in typed PostgreSQL schemas and a read-only product service (REST, MCP, bundles) that serves a release a person has recorded. Everything still runs locally: nothing is hosted, and no release has been recorded for clients unless the stored data says so. A second plan adds Dagster for the deterministic data flow and dbt for derived SQL; dbt now builds the `serving` views that clients read and the reporting models in `analytics`, Grafana shows three dashboards over those, the Dagster code location exists but is empty, and the later phases are not built.
+Link Lens onboards unfamiliar public business datasets, produces agent-generated declarative mappings for human approval, then deterministically extracts observations, links entities and builds evidence-backed profiles. It began as a locally runnable assignment submission, and those results and experiments are preserved. On top of it are a production data model in typed PostgreSQL schemas and a read-only product service (REST, MCP, bundles) that serves a release a person has recorded. Everything still runs locally: nothing is hosted, and no release has been recorded for clients unless the stored data says so. A second plan adds Dagster for the deterministic data flow and dbt for derived SQL; dbt now builds the `serving` views that clients read and the reporting models in `analytics`, Grafana shows three dashboards over those, and Dagster holds the deterministic data flow as assets, checks and sensors. Schedules, alerts, deployment, the console and the cutover from manual runs are not built: nothing refreshes on a timer, and the pipeline commands still work as before.
 
 Read only the documentation relevant to your task:
 
@@ -28,7 +28,7 @@ Application code is in `src/link_lens/`:
 |---|---|
 | `cli.py`, `api.py`, `settings.py` | CLI, application routes and environment settings |
 | `ingestion.py`, `triage.py`, `downloadability.py` | CKAN discovery, Jev relevance ranking, download/reader preflight and registration |
-| `sources.py`, `drift.py` | Refresh facts per source (cadence, last check, last change, approved mapping) and the drift check of a snapshot against its approved mapping |
+| `sources.py`, `drift.py`, `refresh.py` | Refresh facts per source (cadence, last check, last change, approved mapping), the drift check of a snapshot against its approved mapping and its stored result, and the refresh steps an orchestrator calls: check a source for new bytes, extract a snapshot under the approved mapping, request onboarding, assemble a batch |
 | `agent.py`, `llm.py` | Bounded LangGraph onboarding, model calls, validation, critique and Inbox interrupts |
 | `contracts.py`, `readers.py`, `extraction.py` | Typed mapping contract, shared readers and declarative extraction |
 | `resolution.py`, `profiles.py`, `pipeline.py` | Deterministic linking, profile decisions and assembly |
@@ -51,7 +51,7 @@ Two folders beside `src/` belong to the orchestration plan and are not part of t
 | Folder | Responsibility |
 |---|---|
 | `transform/` | The dbt project: `dbt_project.yml`, a profile configured by the environment, a schema-name macro, the declared sources (`models/sources`), the twelve serving read models with their contracts, tests and exposures (`models/serving`), the reporting models (`models/analytics`) over thin staging views (`models/staging`), and generic and singular tests (`tests/`) |
-| `orchestration/` | The Dagster code location `link_lens_dagster` (`definitions.py`, and modules for assets, resources, sensors, schedules and checks that are empty until phases D3 and D4), its `workspace.yaml`, and the instance configuration `dagster.yaml` |
+| `orchestration/` | The Dagster code location `link_lens_dagster`: assets (`assets/snapshots.py`, `extraction.py`, `onboarding.py`, `identity.py`, and `models.py` for the dbt project), `sensors.py`, `resources.py`, `partitions.py` and `definitions.py`; `schedules.py` is empty until phase D4. Beside it, `workspace.yaml` and the instance configuration `dagster.yaml` |
 
 `deploy/Dockerfile.dagster` builds the image for Dagster and dbt, and `deploy/dagster-db.sql` creates Dagster's own database. `deploy/grafana/` holds Grafana's provisioning and the dashboards as JSON files, and `deploy/grafana-db.sql` creates the login Grafana reads with. Read scripts before executing them: several `scripts/` files have top-level side effects, fixed experiment IDs or authored audit judgments. They are not all reusable library functions. Two are safe, read-only tools: `scripts/migration_baseline.py` compares a database with the recorded baseline, and `scripts/mcp_agent_eval.py` runs fixed tasks against the MCP server without a model.
 
@@ -85,6 +85,8 @@ uv run link-lens dbt debug      # dbt on the configured database, as linklens_tr
 uv run link-lens serving-compare --build   # build the serving models into serving_next and compare; exits 3 on a difference
 uv run dagster definitions validate --workspace orchestration/workspace.yaml
 uv run pytest -q tests/test_orchestration.py   # skipped without the orchestration group
+uv run link-lens source check SOURCE      # download again; a snapshot only if the bytes changed
+uv run link-lens source extract SOURCE    # under the approved mapping; exits 3 when blocked
 docker compose --profile orchestration up -d --build   # Dagster UI on http://localhost:3070
 docker compose --profile dashboards up -d              # Grafana on http://localhost:3080
 ```
@@ -149,7 +151,11 @@ The local stack runs the code of the folder that Compose is started from:
 - **A reporting model reconciles with its tables.** A new model in `transform/models/analytics` gets a key test and, where it adds things up, a test that its total equals the table it reads.
 - **Dashboards read models, not tables.** A Grafana panel queries `analytics.<model>` only, each dashboard is a dbt exposure, and `tests/test_dashboards.py` runs every panel's query as the analyst. Build the whole project when building into `serving`: replacing a serving view drops the reporting views that read it until they are rebuilt.
 - **Dagster's own storage is the `dagster` database**, with a login that has no right on the application's schemas. It never goes into a schema of the application's database, and application state never goes into Dagster's.
-- **Dagster calls the library and reacts to rows.** It holds no pipeline logic and keeps no copy of a fact that PostgreSQL holds. It never records a mapping approval, an ontology promotion or a release, and it never retries a paid model call on its own.
+- **Dagster calls the library and reacts to rows.** An asset is a few lines over a step in `refresh.py` with explicit IDs, and attaches the step's result record as metadata. Dagster holds no pipeline logic and keeps no copy of a fact that PostgreSQL holds. A new step goes into the library first, with its own test, and is idempotent.
+- **Dagster works as `linklens_orchestrator`.** Its processes set `LINK_LENS_DATABASE_ROLE`, and every asset fails if the library is working as anyone else. That role cannot insert or update a mapping approval, an ontology activation, a release, a bundle scope, a bundle or a review label, and has nothing in `access`, `serving` or `analytics`. A new table that records a human decision must revoke the role's default privileges on it in its migration.
+- **Sensors react to what a person recorded and start from the present.** A new approval requests extraction, a new release requests the dbt build, a promotion is only reported. Turning a sensor on never replays history.
+- **Paid steps never start by themselves and are never retried by Dagster.** `onboarding_request` and `source_catalogue` have no retry policy; the sensor that requests onboarding on drift is off by default, and discovery refuses to run without `confirm_paid_calls`. The application's budget stays the only authority on spend.
+- **A release serves what was stored when it was recorded.** `serving.observation` and `serving.evidence` take only the snapshot the release's run was onboarded on and only observations loaded by then (`evidence.observation.loaded_at`), so a later extraction adds nothing to an existing release. Keep both conditions when changing those models.
 - **The tools stay out of the runtime image.** Dagster and dbt are in the `orchestration` and `transform` dependency groups, and `dev` includes `transform`; the backend, product service and sandbox images install no group. The lock file is shared, so after any change to those groups compare `uv export --no-dev` before and after and say what moved.
 - **Read the installed versions' documentation before changing `orchestration/` or `transform/`.** Both tools change often. dbt stays on dbt Core 1.12; version 2 is a separate decision.
 - **dbt, Dagster and Grafana report nothing to their vendors.** Usage statistics are off in `dbt_project.yml`, telemetry in `dagster.yaml`, and reporting and update checks in the `grafana` service; keep them off.
@@ -182,7 +188,7 @@ For a completed coding task, report what changed, what checks ran and any remain
 
 These are repository skills in Codex's `.agents/skills` discovery location. Other coding tools can read the linked instructions directly.
 
-Procedures for the production work are sections of [docs/ENGINEERING.md](docs/ENGINEERING.md), under **Database layout, migrations and the baseline**: migrating an existing database, backfilling, recording a release, managing access, building bundles, moving artifacts to object storage, restoring into an empty environment, and running dbt and Dagster locally.
+Procedures for the production work are sections of [docs/ENGINEERING.md](docs/ENGINEERING.md), under **Database layout, migrations and the baseline**: migrating an existing database, backfilling, recording a release, managing access, building bundles, moving artifacts to object storage, restoring into an empty environment, running dbt and Dagster locally, and refreshing a source through Dagster or by hand.
 
 ## GitHub identity
 
