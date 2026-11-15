@@ -1,0 +1,22 @@
+# The Link Lens dbt project: derived SQL only.
+#
+# dbt builds relations in `analytics` now and takes over the `serving` views in
+# phase D1 of docs/ORCHESTRATION_PLAN.md. Every table that holds state belongs
+# to Alembic; dbt and Alembic never manage the same relation.
+name: link_lens
+version: "0.1.0"
+config-version: 2
+profile: link_lens
+
+# dagster-dbt 0.29 supports dbt-core below 1.13. Moving to dbt version 2 is a
+# separate decision; see the risk table of the plan.
+require-dbt-version: [">=1.12.0", "<1.13.0"]
+
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+seed-paths: ["seeds"]
+clean-targets: ["target", "dbt_packages"]
+
+flags:
+  send_anonymous_usage_stats: false

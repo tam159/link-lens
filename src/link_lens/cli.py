@@ -904,6 +904,23 @@ def serving_apply():
         show({"changed": serving.apply(connection)})
 
 
+@app.command(
+    "dbt",
+    context_settings={"allow_extra_args": True, "ignore_unknown_options": True},
+    add_help_option=False,
+)
+def dbt(context: typer.Context):
+    """Run dbt on the transform project: `link-lens dbt build`, `link-lens dbt debug`.
+
+    dbt connects to the configured database and works as linklens_transform.
+    Everything after `dbt` is passed to it, and its exit code is returned:
+    0 done, 1 a model or a test failed, 2 dbt could not run what was asked.
+    """
+    from . import transform
+
+    raise typer.Exit(transform.run(context.args).returncode)
+
+
 def main():
     """Console entry point: run the command and log how it ended.
 

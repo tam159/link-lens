@@ -1,0 +1,21 @@
+# One target, configured by the environment. The defaults are the local Compose
+# database. `uv run link-lens dbt ...` sets these variables from
+# LINK_LENS_DATABASE_URL, so dbt and the pipeline use the same database.
+#
+# dbt always works as linklens_transform: it reads the core schemas and creates
+# relations only where that role may. The login must be a member of that role
+# (the local `linklens` user is a superuser).
+link_lens:
+  target: default
+  outputs:
+    default:
+      type: postgres
+      host: "{{ env_var('LINK_LENS_DBT_HOST', 'localhost') }}"
+      port: "{{ env_var('LINK_LENS_DBT_PORT', '5439') | as_number }}"
+      user: "{{ env_var('LINK_LENS_DBT_USER', 'linklens') }}"
+      password: "{{ env_var('LINK_LENS_DBT_PASSWORD', env_var('LINK_LENS_POSTGRES_PASSWORD', 'linklens')) }}"
+      dbname: "{{ env_var('LINK_LENS_DBT_DATABASE', 'linklens') }}"
+      # Where a model without a schema of its own is built.
+      schema: analytics
+      role: linklens_transform
+      threads: 4

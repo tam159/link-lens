@@ -38,6 +38,9 @@ class Settings(BaseSettings):
     rate_limit_store: Literal["database", "memory"] = "database"
     # /metrics answers only to this bearer token; unset, there is no /metrics.
     metrics_token: str | None = None
+    # The dbt project that `link-lens dbt` and the orchestrator run, relative to
+    # the working directory like the paths above.
+    dbt_project_dir: Path = Path("transform")
     ontology_path: Path = Path("firmable_ontology.yaml")
     model: str = "gpt-6-luna"
     experiment_id: str = "jev-gpt6-luna-ontology-v1"
