@@ -857,3 +857,41 @@ def test_a_failed_step_retries_and_leaves_no_duplicate(
     assert stored("SELECT count(*) FROM evidence.observation") == 6
     assert stored("SELECT count(DISTINCT id) FROM evidence.observation") == 6
     assert check(recovered, "extraction_is_complete").passed
+
+
+def test_the_deployment_override_runs_from_the_image_with_its_own_login():
+    """Local Docker as a deployment: no checkout mounted, no default password, a limited login."""
+    override = (ROOT / "deploy/compose.deploy.yaml").read_text()
+    # The override uses Compose's !override tag, which a plain YAML reader does not know.
+    yaml.SafeLoader.add_constructor(
+        "!override", lambda loader, node: loader.construct_sequence(node)
+    )
+    services = yaml.safe_load(override)["services"]
+    for name in ("dagster-webserver", "dagster-daemon"):
+        service = services[name]
+        assert service["restart"] == "unless-stopped"
+        # Only the artifact store and Dagster's own working volume: no source.
+        assert service["volumes"] == [
+            "./artifacts:/app/artifacts",
+            "dagster-home:/opt/dagster/home",
+        ]
+        url = service["environment"]["LINK_LENS_DATABASE_URL"]
+        assert "//linklens_orchestration:${LINK_LENS_ORCHESTRATION_PASSWORD:?" in url
+        assert ":?" in service["environment"]["DAGSTER_POSTGRES_PASSWORD"]
+    logins = (ROOT / "deploy/service-logins.sql").read_text()
+    assert "NOINHERIT" in logins
+    assert "IN ROLE linklens_orchestrator, linklens_transform" in logins
+    # The image itself: open-source Dagster and dbt Core, from the lock file.
+    dockerfile = (ROOT / "deploy/Dockerfile.dagster").read_text()
+    assert (
+        "uv sync --frozen --no-dev --group orchestration --group transform"
+        in dockerfile
+    )
+    assert (
+        "COPY orchestration ./orchestration" in dockerfile
+        and "COPY transform ./transform" in dockerfile
+    )
+    lock = (ROOT / "uv.lock").read_text()
+    for package in ("dagster", "dbt-core", "dbt-postgres"):
+        assert f'name = "{package}"' in lock
+    assert 'name = "dbt"\n' not in lock  # dbt version 2 is a different distribution

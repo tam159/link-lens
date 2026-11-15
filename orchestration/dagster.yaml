@@ -1,5 +1,5 @@
-# Instance configuration of the Compose services, mounted as
-# $DAGSTER_HOME/dagster.yaml. Dagster's run, event and schedule storage is the
+# Instance configuration of the Dagster services. The image's entrypoint copies
+# it to $DAGSTER_HOME/dagster.yaml at every start. Dagster's run, event and schedule storage is the
 # `dagster` database: the same PostgreSQL server as the application, a database
 # and a login of its own, and never a schema of the application's database.
 storage:

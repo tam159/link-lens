@@ -133,12 +133,8 @@ services:
       # same database as linklens_transform.
       LINK_LENS_DATABASE_URL: postgresql+psycopg://linklens:${LINK_LENS_POSTGRES_PASSWORD:-linklens}@postgres:5432/linklens
       LINK_LENS_DATABASE_ROLE: linklens_orchestrator
-      LINK_LENS_ARTIFACT_DIR: /app/artifacts
-      LINK_LENS_ONTOLOGY_PATH: /app/firmable_ontology.yaml
       LINK_LENS_API_URL: http://backend:2024
       LINK_LENS_EXPERIMENT_ID: ${LINK_LENS_EXPERIMENT_ID:-jev-gpt6-luna-ontology-v1}
-      LINK_LENS_DBT_PROJECT_DIR: /app/transform
-      LINK_LENS_DBT_TARGET_PATH: /opt/dagster/home/dbt-target
     ports: ["127.0.0.1:3070:3070"]
     volumes: &dagster-volumes
       # Reload the code location in the UI to pick up an edit.
@@ -148,8 +144,9 @@ services:
       - ./firmable_ontology.yaml:/app/firmable_ontology.yaml:ro
       # Snapshots are downloaded into the artifact store.
       - ./artifacts:/app/artifacts
+      # Dagster's working files, compute logs and dbt's build files. The image's
+      # entrypoint copies orchestration/dagster.yaml into it at every start.
       - dagster-home:/opt/dagster/home
-      - ./orchestration/dagster.yaml:/opt/dagster/home/dagster.yaml:ro
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://localhost:3070/server_info > /dev/null"]
       interval: 5s
@@ -167,6 +164,18 @@ services:
     env_file: *dagster-env-file
     environment: *dagster-environment
     volumes: *dagster-volumes
+    depends_on:
+      dagster-webserver: {condition: service_healthy}
+  dbt-docs:
+    # dbt's documentation of every model, column, test and source, written by
+    # each build of the models: http://localhost:3090. Internal; bound to this
+    # machine. Empty until the models have been built once through Dagster.
+    image: link-lens-dagster:local
+    profiles: ["orchestration"]
+    command: ["sh", "-c", "mkdir -p /opt/dagster/home/dbt-target && exec python -m http.server 3090 --bind 0.0.0.0 --directory /opt/dagster/home/dbt-target"]
+    ports: ["127.0.0.1:3090:3090"]
+    volumes:
+      - dagster-home:/opt/dagster/home
     depends_on:
       dagster-webserver: {condition: service_healthy}
   # Dashboards run only with `docker compose --profile dashboards up -d`. Grafana

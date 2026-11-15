@@ -1,19 +1,29 @@
-# Dagster webserver and daemon, with dbt. A separate image from the backend:
-# the product service and the sandbox never contain these packages.
+# Dagster webserver and daemon, with dbt: open-source Dagster and dbt Core, at
+# the versions in uv.lock. A separate image from the backend, so the product
+# service and the sandbox never contain these packages. It holds the code
+# location, the dbt project and the link_lens library, and runs without any
+# part of the repository mounted; the development Compose file mounts the
+# checkout over them so an edit needs no rebuild.
 FROM ghcr.io/astral-sh/uv:0.7.16 AS uv
 FROM python:3.13-slim
 COPY --from=uv /uv /usr/local/bin/uv
 RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates git && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
-ENV UV_PROJECT_ENVIRONMENT=/opt/venv PATH=/opt/venv/bin:$PATH PYTHONDONTWRITEBYTECODE=1 DAGSTER_HOME=/opt/dagster/home
+ENV UV_PROJECT_ENVIRONMENT=/opt/venv PATH=/opt/venv/bin:$PATH PYTHONDONTWRITEBYTECODE=1 \
+    DAGSTER_HOME=/opt/dagster/home \
+    LINK_LENS_DBT_PROJECT_DIR=/app/transform \
+    LINK_LENS_DBT_TARGET_PATH=/opt/dagster/home/dbt-target \
+    LINK_LENS_ONTOLOGY_PATH=/app/firmable_ontology.yaml \
+    LINK_LENS_ARTIFACT_DIR=/app/artifacts
 COPY pyproject.toml uv.lock README.md ./
 COPY src ./src
 RUN uv sync --frozen --no-dev --group orchestration --group transform
 COPY firmable_ontology.yaml alembic.ini ./
 COPY orchestration ./orchestration
 COPY transform ./transform
+COPY deploy/dagster-entrypoint.sh /usr/local/bin/dagster-entrypoint
 RUN mkdir -p /opt/dagster/home /app/artifacts \
-    && cp orchestration/dagster.yaml /opt/dagster/home/dagster.yaml \
     && useradd -u 1000 -m app && chown -R app:app /app /opt/dagster
 USER app
+ENTRYPOINT ["dagster-entrypoint"]
 CMD ["dagster-webserver", "--host", "0.0.0.0", "--port", "3070", "--workspace", "/app/orchestration/workspace.yaml"]

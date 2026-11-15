@@ -1,0 +1,45 @@
+# Dagster as a deployment in local Docker, on top of compose.yaml:
+#
+#   docker compose -f compose.yaml -f deploy/compose.deploy.yaml --profile orchestration up -d
+#
+# What changes against the development file:
+#   - The services run the code in their image. Nothing of the checkout is
+#     mounted, so a change reaches them only through a rebuilt image.
+#   - They log in to the application's database as linklens_orchestration, a
+#     login that can only become the orchestrator's and dbt's roles, instead of
+#     as the administrator. Run the migrations before the first start.
+#   - Every password must be given; there is no development default.
+#   - The services restart when they stop.
+#
+# The Dagster UI still has no sign-in of its own and stays bound to this
+# machine. To let others in, put a proxy that signs people in before it.
+services:
+  dagster-db:
+    environment:
+      DAGSTER_POSTGRES_PASSWORD: ${LINK_LENS_DAGSTER_POSTGRES_PASSWORD:?Set LINK_LENS_DAGSTER_POSTGRES_PASSWORD}
+      ORCHESTRATION_PASSWORD: ${LINK_LENS_ORCHESTRATION_PASSWORD:?Set LINK_LENS_ORCHESTRATION_PASSWORD}
+    entrypoint:
+      - sh
+      - -c
+      - >-
+        psql -v ON_ERROR_STOP=1 -v password="$$DAGSTER_POSTGRES_PASSWORD" -f /dagster-db.sql &&
+        psql -v ON_ERROR_STOP=1 -v password="$$ORCHESTRATION_PASSWORD" -d linklens -f /service-logins.sql
+    volumes:
+      - ./deploy/service-logins.sql:/service-logins.sql:ro
+  dagster-webserver:
+    restart: unless-stopped
+    volumes: !override
+      - ./artifacts:/app/artifacts
+      - dagster-home:/opt/dagster/home
+    environment: &deployed
+      DAGSTER_POSTGRES_PASSWORD: ${LINK_LENS_DAGSTER_POSTGRES_PASSWORD:?Set LINK_LENS_DAGSTER_POSTGRES_PASSWORD}
+      # Use a password without characters that need escaping in a URL.
+      LINK_LENS_DATABASE_URL: postgresql+psycopg://linklens_orchestration:${LINK_LENS_ORCHESTRATION_PASSWORD:?Set LINK_LENS_ORCHESTRATION_PASSWORD}@postgres:5432/linklens
+  dagster-daemon:
+    restart: unless-stopped
+    volumes: !override
+      - ./artifacts:/app/artifacts
+      - dagster-home:/opt/dagster/home
+    environment: *deployed
+  dbt-docs:
+    restart: unless-stopped

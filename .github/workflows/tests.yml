@@ -120,3 +120,11 @@ jobs:
 
       - name: Test dbt, Dagster and the roles on a migrated database
         run: uv run pytest -q tests/test_transform.py tests/test_orchestration.py tests/test_migrations.py
+
+      # The deployment runs this image with nothing of the checkout mounted, so
+      # it must hold the code location and the dbt project and load them.
+      - name: The Dagster image builds and loads its definitions by itself
+        run: |
+          docker build -t link-lens-dagster:ci -f deploy/Dockerfile.dagster .
+          docker run --rm --entrypoint sh link-lens-dagster:ci -c \
+            'unset DAGSTER_HOME; dagster definitions validate --workspace /app/orchestration/workspace.yaml'
