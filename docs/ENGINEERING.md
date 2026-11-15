@@ -121,7 +121,9 @@ Source reliability, field mapping confidence and linking rule score remain separ
 
 ### Current scale limits
 
-The implementation uses bounded in-memory source samples, JSON payload tables and individual upserts. It is appropriate for this demonstration, not 15 million companies. At 500 sources the first practical bottlenecks are review throughput and acquisition/schema-drift management, followed by database write batching and index design. Upgrade with object storage, bulk loading, worker leases, typed relational columns/indexes and incremental recomputation before considering a graph database.
+As submitted, the implementation used bounded in-memory source samples, JSON payload tables and individual upserts. It was appropriate for the demonstration, not 15 million companies. At 500 sources the first practical bottlenecks are review throughput and acquisition/schema-drift management, followed by database write batching and index design.
+
+The production work since then addressed the storage part of that list: typed relational columns and indexes, observations and source records in hash partitions, bulk loading with `COPY`, an object storage backend for artifacts, refresh facts and a drift check per source, and read models for serving. What it did not change: the pipeline still reads bounded samples into memory and recomputes a batch as a whole, there are no worker leases or scheduled refreshes, and review throughput is still one person in the Inbox. The data is still 60 profiles from six sources, so nothing has been measured at scale beyond synthetic sets of about 100,000 pages. The [production plan](PRODUCTION_PLAN.md) names what to revisit first in its risk table.
 
 6. AFS critique incorrectly claimed an 11-digit ABN could also pass the 9-digit ACN validator. The critique prompt now receives authoritative operation semantics. It remains a fallible check, not ground truth.
 7. Date transformations initially allowed DD/MM/YYYY as a string argument, although Python requires `%d/%m/%Y`. The shared typed operation now describes and validates strptime directives.
@@ -135,6 +137,8 @@ The six approved mappings yield 60 profiles and 61 links, with 79,840 observatio
 
 Earlier runtime/checkpoint repairs, Terra/Luna audits, Docker checks and live archive restore measurements are preserved in the [historical engineering guide](../experiments/jev-luna-v1-submission/docs/ENGINEERING.md). They do not establish a live restore or human evaluation for this expanded experiment.
 
+With the production data model and the product service, on 15 November 2026 the suite is **229 passed, four gated integrations skipped**, on PostgreSQL. The added tests cover each migration up and down, exact read-back of every record from the typed tables, append-only tables, role permissions, the ontology gate, releases and the OKF tree, every REST route and MCP tool, source scope, limits, bundles, and the published contracts. For the submitted data itself the evidence is the migration baseline: after every phase the stored rows and the same records read back from the typed tables matched it with zero differences. No model call, mapping approval or human evaluation was made for that work, and the counts in the paragraphs above are unchanged.
+
 ## Operations and recovery
 
 The selected submission configuration is `jev-gpt6-luna-ontology-v1`. Exact promoted run, batch, ontology and snapshot IDs are in `outputs/submission-manifest.json`. Its outputs are in `outputs/`.
@@ -143,18 +147,45 @@ The previous deterministic + Terra run remains in `experiments/terra-baseline/`;
 
 ### Database layout, migrations and the baseline
 
-This is Phase 0 of the [production plan](PRODUCTION_PLAN.md). The application still reads and writes the same 17 generic tables through `store.py`; only their location and column type changed.
+The [production plan](PRODUCTION_PLAN.md) moved the store from 17 generic JSON tables to typed tables, one domain at a time, and added a read-only product service on top. This section says how the result works and how to operate it. It follows the order in which the phases were applied to the local database, and each part ends with what was measured on that day; the plan has the reasons and the full results.
 
-- **Layout.** Migrations `0003` to `0008` enable `vector` and `pg_trgm`, create the schemas `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops`, `access`, `serving` and `legacy`, move the 17 tables into `legacy`, and convert `payload` from `json` to `jsonb`. The eight new schemas other than `legacy` are empty until their phase.
+Where things stand on 15 November 2026:
+
+| Part | State |
+|---|---|
+| Schema | Migration `0021`. Records live in `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops` and `access`. `legacy` holds the earlier tables, read-only. |
+| Application | Still reads and writes through `store.py`, which returns the same records as before. |
+| What clients see | Views in `serving`, for a release that a person records. None is recorded on the local database. |
+| Product service | Compose service `product` on port 8100: REST, MCP, bundle links and an entity viewer. It refuses every call until a release and a key exist. |
+| Not done | Hosting, reviewer sign-in, the agent runtime licence and dropping `legacy`. |
+
+| To do this | Read |
+|---|---|
+| Apply a new migration to a database that holds data | [Changing a database that holds data](#changing-a-database-that-holds-data) |
+| Record a release, export it, manage keys | [Releases and the OKF tree](#releases-and-the-okf-tree-migration-0018), [Product service and REST](#product-service-and-rest-migration-0019) |
+| Connect an agent | [MCP interface](#mcp-interface) |
+| Build a bundle | [Bundles and the entity viewer](#bundles-and-the-entity-viewer-migration-0020) |
+| Run more than one instance, a replica, metrics, a bucket | [Running as a service](#running-as-a-service-migration-0021) |
+| Restore somewhere else and check it | [Restoring into an empty environment](#restoring-into-an-empty-environment) |
+
+#### Foundations (migrations 0003 to 0008)
+
+Phase 0 changed where the 17 generic tables are and how their payload is typed, and nothing else.
+
+- **Layout.** Migrations `0003` to `0008` enable `vector` and `pg_trgm`, create the schemas `ontology`, `catalog`, `onboarding`, `evidence`, `identity`, `ops`, `access`, `serving` and `legacy`, move the 17 tables into `legacy`, and convert `payload` from `json` to `jsonb`. The eight new schemas other than `legacy` were empty until their phase.
 - **Image.** Compose uses `pgvector/pgvector:pg17-trixie`. The plain `pg17` tag is a Debian bookworm build (glibc 2.36); a data volume created by `postgres:17` on Debian trixie (glibc 2.41) would report a collation version mismatch under it.
 - **Helpers.** The `sha256` domain stores a digest as 32 bytes; `link_lens.db.Sha256` presents it to Python as the usual 64-character hex string. `forbid_update()` is the trigger function for append-only tables. `link_lens.db.copy_insert` loads rows with `COPY` into a staging table followed by `INSERT ... ON CONFLICT DO NOTHING`, so a repeated load inserts nothing.
-- **Roles.** `linklens_migrator` owns the schemas, `linklens_pipeline` reads and writes the core schemas and `legacy`, and `linklens_product` reads `serving`. They are `NOLOGIN` groups without passwords; the local stack still connects as the `linklens` superuser. `DELETE` is not granted by default.
+- **Roles.** `linklens_migrator` owns the schemas, `linklens_pipeline` reads and writes the core schemas and, since migration `0017`, only reads `legacy`, and `linklens_product` reads `serving` and the access tables. They are `NOLOGIN` groups without passwords; the local stack still connects as the `linklens` superuser. `DELETE` is not granted by default.
 - **Migrations are explicit SQL.** `migrations/env.py` has no metadata and does not autogenerate. Each migration runs in its own transaction. `alembic downgrade base` drops the tables and is only for an empty database; on a database with data, downgrade to `0002`.
 - **jsonb and key order.** `jsonb` keeps every value but reorders object keys. Stored IDs and hashes are computed with sorted keys and do not change. Files regenerated from payloads (for example `mapping-v1.json`, `run.json`, `events.json`, `cost-usage.json`) list the same values with keys in a different order. OKF pages are rendered from artifacts and are unaffected.
+
+#### Ontology registry (migration 0009)
 
 The ontology registry (migration `0009`, Phase 1) is the first typed domain. Its tables are created as `linklens_migrator`, so `linklens_pipeline` receives its default privileges. `uv run link-lens backfill ontology` copies versions, proposal evidence, activations and proposals from `legacy.ontologies` and `legacy.ontology_events`; it is idempotent, verifies each copy against its legacy record before committing, and leaves the legacy rows and the model cache where they are. New ontology records are written only to the registry. `freeze` now writes archive format 2, which adds the registry rows; `thaw` still reads format 1 and runs the backfill after restoring it.
 
 On 2026-11-14 the local database moved from `0008` to `0009` and was backfilled: 2 versions, 59 concepts, 3 proposals with 393 dispositions and 45 concept decisions, and 2 activations. `ontology show` and `ontology diff` printed the same bytes as before for both versions, and the baseline check reported zero differences.
+
+#### Evidence spine (migrations 0010 to 0014)
 
 The evidence spine (migrations `0010` to `0012`, Phase 2) moves artifacts, sources, snapshots, runs, mappings, approvals and observations to the `catalog`, `onboarding` and `evidence` schemas. Callers still use `store.put`, `get`, `require` and `listing`; `store.py` routes these seven tables to the typed repositories.
 
@@ -176,6 +207,8 @@ uv run python scripts/migration_baseline.py --typed --check outputs/local-run/mi
 
 On 2026-11-14 the local database moved from `0009` to `0012` and was backfilled in 58 seconds: 26,610 artifacts, 949 sources, 12 snapshots, 73 runs, 107 mappings in 107 configs with 602 mapping fields, 52 approvals, 23,101 source records and 374,335 observations. No observation needed its JSON column. Eleven runs name a pseudo-source (`ontology`, `connectivity-test`) and eight a snapshot that was never stored; those values stay in the run's JSON column. Both baseline checks reported zero differences, a second backfill copied nothing, and `evidence.observation` takes 223 MB where `legacy.observations` takes 722 MB. The same day the two evidence tables were rebuilt as hash partitions (`0013`, 8 seconds) and the refresh table and view were added (`0014`); both baseline checks again reported zero differences. Before that, on a restored copy, eight CLI commands printed the same bytes as before and an export of the submission batch produced the same 1,747 files with equal values.
 
+#### Identity and operations (migrations 0015 to 0017)
+
 Identity and operations (migrations `0015` to `0017`, Phase 3) complete the move: batches, triage decisions, cached model responses, model calls, events, evaluations, entities, memberships, links and profiles are served from the `ops` and `identity` schemas, and the pipeline role can no longer write `legacy`.
 
 - **Batches.** `assemble` and `enhance` write a batch and everything it owns in one transaction with `store.put_many`, batch first. The store's `batches` name still answers for batches, triage decisions (`triage-…`) and cached responses (`enhance-cache-…`), which are now three tables.
@@ -189,6 +222,8 @@ uv run link-lens backfill identity-ops
 ```
 
 On 2026-11-14 the local database moved from `0014` to `0017` and was backfilled in 69 seconds: 26 batches, 1,067 triage decisions, 18,395 cached responses, 1,002 model calls, 9,178 events, 411 evaluations, 298 entities, 1,235 memberships, 621 links and 614 profiles with 3,465 fields. Both baseline checks reported zero differences. On a restored copy, re-running `assemble` for the promoted batch reproduced all 60 profile versions without a model call, and the reports and export matched the previous code's output.
+
+#### Releases and the OKF tree (migration 0018)
 
 Releases and the OKF tree (migration `0018`, Phase 4) are what a client sees.
 
@@ -206,13 +241,15 @@ uv run link-lens release export outputs/local-run/release-1
 
 On 2026-11-14 the local database moved from `0017` to `0018`. No release has been created on it. On a restored copy, a release of the submission batch produced the same 60 entity pages, 1,610 evidence pages and 6 source pages as `outputs/okf`, apart from link paths, key order and the generation time, with no broken link.
 
+#### Product service and REST (migration 0019)
+
 The product service (migration `0019`, Phase 5) is what a paying client calls. It is a separate process from the backend and only reads.
 
 - **Access.** A tier is a row in `access.tier`: calls a minute, calls a month, interfaces, toolsets, sources, release lag and history depth. A client belongs to a tier and holds keys. A key is `ll_<prefix>_<secret>`; the prefix and the SHA-256 of the secret are stored, and the key is printed once by `link-lens access key create`. Creating tiers, clients and keys is a person's action.
 - **A call.** `product/auth.py` turns `Authorization: Bearer` into a principal, `product/limits.py` refuses a call over the rate or the monthly quota and counts the others, and `product/queries.py` answers from `serving` for one release. Every query runs as `linklens_product`, which can read `serving` and the access tables and can write only usage counts.
 - **Release and scope.** A key reads the latest release its tier allows (`release_lag`), or an older one with `?release=` within `history_depth`. A key limited to some sources sees only their sources, observations, evidence pages and links between them. Profiles are answered whole.
 - **REST.** `interfaces/rest.py` holds the routes under `/v1`; the route table is in the [plan](PRODUCTION_PLAN.md#phase-5-access-product-service-and-rest) and at `/openapi.json`. Errors are problem details, lists use keyset cursors, every answer names its release in `X-LinkLens-Release`, and `Accept: text/markdown` on an entity returns its OKF page.
-- **Limits of this build.** The rate limit is held in the process, so it is right for one instance only. The local service logs in with the local user and sets its role per transaction.
+- **As first built, and since.** In this phase the rate limit was held in the process and the service logged in with the local user, setting its role per transaction. Phase 9 moved the bucket into PostgreSQL and lets the service log in as a role of its own; see [Running as a service](#running-as-a-service-migration-0021). Locally it still uses the local user.
 
 ```sh
 docker compose up -d product          # http://localhost:8100, /health needs no key
@@ -223,6 +260,8 @@ uv run link-lens access usage
 ```
 
 On 2026-11-14 the local database moved from `0018` to `0019`. No tier, client or key has been created on it. On a restored copy with a rehearsal release, all 60 profiles answered over REST matched the stored profiles, and every route answered in under 35 ms.
+
+#### MCP interface
 
 The MCP interface (Phase 6, no migration) offers the same data to agents from the same service.
 
@@ -238,7 +277,9 @@ uv run link-lens access tier set professional --rate-per-minute 300 --interface 
 LINK_LENS_API_KEY=KEY uv run python scripts/mcp_agent_eval.py --url http://localhost:8100
 ```
 
-The service image must contain the `mcp` package: after pulling this change, run, from the repository root, `docker compose build backend` and `docker compose up -d --no-deps product`.
+The backend, sandbox controller and product service share one image, which must contain the `mcp` package. After pulling a change to the dependencies, run `docker compose build backend` and `docker compose up -d` from the repository root. Compose runs the code of the folder it is started from, so started from another checkout it builds that checkout's code.
+
+#### Bundles and the entity viewer (migration 0020)
 
 Bundles and the per-entity viewer (migration `0020`, Phase 8) give real files of a release.
 
@@ -255,6 +296,8 @@ uv run link-lens release bundle --scope client:CLIENT_ID
 uv run link-lens release bundles
 ```
 
+#### Running as a service (migration 0021)
+
 Running as a service (migration `0021`, Phase 9). What needs a hosting provider is not done; the [plan](PRODUCTION_PLAN.md#phase-9-production-infrastructure-and-cutover) lists it.
 
 - **Primary and replica.** Give the product service `LINK_LENS_PRODUCT_DATABASE_URL` and `LINK_LENS_PRODUCT_REPLICA_URL`. It reads the key, applies limits and counts the call on the primary, and reads data from the replica. Each URL should be a login that is only a member of `linklens_product`; create it by hand, since a password does not belong in a migration: `CREATE ROLE linklens_product_service LOGIN PASSWORD '...' IN ROLE linklens_product`.
@@ -262,6 +305,8 @@ Running as a service (migration `0021`, Phase 9). What needs a hosting provider 
 - **Logs and metrics.** Each request is one JSON line on standard error with `request_id`, route, status, `ms`, `key_prefix`, `client_id` and `tier`; the ID is also the `X-Request-ID` response header, and one sent by the caller is kept. Set `LINK_LENS_METRICS_TOKEN` to open `/metrics` to a scraper that sends it as a bearer token. `deploy/alerts.yml` holds Prometheus rules for error rate, slow answers and silence.
 - **Artifacts to object storage.** With `LINK_LENS_ARTIFACT_STORE=s3` and a bucket, `link-lens artifacts migrate --dry-run` reads every local artifact and checks its hash; without `--dry-run` it copies each, checks the stored bytes and records the new location. It deletes nothing and can be run again. Exit code 3 means an artifact was missing or did not match.
 - **Published contracts.** `docs/api/openapi.json` and `docs/api/mcp-tools.json` are what clients build against. A test fails when the code differs; `UPDATE_CONTRACTS=1 uv run pytest tests/test_production.py` writes them again when the change is meant.
+
+#### Restoring into an empty environment
 
 Restoring into an empty environment and checking it serves the same release:
 
@@ -280,6 +325,8 @@ uv run link-lens release digest      # must print the same digest
 
 Artifact bytes are not in the dump: copy the artifact directory, or point both environments at the same bucket. On 2026-11-15 these steps were run on a copy of the local database with a rehearsal release: the digest and all 60 profile versions were the same after the restore. The same day the local database moved from `0019` to `0021`; nothing has been created in the new tables.
 
+#### The migration baseline
+
 The migration baseline records what the store holds, so each later migration and backfill can be checked against it. It is read-only and works on both layouts:
 
 ```sh
@@ -288,7 +335,29 @@ uv run python scripts/migration_baseline.py --check outputs/local-run/migration-
 
 `outputs/local-run/migration-baseline.json` was written from the local database on 2026-11-14, before migration. It holds row counts and ID digests per table, kind and owner, counts per experiment and batch, and digests over ontology hashes, mapping `config_hash` values, observation IDs, source record IDs and profile versions.
 
-Moving an existing database to this layout rewrites every table under an exclusive lock, so stop the backend first. The backend also runs `alembic upgrade head` when it starts, so take the backup before starting a backend that has these migrations.
+#### Changing a database that holds data
+
+The backend runs `alembic upgrade head` when it starts, so a new migration reaches the database at the next backend start whether or not anyone meant it to. For a database whose data matters, such as the local one, apply a migration on purpose instead:
+
+1. Take a backup and check that it lists: `pg_dump -Fc`, then `pg_restore --list`.
+2. Rehearse on a copy: restore the backup into a throwaway `pgvector/pgvector:pg17-trixie` container (create the three `NOLOGIN` roles first), run `uv run alembic upgrade head` and any backfill there with `LINK_LENS_DATABASE_URL` pointing at the copy, and run both baseline checks.
+3. On the real database: stop the backend and the product service, take a fresh backup, upgrade, run the backfill if the phase has one, and run both checks.
+4. Start the services and check them: `/api/health` and `/api/runs` on port 2024, the Inbox on 3000, `/health` on 8091 and 8100.
+
+```sh
+docker compose stop backend product
+docker compose exec -T postgres pg_dump -U linklens -d linklens -Fc > ../linklens-before-migration.dump
+uv run alembic upgrade head
+uv run python scripts/migration_baseline.py --check outputs/local-run/migration-baseline.json
+uv run python scripts/migration_baseline.py --typed --check outputs/local-run/migration-baseline.json
+docker compose up -d
+```
+
+Both checks must report `0 difference(s)`. The first compares the legacy rows, the second the same records read back from the typed tables. Each migration has a downgrade, and one step down and up again is tested; a downgrade that passes a migration the serving views read from drops the views, and `alembic upgrade head` or `link-lens serving-apply` at head puts them back. Building a bundle adds an artifact, so after the first bundle the artifact count differs from the baseline by the number of bundles built.
+
+Every phase was applied to the local database this way on 14 and 15 November 2026, and each time both checks reported zero differences.
+
+The first of these moves, from the layout before the plan, is the largest. It rewrites every table under an exclusive lock, and it changes the PostgreSQL image:
 
 ```sh
 docker compose stop backend
@@ -299,7 +368,7 @@ uv run python scripts/migration_baseline.py --check outputs/local-run/migration-
 docker compose up -d backend
 ```
 
-The check must report `0 difference(s)`. To go back, stop the backend, run `uv run alembic downgrade 0002` and check out the previous code; the baseline check passes on that layout too.
+The check must report `0 difference(s)`. To go back to the layout before the plan, stop the backend, run `uv run alembic downgrade 0002` and check out the previous code; the baseline check passes on that layout too. That was tested when the legacy tables still held everything. Since phase 3 new records are written only to the typed tables, and a downgrade drops those tables without copying anything back, so going back that far would lose whatever was written since.
 
 Measured on 2026-11-14 on a restored copy of the local database (434,994 rows, 374,335 observations): upgrade about 6 seconds and downgrade about 8 seconds with `fsync` off, zero baseline differences in both directions, identical rows read through the old and new `store.py`, identical output from `link-lens usage`, `runs`, `ontology show`, `ontology diff`, `ontology budget` and `evaluation-report`, and an export of the submission batch with the same 1,747 files and values. The local database itself was then migrated the same day with the steps above: `0002` to `0008` in 8 seconds on PostgreSQL 17.12, zero baseline differences before and after the backend restart, and healthy backend, Agent Inbox and sandbox controller. No model call was made.
 

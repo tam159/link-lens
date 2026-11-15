@@ -2,7 +2,7 @@
 
 ## Purpose and starting points
 
-Link Lens onboards unfamiliar public business datasets, produces agent-generated declarative mappings for human approval, then deterministically extracts observations, links entities and builds evidence-backed profiles. This is a locally runnable assignment submission with preserved experiments, not a production hosted service.
+Link Lens onboards unfamiliar public business datasets, produces agent-generated declarative mappings for human approval, then deterministically extracts observations, links entities and builds evidence-backed profiles. It began as a locally runnable assignment submission, and those results and experiments are preserved. On top of it are a production data model in typed PostgreSQL schemas and a read-only product service (REST, MCP, bundles) that serves a release a person has recorded. Everything still runs locally: nothing is hosted, and no release has been recorded for clients unless the stored data says so.
 
 Read only the documentation relevant to your task:
 
@@ -12,10 +12,12 @@ Read only the documentation relevant to your task:
 | [WRITEUP.md](WRITEUP.md) | Reviewer-facing explanation, decisions, results and limitations |
 | [docs/DEMO.md](docs/DEMO.md) | Illustrated presentation, seventh-source run and optional frozen restore |
 | [docs/ENGINEERING.md](docs/ENGINEERING.md) | Implementation details, verification, operations and recovery |
+| [docs/PRODUCTION_PLAN.md](docs/PRODUCTION_PLAN.md) | The production work phase by phase: what was built, where it differs from the first sketch, measured results, what is open, and the risk table |
+| [docs/api/](docs/api/) | The published REST (`openapi.json`) and MCP (`mcp-tools.json`) contracts, checked against the code by a test |
 | [outputs/README.md](outputs/README.md) | Current submission results, approvals and evaluation status |
 | [outputs/COMPARISON.md](outputs/COMPARISON.md) | Previous versus current approach and download-gate comparison |
 
-Resolve current experiment, discovery revision, run IDs and batch IDs from settings and stored/exported metadata. Do not assume an ID or count in an old document is still current. `store.current_discovery()` resolves the active discovery revision.
+Resolve current experiment, discovery revision, run IDs, batch IDs, the migration revision and whether a release exists from settings and stored/exported metadata. Do not assume an ID or count in an old document is still current. `store.current_discovery()` resolves the active discovery revision; `link-lens release list` shows the releases.
 
 ## Code map
 
@@ -40,7 +42,7 @@ Application code is in `src/link_lens/`:
 | `bundles.py`, `artifacts.py` | Release bundles for a named scope or a client, the per-entity viewer, and moving artifact bytes to object storage |
 | `sandbox.py`, `runtime_compat.py` | Restricted Python execution and pinned runtime compatibility fixes |
 
-`migrations/` contains Alembic migrations; `tests/` contains deterministic tests and explicitly gated integrations. `compose.yaml`, `deploy/` and `langgraph.json` define local services. Read scripts before executing them: several `scripts/` files have top-level side effects, fixed experiment IDs or authored audit judgments. They are not all reusable library functions.
+`migrations/` contains Alembic migrations as explicit SQL, each with a downgrade; `tests/` contains deterministic tests and explicitly gated integrations. `compose.yaml`, `deploy/` and `langgraph.json` define local services; `deploy/alerts.yml` holds alert rules for the product service. Read scripts before executing them: several `scripts/` files have top-level side effects, fixed experiment IDs or authored audit judgments. They are not all reusable library functions. Two are safe, read-only tools: `scripts/migration_baseline.py` compares a database with the recorded baseline, and `scripts/mcp_agent_eval.py` runs fixed tasks against the MCP server without a model.
 
 ## Development commands
 
@@ -53,11 +55,30 @@ uv run pytest -q
 uv run ruff check src/link_lens tests --exclude _vendor --select F
 ```
 
+For the production data model and the product service:
+
+```sh
+uv run alembic upgrade head     # applies migrations, then refreshes the serving views
+uv run python scripts/migration_baseline.py --typed --check outputs/local-run/migration-baseline.json
+uv run link-lens release list   # what clients can be served; empty until a person records one
+UPDATE_CONTRACTS=1 uv run pytest tests/test_production.py     # after a meant REST or MCP change
+UPDATE_FIXTURES=1 uv run pytest tests/test_fixture_bundle.py  # after a meant change to a page
+```
+
 Run relevant tests first and broader checks when the change warrants them. Deterministic tests use isolated fixtures; those that touch the store run on PostgreSQL in a throwaway container (Docker required, see README **Verification**). Live model and Docker integrations are separate. Documentation-only edits need link/command consistency checks, not a paid pipeline rerun. Consult `tests/test_sandbox_integration.py` before enabling `RUN_DOCKER_TESTS=1`.
 
 Service startup and provider setup live in README. Default local ports: Inbox 3000, backend 2024, PostgreSQL 5439, sandbox controller 8091, product service 8100. The graph ID is `onboard`. The development server supplies the graph checkpointer; PostgreSQL stores application evidence separately. Frozen application archives do not recreate LangGraph threads/checkpoints.
 
+The local stack runs the code of the folder that Compose is started from:
+
+- Run `docker compose` from the repository root. Compose mounts that folder's `./src` and `./migrations` into the running backend and product service with reload on, so an edit there reaches the running services at once. Started from another checkout or worktree, it builds and runs that folder's code instead.
+- The backend runs `alembic upgrade head` when it starts. A new migration therefore reaches the local database at the next backend start. The procedure for changing that database is under **Outputs, secrets and scope**.
+- The backend, sandbox controller and product service share the image `link-lens-backend:local`. After a dependency change, rebuild it with `docker compose build backend` and recreate the service that needs it.
+- Tests never use the `linklens` database. They start their own container or use `LINK_LENS_TEST_DATABASE_URL`.
+
 ## Contracts to preserve
+
+### Submission pipeline
 
 - The submitted approach uses Jev for discovery/identity, `gpt-6-luna` for ontology/onboarding/conflict annotations, and `text-embedding-3-small` for hybrid retrieval. The promoted ontology seeds new experiments; legacy mappings retain frozen v0.1. Model names are configurable and provider access is deployment-specific. Do not silently change models during a comparison.
 - Part 1 combines deterministic and Jev relevance signals with download/readability checks. A successful download is evidence of availability, not proof of business relevance. Audit labels must not influence the frozen ranking being evaluated.
@@ -69,22 +90,36 @@ Service startup and provider setup live in README. Default local ports: Inbox 30
 - Only the trusted sandbox controller has Docker-daemon access. Execution containers receive no network, credentials, Docker socket or repository mount. Preserve resource limits, bounded outputs and cleanup on failure. This is local-development isolation, not a production multi-tenant security claim.
 - Link on validated identifiers with compatible subject roles. Never derive ACN from an ABN suffix, merge on name alone, or ignore conflicting identifiers/ownership ambiguity. Preserve source records and versioned membership decisions.
 - Preserve raw values, exact source locators, timestamp policy, separate confidence dimensions, alternatives and cohesive address bundles. Uncalibrated scores are rule/model scores, not measured probabilities. Missing defensible timestamps require quarantine rather than invented dates.
-- Every domain lives in typed tables behind `store.py`; nothing writes `legacy`. Write a batch and what it owns with `store.put_many`, batch first. A settled model call never changes.
-- Sources, snapshots, runs, mappings, approvals and observations live in typed tables behind `store.py` and must read back exactly as written. Snapshots, mapping configs, mappings, approvals, source records and observations are append-only; write observations with `store.put_observations`.
-- Write each pipeline step as a function with explicit IDs that returns a small result record and writes nothing new when repeated. No table gets one partition per source. CLI exit codes: 0 done, 1 failed, 2 called wrongly, 3 ran and found something that blocks the next step. `docs/PRODUCTION_PLAN.md` section 4 lists these rules.
-- A release is recorded by a person with `link-lens release create`; no pipeline step, test fixture aside, creates one. A serving read model is one `SELECT` in `src/link_lens/serving/`; change the file, not the view. OKF pages come from `okf/render.py` only.
-- The product service only reads, as `linklens_product`, from `serving`; it never reads a core schema. Tiers, clients and keys are created by a person with `link-lens access`; a key is shown once and never logged or stored. Every answer carries status, provenance, alternatives, score kind, timestamp basis and licence, and a key limited to some sources must not reach another source's observations, evidence or links by any route.
-- An MCP tool is one read-only call into `product/queries.py` with a closed argument schema and a bounded result that says how to continue. It never writes, runs a command or accepts SQL. Read the installed `mcp` SDK's documentation before changing `interfaces/mcp_server.py`; version 2 differs from earlier ones. `scripts/mcp_agent_eval.py` calls no model.
-- A bundle scope and a bundle for a client are set and built by a person; a bundle is the same bytes whenever it is built, and its pages are the tree's bytes. Do not add a migration that drops `legacy`: the backend migrates on start. `docs/api/` holds the published REST and MCP contracts and `tests/fixtures/okf_bundle` a kept bundle; change them only on purpose, with the commands in `docs/ENGINEERING.md`. Never log an API key; the request log carries its prefix.
 - PostgreSQL and immutable artifacts are authoritative; OKF is a generated view. Serve artifacts by registered ID, not arbitrary filesystem paths. Version schema changes with Alembic.
 - AI audits, human mapping approvals and human evidence evaluations are different activities. Unknown/unreviewed labels are not correct answers. An AI audit cannot complete the assignment's human evaluation requirement.
 - Include all model attempts in usage. Missing usage is unknown, not zero. State estimated pricing basis and priced-call coverage; do not present a partial subtotal as the complete bill. Per-record processing is deterministic unless explicitly changed.
+
+### Production data model and product service
+
+`docs/PRODUCTION_PLAN.md` section 4 lists the rules every phase kept; these are the ones a change is most likely to meet.
+
+- **IDs and records do not change.** Ontology digests, mapping `config_hash`, observation IDs, record IDs and `profile_version` keep their values. Every record lives in a typed table behind `store.py` and must read back exactly as it was written. Snapshots, mapping configs, mappings, approvals, source records, observations, releases and bundles are append-only. A settled model call never changes. An artifact row may change only its `uri`.
+- **Writing.** Write a batch and what it owns with `store.put_many`, batch first, and observations with `store.put_observations`. Write each pipeline step as a function with explicit IDs that returns a small result record and writes nothing new when repeated. No table gets one partition per source.
+- **`legacy` is read-only history.** Nothing writes it. Do not add a migration that drops it: the backend migrates on start, and the plan lists what must happen first.
+- **Commands.** CLI commands log JSON lines to standard error and results to standard output. Exit codes: 0 done, 1 failed, 2 called wrongly, 3 ran and found something that blocks the next step.
+- **A person records what clients see.** A release (`link-lens release create`), a tier, client or key (`link-lens access`), a bundle scope and a client's bundle (`link-lens release scope`, `release bundle`) and an ontology promotion are human actions. No pipeline step and no agent acting for someone creates one on a real database; test fixtures and throwaway copies are the exception.
+- **Serving.** A serving read model is one `SELECT` in `src/link_lens/serving/`; change the file, not the view. The views are applied at the head revision only. OKF pages come from `okf/render.py` only, and an entity, evidence, source or concept page is the same bytes in the tree, in a bundle and over an interface.
+- **The product service only reads.** It runs as `linklens_product`, reads `serving` and the access tables, and writes only usage counts and rate buckets. It never reads a core schema. It checks the key and counts the call on the primary and reads data from the replica when one is configured.
+- **Evidence is never tiered or hidden.** Every answer carries status, provenance, alternatives, score kind, timestamp basis and licence. A key limited to some sources must not reach another source's observations, evidence, links or pages by any route. Profiles are answered whole; that is a recorded decision, not an oversight.
+- **Keys.** A key is shown once at creation. Only its prefix and the hash of its secret are stored, and only its prefix is ever logged.
+- **MCP.** A tool is one read-only call into `product/queries.py` with a closed argument schema and a bounded result that says how to continue. It never writes, runs a command or accepts SQL. Read the installed `mcp` SDK's documentation before changing `interfaces/mcp_server.py`; version 2 differs from earlier ones.
+- **Bundles.** A bundle is the same bytes whenever it is built for the same release and scope. The index pages of a named scope list only that scope.
+- **Published contracts and the kept bundle.** `docs/api/` and `tests/fixtures/okf_bundle` change only on purpose, with the commands above, and the difference is reviewed like code.
+- **No paid call for this work.** Migrations, backfills, releases, the product service and `scripts/mcp_agent_eval.py` are verified with deterministic checks against stored data.
 
 ## Outputs, secrets and scope
 
 - `outputs/` holds the current submission. Export experimental reruns to a distinct directory such as `outputs/local-run/`; replace submission artifacts only when the task calls for it.
 - `experiments/` preserves earlier evidence for comparison. Do not rewrite a baseline to match new code or metrics. Keep IDs, hashes, snapshots and measurement provenance traceable.
 - `artifacts/`, database volumes and `.langgraph_api/` are runtime state. Do not delete them or run `docker compose down -v` as routine cleanup. Restore archives only into an appropriate empty database.
+- The local `linklens` database and `artifacts/` may be the only copy of the experiment data. Before a migration reaches that database: take a `pg_dump`, rehearse the migration on a restored copy in a throwaway container, stop the backend, migrate, and run both baseline checks, which must report zero differences. Say where the backup is. Ask before a step that changes or deletes existing rows rather than adds to them. `docs/ENGINEERING.md` has the commands.
+- `outputs/local-run/migration-baseline.json` records what the store held before the production migrations. Check against it; do not write it again. Building a bundle adds an artifact, so the artifact count grows by one for each bundle.
+- Generated OKF of new runs, releases and bundles is not committed. `outputs/okf` stays as submitted.
 - `local/` and `walkthrough/` are ignored personal/educational material. Do not promote their hand-authored mappings into agent-generated submission results or expose private notes in public docs.
 - `.env` and `.codex/` remain ignored. Never print credentials, copy secrets into reports, or overwrite an existing `.env`. Document configuration through `.env.example` with placeholders. Keep `AGENTS.md`, repository skills and workspace files eligible for version control.
 - Check a helper script's input/output scope before running it. In particular, ensure reporting/worksheet scripts use the active discovery revision rather than an original `discovery-<experiment>` ID. Existing `record_*audit.py` judgments apply to their original evidence, not new shortlists or batches.
@@ -92,7 +127,7 @@ Service startup and provider setup live in README. Default local ports: Inbox 30
 
 ## Documentation and completion
 
-Keep documentation in English and distinguish implemented, measured, assumed and future work. Update the owning document and link to detail instead of duplicating entire sections. Architecture is now in root README; do not recreate `docs/ARCHITECTURE.md`. The demo is consolidated in `docs/DEMO.md`; results/reviews/evaluation instructions are consolidated in `outputs/README.md`.
+Keep documentation in English and distinguish implemented, measured, assumed and future work. Update the owning document and link to detail instead of duplicating entire sections. Architecture is now in root README; do not recreate `docs/ARCHITECTURE.md`. The demo is consolidated in `docs/DEMO.md`; results/reviews/evaluation instructions are consolidated in `outputs/README.md`. For production work, `docs/PRODUCTION_PLAN.md` is the record: when a decision changes or the code turns out to differ from the plan, say so there, in the phase's section and in the risk table, instead of deviating silently. `docs/ENGINEERING.md` holds how to operate what the plan describes.
 
 Generated exports and curated explanations have different owners: report scripts can refresh machine data and generated status files, but manually check README, WRITEUP, comparison and demo claims afterward. Preserve screenshot dates and historical context. Verify relative links and Mermaid syntax when editing docs.
 
@@ -104,6 +139,8 @@ For a completed coding task, report what changed, what checks ran and any remain
 - [Evidence refresh and evaluation](.agents/skills/link-lens-evidence-refresh/SKILL.md): scoped reruns, audits, measurements and comparisons.
 
 These are repository skills in Codex's `.agents/skills` discovery location. Other coding tools can read the linked instructions directly.
+
+Procedures for the production work are sections of [docs/ENGINEERING.md](docs/ENGINEERING.md), under **Database layout, migrations and the baseline**: migrating an existing database, backfilling, recording a release, managing access, building bundles, moving artifacts to object storage, and restoring into an empty environment.
 
 ## GitHub identity
 

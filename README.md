@@ -177,7 +177,7 @@ uv sync --frozen
 if [ ! -f .env ]; then cp .env.example .env; fi
 ```
 
-A first Docker build may exceed ten minutes; subsequent starts reuse images. The supplied setup uses local ports 3000, 2024, 5439 and 8091, and 8100 for the read-only product service described in the [production plan](docs/PRODUCTION_PLAN.md#phase-5-access-product-service-and-rest).
+A first Docker build may exceed ten minutes; subsequent starts reuse images. The supplied setup uses local ports 3000, 2024, 5439, 8091 and 8100.
 
 ### 2. Fill in `.env`
 
@@ -203,14 +203,14 @@ Onboarding budget defaults are 50 model calls, 10 Python executions, 9,000,000 c
 ```sh
 # Build the fixed image used for temporary Python executions:
 docker compose --profile build-sandbox build sandbox-image
-# Start PostgreSQL, backend, Agent Inbox and sandbox controller:
+# Start PostgreSQL, backend, Agent Inbox, sandbox controller and product service:
 docker compose up -d --build
 docker compose ps
 curl --fail http://localhost:2024/api/health
 uv run link-lens --help
 ```
 
-The backend applies Alembic migrations at startup. All published ports bind to loopback; this is a local development setup.
+The backend applies Alembic migrations at startup, so back up an existing database before starting a backend that carries newer migrations ([engineering guide](docs/ENGINEERING.md), **Database layout, migrations and the baseline**). Run `docker compose` from the repository root: it runs the code of the folder it is started from. All published ports bind to loopback; this is a local development setup.
 
 | Service | Local address / purpose |
 |---|---|
@@ -218,6 +218,7 @@ The backend applies Alembic migrations at startup. All published ports bind to l
 | LangGraph backend and application API | [http://localhost:2024](http://localhost:2024) |
 | PostgreSQL | `localhost:5439`; host CLI defaults are in `.env.example` |
 | Sandbox controller | `localhost:8091`; called by the workflow |
+| Product service | [http://localhost:8100](http://localhost:8100); read-only REST and MCP for clients. It refuses every call until a release and an API key exist; see [Serve a release to clients](#serve-a-release-to-clients). |
 
 Open Agent Inbox and add a connection:
 
@@ -299,6 +300,29 @@ uv run link-lens import-labels PATH_TO_COMPLETED_LINKS_JSON
 
 Human labels and AI audit labels are stored separately. [Results guide](outputs/README.md), section **9. Complete the human evaluation**.
 
+## Serve a release to clients
+
+The steps above produce a batch of profiles. A client sees nothing until a person records a release of a batch and creates a key. Neither needs a model call. Replace the upper-case values; the batch ID is the one `assemble` or `enhance` printed, and for the submission it is in [the submission manifest](outputs/submission-manifest.json).
+
+```sh
+# Record what clients see. A release never changes; a later one does not touch it.
+uv run link-lens release create --batch-id BATCH_ID --reviewer YOUR_NAME
+# Who may call, and how much. A tier is a row; names and numbers are yours to set.
+uv run link-lens access tier set starter --rate-per-minute 60 --monthly-quota 10000 \
+  --interface rest --interface mcp --toolset data --toolset files
+uv run link-lens access client create "Example client" --tier starter
+uv run link-lens access key create CLIENT_ID --label first   # prints the key once
+curl -H "Authorization: Bearer KEY" http://localhost:8100/v1/entities
+```
+
+| Interface | Address | Contract |
+|---|---|---|
+| REST | `http://localhost:8100/v1` | [docs/api/openapi.json](docs/api/openapi.json), also served at `/openapi.json` |
+| MCP, data and file tools | `http://localhost:8100/mcp` (or `/mcp/data`, `/mcp/files`) with the header `Authorization: Bearer KEY` | [docs/api/mcp-tools.json](docs/api/mcp-tools.json) |
+| Graph viewer of one entity | `http://localhost:8100/v1/entities/ENTITY_ID/viewer` | Same key |
+
+Every answer carries the status of a value, the observations behind it, the alternatives, the kind of score, the basis of its timestamp and the licence of its source. Bundles of a release, usage reports and running more than one instance are covered in the [engineering guide](docs/ENGINEERING.md). The [production plan](docs/PRODUCTION_PLAN.md) records what was built and measured and what is still open, including hosting, reviewer sign-in and retiring the earlier tables.
+
 ## Other run paths
 
 Open the linked file, then use the named section. These direct file links also work in editors that do not support jumping to a heading in another Markdown file.
@@ -360,6 +384,19 @@ Execution containers have no network, repository, credentials or Docker socket. 
 
 A second, read-only service answers clients: the product service on port 8100 (`docker compose up -d product`). It reads only the `serving` views of a release that a person recorded with `link-lens release create`, and needs an API key created with `link-lens access`. It offers REST under `/v1`, an MCP server at `/mcp` with data tools and file tools over the same release, bundle downloads and a graph viewer per entity. The contracts are in [docs/api](docs/api/); the [production plan](docs/PRODUCTION_PLAN.md) and the [engineering guide](docs/ENGINEERING.md) describe how it is built and run. None of this changes the submitted results below `outputs/`.
 
+```mermaid
+flowchart LR
+    Batch["Batch of profiles in PostgreSQL"] -->|"release create, by a person"| Release["Release: batch and ontology version"]
+    Release --> Views["serving views: one SELECT per file"]
+    Release --> Tree["OKF pages, lines and index of the release"]
+    Views --> Queries["Query layer: scope, release lag, limits"]
+    Tree --> Queries
+    Key["API key and tier"] --> Queries
+    Queries --> REST["REST /v1"]
+    Queries --> MCP["MCP /mcp: data tools and file tools"]
+    Queries --> Bundles["Bundle links and entity viewer"]
+```
+
 ### Experiment and model boundaries
 
 `jev-gpt6-luna-ontology-v1` is the final submission configuration; its exact batch and ontology are recorded in [the submission manifest](outputs/submission-manifest.json). Jev calls OpenRouter's `/api/alpha/decisions` through a LangChain RunnableLambda. Only supported-format catalogue candidates receive calls; state includes bounded metadata, never audit labels or held-out source records. The equal-weight blend is a declared ranking policy, not a calibrated probability. A separate deterministic GET/reader gate verifies bounded downloadability before selection. Jev responses, request hashes, timing, usage and cost are saved; a matching successful request within an experiment is reused on discovery retry.
@@ -398,7 +435,7 @@ The LinkML, SHACL and JSON Schema tests need the optional `ontology` dependency 
 
 Database tests run on PostgreSQL built by `alembic upgrade head`, in a throwaway `pgvector/pgvector:pg17-trixie` container that the test session starts on first use and removes afterwards. Set `LINK_LENS_TEST_DATABASE_URL` to use an existing server instead; the tests create and drop their own `linklens_test_*` databases there and never use the database named in the URL. Tests that do not touch the store need neither.
 
-The recorded suite result is **106 passed, four integration tests skipped**; earlier Docker checks are documented in [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
+The suite result on 15 November 2026, with the production data model and product service, is **229 passed, four integration tests skipped**. The result recorded for the promoted submission was 106 passed, four skipped; it and the earlier Docker checks are documented in the [engineering guide](docs/ENGINEERING.md), section **Verification evidence**. A live smoke test is separate and metered.
 
 ## Documentation and code
 
@@ -409,10 +446,12 @@ The recorded suite result is **106 passed, four integration tests skipped**; ear
 | [docs/DEMO.md](docs/DEMO.md) | Screenshots and demonstration steps, including the seventh source |
 | [Workflow and architecture](#how-it-works) | Discovery, agent loop, storage and runtime contracts in this README |
 | [docs/ENGINEERING.md](docs/ENGINEERING.md) | Implementation evidence, verification and recovery |
+| [docs/PRODUCTION_PLAN.md](docs/PRODUCTION_PLAN.md) | The production data model and product service, phase by phase: what was built, measured and left open |
+| [docs/api/](docs/api/) | Published REST and MCP contracts of the product service |
 | [outputs/COMPARISON.md](outputs/COMPARISON.md) | Preserved baseline versus the final approach |
 | [docs/THIRD_PARTY.md](docs/THIRD_PARTY.md) | Component and data attribution |
 
-Implementation is in `src/link_lens/`: `agent.py` orchestrates onboarding; `ingestion.py`, `triage.py` and `downloadability.py` handle discovery/acquisition; `contracts.py`, `readers.py` and `extraction.py` implement shared mapping execution; `resolution.py` and `profiles.py` build entities; `store.py`, `evaluation.py` and `exports.py` retain and present evidence. Service definitions are in `compose.yaml` and `deploy/`; database migrations are in `migrations/`.
+Implementation is in `src/link_lens/`: `agent.py` orchestrates onboarding; `ingestion.py`, `triage.py` and `downloadability.py` handle discovery/acquisition; `contracts.py`, `readers.py` and `extraction.py` implement shared mapping execution; `resolution.py` and `profiles.py` build entities; `store.py`, `evaluation.py` and `exports.py` retain and present evidence; `db/` holds the typed tables behind the store; `releases.py`, `serving/` and `okf/` turn a batch into what clients see; `product/` and `interfaces/` are the read-only product service with its REST routes and MCP tools; `bundles.py` builds release bundles. Service definitions are in `compose.yaml` and `deploy/`; database migrations are in `migrations/`.
 
 
 ### Experimental ontology evolution

@@ -7,7 +7,7 @@ Facts about the current store were measured on the local database on 2026-11-14 
 ## Contents
 
 1. [Decisions](#1-decisions)
-2. [Where the code is today](#2-where-the-code-is-today)
+2. [Where the code was when the plan started](#2-where-the-code-was-when-the-plan-started)
 3. [Target architecture](#3-target-architecture)
 4. [Rules that every phase must keep](#4-rules-that-every-phase-must-keep)
 5. [Phase overview](#5-phase-overview)
@@ -39,7 +39,9 @@ Facts about the current store were measured on the local database on 2026-11-14 
 | Licences | The owner confirmed that each source licence allows resale. Attribution still travels with every answer. |
 | Build order | Ontology registry, evidence spine, identity, releases and OKF tree, access and REST, MCP, GraphQL, bundles, infrastructure. |
 
-## 2. Where the code is today
+## 2. Where the code was when the plan started
+
+These facts describe the starting point, measured on 2026-11-14 before any phase, with a note where a phase has since changed them. The phase sections say what is true now.
 
 | Fact | Detail |
 |---|---|
@@ -122,18 +124,18 @@ The owner added these on 2026-11-14. They keep the later Dagster and dbt work ([
 
 ## 5. Phase overview
 
-| Phase | Outcome | Depends on | Size |
-|---|---|---|---|
-| 0 | PostgreSQL-based tests, schemas, typed helpers, migration baseline | — | M |
-| 1 | Ontology as rows, LinkML export, promotion gate | 0 | M |
-| 2 | Typed sources, mappings, approvals, records, observations | 1 | L |
-| 3 | Typed entities, links, profiles, usage and evaluations | 2 | L |
-| 4 | Releases, serving read models, OKF renderer and virtual tree | 3 | L |
-| 5 | Keys, tiers, product service, REST | 4 | L |
-| 6 | MCP server with two toolsets | 5 | M |
-| 7 | GraphQL (deferred until a client asks) | 5 | M |
-| 8 | Release bundles and per-entity viewer | 4 | S |
-| 9 | Production infrastructure, cutover, legacy retirement | 5 | L |
+| Phase | Outcome | Depends on | Size | State on 2026-11-15 |
+|---|---|---|---|---|
+| 0 | PostgreSQL-based tests, schemas, typed helpers, migration baseline | — | M | Done |
+| 1 | Ontology as rows, LinkML export, promotion gate | 0 | M | Done |
+| 2 | Typed sources, mappings, approvals, records, observations | 1 | L | Done |
+| 3 | Typed entities, links, profiles, usage and evaluations | 2 | L | Done |
+| 4 | Releases, serving read models, OKF renderer and virtual tree | 3 | L | Done; no release recorded locally |
+| 5 | Keys, tiers, product service, REST | 4 | L | Done; no key created locally |
+| 6 | MCP server with two toolsets | 5 | M | Done; the agent evaluation is scripted, without a model |
+| 7 | GraphQL (deferred until a client asks) | 5 | M | Deferred |
+| 8 | Release bundles and per-entity viewer | 4 | S | Done |
+| 9 | Production infrastructure, cutover, legacy retirement | 5 | L | Partly: what one machine allows is done; hosting, sign-in, runtime licence and dropping `legacy` are open |
 
 Phases 6, 7 and 8 can run in parallel once phase 5 is done. Phase 9 preparation can start alongside phase 2.
 
