@@ -1,6 +1,6 @@
 # Orchestration and transformation plan: Dagster and dbt
 
-Status: **Phases D0 to D4, with D3a, are implemented and applied to the local database (2026-11-15). D5 to D7 are planned, not built. Alerts have no channel yet.** This is the follow-on to the [production implementation plan](PRODUCTION_PLAN.md). That plan's phases 0 to 6 and 8 are implemented; phase 7 is deferred and phase 9 is done only as far as one machine allows (no hosting, no reviewer sign-in, `legacy` not dropped). Names, layouts and SQL in the phases not yet built are sketches to confirm while building. Sizes are rough estimates for one engineer.
+Status: **Phases D0 to D5, with D3a, are implemented and applied to the local stack (2026-11-15). D6 and D7 are planned, not built. Alerts have no channel yet, and nothing has a sign-in.** This is the follow-on to the [production implementation plan](PRODUCTION_PLAN.md). That plan's phases 0 to 6 and 8 are implemented; phase 7 is deferred and phase 9 is done only as far as one machine allows (no hosting, no reviewer sign-in, `legacy` not dropped). Names, layouts and SQL in the phases not yet built are sketches to confirm while building. Sizes are rough estimates for one engineer.
 
 This plan was written before phases 2 to 9 of the first plan were built. It was compared with the code on 2026-11-15, before any of it was built. Where the code differs, the text below says so: section 5 gives the state of each seam, and each phase has a **Reconciled with the code** list of what to settle when that phase starts.
 
@@ -140,7 +140,7 @@ These were requests to the first plan, made before its phases 2 to 9 were built.
 | D3 | Dagster assets, checks and sensors for the data flow. **Done 2026-11-15** | Phases 3 and 4 | L |
 | D3a | A refreshed snapshot reaches the next batch (added 2026-11-15). **Done 2026-11-15; a batch after a refresh also changes by resampling** | D3 | S |
 | D4 | Per-source schedules, freshness policies, alerts, backfills. **Done 2026-11-15; alerts await a channel** | D3 | M |
-| D5 | Production deployment of Dagster and dbt | Phase 9, D3 | M |
+| D5 | Deployment of Dagster and dbt: open source, in local Docker. **Done 2026-11-15; the UI has no sign-in** | Phase 9, D3 | M |
 | D6 | Operations console for sources, releases and clients | Phases 5 and 9, D3 | M |
 | D7 | Cutover from manual runs; documentation | D1 to D6 | S |
 
@@ -545,24 +545,52 @@ Results on 2026-11-15:
 
 **Goal:** Dagster and dbt run in production with the same care as the product service.
 
-Reconciled with the code on 2026-11-15: this phase depends on two things the first plan left open in its phase 9, a hosting provider and reviewer sign-in. Neither exists. When this phase is reached, say what is missing and agree how to proceed before building.
+Reconciled with the code on 2026-11-15: this phase depended on two things the first plan left open in its phase 9, a hosting provider and reviewer sign-in. **On 2026-11-15 the owner decided the first: Dagster and dbt are the open-source editions, Dagster OSS and dbt Core, and they run in local Docker containers.** No provider is involved, so "production" in this phase means the Compose stack run as a deployment: from images, with its own logins, restarting, backed up, and with runbooks. Reviewer sign-in is still open and limits one task below.
 
 Tasks:
 
-- [ ] **Deploy** the Dagster webserver, daemon and code location. Choose the run launcher to match the hosting decided in the first plan.
+- [x] **Deploy** the Dagster webserver, daemon and code location. Choose the run launcher to match the hosting decided in the first plan.
+  - *As built:* the image `link-lens-dagster:local` ([Dockerfile.dagster](../deploy/Dockerfile.dagster)), which existed since D0 with Dagster 1.13.30 and dbt Core 1.12.7, now holds the current code location, the dbt project and the library, and runs with nothing of the checkout mounted. It had been running the D0 skeleton underneath the development mounts. [deploy/compose.deploy.yaml](../deploy/compose.deploy.yaml) is an override on `compose.yaml` that runs the Dagster services from the image alone, restarting when they stop, with no default password.
+  - *Run launcher:* Dagster's default, which runs each run as a process of the service that launched it. The launcher that starts a container per run needs the Docker socket, and only the sandbox controller may have that. One machine does not need it.
+  - *The code location is loaded by the webserver and the daemon themselves,* not by a separate code server. A third service would be the next step if the two ever need to be upgraded apart from the code.
 - [ ] **Protect the Dagster UI.** Confirm what the open-source edition provides for sign-in; if it has none, place it behind the organisation's single sign-on proxy or private network.
-- [ ] **Decide open source versus the hosted Dagster offering**, weighing sign-in, roles and operations effort against cost.
-- [ ] **Secrets** from the deployment's secret store. Nothing in the repository.
-- [ ] **dbt in production** runs only through Dagster, as the `linklens_transform` role. Publish dbt docs internally.
-- [ ] **CI for changes:** dbt build of modified models and their children against a migrated database; Dagster definitions load; the ownership test from D3.
-- [ ] **Backups** include the `dagster` database, with a shorter retention than application data.
-- [ ] **Runbooks:** failed source, drifted source, stuck review, failed release build, budget cap reached, restoring a release build.
+  - *Confirmed:* the open-source UI has no sign-in. It is published on this machine's loopback address only, as are Grafana and dbt's documentation, so whoever can use the machine can use them. **Not done:** a proxy that signs people in. That needs the sign-in the first plan left open, which D6 proposes to add as a pluggable step. Until then the UI must not be published beyond the machine.
+- [x] **Decide open source versus the hosted Dagster offering**, weighing sign-in, roles and operations effort against cost.
+  - *Decided by the owner on 2026-11-15: open source,* for both tools. What that leaves with the team: sign-in and roles for the UI (above), upgrades of the two tools, and Dagster's own database.
+- [x] **Secrets** from the deployment's secret store. Nothing in the repository.
+  - *As built:* every secret comes from the environment (`.env`, which is ignored). `compose.yaml` keeps development defaults for local passwords; the deployment override has none and refuses to start without `LINK_LENS_DAGSTER_POSTGRES_PASSWORD` and `LINK_LENS_ORCHESTRATION_PASSWORD`. The alert webhook address is read from the environment and never logged. There is no secret store beyond the environment file on one machine.
+- [x] **dbt in production** runs only through Dagster, as the `linklens_transform` role. Publish dbt docs internally.
+  - *As built:* the `models` asset runs `dbt build`. Three sensors request it: a recorded release, and, new in this phase, `models_missing`, which asks for a build whenever views dbt owns are missing. So a new or restored database, or one whose migration dropped the views, gets them without a command; the manual step D1 introduced is gone wherever Dagster runs. `link-lens dbt` stays for development and recovery.
+  - *Login:* in the deployment the services log in as `linklens_orchestration` ([service-logins.sql](../deploy/service-logins.sql)), which inherits nothing and can only become `linklens_orchestrator`, for the assets, or `linklens_transform`, for dbt. The development stack still logs in as the administrator and takes those roles.
+  - *Docs:* each build writes dbt's documentation site, and the service `dbt-docs` serves it on port 3090, loopback only.
+- [x] **CI for changes:** dbt build of modified models and their children against a migrated database; Dagster definitions load; the ownership test from D3.
+  - *As built:* CI builds and tests every model, not only modified ones: the project has 50 and the whole build takes seconds, and selecting by change needs a stored manifest of the deployed state to compare with. Revisit when the build is slow enough to matter. New in this phase: CI builds the Dagster image and loads its definitions with nothing mounted. The ownership and role tests run in the same job.
+- [x] **Backups** include the `dagster` database, with a shorter retention than application data.
+  - *As built:* [scripts/backup_databases.sh](../scripts/backup_databases.sh) dumps both databases, checks each archive lists and writes a checksum. It removes its own `dagster` dumps after 7 days and never deletes a `linklens` dump: how long to keep the application's data is a decision, not a default. Artifact bytes are in neither dump.
+- [x] **Runbooks:** failed source, drifted source, stuck review, failed release build, budget cap reached, restoring a release build.
+  - *As built:* [RUNBOOKS.md](RUNBOOKS.md), those six and two more: Dagster itself, and backups.
 
 Done when:
 
-- A release created in production is served to clients with no manual step after the release command.
-- A failed deterministic step retries and recovers without duplicate rows.
-- A person without database access can see pipeline state in the UI after signing in.
+- A release created in production is served to clients with no manual step after the release command. **Met in local Docker, on a throwaway deployment stack: the release was recorded with the CLI, the sensor requested the build, the run succeeded, and the product role read the release's 60 profiles and 149,349 observations.**
+- A failed deterministic step retries and recovers without duplicate rows. **Met in a test: a step that fails after storing its rows is run again and stores nothing twice.**
+- A person without database access can see pipeline state in the UI after signing in. **Not met: the UI shows pipeline state to someone with no database access, but there is no sign-in. It is reachable only from the machine itself.**
+
+Results on 2026-11-15:
+
+- **The images.** `link-lens-dagster:local` is the only image with either tool: open-source Dagster 1.13.30 (with dagster-webserver, dagster-postgres 0.29.30 and dagster-dbt 0.29.30) and dbt Core 1.12.7 with dbt-postgres 1.11.0, from `uv.lock`. Rebuilt and run with nothing mounted, it loads the code location: 55 assets.
+- **A deployment stack beside the real one.** A second Compose project on other ports, with the override, its own PostgreSQL and a restore of the newest backup:
+  - The library connected as `linklens_orchestration` and worked as `linklens_orchestrator`. An insert of a release, a read of `serving` and a read of `access` were refused. The login with no role taken could read nothing and could not become the migrator.
+  - Nothing of the checkout was mounted; the services restart unless stopped.
+  - With every dbt view dropped, `models_missing` requested the build and all 50 came back in 22 seconds, owned by `linklens_transform` and readable by the product role. dbt's documentation was served afterwards.
+  - A release recorded with the CLI was followed by `release_recorded` and a build that succeeded in 26 seconds.
+  - An extraction launched through Dagster and run by the daemon stored 9,390 observations in 6 seconds; the release still served 149,349.
+  - The daemon was restarted and every daemon reported healthy again.
+  - The stack was removed afterwards. Nothing was written to the real artifact store or database.
+- **The local stack.** It runs the rebuilt image in development mode, with the checkout mounted. `dbt-docs` answers on port 3090. No migration was needed in this phase; the database is at `0028`.
+- **Backups.** The script wrote a dump of each database to `/Users/may/link-lens-backups/` (`linklens-20261115T063302.dump`, 1,348 entries; `dagster-20261115T063302.dump`, 208 entries).
+- **Tests.** 283 passed, 4 skipped with the `orchestration` group installed; 264 passed, 5 skipped in a clean default environment. Lint passes. Three new tests: missing views are requested, a failed step retries without a duplicate, and the deployment override runs from the image with its own login.
+- **Not verified:** the CI workflow on GitHub, including the image build; the deployment override on the real local stack, which stays in development mode until the owner switches it; a proxy in front of the UI; an upgrade of either tool.
 
 ## Phase D6: Operations console
 
@@ -689,7 +717,9 @@ No verification step needs a paid model call.
 | Migrations and the running orchestrator | Dagster runs the checkout's code against the database, so code that needs a new column fails until the migration is applied | Stop the Dagster services with the backend when migrating; the procedure in ENGINEERING.md says so. |
 | Model cost on a schedule | Scheduled discovery or onboarding could spend without notice | Budget cap stays authoritative; alerts before the cap; paid steps in a small pool |
 | Publisher load | Frequent checks across many hosts | Conditional requests, per-host limits, cadence from the registry |
-| Dagster sign-in | The open-source UI may lack built-in authentication | Confirm in D5; proxy or hosted offering |
+| Dagster sign-in | Confirmed in D5: the open-source UI has no sign-in, and neither has dbt's documentation. Both are bound to the machine's loopback address. | Keep them unpublished until a proxy signs people in. D6 proposes the sign-in step that proxy would use. |
+| One machine | The deployment is Compose on one machine: no failover, and the secrets are an environment file | Accepted by the owner's decision of 2026-11-15. The override, the service login, the backups and the runbooks carry over to a hosted deployment; the run launcher and the secret store would be chosen again. |
+| Upgrades are the team's | Open-source Dagster and dbt Core are upgraded by changing the pins in `pyproject.toml` and rebuilding the image; a Dagster upgrade may migrate its own database | Upgrade deliberately, one tool at a time, on a copy first. Read the release notes and the installed documentation, and keep dbt Core below 1.13 while dagster-dbt requires it. |
 | dbt engine and licence | dbt Core is Apache-2.0; other dbt engines may carry different terms | Stay on dbt Core unless there is a reason to change; check terms before switching |
 | Version pairing | dbt adapter and core versions, and Dagster's Python range, move independently | Pin and upgrade deliberately |
 | Incremental identity | Full batches may become slow at scale | Out of scope here; design separately when measured |

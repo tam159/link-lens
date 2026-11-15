@@ -157,7 +157,7 @@ Where things stand on 15 November 2026:
 | Application | Still reads and writes through `store.py`, which returns the same records as before. |
 | What clients see | Views in `serving`, built by dbt, for a release that a person records. None is recorded on the local database. |
 | Product service | Compose service `product` on port 8100: REST, MCP, bundle links and an entity viewer. It refuses every call until a release and a key exist. |
-| Dagster, dbt and Grafana | [Orchestration plan](ORCHESTRATION_PLAN.md) phases D0 to D3: dbt owns and builds the serving views and the reporting models, Grafana shows three dashboards over those, and Dagster holds the data flow as assets with sensors on approvals and releases, a schedule that refreshes sources by their cadence, and alert sensors. No source has a cadence and no alert channel is configured, so nothing has been refreshed or sent, and no asset has been materialised on the local database. |
+| Dagster, dbt and Grafana | [Orchestration plan](ORCHESTRATION_PLAN.md) phases D0 to D3: dbt owns and builds the serving views and the reporting models, Grafana shows three dashboards over those, and Dagster holds the data flow as assets with sensors on approvals and releases, a schedule that refreshes sources by their cadence, and alert sensors. Both tools are open source and run in local Docker, for development or, with an override, as a deployment. No source has a cadence and no alert channel is configured, so nothing has been refreshed or sent, and no asset has been materialised on the local database. |
 | Not done | Hosting, reviewer sign-in, the agent runtime licence and dropping `legacy`. |
 
 | To do this | Read |
@@ -172,6 +172,8 @@ Where things stand on 15 November 2026:
 | Add a reporting model or a dashboard panel, or open the dashboards | [Reporting models and dashboards](#reporting-models-and-dashboards-migration-0025) |
 | Refresh a source, extract it, or see what Dagster would do | [Dagster runs the data flow](#dagster-runs-the-data-flow-migrations-0026-and-0027) |
 | Set a cadence, pause a source, connect alerts, backfill after a mapping change | [Schedules, freshness and alerts](#schedules-freshness-and-alerts-migration-0028) |
+| Run Dagster as a deployment, rebuild its image, back up | [Dagster and dbt as a deployment](#dagster-and-dbt-as-a-deployment) |
+| Something failed and needs a person | [RUNBOOKS.md](RUNBOOKS.md) |
 | Restore somewhere else and check it | [Restoring into an empty environment](#restoring-into-an-empty-environment) |
 
 #### Foundations (migrations 0003 to 0008)
@@ -430,6 +432,33 @@ uv run link-lens source backfill --apply
 ```
 
 On 2026-11-15 the local database moved from `0027` to `0028` with both baseline checks at zero differences. A test refreshes 300 fixture sources with mixed cadences for a simulated week, and another sends each alert type to a local webhook. No source has a cadence and no webhook is configured on the local stack.
+
+#### Dagster and dbt as a deployment
+
+Dagster and dbt as a deployment (phase D5 of the [orchestration plan](ORCHESTRATION_PLAN.md), no migration). By the owner's decision both are the open-source editions and run in local Docker. What to do when something fails is in [RUNBOOKS.md](RUNBOOKS.md).
+
+- **One image.** `link-lens-dagster:local` (`deploy/Dockerfile.dagster`) holds open-source Dagster, dbt Core with the PostgreSQL adapter, the code location, the dbt project and the library, at the versions in `uv.lock`. It runs with nothing of the checkout mounted. Its entrypoint copies `orchestration/dagster.yaml` into `DAGSTER_HOME`, a volume, at every start. Rebuild it after any change the deployment should run:
+
+  ```sh
+  docker compose --profile orchestration build dagster-webserver
+  ```
+
+- **Two ways to run it.** Development: `docker compose --profile orchestration up -d` mounts the checkout over the image's code, logs in as the administrator and takes the orchestrator's role. Deployment:
+
+  ```sh
+  docker compose -f compose.yaml -f deploy/compose.deploy.yaml --profile orchestration up -d
+  ```
+
+  The override removes the mounts, restarts the services when they stop, and refuses to start without `LINK_LENS_DAGSTER_POSTGRES_PASSWORD` and `LINK_LENS_ORCHESTRATION_PASSWORD`. Use passwords without characters that need escaping in a URL. Run the migrations first.
+- **The service login.** With the override, `dagster-db` also runs `deploy/service-logins.sql`, which creates `linklens_orchestration`: a login that inherits nothing and can only become `linklens_orchestrator` (the assets) or `linklens_transform` (dbt). Taken by itself it can read nothing. An existing login is left as it is; change its password with `ALTER ROLE`.
+- **Views without a command.** The sensor `models_missing` requests `build_models` when views that dbt owns are missing, and `release_recorded` after a release. On a database Dagster watches, nobody runs `link-lens dbt build` after a migration or a restore.
+- **dbt's documentation.** Each build writes the documentation site into Dagster's volume, and the service `dbt-docs` serves it on port 3090. It is empty until the models have been built once through Dagster.
+- **No sign-in.** The open-source Dagster UI has none, and neither has the documentation server. Both, and Grafana, are published on the loopback address only. Publishing them further needs a proxy that signs people in.
+- **Runs are processes, not containers.** Dagster's default launcher runs each run inside the service that launched it. The launcher that starts a container per run needs the Docker socket, which only the sandbox controller may have.
+- **Backups.** `scripts/backup_databases.sh DIRECTORY [DAYS]` dumps `linklens` and `dagster`, checks each archive and writes a checksum. It prunes its own `dagster` dumps after 7 days and never deletes a `linklens` dump.
+- **Upgrading a tool.** Change its pin in `pyproject.toml`, `uv lock`, compare `uv export --no-dev` before and after, rebuild the image, and try it on a copy. A Dagster upgrade may migrate Dagster's own database. dbt Core stays below 1.13 while dagster-dbt requires it.
+
+On 2026-11-15 a second Compose project was run as a deployment beside the real stack, on a restore of the newest backup: the services worked as `linklens_orchestrator` through the limited login and were refused an insert of a release; with every dbt view dropped, Dagster rebuilt all 50 in 22 seconds without being asked; a release recorded with the CLI was built for in 26 seconds and served 60 profiles to the product role; an extraction launched through Dagster ran in the daemon; and the daemon came back healthy after a restart. The project was removed afterwards. The real stack runs the same image in development mode.
 
 #### Restoring into an empty environment
 
