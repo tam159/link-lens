@@ -8,7 +8,7 @@ exposures:
     label: Data quality dashboard
     type: dashboard
     maturity: medium
-    url: http://localhost:3080/d/link-lens-data-quality
+    url: http://localhost:18740/d/link-lens-data-quality
     description: Sources, coverage, validity, identity, profiles, releases and review, with measured quality kept apart from proxy numbers.
     owner:
       name: Analytics engineer
@@ -29,7 +29,7 @@ exposures:
     label: Product overview dashboard
     type: dashboard
     maturity: medium
-    url: http://localhost:3080/d/link-lens-product-overview
+    url: http://localhost:18740/d/link-lens-product-overview
     description: What each release serves, how it differs from the one before, who calls the product service and what the model calls cost.
     owner:
       name: Analytics engineer
@@ -46,7 +46,7 @@ exposures:
     label: Source health dashboard
     type: dashboard
     maturity: medium
-    url: http://localhost:3080/d/link-lens-source-health
+    url: http://localhost:18740/d/link-lens-source-health
     description: Which sources are stale, never checked or waiting for a person, and how onboarding runs went.
     owner:
       name: Analytics engineer

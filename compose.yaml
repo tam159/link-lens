@@ -1,4 +1,8 @@
 name: link-lens
+# Every service is published on 127.0.0.1 at a host port you can set in .env
+# (LINK_LENS_<NAME>_PORT). The defaults, 18700 to 18740, are an uncommon block so
+# they do not clash with other local apps; src/link_lens/settings.py has the same
+# defaults. Inside the network the services keep their own ports.
 services:
   postgres:
     # Debian trixie build: the same glibc as the postgres:17 image that created
@@ -11,7 +15,7 @@ services:
       POSTGRES_DB: linklens
       POSTGRES_USER: linklens
       POSTGRES_PASSWORD: ${LINK_LENS_POSTGRES_PASSWORD:-linklens}
-    ports: ["127.0.0.1:5439:5432"]
+    ports: ["127.0.0.1:${LINK_LENS_POSTGRES_PORT:-18702}:5432"]
     volumes: ["postgres-data:/var/lib/postgresql/data"]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U linklens -d linklens"]
@@ -33,11 +37,12 @@ services:
       LINK_LENS_ARTIFACT_DIR: /app/artifacts
       LINK_LENS_SANDBOX_URL: http://sandbox-controller:8091
       LINK_LENS_SANDBOX_TOKEN: ${LINK_LENS_SANDBOX_TOKEN:-local-development-only}
-      LINK_LENS_API_URL: http://localhost:2024
+      # The backend's address on this machine: review links in the Inbox use it.
+      LINK_LENS_API_URL: http://localhost:${LINK_LENS_BACKEND_PORT:-18701}
       LINK_LENS_MODEL: ${LINK_LENS_MODEL:-gpt-6-luna}
       LINK_LENS_EXPERIMENT_ID: ${LINK_LENS_EXPERIMENT_ID:-jev-gpt6-luna-ontology-v1}
       LINK_LENS_MAX_COST_USD: ${LINK_LENS_MAX_COST_USD:-10}
-    ports: ["127.0.0.1:2024:2024"]
+    ports: ["127.0.0.1:${LINK_LENS_BACKEND_PORT:-18701}:2024"]
     volumes:
       - ./src:/app/src:ro
       - ./migrations:/app/migrations:ro
@@ -57,7 +62,7 @@ services:
     environment:
       LINK_LENS_DATABASE_URL: postgresql+psycopg://linklens:${LINK_LENS_POSTGRES_PASSWORD:-linklens}@postgres:5432/linklens
       LINK_LENS_ARTIFACT_DIR: /app/artifacts
-    ports: ["127.0.0.1:8100:8100"]
+    ports: ["127.0.0.1:${LINK_LENS_PRODUCT_PORT:-18710}:8100"]
     volumes:
       - ./src:/app/src:ro
       # Bundles are read from the artifact store; this service never writes it.
@@ -93,7 +98,12 @@ services:
       LINK_LENS_INBOX_URL:
       LINK_LENS_DASHBOARDS_URL:
       LINK_LENS_PRODUCT_URL:
-    ports: ["127.0.0.1:8200:8200"]
+      # The host ports the links above follow when they are not set themselves.
+      LINK_LENS_DAGSTER_PORT: ${LINK_LENS_DAGSTER_PORT:-18730}
+      LINK_LENS_INBOX_PORT: ${LINK_LENS_INBOX_PORT:-18700}
+      LINK_LENS_GRAFANA_PORT: ${LINK_LENS_GRAFANA_PORT:-18740}
+      LINK_LENS_PRODUCT_PORT: ${LINK_LENS_PRODUCT_PORT:-18710}
+    ports: ["127.0.0.1:${LINK_LENS_CONSOLE_PORT:-18720}:8200"]
     volumes:
       - ./src:/app/src:ro
       - ./firmable_ontology.yaml:/app/firmable_ontology.yaml:ro
@@ -123,7 +133,7 @@ services:
     build:
       context: .
       dockerfile: deploy/Dockerfile.frontend
-    ports: ["127.0.0.1:3000:3000"]
+    ports: ["127.0.0.1:${LINK_LENS_INBOX_PORT:-18700}:3000"]
   sandbox-controller:
     image: link-lens-backend:local
     build:
@@ -137,7 +147,7 @@ services:
     volumes:
       - ./src:/app/src:ro
       - /var/run/docker.sock:/var/run/docker.sock
-    ports: ["127.0.0.1:8091:8091"]
+    ports: ["127.0.0.1:${LINK_LENS_SANDBOX_PORT:-18703}:8091"]
     # Trusted controller only. Never mount this socket in an execution container.
   sandbox-image:
     image: link-lens-sandbox:local
@@ -164,8 +174,8 @@ services:
     depends_on:
       postgres: {condition: service_healthy}
   dagster-webserver:
-    # The Dagster UI, http://localhost:3070. It has no sign-in of its own, so the
-    # port is bound to this machine only.
+    # The Dagster UI, http://localhost:18730 (LINK_LENS_DAGSTER_PORT). It has no
+    # sign-in of its own, so the port is bound to this machine only.
     build:
       context: .
       dockerfile: deploy/Dockerfile.dagster
@@ -192,7 +202,10 @@ services:
       LINK_LENS_DATABASE_ROLE: linklens_orchestrator
       LINK_LENS_API_URL: http://backend:2024
       LINK_LENS_EXPERIMENT_ID: ${LINK_LENS_EXPERIMENT_ID:-jev-gpt6-luna-ontology-v1}
-    ports: ["127.0.0.1:3070:3070"]
+      # The host ports that alert links follow when their addresses are not set.
+      LINK_LENS_DAGSTER_PORT: ${LINK_LENS_DAGSTER_PORT:-18730}
+      LINK_LENS_INBOX_PORT: ${LINK_LENS_INBOX_PORT:-18700}
+    ports: ["127.0.0.1:${LINK_LENS_DAGSTER_PORT:-18730}:3070"]
     volumes: &dagster-volumes
       # Reload the code location in the UI to pick up an edit.
       - ./orchestration:/app/orchestration:ro
@@ -224,14 +237,20 @@ services:
     depends_on:
       dagster-webserver: {condition: service_healthy}
   dbt-docs:
-    # dbt's documentation of every model, column, test and source, written by
-    # each build of the models: http://localhost:3090. Internal; bound to this
-    # machine. Empty until the models have been built once through Dagster.
+    # dbt's documentation of every model, column, test and source:
+    # http://localhost:18731 (LINK_LENS_DBT_DOCS_PORT). Internal; bound to this
+    # machine. Each build of the models through Dagster writes it again. When
+    # the service starts and finds none, it generates it first, which only
+    # reads the database, so the page is never a bare file listing.
     image: link-lens-dagster:local
     profiles: ["orchestration"]
-    command: ["sh", "-c", "mkdir -p /opt/dagster/home/dbt-target && exec python -m http.server 3090 --bind 0.0.0.0 --directory /opt/dagster/home/dbt-target"]
-    ports: ["127.0.0.1:3090:3090"]
+    command: ["sh", "-c", "T=/opt/dagster/home/dbt-target; mkdir -p $$T; if [ ! -f $$T/index.html ]; then cd /app && DBT_LOG_PATH=$$T/logs link-lens dbt docs generate --target-path $$T || echo 'dbt docs could not be generated; the next build of the models writes them'; fi; exec python -m http.server 3090 --bind 0.0.0.0 --directory $$T"]
+    environment:
+      LINK_LENS_DATABASE_URL: postgresql+psycopg://linklens:${LINK_LENS_POSTGRES_PASSWORD:-linklens}@postgres:5432/linklens
+    ports: ["127.0.0.1:${LINK_LENS_DBT_DOCS_PORT:-18731}:3090"]
     volumes:
+      - ./transform:/app/transform:ro
+      - ./src:/app/src:ro
       - dagster-home:/opt/dagster/home
     depends_on:
       dagster-webserver: {condition: service_healthy}
@@ -254,7 +273,8 @@ services:
     depends_on:
       postgres: {condition: service_healthy}
   grafana:
-    # http://localhost:3080, sign in as `admin`. Bound to this machine only.
+    # http://localhost:18740 (LINK_LENS_GRAFANA_PORT), sign in as `admin`. Bound
+    # to this machine only.
     image: grafana/grafana-oss:13.0.2
     profiles: ["dashboards"]
     environment:
@@ -272,7 +292,7 @@ services:
       LINK_LENS_GRAFANA_DB_PORT: "5432"
       LINK_LENS_GRAFANA_DB_NAME: linklens
       LINK_LENS_GRAFANA_POSTGRES_PASSWORD: ${LINK_LENS_GRAFANA_POSTGRES_PASSWORD:-grafana}
-    ports: ["127.0.0.1:3080:3080"]
+    ports: ["127.0.0.1:${LINK_LENS_GRAFANA_PORT:-18740}:3080"]
     volumes:
       - ./deploy/grafana/provisioning:/etc/grafana/provisioning:ro
       - ./deploy/grafana/dashboards:/var/lib/grafana/dashboards:ro

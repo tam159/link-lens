@@ -16,7 +16,7 @@ A LangGraph agent investigates public business datasets and produces mapping con
 
 **[Explore the live evidence viewer →](https://tam159.github.io/link-lens/)** Browse business profiles, explore their connections and inspect supporting evidence directly in your browser—no setup required. The viewer presents the saved submission snapshot.
 
-**Choose a starting point:** [How it works](#how-it-works) · [Run locally](#run-locally) · [Read the write-up](WRITEUP.md) · [Inspect saved results](outputs/README.md) · [Follow the illustrated demo](docs/DEMO.md)
+**Choose a starting point:** [How it works](#how-it-works) · [Run locally](#run-locally) · [Local tools and URLs](#local-tools-and-urls) · [Read the write-up](WRITEUP.md) · [Inspect saved results](outputs/README.md) · [Follow the illustrated demo](docs/DEMO.md)
 
 ## Inspect saved results without setup
 
@@ -177,7 +177,7 @@ uv sync --frozen
 if [ ! -f .env ]; then cp .env.example .env; fi
 ```
 
-A first Docker build may exceed ten minutes; subsequent starts reuse images. The supplied setup uses local ports 3000, 2024, 5439, 8091 and 8100, 3070 and 3090 if you start Dagster, 3080 if you start Grafana and 8200 if you start the operations console.
+A first Docker build may exceed ten minutes; subsequent starts reuse images. Every service listens on this machine only, on a port in the block 18700 to 18740, chosen so it does not clash with other local apps. Each port is a setting in `.env`; see [Local tools and URLs](#local-tools-and-urls).
 
 ### 2. Fill in `.env`
 
@@ -194,7 +194,7 @@ Edit the copied [.env.example](.env.example) values in **`.env`**, which is igno
 
 The code reads the exact `OPENAI_API_BASE` and `OPENAI_API_KEY` names above. A model name in the example does not provision a deployment or grant access: configure an available compatible deployment and confirm structured tool calling with the smoke test below. Use the documented model for a comparable rerun.
 
-Local database, sandbox and API URLs are already set in the example. Docker Compose overrides their hostnames inside containers. No API key is needed for CKAN catalogue access or the local Agent Inbox connection. Keep provider keys in `.env`, not in browser settings. If you change `.env` after starting services, recreate the backend with `docker compose up -d --force-recreate backend`.
+Local ports are set in the example, and the database, sandbox and API addresses follow them. Docker Compose overrides their hostnames inside containers. No API key is needed for CKAN catalogue access or the local Agent Inbox connection. Keep provider keys in `.env`, not in browser settings. If you change `.env` after starting services, recreate the backend with `docker compose up -d --force-recreate backend`.
 
 Onboarding budget defaults are 50 model calls, 10 Python executions, 9,000,000 cumulative input tokens and 2,000,000 cumulative output tokens per attempt. Configure them with `LINK_LENS_MAX_MODEL_CALLS`, `LINK_LENS_MAX_PYTHON_CALLS`, `LINK_LENS_MAX_INPUT_TOKENS` and `LINK_LENS_MAX_OUTPUT_TOKENS` in `.env`. Existing environment values override code defaults; settings are cached in each process. Mounted Python changes reload automatically; recreate the backend after changing environment settings. Mapping proposals reserve up to 16,000 output tokens (`LINK_LENS_MAPPING_MAX_OUTPUT_TOKENS`); other onboarding calls retain 7,000. Ontology proposal calls reserve up to 24,000. Cumulative token, mapping-version, time and cost limits still apply. Input reservations include the next prompt plus overhead, so a call can be blocked before recorded usage reaches the limit. Changing configuration does not automatically resume an exhausted run; preserve prior usage and recovery lineage as described in [the engineering guide](docs/ENGINEERING.md#recovering-a-requested-revision-after-its-attempt-budget-is-exhausted).
 
@@ -206,7 +206,7 @@ docker compose --profile build-sandbox build sandbox-image
 # Start PostgreSQL, backend, Agent Inbox, sandbox controller and product service:
 docker compose up -d --build
 docker compose ps
-curl --fail http://localhost:2024/api/health
+curl --fail http://localhost:18701/api/health
 uv run link-lens --help
 # Build the views the product service reads (the backend creates the tables):
 uv run link-lens dbt build
@@ -214,28 +214,37 @@ uv run link-lens dbt build
 
 The backend applies Alembic migrations at startup. Migrations create tables, not the `serving` views: those are dbt models, built by `link-lens dbt build` on a new database and again after a model changes. Back up an existing database before starting a backend that carries newer migrations ([engineering guide](docs/ENGINEERING.md), **Database layout, migrations and the baseline**). Run `docker compose` from the repository root: it runs the code of the folder it is started from. All published ports bind to loopback; this is a local development setup.
 
-| Service | Local address / purpose |
-|---|---|
-| Agent Inbox | [http://localhost:3000](http://localhost:3000) |
-| LangGraph backend and application API | [http://localhost:2024](http://localhost:2024) |
-| PostgreSQL | `localhost:5439`; host CLI defaults are in `.env.example` |
-| Sandbox controller | `localhost:8091`; called by the workflow |
-| Product service | [http://localhost:8100](http://localhost:8100); read-only REST and MCP for clients. It refuses every call until a release and an API key exist; see [Serve a release to clients](#serve-a-release-to-clients). |
-| Dagster UI, optional | [http://localhost:3070](http://localhost:3070); only with `docker compose --profile orchestration up -d`. See [Dagster and dbt](#dagster-and-dbt). |
-| dbt documentation, optional | [http://localhost:3090](http://localhost:3090); started with the same profile. Every model, column, test and source, as written by the latest build through Dagster. |
-| Grafana, optional | [http://localhost:3080](http://localhost:3080); only with `docker compose --profile dashboards up -d`. Sign in as `admin`; the password is `LINK_LENS_GRAFANA_ADMIN_PASSWORD`, `admin` when unset. |
-| Operations console, optional | [http://localhost:8200](http://localhost:8200); only with `docker compose --profile console up -d admin`. Sign in with a token listed in `LINK_LENS_ADMIN_USERS`; see [Operations console](#operations-console). |
+### Local tools and URLs
+
+Open these in a browser to explore. Each port is a setting in `.env` (from [.env.example](.env.example)); change it there and recreate the service with `docker compose up -d`. The CLI, the console's links, alert links and the dashboards' links follow the same settings.
+
+| Tool | Local address | Port setting | Started by |
+|---|---|---|---|
+| Agent Inbox: review mappings | [http://localhost:18700](http://localhost:18700) | `LINK_LENS_INBOX_PORT` | `docker compose up -d` |
+| LangGraph backend and application API | [http://localhost:18701/api/health](http://localhost:18701/api/health) | `LINK_LENS_BACKEND_PORT` | `docker compose up -d` |
+| PostgreSQL | `postgresql://linklens@localhost:18702/linklens` | `LINK_LENS_POSTGRES_PORT` | `docker compose up -d` |
+| Sandbox controller, called by the workflow | [http://localhost:18703/health](http://localhost:18703/health) | `LINK_LENS_SANDBOX_PORT` | `docker compose up -d` |
+| Product service: REST and MCP for clients | [http://localhost:18710/health](http://localhost:18710/health), [REST /v1](http://localhost:18710/v1/entities), MCP at `http://localhost:18710/mcp` | `LINK_LENS_PRODUCT_PORT` | `docker compose up -d` |
+| Operations console | [http://localhost:18720](http://localhost:18720) | `LINK_LENS_CONSOLE_PORT` | `docker compose --profile console up -d admin` |
+| Dagster UI | [http://localhost:18730](http://localhost:18730) | `LINK_LENS_DAGSTER_PORT` | `docker compose --profile orchestration up -d` |
+| dbt documentation | [http://localhost:18731](http://localhost:18731) | `LINK_LENS_DBT_DOCS_PORT` | `docker compose --profile orchestration up -d` |
+| Grafana dashboards | [http://localhost:18740](http://localhost:18740) | `LINK_LENS_GRAFANA_PORT` | `docker compose --profile dashboards up -d` |
+
+- **The product service** refuses every data call until a release and an API key exist; see [Serve a release to clients](#serve-a-release-to-clients). `/health` needs no key.
+- **The console** signs in only people listed in `LINK_LENS_ADMIN_USERS`; see [Operations console](#operations-console).
+- **Grafana:** sign in as `admin`; the password is `LINK_LENS_GRAFANA_ADMIN_PASSWORD`, `admin` when unset. Its dashboards link to the product service, Dagster and the Inbox at the default ports; type another address into the box at the top of a dashboard if you changed one.
+- **dbt documentation** is written by each build of the models through Dagster, and generated when its service starts and finds none.
 
 Open Agent Inbox and add a connection:
 
 | Setting | Value |
 |---|---|
 | Graph ID | `onboard` |
-| Deployment URL | `http://localhost:2024` |
+| Deployment URL | `http://localhost:18701` |
 | Name | `Link Lens` (or your choice) |
 | API key | Leave blank for this local deployment |
 
-An empty inbox on a fresh installation is expected. Run onboarding to create a review.
+An empty inbox on a fresh installation is expected. Run onboarding to create a review. If the Inbox already has a connection to an earlier port, edit its deployment URL.
 
 ## Run the six-source pipeline
 
@@ -318,16 +327,41 @@ uv run link-lens access tier set starter --rate-per-minute 60 --monthly-quota 10
   --interface rest --interface mcp --toolset data --toolset files
 uv run link-lens access client create "Example client" --tier starter
 uv run link-lens access key create CLIENT_ID --label first   # prints the key once
-curl -H "Authorization: Bearer KEY" http://localhost:8100/v1/entities
+curl -H "Authorization: Bearer KEY" http://localhost:18710/v1/entities
 ```
 
 | Interface | Address | Contract |
 |---|---|---|
-| REST | `http://localhost:8100/v1` | [docs/api/openapi.json](docs/api/openapi.json), also served at `/openapi.json` |
-| MCP, data and file tools | `http://localhost:8100/mcp` (or `/mcp/data`, `/mcp/files`) with the header `Authorization: Bearer KEY` | [docs/api/mcp-tools.json](docs/api/mcp-tools.json) |
-| Graph viewer of one entity | `http://localhost:8100/v1/entities/ENTITY_ID/viewer` | Same key |
+| REST | `http://localhost:18710/v1` | [docs/api/openapi.json](docs/api/openapi.json), also served at `/openapi.json` |
+| MCP, data and file tools | `http://localhost:18710/mcp` (or `/mcp/data`, `/mcp/files`) with the header `Authorization: Bearer KEY` | [docs/api/mcp-tools.json](docs/api/mcp-tools.json) |
+| Graph viewer of one entity | `http://localhost:18710/v1/entities/ENTITY_ID/viewer` | Same key |
 
 Every answer carries the status of a value, the observations behind it, the alternatives, the kind of score, the basis of its timestamp and the licence of its source. Bundles of a release, usage reports and running more than one instance are covered in the [engineering guide](docs/ENGINEERING.md). The [production plan](docs/PRODUCTION_PLAN.md) records what was built and measured and what is still open, including hosting, reviewer sign-in and retiring the earlier tables.
+
+### Explore the MCP server with MCP Inspector
+
+[MCP Inspector](https://github.com/modelcontextprotocol/inspector) is the MCP project's tool for trying a server by hand. It runs with `npx` and needs Node.js 22 or 24 (a recent minor version; `npm` warns when yours is older). You need a release and an API key from the commands above.
+
+In the browser:
+
+```sh
+npx @modelcontextprotocol/inspector
+```
+
+1. It prints an address with a session token, `http://localhost:6274/?MCP_INSPECTOR_API_TOKEN=...`, and opens it.
+2. Add a server: transport **Streamable HTTP**, URL `http://localhost:18710/mcp`. Use `/mcp/data` or `/mcp/files` to see one toolset only.
+3. In the server's settings, add the header `Authorization` with the value `Bearer KEY`.
+4. Connect, open **Tools**, list them, and call one, for example `search_entities`.
+
+From the terminal, without a browser:
+
+```sh
+export LINK_LENS_KEY=KEY   # the key printed by `link-lens access key create`
+npx @modelcontextprotocol/inspector --cli http://localhost:18710/mcp --transport http \
+  --header "Authorization: Bearer $LINK_LENS_KEY" --method tools/list
+```
+
+An `auth_required` error means the key is missing, wrong or revoked: the server answers `401` and offers no other sign-in. The tools and their arguments are listed in [docs/api/mcp-tools.json](docs/api/mcp-tools.json).
 
 ## Run it day to day
 
@@ -335,10 +369,10 @@ The two sections above are how the submission was produced and how a first relea
 
 ```mermaid
 flowchart LR
-    Owner["Product owner"] --> Console["Operations console :8200"]
-    Reviewer["Reviewer"] --> Inbox["Agent Inbox :3000"]
-    Team["Engineers"] --> DagsterUI["Dagster UI :3070"]
-    Team --> Grafana["Grafana :3080"]
+    Owner["Product owner"] --> Console["Operations console :18720"]
+    Reviewer["Reviewer"] --> Inbox["Agent Inbox :18700"]
+    Team["Engineers"] --> DagsterUI["Dagster UI :18730"]
+    Team --> Grafana["Grafana :18740"]
     Console -->|"add a source, set cadence, record a release, keys"| PG["PostgreSQL"]
     Console -->|"start onboarding (paid)"| Graph["LangGraph backend"]
     Inbox <--> Graph
@@ -346,7 +380,7 @@ flowchart LR
     Daemon["Dagster schedules and sensors"] -->|"refresh, drift check, extract, batch"| PG
     Daemon -->|"dbt build after a release"| Views["serving and analytics views"]
     PG --> Views
-    Views --> Product["Product service :8100"]
+    Views --> Product["Product service :18710"]
     Views --> Grafana
     Product --> Clients["Clients: REST and MCP"]
 ```
@@ -431,7 +465,7 @@ Execution containers have no network, repository, credentials or Docker socket. 
 
 `langgraph.json` exposes graph ID `onboard` and the standard thread/run/resume API. Application routes: `POST /api/sources`, `GET /api/runs`, `GET /api/runs/{id}`, `GET /api/profiles?batch_id=…`, `POST /api/evaluations`, `GET /api/artifacts/{registered_sha256}`. See `uv run link-lens --help` for reproducible commands. There is no arbitrary path serving endpoint.
 
-A second, read-only service answers clients: the product service on port 8100 (`docker compose up -d product`). It reads only the `serving` views of a release that a person recorded with `link-lens release create`, and needs an API key created with `link-lens access`. It offers REST under `/v1`, an MCP server at `/mcp` with data tools and file tools over the same release, bundle downloads and a graph viewer per entity. The contracts are in [docs/api](docs/api/); the [production plan](docs/PRODUCTION_PLAN.md) and the [engineering guide](docs/ENGINEERING.md) describe how it is built and run. None of this changes the submitted results below `outputs/`.
+A second, read-only service answers clients: the product service on port 18710 (`docker compose up -d product`). It reads only the `serving` views of a release that a person recorded with `link-lens release create`, and needs an API key created with `link-lens access`. It offers REST under `/v1`, an MCP server at `/mcp` with data tools and file tools over the same release, bundle downloads and a graph viewer per entity. The contracts are in [docs/api](docs/api/); the [production plan](docs/PRODUCTION_PLAN.md) and the [engineering guide](docs/ENGINEERING.md) describe how it is built and run. None of this changes the submitted results below `outputs/`.
 
 ```mermaid
 flowchart LR
@@ -486,7 +520,7 @@ A small console lets the people who run the product work without a terminal: fin
 docker compose --profile console up -d admin
 ```
 
-Open [http://localhost:8200](http://localhost:8200) and sign in with the token. There are three roles, each including the one before: `engineer` reads, `product_owner` also adds and manages sources and records releases, `admin` also manages clients, tiers and keys and reads the audit log. With nobody listed, nobody can sign in.
+Open [http://localhost:18720](http://localhost:18720) and sign in with the token. There are three roles, each including the one before: `engineer` reads, `product_owner` also adds and manages sources and records releases, `admin` also manages clients, tiers and keys and reads the audit log. With nobody listed, nobody can sign in.
 
 Adding a source starts onboarding, which makes paid model calls: the console shows an estimate, the budget cap and what remains before the confirm button, and refuses when the estimate would exceed the cap. Recording a release there is the same human decision as `link-lens release create`, stored in the signed-in person's name. This sign-in is for development and one machine: there is no identity provider, so the console is published on this machine only. Details are in the [engineering guide](docs/ENGINEERING.md), section **Operations console**.
 

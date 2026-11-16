@@ -11,7 +11,7 @@ link_lens:
     default:
       type: postgres
       host: "{{ env_var('LINK_LENS_DBT_HOST', 'localhost') }}"
-      port: "{{ env_var('LINK_LENS_DBT_PORT', '5439') | as_number }}"
+      port: "{{ env_var('LINK_LENS_DBT_PORT', env_var('LINK_LENS_POSTGRES_PORT', '18702')) | as_number }}"
       user: "{{ env_var('LINK_LENS_DBT_USER', 'linklens') }}"
       password: "{{ env_var('LINK_LENS_DBT_PASSWORD', env_var('LINK_LENS_POSTGRES_PASSWORD', 'linklens')) }}"
       dbname: "{{ env_var('LINK_LENS_DBT_DATABASE', 'linklens') }}"

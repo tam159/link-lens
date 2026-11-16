@@ -1,7 +1,7 @@
 """Ten fixed tasks, run once with each MCP toolset, by a scripted agent.
 
     LINK_LENS_API_KEY=ll_... uv run python scripts/mcp_agent_eval.py \\
-        --url http://localhost:8100 --output outputs/local-run/mcp-eval.json
+        --url http://localhost:18710 --output outputs/local-run/mcp-eval.json
 
 The client is given only a URL and a key. Each task has two plans: one that uses
 only the data tools and reads their JSON, and one that uses only the file tools
@@ -419,7 +419,7 @@ def over_http(url, key):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    parser.add_argument("--url", default="http://localhost:8100")
+    parser.add_argument("--url", default="http://localhost:18710")
     parser.add_argument(
         "--abn", help="The entity to ask about; the first one by default."
     )

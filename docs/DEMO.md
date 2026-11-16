@@ -10,7 +10,7 @@ The ontology has 59 concepts; 43 additions emit claims and 24 contribute to prof
 
 ## 2. Show the reviewed mappings
 
-Open [Agent Inbox](http://localhost:3000) after [local startup](../README.md#run-locally), or use the [saved approval manifest](../outputs/approval-manifest.json). The six reviews are completed; an empty Interrupted tab is expected. Accept approves an exact config and ontology hash; Respond requests a new proposal; Ignore defers extraction. Do not resend acceptance just for a demonstration.
+Open [Agent Inbox](http://localhost:18700) after [local startup](../README.md#run-locally), or use the [saved approval manifest](../outputs/approval-manifest.json). The six reviews are completed; an empty Interrupted tab is expected. Accept approves an exact config and ontology hash; Respond requests a new proposal; Ignore defers extraction. Do not resend acceptance just for a demonstration.
 
 ![Historical Inbox queue](images/agent-inbox-all-reviews.png)
 

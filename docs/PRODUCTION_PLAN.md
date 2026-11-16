@@ -2,6 +2,8 @@
 
 Status: **Phases 0 to 6 and 8 are implemented and applied to the local database (2026-11-15). Phase 9 is implemented as far as it can be without a hosting provider: what needs a provider, a sign-in system or an agreed date is listed there as open. Phase 7 is deferred. No release, tier, client, key or bundle scope has been created on the local database; those are the owner's actions.** This document turns the agreed production design into ordered work. SQL, endpoint names, tool names, folder layout and tier values are sketches to be confirmed while building. Sizes are rough estimates for one engineer.
 
+*Local ports, 2026-11-15:* after this plan was built, the services' host ports moved to a configurable block, 18700 to 18740 (`LINK_LENS_<NAME>_PORT` in `.env`). Port numbers below are those of the time they were written; the current ones are in the [README](../README.md#local-tools-and-urls), under **Local tools and URLs**.
+
 Facts about the current store were measured on the local database on 2026-11-14 (experiment `jev-gpt6-luna-ontology-v1` plus earlier experiments in the same database).
 
 ## Contents

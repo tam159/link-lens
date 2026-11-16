@@ -93,9 +93,9 @@ uv run link-lens source check SOURCE      # download again; a snapshot only if t
 uv run link-lens source extract SOURCE    # under the approved mapping; exits 3 when blocked
 uv run link-lens source due               # what the schedule would refresh now, and what is overdue
 uv run link-lens source backfill          # outstanding extraction; a dry run unless --apply
-docker compose --profile orchestration up -d --build   # Dagster UI on http://localhost:3070
-docker compose --profile dashboards up -d              # Grafana on http://localhost:3080
-docker compose --profile console up -d admin           # operations console on http://localhost:8200
+docker compose --profile orchestration up -d --build   # Dagster UI on http://localhost:18730
+docker compose --profile dashboards up -d              # Grafana on http://localhost:18740
+docker compose --profile console up -d admin           # operations console on http://localhost:18720
 docker compose --profile backups up -d backup          # daily dumps of both databases to LINK_LENS_BACKUP_DIR
 uv run link-lens source preview DATASET                # what registering would download; writes nothing
 uv run link-lens release preview --batch-id BATCH      # against the latest release; exits 3 if a check fails
@@ -105,7 +105,7 @@ scripts/backup_databases.sh /path/to/backups           # both databases; see doc
 
 Run relevant tests first and broader checks when the change warrants them. Deterministic tests use isolated fixtures; those that touch the store run on PostgreSQL in a throwaway container (Docker required, see README **Verification**). Live model and Docker integrations are separate. Documentation-only edits need link/command consistency checks, not a paid pipeline rerun. Consult `tests/test_sandbox_integration.py` before enabling `RUN_DOCKER_TESTS=1`.
 
-Service startup and provider setup live in README. Default local ports: Inbox 3000, backend 2024, PostgreSQL 5439, sandbox controller 8091, product service 8100, the Dagster UI 3070 and dbt's documentation 3090 when the `orchestration` profile is started, Grafana 3080 when the `dashboards` profile is, and the operations console 8200 when the `console` profile is. The graph ID is `onboard`. The development server supplies the graph checkpointer; PostgreSQL stores application evidence separately. Frozen application archives do not recreate LangGraph threads/checkpoints.
+Service startup and provider setup live in README. Default local ports, each a setting in `.env` (`LINK_LENS_<NAME>_PORT`) with the same default in `compose.yaml` and `settings.py`: Inbox 18700, backend 18701, PostgreSQL 18702, sandbox controller 18703, product service 18710, the operations console 18720 when the `console` profile is started, the Dagster UI 18730 and dbt's documentation 18731 when the `orchestration` profile is, and Grafana 18740 when the `dashboards` profile is. Inside the Compose network the services keep their own ports (backend 2024, PostgreSQL 5432 and so on). The addresses in settings (`database_url`, `api_url`, `inbox_url` and the others) follow the ports unless set themselves; `tests/test_local_ports.py` keeps the defaults in step. The graph ID is `onboard`. The development server supplies the graph checkpointer; PostgreSQL stores application evidence separately. Frozen application archives do not recreate LangGraph threads/checkpoints.
 
 The local stack runs the code of the folder that Compose is started from:
 
