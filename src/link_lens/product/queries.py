@@ -17,6 +17,7 @@ from sqlalchemy import text
 from .. import bundles
 from ..db import is_sha256
 from ..okf import render, tree
+from ..ontology import checks
 from . import Problem
 
 DEFAULT_LIMIT, MAX_LIMIT = 50, 200
@@ -620,7 +621,11 @@ def describe_concepts(connection, principal, release, scope=None):
         {"release": release["release_id"], "scope": scope},
     ).mappings()
     return [
-        {**row, "okf_path": render.concept_path(row["scope"], row["name"])}
+        {
+            **row,
+            "checks": checks(tree.concept_record(row)),
+            "okf_path": render.concept_path(row["scope"], row["name"]),
+        }
         for row in rows
     ]
 

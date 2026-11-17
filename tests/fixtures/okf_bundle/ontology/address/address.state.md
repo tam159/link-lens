@@ -23,3 +23,11 @@ The state or territory of an address.
 
 * NSW
 * VIC
+
+# Checks
+
+* One of the allowed values. Applied by extraction.
+* Stated outside any group. Applied by mapping validation.
+* Kept with the other address fields of the same source record. Applied by profile assembly.
+* Profiles choose one value, or none when equally authoritative claims disagree. Applied by profile assembly.
+* The meaning in the definition, which a person checks when approving a mapping. No code checks this.

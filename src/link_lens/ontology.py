@@ -236,6 +236,88 @@ def proposals():
         return registry.list_proposals(connection)
 
 
+# Local names whose values extraction checks as identifiers, in any namespace
+# (`extraction.extract`). A concept that holds an identifier under another
+# name, such as registration.business_name_abn, is checked only by the
+# operations its mapping chooses.
+IDENTIFIER_CHECKS = {
+    "abn": "11 digits with a valid ABN checksum",
+    "acn": "9 digits with a valid ACN checksum",
+    "nzbn": "13 digits",
+}
+
+# What `scalar` and `extraction.extract` require of a value of each type.
+TYPE_CHECKS = {
+    "enum": "One of the allowed values",
+    "date": "A calendar date written YYYY-MM-DD",
+    "boolean": "true or false, mapped explicitly from the source",
+    "integer": "A whole number written in plain digits",
+    "decimal": "A number written in plain decimal digits, kept as exact text",
+}
+
+
+def checks(concept):
+    """The rules a concept implies and the steps that apply each one.
+
+    `applied_at` names the steps: `mapping` (a mapping that breaks the rule
+    fails validation and cannot be approved), `extraction` (a value that breaks
+    it is quarantined, not stored) and `profile` (how profiles treat the stored
+    claims). An empty list means no code applies the rule. The LinkML, SHACL
+    and JSON Schema exports carry fewer of these rules; docs/ENGINEERING.md
+    lists which.
+    """
+    found = []
+
+    def rule(text, *applied_at):
+        found.append({"rule": text, "applied_at": list(applied_at)})
+
+    scope, local = concept["scope"], concept["name"].split(".", 1)[1]
+    if concept["type"] in TYPE_CHECKS:
+        rule(TYPE_CHECKS[concept["type"]], "extraction")
+    if local in IDENTIFIER_CHECKS:
+        rule(IDENTIFIER_CHECKS[local], "extraction")
+    low, high = concept.get("minimum"), concept.get("maximum")
+    if low is not None and high is not None:
+        rule(f"Between {low} and {high}", "extraction")
+    elif low is not None:
+        rule(f"At least {low}", "extraction")
+    elif high is not None:
+        rule(f"At most {high}", "extraction")
+    if concept["requires"]:
+        rule(
+            "Stated together with "
+            + ", ".join(concept["requires"])
+            + " in the same source record and group",
+            "mapping",
+            "extraction",
+        )
+    if scope in {"entity", "address"}:
+        rule("Stated outside any group", "mapping")
+    else:
+        rule(
+            f"Stated inside a {scope} group, which holds the {scope} claims of one "
+            "source record and is never merged with another group",
+            "mapping",
+            "profile",
+        )
+    if concept["name"].startswith("address."):
+        rule("Kept with the other address fields of the same source record", "profile")
+    if concept["cardinality"] == "many":
+        rule(
+            "May have several values; profiles keep them all and choose none", "profile"
+        )
+    else:
+        rule(
+            "Profiles choose one value, or none when equally authoritative claims "
+            "disagree",
+            "profile",
+        )
+    rule(
+        "The meaning in the definition, which a person checks when approving a mapping"
+    )
+    return found
+
+
 def scalar(value, concept):
     """Decimals remain exact JSON strings; never introduce binary float rounding."""
     kind = concept["type"]

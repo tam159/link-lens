@@ -938,6 +938,57 @@ hashes, while provider input excludes those hashes and serialization metadata so
 that shared cache metadata cannot influence semantic similarity. This serialization
 uses `hybrid-evidence-2`; older vectors and their paid-call receipts are retained.
 
+### Where each concept rule is applied, and what the exports carry
+
+A concept implies more rules than any of its exports states, and some of its fields are
+descriptions that no code checks. `ontology.checks(concept)` lists the rules of one
+concept with the steps that apply each one: `mapping` (a mapping that breaks the rule
+fails validation in `contracts.MappingSpec` and cannot be approved), `extraction` (a
+value that breaks it is quarantined in `extraction.extract`, not stored) and `profile`
+(how `profiles.assemble_profiles` treats the stored claims). An empty list means no code
+applies the rule. Each concept page shows this list under **Checks**, and
+`describe_concepts` returns it as `checks`, over REST and MCP alike. A test feeds a value
+that breaks each rule `checks` puts at extraction and expects the engine to refuse it.
+
+The exports are generated views of a version and carry less. In the table, *covered*
+means the export states the rule, *lossy* that it states a different rule, *carried*
+that the text travels as a description or annotation no validator reads, and
+*excluded* that the export does not mention it. The JSON Schema column describes the
+scope classes under `$defs`. The schema's top level is `Observation`, which checks only
+that `concept` is a known name and `value` is text or null, and nothing refers to the
+scope classes.
+
+| Rule | Applied by | LinkML | SHACL | JSON Schema |
+|---|---|---|---|---|
+| Enum: one of the allowed values | extraction | covered (enum range) | covered (`sh:in`) | covered (enum) |
+| Date written `YYYY-MM-DD` | extraction | covered (`date`) | covered (`xsd:date`) | covered (`format: date`) |
+| Integer, boolean | extraction | covered | covered | covered |
+| Decimal kept as exact text | extraction | covered (`decimal`) | covered (`xsd:decimal`) | lossy: `number`, while stored values are strings |
+| Numeric bounds | extraction | covered | covered (`sh:minInclusive`, `sh:maxInclusive`) | covered |
+| ABN, ACN, NZBN shape and checksum, by the concept's local name | extraction | excluded | excluded | excluded |
+| Required companions (`requires`) | mapping and extraction | carried (annotation) | excluded | excluded |
+| Scope and groups | mapping and profile | covered as one class per scope; groups excluded | covered as classes; groups excluded | covered as classes; groups excluded |
+| Address fields kept together per record | profile | excluded | excluded | excluded |
+| Cardinality `one` | profile: one value is chosen, or none when equal claims disagree | covered (not multivalued) | lossy: `sh:maxCount 1`, while every claim is kept | covered (not an array) |
+| Cardinality `many` | profile: every value kept | covered (`multivalued`) | covered | covered (array) |
+| Meaning (`definition`) | a person, when approving a mapping | carried (description) | carried (`sh:description`) | carried (description) |
+
+Three consequences are worth knowing before a client relies on an export:
+
+- **Identifier checks travel by name, not by concept.** Extraction checks a value as an
+  ABN, ACN or NZBN when the concept's local name is `abn`, `acn` or `nzbn`, in any
+  namespace. `v0.1.yaml` declares a `pattern` for them, but the registry has no field for
+  it and drops it, so no export carries it. A concept that holds an identifier under
+  another name gets only the operations its mapping chooses: the approved ASIC
+  business-names mapping only trims `registration.business_name_abn`, so nothing checks
+  that value's shape or checksum.
+- **The SHACL gate check cannot fail on cardinality.** `check_shacl_observations` turns each
+  sampled observation into its own node, so `sh:maxCount 1` never meets a second value.
+  Several claims for a cardinality-`one` concept are normal: they are what profiles choose
+  between.
+- **JSON Schema types a decimal as a number.** A consumer that validates stored values
+  against the scope classes would reject the exact decimal strings the engine writes.
+
 The shared ledger reserves conservative model cost before every request, under the
 existing database advisory lock. It includes Jev discovery, ontology, onboarding,
 embedding, Jev enhancement and LLM explanations, including failed/retried attempts.

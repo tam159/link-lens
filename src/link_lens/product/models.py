@@ -234,6 +234,13 @@ class Source(Model):
     okf_path: str
 
 
+class ConceptCheck(Model):
+    """A rule a concept implies. `applied_at` is empty when no code checks it."""
+
+    rule: str
+    applied_at: list[Literal["mapping", "extraction", "profile"]]
+
+
 class ConceptDefinition(Model):
     name: Concept
     scope: str
@@ -244,6 +251,7 @@ class ConceptDefinition(Model):
     maximum: str | None
     allowed_values: list[str]
     requires: list[str]
+    checks: list[ConceptCheck]
     okf_path: str
 
 

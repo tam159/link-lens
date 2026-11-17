@@ -11,7 +11,15 @@ import posixpath
 
 import yaml
 
+from ..ontology import checks
+
 EXPORTER = "process:link-lens-exporter-1"
+# How a concept page names the steps in `ontology.checks`.
+STEPS = {
+    "mapping": "mapping validation",
+    "extraction": "extraction",
+    "profile": "profile assembly",
+}
 ROOT_INDEX = "/index.md"
 # Keys a reader wants first; any other key follows in alphabetical order.
 FIRST_KEYS = (
@@ -187,6 +195,17 @@ def render_concept(concept, ontology_hash, generated_at):
         body += "\n\n# Allowed values\n\n" + "\n".join(
             "* " + html.escape(value) for value in concept["values"]
         )
+    body += "\n\n# Checks\n\n" + "\n".join(
+        f"* {html.escape(check['rule'])}. "
+        + (
+            "Applied by "
+            + " and ".join(STEPS[step] for step in check["applied_at"])
+            + "."
+            if check["applied_at"]
+            else "No code checks this."
+        )
+        for check in checks(concept)
+    )
     return document(
         {
             "type": "Ontology Concept",
