@@ -340,8 +340,10 @@ TOOLS = [
         "Describe ontology concepts",
         "What the field names mean. With no argument: the scopes (entity, "
         "address, licence, ...) and the concept names in each. With `scope`: the "
-        "definition, datatype, cardinality (`one` or `many`) and allowed values "
-        "of every concept in that scope.",
+        "definition, datatype, cardinality (`one` or `many`), allowed values "
+        "and `checks` of every concept in that scope. Each check is a rule with "
+        "the steps that apply it (`mapping`, `extraction`, `profile`); an empty "
+        "list means no code checks it.",
         schema({"scope": {"type": "string", "description": "A scope name."}}),
         describe_concepts,
     ),

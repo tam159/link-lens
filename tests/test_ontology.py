@@ -8,6 +8,7 @@ import pytest
 from link_lens import ontology, store, budget
 from link_lens.contracts import MappingSpec, content_hash, Operation
 from link_lens.extraction import extract, operation
+from link_lens.readers import record
 from link_lens.profiles import assemble_profiles, impact
 from link_lens.settings import settings
 from link_lens.ontology_workflow import (
@@ -221,6 +222,57 @@ def test_types_bounds_and_categories():
     ) == ["education"]
     with pytest.raises(ValueError):
         ontology.scalar("1.5", {"type": "integer"})
+
+
+def test_checks_name_only_rules_the_engine_applies(spec, snapshot):
+    """Each rule `checks` says extraction applies is one extraction refuses."""
+    concepts = ontology.legacy()["concepts"]
+    for concept in concepts.values():
+        listed = ontology.checks(concept)
+        assert listed[-1]["applied_at"] == []  # the definition: no code
+        assert all(
+            set(c["applied_at"]) <= {"mapping", "extraction", "profile"} for c in listed
+        )
+    bad = {
+        "enum": "not-a-value",
+        "date": "17/11/2026",
+        "boolean": "Y",
+        "integer": "1.5",
+        "decimal": "1e3",
+    }
+    assert set(bad) == set(ontology.TYPE_CHECKS)
+    for kind, value in bad.items():
+        with pytest.raises(ValueError):
+            ontology.scalar(value, {"type": kind, "values": ["a"]})
+    bounded = {"type": "decimal", "minimum": "-90", "maximum": "90"}
+    with pytest.raises(ValueError):
+        ontology.scalar("-91", bounded)
+
+    # Identifier rules hold even when the mapping only trims the value.
+    trimmed = spec.model_copy(deep=True)
+    trimmed.fields[1].transformations = [Operation(op="trim")]
+    for name, value in {
+        "abn": "51824753557",
+        "acn": "000000018",
+        "nzbn": "123",
+    }.items():
+        trimmed.fields[1].canonical_field = "entity." + name
+        rule = ontology.IDENTIFIER_CHECKS[name]
+        assert {"rule": rule, "applied_at": ["extraction"]} in ontology.checks(
+            concepts["entity." + name]
+        )
+        rows = [record("sha", "csv", 2, {"name": "Example", "abn": value})]
+        result = extract(trimmed, rows, snapshot)
+        assert [o["field"] for o in result["observations"]] == ["entity.legal_name"]
+        assert result["issues"][0]["field"] == "entity." + name
+    assert set(ontology.IDENTIFIER_CHECKS) == {"abn", "acn", "nzbn"}
+
+    # Another name holding an identifier gets no identifier rule.
+    held = {**concepts["entity.abn"], "name": "registration.business_name_abn"}
+    held["scope"] = "registration"
+    assert not any("checksum" in c["rule"] for c in ontology.checks(held))
+    grouped = [c for c in ontology.checks(held) if "group" in c["rule"]]
+    assert grouped[0]["applied_at"] == ["mapping", "profile"]
 
 
 def test_scoped_value_comparison_survives_serialization():

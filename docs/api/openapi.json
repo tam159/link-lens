@@ -113,6 +113,34 @@
         "title": "Bundle",
         "type": "object"
       },
+      "ConceptCheck": {
+        "additionalProperties": false,
+        "description": "A rule a concept implies. `applied_at` is empty when no code checks it.",
+        "properties": {
+          "applied_at": {
+            "items": {
+              "enum": [
+                "mapping",
+                "extraction",
+                "profile"
+              ],
+              "type": "string"
+            },
+            "title": "Applied At",
+            "type": "array"
+          },
+          "rule": {
+            "title": "Rule",
+            "type": "string"
+          }
+        },
+        "required": [
+          "rule",
+          "applied_at"
+        ],
+        "title": "ConceptCheck",
+        "type": "object"
+      },
       "ConceptDefinition": {
         "additionalProperties": false,
         "properties": {
@@ -130,6 +158,13 @@
             ],
             "title": "Cardinality",
             "type": "string"
+          },
+          "checks": {
+            "items": {
+              "$ref": "#/components/schemas/ConceptCheck"
+            },
+            "title": "Checks",
+            "type": "array"
           },
           "datatype": {
             "title": "Datatype",
@@ -191,6 +226,7 @@
           "maximum",
           "allowed_values",
           "requires",
+          "checks",
           "okf_path"
         ],
         "title": "ConceptDefinition",

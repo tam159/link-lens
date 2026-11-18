@@ -18,3 +18,9 @@ The registered legal name of the entity.
 * Scope: entity
 * Type: string
 * Cardinality: one
+
+# Checks
+
+* Stated outside any group. Applied by mapping validation.
+* Profiles choose one value, or none when equally authoritative claims disagree. Applied by profile assembly.
+* The meaning in the definition, which a person checks when approving a mapping. No code checks this.
