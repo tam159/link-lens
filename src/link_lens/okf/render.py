@@ -195,6 +195,11 @@ def render_concept(concept, ontology_hash, generated_at):
         body += "\n\n# Allowed values\n\n" + "\n".join(
             "* " + html.escape(value) for value in concept["values"]
         )
+    if concept.get("references"):
+        body += "\n\n# References\n\n" + "\n".join(
+            f"* {link['match'].capitalize()} match: {html.escape(link['iri'])}"
+            for link in concept["references"]
+        )
     body += "\n\n# Checks\n\n" + "\n".join(
         f"* {html.escape(check['rule'])}. "
         + (

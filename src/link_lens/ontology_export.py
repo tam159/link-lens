@@ -12,6 +12,8 @@ from pathlib import Path
 
 import yaml
 
+from .ontology import MATCHES
+
 # Placeholder namespace on a reserved example domain. Class and attribute IRIs in
 # the generated SHACL start with it, so the owner must choose the real namespace
 # before any client depends on those IRIs.
@@ -51,7 +53,7 @@ def attribute_name(name, scope):
     return local if namespace == scope else f"{namespace}_{local}"
 
 
-def linkml(document, ontology_hash):
+def linkml(document, ontology_hash, references=None):
     """The LinkML schema for one ontology version, as a dictionary.
 
     Scope becomes a class, a concept an attribute of that class, an enum concept
@@ -59,6 +61,11 @@ def linkml(document, ontology_hash):
     and `maximum_value`, and the definition becomes the description. The
     `ConceptName` enum lists every concept, and `Observation` is one source claim
     about one of them.
+
+    `references`, {concept name: [{iri, match}, ...]}, adds the links people
+    recorded to other vocabularies as `exact_mappings`, `close_mappings` and so
+    on. They are not part of the version, so without them the schema depends on
+    the version alone; with them, a `references` annotation says so.
     """
     concepts = document["concepts"]
     classes, enums = {}, {}
@@ -86,6 +93,8 @@ def linkml(document, ontology_hash):
             attribute["maximum_value"] = number(concept["maximum"])
         if concept["requires"]:
             attribute["annotations"]["requires"] = ", ".join(concept["requires"])
+        for link in (references or {}).get(name, []):
+            attribute.setdefault(MATCHES[link["match"]], []).append(link["iri"])
         scope = concept["scope"]
         classes.setdefault(
             camel(scope),
@@ -130,6 +139,13 @@ def linkml(document, ontology_hash):
         "annotations": {
             "ontology_hash": ontology_hash,
             "parent_hash": document["parent_hash"] or "",
+            **(
+                {
+                    "references": "Links people recorded to other vocabularies, as standing at export."
+                }
+                if references is not None
+                else {}
+            ),
         },
         "prefixes": {"linkml": "https://w3id.org/linkml/", "linklens": BASE},
         "default_prefix": "linklens",
@@ -140,23 +156,26 @@ def linkml(document, ontology_hash):
     }
 
 
-def linkml_yaml(document, ontology_hash):
+def linkml_yaml(document, ontology_hash, references=None):
     return yaml.safe_dump(
-        linkml(document, ontology_hash), sort_keys=False, allow_unicode=True, width=100
+        linkml(document, ontology_hash, references),
+        sort_keys=False,
+        allow_unicode=True,
+        width=100,
     )
 
 
-def shacl(document, ontology_hash):
+def shacl(document, ontology_hash, references=None):
     from linkml.generators.shaclgen import ShaclGenerator
 
-    return ShaclGenerator(linkml_yaml(document, ontology_hash)).serialize()
+    return ShaclGenerator(linkml_yaml(document, ontology_hash, references)).serialize()
 
 
-def json_schema(document, ontology_hash):
+def json_schema(document, ontology_hash, references=None):
     from linkml.generators.jsonschemagen import JsonSchemaGenerator
 
     return JsonSchemaGenerator(
-        linkml_yaml(document, ontology_hash), top_class="Observation"
+        linkml_yaml(document, ontology_hash, references), top_class="Observation"
     ).serialize()
 
 

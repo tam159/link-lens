@@ -343,7 +343,10 @@ TOOLS = [
         "definition, datatype, cardinality (`one` or `many`), allowed values "
         "and `checks` of every concept in that scope. Each check is a rule with "
         "the steps that apply it (`mapping`, `extraction`, `profile`); an empty "
-        "list means no code checks it.",
+        "list means no code checks it. `references` are terms of other "
+        "vocabularies a person linked the concept to, with a SKOS match; "
+        "`source_headers` are the source columns it was read from, which help "
+        "match a user's words to a concept.",
         schema({"scope": {"type": "string", "description": "A scope name."}}),
         describe_concepts,
     ),

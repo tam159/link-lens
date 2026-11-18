@@ -241,6 +241,20 @@ class ConceptCheck(Model):
     applied_at: list[Literal["mapping", "extraction", "profile"]]
 
 
+class ConceptReference(Model):
+    """A term of another vocabulary a person linked the concept to, with its SKOS match."""
+
+    iri: str
+    match: Literal["exact", "close", "broad", "narrow", "related"]
+
+
+class SourceHeader(Model):
+    """A source column an approved mapping of the release reads the concept from."""
+
+    source_id: str
+    header: str
+
+
 class ConceptDefinition(Model):
     name: Concept
     scope: str
@@ -251,6 +265,8 @@ class ConceptDefinition(Model):
     maximum: str | None
     allowed_values: list[str]
     requires: list[str]
+    references: list[ConceptReference]
+    source_headers: list[SourceHeader]
     checks: list[ConceptCheck]
     okf_path: str
 

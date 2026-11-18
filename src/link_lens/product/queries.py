@@ -615,19 +615,27 @@ def describe_concepts(connection, principal, release, scope=None):
     rows = connection.execute(
         text(
             "SELECT name, scope, datatype, cardinality, definition, minimum, maximum, "
-            "allowed_values, requires FROM serving.concept WHERE release_id = :release "
+            "allowed_values, requires, vocabulary_references, source_headers "
+            "FROM serving.concept WHERE release_id = :release "
             "AND (CAST(:scope AS text) IS NULL OR scope = :scope) ORDER BY position"
         ),
         {"release": release["release_id"], "scope": scope},
     ).mappings()
-    return [
-        {
-            **row,
-            "checks": checks(tree.concept_record(row)),
-            "okf_path": render.concept_path(row["scope"], row["name"]),
-        }
-        for row in rows
-    ]
+    found = []
+    for row in rows:
+        concept = dict(row)
+        # A header names a column of one source: a key sees only its own sources'.
+        headers = concept.pop("source_headers")
+        concept["source_headers"] = [
+            header
+            for header in headers
+            if principal.sources is None or header["source_id"] in principal.sources
+        ]
+        concept["references"] = concept.pop("vocabulary_references")
+        concept["checks"] = checks(tree.concept_record(row))
+        concept["okf_path"] = render.concept_path(row["scope"], row["name"])
+        found.append(concept)
+    return found
 
 
 def get_bundle(connection, principal, release):

@@ -372,6 +372,7 @@ def test_orchestrator_role_cannot_record_a_human_decision(database):
             "ops.release_bundle",
             "ops.evaluation",
             "ops.admin_action",
+            "ontology.concept_reference",
         ):
             assert allowed(connection, role, f"SELECT * FROM {table}"), table
             assert not allowed(connection, role, nothing.format(table, table)), table

@@ -752,8 +752,95 @@ def test_a_numeric_profile_value_is_answered_as_a_number(released, api, headers)
     answer = api.get(f"/v1/entities/{entity_id}/profile", headers=headers).json()
     values = {field["concept"]: field["value"] for field in answer["fields"]}
     assert values["entity.abn"] == 41
-    assert values["entity.legal_name"] == profile["fields"]["entity.legal_name"]["value"]
+    assert (
+        values["entity.legal_name"] == profile["fields"]["entity.legal_name"]["value"]
+    )
 
     # Search matches the text of a value, and a number has no text to match.
     found = api.get("/v1/entities", params={"abn": "41"}, headers=headers).json()
     assert entity_id not in [entity["entity_id"] for entity in found["entities"]]
+
+
+def test_concepts_show_links_as_recorded_by_the_release_and_only_visible_headers(
+    released, api, headers
+):
+    with store.engine().begin() as connection:
+        at = connection.execute(
+            text("SELECT released_at FROM ops.release WHERE id = :id"),
+            {"id": released["release_id"]},
+        ).scalar_one()
+        ids = dict(
+            connection.execute(
+                text(
+                    "SELECT c.name, c.id FROM ontology.concept c "
+                    "JOIN ontology.version_concept m ON m.concept_id = c.id "
+                    "WHERE m.version_hash = sha256_from_hex(:hash)"
+                ),
+                {"hash": released["ontology_hash"]},
+            ).all()
+        )
+        day, hour = 86400, 3600
+        for name, iri, match, action, offset in (
+            ("entity.legal_name", "https://schema.org/legalName", "exact", "add", -day),
+            (
+                "entity.legal_name",
+                "http://www.w3.org/ns/regorg#legalName",
+                "close",
+                "add",
+                -day,
+            ),
+            (
+                "entity.legal_name",
+                "http://www.w3.org/ns/regorg#legalName",
+                "close",
+                "withdraw",
+                -hour,
+            ),
+            # Recorded after the release: a later release shows it, this one does not.
+            ("entity.abn", "https://schema.org/taxID", "broad", "add", day),
+        ):
+            connection.execute(
+                text(
+                    "INSERT INTO ontology.concept_reference "
+                    "(concept_id, iri, match, action, reviewer, recorded_at) "
+                    "VALUES (:concept, :iri, :match, :action, 'owner', "
+                    ":at + make_interval(secs => :offset))"
+                ),
+                {
+                    "concept": ids[name],
+                    "iri": iri,
+                    "match": match,
+                    "action": action,
+                    "at": at,
+                    "offset": offset,
+                },
+            )
+
+    concepts = {
+        c["name"]: c for c in api.get("/v1/ontology/concepts", headers=headers).json()
+    }
+    legal_name = concepts["entity.legal_name"]
+    assert legal_name["references"] == [
+        {"iri": "https://schema.org/legalName", "match": "exact"}
+    ]
+    assert concepts["entity.abn"]["references"] == []
+    every = {h["source_id"] for h in legal_name["source_headers"]}
+    assert every == {"source-a", "source-b"}
+    assert {h["header"] for h in legal_name["source_headers"]} == {"name"}
+
+    scoped, _ = key_for("scoped", source_scope=["source-a"])
+    shown = {
+        c["name"]: c for c in api.get("/v1/ontology/concepts", headers=scoped).json()
+    }
+    assert shown["entity.legal_name"]["source_headers"] == [
+        {"source_id": "source-a", "header": "name"}
+    ]
+    assert shown["entity.legal_name"]["references"] == legal_name["references"]
+
+    page = api.get("/v1/okf/ontology/entity/entity.legal_name.md", headers=headers).text
+    assert "# References\n\n* Exact match: https://schema.org/legalName\n" in page
+    assert "regorg" not in page
+    assert (
+        "# References"
+        not in api.get("/v1/okf/ontology/entity/entity.abn.md", headers=headers).text
+    )

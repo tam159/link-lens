@@ -143,6 +143,19 @@ gate_report = Table(
     Column("created_at", timestamp, primary_key=True),
 )
 
+concept_reference = Table(
+    "concept_reference",
+    metadata,
+    Column("id", BigInteger, primary_key=True),
+    Column("concept_id", BigInteger),
+    Column("iri", Text),
+    Column("match", Text),
+    Column("action", Text),
+    Column("reviewer", Text),
+    Column("note", Text),
+    Column("recorded_at", timestamp),
+)
+
 # Insertion order for archives; a table follows the tables it references.
 TABLES = [
     ontology_version,
@@ -157,6 +170,7 @@ TABLES = [
     concept_decision,
     activation,
     gate_report,
+    concept_reference,
 ]
 
 
@@ -477,3 +491,66 @@ def latest_gate_run(connection, key):
             for r in rows
         ],
     }
+
+
+def concepts_named(connection, name, version_hash=None):
+    """IDs of the concept rows with this name, within one version when given."""
+    query = select(concept.c.id).where(concept.c.name == name)
+    if version_hash is not None:
+        query = query.join(
+            version_concept, version_concept.c.concept_id == concept.c.id
+        ).where(version_concept.c.version_hash == version_hash)
+    return sorted(connection.execute(query).scalars())
+
+
+def append_reference(connection, concept_id, iri, match, action, reviewer, note):
+    """Record that a person added or withdrew a link. Returns the row's time."""
+    return connection.execute(
+        insert(concept_reference)
+        .values(
+            concept_id=concept_id,
+            iri=iri,
+            match=match,
+            action=action,
+            reviewer=reviewer,
+            note=note,
+        )
+        .returning(concept_reference.c.recorded_at)
+    ).scalar_one()
+
+
+def standing_references(connection, as_of=None):
+    """Links that stand: for each concept and term, the latest row is an `add`."""
+    ranked = select(
+        concept_reference,
+        func.row_number()
+        .over(
+            partition_by=(concept_reference.c.concept_id, concept_reference.c.iri),
+            order_by=(
+                concept_reference.c.recorded_at.desc(),
+                concept_reference.c.id.desc(),
+            ),
+        )
+        .label("n"),
+    )
+    if as_of is not None:
+        ranked = ranked.where(concept_reference.c.recorded_at <= as_of)
+    latest = ranked.subquery()
+    rows = connection.execute(
+        select(latest, concept.c.name)
+        .join(concept, concept.c.id == latest.c.concept_id)
+        .where(latest.c.n == 1, latest.c.action == "add")
+        .order_by(concept.c.name, latest.c.iri)
+    ).mappings()
+    return [
+        {
+            "concept": row["name"],
+            "concept_id": row["concept_id"],
+            "iri": row["iri"],
+            "match": row["match"],
+            "reviewer": row["reviewer"],
+            "note": row["note"],
+            "recorded_at": iso(row["recorded_at"]),
+        }
+        for row in rows
+    ]
