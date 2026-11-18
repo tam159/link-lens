@@ -913,7 +913,15 @@ The checks are: the rows rebuild the hash and equal the stored artifact; the Lin
 passes `linkml-lint` and generates SHACL and JSON Schema; the version is additive against
 its parent. Since Phase 2 a sample of stored observations is validated against the generated SHACL
 shapes, and an impact report counts the mapping configs and observations that use each
-concept a version adds. The optional Open Ontologies check is not configured and is
+concept a version adds. A near-duplicate check compares each added concept with every
+other concept of the version by the words of its name and definition, with no model
+call. It fails only when an added concept's definition, read as words, equals that of a
+concept in the same scope. A likely duplicate makes it `unknown`: a score of at least
+0.75 against a concept in the same scope, at least 0.05 above the next candidate, since a
+top score the runner-up almost equals means shared words rather than one concept
+repeated. The detail lists the three nearest concepts of each likely or possible match;
+the score is lexical and uncalibrated, and it misses synonyms that share no words.
+The optional Open Ontologies check is not configured and is
 recorded as `unknown`. `unknown` does not block; the results are stored with
 the promotion and printed for the reviewer. Without the `ontology` dependency group the
 LinkML check is `unknown` too. The promotion recorded on 2026-09-25 predates the gate and

@@ -4,10 +4,14 @@ A gate run writes one `ontology.gate_report` row per check. Promotion needs the
 latest run to hold no `fail`. `unknown` means a check could not be decided; it
 does not block, and it is recorded with the promotion for the reviewer to see.
 The impact check is a report: it passes once it has counted what a version's
-new concepts already touch.
+new concepts already touch. The near-duplicate check fails only on a repeated
+definition; a likely duplicate is `unknown`, for the reviewer to compare.
 """
 
 import json
+import math
+import re
+from collections import Counter, defaultdict
 from datetime import UTC, datetime
 
 from sqlalchemy import text
@@ -203,6 +207,139 @@ def check_impact(key, document):
     }
 
 
+# Near-duplicate concepts. A lexical score with no model call: words of the
+# concept's local name and of its definition, cut to their first six letters,
+# weighted by how rare they are in this version. It is an uncalibrated rule
+# score, not a probability, and it misses synonyms that share no words (suburb
+# and locality score about 0.4). The bands follow the AWS Context Ontology
+# Accelerator's grounding service: a strong match is shown only when it stands
+# out from the runner-up, because a top score the next candidate almost equals
+# says the words are shared, not that one concept is meant. Thresholds were set
+# on 2026-11-18 against the promoted version and three made-up synonyms.
+LIKELY = 0.75
+POSSIBLE = 0.4
+FLAT_SPREAD = 0.05
+NEAREST = 3
+STOP_WORDS = frozenset(
+    "a an and any are as at be by each for from in is it its no not of on one "
+    "or that the this to which with".split()
+)
+
+
+def words(text):
+    return [
+        word[:6]
+        for word in re.findall(r"[a-z0-9]+", text.lower())
+        if word not in STOP_WORDS and (len(word) > 1 or word.isdigit())
+    ]
+
+
+def similarity(first, second, weight):
+    """Cosine similarity of two word lists, each word weighted by its rarity."""
+    left, right = Counter(first), Counter(second)
+    dot = sum(n * right[w] * weight[w] ** 2 for w, n in left.items())
+    norm = math.sqrt(sum((n * weight[w]) ** 2 for w, n in left.items())) * math.sqrt(
+        sum((n * weight[w]) ** 2 for w, n in right.items())
+    )
+    return dot / norm if norm else 0.0
+
+
+def nearest_concepts(document, added):
+    """For each added concept, its closest other concepts with a score and band.
+
+    The score averages two parts: the definitions compared, and the best of the
+    names compared, the name against the other's name and definition, and both
+    together. Pairs of two parent concepts are not compared; they were accepted
+    before.
+    """
+    concepts = document["concepts"]
+    text = {
+        name: (words(name.split(".", 1)[1].replace("_", " ")), words(c["definition"]))
+        for name, c in concepts.items()
+    }
+    seen = Counter(w for pair in text.values() for w in set(pair[0] + pair[1]))
+    total = len(concepts)
+    weight = defaultdict(
+        lambda: math.log(1 + total) + 1,
+        {w: math.log((1 + total) / (1 + n)) + 1 for w, n in seen.items()},
+    )
+    found = {}
+    for name in sorted(added):
+        own_name, own_definition = text[name]
+        scored = []
+        for other, (other_name, other_definition) in text.items():
+            if other == name:
+                continue
+            names = max(
+                similarity(own_name, other_name, weight),
+                similarity(own_name + own_definition, other_name, weight),
+                similarity(
+                    own_name + own_definition, other_name + other_definition, weight
+                ),
+            )
+            score = (similarity(own_definition, other_definition, weight) + names) / 2
+            scored.append((round(score, 3), other))
+        scored.sort(key=lambda pair: (-pair[0], pair[1]))
+        top, runner_up = scored[0][0], scored[1][0] if len(scored) > 1 else 0.0
+        same_scope = concepts[scored[0][1]]["scope"] == concepts[name]["scope"]
+        if same_scope and " ".join(own_definition) == " ".join(text[scored[0][1]][1]):
+            band = "same_definition"
+        elif top >= LIKELY and same_scope and top - runner_up >= FLAT_SPREAD:
+            band = "likely"
+        elif top >= POSSIBLE:
+            band = "possible"
+        else:
+            band = "distinct"
+        found[name] = {
+            "band": band,
+            "nearest": [
+                {
+                    "concept": other,
+                    "score": score,
+                    "same_scope": concepts[other]["scope"] == concepts[name]["scope"],
+                }
+                for score, other in scored[:NEAREST]
+            ],
+        }
+    return found
+
+
+def check_near_duplicates(key, document):
+    """No added concept repeats the meaning of another concept of the version.
+
+    Fails only when an added concept's definition, read as words, equals that
+    of a concept in the same scope. A likely duplicate makes the result
+    `unknown`, which does not block: a reviewer compares the definitions.
+    """
+    if not document["parent_hash"]:
+        return "pass", {"root": True, "added": 0}
+    parent = ontology.resolve(document["parent_hash"])["concepts"]
+    added = set(document["concepts"]) - set(parent)
+    if not added:
+        return "pass", {"added": 0}
+    found = nearest_concepts(document, added)
+    bands = Counter(entry["band"] for entry in found.values())
+    result = (
+        "fail" if bands["same_definition"] else "unknown" if bands["likely"] else "pass"
+    )
+    flagged = {
+        name: entry
+        for name, entry in found.items()
+        if entry["band"] in {"same_definition", "likely", "possible"}
+    }
+    return result, {
+        "added": len(added),
+        "score_kind": "lexical, uncalibrated",
+        "thresholds": {
+            "likely": LIKELY,
+            "possible": POSSIBLE,
+            "flat_spread": FLAT_SPREAD,
+        },
+        "bands": dict(sorted(bands.items())),
+        "concepts": dict(sorted(flagged.items())),
+    }
+
+
 def check_open_ontologies(key, document):
     return "unknown", {
         "reason": "Optional check; no pinned Open Ontologies version is configured"
@@ -215,6 +352,7 @@ CHECKS = {
     "additive": check_additive,
     "shacl_observations": check_shacl_observations,
     "impact": check_impact,
+    "near_duplicates": check_near_duplicates,
     "open_ontologies": check_open_ontologies,
 }
 
