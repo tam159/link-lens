@@ -557,14 +557,23 @@ def ontology_export_command(
     ontology_hash: str,
     format: str = typer.Option("linkml", "--format"),
     output: Path | None = typer.Option(None, "--output"),
+    references: bool = typer.Option(
+        False,
+        "--references",
+        help="Add the standing links to other vocabularies; LinkML carries them.",
+    ),
 ):
     """Write a version as LinkML, or as SHACL or JSON Schema generated from it."""
     from . import ontology_export
-    from .ontology import resolve
+    from .ontology import references_for, resolve
 
     if format not in ontology_export.FORMATS:
         raise typer.BadParameter("Use linkml, shacl or jsonschema")
-    text = ontology_export.FORMATS[format](resolve(ontology_hash), ontology_hash)
+    text = ontology_export.FORMATS[format](
+        resolve(ontology_hash),
+        ontology_hash,
+        references_for(ontology_hash) if references else None,
+    )
     if output:
         output.write_text(text)
     else:
@@ -593,6 +602,59 @@ def ontology_promote(ontology_hash: str, reviewer: str = typer.Option(...)):
         show(activate(ontology_hash, settings().experiment_id, reviewer))
     except ValueError as error:
         raise typer.BadParameter(str(error)) from error
+
+
+@ontology_app.command("refer")
+def ontology_refer(
+    concept: str,
+    iri: str,
+    match: str = typer.Option(
+        ..., "--match", help="exact, close, broad, narrow or related"
+    ),
+    reviewer: str = typer.Option(...),
+    note: str | None = typer.Option(None),
+    ontology_hash: str | None = typer.Option(
+        None,
+        "--ontology-hash",
+        help="Needed only when the name has several definitions.",
+    ),
+):
+    """Record a person's link from a concept to a term of another vocabulary."""
+    from .ontology import refer
+
+    if not reviewer.strip():
+        raise typer.BadParameter("Reviewer required")
+    try:
+        show(refer(concept, iri, match, reviewer, note, ontology_hash))
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+
+
+@ontology_app.command("unrefer")
+def ontology_unrefer(
+    concept: str,
+    iri: str,
+    reviewer: str = typer.Option(...),
+    note: str | None = typer.Option(None),
+    ontology_hash: str | None = typer.Option(None, "--ontology-hash"),
+):
+    """Record that a person withdrew a link; the earlier rows stay."""
+    from .ontology import withdraw_reference
+
+    if not reviewer.strip():
+        raise typer.BadParameter("Reviewer required")
+    try:
+        show(withdraw_reference(concept, iri, reviewer, note, ontology_hash))
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+
+
+@ontology_app.command("references")
+def ontology_references(concept: str | None = typer.Argument(None)):
+    """The links to other vocabularies that stand now."""
+    from .ontology import references
+
+    show(references(concept))
 
 
 @ontology_app.command("budget")

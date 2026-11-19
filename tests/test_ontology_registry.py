@@ -766,3 +766,79 @@ def test_cli_exports_gates_and_blocks_promotion(monkeypatch, tmp_path):
     assert shown == rich()
     assert runner.invoke(app, ["backfill", "ontology"]).exit_code == 0
     assert deepcopy(shown) == ontology.resolve(key)
+
+
+def test_links_to_other_vocabularies_are_a_persons_append_only_record():
+    key = ontology.register(rich())
+    legal_name = "https://schema.org/legalName"
+    first = ontology.refer("entity.legal_name", legal_name, "close", "owner")
+    assert first["recorded"] and first["match"] == "close"
+    # The same link again writes nothing; a new match is a new row.
+    assert not ontology.refer("entity.legal_name", legal_name, "close", "owner")[
+        "recorded"
+    ]
+    ontology.refer("entity.legal_name", legal_name, "exact", "owner", note="checked")
+    ontology.refer("entity.abn", "https://schema.org/taxID", "broad", "owner")
+    assert count(registry.concept_reference) == 3
+    standing = ontology.references()
+    assert [(r["concept"], r["match"]) for r in standing] == [
+        ("entity.abn", "broad"),
+        ("entity.legal_name", "exact"),
+    ]
+    assert ontology.references("entity.legal_name")[0]["note"] == "checked"
+
+    # The version and its hash do not change; an export adds the links on request.
+    assert ontology.resolve(key) == rich()
+    plain = ontology_export.linkml(rich(), key)
+    linked = ontology_export.linkml(rich(), key, ontology.references_for(key))
+    entity = linked["classes"]["Entity"]["attributes"]
+    assert entity["legal_name"]["exact_mappings"] == [legal_name]
+    assert entity["abn"]["broad_mappings"] == ["https://schema.org/taxID"]
+    assert (
+        "exact_mappings" not in plain["classes"]["Entity"]["attributes"]["legal_name"]
+    )
+    assert (
+        "references" in linked["annotations"]
+        and "references" not in plain["annotations"]
+    )
+
+    withdrawn = ontology.withdraw_reference(
+        "entity.abn", "https://schema.org/taxID", "owner"
+    )
+    assert withdrawn["withdrawn"] and withdrawn["match"] == "broad"
+    assert [r["concept"] for r in ontology.references()] == ["entity.legal_name"]
+    assert count(registry.concept_reference) == 4
+    with pytest.raises(ValueError, match="No standing link"):
+        ontology.withdraw_reference("entity.abn", "https://schema.org/taxID", "owner")
+
+    for arguments, message in (
+        (("entity.legal_name", legal_name, "same", "owner"), "Match must be"),
+        (("entity.legal_name", "schema:legalName", "exact", "owner"), "IRI"),
+        (("entity.legal_name", legal_name, "exact", ""), "reviewer"),
+        (("entity.nothing", legal_name, "exact", "owner"), "No concept named"),
+    ):
+        with pytest.raises(ValueError, match=message):
+            ontology.refer(*arguments)
+    with store.engine().begin() as connection, pytest.raises(DBAPIError):
+        connection.execute(
+            text("UPDATE ontology.concept_reference SET match = 'close'")
+        )
+
+
+def test_cli_records_lists_and_withdraws_links(monkeypatch):
+    runner = CliRunner()
+    key = ontology.register(rich())
+    iri = "http://www.w3.org/ns/regorg#legalName"
+    refer = ["ontology", "refer", "entity.legal_name", iri, "--match", "exact"]
+    assert runner.invoke(app, refer + ["--reviewer", " "]).exit_code == 2
+    recorded = runner.invoke(app, refer + ["--reviewer", "owner"])
+    assert recorded.exit_code == 0 and json.loads(recorded.output)["recorded"]
+    listed = json.loads(runner.invoke(app, ["ontology", "references"]).output)
+    assert [(r["concept"], r["iri"]) for r in listed] == [("entity.legal_name", iri)]
+    exported = runner.invoke(app, ["ontology", "export", key, "--references"])
+    assert exported.exit_code == 0 and iri in exported.output
+    assert iri not in runner.invoke(app, ["ontology", "export", key]).output
+    unrefer = ["ontology", "unrefer", "entity.legal_name", iri, "--reviewer", "owner"]
+    assert runner.invoke(app, unrefer).exit_code == 0
+    assert runner.invoke(app, unrefer).exit_code == 2
+    assert json.loads(runner.invoke(app, ["ontology", "references"]).output) == []

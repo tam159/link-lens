@@ -204,6 +204,13 @@
             "title": "Okf Path",
             "type": "string"
           },
+          "references": {
+            "items": {
+              "$ref": "#/components/schemas/ConceptReference"
+            },
+            "title": "References",
+            "type": "array"
+          },
           "requires": {
             "items": {
               "type": "string"
@@ -214,6 +221,13 @@
           "scope": {
             "title": "Scope",
             "type": "string"
+          },
+          "source_headers": {
+            "items": {
+              "$ref": "#/components/schemas/SourceHeader"
+            },
+            "title": "Source Headers",
+            "type": "array"
           }
         },
         "required": [
@@ -226,10 +240,39 @@
           "maximum",
           "allowed_values",
           "requires",
+          "references",
+          "source_headers",
           "checks",
           "okf_path"
         ],
         "title": "ConceptDefinition",
+        "type": "object"
+      },
+      "ConceptReference": {
+        "additionalProperties": false,
+        "description": "A term of another vocabulary a person linked the concept to, with its SKOS match.",
+        "properties": {
+          "iri": {
+            "title": "Iri",
+            "type": "string"
+          },
+          "match": {
+            "enum": [
+              "exact",
+              "close",
+              "broad",
+              "narrow",
+              "related"
+            ],
+            "title": "Match",
+            "type": "string"
+          }
+        },
+        "required": [
+          "iri",
+          "match"
+        ],
+        "title": "ConceptReference",
         "type": "object"
       },
       "Entity": {
@@ -1143,6 +1186,26 @@
           "okf_path"
         ],
         "title": "Source",
+        "type": "object"
+      },
+      "SourceHeader": {
+        "additionalProperties": false,
+        "description": "A source column an approved mapping of the release reads the concept from.",
+        "properties": {
+          "header": {
+            "title": "Header",
+            "type": "string"
+          },
+          "source_id": {
+            "title": "Source Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source_id",
+          "header"
+        ],
+        "title": "SourceHeader",
         "type": "object"
       },
       "SourceRef": {

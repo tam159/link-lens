@@ -181,6 +181,7 @@ def concept_record(row):
         "requires": list(row["requires"]),
         "minimum": row["minimum"],
         "maximum": row["maximum"],
+        "references": list(row["vocabulary_references"]),
     }
 
 

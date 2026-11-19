@@ -49,6 +49,8 @@ sources:
         description: Concepts that must accompany a concept, in order.
       - name: version_concept
         description: The concepts that make up an ontology version, in document order.
+      - name: concept_reference
+        description: Links a person recorded from a concept to a term of another vocabulary, and their withdrawals. The latest row for a concept and a term says whether the link stands.
 
   - name: catalog
     schema: catalog

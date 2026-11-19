@@ -638,6 +638,14 @@ models:
       - name: requires
         data_type: text[]
         description: Concepts that must accompany this one.
+      - name: vocabulary_references
+        data_type: jsonb
+        description: Links a person recorded to terms of other vocabularies, each an iri and a SKOS match (exact, close, broad, narrow, related), as they stood when the release was recorded. Empty when there are none.
+        data_tests: [not_null]
+      - name: source_headers
+        data_type: jsonb
+        description: The source columns the release's approved mappings read this concept from, each with its source_id. Clients see only the headers of the sources their key covers.
+        data_tests: [not_null]
 
   - name: bundle
     description: Bundles a client may download, the latest archive built for each release and client. Named scopes such as demo are not served.

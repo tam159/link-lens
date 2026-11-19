@@ -199,6 +199,7 @@ Phase D7 of the [orchestration plan](ORCHESTRATION_PLAN.md) moved the routines o
 | Compare a batch with the current release and record a release | Console, Releases | Product owner | `release preview`, `release create` |
 | Clients, tiers and keys | Console, Clients | Admin | `access` |
 | Promote an ontology | Command line only | Reviewer | `ontology gate`, `ontology promote` |
+| Link a concept to a term of another vocabulary | Command line only | Reviewer | `ontology refer`, `ontology unrefer`, `ontology references` |
 | Name a bundle scope, build a client's bundle | Command line only | Product owner | `release scope`, `release bundle --client` |
 | See what is due, stale, failing or drifted | Console home, Grafana's source health dashboard, alerts, the Dagster UI | Everyone | `source due`, `source state` |
 | See cost and usage | Grafana's product overview dashboard | Everyone | `usage`, `access usage` |
@@ -938,6 +939,34 @@ hashes, while provider input excludes those hashes and serialization metadata so
 that shared cache metadata cannot influence semantic similarity. This serialization
 uses `hybrid-evidence-2`; older vectors and their paid-call receipts are retained.
 
+The shared ledger reserves conservative model cost before every request, under the
+existing database advisory lock. It includes Jev discovery, ontology, onboarding,
+embedding, Jev enhancement and LLM explanations, including failed/retried attempts.
+Unknown usage retains its reservation. Completed calls use reported cost when present,
+otherwise conservative token rates. `LINK_LENS_PRICING_MULTIPLIER` defaults to 1.0;
+set it to the provider's documented uplift, e.g. 1.1 for applicable regional processing.
+The $10 cap is an estimate, not an invoice guarantee. Existing call/token/time limits
+and the enhancement job cap still apply. An exhausted shared budget stops new calls;
+creating another job in the same experiment does not reset it.
+
+After exact mapping approvals, assemble and export a deterministic batch, then run
+`enhance --batch-id BATCH_ID --retrieval hybrid --reconcile` with the same experiment
+and model environment. Preserve baseline and enhanced exports in separate directories.
+Reports include ontology snapshots, proposals, usage and budget state. Human mapping
+reviews and human evaluation worksheets must not be replaced by AI approvals.
+
+Once both exports exist, measure concept emission, profile contribution and evidence
+consistency without making model calls or changing the submission:
+
+```sh
+uv run python scripts/report_ontology_experiment.py --root experiments/jev-gpt6-luna-ontology-v1
+```
+
+The report compares the preserved submission, new deterministic assembly and enhanced
+assembly separately. It checks observation bindings, profile citations, scoped bundles,
+OKF links and identical baseline/enhancement selections. Results and remaining human
+evaluation work are recorded in the [experiment report](../experiments/jev-gpt6-luna-ontology-v1/README.md).
+
 ### Where each concept rule is applied, and what the exports carry
 
 A concept implies more rules than any of its exports states, and some of its fields are
@@ -989,30 +1018,37 @@ Three consequences are worth knowing before a client relies on an export:
 - **JSON Schema types a decimal as a number.** A consumer that validates stored values
   against the scope classes would reject the exact decimal strings the engine writes.
 
-The shared ledger reserves conservative model cost before every request, under the
-existing database advisory lock. It includes Jev discovery, ontology, onboarding,
-embedding, Jev enhancement and LLM explanations, including failed/retried attempts.
-Unknown usage retains its reservation. Completed calls use reported cost when present,
-otherwise conservative token rates. `LINK_LENS_PRICING_MULTIPLIER` defaults to 1.0;
-set it to the provider's documented uplift, e.g. 1.1 for applicable regional processing.
-The $10 cap is an estimate, not an invoice guarantee. Existing call/token/time limits
-and the enhancement job cap still apply. An exhausted shared budget stops new calls;
-creating another job in the same experiment does not reset it.
+### Links to other vocabularies (migration 0030)
 
-After exact mapping approvals, assemble and export a deterministic batch, then run
-`enhance --batch-id BATCH_ID --retrieval hybrid --reconcile` with the same experiment
-and model environment. Preserve baseline and enhanced exports in separate directories.
-Reports include ontology snapshots, proposals, usage and budget state. Human mapping
-reviews and human evaluation worksheets must not be replaced by AI approvals.
-
-Once both exports exist, measure concept emission, profile contribution and evidence
-consistency without making model calls or changing the submission:
+A person can record that a concept matches a term of another vocabulary, such as
+schema.org or the W3C Registered Organization Vocabulary, with a SKOS match: `exact`,
+`close`, `broad`, `narrow` or `related`. The links live in `ontology.concept_reference`,
+outside every ontology version: recording or withdrawing one changes no version, hash,
+mapping or approval. Rows are append-only; a withdrawal is a later row, and the latest
+row for a concept and a term says whether the link stands. The orchestrator's role
+cannot write the table.
 
 ```sh
-uv run python scripts/report_ontology_experiment.py --root experiments/jev-gpt6-luna-ontology-v1
+uv run link-lens ontology refer entity.legal_name https://schema.org/legalName --match exact --reviewer NAME --note "why"
+uv run link-lens ontology references [CONCEPT]
+uv run link-lens ontology unrefer entity.legal_name https://schema.org/legalName --reviewer NAME
+uv run link-lens ontology export ONTOLOGY_HASH --references
 ```
 
-The report compares the preserved submission, new deterministic assembly and enhanced
-assembly separately. It checks observation bindings, profile citations, scoped bundles,
-OKF links and identical baseline/enhancement selections. Results and remaining human
-evaluation work are recorded in the [experiment report](../experiments/jev-gpt6-luna-ontology-v1/README.md).
+`refer` writes nothing when the same link already stands with the same match, and
+needs `--ontology-hash` only when a name has more than one definition. Only LinkML
+carries the links, as `exact_mappings`, `close_mappings` and so on, and only with
+`--references`; the SHACL and JSON Schema generators drop them. Without the flag an
+export depends on the version alone, so the gate and the committed
+`firmable_ontology.linkml.yaml` are unaffected.
+
+`serving.concept` shows each concept's links as they stood when the release was
+recorded, and the source columns the release's approved mappings read it from (fields
+that read one column). `describe_concepts`, over REST and MCP, returns both as
+`references` and `source_headers`; a key limited to some sources sees only those sources'
+headers. A concept page lists the links under **References**, and has no headers, since
+a page is the same bytes for every key.
+
+Migration `0030` is not applied to the local database. It adds one table and drops
+dbt's views on downgrade, so after it run `link-lens dbt build`; the procedure is under
+[Changing a database that holds data](#changing-a-database-that-holds-data).

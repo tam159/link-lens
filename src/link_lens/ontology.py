@@ -219,6 +219,141 @@ def active_hash(experiment_id):
     return baseline
 
 
+# SKOS mapping relations a link to another vocabulary may have, and the LinkML
+# slot each becomes in an export that includes the links.
+MATCHES = {
+    "exact": "exact_mappings",
+    "close": "close_mappings",
+    "broad": "broad_mappings",
+    "narrow": "narrow_mappings",
+    "related": "related_mappings",
+}
+IRI = re.compile(r'^https?://[^\s<>"]+$')
+
+
+def _referenced_concept(connection, concept, ontology_hash):
+    from .db import ontology as registry
+
+    found = registry.concepts_named(connection, concept, ontology_hash)
+    if not found:
+        raise ValueError(
+            f"No concept named {concept}"
+            + (f" in ontology {ontology_hash}" if ontology_hash else "")
+        )
+    if len(found) > 1:
+        raise ValueError(
+            f"{concept} has {len(found)} definitions; name the ontology version "
+            "whose definition the link is for"
+        )
+    return found[0]
+
+
+def refer(concept, iri, match, reviewer, note=None, ontology_hash=None):
+    """Record a person's link from a concept to a term of another vocabulary.
+
+    The link is not part of any ontology version, so no hash or approval changes.
+    Recording a link that already stands with the same match writes nothing.
+    """
+    from . import store
+    from .db import ontology as registry
+
+    if match not in MATCHES:
+        raise ValueError("Match must be one of: " + ", ".join(MATCHES))
+    if not IRI.fullmatch(iri):
+        raise ValueError("The term must be an http or https IRI")
+    if not reviewer:
+        raise ValueError("A link is a person's decision; name the reviewer")
+    with store.engine().begin() as connection:
+        concept_id = _referenced_concept(connection, concept, ontology_hash)
+        standing = {
+            r["iri"]: r
+            for r in registry.standing_references(connection)
+            if r["concept_id"] == concept_id
+        }
+        if iri in standing and standing[iri]["match"] == match:
+            return {**_reference(standing[iri]), "recorded": False}
+        at = registry.append_reference(
+            connection, concept_id, iri, match, "add", reviewer, note
+        )
+    return {
+        "concept": concept,
+        "iri": iri,
+        "match": match,
+        "reviewer": reviewer,
+        "recorded_at": registry.iso(at),
+        "recorded": True,
+    }
+
+
+def withdraw_reference(concept, iri, reviewer, note=None, ontology_hash=None):
+    """Record that a person withdrew a link that stands."""
+    from . import store
+    from .db import ontology as registry
+
+    if not reviewer:
+        raise ValueError("Withdrawing a link is a person's decision; name the reviewer")
+    with store.engine().begin() as connection:
+        concept_id = _referenced_concept(connection, concept, ontology_hash)
+        standing = next(
+            (
+                r
+                for r in registry.standing_references(connection)
+                if r["concept_id"] == concept_id and r["iri"] == iri
+            ),
+            None,
+        )
+        if standing is None:
+            raise ValueError(f"No standing link from {concept} to {iri}")
+        at = registry.append_reference(
+            connection, concept_id, iri, standing["match"], "withdraw", reviewer, note
+        )
+    return {
+        "concept": concept,
+        "iri": iri,
+        "match": standing["match"],
+        "reviewer": reviewer,
+        "recorded_at": registry.iso(at),
+        "withdrawn": True,
+    }
+
+
+def _reference(row):
+    return {
+        key: row[key] for key in ("concept", "iri", "match", "reviewer", "recorded_at")
+    }
+
+
+def references(concept=None):
+    """The links that stand now, by concept name and term."""
+    from . import store
+    from .db import ontology as registry
+
+    with store.engine().connect() as connection:
+        rows = registry.standing_references(connection)
+    return [
+        {**_reference(row), "note": row["note"]}
+        for row in rows
+        if concept is None or row["concept"] == concept
+    ]
+
+
+def references_for(ontology_hash):
+    """Standing links of one version's concepts, as {concept name: [link, ...]}."""
+    from . import store
+    from .db import ontology as registry
+
+    with store.engine().connect() as connection:
+        members = set(registry.concept_ids(connection, ontology_hash).values())
+        rows = registry.standing_references(connection)
+    found = {}
+    for row in rows:
+        if row["concept_id"] in members:
+            found.setdefault(row["concept"], []).append(
+                {"iri": row["iri"], "match": row["match"]}
+            )
+    return found
+
+
 def proposal(proposal_id):
     """A stored proposal as the workflow returned it, or None."""
     from . import store
