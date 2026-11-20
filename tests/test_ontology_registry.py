@@ -231,6 +231,7 @@ def test_gate_without_linkml_still_checks_digest_additivity_and_impact(monkeypat
         "additive": "pass",
         "shacl_observations": "unknown",
         "impact": "pass",
+        "near_duplicates": "pass",
         "open_ontologies": "unknown",
     }
     additive = next(c for c in report["checks"] if c["check"] == "additive")["detail"]
@@ -244,6 +245,84 @@ def test_gate_without_linkml_still_checks_digest_additivity_and_impact(monkeypat
         ]
     )
     assert ontology_gate.run(ROOT)["checks"][2]["detail"]["root"] is True
+
+
+def described(name, scope, definition, **fields):
+    return {**concept(name, scope, **fields), "definition": definition}
+
+
+def test_near_duplicates_fail_on_a_repeated_definition_and_flag_likely_ones():
+    legal_name = ontology.legacy()["concepts"]["entity.legal_name"]["definition"]
+    copied = child(described("entity.registered_title", "entity", legal_name))
+    result, detail = ontology_gate.check_near_duplicates("key", copied)
+    assert result == "fail" and detail["bands"] == {"same_definition": 1}
+    nearest = detail["concepts"]["entity.registered_title"]["nearest"][0]
+    assert nearest["concept"] == "entity.legal_name" and nearest["same_scope"]
+
+    synonym = child(
+        described(
+            "entity.registered_name",
+            "entity",
+            "The legal name of the entity as registered, not a trading name.",
+        )
+    )
+    result, detail = ontology_gate.check_near_duplicates("key", synonym)
+    assert result == "unknown" and detail["bands"] == {"likely": 1}
+    assert detail["score_kind"] == "lexical, uncalibrated"
+
+    # The same words in another scope are shown, but never as likely.
+    elsewhere = child(
+        described(
+            "licence.registered_name",
+            "licence",
+            "The legal name of the entity as registered, not a trading name.",
+        )
+    )
+    assert ontology_gate.check_near_duplicates("key", elsewhere)[0] == "pass"
+
+    distinct = child(
+        described(
+            "service_location.latitude",
+            "service_location",
+            "Latitude coordinate of the site in decimal degrees.",
+            type="decimal",
+            minimum="-90",
+            maximum="90",
+        )
+    )
+    result, detail = ontology_gate.check_near_duplicates("key", distinct)
+    assert result == "pass" and detail["bands"] == {"distinct": 1}
+    assert detail["concepts"] == {}
+
+
+def test_near_duplicates_ignore_a_match_the_runner_up_almost_equals():
+    # Two concepts the new one resembles equally: a strong score, but no single
+    # concept it repeats.
+    twins = [
+        described(
+            f"entity.holder_name_{n}",
+            "entity",
+            "The holder name the business register states for the entity on the date of its extract.",
+        )
+        for n in (1, 2)
+    ]
+    new = described(
+        "entity.holder_name",
+        "entity",
+        "The holder name the business register records for the entity on the date of its extract.",
+    )
+    found = ontology_gate.nearest_concepts(child(*twins, new), {"entity.holder_name"})
+    first, second = found["entity.holder_name"]["nearest"][:2]
+    assert first["score"] >= ontology_gate.LIKELY
+    assert first["score"] - second["score"] < ontology_gate.FLAT_SPREAD
+    assert found["entity.holder_name"]["band"] == "possible"
+
+
+def test_near_duplicates_pass_a_root_version():
+    assert ontology_gate.check_near_duplicates(ROOT, ontology.legacy()) == (
+        "pass",
+        {"root": True, "added": 0},
+    )
 
 
 def test_a_check_that_raises_counts_as_failed(monkeypatch):
